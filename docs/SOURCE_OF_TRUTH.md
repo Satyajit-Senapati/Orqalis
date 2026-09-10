@@ -33,7 +33,7 @@ The CLI, MCP server, REST/WebSocket API, and Local Control Center are clients of
 
 ## Implementation
 
-Start with the detailed [user guide](../GUIDE.md) for setup, a first task, policies, the UI,
+Start with the detailed [user guide](../README.md) for setup, a first task, policies, the UI,
 assistant integrations, and recovery.
 
 See [implementation status](IMPLEMENTATION_STATUS.md) for completed capabilities and

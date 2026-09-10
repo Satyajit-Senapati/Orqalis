@@ -2,7 +2,7 @@
 
 Orqalis requires Git, Python 3.12+, PostgreSQL with pgvector, and Docker for isolated
 commands. Node 24 is needed to build the React Control Center. End users install through
-npm as described in [GUIDE.md](../GUIDE.md); this source setup is for contributors and SDK
+npm as described in [README.md](../README.md); this source setup is for contributors and SDK
 development. The internal Python wheel is bundled into npm with UI, migrations and skills.
 
 ## Contributor environment

@@ -86,8 +86,9 @@ def prepare(root: Path, uv: str) -> None:
         },
     }
     (vendor / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    for name in ("LICENSE", "GUIDE.md", "compose.yaml"):
+    for name in ("LICENSE", "README.md", "SIGNOFF.md", "compose.yaml"):
         shutil.copy2(root / name, package / name)
+    (package / "GUIDE.md").unlink(missing_ok=True)
     # Regenerate copied docs so removed installation routes cannot survive repacking.
     docs = package / "docs"
     if docs.is_symlink() or not docs.resolve().is_relative_to(root.resolve()):

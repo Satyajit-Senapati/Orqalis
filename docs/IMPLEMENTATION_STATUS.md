@@ -113,7 +113,7 @@ There are no remaining implementation blockers for the locally validated V1 scop
 
 ## Usage guide
 
-Added root [GUIDE.md](../GUIDE.md) with Windows/source/wheel setup, provider configuration,
+Added the detailed usage guide (now merged into [README.md](../README.md)) with Windows/source/wheel setup, provider configuration,
 a complete goal-to-delivery walkthrough, matching policy examples, UI/Memory usage,
 MCP/SDK/API integration, recovery, revisions, backups and troubleshooting. Validated its
 four JSON examples against current domain schemas, parsed both Python examples, checked
@@ -131,7 +131,7 @@ lifecycle script, database migration or global Python mutation is performed.
 
 Release preparation checks npm/Python/UI/runtime version agreement, license metadata,
 UI assets and migrations. UI builds collect production dependency license notices.
-GUIDE.md covers npm setup; docs/PUBLISHING.md covers tarball checks and publication.
+README.md covers npm setup; docs/PUBLISHING.md covers tarball checks and publication.
 Python package metadata now uses a product README instead of the canonical handoff README.
 
 Validation: launcher unit/contract tests, real Windows npm tarball installation with
@@ -160,7 +160,7 @@ The attachment supplies the UX brief; no separate accompanying design document w
 | 4 Mission Control | Complete | Combined orchestration graph, actor/task inspectors, current-work checkpoint |
 | 5 Operational views | Complete | Tasks, Agents, Skills, filtered Activity; existing Brain, Delivery, Acceptance and Timeline integrated |
 | 6 Polish | Complete | Keyboard alternatives, focus restoration, non-color status, reduced motion, bounded event buffers and graph layout |
-| 7 README | Complete | Product landing page, updated GUIDE, eight real optimized captures and source-of-truth index retained |
+| 7 README | Complete | Product landing page, updated usage guide, eight real optimized captures and source-of-truth index retained |
 | 8 Validation | Complete | Backend regression, frontend/browser checks, command and link verification |
 
 No new orchestration service, workflow transition, configuration key, table or migration.
@@ -213,7 +213,7 @@ records above describe historical validation; those channels are no longer offer
 ADR 0002 and the canonical design/sign-off/handoff now record this release-owner choice.
 Python Core, SDK contributor setup, providers, interfaces and database schemas are unchanged.
 
-- README and GUIDE lead with npm; checkout-specific executable and wheel-install examples
+- Product and usage documentation lead with npm; checkout-specific executable and wheel-install examples
   are removed. MCP examples spawn Node with the globally installed JavaScript entry point.
 - The npm package includes compose.yaml so local database setup requires no checkout.
 - The wheel builds under .tools/release as an internal npm payload. The public application
@@ -237,3 +237,20 @@ runtime environments, worktrees, PostgreSQL data and evidence remain intact. Gen
 npm docs now rebuild from source, preventing removed installer guides from being shipped.
 The runtime/Core/frontend implementation did not change, so their preceding regression
 baseline remains applicable. Hosted platform CI and actual publication remain pending.
+
+
+## Single README usage reference
+
+Merged the complete usage guide into the root README, preserving all 15 sections,
+policy/SDK examples, product overview and real screenshots. A contents list and
+collapsible detailed navigation keep the quick start easy to reach. The separate
+root guide and independently maintained npm README are retired; packaging generates
+its README from the root source. Documentation/design links and package checks now
+use that single usage reference. No runtime or CLI behavior change.
+
+Validation: all 15 usage sections match the former guide verbatim. 125 repository
+links/anchors and 117 local references inside the npm tarball resolve. All 12 launcher
+tests, Node syntax/lint/format, Ruff/format and strict release-script typing pass.
+The internal wheel and npm tarball build successfully; the packaged README matches
+the root source byte-for-byte and no separate guide ships. Python package metadata
+also reads the root README. Runtime regressions retain their previous baseline.

@@ -1,6 +1,6 @@
 # Local operation and recovery
 
-Install globally through npm and migrate using [GUIDE.md](../GUIDE.md). The browser runs on
+Install globally through npm and migrate using [README.md](../README.md). The browser runs on
 127.0.0.1:7842 by default. ORQALIS_PORT changes the local port.
 
 ## Run a task

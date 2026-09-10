@@ -277,7 +277,6 @@ test("prepack requires database configuration for installs without a checkout", 
   );
   for (const name of [
     "LICENSE",
-    "GUIDE.md",
     "README.md",
     "docs/PUBLISHING.md",
     "compose.yaml",

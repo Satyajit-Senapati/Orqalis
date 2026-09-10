@@ -65,7 +65,6 @@ if (
   await verifyBundle(root);
   for (const name of [
     "LICENSE",
-    "GUIDE.md",
     "README.md",
     "docs/PUBLISHING.md",
     "compose.yaml",

@@ -19,7 +19,7 @@ orqalis --help
 
 Requirements: Node.js 22+, Python 3.12+ with venv/pip, and internet for first-launch
 dependency installation. Git, PostgreSQL/pgvector, Docker and provider configuration
-are required for the corresponding application features; see [GUIDE.md](../GUIDE.md).
+are required for the corresponding application features; see [README.md](../README.md).
 
 The tarball contains a version-matched wheel (including UI, migrations and skills),
 hash-locked requirements exported from uv.lock, MIT license, guide, supporting docs and
@@ -75,7 +75,8 @@ The internal .tools/release/orqalis-1.0.0-py3-none-any.whl is copied to vendor/ 
 preparation. It is not a separate install/release channel. No source archive, native
 installer or Orqalis PyPI publication is part of this workflow.
 
-Generated npm vendor/docs/guide/skill copies and dist artifacts are ignored by Git.
+Generated npm vendor/docs/README/sign-off/skill copies and dist artifacts are ignored by Git.
+The root README is the single product/usage source; preparation copies it into npm.
 Edit source files, then regenerate. Never edit generated copies to fix a release.
 
 ## Test the actual npm tarball

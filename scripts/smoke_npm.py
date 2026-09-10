@@ -14,9 +14,10 @@ def smoke(prefix: Path, runtime: Path | None) -> None:
     launcher = package / "bin" / "orqalis.js"
     manifest = json.loads((package / "package.json").read_text(encoding="utf-8"))
     # npm users must have database setup and usage assets without a checkout.
-    for name in ("compose.yaml", "GUIDE.md", "docs/MCP.md", "docs/adr/0002-npm-distribution.md"):
+    for name in ("compose.yaml", "README.md", "docs/MCP.md", "docs/adr/0002-npm-distribution.md"):
         assert (package / name).is_file(), f"Missing installed support file: {name}"
     assert not (package / "docs/PACKAGE_README.md").exists(), "Obsolete installer guide shipped"
+    assert not (package / "GUIDE.md").exists(), "Separate usage guide shipped"
     env = dict(os.environ)
     if runtime:
         env["ORQALIS_RUNTIME_HOME"] = str(runtime.resolve())

@@ -2434,4 +2434,4 @@ included in the package; an existing PostgreSQL/pgvector service can also be con
 
 npm installation never starts services or runs migrations automatically. The launcher
 reuses an isolated Python runtime; the browser remains a projection of Core APIs/events.
-See [GUIDE.md](GUIDE.md) and [ADR 0002](docs/adr/0002-npm-distribution.md).
+See [README.md](README.md) and [ADR 0002](docs/adr/0002-npm-distribution.md).
