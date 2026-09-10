@@ -41,3 +41,11 @@ See [implementation status](IMPLEMENTATION_STATUS.md) for completed capabilities
 
 For release artifacts and npm distribution, see [Publishing Orqalis](PUBLISHING.md).
 Orqalis is licensed under the [MIT license](../LICENSE).
+
+
+## Current distribution decision
+
+This index preserves the original reading order. The release-owner's 2026-09-10 npm
+amendment is recorded in [SIGNOFF](../SIGNOFF.md) and
+[ADR 0002](adr/0002-npm-distribution.md), and mirrored in the affected canonical documents.
+Use npm for application installation; source setup is for contributors and SDK development.

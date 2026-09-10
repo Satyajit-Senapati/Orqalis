@@ -34,7 +34,6 @@ jobs:
       - run: uv run ruff format --check .
       - run: uv run mypy
       - run: uv run pytest --cov=orqalis
-      - run: uv build
       - name: Install browser
         working-directory: web
         run: npx playwright install --with-deps chromium

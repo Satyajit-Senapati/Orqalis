@@ -22,7 +22,7 @@ def prepare(root: Path, uv: str) -> None:
         raise ValueError("Frontend and Python release versions must match")
     if npm["version"] != version or npm["license"] != config["license"]:
         raise ValueError("Python and npm version/license must match")
-    wheel = root / "dist" / f"orqalis-{version}-py3-none-any.whl"
+    wheel = root / ".tools" / "release" / f"orqalis-{version}-py3-none-any.whl"
     with zipfile.ZipFile(wheel) as archive:
         metadata = BytesParser().parsebytes(archive.read(f"orqalis-{version}.dist-info/METADATA"))
         if metadata["Version"] != version or metadata["License-Expression"] != config["license"]:
@@ -86,9 +86,15 @@ def prepare(root: Path, uv: str) -> None:
         },
     }
     (vendor / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    for name in ("LICENSE", "GUIDE.md"):
+    for name in ("LICENSE", "GUIDE.md", "compose.yaml"):
         shutil.copy2(root / name, package / name)
-    shutil.copytree(root / "docs", package / "docs", dirs_exist_ok=True)
+    # Regenerate copied docs so removed installation routes cannot survive repacking.
+    docs = package / "docs"
+    if docs.is_symlink() or not docs.resolve().is_relative_to(root.resolve()):
+        raise ValueError("Generated documentation path must remain within the checkout")
+    if docs.exists():
+        shutil.rmtree(docs)
+    shutil.copytree(root / "docs", docs)
     skill_path = Path("src/orqalis/skills/bundled")
     shutil.copytree(root / skill_path, package / skill_path, dirs_exist_ok=True)
     print(f"Prepared npm release {version}")

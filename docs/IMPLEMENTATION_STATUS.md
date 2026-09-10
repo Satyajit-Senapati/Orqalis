@@ -204,3 +204,36 @@ assets, with no local caches. All 11 launcher tests and package lint/format/hash
 passed. The isolated Windows npm install passed cold/cached launch, JSON stdout, invalid
 command status and working-directory module isolation. Publication remains pending.
 Verification record: [dashboard-enhancement.json](verification/dashboard-enhancement.json).
+
+
+## npm-only application distribution - owner-approved amendment
+
+The current installation contract is global npm. Earlier wheel/source installation
+records above describe historical validation; those channels are no longer offered.
+ADR 0002 and the canonical design/sign-off/handoff now record this release-owner choice.
+Python Core, SDK contributor setup, providers, interfaces and database schemas are unchanged.
+
+- README and GUIDE lead with npm; checkout-specific executable and wheel-install examples
+  are removed. MCP examples spawn Node with the globally installed JavaScript entry point.
+- The npm package includes compose.yaml so local database setup requires no checkout.
+- The wheel builds under .tools/release as an internal npm payload. The public application
+  artifact is dist/orqalis-1.0.0.tgz. Separate source archive/PyPI instructions are removed.
+- Core CI no longer duplicates artifact builds; npm CI owns bundle and platform smoke checks.
+- Duplicate Python package README is removed; internal metadata uses the npm README.
+- Cleanup removes obsolete public wheel/source archives and the unused standalone wheel
+  smoke environment. Development Python/tools and persisted application data are retained.
+
+Validation: 12 npm tests passed, including missing-Compose rejection. ESLint/Prettier,
+Node syntax checks, Ruff/format and strict release-script typing passed. Frozen source
+sync, internal wheel build, prepack hash checks and isolated Windows global-prefix install
+passed. Cold/cached startup, JSON output, invalid exit code and module isolation passed.
+The installed Compose config validates; installed CLI doctor/migrate succeeds; real MCP
+get_project succeeds through Node plus the installed JavaScript launcher from outside
+the checkout root. 117 local documentation links/anchors and JSON/TOML examples validate.
+
+Removed both old public wheel/source versions, stale multi-artifact checksums and the
+unused .tools/release-env after path/process checks. Python development tooling, active
+runtime environments, worktrees, PostgreSQL data and evidence remain intact. Generated
+npm docs now rebuild from source, preventing removed installer guides from being shipped.
+The runtime/Core/frontend implementation did not change, so their preceding regression
+baseline remains applicable. Hosted platform CI and actual publication remain pending.

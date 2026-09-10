@@ -218,3 +218,16 @@ orqalis/
 ## 6. Architectural boundaries
 
 The domain layer must not import vendor SDKs, FastAPI, React, CLI libraries, or MCP libraries. Provider-specific code belongs under `providers/`. Interface layers translate external requests into domain commands. Persistence is accessed through repositories/interfaces. The Local Control Center consumes snapshots/projections/events and cannot mutate state except through the same command/policy APIs used by CLI/MCP. This keeps Orqalis testable and prevents an early framework or UI decision from becoming the product architecture.
+
+## 7. Application distribution - npm amendment
+
+The supported V1 installation is npm install -g orqalis. Node.js 22+ launches the
+same Python 3.12+ Core through an isolated per-user runtime. The npm package carries
+the compiled Local Control Center, migrations, skills, usage docs and local Compose
+configuration. First launch verifies and installs pinned Python dependencies; database
+migration and provider setup remain explicit operator actions.
+
+The wheel is an internal build artifact, not a separate application installer. No
+standalone executable, Python source release or Orqalis PyPI channel is maintained.
+Contributor source setup and the Python SDK remain available for development.
+See [ADR 0002](adr/0002-npm-distribution.md). This does not change Core boundaries.

@@ -2379,3 +2379,59 @@ This v1.2 package reconciles every Orqalis design/handoff artifact created earli
 ## Supersession rule
 
 Only the files in this v1.2 consolidated package should be handed to Codex as active requirements. Earlier session ZIP/DOCX files are historical inputs and should not be placed beside the canonical package in the implementation repository.
+
+
+# Owner-approved distribution amendment - 2026-09-10
+
+Global npm installation is the single V1 application distribution channel.
+This amendment is also recorded in SIGNOFF.md and CODEX_HANDOFF.md.
+
+## 7. Application distribution - npm amendment
+
+The supported V1 installation is npm install -g orqalis. Node.js 22+ launches the
+same Python 3.12+ Core through an isolated per-user runtime. The npm package carries
+the compiled Local Control Center, migrations, skills, usage docs and local Compose
+configuration. First launch verifies and installs pinned Python dependencies; database
+migration and provider setup remain explicit operator actions.
+
+The wheel is an internal build artifact, not a separate application installer. No
+standalone executable, Python source release or Orqalis PyPI channel is maintained.
+Contributor source setup and the Python SDK remain available for development.
+See [ADR 0002](docs/adr/0002-npm-distribution.md). This does not change Core boundaries.
+
+## Distribution and process entry points - npm amendment
+
+All end-user interfaces are reached through the globally installed npm package.
+The orqalis command delegates to Python Core; it owns no separate workflow state.
+Interactive Windows users can invoke orqalis.cmd. MCP process hosts use an absolute
+Node executable plus <global npm root>/orqalis/bin/orqalis.js and the usual MCP arguments;
+no standalone executable or checkout-specific virtual environment path is required.
+
+Complete first-launch setup with orqalis version before starting an MCP client.
+SDK source development remains documented separately. See [MCP setup](docs/MCP.md) and
+[ADR 0002](docs/adr/0002-npm-distribution.md) for the current install/launch contract.
+
+## Distribution release gate - npm amendment
+
+Phase 14 publishes a single reviewed npm tarball. Build the compiled UI and an internal
+Python wheel, stage hash-locked dependencies and bundled Compose/docs, then npm pack.
+Do not produce a separate executable installer, source archive or Orqalis PyPI release.
+
+Validate global installation without npm lifecycle scripts, initial/cached startup,
+command/MCP stdio forwarding, packaged UI/migrations/skills, source-free database setup,
+upgrade behavior and retained user data. CI must exercise the same tarball on the
+supported Windows/Linux/macOS matrix. Publication requires registry ownership and a
+release-owner action. Contributor setup remains part of development, not another
+application distribution channel. See [Publishing](docs/PUBLISHING.md).
+
+## Installation and launch - npm amendment
+
+The Local Control Center ships inside the global npm package. Users run
+npm install -g orqalis, configure the database/provider, then orqalis ui --open or
+orqalis run <request> --open. They do not build React or install a separate executable.
+Node.js 22+ and Python 3.12+ remain prerequisites. Database Compose configuration is
+included in the package; an existing PostgreSQL/pgvector service can also be configured.
+
+npm installation never starts services or runs migrations automatically. The launcher
+reuses an isolated Python runtime; the browser remains a projection of Core APIs/events.
+See [GUIDE.md](GUIDE.md) and [ADR 0002](docs/adr/0002-npm-distribution.md).

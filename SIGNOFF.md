@@ -76,3 +76,14 @@ This ordering is intentional: events/timing are built before the thin UI; the th
 ## 7. Change control
 
 Material changes to state ownership, goal/acceptance versioning, evidence gates, repair bounds, memory provenance, provider independence, security/Git gates, event/timing semantics, UI truthfulness, or chain-of-thought/privacy policy require an explicit ADR/design amendment before implementation. Ordinary implementation details can evolve within these constraints.
+
+
+## 8. Distribution amendment - 2026-09-10
+
+The release owner selected global npm installation as the supported V1 application
+channel: npm install -g orqalis. The Python wheel is an internal bundled payload;
+standalone executable, separate wheel/source and Orqalis PyPI releases are out of scope.
+Contributor source setup and the Python SDK remain supported development surfaces.
+Node.js 22+ and Python 3.12+ remain prerequisites. See
+[ADR 0002](docs/adr/0002-npm-distribution.md) for packaging, MCP launch and cleanup rules.
+This amendment leaves all runtime/security/acceptance invariants above intact.

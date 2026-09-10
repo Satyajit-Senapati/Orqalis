@@ -237,3 +237,15 @@ Reconnect flow: fetch/reconcile snapshot, read `last_event_sequence`, subscribe 
 - Headless CLI/MCP execution is independent of the UI.
 - No private chain-of-thought or secrets are exposed.
 - UI actions cannot bypass the Orqalis Policy Engine or Git delivery gates.
+
+## Installation and launch - npm amendment
+
+The Local Control Center ships inside the global npm package. Users run
+npm install -g orqalis, configure the database/provider, then orqalis ui --open or
+orqalis run <request> --open. They do not build React or install a separate executable.
+Node.js 22+ and Python 3.12+ remain prerequisites. Database Compose configuration is
+included in the package; an existing PostgreSQL/pgvector service can also be configured.
+
+npm installation never starts services or runs migrations automatically. The launcher
+reuses an isolated Python runtime; the browser remains a projection of Core APIs/events.
+See [GUIDE.md](../GUIDE.md) and [ADR 0002](adr/0002-npm-distribution.md).

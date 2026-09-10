@@ -32,44 +32,49 @@ Orqalis makes those steps explicit:
 
 ## Quick start
 
-From a checkout of this repository, install **Python 3.12+**, **uv**, **Node.js 24**,
-**Git** and **Docker**. Compose provides local PostgreSQL with pgvector.
+Install **Node.js 22+**, **Python 3.12+ with venv/pip**, **Git** and **Docker**.
+Orqalis is distributed through npm; its package includes the UI and local database
+Compose file. No source checkout or frontend build is required.
+
+After the first registry release:
 
 ```sh
-npm ci --prefix web
-npm run build --prefix web
-uv sync --frozen
-docker compose up -d --wait
-uv run orqalis migrate
-uv run orqalis doctor
-uv run orqalis ui --open
+npm install -g orqalis
+orqalis version
 ```
 
-Open **http://localhost:7842**. On Windows, use npm.cmd if PowerShell blocks npm.ps1.
+**Publication is pending.** Until then, install the reviewed tarball with
+npm install -g /absolute/path/to/orqalis-1.0.0.tgz. See [release preparation](docs/PUBLISHING.md).
 
-Register a committed project:
+Start the bundled database and UI (Bash/zsh):
 
 ```sh
-uv run orqalis init --repo /absolute/path/to/project
+ORQALIS_PACKAGE_ROOT="$(npm root -g)/orqalis"
+docker compose -p orqalis -f "$ORQALIS_PACKAGE_ROOT/compose.yaml" up -d --wait
+orqalis migrate
+orqalis doctor
+orqalis ui --open
 ```
+
+Open **http://localhost:7842**. On Windows use npm.cmd / orqalis.cmd and the
+[PowerShell setup](GUIDE.md#start-the-local-database-and-ui).
+First launch creates an isolated Python runtime and needs internet access.
 
 Configure a provider/model using the [provider setup guide](GUIDE.md#2-configuration-and-providers),
-then start requirements discovery:
+then register a committed project and start requirements discovery:
 
 ```sh
-uv run orqalis run "Normalize names consistently" --repo /absolute/path/to/project --branch feature/normalize-names --open
+orqalis init --repo /absolute/path/to/project
+orqalis run "Normalize names consistently" --repo /absolute/path/to/project --branch feature/normalize-names --open
 ```
 
-This prepares context and a versioned goal; implementation requires an explicit execution
-policy. Without a configured provider, the run records the failure and the command returns
-provider_error. For provider-free goal preparation, supply an explicit --contract JSON file.
-Review the goal and policy using the [first-task walkthrough](GUIDE.md#4-first-task-walkthrough).
+Implementation requires an explicit execution policy. Without a configured provider,
+run returns provider_error; supply --contract for provider-free goal preparation.
+Follow the [first-task walkthrough](GUIDE.md#4-first-task-walkthrough).
 
-**Prefer npm installation?** A tested launcher is prepared for
-`npm install -g orqalis`. Public registry publication is pending. You can install the
-locally built tarball with `npm install -g ./dist/orqalis-1.0.0.tgz`; it requires
-Node.js 22+ and Python 3.12+. See [release preparation](docs/PUBLISHING.md).
-The Python wheel includes the built UI and can also be installed directly.
+Upgrade with npm install -g orqalis@latest, then back up and migrate the database as
+described in the guide. Uninstall with npm uninstall -g orqalis; application data is retained.
+Contributors and SDK developers use [source development setup](docs/DEVELOPMENT.md).
 
 ## How it works
 
@@ -131,10 +136,10 @@ known issues and curated run knowledge with source files, commits and verificati
 Unchanged Git HEAD avoids another broad scan; changed committed files refresh selectively.
 
 ```sh
-uv run orqalis status --repo /absolute/path/to/project --json
-uv run orqalis memory status --repo /absolute/path/to/project
-uv run orqalis capabilities
-uv run orqalis runs --help
+orqalis status --repo /absolute/path/to/project --json
+orqalis memory status --repo /absolute/path/to/project
+orqalis capabilities
+orqalis runs --help
 ```
 
 ## Verification, repair and Git safety

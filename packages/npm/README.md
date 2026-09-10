@@ -31,10 +31,19 @@ so MCP and JSON output remain usable.
 
 Git, PostgreSQL with pgvector, and Docker for sandboxed execution are still required.
 Installation does not start a database, change its schema or configure provider credentials.
-Follow the included **GUIDE.md** for database setup, provider keys, a complete task
+The package includes compose.yaml; no source checkout is required. Follow the included
+**GUIDE.md** for database setup, provider keys, a complete task
 walkthrough, MCP configuration, acceptance/review gates and troubleshooting.
 
-Once the database is configured:
+For Bash/zsh, start the bundled local database:
+
+~~~sh
+ORQALIS_PACKAGE_ROOT="$(npm root -g)/orqalis"
+docker compose -p orqalis -f "$ORQALIS_PACKAGE_ROOT/compose.yaml" up -d --wait
+~~~
+
+GUIDE.md includes the equivalent PowerShell commands. An existing PostgreSQL/pgvector
+instance can be used instead via ORQALIS_DATABASE_URL. Then:
 
 ```sh
 orqalis migrate

@@ -345,3 +345,16 @@ Maintain small repositories representing Python API, React app, Android/Gradle p
 
 ### Golden tests
 Store expected structured outputs for context packs, plans, acceptance records, and final run summaries. Avoid golden-testing prose where unnecessary.
+
+## Distribution release gate - npm amendment
+
+Phase 14 publishes a single reviewed npm tarball. Build the compiled UI and an internal
+Python wheel, stage hash-locked dependencies and bundled Compose/docs, then npm pack.
+Do not produce a separate executable installer, source archive or Orqalis PyPI release.
+
+Validate global installation without npm lifecycle scripts, initial/cached startup,
+command/MCP stdio forwarding, packaged UI/migrations/skills, source-free database setup,
+upgrade behavior and retained user data. CI must exercise the same tarball on the
+supported Windows/Linux/macOS matrix. Publication requires registry ownership and a
+release-owner action. Contributor setup remains part of development, not another
+application distribution channel. See [Publishing](PUBLISHING.md).

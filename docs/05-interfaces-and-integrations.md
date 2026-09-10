@@ -166,3 +166,15 @@ Default local URL: `http://127.0.0.1:7842` (configurable). Bind loopback by defa
 Recommended run flow: `GET /runs/{id}` for snapshot, then subscribe to `WS /ws/runs/{id}?after=<sequence>` (or SSE equivalent). On disconnect, reload/reconcile the snapshot and resume after the last durable sequence. All UI commands (cancel, pause, approve, resume, open artifact) invoke normal command endpoints and Policy Engine checks.
 
 The same project/run can be observed while work is driven from CLI, Codex, Claude Code, Copilot, MCP, or Orqalis-native providers.
+
+## Distribution and process entry points - npm amendment
+
+All end-user interfaces are reached through the globally installed npm package.
+The orqalis command delegates to Python Core; it owns no separate workflow state.
+Interactive Windows users can invoke orqalis.cmd. MCP process hosts use an absolute
+Node executable plus <global npm root>/orqalis/bin/orqalis.js and the usual MCP arguments;
+no standalone executable or checkout-specific virtual environment path is required.
+
+Complete first-launch setup with orqalis version before starting an MCP client.
+SDK source development remains documented separately. See [MCP setup](MCP.md) and
+[ADR 0002](adr/0002-npm-distribution.md) for the current install/launch contract.

@@ -4,7 +4,8 @@ Orqalis 1.0.0 is MIT licensed. The Python Core remains authoritative; the npm pa
 is a distribution launcher for that same Core. The private package in web/ is only the UI.
 
 This repository prepares release artifacts locally. It has not published Orqalis to npm
-or PyPI, and no remote repository or publishing identity is configured here.
+and no remote repository or publishing identity is configured here. npm is the sole
+application release channel; see [ADR 0002](adr/0002-npm-distribution.md).
 
 ## What users install
 
@@ -21,7 +22,8 @@ dependency installation. Git, PostgreSQL/pgvector, Docker and provider configura
 are required for the corresponding application features; see [GUIDE.md](../GUIDE.md).
 
 The tarball contains a version-matched wheel (including UI, migrations and skills),
-hash-locked requirements exported from uv.lock, MIT license, guide and supporting docs.
+hash-locked requirements exported from uv.lock, MIT license, guide, supporting docs and
+compose.yaml for source-free local PostgreSQL setup.
 It does not depend on a separately published Python package named orqalis. There are
 no production npm dependencies or install lifecycle scripts.
 
@@ -57,7 +59,7 @@ uv run ruff check .
 uv run ruff format --check .
 uv run mypy
 uv run mypy --strict scripts
-uv build
+uv build --wheel --out-dir .tools/release
 uv run python scripts/prepare_npm.py
 npm pack ./packages/npm --pack-destination dist
 ```
@@ -67,11 +69,11 @@ the UI build also collects production dependency license notices. The preparatio
 script rejects mismatched versions/licenses and missing UI, migrations or license files.
 The npm prepack check rejects changed hashes, missing files and stale vendor artifacts.
 
-Expected release files:
+Public application artifact: dist/orqalis-1.0.0.tgz.
 
-- dist/orqalis-1.0.0-py3-none-any.whl
-- dist/orqalis-1.0.0.tar.gz
-- dist/orqalis-1.0.0.tgz
+The internal .tools/release/orqalis-1.0.0-py3-none-any.whl is copied to vendor/ during
+preparation. It is not a separate install/release channel. No source archive, native
+installer or Orqalis PyPI publication is part of this workflow.
 
 Generated npm vendor/docs/guide/skill copies and dist artifacts are ignored by Git.
 Edit source files, then regenerate. Never edit generated copies to fix a release.
@@ -146,14 +148,14 @@ For subsequent automation, configure npm trusted publishing against the actual r
 and approved release workflow. The included workflow only builds/tests/uploads artifacts;
 it never publishes.
 
-PyPI publication is optional for npm users. If desired, first review the wheel/source
-metadata, test a clean pip installation, verify name ownership and configure a PyPI
-publisher independently. The Python SDK can also be installed directly from the wheel.
+Python SDK development uses the contributor environment. Do not add a second public
+installer or publish the internal wheel independently; changes to this distribution
+decision require an explicit design amendment.
 
 ## Upgrade, rollback and provenance
 
 Keep a release record containing source commit, tool versions, test results and SHA-256
-digests of all three artifacts. npm also records tarball integrity. The embedded manifest
+digest of the reviewed npm tarball. npm also records tarball integrity. The embedded manifest
 binds the npm runtime to its wheel and dependency lock.
 
 Each bundle uses a distinct cache directory. Updating npm does not migrate PostgreSQL.
@@ -161,7 +163,8 @@ Back up the database and run the new release's migrations explicitly. Installing
 npm version selects its runtime but does not reverse database schema changes; follow the
 documented database restore/compatibility procedure before rollback.
 
-Canonical architecture and phases are unchanged. No migration accompanies this launcher.
+The canonical distribution amendment records npm as the installation channel. Runtime
+architecture and phase order are unchanged; no migration accompanies this consolidation.
 
 References: [npm package metadata](https://docs.npmjs.com/cli/v12/configuring-npm/package-json/),
 [publishing public packages](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages/),

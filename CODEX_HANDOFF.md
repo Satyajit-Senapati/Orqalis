@@ -243,3 +243,13 @@ Begin by checking the repository state. If the repository is empty or only conta
 Before implementing Mission Control, implement `Event`, `ActorSession`, `TaskExecution`, `PhaseExecution`, monotonic per-run sequencing, timing semantics, and snapshot projections from `docs/07-data-model-and-observability.md`. Then implement the V1 thin UI from Phase 5. Do not use browser-only status/timing mock state except isolated visual unit fixtures.
 
 The required live experience is: visible Orchestrator -> visible sub-agent roster -> current task and timer per agent -> phase/task/acceptance/repair status -> structured activity -> final Git/memory delivery. Full DAG/Gantt/Project Brain analytics are Phase 13: they are not prerequisites for the first working agent runtime, but they are part of the signed-off V1 completion before the Phase 14 release gate.
+
+
+## Distribution amendment - 2026-09-10
+
+Use npm as the single V1 application installation/release channel. Follow
+[ADR 0002](docs/adr/0002-npm-distribution.md) and [Publishing](docs/PUBLISHING.md).
+Build the internal wheel only for the npm bundle; do not create standalone executable,
+source archive or PyPI release tracks. Preserve Python/Core and contributor tooling.
+Users must be able to configure the local database and launch UI/MCP from the globally
+installed package without a source checkout. This is an owner-authorized amendment.

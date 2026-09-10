@@ -262,3 +262,35 @@ test("abnormal child termination retains the signal exit code", async () => {
   child.emit("exit", null, "SIGKILL");
   assert.equal(await result, 137);
 });
+
+test("prepack requires database configuration for installs without a checkout", async (t) => {
+  const root = await fixture(t);
+  await mkdir(join(root, "lib"));
+  await mkdir(join(root, "docs"));
+  await writeFile(
+    join(root, "lib/bundle.js"),
+    await readFile(new URL("../lib/bundle.js", import.meta.url)),
+  );
+  await writeFile(
+    join(root, "package.json"),
+    JSON.stringify({ version: "1.0.0", license: "MIT", type: "module" }),
+  );
+  for (const name of [
+    "LICENSE",
+    "GUIDE.md",
+    "README.md",
+    "docs/PUBLISHING.md",
+    "compose.yaml",
+  ]) {
+    await writeFile(join(root, name), "fixture content");
+  }
+  const command = [join(root, "lib/bundle.js")];
+  assert.equal(
+    spawnSync(process.execPath, command, { encoding: "utf8" }).status,
+    0,
+  );
+  await rm(join(root, "compose.yaml"));
+  const missing = spawnSync(process.execPath, command, { encoding: "utf8" });
+  assert.notEqual(missing.status, 0);
+  assert.match(missing.stderr, /compose.yaml/);
+});

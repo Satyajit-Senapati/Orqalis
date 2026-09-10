@@ -43,3 +43,13 @@ Browser tests cover active and completed persisted runs, responsive layout and r
 
 The supplied signed-off documents remain the source of truth. Future work should extend
 these services and contracts rather than create another workflow engine.
+
+
+## Distribution
+
+Global npm installation is the supported application channel. The npm tarball includes
+the existing Python Core/UI, migrations, skills, Compose configuration and documentation.
+Node.js 22+ and Python 3.12+ remain required; initial setup uses an isolated runtime.
+The wheel is internal to npm. Standalone executable, separate wheel/source and Orqalis
+PyPI releases are not maintained. Source development remains available to contributors.
+Registry publication is pending. See [ADR 0002](adr/0002-npm-distribution.md).

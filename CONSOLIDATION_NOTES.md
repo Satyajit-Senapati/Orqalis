@@ -17,3 +17,14 @@ This v1.2 package reconciles every Orqalis design/handoff artifact created earli
 ## Supersession rule
 
 Only the files in this v1.2 consolidated package should be handed to Codex as active requirements. Earlier session ZIP/DOCX files are historical inputs and should not be placed beside the canonical package in the implementation repository.
+
+
+## Owner-approved npm distribution amendment - 2026-09-10
+
+The release owner selected global npm installation and requested removal of redundant
+installation routes. ADR 0002, SIGNOFF, CODEX_HANDOFF, the architecture/interface/UI/
+release-plan documents and the consolidated design now carry this same amendment.
+It supersedes earlier wheel/source installation guidance, while preserving Python Core,
+SDK contributor setup and all signed-off runtime/security/acceptance invariants.
+MANIFEST.json remains the extraction manifest for the original v1.2 input package;
+it is not a checksum manifest for the amended documents or current npm release.

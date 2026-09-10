@@ -68,6 +68,7 @@ if (
     "GUIDE.md",
     "README.md",
     "docs/PUBLISHING.md",
+    "compose.yaml",
   ]) {
     if (!(await readFile(resolve(root, name), "utf8")).trim()) {
       throw new Error("Missing release documentation: " + name);

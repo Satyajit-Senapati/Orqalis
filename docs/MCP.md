@@ -4,7 +4,21 @@ Orqalis serves a registered project using MCP stdio:
 
     orqalis mcp --policy /absolute/path/to/mcp-policy.json
 
-Use the installed executable's absolute path, including orqalis.exe on Windows.
+Install globally with npm install -g orqalis (or the reviewed tarball before publication).
+Run orqalis version once to complete first-launch Python setup before the client's
+startup timeout. On Windows, use orqalis.cmd in an interactive terminal.
+
+For assistant hosts that spawn processes without a shell, use the absolute Node
+executable plus the installed JavaScript launcher. This works across platforms and
+avoids requiring .cmd/.ps1 shell handling or a separate orqalis.exe installation.
+Find the paths with Get-Command node and npm.cmd root -g on PowerShell, or command -v
+node and npm root -g on Bash/zsh. The launcher is <global npm root>/orqalis/bin/orqalis.js.
+Templates below use placeholders for both absolute paths; do not paste them unchanged.
+
+Example server argv:
+
+    node /absolute/global-node-modules/orqalis/bin/orqalis.js mcp --policy /absolute/path/to/mcp-policy.json
+
 Replace the project UUID in examples/mcp-policy.json with the ID from orqalis init
 or orqalis status --json. Set an absolute workspace directory outside the source repository.
 The server reads the same ORQALIS_DATABASE_URL as the CLI/API. Its policy starts read-only.
@@ -37,7 +51,7 @@ Client configuration examples:
 - Codex: merge examples/codex-mcp.toml into the appropriate MCP configuration.
   [Official MCP configuration](https://developers.openai.com/codex/mcp).
 - Claude Code: use the mcpServers entry in examples/claude-mcp.json or
-  claude mcp add --transport stdio orqalis -- /absolute/path/to/orqalis mcp --policy /absolute/path/to/mcp-policy.json.
+  claude mcp add --transport stdio orqalis -- /absolute/path/to/node /absolute/global-node-modules/orqalis/bin/orqalis.js mcp --policy /absolute/path/to/mcp-policy.json.
   [Official Claude Code MCP configuration](https://code.claude.com/docs/en/mcp).
 - VS Code/Copilot: use examples/vscode-mcp.json in the selected MCP configuration.
   [Official VS Code MCP configuration](https://code.visualstudio.com/docs/agent-customization/mcp-servers).

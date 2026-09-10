@@ -1,10 +1,11 @@
 # Developer setup
 
 Orqalis requires Git, Python 3.12+, PostgreSQL with pgvector, and Docker for isolated
-commands. Node 24 is needed to build the React Control Center. The Python distribution
-includes the compiled UI, migrations and bundled skills.
+commands. Node 24 is needed to build the React Control Center. End users install through
+npm as described in [GUIDE.md](../GUIDE.md); this source setup is for contributors and SDK
+development. The internal Python wheel is bundled into npm with UI, migrations and skills.
 
-## Install from this repository
+## Contributor environment
 
 ~~~sh
 npm ci --prefix web
@@ -59,13 +60,13 @@ uv run pytest
 npm run lint --prefix web
 npm test --prefix web
 npm run build --prefix web
-uv build
+uv build --wheel --out-dir .tools/release
 ~~~
 
-The frontend must be built before uv build. Release wheel and source archives fail early
-if UI assets are absent. Wheels include the full local application. No publish or remote
-deployment is part of the build. After installing the wheel, use orqalis migrate from
-any directory to apply its packaged schema history.
+Build the UI before the internal wheel. The wheel under .tools/release is consumed by
+[the npm packaging workflow](PUBLISHING.md), not published separately. The npm workflow
+owns artifact building and platform installation checks; Core CI focuses on runtime/UI
+regressions. No standalone executable, source archive or PyPI release is maintained.
 
 For integration tests, create a disposable database:
 
