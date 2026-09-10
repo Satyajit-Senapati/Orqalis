@@ -1,0 +1,84 @@
+name: npm package
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            web/package-lock.json
+            packages/npm/package-lock.json
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - run: npm ci --prefix web
+      - run: npm run build --prefix web
+      - run: npm ci --prefix packages/npm
+      - run: npm run check --prefix packages/npm
+      - run: npm run lint --prefix packages/npm
+      - run: npm run format:check --prefix packages/npm
+      - run: npm test --prefix packages/npm
+      - run: uv run ruff check scripts
+      - run: uv run ruff format --check scripts
+      - run: uv run mypy --strict scripts
+      - run: uv build
+      - run: uv run python scripts/prepare_npm.py
+      - run: npm pack ./packages/npm --pack-destination dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: orqalis-npm
+          path: dist/orqalis-*.tgz
+          if-no-files-found: error
+  smoke:
+    needs: package
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            node: '22'
+            python: '3.12'
+          - os: windows-latest
+            node: '24'
+            python: '3.12'
+          - os: macos-latest
+            node: '24'
+            python: '3.14'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: orqalis-npm
+          path: dist
+      - name: Install without lifecycle scripts and exercise the global command
+        shell: pwsh
+        run: |
+          $package = (Get-ChildItem dist/orqalis-*.tgz).FullName
+          $prefix = Join-Path $env:RUNNER_TEMP 'orqalis-npm'
+          $runtime = Join-Path $env:RUNNER_TEMP 'orqalis-python'
+          $env:ORQALIS_PYTHON = (Get-Command python).Source
+          $env:ORQALIS_RUNTIME_HOME = $runtime
+          npm install -g --prefix $prefix $package --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/smoke_npm.py --prefix $prefix --runtime $runtime
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $executable = if ($IsWindows) { Join-Path $prefix 'orqalis.cmd' } else { Join-Path $prefix 'bin/orqalis' }
+          & $executable version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

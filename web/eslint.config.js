@@ -5,6 +5,7 @@ import hooks from "eslint-plugin-react-hooks";
 
 export default tseslint.config(
   { ignores: ["dist", "node_modules"] },
+  { files: ["scripts/**/*.mjs"], languageOptions: { globals: globals.node } },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

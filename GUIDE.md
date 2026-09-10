@@ -55,6 +55,41 @@ Browsing existing runs, searching structured memory, and preparing an explicit g
 do not require an LLM key. Model-backed work does. Native assistants can implement through
 MCP, but the independent reviewer still needs its configured provider.
 
+### npm installation
+
+Once the npm release is published:
+
+~~~sh
+npm install -g orqalis
+orqalis version
+orqalis --help
+~~~
+
+The npm launcher requires **Node.js 22+ and Python 3.12+ with venv/pip**. It bundles
+the Python wheel and compiled UI, then installs hash-locked Python dependencies into
+an isolated per-user environment on first launch. Initial setup needs internet access.
+Installation works with npm's --ignore-scripts option.
+
+Use orqalis.cmd on Windows if PowerShell blocks the generated orqalis.ps1 shim.
+If Python is not discovered, set ORQALIS_PYTHON to its executable path. To choose
+the runtime location, set ORQALIS_RUNTIME_HOME to an absolute directory. Defaults are
+%LOCALAPPDATA%/Orqalis/runtimes on Windows and
+${XDG_CACHE_HOME:-~/.cache}/orqalis/runtimes on Linux/macOS.
+
+Database, Git, Docker and provider setup below still apply. Installation does not
+create a database or run migrations. Commands in this guide using a virtual-environment
+executable can instead use the npm-installed orqalis command.
+
+Update with npm install -g orqalis@latest, then follow the backup/migration procedure
+in section 13. Each bundle uses a separate Python runtime; npm uninstall retains
+runtime caches and project/database data. Keep the selected base Python installed.
+If setup is interrupted, retry; a stale-lock diagnostic identifies the lock directory.
+Confirm its owner PID is no longer running before removing only that lock and retrying.
+
+The npm artifact is prepared locally; registry availability starts after publication.
+Maintainers should follow [PUBLISHING.md](docs/PUBLISHING.md) for build, tarball tests,
+account setup and release steps.
+
 ### Existing Windows checkout
 
 Open PowerShell:

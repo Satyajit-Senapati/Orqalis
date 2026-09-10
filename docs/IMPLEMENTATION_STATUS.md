@@ -119,3 +119,28 @@ MCP/SDK/API integration, recovery, revisions, backups and troubleshooting. Valid
 four JSON examples against current domain schemas, parsed both Python examples, checked
 local links/anchors and 19 CLI help paths. Documentation-only change; no migration or
 runtime behavior change.
+
+## npm distribution and publishing readiness
+
+Added a separate MIT-licensed npm package in packages/npm, retaining the Python Core
+and private React frontend. The launcher bundles the wheel/UI, verifies hashes, creates
+an isolated per-user Python runtime, installs exact hashed binary dependencies from
+uv.lock, serializes concurrent setup and forwards CLI/MCP streams and exit status.
+Node.js 22+ and an existing Python 3.12+ with venv/pip are prerequisites. No install
+lifecycle script, database migration or global Python mutation is performed.
+
+Release preparation checks npm/Python/UI/runtime version agreement, license metadata,
+UI assets and migrations. UI builds collect production dependency license notices.
+GUIDE.md covers npm setup; docs/PUBLISHING.md covers tarball checks and publication.
+Python package metadata now uses a product README instead of the canonical handoff README.
+
+Validation: launcher unit/contract tests, real Windows npm tarball installation with
+--ignore-scripts, isolated runtime setup, version/JSON/error-code/module-isolation smoke,
+frontend tests/build/lint, ESLint/Prettier, Ruff and strict typing for release scripts.
+The package CI workflow builds one tarball and installs it on Windows/Linux/macOS.
+Hosted cross-platform CI has not run in this workspace. The previous full backend
+validation remains applicable; this slice changes distribution, not Core behavior.
+
+No architectural deviation or migration. MIT was selected by the release owner.
+Actual registry publication is pending account/name ownership and release-owner action.
+No publishing token, remote URL or public release was created.

@@ -38,3 +38,6 @@ assistant integrations, and recovery.
 
 See [implementation status](docs/IMPLEMENTATION_STATUS.md) for completed capabilities and
 [developer setup](docs/DEVELOPMENT.md) for installation, migrations, CLI and checks.
+
+For release artifacts and npm distribution, see [Publishing Orqalis](docs/PUBLISHING.md).
+Orqalis is licensed under the [MIT license](LICENSE).

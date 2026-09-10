@@ -6,7 +6,9 @@ build-backend = "hatchling.build"
 name = "orqalis"
 version = "1.0.0"
 description = "Durable, provider-neutral engineering orchestration and project memory"
-readme = "README.md"
+readme = "docs/PACKAGE_README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = [
   "pydantic>=2.11,<3",
@@ -69,5 +71,5 @@ branch = true
 [tool.hatch.build.hooks.custom]
 
 [tool.hatch.build.targets.sdist]
-include = ["src", "web/src", "web/*.json", "web/*.ts", "web/*.js", "web/index.html",
-           "tests", "docs", "*.md", "*.toml", "*.ini", "compose.yaml", "uv.lock", "hatch_build.py"]
+include = ["src", "web/src", "web/scripts", "web/*.json", "web/*.ts", "web/*.js", "web/index.html",
+           "tests", "docs", "LICENSE", "*.md", "*.toml", "*.ini", "compose.yaml", "uv.lock", "hatch_build.py"]

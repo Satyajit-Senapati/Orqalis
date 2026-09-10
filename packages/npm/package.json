@@ -1,0 +1,47 @@
+{
+  "name": "orqalis",
+  "version": "1.0.0",
+  "description": "Durable, provider-neutral engineering orchestration and project memory",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "orqalis": "bin/orqalis.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "vendor/",
+    "GUIDE.md",
+    "LICENSE",
+    "docs/",
+    "src/orqalis/skills/bundled/"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check bin/orqalis.js && node --check lib/runtime.js && node --check lib/bundle.js",
+    "prepack": "node lib/bundle.js",
+    "lint": "eslint .",
+    "format:check": "prettier --check bin lib test package.json eslint.config.js",
+    "format": "prettier --write bin lib test package.json eslint.config.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "orchestration",
+    "mcp",
+    "developer-tools"
+  ],
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.10.0",
+    "globals": "16.5.0",
+    "prettier": "3.9.6"
+  }
+}
