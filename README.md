@@ -33,5 +33,8 @@ The CLI, MCP server, REST/WebSocket API, and Local Control Center are clients of
 
 ## Implementation
 
+Start with the detailed [user guide](GUIDE.md) for setup, a first task, policies, the UI,
+assistant integrations, and recovery.
+
 See [implementation status](docs/IMPLEMENTATION_STATUS.md) for completed capabilities and
 [developer setup](docs/DEVELOPMENT.md) for installation, migrations, CLI and checks.

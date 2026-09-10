@@ -110,3 +110,12 @@ credentials were unavailable; embedding adapters are optional; remote hosting is
 manual criteria do not auto-pass; external CLI hosts use a contract while native assistants
 use MCP. Linux runtime CI is configured but has not been run on a hosted CI service.
 There are no remaining implementation blockers for the locally validated V1 scope.
+
+## Usage guide
+
+Added root [GUIDE.md](../GUIDE.md) with Windows/source/wheel setup, provider configuration,
+a complete goal-to-delivery walkthrough, matching policy examples, UI/Memory usage,
+MCP/SDK/API integration, recovery, revisions, backups and troubleshooting. Validated its
+four JSON examples against current domain schemas, parsed both Python examples, checked
+local links/anchors and 19 CLI help paths. Documentation-only change; no migration or
+runtime behavior change.
