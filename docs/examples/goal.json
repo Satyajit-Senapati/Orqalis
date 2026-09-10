@@ -1,0 +1,26 @@
+{
+  "goal": "Validate the fixture's public behavior",
+  "scope": [
+    "main.py",
+    "tests"
+  ],
+  "constraints": [
+    "Preserve unrelated user changes"
+  ],
+  "definition_of_done": [
+    "All required criteria pass with deterministic evidence"
+  ],
+  "criteria": [
+    {
+      "key": "AC-1",
+      "description": "The main module contains the expected behavior",
+      "priority": "required",
+      "validation_spec": {
+        "kind": "file",
+        "path": "main.py",
+        "must_exist": true,
+        "contains": "42"
+      }
+    }
+  ]
+}

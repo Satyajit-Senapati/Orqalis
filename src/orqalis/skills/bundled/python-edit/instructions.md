@@ -1,0 +1,1 @@
+Inspect the targeted Python modules and nearby tests. Preserve public interfaces unless the goal explicitly changes them. Use explicit types and focused edits; validate behavior with deterministic checks.

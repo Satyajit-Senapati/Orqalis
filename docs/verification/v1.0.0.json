@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "date": "2026-09-10",
+  "platform": "Windows / Python 3.12 / PostgreSQL 17 + pgvector / Docker",
+  "checks": [
+    {
+      "name": "full_backend_baseline",
+      "tests": "117",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "590.370"
+    },
+    {
+      "name": "final_provider_and_commit_replay",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "96.217"
+    },
+    {
+      "name": "final_dag_scheduler",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "13.683"
+    }
+  ],
+  "additional_focused_passing_cases": [
+    "test_language_neutral_source_contract_to_accepted_commit[react]",
+    "test_language_neutral_source_contract_to_accepted_commit[android]",
+    "test_language_neutral_source_contract_to_accepted_commit[monorepo]",
+    "test_targeted_repair_preserves_history_and_stops_at_limit[True-1]",
+    "test_targeted_repair_preserves_history_and_stops_at_limit[False-1]",
+    "test_targeted_repair_preserves_history_and_stops_at_limit[False-0]",
+    "test_mcp_workflow_continues_across_clients_and_enforces_server_policy",
+    "test_mcp_stdio_lifecycle_and_project_isolation",
+    "test_migration_roundtrip_and_schema",
+    "test_project_roundtrip_uniqueness_and_rollback",
+    "test_project_init_idempotency_and_cli",
+    "test_installed_migrations_do_not_need_checkout_config",
+    "test_provider_durable_outcomes_idempotency_failure_and_cancellation",
+    "test_domain_is_immutable_and_rejects_unknown_fields",
+    "test_plan_weights_must_be_positive_finite[0]",
+    "test_plan_weights_must_be_positive_finite[-1]",
+    "test_plan_weights_must_be_positive_finite[inf]",
+    "test_plan_weights_must_be_positive_finite[nan]",
+    "test_settings_override_and_secrets",
+    "test_logging_redaction_context_and_allowlist",
+    "test_cli_help_and_version",
+    "test_domain_dependency_boundary",
+    "test_structured_and_key_diagnostics_are_redacted[{\"api_key\": \"sensitive-test-value\"}]",
+    "test_structured_and_key_diagnostics_are_redacted[password='sensitive-test-value']",
+    "test_structured_and_key_diagnostics_are_redacted[ssh://user:sensitive-test-value@example.invalid]",
+    "test_structured_and_key_diagnostics_are_redacted[-----BEGIN EC PRIVATE KEY----- sensitive-test-value]",
+    "test_invalid_cli_configuration_does_not_echo_input"
+  ],
+  "frontend_unit_tests": 3,
+  "browser_end_to_end_tests": 2,
+  "baseline_coverage_percent": 84,
+  "static_checks": [
+    "Ruff lint/format",
+    "strict mypy Windows/Linux",
+    "Git staged diff/whitespace",
+    "original canonical SHA-256 preservation"
+  ],
+  "distribution_checks": [
+    "wheel and source archive built",
+    "no local caches in distributions",
+    "UI, skills and migrations packaged",
+    "fresh wheel installation",
+    "migrate and doctor outside checkout",
+    "packaged browser scenarios"
+  ],
+  "notes": [
+    "Live provider adapters tested with HTTP fixtures; credentials unavailable.",
+    "Final replay cases replace the failed freshness-hint replay assertions from the first focused run.",
+    "No hosted CI or remote publish/push performed."
+  ]
+}

@@ -1,0 +1,24 @@
+from pathlib import Path
+from typing import Protocol
+
+from orqalis.domain.base import Contract
+
+
+class GitStatus(Contract):
+    repo_root: Path
+    branch: str | None
+    head: str
+    changed_paths: tuple[str, ...] = ()
+
+
+class GitService(Protocol):
+    def root(self, path: Path) -> Path: ...
+    def status(self, path: Path) -> GitStatus: ...
+    def changed_files(self, path: Path, base: str, head: str) -> tuple[str, ...]: ...
+    def tracked_files(self, path: Path, commit: str = "HEAD") -> tuple[str, ...]: ...
+    def read_file(self, path: Path, commit: str, relative_path: str) -> bytes: ...
+    def resolve_commit(self, path: Path, revision: str) -> str: ...
+
+    def read_file_if_present(
+        self, path: Path, commit: str, relative_path: str, max_bytes: int
+    ) -> bytes | None: ...
