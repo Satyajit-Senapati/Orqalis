@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+import os
 from pathlib import Path
 from uuid import uuid4
 
@@ -31,6 +32,7 @@ from orqalis.sdk import Orqalis
 
 root = Path(__file__).resolve().parents[2] / ".tools"
 source = root / "mission-control-fixture"
+repair_demo = os.environ.get("ORQALIS_QA_REPAIR") == "1"
 sdk = Orqalis()
 project = sdk.initialize(source)
 goal = GoalDraft(
@@ -68,7 +70,11 @@ def respond(request: ProviderExecutionRequest) -> ProviderExecutionResult:
                             "path": "main.py",
                             "content": (
                                 "def normalize_name(value: str) -> str:\n"
-                                "    return value.strip().lower()\n"
+                                + (
+                                    "    return value.strip()\n"
+                                    if repair_demo and request.task.plan_version == 1
+                                    else "    return value.strip().lower()\n"
+                                )
                             ),
                         },
                     ),
@@ -81,17 +87,34 @@ def respond(request: ProviderExecutionRequest) -> ProviderExecutionResult:
                 artifact_paths=("main.py",),
             ).model_dump(mode="json")
         )
+    if request.role == AgentRole.REPAIR:
+        return ProviderExecutionResult(
+            output=WorkerResult(
+                summary="Candidate does not lowercase. Repair main.py.",
+                completed=True,
+                artifact_paths=(),
+            ).model_dump(mode="json")
+        )
     assert request.acceptance is not None and request.role == AgentRole.REVIEWER
     return ProviderExecutionResult(
         output=ReviewResult(
-            overall="PASS",
+            overall="PASS"
+            if all(
+                c.status == "PASS" or c.validation_spec.kind == "review"
+                for c in request.acceptance.criteria
+            )
+            else "FAIL",
             criteria=tuple(
                 CriterionReview(
                     criterion_id=c.id,
-                    status="PASS",
-                    reason="Validated evidence and scoped source",
-                    evidence_refs=c.evidence_refs,
-                    source_checks=(SourceCheck(path="main.py", contains="value.strip().lower()"),)
+                    status="PASS"
+                    if c.validation_spec.kind == "review" or c.status == "PASS"
+                    else "FAIL",
+                    reason="Validated current evidence and scoped source"
+                    if c.status != "FAIL"
+                    else "Source does not meet the lowercase normalization criterion",
+                    evidence_refs=c.evidence_refs[-1:],
+                    source_checks=(SourceCheck(path="main.py", contains="def normalize_name"),)
                     if c.validation_spec.kind == "review"
                     else (),
                 )
@@ -119,7 +142,9 @@ async def main() -> None:
     )
     assert result.state == "COMPLETED"
     record = {"run_id": str(state.run.id), "commit": result.commit_sha}
-    (root / "ui-completed.json").write_text(json.dumps(record))
+    (root / ("ui-repair.json" if repair_demo else "ui-completed.json")).write_text(
+        json.dumps(record)
+    )
     print(json.dumps(record))
 
 

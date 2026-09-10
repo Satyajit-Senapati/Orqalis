@@ -237,7 +237,18 @@ class AgentExecutionService:
                 EventType.PROVIDER_INVOCATION_STARTED,
                 f"provider:{key}:start",
                 at,
-                EventPayload(provider_execution_id=invocation.id, status=invocation.status),
+                EventPayload(
+                    provider_execution_id=invocation.id,
+                    status=invocation.status,
+                    skill_refs=skill_refs,
+                    memory_ids=tuple(match.item.id for match in context.items),
+                    summary=(
+                        f"Context: {len(context.items)} memory references; "
+                        f"indexed commit {context.freshness.indexed_commit or 'unindexed'}; "
+                        "targeted inspection "
+                        f"{'required' if context.requires_inspection else 'not required'}"
+                    ),
+                ),
                 actor.id,
                 task.id,
                 attempt.id,

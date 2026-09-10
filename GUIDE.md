@@ -590,16 +590,29 @@ Select a run or open its /runs/RUN_UUID URL.
 | View | What it shows |
 | --- | --- |
 | Mission | Orchestrator, instantiated agents, assignments, phase, counts, acceptance, repairs, activity |
-| Graph | Dependencies, parallel branches, responsible actors, repair paths |
+| Graph | Orchestration, task DAG and actor modes; dependencies, assignments and repair paths |
+| Tasks / Agents | Filterable work lists and instantiated actor directory with shared inspectors |
+| Skills | Available metadata, observed loads, versions, source, users and last-load times |
+| Activity | Latest 200 persisted events, filtered by actor, task, phase, type and status |
 | Timeline | Persisted actor/task/phase intervals, waiting/blocking and concurrency |
 | Acceptance | Validator, status, evidence, review, failure reason and related work |
 | Project Brain | Knowledge search, provenance, indexed commit, freshness, file/directory relationships |
 | Delivery | Guardian findings, documentation, final checks, artifacts, diff, commit and push |
 | Metrics | Durations, actor activity, provider/tool calls, reported usage and run comparison |
 
-Inspect graph nodes, timeline entries, and actor details for related evidence. Themes support
-system, light, and dark modes. Developer mode exposes public structured data, not private
-model reasoning.
+Select a graph node or use Inspect task / Inspect actor to open its inspector. The same
+inspector is available from Tasks and Agents. It shows actual attempts, dependencies,
+acceptance, tools, artifacts and context references. Escape closes it and restores focus;
+on mobile it becomes a sheet. Files with recorded Guardian diffs link to Delivery.
+
+Skills reports observed loads, not inferred successful use. Historical calls without context
+metadata show it as unavailable. Project Brain highlights knowledge referenced by the run.
+Timeline pages through 50 tracks at a time; Activity keeps the latest 200 events while the
+API retains persisted history. See the [dashboard tour](docs/DASHBOARD.md) for all display
+limits, provenance and real screenshots.
+
+New browsers default to dark; system and light themes remain available. Developer mode
+exposes public structured data, not private model reasoning.
 
 Progress uses completed task weights in the current plan. Adding repair or delivery work
 can change its denominator. A completion percentage is not an acceptance vote. Timers come

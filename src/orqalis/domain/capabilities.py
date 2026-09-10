@@ -1,4 +1,5 @@
 from enum import StrEnum
+from typing import Literal
 
 from pydantic import Field
 
@@ -43,3 +44,8 @@ class LoadedSkill(Contract):
     metadata: SkillMetadata
     instructions: str = Field(max_length=100_000)
     content_hash: str
+
+
+class SkillCatalogEntry(Contract):
+    metadata: SkillMetadata
+    source: Literal["bundled", "configured"]

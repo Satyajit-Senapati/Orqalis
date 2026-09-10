@@ -44,6 +44,13 @@ def test_api_contract_and_websocket_reconnect(database: Engine, git_repo: Path) 
         state = response.json()
         run_id, cursor = state["run"]["id"], state["last_event_sequence"]
         assert state["run"]["state"] == "GOAL_DEFINED"
+        catalog = client.get("/api/skills").json()
+        assert len(catalog) >= 3 and all(item["source"] == "bundled" for item in catalog)
+        assert all("instructions" not in item["metadata"] for item in catalog)
+        complete_events = client.get(f"/api/runs/{run_id}/events").json()
+        assert client.get(f"/api/runs/{run_id}/events?limit=2").json() == complete_events[:2]
+        assert client.get(f"/api/runs/{run_id}/events?limit=1001").status_code == 422
+        assert state["skill_activity"] == []
         assert state["actors"][0]["session"]["actor_type"] == "ORCHESTRATOR"
         assert client.get(f"/api/runs/{run_id}/events?after={cursor}").json() == []
         assert client.get(f"/api/runs/{run_id}/metrics").json()["plan_completion"] == 0

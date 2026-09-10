@@ -14,7 +14,8 @@ test("Operational views reconstruct a delivered run with keyboard and theme supp
   await expect(page.getByRole("region", { name: "Execution graph" })).toBeVisible();
   await expect(page.locator(".react-flow__node")).toHaveCount(9);
   await page.getByLabel("Inspect task").selectOption({ index: 1 });
-  await expect(page.locator(".detail-card")).toContainText("Attempts");
+  await expect(page.getByRole("dialog")).toContainText("Attempts and ownership");
+  await page.getByRole("button", { name: "Close inspector" }).click();
   await page.screenshot({ path: info.outputPath("graph-dark.jpg"), type: "jpeg", quality: 65 });
   await page.getByRole("tab", { name: "Graph", exact: true }).focus();
   await page.keyboard.press("ArrowRight");

@@ -7,10 +7,12 @@ from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import locked_run
 from orqalis.core.scheduler import plan_completion
 from orqalis.domain.base import utc_now
+from orqalis.domain.events import EventType
 from orqalis.domain.projections import ActorProjection, PhaseProjection, RunSnapshot
 from orqalis.domain.task import TaskStatus
 from orqalis.domain.telemetry import ProviderCallProjection
 from orqalis.domain.timing import TimingBreakdown
+from orqalis.observability.activity import skill_activity
 from orqalis.observability.analytics import statistics, timeline
 from orqalis.observability.timing import EventTimingProjection
 
@@ -80,6 +82,11 @@ class SnapshotProjectionService:
             run_timing = timer.run(events, now)
             segments = timeline(events, now)
             providers = uow.providers.list(run_id)
+            invocation_events = {
+                event.payload.provider_execution_id: event.payload
+                for event in events
+                if event.event_type == EventType.PROVIDER_INVOCATION_STARTED
+            }
             tools = uow.execution.tools(run_id)
             reviews = uow.execution.reviews(run_id)
             guardians = uow.delivery.guardians(run_id)
@@ -132,6 +139,15 @@ class SnapshotProjectionService:
                         completed_at=p.completed_at,
                         error_code=p.error_code,
                         usage=p.result.usage if p.result else None,
+                        selected_skills=invocation_events[p.id].skill_refs
+                        if p.id in invocation_events
+                        else (),
+                        context_memory_ids=invocation_events[p.id].memory_ids
+                        if p.id in invocation_events
+                        else (),
+                        context_summary=invocation_events[p.id].summary
+                        if p.id in invocation_events
+                        else None,
                     )
                     for p in providers
                 ),
@@ -143,6 +159,15 @@ class SnapshotProjectionService:
                 artifacts=uow.delivery.artifacts(run_id),
                 findings=findings,
                 blockers=tuple(dict.fromkeys(blockers)),
+                skill_activity=skill_activity(events),
+                context_memory_ids=tuple(
+                    dict.fromkeys(
+                        ref
+                        for event in events
+                        if event.event_type == EventType.CONTEXT_PACK_CREATED
+                        for ref in event.payload.memory_ids
+                    )
+                ),
                 task_counts=counts,
                 plan_completion=plan_completion(plan) if plan else 0,
                 server_time=now,

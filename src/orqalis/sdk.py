@@ -18,7 +18,8 @@ from orqalis.core.vertical_plan import VerticalPlanner
 from orqalis.delivery.inspection import ChangeInspectionService
 from orqalis.domain.acceptance import GoalDraft
 from orqalis.domain.base import utc_now
-from orqalis.domain.errors import ConflictError, NotFoundError
+from orqalis.domain.capabilities import SkillCatalogEntry
+from orqalis.domain.errors import ConflictError, NotFoundError, PolicyDeniedError
 from orqalis.domain.events import Event, EventPayload, EventType
 from orqalis.domain.project import Project, ProjectSettings
 from orqalis.domain.projections import RunSnapshot
@@ -35,6 +36,7 @@ from orqalis.persistence.database import create_database_engine, session_factory
 from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.configuration import configured_providers
 from orqalis.providers.ports import AgentProvider
+from orqalis.security.redaction import safe_diagnostic
 from orqalis.skills.registry import SkillRegistry
 from orqalis.workspace.manager import WorktreeManager
 
@@ -65,6 +67,22 @@ class Orqalis:
         self.projections = SnapshotProjectionService(self.unit_of_work)
         self.delivery = DeliveryCoordinator(
             self.unit_of_work, self.orchestrator, self.goals, self.git
+        )
+
+    def list_skills(self) -> tuple[SkillCatalogEntry, ...]:
+        bundled = Path(__file__).parent / "skills" / "bundled"
+        registry = SkillRegistry((bundled, *self.settings.skill_roots))
+        if any(
+            safe_diagnostic(metadata.model_dump_json()) != metadata.model_dump_json()
+            for metadata in registry.discover()
+        ):
+            raise PolicyDeniedError("Skill catalog contains private or sensitive metadata")
+        return tuple(
+            SkillCatalogEntry(
+                metadata=metadata,
+                source="bundled" if directory.parent == bundled.resolve() else "configured",
+            )
+            for metadata, directory, _ in registry.entries.values()
         )
 
     def agent_service(
@@ -246,10 +264,10 @@ class Orqalis:
     def snapshot(self, run_id: UUID) -> RunSnapshot:
         return self.projections.get_snapshot(run_id)
 
-    def events(self, run_id: UUID, after: int = 0) -> tuple[Event, ...]:
+    def events(self, run_id: UUID, after: int = 0, limit: int | None = None) -> tuple[Event, ...]:
         with self.unit_of_work() as uow:
             locked_run(uow, run_id)
-            return uow.events.list(run_id, after)
+            return uow.events.list(run_id, after, limit)
 
     def cancel(self, run_id: UUID, key: str | None = None) -> Run:
         return self.orchestrator.advance(run_id, RunState.CANCELLED, key or str(uuid4()))

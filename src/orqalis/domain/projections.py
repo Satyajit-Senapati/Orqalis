@@ -11,7 +11,12 @@ from orqalis.domain.execution import ReviewRecord, ToolInvocation
 from orqalis.domain.plan import TaskPlan
 from orqalis.domain.run import Run
 from orqalis.domain.task import Task, TaskExecution, TaskStatus
-from orqalis.domain.telemetry import ProviderCallProjection, RuntimeStatistics, TimelineSegment
+from orqalis.domain.telemetry import (
+    ProviderCallProjection,
+    RuntimeStatistics,
+    SkillActivity,
+    TimelineSegment,
+)
 from orqalis.domain.timing import PhaseExecution, TimingBreakdown
 
 
@@ -53,3 +58,5 @@ class RunSnapshot(Contract):
     artifacts: tuple[Artifact, ...] = ()
     findings: tuple[Finding, ...] = ()
     blockers: tuple[str, ...] = ()
+    skill_activity: tuple[SkillActivity, ...] = ()
+    context_memory_ids: tuple[UUID, ...] = ()

@@ -28,6 +28,9 @@ class ProviderCallProjection(Contract):
     completed_at: AwareDatetime | None
     error_code: str | None
     usage: ProviderUsage | None
+    selected_skills: tuple[str, ...] = ()
+    context_memory_ids: tuple[UUID, ...] = ()
+    context_summary: str | None = None
 
 
 class RuntimeStatistics(Contract):
@@ -44,3 +47,10 @@ class RuntimeStatistics(Contract):
     reported_cost_usd: float | None = None
     calls_with_cost: int = 0
     first_pass_success: bool | None = None
+
+
+class SkillActivity(Contract):
+    ref: str
+    load_count: int
+    actor_session_ids: tuple[UUID, ...]
+    last_loaded_at: AwareDatetime

@@ -22,6 +22,7 @@ from orqalis.api.contracts import AcceptanceView, RunMetrics
 from orqalis.delivery.inspection import DiffView
 from orqalis.domain.acceptance import GoalDraft
 from orqalis.domain.base import Contract
+from orqalis.domain.capabilities import SkillCatalogEntry
 from orqalis.domain.errors import OrqalisError
 from orqalis.domain.events import Event
 from orqalis.domain.memory import ProjectBrain
@@ -137,6 +138,10 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
     def health() -> dict[str, str]:
         return {"service": "orqalis", "version": __version__}
 
+    @app.get("/api/skills")
+    def skills() -> tuple[SkillCatalogEntry, ...]:
+        return sdk.list_skills()
+
     @app.get("/api/projects")
     def projects() -> tuple[Project, ...]:
         return sdk.list_projects()
@@ -174,8 +179,12 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
         return sdk.snapshot(run_id)
 
     @app.get("/api/runs/{run_id}/events")
-    def events(run_id: UUID, after: Annotated[int, Query(ge=0)] = 0) -> tuple[Event, ...]:
-        return sdk.events(run_id, after)
+    def events(
+        run_id: UUID,
+        after: Annotated[int, Query(ge=0)] = 0,
+        limit: Annotated[int | None, Query(ge=1, le=1000)] = None,
+    ) -> tuple[Event, ...]:
+        return sdk.events(run_id, after, limit)
 
     @app.get("/api/runs/{run_id}/agents")
     def agents(run_id: UUID) -> tuple[ActorProjection, ...]:

@@ -62,13 +62,14 @@ class SQLEventRepository:
         self.session.flush()
         return event
 
-    def list(self, run_id: UUID, after: int = 0) -> tuple[Event, ...]:
+    def list(self, run_id: UUID, after: int = 0, limit: int | None = None) -> tuple[Event, ...]:
         return tuple(
             Event.model_validate(row, from_attributes=True)
             for row in self.session.scalars(
                 select(EventRow)
                 .where(EventRow.run_id == run_id, EventRow.sequence > after)
                 .order_by(EventRow.sequence)
+                .limit(limit)
             )
         )
 

@@ -92,6 +92,11 @@ def test_provider_durable_outcomes_idempotency_failure_and_cancellation(
 
     assert asyncio.run(invoke("call")) == asyncio.run(invoke("call"))
     assert fake.calls == 1
+    projected = sdk.snapshot(state.run.id).providers[0]
+    assert projected.context_memory_ids == tuple(item.item.id for item in context.items)
+    assert projected.context_summary and projected.context_summary.startswith("Context:")
+    assert "instructions" not in projected.model_dump_json()
+    assert "output_schema" not in projected.model_dump_json()
     with factory() as uow:
         records = uow.providers.list(state.run.id)
         assert records[0].status == InvocationStatus.SUCCEEDED

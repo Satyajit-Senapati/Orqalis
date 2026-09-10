@@ -1,0 +1,50 @@
+{
+  "enhancement": "Mission Control and README",
+  "baseline_commit": "2451063",
+  "schema_migrations": [],
+  "backend": {
+    "full_suite": {
+      "passed": 119,
+      "skipped": 0,
+      "coverage_percent": 85
+    },
+    "subsequent_foundation_activity": 16,
+    "subsequent_api_provider_activity": 6,
+    "current_total_tests": 120,
+    "ruff": "PASS",
+    "format": "PASS",
+    "strict_mypy_source_files": 193
+  },
+  "frontend": {
+    "unit_tests": 10,
+    "browser_tests": 7,
+    "lint": "PASS",
+    "typecheck_build": "PASS",
+    "viewport_widths": [
+      390,
+      768,
+      1024,
+      1440
+    ]
+  },
+  "distribution": {
+    "launcher_tests": 11,
+    "wheel_and_source_build": "PASS",
+    "npm_prepack_hash_check": "PASS",
+    "isolated_npm_install_smoke": "PASS"
+  },
+  "documentation": {
+    "local_links_checked": 83,
+    "real_screenshots": 8,
+    "source_install_migration_doctor": "PASS",
+    "cli_commands": "PASS with explicit goal contract; OS browser opening mocked",
+    "provider_without_credentials": "Expected provider_error; prerequisite documented"
+  },
+  "limitations": [
+    "No live provider credentials",
+    "No hosted cross-platform CI execution",
+    "Backend snapshot reconstruction grows with history",
+    "Vite 500 kB chunk advisory",
+    "One upstream Starlette/AnyIO deprecation warning"
+  ]
+}

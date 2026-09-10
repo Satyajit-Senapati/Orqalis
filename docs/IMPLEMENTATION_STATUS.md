@@ -144,3 +144,63 @@ validation remains applicable; this slice changes distribution, not Core behavio
 No architectural deviation or migration. MIT was selected by the release owner.
 Actual registry publication is pending account/name ownership and release-owner action.
 No publishing token, remote URL or public release was created.
+
+
+## Mission Control and README enhancement
+
+Brownfield enhancement of the completed V1, audited from main at 2451063. The detailed
+[gap analysis and dashboard tour](DASHBOARD.md) records what was reused and exposed.
+The attachment supplies the UX brief; no separate accompanying design document was available.
+
+| Enhancement phase | Status | Delivered capability |
+| --- | --- | --- |
+| 1 Audit | Complete | Existing Core, APIs, UI, telemetry, tests and documentation mapped |
+| 2 UX foundation | Complete | Compact dark Mission Control, operational summary, responsive navigation and sheets |
+| 3 Observability | Complete | Read-only skill catalog; event-backed skill loads and provider context references |
+| 4 Mission Control | Complete | Combined orchestration graph, actor/task inspectors, current-work checkpoint |
+| 5 Operational views | Complete | Tasks, Agents, Skills, filtered Activity; existing Brain, Delivery, Acceptance and Timeline integrated |
+| 6 Polish | Complete | Keyboard alternatives, focus restoration, non-color status, reduced motion, bounded event buffers and graph layout |
+| 7 README | Complete | Product landing page, updated GUIDE, eight real optimized captures and source-of-truth index retained |
+| 8 Validation | Complete | Backend regression, frontend/browser checks, command and link verification |
+
+No new orchestration service, workflow transition, configuration key, table or migration.
+The shared SDK exposes additive projections; the browser remains a Core client.
+Provider request bodies and private reasoning remain unpersisted/unexposed. Skill metadata
+is checked by the existing redaction policy before catalog exposure. Historical calls
+without context telemetry are explicitly unavailable. File attribution requires evidence
+or artifacts; no tool-path ownership is inferred.
+
+Validation: full backend pytest with coverage passed 119 tests (85%, no skips) against
+PostgreSQL/pgvector and Docker. After adding the catalog privacy regression, 16 focused
+foundation/activity tests and six API/provider/activity tests passed; the suite now has
+120 tests. Ruff lint/format and strict mypy passed (193 source files). Frontend lint,
+TypeScript/build and ten unit tests passed. Seven real browser tests cover active/completed
+runs, graph and inspector interaction, 390/768/1024/1440 widths, theme/reduced motion,
+empty/error states and forced WebSocket disconnect/reconnect. Deterministic execution
+fixtures also exercised actual review failure, targeted repair, final delivery and memory.
+
+README checks: fresh npm ci/build, frozen uv sync, Compose health, migration and doctor
+passed. CLI init, ui --open, status JSON, memory status, capabilities and runs help passed
+against the local database. Run preparation passed with an explicit goal contract; only
+OS browser opening was mocked. Provider-free invocation without a contract correctly
+returned provider_error, so README now places provider setup before that command.
+83 local links/anchors, including every screenshot path, resolved.
+
+Eight JPEGs in docs/assets total approximately 1 MB. They are browser captures from
+persisted local test-provider runs, not production placeholder data. The capture script
+and regeneration instructions are checked in. No animation or copied third-party visual
+assets were introduced.
+
+Remaining boundaries: activity retains 200 visible events; timeline pages at 50 tracks;
+graphs show up to 150 nodes with list alternatives. Core snapshot reconstruction still
+scales with persisted history; large-run server profiling/caching is follow-up work.
+The production JS bundle is approximately 512 kB minified / 162 kB gzip and emits Vite's
+500 kB advisory. One upstream Starlette/AnyIO deprecation warning remains. Live provider
+and hosted cross-platform CI checks still require the corresponding external environment.
+The signed-off numbered documents, SIGNOFF and CODEX_HANDOFF are unchanged.
+
+Release checks: rebuilt wheel/source/npm tarball include current UI and all screenshot
+assets, with no local caches. All 11 launcher tests and package lint/format/hash checks
+passed. The isolated Windows npm install passed cold/cached launch, JSON stdout, invalid
+command status and working-directory module isolation. Publication remains pending.
+Verification record: [dashboard-enhancement.json](verification/dashboard-enhancement.json).

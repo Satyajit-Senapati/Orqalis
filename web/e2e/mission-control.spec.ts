@@ -9,9 +9,9 @@ test("Mission Control displays persisted state and survives refresh", async ({ p
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(`/runs/${runId}`);
   await expect(page.getByRole("heading", { name: "Validate repository behavior" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Orchestrator", exact: true })).toBeVisible();
+  await expect(page.locator(".actor-row").filter({ hasText: "Orchestrator" })).toBeVisible();
   await expect(page.getByRole("status")).toContainText("Live");
-  await expect(page.getByRole("heading", { name: "tester", exact: true })).toBeVisible();
+  await expect(page.locator(".actor-row").filter({ hasText: "tester" })).toBeVisible();
   const state = await (await request.get(`/api/runs/${runId}`)).json() as Snapshot;
   await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", String(state.plan_completion));
   await expect(page.getByText("Name normalization trims whitespace", { exact: true })).toBeVisible();

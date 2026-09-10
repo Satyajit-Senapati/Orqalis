@@ -152,3 +152,41 @@ and [structured output contract](https://platform.claude.com/docs/en/build-with-
 ExternalCLIProvider defines a bounded host-owned CLITransport contract. An arbitrary CLI
 launcher is not enabled. Native Codex, Claude Code and Copilot use the tested MCP boundary.
 No remote HTTP/MCP mode is enabled; authentication is required before adding one.
+
+## Dashboard enhancement and media
+
+See [DASHBOARD.md](DASHBOARD.md) for navigation, the brownfield audit, new read-only
+contracts, attribution boundaries and display limits. The existing orchestrator and
+CLI remain authoritative. No migration is required for this enhancement.
+
+Create real persisted screenshots using deterministic providers:
+
+~~~sh
+uv run python -m tests.e2e.seed_runtime
+uv run python -m tests.e2e.seed_execution
+~~~
+
+Then run the execution fixture once with ORQALIS_QA_REPAIR=1 to create a failed-review
+and successful-repair history (on PowerShell: $env:ORQALIS_QA_REPAIR='1').
+Clear that environment variable after the repair fixture.
+
+~~~sh
+uv run orqalis ui
+node web/scripts/capture-dashboard.mjs
+~~~
+
+The capture script reads .tools/ui-fixture.json, .tools/ui-completed.json and
+.tools/ui-repair.json, and writes eight optimized JPEGs to docs/assets.
+ORQALIS_UI_URL can target a different loopback instance. Installed Chrome is the default;
+ORQALIS_BROWSER_CHANNEL=chromium selects Playwright Chromium. These are test-provider
+runs through real Core services, not mock production data.
+
+Frontend checks now include bounded reconnect buffers, event filters, task relationships,
+retry counts, graph/inspector behavior, focus restoration, four viewport widths, reduced
+motion, empty/error states and a forced socket disconnect. Activity filters use explicit
+accessible names. The original browser contracts continue to run.
+
+For formatting the new UI files, the repository's npm tooling provides Prettier after
+npm ci --prefix packages/npm. Runtime source remains TypeScript; release scripts remain
+strictly typed Python. Keep the source files and screenshot capture script together when
+updating product documentation.
