@@ -70,6 +70,8 @@ Use --uv /absolute/path/to/uv if it is not on PATH. Build the UI before the whee
 the UI build also collects production dependency license notices. The preparation
 script rejects mismatched versions/licenses and missing UI, migrations or license files.
 The npm prepack check rejects changed hashes, missing files and stale vendor artifacts.
+Preparation also creates the ignored dist output directory, so npm pack works from a
+clean checkout.
 
 Public application artifact: dist/orqalis-1.0.0.tgz.
 

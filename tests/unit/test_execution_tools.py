@@ -6,7 +6,7 @@ import pytest
 
 from orqalis.domain.errors import PolicyDeniedError
 from orqalis.domain.execution import ApprovedCommand, ExecutionPolicy
-from orqalis.execution.commands import CommandRunner
+from orqalis.execution.commands import CommandRunner, _docker_user_args
 from orqalis.execution.filesystem import ScopedFilesystem
 
 
@@ -48,3 +48,10 @@ def test_commands_are_allowlisted_bounded_and_redacted(tmp_path: Path) -> None:
     assert bounded.error_code == "output_limit" and len(bounded.output) <= 32000
     with pytest.raises(PolicyDeniedError):
         runner.run(command.model_copy(update={"argv": ("unapproved",)}))
+
+
+def test_docker_user_matches_posix_caller(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr("orqalis.execution.commands.os.name", "posix")
+    monkeypatch.setattr("orqalis.execution.commands.os.geteuid", lambda: 1234, raising=False)
+    monkeypatch.setattr("orqalis.execution.commands.os.getegid", lambda: 5678, raising=False)
+    assert _docker_user_args() == ("--user", "1234:5678")

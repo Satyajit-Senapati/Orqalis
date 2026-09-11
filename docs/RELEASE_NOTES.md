@@ -36,6 +36,12 @@ All eight 1600 x 1180 JPEGs were captured from persisted fixtures with zero brow
 diagnostics. Capture publication is atomic, and a forced failed capture preserved every
 existing asset hash. No migration was added.
 
+The first hosted Ubuntu check exposed an owner-only workspace permissions failure in the
+hardened Docker sandbox. POSIX launches now use the Orqalis process's effective user and
+group IDs, preserving dropped capabilities while keeping bind mounts accessible and output
+owned by the caller. The exact Ubuntu reproduction and complete suite pass 123 tests at
+84% coverage against PostgreSQL/pgvector and Docker.
+
 All 12 npm launcher tests and package checks passed. The prepared tarball contained
 56 entries and no forbidden files. Fresh global-prefix version, cold/cached launch,
 JSON, invalid-exit and working-directory isolation checks passed. npm publish --dry-run
@@ -54,9 +60,10 @@ review, failure/repair, documentation, Git commit and local-remote push. React, 
 and mixed-repository fixtures exercise language-neutral source contracts and delivery;
 they do not substitute for each platform's real build pipeline.
 
-The full suite ran on Windows with PostgreSQL 17/pgvector and Docker. Strict type checks
-cover Windows and Linux branches. Linux CI is configured, but a hosted CI run is not claimed.
-Browser tests cover active and completed persisted runs, responsive layout and reload.
+The full suite ran on Windows and Ubuntu with PostgreSQL 17/pgvector and Docker. Strict type
+checks cover Windows and Linux branches. GitHub checks on the release commit remain the
+authoritative hosted result. Browser tests cover active and completed persisted runs,
+responsive layout and reload.
 
 ## Operational limits
 

@@ -700,6 +700,8 @@ the Guardian independently checks the resulting diff before delivery.
 Docker commands have no network, a read-only root, dropped capabilities, 512 MB memory,
 one CPU, a 128-process limit, and bounded temporary storage. Images are not pulled
 automatically. Reviewer commands also mount the workspace read-only.
+On POSIX hosts, containers use the Orqalis process's effective user and group IDs so
+owner-only workspaces remain accessible and created artifacts keep caller ownership.
 
 trusted_local executes on the host without Docker's filesystem/network/resource isolation.
 Read-only reviewer commands require Docker.

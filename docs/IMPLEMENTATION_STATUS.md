@@ -309,3 +309,15 @@ Verification:
 Registry lookup returned E404 and npm whoami returned ENEEDAUTH. No public registry
 publication was performed.
 Detailed evidence: [dashboard-visual-refresh.json](verification/dashboard-visual-refresh.json).
+
+Post-push hosted verification exposed that npm pack does not create an absent
+--pack-destination directory. The release preparation script now creates and validates
+the ignored dist directory, preserving the same package command on clean checkouts.
+
+The same hosted run exposed a POSIX permissions defect in the Docker sandbox: the
+capability-free container could not traverse pytest's owner-only workspace as a different
+user. Docker launches now map the caller's effective user/group IDs on POSIX and the
+sandbox test verifies readable output with matching ownership. An exact Ubuntu reproduction
+passed the targeted test and the complete 123-test suite at 84% coverage against a
+disposable PostgreSQL/pgvector service and the Docker sandbox. Ruff, format and strict mypy
+checks pass; the release commit's GitHub checks are the authoritative hosted result.

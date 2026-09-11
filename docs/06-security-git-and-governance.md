@@ -43,7 +43,8 @@ Commands run with:
 - network policy;
 - environment-variable allowlist;
 - no host secrets exposure;
-- command audit logs.
+- command audit logs;
+- POSIX caller identity mapping for bind-mount access and artifact ownership.
 
 V1 may implement Docker-based sandboxing with configurable fallback for trusted local development.
 

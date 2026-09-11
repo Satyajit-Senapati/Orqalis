@@ -98,6 +98,12 @@ def prepare(root: Path, uv: str) -> None:
     shutil.copytree(root / "docs", docs)
     skill_path = Path("src/orqalis/skills/bundled")
     shutil.copytree(root / skill_path, package / skill_path, dirs_exist_ok=True)
+    output = root / "dist"
+    if output.is_symlink() or not output.resolve().is_relative_to(root.resolve()):
+        raise ValueError("Release output directory must remain within the checkout")
+    if output.exists() and not output.is_dir():
+        raise ValueError("Release output path must be a directory")
+    output.mkdir(exist_ok=True)
     print(f"Prepared npm release {version}")
 
 

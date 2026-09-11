@@ -86,6 +86,8 @@ Docker commands run with network disabled, a read-only root, bounded memory/CPU/
 counts and a temporary scratch directory. Images must already be available locally.
 Reviewer commands mount the workspace read-only. trusted_local executes approved argv
 on the host and is intended for explicitly trusted development commands.
+On POSIX hosts, sandbox containers use the Orqalis process's effective user and group IDs,
+which keeps owner-only workspaces accessible and generated files owned by the caller.
 
 Remote HTTP/MCP transport is not enabled. Native assistant interoperability uses the
 project-scoped stdio [MCP interface](MCP.md).

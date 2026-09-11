@@ -20,6 +20,17 @@ _ENV = {"PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP", "PATHEXT"}
 _OUTPUT_LIMIT = 1_000_000
 
 
+def _docker_user_args() -> tuple[str, ...]:
+    """Run Linux/macOS containers as the caller so private workspaces remain accessible."""
+    if os.name != "posix":
+        return ()
+    geteuid = getattr(os, "geteuid", None)
+    getegid = getattr(os, "getegid", None)
+    if geteuid is None or getegid is None:
+        return ()
+    return ("--user", f"{geteuid()}:{getegid()}")
+
+
 def _terminate(process: subprocess.Popen[bytes]) -> None:
     if process.poll() is not None:
         return
@@ -69,6 +80,7 @@ class CommandRunner:
                 "--pull=never",
                 "--name",
                 container,
+                *_docker_user_args(),
                 "--network=none",
                 "--cap-drop=ALL",
                 "--security-opt=no-new-privileges",

@@ -20,6 +20,7 @@ def test_docker_workspace_network_and_readonly_root(tmp_path: Path) -> None:
             "-c",
             "cat /workspace/input.txt; "
             "test -r /workspace/input.txt && "
+            "cat /workspace/input.txt > /workspace/result.txt && "
             "! touch /etc/orqalis-readonly-probe && "
             "test $(ls /sys/class/net | wc -l) -eq 1",
         ),
@@ -31,6 +32,12 @@ def test_docker_workspace_network_and_readonly_root(tmp_path: Path) -> None:
     result = CommandRunner(tmp_path, policy).run(command)
     assert result.passed, result
     assert "sandbox fixture" in result.output
+    assert (tmp_path / "result.txt").read_text() == "sandbox fixture"
+    if os.name == "posix":
+        result_stat = (tmp_path / "result.txt").stat()
+        workspace_stat = tmp_path.stat()
+        assert result_stat.st_uid == workspace_stat.st_uid
+        assert result_stat.st_gid == workspace_stat.st_gid
 
     readonly_command = ApprovedCommand(
         id="readonly-probe",
