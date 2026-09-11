@@ -1,3 +1,4 @@
+import subprocess
 from collections.abc import Callable
 from pathlib import Path
 
@@ -81,6 +82,76 @@ def test_bootstrap_no_change_incremental_and_delete(
     assert all(
         relation.source_entity_id in {entity.id for entity in entities} for relation in relations
     )
+
+
+def test_refresh_rebuilds_memory_when_indexed_commit_is_no_longer_available(
+    database: Engine,
+    git_repo: Path,
+    commit_all: Callable[[Path], str],
+) -> None:
+    git = ObservedGit()
+
+    def factory() -> SQLProjectUnitOfWork:
+        return SQLProjectUnitOfWork(session_factory(database))
+
+    project = ProjectService(factory, git).initialize(git_repo)
+    (git_repo / "main.py").write_text("def legacy_only():\n    return True\n", encoding="utf-8")
+    old_commit = commit_all(git_repo)
+    memory = MemoryService(factory, git)
+    memory.refresh(project)
+    assert memory.search(project, "legacy_only")
+
+    (git_repo / ".git").rename(git_repo.parent / "previous-git")
+    subprocess.run(
+        ["git", "-C", str(git_repo), "init", "-b", "main"],
+        check=True,
+        capture_output=True,
+    )
+    (git_repo / "main.py").unlink()
+    (git_repo / "replacement.py").write_text(
+        "def replacement_only():\n    return True\n", encoding="utf-8"
+    )
+    new_commit = commit_all(git_repo)
+    assert new_commit != old_commit
+    assert not git.has_commit(git_repo, old_commit)
+
+    git.enumerations = 0
+    git.reads.clear()
+    refreshed = memory.refresh(project)
+
+    assert refreshed.snapshot.indexed_commit_sha == new_commit
+    assert refreshed.invalidated_items == 5
+    assert set(refreshed.scanned_paths) == {
+        "AGENTS.md",
+        "main.py",
+        "pyproject.toml",
+        "replacement.py",
+        "tests/test_main.py",
+    }
+    assert git.enumerations == 1
+    assert "main.py" not in git.reads
+    assert not memory.search(project, "legacy_only")
+    replacement = memory.search(project, "replacement_only")
+    assert replacement[0].sources[0].commit_sha == new_commit
+    assert memory.health(project).active_items == 5
+    with Session(database) as session:
+        old_main = session.scalars(
+            select(MemoryRow).where(
+                MemoryRow.project_id == project.id,
+                MemoryRow.title == "main.py",
+                MemoryRow.source_commit == old_commit,
+            )
+        ).one()
+        assert old_main.status == "invalidated"
+        active_commits = set(
+            session.scalars(
+                select(MemoryRow.source_commit).where(
+                    MemoryRow.project_id == project.id,
+                    MemoryRow.status == "active",
+                )
+            )
+        )
+        assert active_commits == {new_commit}
 
 
 def test_context_dirty_overlay_budget_and_secrets(

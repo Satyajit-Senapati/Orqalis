@@ -26,7 +26,8 @@ test("Operational views reconstruct a delivered run with keyboard and dark-theme
   await expect(
     page.getByRole("region", { name: "Execution graph" }),
   ).toBeVisible();
-  await expect(page.locator(".react-flow__node")).toHaveCount(9);
+  const graphPanel = page.getByRole("tabpanel", { name: "Graph" });
+  await expect(graphPanel.locator(".react-flow__node")).toHaveCount(9);
   await page.getByLabel("Inspect task").selectOption({ index: 1 });
   await expect(page.getByRole("dialog")).toContainText(
     "Attempts and ownership",
@@ -45,8 +46,11 @@ test("Operational views reconstruct a delivered run with keyboard and dark-theme
   const intervals = (await (
     await request.get(`/api/runs/${runId}/timeline`)
   ).json()) as unknown[];
-  await expect(page.locator(".timeline-bar")).toHaveCount(intervals.length);
-  await page.locator(".timeline-bar").first().click();
+  const timelinePanel = page.getByRole("tabpanel", { name: "Timeline" });
+  await expect(timelinePanel.locator(".timeline-bar")).toHaveCount(
+    intervals.length,
+  );
+  await timelinePanel.getByLabel("Inspect interval").selectOption({ index: 1 });
   await page.screenshot({
     path: info.outputPath("timeline-dark.jpg"),
     type: "jpeg",

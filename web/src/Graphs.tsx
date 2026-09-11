@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Background,
   Controls,
@@ -15,6 +15,8 @@ import { classToken, Empty, label } from "./ui";
 import type { Snapshot } from "./types";
 import { actorName, visibleTasks, type Inspect } from "./runtime";
 
+const graphFitViewOptions = { padding: 0.07 } as const;
+
 export function FlowGraph({
   nodes,
   edges,
@@ -26,6 +28,10 @@ export function FlowGraph({
   onSelect?: (id: string) => void;
   name: string;
 }) {
+  const canvas = useRef<HTMLDivElement>(null);
+  const fitGraph = useRef<(() => void) | null>(null);
+  const fitFrame = useRef<number | null>(null);
+  const fitPending = useRef(true);
   const topology = JSON.stringify({
     ids: nodes.map((n) => n.id),
     links: edges.map((e) => [e.source, e.target]),
@@ -58,16 +64,57 @@ export function FlowGraph({
     ...n,
     ...positions.get(n.id),
   }));
+  const scheduleFit = useCallback(() => {
+    if (fitFrame.current !== null) cancelAnimationFrame(fitFrame.current);
+    fitFrame.current = requestAnimationFrame(() => {
+      fitFrame.current = null;
+      const element = canvas.current;
+      const fit = fitGraph.current;
+      if (!element || !fit || !element.clientWidth || !element.clientHeight) {
+        fitPending.current = true;
+        return;
+      }
+      fitPending.current = false;
+      fit();
+    });
+  }, []);
+  useEffect(() => {
+    fitPending.current = true;
+    scheduleFit();
+  }, [scheduleFit, topology]);
+  useEffect(() => {
+    const element = canvas.current;
+    if (!element || typeof ResizeObserver === "undefined") return;
+    let visible = element.clientWidth > 0 && element.clientHeight > 0;
+    const observer = new ResizeObserver(() => {
+      const nextVisible = element.clientWidth > 0 && element.clientHeight > 0;
+      if (nextVisible && (!visible || fitPending.current)) scheduleFit();
+      visible = nextVisible;
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [scheduleFit]);
+  useEffect(
+    () => () => {
+      if (fitFrame.current !== null) cancelAnimationFrame(fitFrame.current);
+      fitGraph.current = null;
+    },
+    [],
+  );
   return (
-    <div className="flow-canvas" role="region" aria-label={name}>
+    <div ref={canvas} className="flow-canvas" role="region" aria-label={name}>
       <ReactFlow
         nodes={placed}
         edges={edges.map((edge) => ({
           ...edge,
           markerEnd: edge.markerEnd ?? { type: MarkerType.ArrowClosed },
         }))}
-        fitView
-        fitViewOptions={{ padding: 0.07 }}
+        onInit={(flow) => {
+          fitGraph.current = () => {
+            void flow.fitView(graphFitViewOptions);
+          };
+          scheduleFit();
+        }}
         nodesDraggable={false}
         nodesConnectable={false}
         deleteKeyCode={null}
@@ -87,10 +134,12 @@ export function ExecutionGraph({
   snapshot,
   inspect,
   initialMode = "tasks",
+  active = true,
 }: {
   snapshot: Snapshot;
   inspect: Inspect;
   initialMode?: "tasks" | "actors" | "orchestration";
+  active?: boolean;
 }) {
   const [mode, setMode] = useState(initialMode);
   const tasks = visibleTasks(snapshot);
@@ -265,6 +314,7 @@ export function ExecutionGraph({
         <label className="compact-field">
           Inspect task
           <select
+            aria-label={active ? undefined : "Inactive task inspector"}
             value=""
             onChange={(e) => {
               if (e.target.value) select("task:" + e.target.value);
@@ -281,6 +331,7 @@ export function ExecutionGraph({
         <label className="compact-field">
           Inspect actor
           <select
+            aria-label={active ? undefined : "Inactive actor inspector"}
             value=""
             onChange={(e) => {
               if (e.target.value) select("actor:" + e.target.value);

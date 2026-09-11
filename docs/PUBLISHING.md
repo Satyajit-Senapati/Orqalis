@@ -69,7 +69,7 @@ npm pack ./packages/npm --pack-destination dist
 Use --uv /absolute/path/to/uv if it is not on PATH. Build the UI before the wheel;
 the UI build also collects production dependency license notices. The preparation
 script rejects mismatched versions/licenses and missing UI, migrations or license files.
-The npm prepack check rejects changed hashes, missing files and stale vendor artifacts.
+The npm prepack check rejects source/generated inventory or byte mismatches, stale wheel or UI assets, symlinks, missing files and unexpected vendor artifacts.
 Preparation also creates the ignored dist output directory, so npm pack works from a
 clean checkout.
 
@@ -81,8 +81,8 @@ installer or Orqalis PyPI publication is part of this workflow.
 
 Verified local release candidate (2026-09-11):
 
-- All package checks and 12 npm launcher tests passed.
-- Package inventory: 56 entries and 0 forbidden entries.
+- All package checks and 13 npm launcher tests passed.
+- Package inventory: 58 entries and 0 forbidden entries.
 - Fresh global-prefix version, cold/cached launch, JSON output, invalid-exit behavior and
   working-directory isolation checks passed.
 - npm publish --dry-run passed without uploading.

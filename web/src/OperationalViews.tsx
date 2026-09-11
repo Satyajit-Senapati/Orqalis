@@ -17,27 +17,46 @@ export function TaskList({
   inspect: Inspect;
 }) {
   const [filter, setFilter] = useState("");
-  const tasks = visibleTasks(s).filter((t) => !filter || t.status === filter);
+  const visible = visibleTasks(s);
+  const statuses = [...new Set(visible.map((task) => task.status))];
+  const activeFilter = statuses.some((status) => status === filter)
+    ? filter
+    : "";
+  const tasks = visible.filter(
+    (task) => !activeFilter || task.status === activeFilter,
+  );
   return (
     <section className="panel operational-panel">
       <div className="section-heading">
         <div>
           <h2>Task plan</h2>
           <span>
-            Plan v{s.run.plan_version} · {visibleTasks(s).length} tasks
+            Plan v{s.run.plan_version} · {visible.length} tasks
           </span>
         </div>
-        <label className="compact-field">
-          Status
-          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="">All tasks</option>
-            {[...new Set(visibleTasks(s).map((t) => t.status))].map(
-              (status) => (
+        <div className="view-toolbar">
+          <label className="compact-field">
+            Status
+            <select
+              value={activeFilter}
+              onChange={(event) => setFilter(event.target.value)}
+            >
+              <option value="">All tasks</option>
+              {statuses.map((status) => (
                 <option key={status}>{status}</option>
-              ),
-            )}
-          </select>
-        </label>
+              ))}
+            </select>
+          </label>
+          {activeFilter && (
+            <button
+              type="button"
+              className="text-link"
+              onClick={() => setFilter("")}
+            >
+              Clear filter
+            </button>
+          )}
+        </div>
       </div>
       {!tasks.length ? (
         <Empty>No tasks match this view.</Empty>
@@ -158,6 +177,17 @@ export function SkillsView({
       });
     return () => abort.abort();
   }, []);
+  const historicalActivity =
+    catalog && !error
+      ? (s.skill_activity ?? []).filter(
+          (activity) =>
+            !catalog.some(
+              (entry) =>
+                entry.metadata.id + "@" + entry.metadata.version ===
+                activity.ref,
+            ),
+        )
+      : [];
   return (
     <section className="panel operational-panel">
       <div className="section-heading">
@@ -251,26 +281,14 @@ export function SkillsView({
           })}
         </div>
       )}
-      {!!s.skill_activity?.filter(
-        (a) =>
-          !catalog?.some(
-            (c) => c.metadata.id + "@" + c.metadata.version === a.ref,
-          ),
-      ).length && (
+      {historicalActivity.length > 0 && (
         <div className="panel-body">
           <h3>Historical skills outside this registry</h3>
-          {s.skill_activity
-            .filter(
-              (a) =>
-                !catalog?.some(
-                  (c) => c.metadata.id + "@" + c.metadata.version === a.ref,
-                ),
-            )
-            .map((a) => (
-              <p key={a.ref}>
-                {a.ref} · {a.load_count} loads
-              </p>
-            ))}
+          {historicalActivity.map((activity) => (
+            <p key={activity.ref}>
+              {activity.ref} · {activity.load_count} loads
+            </p>
+          ))}
         </div>
       )}
     </section>
@@ -294,6 +312,13 @@ export function filterEvents(events: Event[], f: ActivityFilter) {
       (!f.status || (e.status ?? e.payload.status) === f.status),
   );
 }
+
+export function retainAvailableFilter(
+  value: string,
+  options: readonly (readonly [string, string])[],
+) {
+  return options.some(([option]) => option === value) ? value : "";
+}
 export function ActivityView({
   snapshot: s,
   events,
@@ -312,7 +337,46 @@ export function ActivityView({
     type: "",
     status: "",
   });
-  const filtered = filterEvents(events, filters),
+  const actorOptions: [string, string][] = s.actors.map((actor) => [
+    actor.session.id,
+    actorName(actor),
+  ]);
+  const taskOptions: [string, string][] = s.tasks.map((task) => [
+    task.id,
+    task.description,
+  ]);
+  const phaseOptions: [string, string][] = [
+    ...new Set(
+      events
+        .map((event) => event.phase)
+        .filter((phase): phase is string => !!phase),
+    ),
+  ]
+    .sort()
+    .map((phase) => [phase, label(phase)] as [string, string]);
+  const typeOptions: [string, string][] = [
+    ...new Set(events.map((event) => event.event_type)),
+  ]
+    .sort()
+    .map((type) => [type, label(type)] as [string, string]);
+  const statusOptions: [string, string][] = [
+    ...new Set(
+      events
+        .map((event) => event.status ?? event.payload.status)
+        .filter((status): status is string => !!status),
+    ),
+  ]
+    .sort()
+    .map((status) => [status, label(status)] as [string, string]);
+  const activeFilters: ActivityFilter = {
+    actor: retainAvailableFilter(filters.actor, actorOptions),
+    task: retainAvailableFilter(filters.task, taskOptions),
+    phase: retainAvailableFilter(filters.phase, phaseOptions),
+    type: retainAvailableFilter(filters.type, typeOptions),
+    status: retainAvailableFilter(filters.status, statusOptions),
+  };
+  const hasFilters = Object.values(activeFilters).some(Boolean);
+  const filtered = filterEvents(events, activeFilters),
     shown = compact ? filtered.slice(-6) : filtered;
   const field = (
     key: keyof ActivityFilter,
@@ -323,8 +387,10 @@ export function ActivityView({
       {title}
       <select
         aria-label={title}
-        value={filters[key]}
-        onChange={(e) => setFilters((f) => ({ ...f, [key]: e.target.value }))}
+        value={activeFilters[key]}
+        onChange={(event) =>
+          setFilters({ ...activeFilters, [key]: event.target.value })
+        }
       >
         <option value="">All</option>
         {options.map(([value, text]) => (
@@ -350,46 +416,27 @@ export function ActivityView({
       </div>
       {!compact && (
         <div className="activity-filters">
-          {field(
-            "actor",
-            "Agent",
-            s.actors.map((a) => [a.session.id, actorName(a)]),
-          )}
-          {field(
-            "task",
-            "Task",
-            s.tasks.map((t) => [t.id, t.description]),
-          )}
-          {field(
-            "phase",
-            "Phase",
-            [
-              ...new Set(
-                events.map((e) => e.phase).filter((p): p is string => !!p),
-              ),
-            ]
-              .sort()
-              .map((p) => [p, label(p)]),
-          )}
-          {field(
-            "type",
-            "Event type",
-            [...new Set(events.map((e) => e.event_type))]
-              .sort()
-              .map((p) => [p, label(p)]),
-          )}
-          {field(
-            "status",
-            "Event status",
-            [
-              ...new Set(
-                events
-                  .map((e) => e.status ?? e.payload.status)
-                  .filter((p): p is string => !!p),
-              ),
-            ]
-              .sort()
-              .map((p) => [p, label(p)]),
+          {field("actor", "Agent", actorOptions)}
+          {field("task", "Task", taskOptions)}
+          {field("phase", "Phase", phaseOptions)}
+          {field("type", "Event type", typeOptions)}
+          {field("status", "Event status", statusOptions)}
+          {hasFilters && (
+            <button
+              type="button"
+              className="text-link"
+              onClick={() =>
+                setFilters({
+                  actor: "",
+                  task: "",
+                  phase: "",
+                  type: "",
+                  status: "",
+                })
+              }
+            >
+              Clear filters
+            </button>
           )}
         </div>
       )}

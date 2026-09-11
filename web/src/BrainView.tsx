@@ -4,34 +4,86 @@ import { FlowGraph } from "./Graphs";
 import { Badge, Empty, label } from "./ui";
 import type { Brain, Snapshot } from "./types";
 
+type BrainRequest =
+  | { id: string; status: "loading" }
+  | { id: string; status: "success"; value: Brain }
+  | { id: string; status: "error"; message: string };
+
 export function BrainView({ snapshot }: { snapshot: Snapshot }) {
-  const [brain, setBrain] = useState<Brain | null>(null);
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
-  const [category, setCategory] = useState("");
-  const [error, setError] = useState("");
+  const [requestAttempt, setRequestAttempt] = useState(0);
+  const [request, setRequest] = useState<BrainRequest>({
+    id: "",
+    status: "loading",
+  });
+  const [categorySelection, setCategorySelection] = useState({
+    requestId: "",
+    value: "",
+  });
   const [graph, setGraph] = useState(false);
+
+  const projectId = snapshot.run.project_id;
+  const runId = snapshot.run.id;
+  const requestUrl = `/api/projects/${projectId}/brain?run_id=${runId}&query=${encodeURIComponent(submitted)}`;
+  const requestId = JSON.stringify([
+    projectId,
+    runId,
+    submitted,
+    requestAttempt,
+  ]);
+  const currentRequest: BrainRequest =
+    request.id === requestId ? request : { id: requestId, status: "loading" };
+  const brain =
+    currentRequest.status === "success" ? currentRequest.value : null;
+  const error = currentRequest.status === "error" ? currentRequest.message : "";
+  const loading = currentRequest.status === "loading";
+
   useEffect(() => {
     const controller = new AbortController();
-    get<Brain>(
-      `/api/projects/${snapshot.run.project_id}/brain?run_id=${snapshot.run.id}&query=${encodeURIComponent(submitted)}`,
-      controller.signal,
-    )
+    get<Brain>(requestUrl, controller.signal)
       .then((result) => {
-        setBrain(result);
-        setError("");
+        if (!controller.signal.aborted) {
+          setRequest({ id: requestId, status: "success", value: result });
+        }
       })
       .catch((failure: unknown) => {
-        if (!controller.signal.aborted) setError(String(failure));
+        if (!controller.signal.aborted) {
+          setRequest({
+            id: requestId,
+            status: "error",
+            message: String(failure),
+          });
+        }
       });
     return () => controller.abort();
-  }, [snapshot.run.project_id, snapshot.run.id, submitted]);
+  }, [requestId, requestUrl]);
+
+  const categories = brain
+    ? [...new Set(brain.matches.map((match) => match.item.type))].sort()
+    : [];
+  const category =
+    categorySelection.requestId === requestId &&
+    categories.includes(categorySelection.value)
+      ? categorySelection.value
+      : "";
   const matches =
-    brain?.matches.filter((m) => !category || m.item.type === category) ?? [];
+    brain?.matches.filter(
+      (match) => !category || match.item.type === category,
+    ) ?? [];
   const entities = brain?.entities.slice(0, 150) ?? [];
-  const ids = new Set(entities.map((e) => e.id));
+  const ids = new Set(entities.map((entity) => entity.id));
+
+  const retrySearch = () => {
+    setRequestAttempt((attempt) => attempt + 1);
+  };
+
   return (
-    <section className="panel operational-panel">
+    <section
+      className="panel operational-panel"
+      aria-busy={loading}
+      aria-label="Project Brain"
+    >
       <div className="section-heading">
         <h2>Project Brain</h2>
         {brain && <Badge status={brain.freshness.fresh ? "PASS" : "STALE"} />}
@@ -42,19 +94,28 @@ export function BrainView({ snapshot }: { snapshot: Snapshot }) {
           onSubmit={(event) => {
             event.preventDefault();
             setSubmitted(query);
+            setRequestAttempt((attempt) => attempt + 1);
+            setCategorySelection({ requestId: "", value: "" });
           }}
         >
           <label className="field-label">
             Search project knowledge
             <input
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(event) => setQuery(event.target.value)}
               placeholder="Architecture, conventions, decisions…"
             />
           </label>
-          <button type="submit">Search</button>
+          <button type="submit">{loading ? "Searching…" : "Search"}</button>
         </form>
-        {error && <p role="alert">{error}</p>}
+        {error && (
+          <div role="alert">
+            <p>{error}</p>
+            <button type="button" onClick={retrySearch}>
+              Retry search
+            </button>
+          </div>
+        )}
         {brain && (
           <>
             <dl className="brain-health">
@@ -78,16 +139,19 @@ export function BrainView({ snapshot }: { snapshot: Snapshot }) {
                 Category{" "}
                 <select
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(event) =>
+                    setCategorySelection({
+                      requestId,
+                      value: event.target.value,
+                    })
+                  }
                 >
                   <option value="">All categories</option>
-                  {[...new Set(brain.matches.map((m) => m.item.type))]
-                    .sort()
-                    .map((type) => (
-                      <option key={type} value={type}>
-                        {label(type)}
-                      </option>
-                    ))}
+                  {categories.map((type) => (
+                    <option key={type} value={type}>
+                      {label(type)}
+                    </option>
+                  ))}
                 </select>
               </label>
               <button aria-pressed={graph} onClick={() => setGraph(!graph)}>
@@ -109,14 +173,15 @@ export function BrainView({ snapshot }: { snapshot: Snapshot }) {
             }))}
             edges={brain.relations
               .filter(
-                (r) =>
-                  ids.has(r.source_entity_id) && ids.has(r.target_entity_id),
+                (relation) =>
+                  ids.has(relation.source_entity_id) &&
+                  ids.has(relation.target_entity_id),
               )
-              .map((r) => ({
-                id: r.id,
-                source: r.source_entity_id,
-                target: r.target_entity_id,
-                label: r.relation_type,
+              .map((relation) => ({
+                id: relation.id,
+                source: relation.source_entity_id,
+                target: relation.target_entity_id,
+                label: relation.relation_type,
                 type: "smoothstep",
               }))}
           />
@@ -126,9 +191,13 @@ export function BrainView({ snapshot }: { snapshot: Snapshot }) {
           </p>
         </>
       )}
-      {!brain ? (
-        <Empty>Retrieving committed knowledge…</Empty>
-      ) : !matches.length ? (
+      {loading ? (
+        <Empty>
+          {submitted
+            ? "Searching committed knowledge…"
+            : "Retrieving committed knowledge…"}
+        </Empty>
+      ) : error ? null : !brain || !matches.length ? (
         <Empty>No matching knowledge. Try a different query.</Empty>
       ) : (
         <div className="memory-grid">

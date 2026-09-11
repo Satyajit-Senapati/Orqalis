@@ -15,6 +15,7 @@ const output = resolve(root, "docs", "assets");
 const temporaryRoot = resolve(root, ".tools");
 const staging = resolve(temporaryRoot, "dashboard-capture-" + randomUUID());
 const screenshotNames = [
+  "workspace-overview",
   "mission-control",
   "orchestration-graph",
   "agent-inspector",
@@ -116,12 +117,21 @@ async function settleLayout() {
   await page.waitForTimeout(75);
 }
 
-async function assertPitchSurface() {
+async function assertPitchSurface(runSurface = true) {
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(page.locator(".shell")).toBeVisible();
-  await expect(page.locator(".run-summary")).toBeVisible();
-  await expect(page.locator(".phase-strip")).toBeVisible();
-  await expect(page.locator(".panel").first()).toBeVisible();
+  if (runSurface) {
+    await expect(page.locator(".run-summary")).toBeVisible();
+    await expect(page.locator(".phase-strip")).toBeVisible();
+    await expect(
+      page.getByRole("tabpanel").locator(".panel").first(),
+    ).toBeVisible();
+  } else {
+    await expect(page.getByRole("heading", { name: "Projects" })).toBeVisible();
+    await expect(page.locator(".project-card").first()).toBeVisible();
+    await expect(page.locator(".overview-stat-grid")).toBeVisible();
+    await expect(page.locator("#projects.panel")).toBeVisible();
+  }
   const palette = await page.evaluate(() => {
     const style = globalThis.getComputedStyle(
       globalThis.document.documentElement,
@@ -148,6 +158,19 @@ async function assertPitchSurface() {
   ).toBeTruthy();
 }
 
+async function overview() {
+  const response = await page.goto(base + "/", {
+    waitUntil: "domcontentloaded",
+  });
+  if (!response?.ok())
+    throw new Error(
+      "Workspace page returned HTTP " + (response?.status() ?? "unknown"),
+    );
+  await page.getByRole("heading", { name: "Projects" }).waitFor();
+  await settleLayout();
+  await assertPitchSurface(false);
+}
+
 async function run(id) {
   const response = await page.goto(base + "/runs/" + id, {
     waitUntil: "domcontentloaded",
@@ -169,9 +192,9 @@ async function view(name) {
   await assertPitchSurface();
 }
 
-async function capture(name) {
+async function capture(name, runSurface = true) {
   await settleLayout();
-  await assertPitchSurface();
+  await assertPitchSurface(runSurface);
   const image = await page.screenshot({
     path: resolve(staging, name + ".jpg"),
     type: "jpeg",
@@ -217,11 +240,15 @@ async function publish() {
 
 let published = false;
 try {
+  await overview();
+  await capture("workspace-overview", false);
   await run(active);
   await capture("mission-control");
   await run(completed);
   await view("Graph");
-  await expect(page.locator(".react-flow__node")).toHaveCount(9);
+  await expect(
+    page.getByRole("tabpanel", { name: "Graph" }).locator(".react-flow__node"),
+  ).toHaveCount(9);
   await capture("orchestration-graph");
   await page.getByRole("tab", { name: "Agents", exact: true }).click();
   await page
@@ -236,7 +263,9 @@ try {
   await expect(page.locator(".timeline-bar").first()).toBeVisible();
   await capture("execution-timeline");
   await view("Project Brain");
-  await expect(page.locator(".memory-card").first()).toBeVisible();
+  await expect(page.locator(".memory-card").first()).toBeVisible({
+    timeout: 15000,
+  });
   await capture("project-memory");
   await view("Skills");
   await expect(page.locator(".skill-card")).toHaveCount(3);
@@ -272,7 +301,7 @@ try {
   await publish();
   published = true;
   console.log(
-    "Captured, validated, and published eight persisted runtime views.",
+    "Captured, validated, and published nine persisted runtime views.",
   );
 } finally {
   try {

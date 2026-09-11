@@ -23,16 +23,18 @@ active work; reduced-motion preferences remove nonessential movement.
 
 This is a presentation change. Progress, timing, task state, acceptance and activity still
 come from persisted Core telemetry, and the browser does not gain orchestration logic.
-Pitch-dark is the only available UI theme. The root README presents eight real application
+Pitch-dark is the only available UI theme. The local Home dashboard now exposes registered
+projects, project-filtered run history, an overflow-safe desktop sidebar, and a complete
+mobile navigation drawer. The root README presents nine real application
 views captured from deterministic persisted integration runs.
 
-Verification passed: 122 Python tests at 85% coverage against PostgreSQL and the Docker
-sandbox, with one upstream Starlette/AnyIO deprecation warning; 25 frontend tests plus
-lint and production build; and 7 strict Playwright tests with 0 skipped across the
+Verification passed: 127 Python tests at 85% coverage against PostgreSQL and the Docker
+sandbox, with one upstream Starlette/AnyIO deprecation warning; 28 frontend tests plus
+lint and production build; and 11 strict Playwright tests with 0 skipped across the
 documented responsive and reduced-motion coverage. The build emits four JavaScript chunks
-of 221.85, 173.14, 62.11 and 54.98 kB.
+of 221.85, 173.14, 75.13 and 54.98 kB.
 
-All eight 1600 x 1180 JPEGs were captured from persisted fixtures with zero browser
+All nine 1600 x 1180 JPEGs were captured from persisted fixtures with zero browser
 diagnostics. Capture publication is atomic, and a forced failed capture preserved every
 existing asset hash. No migration was added.
 
@@ -42,12 +44,14 @@ group IDs, preserving dropped capabilities while keeping bind mounts accessible 
 owned by the caller. The exact Ubuntu reproduction and complete suite pass 123 tests at
 84% coverage against PostgreSQL/pgvector and Docker.
 
-All 12 npm launcher tests and package checks passed. The prepared tarball contained
-56 entries and no forbidden files. Fresh global-prefix version, cold/cached launch,
+All 13 npm launcher tests and package checks passed. The prepared tarball contained
+58 entries and no forbidden files. Fresh global-prefix version, cold/cached launch,
 JSON, invalid-exit and working-directory isolation checks passed. npm publish --dry-run
-passed without upload.
-See
-[dashboard-visual-refresh.json](verification/dashboard-visual-refresh.json).
+passed without upload. Release preparation now rejects stale generated documentation,
+skills, wheel source or frontend assets and removes obsolete generated skills.
+
+See [UI behavior hardening evidence](verification/ui-behavior-hardening.json) and the
+[original visual refresh evidence](verification/dashboard-visual-refresh.json).
 
 See [implementation status](IMPLEMENTATION_STATUS.md) for phase evidence and
 [operation instructions](OPERATIONS.md) for execution policies and recovery.

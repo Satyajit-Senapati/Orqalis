@@ -102,6 +102,13 @@ class LocalGitService:
             .strip()
         )
 
+    def has_commit(self, path: Path, revision: str) -> bool:
+        try:
+            self.resolve_commit(path, revision)
+        except GitError:
+            return False
+        return True
+
     def status(self, path: Path) -> GitStatus:
         root = self.root(path)
         head = self.resolve_commit(root, "HEAD")

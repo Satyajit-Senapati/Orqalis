@@ -65,11 +65,21 @@ class MemoryService:
             previous = repository.latest_snapshot(project.id)
             if previous and previous.indexed_commit_sha == head:
                 return MemoryRefresh(snapshot=previous, reused=True)
-            paths = (
-                self.git.changed_files(project.repo_root, previous.indexed_commit_sha, head)
-                if previous
-                else self.git.tracked_files(project.repo_root, head)
+            rebuild = bool(
+                previous and not self.git.has_commit(project.repo_root, previous.indexed_commit_sha)
             )
+            if previous and not rebuild:
+                paths = self.git.changed_files(project.repo_root, previous.indexed_commit_sha, head)
+            elif previous:
+                paths = tuple(
+                    sorted(
+                        set(self.git.tracked_files(project.repo_root, head)).union(
+                            file.path for file in repository.files(project.id)
+                        )
+                    )
+                )
+            else:
+                paths = self.git.tracked_files(project.repo_root, head)
             scanned = []
             invalidations = 0
             for path in paths:
@@ -87,7 +97,7 @@ class MemoryService:
                     repository.remove_file(project.id, path)
                     continue
                 old = repository.current_file(project.id, path)
-                if old and old.content_hash == indexed.content_hash:
+                if old and old.content_hash == indexed.content_hash and not rebuild:
                     continue
                 item = MemoryItem(
                     project_id=project.id,

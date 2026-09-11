@@ -1,10 +1,115 @@
 import { createHash } from "node:crypto";
-import { readFile, readdir } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const sha256 = (bytes) =>
   createHash("sha256").update(bytes).digest("hex");
+
+function ignoredSourceArtifact(name) {
+  return (
+    name === "__pycache__" ||
+    name === ".DS_Store" ||
+    name === "Thumbs.db" ||
+    name.endsWith(".pyc") ||
+    name.endsWith(".pyo")
+  );
+}
+
+async function treeFiles(root, relativeRoot, ignoreArtifacts = false) {
+  const output = [];
+  async function visit(relativePath) {
+    const entries = await readdir(resolve(root, relativePath), {
+      withFileTypes: true,
+    });
+    for (const entry of entries) {
+      if (ignoreArtifacts && ignoredSourceArtifact(entry.name)) continue;
+      const child = `${relativePath}/${entry.name}`;
+      if (entry.isSymbolicLink()) {
+        throw new Error(`Release content cannot contain symlinks: ${child}`);
+      }
+      if (entry.isDirectory()) await visit(child);
+      else if (entry.isFile()) output.push(child);
+      else throw new Error(`Unsupported release content: ${child}`);
+    }
+  }
+  await visit(relativeRoot);
+  return output.sort();
+}
+
+async function requireSameFile(source, prepared, area) {
+  if (sha256(await readFile(source)) !== sha256(await readFile(prepared))) {
+    throw new Error(
+      `Prepared ${area} is stale. Run scripts/prepare_npm.py before packing.`,
+    );
+  }
+}
+
+async function requireSameTree(repository, packageRoot, relativeRoot, area) {
+  const sourceFiles = await treeFiles(repository, relativeRoot, true);
+  const preparedFiles = await treeFiles(packageRoot, relativeRoot);
+  if (JSON.stringify(sourceFiles) !== JSON.stringify(preparedFiles)) {
+    throw new Error(
+      `Prepared ${area} inventory is stale. Run scripts/prepare_npm.py before packing.`,
+    );
+  }
+  await Promise.all(
+    sourceFiles.map((name) =>
+      requireSameFile(
+        resolve(repository, name),
+        resolve(packageRoot, name),
+        area,
+      ),
+    ),
+  );
+}
+
+export async function verifyPreparedCheckout(packageRoot, repository) {
+  const pkg = JSON.parse(
+    await readFile(resolve(packageRoot, "package.json"), "utf8"),
+  );
+  const manifest = JSON.parse(
+    await readFile(resolve(packageRoot, "vendor/manifest.json"), "utf8"),
+  );
+  for (const name of ["LICENSE", "README.md", "SIGNOFF.md", "compose.yaml"]) {
+    await requireSameFile(
+      resolve(repository, name),
+      resolve(packageRoot, name),
+      name,
+    );
+  }
+  await requireSameTree(repository, packageRoot, "docs", "documentation");
+  await requireSameTree(
+    repository,
+    packageRoot,
+    "src/orqalis/skills/bundled",
+    "bundled skills",
+  );
+  const wheel = `orqalis-${pkg.version}-py3-none-any.whl`;
+  await requireSameFile(
+    resolve(repository, ".tools/release", wheel),
+    resolve(packageRoot, "vendor", wheel),
+    "release wheel",
+  );
+  const webFiles = await treeFiles(repository, "web/dist");
+  const web = Object.fromEntries(
+    await Promise.all(
+      webFiles.map(async (name) => [
+        name.slice("web/dist/".length),
+        sha256(await readFile(resolve(repository, name))),
+      ]),
+    ),
+  );
+  if (
+    JSON.stringify(Object.keys(manifest.web ?? {}).sort()) !==
+      JSON.stringify(Object.keys(web).sort()) ||
+    Object.entries(web).some(([name, hash]) => manifest.web[name] !== hash)
+  ) {
+    throw new Error(
+      "Prepared frontend is stale. Rebuild the UI and run scripts/prepare_npm.py before packing.",
+    );
+  }
+}
 
 export async function verifyBundle(root) {
   const pkg = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
@@ -66,11 +171,23 @@ if (
   for (const name of [
     "LICENSE",
     "README.md",
+    "SIGNOFF.md",
     "docs/PUBLISHING.md",
     "compose.yaml",
   ]) {
     if (!(await readFile(resolve(root, name), "utf8")).trim()) {
       throw new Error("Missing release documentation: " + name);
     }
+  }
+  const repository = resolve(root, "../..");
+  if (resolve(repository, "packages/npm") === root) {
+    let checkout = true;
+    try {
+      await access(resolve(repository, "scripts/prepare_npm.py"));
+    } catch (error) {
+      if (error?.code === "ENOENT") checkout = false;
+      else throw error;
+    }
+    if (checkout) await verifyPreparedCheckout(root, repository);
   }
 }

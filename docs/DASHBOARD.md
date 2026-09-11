@@ -33,7 +33,7 @@ Pitch-dark is the sole product theme and the theme used for documentation captur
 | --- | --- |
 | Core / CLI / SDK | Shared deterministic workflow, DAG scheduler, provider/tool boundaries, repair and safe Git delivery |
 | Persistence | PostgreSQL/pgvector, SQLAlchemy, migration-backed canonical runtime records |
-| Browser shell | Fixed Pitch-dark presentation, responsive navigation and inspectors |
+| Browser shell | Fixed Pitch-dark presentation, project-aware navigation, responsive drawer and inspectors |
 | Graph | Selectable orchestration, task and actor relationships with stable topology-aware layout |
 | Inspector | Keyboard-accessible actor/task detail with attempts, context, tools, evidence and artifacts |
 | Activity | Chronological persisted events, five filters, bounded pending/history buffers and explicit error states |
@@ -41,9 +41,21 @@ Pitch-dark is the sole product theme and the theme used for documentation captur
 | Skills | Trusted metadata catalog and event-derived load counts, users and last-load times |
 | Project Brain | Git freshness, sources, provenance, categories, search and knowledge relationships |
 | Verification / delivery | Evidence, review history, repair ancestry, Guardian reports, final validation and Git diffs |
-| Product media | Eight optimized screenshots captured from deterministic persisted integration runs |
+| Product media | Nine optimized screenshots captured from deterministic persisted integration runs |
 
 ## Navigation
+
+Home projects the local workspace before a run is selected. Project cards expose the
+registered repository root, default branch, run totals, active work and latest run without
+inventing another workspace domain model. Selecting a project stores the filter in the URL,
+filters history and makes Mission Control resolve to that project's latest run. View all
+projects clears the filter.
+
+The desktop sidebar keeps its footer fixed and scrolls the project/recent-run body when the
+viewport is short. At 900px and below, the same controls move into a keyboard-accessible
+drawer; nothing is removed from mobile navigation. Menu reports its expanded state, Escape
+and the backdrop close it, and focus returns to the trigger. Primary and project controls
+have at least 44px mobile hit targets.
 
 Mission is the run overview: goal, branch, current phase, recorded timing, plan progress,
 active workers, acceptance and a graph of actual actors/tasks. Task retry counts derive
@@ -122,6 +134,7 @@ capture leaves the previously published screenshots unchanged.
 
 | View | Capture |
 | --- | --- |
+| Project workspace | [workspace-overview.jpg](assets/workspace-overview.jpg) |
 | Mission overview | [mission-control.jpg](assets/mission-control.jpg) |
 | Task DAG | [orchestration-graph.jpg](assets/orchestration-graph.jpg) |
 | Agent inspector | [agent-inspector.jpg](assets/agent-inspector.jpg) |
@@ -132,10 +145,10 @@ capture leaves the previously published screenshots unchanged.
 | Repository delivery | [repository-delivery.jpg](assets/repository-delivery.jpg) |
 
 Regenerate with the capture command documented in [DEVELOPMENT.md](DEVELOPMENT.md).
-The September 11 refresh produced eight 1600 x 1180 JPEGs with zero browser diagnostics;
-a forced failed-capture check preserved all eight prior hashes. The strict browser suite
-passed 7 tests with 0 skipped across the documented responsive and reduced-motion
+The September 11 refresh produced nine 1600 x 1180 JPEGs with zero browser diagnostics;
+a forced failed-capture check preserved all nine prior hashes. The strict browser suite
+passed 11 tests with 0 skipped across the documented responsive and reduced-motion
 coverage. See the dated
-[verification record](verification/dashboard-visual-refresh.json).
+[verification record](verification/ui-behavior-hardening.json).
 
 See [SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md) for the original architecture reading order.

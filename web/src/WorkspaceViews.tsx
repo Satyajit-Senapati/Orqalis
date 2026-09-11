@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BrainView } from "./BrainView";
 import { DeliveryView } from "./DeliveryView";
 import { EvidenceView } from "./EvidenceView";
@@ -40,16 +40,50 @@ export function WorkspaceViews({
   events: Event[];
 }) {
   const [view, setView] = useState<View>("Mission");
+  const [mountedViews, setMountedViews] = useState<Set<View>>(
+    () => new Set(["Mission"]),
+  );
   const [selection, inspect] = useState<Selection>(null);
-  const [file, setFile] = useState("");
+  const [fileRequest, setFileRequest] = useState({
+    path: "",
+    sequence: 0,
+  });
   const [developer, setDeveloper] = useState(false);
+  const [focusRequest, setFocusRequest] = useState(0);
+  const pendingTabFocus = useRef<View | null>(null);
+  const tabs = useRef<Array<HTMLButtonElement | null>>([]);
+  function activateView(next: View, moveFocus = false) {
+    setMountedViews((current) => {
+      if (current.has(next)) return current;
+      const updated = new Set(current);
+      updated.add(next);
+      return updated;
+    });
+    if (moveFocus) {
+      pendingTabFocus.current = next;
+      setFocusRequest((current) => current + 1);
+    }
+    setView(next);
+  }
+  useEffect(() => {
+    const target = pendingTabFocus.current;
+    if (!target || target !== view) return;
+    const frame = requestAnimationFrame(() => {
+      tabs.current[views.indexOf(target)]?.focus();
+      if (pendingTabFocus.current === target) pendingTabFocus.current = null;
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [focusRequest, view]);
   function openFile(path: string) {
-    setFile(path);
-    setView("Delivery");
+    setFileRequest((current) => ({
+      path,
+      sequence: current.sequence + 1,
+    }));
+    activateView("Delivery", true);
     inspect(null);
   }
   function openMemory() {
-    setView("Project Brain");
+    activateView("Project Brain", true);
     inspect(null);
   }
   return (
@@ -73,12 +107,15 @@ export function WorkspaceViews({
         {views.map((name, index) => (
           <button
             key={name}
+            ref={(node) => {
+              tabs.current[index] = node;
+            }}
             tabIndex={view === name ? 0 : -1}
             role="tab"
             id={"tab-" + index}
             aria-selected={view === name}
-            aria-controls="workspace-panel"
-            onClick={() => setView(name)}
+            aria-controls={"workspace-panel-" + index}
+            onClick={() => activateView(name)}
             onKeyDown={(e) => {
               if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(e.key)) {
                 e.preventDefault();
@@ -90,8 +127,8 @@ export function WorkspaceViews({
                       : (index +
                           (e.key === "ArrowRight" ? 1 : views.length - 1)) %
                         views.length;
-                setView(views[next]);
-                document.getElementById("tab-" + next)?.focus();
+                activateView(views[next]);
+                tabs.current[next]?.focus();
               }
             }}
           >
@@ -99,81 +136,111 @@ export function WorkspaceViews({
           </button>
         ))}
       </div>
-      <div
-        id="workspace-panel"
-        role="tabpanel"
-        aria-labelledby={"tab-" + views.indexOf(view)}
-      >
-        {view === "Mission" && (
-          <div className="mission-stack">
-            <div className="mission-next">
-              <span className="eyebrow">Execution checkpoint</span>
-              <p>{nextWork(s)}</p>
-            </div>
-            <div className="mission-center">
-              <ExecutionGraph
-                snapshot={s}
-                inspect={inspect}
-                initialMode="orchestration"
-              />
-              <AgentList snapshot={s} inspect={inspect} compact />
-            </div>
-            <div className="mission-bottom">
-              <section className="panel acceptance-panel">
-                <div className="section-heading">
-                  <h2>Acceptance contract</h2>
-                  <button
-                    className="text-link"
-                    onClick={() => setView("Acceptance")}
-                  >
-                    View evidence ↗
-                  </button>
-                </div>
-                {s.goal?.criteria.length ? (
-                  s.goal.criteria.map((c) => (
-                    <div className="criterion" key={c.id}>
-                      <div>
-                        <span className="criterion-key">{c.key}</span>
-                        <Badge status={c.status} />
+      {views.map((panelView, index) => (
+        <div
+          key={panelView}
+          id={"workspace-panel-" + index}
+          role="tabpanel"
+          aria-labelledby={"tab-" + index}
+          hidden={view !== panelView}
+        >
+          {mountedViews.has(panelView) && (
+            <>
+              {panelView === "Mission" && (
+                <div className="mission-stack">
+                  <div className="mission-next">
+                    <span className="eyebrow">Execution checkpoint</span>
+                    <p>{nextWork(s)}</p>
+                  </div>
+                  <div className="mission-center">
+                    <ExecutionGraph
+                      snapshot={s}
+                      inspect={inspect}
+                      initialMode="orchestration"
+                      active={view === "Mission"}
+                    />
+                    <AgentList snapshot={s} inspect={inspect} compact />
+                  </div>
+                  <div className="mission-bottom">
+                    <section className="panel acceptance-panel">
+                      <div className="section-heading">
+                        <h2>Acceptance contract</h2>
+                        <button
+                          className="text-link"
+                          onClick={() => activateView("Acceptance", true)}
+                        >
+                          View evidence ↗
+                        </button>
                       </div>
-                      <p>{c.description}</p>
-                      <small>
-                        {c.evidence_refs.length} evidence{" "}
-                        {c.evidence_refs.length === 1 ? "record" : "records"} ·{" "}
-                        {c.validation_spec.kind}
-                      </small>
-                    </div>
-                  ))
-                ) : (
-                  <p className="panel-body">
-                    No acceptance contract has been defined yet.
-                  </p>
-                )}
-              </section>
-              <ActivityView
-                snapshot={s}
-                events={events}
-                inspect={inspect}
-                compact
-              />
-            </div>
-          </div>
-        )}
-        {view === "Graph" && <ExecutionGraph snapshot={s} inspect={inspect} />}
-        {view === "Tasks" && <TaskList snapshot={s} inspect={inspect} />}
-        {view === "Agents" && <AgentList snapshot={s} inspect={inspect} />}
-        {view === "Skills" && <SkillsView snapshot={s} inspect={inspect} />}
-        {view === "Activity" && (
-          <ActivityView snapshot={s} events={events} inspect={inspect} />
-        )}
-        {view === "Timeline" && <Timeline snapshot={s} />}
-        {view === "Acceptance" && <EvidenceView snapshot={s} />}
-        {view === "Project Brain" && <BrainView snapshot={s} />}
-        {view === "Delivery" && (
-          <DeliveryView snapshot={s} initialPath={file} inspect={inspect} />
-        )}
-        {view === "Metrics" && <MetricsView snapshot={s} runs={runs} />}
-      </div>
+                      {s.goal?.criteria.length ? (
+                        s.goal.criteria.map((c) => (
+                          <div className="criterion" key={c.id}>
+                            <div>
+                              <span className="criterion-key">{c.key}</span>
+                              <Badge status={c.status} />
+                            </div>
+                            <p>{c.description}</p>
+                            <small>
+                              {c.evidence_refs.length} evidence{" "}
+                              {c.evidence_refs.length === 1
+                                ? "record"
+                                : "records"}{" "}
+                              · {c.validation_spec.kind}
+                            </small>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="panel-body">
+                          No acceptance contract has been defined yet.
+                        </p>
+                      )}
+                    </section>
+                    <ActivityView
+                      snapshot={s}
+                      events={events}
+                      inspect={inspect}
+                      compact
+                    />
+                  </div>
+                </div>
+              )}
+              {panelView === "Graph" && (
+                <ExecutionGraph
+                  snapshot={s}
+                  inspect={inspect}
+                  active={view === "Graph"}
+                />
+              )}
+              {panelView === "Tasks" && (
+                <TaskList snapshot={s} inspect={inspect} />
+              )}
+              {panelView === "Agents" && (
+                <AgentList snapshot={s} inspect={inspect} />
+              )}
+              {panelView === "Skills" && (
+                <SkillsView snapshot={s} inspect={inspect} />
+              )}
+              {panelView === "Activity" && (
+                <ActivityView snapshot={s} events={events} inspect={inspect} />
+              )}
+              {panelView === "Timeline" && <Timeline snapshot={s} />}
+              {panelView === "Acceptance" && <EvidenceView snapshot={s} />}
+              {panelView === "Project Brain" && <BrainView snapshot={s} />}
+              {panelView === "Delivery" && (
+                <DeliveryView
+                  snapshot={s}
+                  initialPath={fileRequest.path}
+                  initialPathRequest={fileRequest.sequence}
+                  inspect={inspect}
+                />
+              )}
+              {panelView === "Metrics" && (
+                <MetricsView snapshot={s} runs={runs} />
+              )}
+            </>
+          )}
+        </div>
+      ))}
       <label className="developer-toggle">
         <input
           type="checkbox"

@@ -1,0 +1,101 @@
+{
+  "enhancement": "Workspace navigation and UI behavior hardening",
+  "date": "2026-09-11",
+  "baseline_commit": "3317667b34645eb888b4d33a42f9387230404628",
+  "schema_migrations": [],
+  "backend": {
+    "command": ".venv/Scripts/python.exe -m pytest --cov=orqalis",
+    "environment": [
+      "PostgreSQL 17 with pgvector using a disposable test database",
+      "Docker sandbox using pgvector/pgvector:pg17"
+    ],
+    "passed": 127,
+    "skipped": 0,
+    "coverage_percent": 85,
+    "warnings": [
+      "Upstream Starlette/AnyIO BlockingPortal alias deprecation"
+    ],
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS",
+    "mypy_strict_source_files": 196
+  },
+  "frontend": {
+    "unit_command": "npm run test -- --run",
+    "unit_files_passed": 6,
+    "unit_tests_passed": 28,
+    "eslint": "PASS",
+    "typecheck_and_production_build": "PASS",
+    "javascript_chunks_kb": [
+      221.85,
+      173.14,
+      75.13,
+      54.98
+    ]
+  },
+  "browser": {
+    "command": "npm run test:e2e",
+    "strict_fixture_preflight": "PASS",
+    "workers": 1,
+    "passed": 11,
+    "skipped": 0,
+    "duration_seconds": 54.2,
+    "viewport_widths": [
+      390,
+      768,
+      1024,
+      1440
+    ],
+    "covered_behaviors": [
+      "short desktop sidebar scrolling",
+      "mobile drawer navigation and focus restoration",
+      "project selection and run navigation",
+      "independent project and run API degradation",
+      "event-history degradation with live snapshot retained",
+      "WebSocket replay and reconnect",
+      "graph fitting and keyboard selection",
+      "timeline interval selection without overlapping hit targets",
+      "inspector focus and repeated file selection",
+      "retained workspace view state",
+      "Pitch-dark-only theme and reduced motion"
+    ]
+  },
+  "screenshots": {
+    "count": 9,
+    "dimensions": "1600x1180",
+    "format": "JPEG",
+    "browser_diagnostics": 0,
+    "atomic_publish": "PASS",
+    "failed_capture_preserved_existing_assets": "PASS",
+    "visible_user_home_paths_shortened": "PASS"
+  },
+  "reliability": {
+    "repository_replacement_memory_refresh": "PASS",
+    "windows_command_timeout_repeat_passes": 5,
+    "timeout_cleanup_classification": "PASS"
+  },
+  "distribution": {
+    "artifact": "dist/orqalis-1.0.0.tgz",
+    "package_tests_passed": 13,
+    "entries": 58,
+    "forbidden_entries": 0,
+    "generated_source_freshness_guard": "PASS",
+    "stale_skill_cleanup": "PASS",
+    "npm_publish_dry_run": {
+      "status": "PASS",
+      "uploaded": false
+    },
+    "public_registry_publication": false
+  },
+  "architecture": {
+    "orchestration_logic_added_to_ui": false,
+    "workflow_changes": false,
+    "api_schema_changes": false,
+    "canonical_telemetry_changes": false,
+    "database_changes": false,
+    "migration_required": false
+  },
+  "scope_exclusions": [
+    "live provider credentials",
+    "actual npm registry publication"
+  ]
+}

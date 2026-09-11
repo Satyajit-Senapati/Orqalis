@@ -2,31 +2,63 @@ import { useEffect, useState } from "react";
 import type { Event, Snapshot } from "./types";
 
 export class ApiError extends Error {
-  constructor(public status: number) {
-    super("Orqalis API returned " + status);
+  constructor(
+    public status: number,
+    message = "Orqalis API returned " + status,
+    public code?: string,
+  ) {
+    super(message);
   }
 }
+
 export class EventBuffer {
   private pending: Event[] = [];
   add(batch: Event[]) {
     this.pending = mergeEvents(this.pending, batch, Number.MAX_SAFE_INTEGER);
   }
   take(cursor: number): Event[] {
-    const accepted = this.pending.filter((e) => e.sequence <= cursor);
-    this.pending = this.pending.filter((e) => e.sequence > cursor);
+    const accepted = this.pending.filter((event) => event.sequence <= cursor);
+    this.pending = this.pending.filter((event) => event.sequence > cursor);
     return accepted;
   }
   get size() {
     return this.pending.length;
   }
 }
+
+interface ApiErrorBody {
+  code?: unknown;
+  message?: unknown;
+  detail?: unknown;
+}
+
 export async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
   const response = await fetch(path, {
     signal: signal
       ? AbortSignal.any([signal, AbortSignal.timeout(15000)])
       : AbortSignal.timeout(15000),
   });
-  if (!response.ok) throw new ApiError(response.status);
+  if (!response.ok) {
+    let body: { code?: unknown; message?: unknown; detail?: unknown } | null =
+      null;
+    try {
+      body = (await response.json()) as ApiErrorBody;
+    } catch {
+      // The status remains useful when a proxy returns a non-JSON error page.
+    }
+    const detail =
+      typeof body?.message === "string"
+        ? body.message
+        : typeof body?.detail === "string"
+          ? body.detail
+          : null;
+    const code = typeof body?.code === "string" ? body.code : undefined;
+    throw new ApiError(
+      response.status,
+      detail ? `${detail} (${response.status})` : undefined,
+      code,
+    );
+  }
   return response.json() as Promise<T>;
 }
 
@@ -58,29 +90,46 @@ export function useRun(runId: string | null) {
     const connect = async () => {
       try {
         const state = await get<Snapshot>(`/api/runs/${runId}`, abort.signal);
-        const history = await get<Event[]>(
-          `/api/runs/${runId}/events?after=${Math.max(0, state.last_event_sequence - 200)}&limit=200`,
-          abort.signal,
-        );
         if (stopped) return;
+
+        // A valid snapshot makes Mission Control usable even if older activity
+        // cannot be loaded. New events can still arrive through the stream.
         setSnapshot(state);
-        setEvents(mergeEvents([], history, state.last_event_sequence));
         setError(null);
+
+        let history: Event[] = [];
+        let historyWarning: string | null = null;
+        try {
+          history = await get<Event[]>(
+            `/api/runs/${runId}/events?after=${Math.max(0, state.last_event_sequence - 200)}&limit=200`,
+            abort.signal,
+          );
+        } catch (failure) {
+          if (stopped || abort.signal.aborted) return;
+          historyWarning = `Event history unavailable: ${
+            failure instanceof Error ? failure.message : "request failed"
+          }`;
+        }
+        if (stopped) return;
+
+        setEvents(mergeEvents([], history, state.last_event_sequence));
+        setError(historyWarning);
         let cursor = state.last_event_sequence;
         const pending = new EventBuffer();
         const protocol = location.protocol === "https:" ? "wss" : "ws";
         socket = new WebSocket(
           `${protocol}://${location.host}/ws/runs/${runId}?after=${cursor}`,
         );
-        socket.onopen = () => setConnection("Live");
+        socket.onopen = () =>
+          setConnection(historyWarning ? "Degraded" : "Live");
         socket.onmessage = ({ data }) => {
           try {
             const message = JSON.parse(String(data)) as
               | { type: "events"; events: Event[] }
               | { type: "snapshot"; snapshot: Snapshot };
-            if (message.type === "events" && Array.isArray(message.events))
+            if (message.type === "events" && Array.isArray(message.events)) {
               pending.add(message.events);
-            else if (
+            } else if (
               message.type === "snapshot" &&
               message.snapshot.last_event_sequence >= cursor
             ) {
@@ -101,7 +150,7 @@ export function useRun(runId: string | null) {
         };
         socket.onerror = () => setConnection("Reconnecting");
       } catch (failure) {
-        if (stopped) return;
+        if (stopped || abort.signal.aborted) return;
         setError(
           failure instanceof Error ? failure.message : "Connection failed",
         );

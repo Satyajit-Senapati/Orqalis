@@ -125,6 +125,7 @@ class CommandRunner:
                     except OSError:
                         process.kill()
                         raise
+                execution_started = time.monotonic()
                 assert process.stdout is not None
 
                 def drain() -> None:
@@ -149,13 +150,17 @@ class CommandRunner:
                         if overflow.is_set():
                             error = "output_limit"
                             break
-                        if time.monotonic() - started > command.timeout_seconds:
+                        if time.monotonic() - execution_started > command.timeout_seconds:
                             error = "timeout"
                             break
                         time.sleep(0.02)
                 finally:
                     if error:
-                        _terminate(process)
+                        if job:
+                            # Closing the owned job terminates its entire process tree.
+                            job.close()
+                        else:
+                            _terminate(process)
                     process.wait(timeout=10)
                     # Kill descendants even when their parent exited successfully.
                     if job:
@@ -170,7 +175,9 @@ class CommandRunner:
                 if overflow.is_set():
                     error = "output_limit"
         except (OSError, subprocess.SubprocessError):
-            exit_code, error = None, "command_failed"
+            # Cleanup failures must not replace a timeout, cancellation, or
+            # output-limit result that was already observed.
+            exit_code, error = None, error or "command_failed"
         finally:
             if job:
                 job.close()

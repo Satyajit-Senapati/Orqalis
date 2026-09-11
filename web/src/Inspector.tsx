@@ -26,7 +26,9 @@ export function Inspector({
   openMemory: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const active = !!selection;
+  const selectionKey = selection ? selection.kind + ":" + selection.id : null;
   const timestamp = (value: string | null | undefined) =>
     value ? new Date(value).toLocaleString() : "Not recorded";
   useEffect(() => {
@@ -39,6 +41,14 @@ export function Inspector({
       previous?.focus();
     };
   }, [active]);
+  useEffect(() => {
+    const node = dialog.current;
+    if (!node || !selectionKey) return;
+    requestAnimationFrame(() => {
+      node.scrollTop = 0;
+      titleRef.current?.focus({ preventScroll: true });
+    });
+  }, [selectionKey]);
   if (!selection) return null;
   const actor =
     selection.kind === "actor"
@@ -111,7 +121,9 @@ export function Inspector({
         </button>
       </div>
       <div className="inspector-content">
-        <h2 id="inspector-title">{title}</h2>
+        <h2 ref={titleRef} id="inspector-title" tabIndex={-1}>
+          {title}
+        </h2>
         <Badge
           status={actor?.session.status ?? task?.status ?? "UNAVAILABLE"}
         />

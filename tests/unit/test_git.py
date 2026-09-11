@@ -23,6 +23,8 @@ def test_repository_detection_dirty_paths_and_committed_read(git_repo: Path) -> 
     status = service.status(git_repo)
     assert status.branch == "main"
     assert status.changed_paths == ()
+    assert service.has_commit(git_repo, status.head)
+    assert not service.has_commit(git_repo, "0" * 40)
     (git_repo / "main.py").write_text("changed locally\n")
     (git_repo / "with spaces.txt").write_text("untracked\n")
     assert service.status(git_repo).changed_paths == ("main.py", "with spaces.txt")

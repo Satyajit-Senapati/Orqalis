@@ -13,10 +13,12 @@ interface DiffResponse {
 export function DeliveryView({
   snapshot,
   initialPath = "",
+  initialPathRequest = 0,
   inspect: inspectRecord,
 }: {
   snapshot: Snapshot;
   initialPath?: string;
+  initialPathRequest?: number;
   inspect?: Inspect;
 }) {
   const report = snapshot.guardians.at(-1);
@@ -25,6 +27,8 @@ export function DeliveryView({
   const [loadingPath, setLoadingPath] = useState("");
   const requestId = useRef(0);
   const request = useRef<AbortController | null>(null);
+  const diffHeading = useRef<HTMLHeadingElement>(null);
+  const errorMessage = useRef<HTMLParagraphElement>(null);
   const loadDiff = useCallback(
     async (path: string) => {
       const id = ++requestId.current;
@@ -67,7 +71,21 @@ export function DeliveryView({
     return () => {
       current = false;
     };
-  }, [initialPath, loadDiff]);
+  }, [initialPath, initialPathRequest, loadDiff]);
+  useEffect(() => {
+    const target = diff
+      ? diffHeading.current
+      : error
+        ? errorMessage.current
+        : null;
+    if (!target) return;
+    const frame = requestAnimationFrame(() => {
+      if (!target.getClientRects().length) return;
+      target.scrollIntoView({ block: "center", inline: "nearest" });
+      target.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [diff, error]);
   useEffect(
     () => () => {
       requestId.current += 1;
@@ -179,13 +197,15 @@ export function DeliveryView({
         </p>
       )}
       {error && (
-        <p className="panel-body" role="alert">
+        <p ref={errorMessage} className="panel-body" role="alert" tabIndex={-1}>
           {error}
         </p>
       )}
       {diff && (
         <div className="panel-body">
-          <h3>{diff.path}</h3>
+          <h3 ref={diffHeading} tabIndex={-1}>
+            {diff.path}
+          </h3>
           <pre className="diff-view">
             {diff.diff || "No textual difference."}
           </pre>

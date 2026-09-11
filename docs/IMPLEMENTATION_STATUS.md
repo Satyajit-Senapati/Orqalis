@@ -338,3 +338,60 @@ removing the selector. The build emits no theme bootstrap asset. The JavaScript 
 221.85, 173.14, 62.11 and 54.98 kB. Project Brain browser coverage allows up
 to 15 seconds for its Git-aware API under parallel local test load; this changes only
 the test harness wait and no product timeout, workflow or UI behavior.
+
+## Workspace navigation and interaction hardening - 2026-09-11
+
+Status: complete.
+
+The Home surface now projects registered projects, per-project run counts, active work,
+latest-run links and persisted workspace statistics. Project selection is URL-backed and
+filters run history without adding a Workspace domain model. Mission Control resolves to
+the selected project's latest run. User-home names are shortened in visible repository
+paths while the local full path remains available as hover metadata.
+
+The sidebar uses a bounded scrolling body and fixed Core status on short desktop windows.
+At 900px and below it becomes a complete drawer containing workspace, project, recent-run
+and Core-status controls. Escape and backdrop interaction close the drawer and restore
+focus. Project cards, breadcrumbs and run rows are operable links with current-page state.
+
+Run views retain their mounted state after first use while hidden panels use the native
+hidden attribute and expose no focusable descendants. Graphs refit after topology or view
+visibility changes. Inspector content resets scroll and focus when selection changes;
+Delivery supports repeated inspection of the same file. Timeline intervals use native
+buttons and a non-overlapping keyboard selector. Task, Activity, Project Brain and Metrics
+filters recover when their available options or requests change. A missing event-history
+request degrades Activity while keeping the authoritative snapshot and live stream usable.
+Home project/run requests fail independently and preserve whichever persisted projection
+remains available.
+
+Git-aware memory now detects when an indexed commit disappeared because a repository was
+recreated at the same path, performs a full tracked refresh and invalidates obsolete facts.
+Windows command execution starts its timeout after job containment makes the child runnable;
+timeout cleanup terminates the job first and preserves timeout, cancellation and output-limit
+classifications when cleanup itself reports an error.
+
+Validation: 127 Python tests passed with 85% coverage against the disposable PostgreSQL/
+pgvector database and Docker sandbox; Ruff lint, Ruff format and strict mypy passed across
+196 source files. The one warning is the existing upstream Starlette/AnyIO alias deprecation.
+Frontend ESLint and the TypeScript/Vite production build passed; 28 Vitest tests passed.
+The strict persisted-fixture Playwright suite passed 11 tests with 0 skipped, covering
+project navigation, 1024x500 sidebar scrolling, the 390px drawer and focus recovery,
+partial API failures, degraded history, live reconnection, graphs, timeline controls,
+inspectors, retained view state, dark-only presentation and reduced motion. Local E2E uses
+one worker by default to protect the single Core process; ORQALIS_E2E_WORKERS can override it.
+
+Nine 1600 x 1180 JPEGs were regenerated from persisted runtime fixtures with zero browser
+diagnostics. Capture stages the complete set before replacement; a deliberate readiness
+failure left the published images intact. The new workspace overview is included in the
+README and visible user-home path labels are privacy-safe.
+
+The npm release preparation now byte-compares generated root files, exact documentation and
+skill trees, the staged/built wheel, and recorded web bundle hashes. Preparation replaces
+old generated trees, so removed skills cannot remain in a package. Thirteen launcher and
+package-guard tests pass. The prepared artifact contains 58 entries and no forbidden files;
+npm publish --dry-run performs no upload.
+
+Architecture impact: presentation, reliability and release verification only. Existing
+Core services remain authoritative. No workflow transition, canonical telemetry entity,
+API schema, provider abstraction, database table or migration changed.
+Verification record: [ui-behavior-hardening.json](verification/ui-behavior-hardening.json).

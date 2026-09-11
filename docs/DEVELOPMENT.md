@@ -118,8 +118,9 @@ The fixtures create disposable Git repositories outside the workspace so VS Code
 repository-wide Git discovery do not treat them as Orqalis branches or changes. By
 default they live below the OS temporary directory; ORQALIS_QA_FIXTURE_ROOT selects
 another external root and rejects the checkout or any descendant. Only small ignored
-run-ID pointer files remain under .tools. Browser checks inspect
-actors, DAG, timeline, evidence, Project Brain, delivery diff, metrics, dark-theme enforcement,
+run-ID pointer files remain under .tools. Browser checks inspect project navigation,
+short-height sidebar scrolling, mobile drawer focus, partial API failure, actors, DAG,
+timeline, evidence, Project Brain, delivery diff, metrics, dark-theme enforcement,
 responsive layout and reload/reconnection. The UI obtains all statistics from Core.
 
 ## Architecture and migrations
@@ -191,7 +192,7 @@ node web/scripts/capture-dashboard.mjs
 ~~~
 
 The capture script reads .tools/ui-fixture.json, .tools/ui-completed.json and
-.tools/ui-repair.json, and writes eight optimized JPEGs to docs/assets.
+.tools/ui-repair.json, and writes nine optimized JPEGs to docs/assets, including the project workspace overview.
 ORQALIS_UI_URL can target a different loopback instance. Installed Chrome is the default;
 ORQALIS_BROWSER_CHANNEL=chromium selects Playwright Chromium. These are test-provider
 runs through real Core services, not mock production data.
@@ -199,13 +200,13 @@ runs through real Core services, not mock production data.
 Reseed immediately before a documentation capture so an active run does not display an
 old elapsed time. The capture verifies the Pitch-dark design tokens, shell, summary,
 phase strip and panels; waits for web fonts and the authoritative snapshot; rejects
-same-origin HTTP/request failures, console errors and page errors; and requires all eight
+same-origin HTTP/request failures, console errors and page errors; and requires all nine
 images at 1600 x 1180. It writes into a staging directory, validates the complete set,
 then atomically replaces docs/assets. Any failure removes staging and leaves every
 published asset unchanged. Nonessential animation is disabled for the still image;
 motion behavior is covered separately with reduced-motion browser checks.
 
-Review all eight outputs for legible text, real task/actor/evidence values and consistent
+Review all nine outputs for legible text, real task/actor/evidence values and consistent
 semantic colors before committing them. The supplied visual reference is direction only;
 do not copy third-party logos, template assets or branding into Orqalis.
 

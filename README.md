@@ -131,6 +131,11 @@ Elapsed time, progress, task status and usage come from persisted records.
 
 ## Mission Control
 
+Home is the project launcher for the local workspace. It lists every registered project,
+repository root, default branch, run count, active work and latest run. Select a project to
+filter its history; Mission Control opens the latest run in that project. The sidebar keeps
+projects and recent runs reachable on short desktop windows, and becomes an accessible
+Menu drawer at 900px and below.
 The run screen puts the goal, branch, phase and execution graph together. Inspect a node
 to see its owner, task history, dependencies, context references, skills, tools, artifacts,
 evidence and errors. Keyboard selectors and task/actor lists provide alternatives to
@@ -157,6 +162,10 @@ animation and layout help explain the run, but never create execution state or p
 | Delivery / Metrics | Which files changed, did the gates pass, and what usage was reported? |
 
 ### Dashboard gallery
+
+[![Project workspace overview with registered projects, active runs and persisted runtime statistics](docs/assets/workspace-overview.jpg)](docs/assets/workspace-overview.jpg)
+
+*The project workspace keeps project switching, run history and Mission Control entry points visible before a run is selected.*
 
 | Live orchestration | Dependency-aware plan |
 | --- | --- |
@@ -772,6 +781,12 @@ orqalis.cmd serve
 
 Use an unused port when another server is listening. Ctrl+C stops a foreground server.
 There is no ui stop command in V1.
+
+Home opens with the registered project list and persisted run summary. Choose a project card
+or sidebar project to filter run history. **View all projects** clears the filter. Mission
+Control opens the newest run for the current project, while the latest-run action on each
+card opens that project directly. At 900px and below, use **Menu** to open the same workspace,
+project and recent-run navigation; Escape or the shaded backdrop closes it and returns focus.
 
 Select a run or open its /runs/RUN_UUID URL.
 

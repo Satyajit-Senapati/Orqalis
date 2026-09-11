@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { WorkspaceViews } from "./WorkspaceViews";
+import { Overview } from "./Overview";
+import { Sidebar } from "./Sidebar";
 import { RunControls } from "./Controls";
 import { duration, get, useRun } from "./api";
 import type { Project, Run } from "./types";
 
-import { Badge, label, statusTone } from "./ui";
+import { Badge, label } from "./ui";
 import { retryCount, visibleTasks } from "./runtime";
 const phases = [
   "CONTEXT",
@@ -19,27 +21,53 @@ const phases = [
 ];
 export function App() {
   const runId = location.pathname.match(/^\/runs\/([^/]+)$/)?.[1] ?? null;
+  const requestedProjectId = !runId
+    ? new URLSearchParams(location.search).get("project")
+    : null;
   const { snapshot, events, connection, error } = useRun(runId);
   const [projects, setProjects] = useState<Project[]>([]);
   const [runs, setRuns] = useState<Run[]>([]);
-  const [historyPage, setHistoryPage] = useState(0);
   const [homeError, setHomeError] = useState<string | null>(null);
+  const [homeLoading, setHomeLoading] = useState(true);
   useEffect(() => {
     const abort = new AbortController();
-    Promise.all([
+    void Promise.allSettled([
       get<Project[]>("/api/projects", abort.signal),
       get<Run[]>("/api/runs", abort.signal),
-    ])
-      .then(([projectList, runList]) => {
-        setProjects(projectList);
-        setRuns(runList);
-      })
-      .catch((failure: unknown) => {
-        if (!abort.signal.aborted) setHomeError(String(failure));
-      });
+    ]).then(([projectResult, runResult]) => {
+      if (abort.signal.aborted) return;
+      const failures: string[] = [];
+      if (projectResult.status === "fulfilled") {
+        setProjects(projectResult.value);
+      } else {
+        failures.push("Projects: " + String(projectResult.reason));
+      }
+      if (runResult.status === "fulfilled") {
+        setRuns(runResult.value);
+      } else {
+        failures.push("Runs: " + String(runResult.reason));
+      }
+      setHomeError(failures.length ? failures.join(". ") : null);
+      setHomeLoading(false);
+    });
     return () => abort.abort();
   }, []);
-  const project = projects.find((item) => item.id === snapshot?.run.project_id);
+  const selectedProjectId =
+    snapshot?.run.project_id ??
+    (projects.some((item) => item.id === requestedProjectId)
+      ? requestedProjectId
+      : null);
+  const project = projects.find((item) => item.id === selectedProjectId);
+  const displayedRuns = snapshot
+    ? [snapshot.run, ...runs.filter((run) => run.id !== snapshot.run.id)]
+    : runs;
+  const coreStatus = runId
+    ? connection
+    : homeLoading
+      ? "Connecting"
+      : homeError
+        ? "Degraded"
+        : "Ready";
   const workers =
     snapshot?.actors.filter((actor) => actor.session.actor_type === "AGENT") ??
     [];
@@ -52,67 +80,34 @@ export function App() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <aside className="sidebar">
-        <a className="brand" href="/" aria-label="Orqalis home">
-          <span className="brand-mark">◈</span>ORQALIS
-          <span className="local-tag">LOCAL</span>
-        </a>
-        <div className="workspace">
-          <span className="workspace-icon">⌘</span>
-          <div>
-            <strong>{project?.name ?? "Your workspace"}</strong>
-            <small>
-              {projects.length} registered{" "}
-              {projects.length === 1 ? "project" : "projects"}
-            </small>
-          </div>
-        </div>
-        <span className="nav-caption">WORKSPACE</span>
-        <nav aria-label="Primary">
-          <a href="/" className={!runId ? "selected" : ""}>
-            <span aria-hidden="true">▦</span>Overview
-          </a>
-          <a
-            href={runId ? `/runs/${runId}` : "/"}
-            className={runId ? "selected" : ""}
-          >
-            <span aria-hidden="true">◎</span>Mission Control
-          </a>
-        </nav>
-        <div className="nav-caption recent-heading">
-          RECENT RUNS <span>{runs.length}</span>
-        </div>
-        <nav className="recent-runs" aria-label="Recent runs">
-          {runs.slice(0, 7).map((run) => (
-            <a
-              key={run.id}
-              href={`/runs/${run.id}`}
-              className={run.id === runId ? "current-run" : ""}
-            >
-              <i
-                className={`run-dot dot-${run.state.toLowerCase()} tone-${statusTone(run.state)}`}
-              />
-              <span>{run.request}</span>
-            </a>
-          ))}
-        </nav>
-        <div className="sidebar-bottom">
-          <span className="connection-dot" />
-          Orqalis Core<small>Local execution · durable state</small>
-        </div>
-      </aside>
+      <Sidebar
+        projects={projects}
+        runs={displayedRuns}
+        runId={runId}
+        selectedProjectId={selectedProjectId}
+        coreStatus={coreStatus}
+      />
       <div className="main-shell">
         <header className="topbar">
           <div>
-            Workspace <span>/</span>{" "}
-            <strong>{runId ? "Mission Control" : "Overview"}</strong>
+            <a className="breadcrumb-link" href="/">
+              Workspace
+            </a>{" "}
+            <span>/</span>{" "}
+            <strong>
+              {runId ? "Mission Control" : (project?.name ?? "Overview")}
+            </strong>
           </div>
           <span className="connection" role="status">
-            <i className={connection === "Live" ? "green" : "amber"} />
-            {runId ? connection : "Local instance"}
+            <i
+              className={
+                ["Live", "Ready"].includes(coreStatus) ? "green" : "amber"
+              }
+            />
+            {runId ? connection : coreStatus}
           </span>
         </header>
-        <main id="main-content">
+        <main id="main-content" tabIndex={-1}>
           {(error || homeError) && (
             <div className="error-banner" role="alert">
               {error ?? homeError}.{" "}
@@ -122,70 +117,19 @@ export function App() {
             </div>
           )}
           {!runId ? (
-            <>
-              <div className="page-heading">
-                <div>
-                  <span className="eyebrow">YOUR ENGINEERING WORKSPACE</span>
-                  <h1>Local Mission Control</h1>
-                  <p>Runs, agents, and evidence. One view of your work.</p>
-                </div>
+            homeLoading ? (
+              <div className="empty">
+                <span>◇</span>
+                <h2>Loading workspace</h2>
+                <p>Reading registered projects and persisted runs…</p>
               </div>
-              <section className="panel home-runs">
-                <div className="section-heading">
-                  <h2>Run history</h2>
-                  <span>{runs.length} runs</span>
-                </div>
-                {runs.length ? (
-                  runs
-                    .slice(historyPage * 50, (historyPage + 1) * 50)
-                    .map((run) => (
-                      <a
-                        className="history-row"
-                        key={run.id}
-                        href={`/runs/${run.id}`}
-                      >
-                        <div>
-                          <strong>{run.request}</strong>
-                          <small>
-                            {run.target_branch} ·{" "}
-                            {new Date(run.created_at).toLocaleString()}
-                          </small>
-                        </div>
-                        <Badge status={run.state} />
-                        <span>↗</span>
-                      </a>
-                    ))
-                ) : (
-                  <div className="empty">
-                    <span>◎</span>
-                    <h3>No runs yet</h3>
-                    <p>Runs created through Orqalis will appear here.</p>
-                  </div>
-                )}
-                {runs.length > 50 && (
-                  <nav
-                    className="section-heading"
-                    aria-label="Run history pages"
-                  >
-                    <button
-                      disabled={historyPage === 0}
-                      onClick={() => setHistoryPage((p) => p - 1)}
-                    >
-                      Previous runs
-                    </button>
-                    <span>
-                      Page {historyPage + 1} of {Math.ceil(runs.length / 50)}
-                    </span>
-                    <button
-                      disabled={(historyPage + 1) * 50 >= runs.length}
-                      onClick={() => setHistoryPage((p) => p + 1)}
-                    >
-                      Next runs
-                    </button>
-                  </nav>
-                )}
-              </section>
-            </>
+            ) : (
+              <Overview
+                projects={projects}
+                runs={runs}
+                selectedProjectId={selectedProjectId}
+              />
+            )
           ) : !snapshot ? (
             <div className="empty">
               <span>◎</span>
@@ -323,7 +267,11 @@ export function App() {
                 })}
               </section>
               <RunControls snapshot={snapshot} />
-              <WorkspaceViews snapshot={snapshot} runs={runs} events={events} />
+              <WorkspaceViews
+                snapshot={snapshot}
+                runs={displayedRuns}
+                events={events}
+              />
               <footer className="run-footer">
                 <span>
                   Snapshot {new Date(snapshot.server_time).toLocaleTimeString()}{" "}

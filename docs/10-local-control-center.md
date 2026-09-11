@@ -47,6 +47,16 @@ Orqalis
     └── Delivery
 ```
 
+The Home surface must expose every registered project as an operable control with its
+repository root, default branch, persisted run counts, active work, and latest-run entry.
+Project selection may use URL-backed presentation state and filters the run history; it
+does not create a second workflow or a duplicate Workspace domain record.
+
+Navigation must remain complete at every supported viewport. A short desktop viewport
+uses a bounded scroll region without clipping the Core status. Tablet and mobile layouts
+use an accessible drawer that retains workspace, project, recent-run, and status access,
+reports expanded state, closes with Escape or backdrop interaction, and restores focus.
+
 ## 4. Mission Control
 
 The primary live-run screen includes:

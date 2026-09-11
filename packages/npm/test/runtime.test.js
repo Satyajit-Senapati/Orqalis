@@ -13,7 +13,7 @@ import {
 import { tmpdir, platform } from "node:os";
 import { join, resolve, sep } from "node:path";
 import test from "node:test";
-import { sha256, verifyBundle } from "../lib/bundle.js";
+import { sha256, verifyBundle, verifyPreparedCheckout } from "../lib/bundle.js";
 import {
   cacheRoot,
   findPython,
@@ -54,6 +54,70 @@ async function fixture(t) {
   return root;
 }
 
+async function preparedCheckout(t) {
+  const repository = await mkdtemp(join(tmpdir(), "orqalis-checkout-test-"));
+  t.after(async () => {
+    assert.ok(resolve(repository).startsWith(resolve(tmpdir()) + sep));
+    await rm(repository, { recursive: true, force: true });
+  });
+  const packageRoot = join(repository, "packages/npm");
+  for (const directory of [
+    "docs",
+    "src/orqalis/skills/bundled/example",
+    "web/dist",
+    ".tools/release",
+    "packages/npm/docs",
+    "packages/npm/src/orqalis/skills/bundled/example",
+    "packages/npm/vendor",
+  ]) {
+    await mkdir(join(repository, directory), { recursive: true });
+  }
+  const direct = {
+    LICENSE: "MIT fixture",
+    "README.md": "README fixture",
+    "SIGNOFF.md": "Sign-off fixture",
+    "compose.yaml": "services: {}",
+  };
+  for (const [name, content] of Object.entries(direct)) {
+    await writeFile(join(repository, name), content);
+    await writeFile(join(packageRoot, name), content);
+  }
+  const trees = {
+    "docs/guide.md": "Guide fixture",
+    "src/orqalis/skills/bundled/example/skill.toml": "id = example",
+  };
+  for (const [name, content] of Object.entries(trees)) {
+    await writeFile(join(repository, name), content);
+    await writeFile(join(packageRoot, name), content);
+  }
+  await writeFile(
+    join(packageRoot, "package.json"),
+    JSON.stringify({ version: "1.0.0", license: "MIT" }),
+  );
+  const wheelName = "orqalis-1.0.0-py3-none-any.whl";
+  const wheel = "wheel fixture";
+  const requirements = "locked fixture";
+  const frontend = "<html>fixture</html>";
+  await writeFile(join(repository, ".tools/release", wheelName), wheel);
+  await writeFile(join(packageRoot, "vendor", wheelName), wheel);
+  await writeFile(join(packageRoot, "vendor/requirements.txt"), requirements);
+  await writeFile(join(repository, "web/dist/index.html"), frontend);
+  await writeFile(
+    join(packageRoot, "vendor/manifest.json"),
+    JSON.stringify({
+      schema: 1,
+      version: "1.0.0",
+      license: "MIT",
+      files: {
+        [wheelName]: sha256(wheel),
+        "requirements.txt": sha256(requirements),
+      },
+      web: { "index.html": sha256(frontend) },
+    }),
+  );
+  return { packageRoot, repository };
+}
+
 test("bundle validates hashes, rejects tampering and extra packed files", async (t) => {
   const root = await fixture(t);
   assert.equal((await verifyBundle(root)).version, "1.0.0");
@@ -75,6 +139,56 @@ test("bundle rejects mismatched versions and path traversal", async (t) => {
     JSON.stringify({ ...manifest, files: { "../outside": sha256("") } }),
   );
   await assert.rejects(verifyBundle(root), /exactly/);
+});
+
+test("checkout prepack rejects stale generated release content", async (t) => {
+  const { packageRoot, repository } = await preparedCheckout(t);
+  await verifyPreparedCheckout(packageRoot, repository);
+
+  await writeFile(join(repository, "README.md"), "changed");
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /README\.md is stale/,
+  );
+  await writeFile(join(repository, "README.md"), "README fixture");
+
+  const extraDoc = join(packageRoot, "docs/extra.md");
+  await writeFile(extraDoc, "stale");
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /documentation inventory is stale/,
+  );
+  await rm(extraDoc);
+
+  const extraSkill = join(
+    packageRoot,
+    "src/orqalis/skills/bundled/example/stale.md",
+  );
+  await writeFile(extraSkill, "stale");
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /bundled skills inventory is stale/,
+  );
+  await rm(extraSkill);
+
+  await writeFile(join(repository, "web/dist/index.html"), "changed");
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /frontend is stale/,
+  );
+  await writeFile(
+    join(repository, "web/dist/index.html"),
+    "<html>fixture</html>",
+  );
+
+  await writeFile(
+    join(repository, ".tools/release/orqalis-1.0.0-py3-none-any.whl"),
+    "changed",
+  );
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /release wheel is stale/,
+  );
 });
 
 test("Python discovery requires supported Python and honors explicit override", () => {
@@ -278,6 +392,7 @@ test("prepack requires database configuration for installs without a checkout", 
   for (const name of [
     "LICENSE",
     "README.md",
+    "SIGNOFF.md",
     "docs/PUBLISHING.md",
     "compose.yaml",
   ]) {
