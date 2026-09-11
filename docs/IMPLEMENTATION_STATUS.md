@@ -89,10 +89,10 @@ DAG ordering independent of database row order.
 No new Phase 14 schema revision: new settings and event payload fields are additive JSON,
 and preparation uses existing Task/TaskExecution/ActorSession records.
 
-Canonical numbered documents, handoff and sign-off are preserved exactly. The current Ruff
-version formats Markdown Python blocks, so signed-off inputs are excluded from formatting;
-README only adds links to implementation documentation. MANIFEST.json remains the original
-input manifest, not a release artifact manifest.
+Canonical numbered documents, handoff and sign-off were preserved exactly at this checkpoint.
+The current Ruff version formats Markdown Python blocks, so signed-off inputs are excluded
+from formatting; README only adds links to implementation documentation. The extraction
+manifest remained historical input metadata until the later canonical-document cleanup.
 
 
 ## V1 release checkpoint
@@ -395,3 +395,17 @@ Architecture impact: presentation, reliability and release verification only. Ex
 Core services remain authoritative. No workflow transition, canonical telemetry entity,
 API schema, provider abstraction, database table or migration changed.
 Verification record: [ui-behavior-hardening.json](verification/ui-behavior-hardening.json).
+
+## Canonical-document cleanup - 2026-09-11
+
+Status: complete.
+
+The frozen extraction `MANIFEST.json` and generated all-in-one design export were removed.
+Every recorded extraction hash had become stale after approved implementation and npm
+distribution amendments, while the combined export duplicated the maintained modular
+specifications. `SIGNOFF.md`, `CODEX_HANDOFF.md`, `CONSOLIDATION_NOTES.md` and the numbered
+documents remain the canonical source set. `SIGNOFF.md` remains part of the npm package's
+release evidence; implementation-only handoff and reconciliation files remain excluded from
+the published package.
+
+No runtime, API, schema, migration or UI behavior changed.

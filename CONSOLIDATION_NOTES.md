@@ -23,8 +23,11 @@ Only the files in this v1.2 consolidated package should be handed to Codex as ac
 
 The release owner selected global npm installation and requested removal of redundant
 installation routes. ADR 0002, SIGNOFF, CODEX_HANDOFF, the architecture/interface/UI/
-release-plan documents and the consolidated design now carry this same amendment.
+release-plan documents now carry this same amendment.
 It supersedes earlier wheel/source installation guidance, while preserving Python Core,
 SDK contributor setup and all signed-off runtime/security/acceptance invariants.
-MANIFEST.json remains the extraction manifest for the original v1.2 input package;
-it is not a checksum manifest for the amended documents or current npm release.
+
+The original extraction manifest and generated combined Markdown export were removed after
+implementation. Their frozen hashes and duplicated content no longer represented the
+maintained repository. `SIGNOFF.md`, `CODEX_HANDOFF.md`, these reconciliation notes and the
+numbered documents under `docs/` remain the active modular source of truth.

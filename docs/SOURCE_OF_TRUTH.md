@@ -18,8 +18,8 @@ Orqalis is a provider-agnostic, goal-driven multi-agent engineering orchestrator
 10. `docs/08-features-and-roadmap.md` - consolidated V1/V1.5/V2/V3 feature roadmap.
 11. `docs/09-implementation-plan.md` - authoritative phased build plan and PR sequence.
 12. `docs/10-local-control-center.md` - Mission Control, orchestrator/agent/task visualization, timers, stats, Project Brain, and delivery UI.
-13. `CODEX_HANDOFF.md` - implementation instructions for Codex after the architecture is understood.
-14. `CONSOLIDATION_NOTES.md` - reconciliation notes and superseded inconsistencies.
+13. `CODEX_HANDOFF.md` - repository-only implementation instructions for Codex after the architecture is understood.
+14. `CONSOLIDATION_NOTES.md` - repository-only reconciliation notes and superseded inconsistencies.
 
 ## Product principle
 
@@ -49,3 +49,7 @@ This index preserves the original reading order. The release-owner's 2026-09-10 
 amendment is recorded in [SIGNOFF](../SIGNOFF.md) and
 [ADR 0002](adr/0002-npm-distribution.md), and mirrored in the affected canonical documents.
 Use npm for application installation; source setup is for contributors and SDK development.
+
+The original extraction manifest and generated all-in-one Markdown export are intentionally
+absent. They became stale as approved amendments were incorporated. This modular source set
+is authoritative and avoids maintaining a competing duplicate design.
