@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Snapshot } from "./types";
 
 type RunCommand = "pause" | "resume" | "cancel";
-type ThemePreference = "system" | "dark" | "light";
 type Fetcher = (
   input: RequestInfo | URL,
   init?: RequestInit,
@@ -11,27 +10,6 @@ type Fetcher = (
 interface CommandOptions {
   fetcher?: Fetcher;
   timeoutMs?: number;
-}
-
-export function readThemePreference(
-  storage?: Pick<Storage, "getItem">,
-): ThemePreference {
-  try {
-    const value = (storage ?? globalThis.localStorage).getItem("orqalis-theme");
-    return value === "system" || value === "light" || value === "dark"
-      ? value
-      : "dark";
-  } catch {
-    return "dark";
-  }
-}
-
-function persistThemePreference(theme: ThemePreference): void {
-  try {
-    globalThis.localStorage.setItem("orqalis-theme", theme);
-  } catch {
-    // Storage can be unavailable in restricted browser contexts; the theme still applies.
-  }
 }
 
 async function responseError(response: Response): Promise<string> {
@@ -92,37 +70,6 @@ export async function postRunCommand(
   }
 }
 
-export function ThemeControl() {
-  const [theme, setTheme] = useState<ThemePreference>(readThemePreference);
-  useEffect(() => {
-    persistThemePreference(theme);
-    const media = matchMedia("(prefers-color-scheme: dark)");
-    const apply = () => {
-      const resolved =
-        theme === "system" ? (media.matches ? "dark" : "light") : theme;
-      document.documentElement.dataset.theme = resolved;
-      document
-        .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-        ?.setAttribute("content", resolved === "dark" ? "#07070f" : "#eef3f6");
-    };
-    apply();
-    media.addEventListener("change", apply);
-    return () => media.removeEventListener("change", apply);
-  }, [theme]);
-  return (
-    <label className="theme-control">
-      <span className="sr-only">Color theme</span>
-      <select
-        value={theme}
-        onChange={(e) => setTheme(e.target.value as ThemePreference)}
-      >
-        <option value="system">System theme</option>
-        <option value="dark">Dark theme</option>
-        <option value="light">Light theme</option>
-      </select>
-    </label>
-  );
-}
 export function RunControls({ snapshot }: { snapshot: Snapshot }) {
   const [error, setError] = useState("");
   const [busyAction, setBusyAction] = useState<RunCommand | null>(null);

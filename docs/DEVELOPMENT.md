@@ -119,7 +119,7 @@ repository-wide Git discovery do not treat them as Orqalis branches or changes. 
 default they live below the OS temporary directory; ORQALIS_QA_FIXTURE_ROOT selects
 another external root and rejects the checkout or any descendant. Only small ignored
 run-ID pointer files remain under .tools. Browser checks inspect
-actors, DAG, timeline, evidence, Project Brain, delivery diff, metrics, theme persistence,
+actors, DAG, timeline, evidence, Project Brain, delivery diff, metrics, dark-theme enforcement,
 responsive layout and reload/reconnection. The UI obtains all statistics from Core.
 
 ## Architecture and migrations
@@ -215,7 +215,7 @@ motion, empty/error states and a forced socket disconnect. Activity filters use 
 accessible names. The original browser contracts continue to run.
 
 For the visual refresh, retain assertions that status is also communicated by text or
-icons, the selected theme survives refresh, narrow layouts do not overflow, active-state
+icons, the dark theme remains fixed across refresh, narrow layouts do not overflow, active-state
 motion stops under prefers-reduced-motion, and screenshots are reconstructed from
 persisted API/event data.
 

@@ -799,8 +799,8 @@ Timeline pages through 50 tracks at a time; Activity keeps the latest 200 events
 API retains persisted history. See the [dashboard tour](docs/DASHBOARD.md) for all display
 limits, provenance and real screenshots.
 
-New browsers default to the vivid Pitch-dark presentation; system and light themes remain
-available. Role and status accents retain labels and icons so meaning does not depend on
+The UI always uses the vivid Pitch-dark presentation; system and light themes are not
+offered. Role and status accents retain labels and icons so meaning does not depend on
 color. Live transitions remain subtle, and reduced-motion preferences suppress
 nonessential movement. Developer mode exposes public structured data, not private model
 reasoning.

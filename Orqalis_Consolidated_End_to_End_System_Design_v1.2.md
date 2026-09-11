@@ -1785,7 +1785,7 @@ Complete the local visual operating surface after the orchestration vertical sli
 - Project Brain memory/knowledge-graph view.
 - Changes/diff, tests, tools, and delivery views.
 - Historical run/project metrics and run comparison.
-- Light/dark/system themes, responsive/a11y, developer mode.
+- Fixed Pitch-dark theme, responsive/a11y, developer mode.
 
 ### Acceptance
 - User can understand who is working on what, for how long, what is blocked, why a criterion failed, and what Orqalis will do next without reading raw logs.
@@ -2057,7 +2057,7 @@ Optional local developer mode can reveal typed request/result payloads, Context 
 
 Recommended: React + TypeScript + Vite, Tailwind CSS, accessible headless primitives, TanStack Query, a small local UI-state store, React Flow, Recharts, and Monaco where code/diff viewing is needed.
 
-Visual direction: professional engineering mission control; dense but calm; restrained accents; clear semantic states; dark/light/system themes; keyboard navigation; responsive desktop/tablet layouts; reduced-motion support; subtle live transitions only where useful.
+Visual direction: professional engineering mission control; dense but calm; restrained accents; clear semantic states; fixed Pitch-dark theme; keyboard navigation; responsive desktop/tablet layouts; reduced-motion support; subtle live transitions only where useful.
 
 The frontend loads an authoritative snapshot then streams incremental events. UI-only state is limited to filters, panel selection, layout, and other presentation preferences.
 

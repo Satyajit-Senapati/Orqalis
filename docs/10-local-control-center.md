@@ -194,8 +194,8 @@ Recommended: React + TypeScript + Vite, Tailwind CSS, accessible headless primit
 Visual direction: professional engineering mission control; dense but calm; a
 Pitch-inspired primary dark canvas with deep navy and purple surfaces, layered
 magenta/violet/cyan gradients, luminous role accents and clear semantic states.
-Light and system themes remain available. Text, icons and shapes duplicate all
-color-coded meaning. Live motion is subtle and state-aware, never a fabricated activity
+Pitch-dark is the only UI theme. Text, icons and shapes duplicate all color-coded
+meaning. Live motion is subtle and state-aware, never a fabricated activity
 signal; reduced-motion settings remove nonessential movement. Keyboard navigation,
 responsive desktop/tablet/mobile layouts and readable contrast remain release
 requirements.

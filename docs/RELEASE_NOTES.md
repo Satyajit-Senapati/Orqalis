@@ -23,14 +23,14 @@ active work; reduced-motion preferences remove nonessential movement.
 
 This is a presentation change. Progress, timing, task state, acceptance and activity still
 come from persisted Core telemetry, and the browser does not gain orchestration logic.
-Light and system themes remain available. The root README presents eight real application
+Pitch-dark is the only available UI theme. The root README presents eight real application
 views captured from deterministic persisted integration runs.
 
 Verification passed: 122 Python tests at 85% coverage against PostgreSQL and the Docker
-sandbox, with one upstream Starlette/AnyIO deprecation warning; 26 frontend tests plus
+sandbox, with one upstream Starlette/AnyIO deprecation warning; 25 frontend tests plus
 lint and production build; and 7 strict Playwright tests with 0 skipped across the
 documented responsive and reduced-motion coverage. The build emits four JavaScript chunks
-of 221.85, 173.14, 63.37 and 54.98 kB.
+of 221.85, 173.14, 62.11 and 54.98 kB.
 
 All eight 1600 x 1180 JPEGs were captured from persisted fixtures with zero browser
 diagnostics. Capture publication is atomic, and a forced failed capture preserved every

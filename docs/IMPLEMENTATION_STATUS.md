@@ -26,7 +26,7 @@ user branch or implementation was changed. Node 24 is available. Python 3.12.14 
 | 10 Memory curation | Complete | Accepted source-backed promotion, provenance, branch freshness and replay | 81 tests passed; crash after indexing covered |
 | 11 MCP | Complete | Project-scoped tools/resources, assistant-native work, independent review and gated delivery | 83 tests passed; protocol continuity and real stdio startup |
 | 12 Integrations | Complete | Anthropic adapter, Codex/Claude/Copilot MCP templates, external CLI host contract | 21 focused provider tests passed; live credentials unconfigured |
-| 13 Full Control Center | Complete | DAG/Gantt, Project Brain, acceptance/delivery inspection, analytics, comparison and themes | 96 backend tests, 3 frontend tests, active/completed browser checks, strict checks passed |
+| 13 Full Control Center | Complete | DAG/Gantt, Project Brain, acceptance/delivery inspection, analytics, comparison and responsive dark UI | 96 backend tests, 3 frontend tests, active/completed browser checks, strict checks passed |
 | 14 Hardening/release | Complete | Sandbox limits, process cleanup, failure/recovery/concurrency, strict browser preflight and npm release artifact | Locally validated V1 release candidate; registry authentication/publication remains |
 
 ## Decisions and deviations
@@ -67,7 +67,7 @@ Phase 11: MCP SDK 2.2 added with major-version bound. Native implementation assi
 
 Phase 12: no migration. Anthropic adapter normalizes public JSON/tool calls and reported cache usage, enforces local original-schema constraints, and discards private thinking/signatures. Both providers require explicit model/key. External CLI integration is an adapter/launcher contract for future hosts; no arbitrary CLI launcher is enabled. Codex/Claude/Copilot use native MCP today. 21 provider boundary/recovery tests passed; strict checks passed (168 files). No live provider credentials were used.
 
-Phase 13: no migration. API projections expose persisted intervals, aggregate attempts, critical path, actual usage with coverage, artifacts, findings and delivery. React Flow graphs, timeline inspection, evidence, searchable Project Brain, diffs, actor metrics, run comparison and themes pass browser checks against active and fully delivered fixtures. Provider and external artifacts share bounded hash capture. Full backend suite: 96 passed; strict checks and frontend build/lint passed. Phase 14 subsequently addressed execution interruption, descendant cleanup and recovery.
+Phase 13: no migration. API projections expose persisted intervals, aggregate attempts, critical path, actual usage with coverage, artifacts, findings and delivery. React Flow graphs, timeline inspection, evidence, searchable Project Brain, diffs, actor metrics, run comparison and dark-theme presentation pass browser checks against active and fully delivered fixtures. Provider and external artifacts share bounded hash capture. Full backend suite: 96 passed; strict checks and frontend build/lint passed. Phase 14 subsequently addressed execution interruption, descendant cleanup and recovery.
 
 
 Initial Phase 14 release verification (2026-09-10): 117 tests passed without skips against PostgreSQL/Docker
@@ -182,7 +182,7 @@ PostgreSQL/pgvector and Docker. After adding the catalog privacy regression, 16 
 foundation/activity tests and six API/provider/activity tests passed; the suite now has
 120 tests. Ruff lint/format and strict mypy passed (193 source files). Frontend lint,
 TypeScript/build and ten unit tests passed. Seven real browser tests cover active/completed
-runs, graph and inspector interaction, 390/768/1024/1440 widths, theme/reduced motion,
+runs, graph and inspector interaction, 390/768/1024/1440 widths, dark theme/reduced motion,
 empty/error states and forced WebSocket disconnect/reconnect. Deterministic execution
 fixtures also exercised actual review failure, targeted repair, final delivery and memory.
 
@@ -277,7 +277,8 @@ Approved scope:
 - Use subtle state-aware motion without deriving or fabricating workflow progress in the
   browser; honor reduced-motion preferences.
 - Preserve the existing light/system options, responsive navigation and Core-owned
-  orchestration contracts.
+  orchestration contracts. The light/system portion of this historical visual-refresh
+  scope was superseded by the dark-only UI decision recorded below.
 - Regenerate the eight checked-in screenshots from newly seeded persisted integration
   runs and expose them in the root README gallery.
 
@@ -295,7 +296,7 @@ Verification:
   The four JavaScript chunks are 221.85, 173.14, 63.37 and 54.98 kB, removing the earlier
   single-chunk advisory.
 - Browser: the strict npm run test:e2e preflight and Playwright suite passed 7 tests with
-  0 skipped. Coverage includes 390/768/1024/1440 responsive widths, theme persistence,
+  0 skipped. Coverage includes 390/768/1024/1440 responsive widths, dark-theme enforcement,
   reduced motion, reconnect/error states, graphs, inspectors and operational views.
 - Media: eight validated 1600 x 1180 JPEGs were captured from newly seeded persisted
   runs with zero browser diagnostics. Capture writes to staging and publishes atomically;
@@ -321,3 +322,19 @@ sandbox test verifies readable output with matching ownership. An exact Ubuntu r
 passed the targeted test and the complete 123-test suite at 84% coverage against a
 disposable PostgreSQL/pgvector service and the Docker sandbox. Ruff, format and strict mypy
 checks pass; the release commit's GitHub checks are the authoritative hosted result.
+
+Dark-only UI slice: removed the light/system selector, saved-theme handling, prepaint script,
+React Flow theme observer and light-specific styles. The HTML and graph renderer now declare
+dark mode directly. Browser coverage deliberately emulates a light operating-system theme
+and seeds a stale saved light preference, then verifies Pitch-dark remains fixed and no theme
+selector is exposed. No API, workflow, telemetry, database or migration change is required.
+
+Dark-only validation: 25 frontend unit tests passed; ESLint and the TypeScript/Vite
+production build passed. The strict persisted-fixture Playwright suite passed all 7 tests
+with 0 skipped, including an emulated light operating system, stale saved light preference
+and reload. Eight 1600 x 1180 README JPEGs were regenerated atomically with zero browser
+diagnostics, and visual inspection confirmed the top-bar layout remains balanced after
+removing the selector. The build emits no theme bootstrap asset. The JavaScript chunks are
+221.85, 173.14, 62.11 and 54.98 kB. Project Brain browser coverage allows up
+to 15 seconds for its Git-aware API under parallel local test load; this changes only
+the test harness wait and no product timeout, workflow or UI behavior.

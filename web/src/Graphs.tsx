@@ -1,4 +1,4 @@
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useMemo, useState } from "react";
 import {
   Background,
   Controls,
@@ -15,14 +15,6 @@ import { classToken, Empty, label } from "./ui";
 import type { Snapshot } from "./types";
 import { actorName, visibleTasks, type Inspect } from "./runtime";
 
-function observeTheme(callback: () => void) {
-  const observer = new MutationObserver(callback);
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["data-theme"],
-  });
-  return () => observer.disconnect();
-}
 export function FlowGraph({
   nodes,
   edges,
@@ -34,9 +26,6 @@ export function FlowGraph({
   onSelect?: (id: string) => void;
   name: string;
 }) {
-  const theme = useSyncExternalStore(observeTheme, () =>
-    document.documentElement.dataset.theme === "light" ? "light" : "dark",
-  );
   const topology = JSON.stringify({
     ids: nodes.map((n) => n.id),
     links: edges.map((e) => [e.source, e.target]),
@@ -85,7 +74,7 @@ export function FlowGraph({
         minZoom={0.08}
         maxZoom={1.5}
         onNodeClick={(_, node) => onSelect?.(node.id)}
-        colorMode={theme}
+        colorMode="dark"
       >
         <Background gap={24} />
         <Controls showInteractive={false} />

@@ -25,8 +25,7 @@ attention to active work and newly received events, while persisted status and t
 remain the source of truth. The reduced-motion preference removes nonessential animation
 and preserves every status, relationship and control.
 
-Light and system themes remain available. The dark theme is the product's primary visual
-identity and the theme used for documentation captures.
+Pitch-dark is the sole product theme and the theme used for documentation captures.
 
 ## Capability map
 
@@ -34,7 +33,7 @@ identity and the theme used for documentation captures.
 | --- | --- |
 | Core / CLI / SDK | Shared deterministic workflow, DAG scheduler, provider/tool boundaries, repair and safe Git delivery |
 | Persistence | PostgreSQL/pgvector, SQLAlchemy, migration-backed canonical runtime records |
-| Browser shell | Pitch-dark default, light/system alternatives, responsive navigation and inspectors |
+| Browser shell | Fixed Pitch-dark presentation, responsive navigation and inspectors |
 | Graph | Selectable orchestration, task and actor relationships with stable topology-aware layout |
 | Inspector | Keyboard-accessible actor/task detail with attempts, context, tools, evidence and artifacts |
 | Activity | Chronological persisted events, five filters, bounded pending/history buffers and explicit error states |
@@ -83,8 +82,8 @@ RunSnapshot adds skill_activity and context_memory_ids with empty defaults.
 ProviderCallProjection adds selected_skills, context_memory_ids and context_summary.
 GET /api/skills calls the shared SDK registry catalog; GET /api/runs/{id}/events accepts
 an optional bounded limit. Workflow transitions, task execution, CLI behavior, configuration
-and database schemas are unchanged. Existing saved themes are preserved; new browsers
-default to Pitch-dark and can choose light or system.
+and database schemas are unchanged. Stored browser theme preferences are ignored; every
+browser uses Pitch-dark.
 
 ## Performance and boundaries
 

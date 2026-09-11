@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { WorkspaceViews } from "./WorkspaceViews";
-import { ThemeControl, RunControls } from "./Controls";
+import { RunControls } from "./Controls";
 import { duration, get, useRun } from "./api";
 import type { Project, Run } from "./types";
 
@@ -107,7 +107,6 @@ export function App() {
             Workspace <span>/</span>{" "}
             <strong>{runId ? "Mission Control" : "Overview"}</strong>
           </div>
-          <ThemeControl />
           <span className="connection" role="status">
             <i className={connection === "Live" ? "green" : "amber"} />
             {runId ? connection : "Local instance"}

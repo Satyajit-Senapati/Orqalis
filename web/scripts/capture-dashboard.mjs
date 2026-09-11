@@ -157,7 +157,6 @@ async function run(id) {
       "Run page returned HTTP " + (response?.status() ?? "unknown"),
     );
   await page.getByRole("tab", { name: "Mission", exact: true }).waitFor();
-  await page.getByLabel("Color theme").selectOption("dark");
   await expect(page.getByRole("status")).toContainText("Live");
   await settleLayout();
   await assertPitchSurface();

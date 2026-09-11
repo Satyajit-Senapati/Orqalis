@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { postRunCommand, readThemePreference } from "./Controls";
+import { postRunCommand } from "./Controls";
 
 afterEach(() => vi.useRealTimers());
 
@@ -76,9 +76,13 @@ describe("run control requests", () => {
       (_input: RequestInfo | URL, init?: RequestInit) =>
         new Promise<Response>((_resolve, reject) => {
           const commandSignal = init?.signal as AbortSignal;
-          commandSignal.addEventListener("abort", () => reject(commandSignal.reason), {
-            once: true,
-          });
+          commandSignal.addEventListener(
+            "abort",
+            () => reject(commandSignal.reason),
+            {
+              once: true,
+            },
+          );
         }),
     );
 
@@ -88,19 +92,5 @@ describe("run control requests", () => {
     await vi.advanceTimersByTimeAsync(1_500);
 
     await command;
-  });
-});
-
-describe("theme preference", () => {
-  it("accepts supported values and falls back from corrupt storage", () => {
-    expect(readThemePreference({ getItem: () => "system" })).toBe("system");
-    expect(readThemePreference({ getItem: () => "sepia" })).toBe("dark");
-    expect(
-      readThemePreference({
-        getItem: () => {
-          throw new Error("storage denied");
-        },
-      }),
-    ).toBe("dark");
   });
 });
