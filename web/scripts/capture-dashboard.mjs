@@ -1,45 +1,222 @@
-import { chromium, expect } from "@playwright/test";
-import { readFile, mkdir } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
+import { cp, mkdir, readFile, rename, rm, stat } from "node:fs/promises";
 import { resolve } from "node:path";
+import { chromium, expect } from "@playwright/test";
 
 const root = resolve(import.meta.dirname, "../..");
-const fixture = async (name) =>
+const pointer = async (name) =>
   JSON.parse(await readFile(resolve(root, ".tools", name), "utf8"));
-const active = (await fixture("ui-fixture.json")).run_id;
-const completed = (await fixture("ui-completed.json")).run_id;
-const repair = (await fixture("ui-repair.json")).run_id;
+const active = (await pointer("ui-fixture.json")).run_id;
+const completed = (await pointer("ui-completed.json")).run_id;
+const repair = (await pointer("ui-repair.json")).run_id;
 const base = process.env.ORQALIS_UI_URL || "http://127.0.0.1:7842";
-const output = resolve(root, "docs/assets");
-await mkdir(output, { recursive: true });
-const browser = await chromium.launch({
-  channel:
-    process.env.ORQALIS_BROWSER_CHANNEL === "chromium" ? undefined : "chrome",
-  headless: true,
+const baseOrigin = new URL(base).origin;
+const output = resolve(root, "docs", "assets");
+const temporaryRoot = resolve(root, ".tools");
+const staging = resolve(temporaryRoot, "dashboard-capture-" + randomUUID());
+const screenshotNames = [
+  "mission-control",
+  "orchestration-graph",
+  "agent-inspector",
+  "execution-timeline",
+  "project-memory",
+  "skills",
+  "repository-delivery",
+  "verification-repair",
+];
+const captured = new Set();
+await mkdir(temporaryRoot, { recursive: true });
+try {
+  if (await stat(output).catch(() => null))
+    await cp(output, staging, { recursive: true });
+  else await mkdir(staging, { recursive: true });
+} catch (error) {
+  await rm(staging, { recursive: true, force: true });
+  throw error;
+}
+
+const browser = await chromium
+  .launch({
+    channel:
+      process.env.ORQALIS_BROWSER_CHANNEL === "chromium"
+        ? undefined
+        : process.env.ORQALIS_BROWSER_CHANNEL || "chrome",
+    headless: true,
+  })
+  .catch(async (error) => {
+    await rm(staging, { recursive: true, force: true });
+    throw error;
+  });
+const page = await browser
+  .newPage({
+    viewport: { width: 1600, height: 1180 },
+    deviceScaleFactor: 1,
+  })
+  .catch(async (error) => {
+    await browser.close();
+    await rm(staging, { recursive: true, force: true });
+    throw error;
+  });
+const diagnostics = [];
+const sameOrigin = (url) => {
+  try {
+    return new URL(url).origin === baseOrigin;
+  } catch {
+    return false;
+  }
+};
+page.on("pageerror", (error) =>
+  diagnostics.push("pageerror: " + error.message),
+);
+page.on("console", (message) => {
+  if (message.type() === "error") {
+    const location = message.location();
+    diagnostics.push(
+      "console.error: " +
+        message.text() +
+        (location.url
+          ? " @ " + location.url + ":" + (location.lineNumber + 1)
+          : ""),
+    );
+  }
 });
-const page = await browser.newPage({
-  viewport: { width: 1600, height: 1180 },
-  deviceScaleFactor: 1,
+page.on("requestfailed", (request) => {
+  if (sameOrigin(request.url()))
+    diagnostics.push(
+      "requestfailed: " +
+        request.method() +
+        " " +
+        request.url() +
+        " (" +
+        (request.failure()?.errorText || "unknown") +
+        ")",
+    );
 });
-const errors = [];
-page.on("pageerror", (error) => errors.push(error.message));
+page.on("response", (response) => {
+  const url = new URL(response.url());
+  if (url.origin === baseOrigin && response.status() >= 400)
+    diagnostics.push(
+      (url.pathname.startsWith("/api/") ? "API " : "") +
+        "HTTP " +
+        response.status() +
+        ": " +
+        url.pathname,
+    );
+});
+
+async function settleLayout() {
+  await page.evaluate(async () => {
+    await globalThis.document.fonts.ready;
+    await new Promise((done) =>
+      globalThis.requestAnimationFrame(() =>
+        globalThis.requestAnimationFrame(done),
+      ),
+    );
+  });
+  await page.waitForTimeout(75);
+}
+
+async function assertPitchSurface() {
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator(".shell")).toBeVisible();
+  await expect(page.locator(".run-summary")).toBeVisible();
+  await expect(page.locator(".phase-strip")).toBeVisible();
+  await expect(page.locator(".panel").first()).toBeVisible();
+  const palette = await page.evaluate(() => {
+    const style = globalThis.getComputedStyle(
+      globalThis.document.documentElement,
+    );
+    return {
+      canvas: style.getPropertyValue("--canvas").trim().toLowerCase(),
+      magenta: style.getPropertyValue("--magenta").trim().toLowerCase(),
+      violet: style.getPropertyValue("--violet").trim().toLowerCase(),
+      electric: style.getPropertyValue("--electric").trim().toLowerCase(),
+    };
+  });
+  expect(palette).toEqual({
+    canvas: "#07070f",
+    magenta: "#f542a7",
+    violet: "#8b5cf6",
+    electric: "#4b8cff",
+  });
+  expect(
+    await page.evaluate(
+      () =>
+        globalThis.document.documentElement.scrollWidth <=
+        globalThis.document.documentElement.clientWidth + 1,
+    ),
+  ).toBeTruthy();
+}
+
 async function run(id) {
-  await page.goto(base + "/runs/" + id);
+  const response = await page.goto(base + "/runs/" + id, {
+    waitUntil: "domcontentloaded",
+  });
+  if (!response?.ok())
+    throw new Error(
+      "Run page returned HTTP " + (response?.status() ?? "unknown"),
+    );
   await page.getByRole("tab", { name: "Mission", exact: true }).waitFor();
   await page.getByLabel("Color theme").selectOption("dark");
   await expect(page.getByRole("status")).toContainText("Live");
+  await settleLayout();
+  await assertPitchSurface();
 }
+
 async function view(name) {
   await page.getByRole("tab", { name, exact: true }).click();
   await page.getByRole("tabpanel").scrollIntoViewIfNeeded();
+  await settleLayout();
+  await assertPitchSurface();
 }
+
 async function capture(name) {
-  await page.screenshot({
-    path: resolve(output, name + ".jpg"),
+  await settleLayout();
+  await assertPitchSurface();
+  const image = await page.screenshot({
+    path: resolve(staging, name + ".jpg"),
     type: "jpeg",
     quality: 78,
     animations: "disabled",
   });
+  if (image.length < 10000)
+    throw new Error(name + " screenshot is unexpectedly small");
+  captured.add(name);
 }
+
+async function publish() {
+  const backup = resolve(
+    temporaryRoot,
+    "dashboard-assets-backup-" + randomUUID(),
+  );
+  const hasOutput = Boolean(await stat(output).catch(() => null));
+  if (hasOutput) await rename(output, backup);
+  try {
+    await rename(staging, output);
+  } catch (error) {
+    if (hasOutput) {
+      try {
+        await rename(backup, output);
+      } catch (restoreError) {
+        throw new AggregateError(
+          [error, restoreError],
+          "Could not publish screenshots or restore the previous asset directory.",
+          { cause: restoreError },
+        );
+      }
+    }
+    throw error;
+  }
+  if (hasOutput)
+    await rm(backup, { recursive: true, force: true }).catch((error) =>
+      console.warn(
+        "Screenshots were published, but the prior asset backup could not be removed:",
+        error,
+      ),
+    );
+}
+
+let published = false;
 try {
   await run(active);
   await capture("mission-control");
@@ -81,8 +258,27 @@ try {
     .click();
   await page.getByText("Review history", { exact: false }).click();
   await capture("verification-repair");
-  if (errors.length) throw new Error(errors.join("\n"));
-  console.log("Captured eight real persisted runtime views in docs/assets.");
+  await settleLayout();
+
+  const missing = screenshotNames.filter((name) => !captured.has(name));
+  if (missing.length)
+    throw new Error("Missing staged captures: " + missing.join(", "));
+  for (const name of screenshotNames) {
+    const file = await stat(resolve(staging, name + ".jpg"));
+    if (!file.isFile() || file.size < 10000)
+      throw new Error(name + " did not produce a valid staged image");
+  }
+  if (diagnostics.length) throw new Error([...new Set(diagnostics)].join("\n"));
+
+  await publish();
+  published = true;
+  console.log(
+    "Captured, validated, and published eight persisted runtime views.",
+  );
 } finally {
-  await browser.close();
+  try {
+    await browser.close();
+  } finally {
+    if (!published) await rm(staging, { recursive: true, force: true });
+  }
 }

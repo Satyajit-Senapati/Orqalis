@@ -136,6 +136,16 @@ to see its owner, task history, dependencies, context references, skills, tools,
 evidence and errors. Keyboard selectors and task/actor lists provide alternatives to
 graph interaction; mobile inspectors become sheets.
 
+The refreshed visual system uses a Pitch-inspired dark canvas with layered violet,
+magenta and cyan light. Role accents distinguish the Orchestrator, agents, tasks and
+evidence, while semantic status colors remain consistent across cards, graphs, timelines
+and badges. Labels, icons and shapes always carry the same meaning as color. Subtle motion
+can call attention to live work and transitions; reduced-motion preferences remove
+nonessential movement without hiding state.
+
+Every number and state below is projected from persisted Orqalis telemetry. Color,
+animation and layout help explain the run, but never create execution state or progress.
+
 | View | What it answers |
 | --- | --- |
 | Mission / Graph | Who is working, what depends on what, and what is ready next? |
@@ -146,13 +156,17 @@ graph interaction; mobile inspectors become sheets.
 | Skills | Which capabilities are available or loaded, by whom and when? |
 | Delivery / Metrics | Which files changed, did the gates pass, and what usage was reported? |
 
-![Task dependency graph reconstructed from the completed run](docs/assets/orchestration-graph.jpg)
+### Dashboard gallery
 
-[Agent inspector](docs/assets/agent-inspector.jpg) ·
-[Execution timeline](docs/assets/execution-timeline.jpg) ·
-[Project Memory](docs/assets/project-memory.jpg) · [Skills](docs/assets/skills.jpg) ·
-[Verification and repair](docs/assets/verification-repair.jpg) ·
-[Repository delivery](docs/assets/repository-delivery.jpg)
+| Live orchestration | Dependency-aware plan |
+| --- | --- |
+| [![Mission Control with persisted progress, workflow phases, active actors and the live execution graph](docs/assets/mission-control.jpg)](docs/assets/mission-control.jpg) | [![Completed task DAG with dependency edges, responsible roles and task status](docs/assets/orchestration-graph.jpg)](docs/assets/orchestration-graph.jpg) |
+| **Agent context** | **Authoritative timing** |
+| [![Agent inspector with role, current work, context references, skills and attempt history](docs/assets/agent-inspector.jpg)](docs/assets/agent-inspector.jpg) | [![Execution timeline showing persisted phase, actor and task intervals](docs/assets/execution-timeline.jpg)](docs/assets/execution-timeline.jpg) |
+| **Project knowledge** | **Dynamic capabilities** |
+| [![Project Brain with Git-aware memory, provenance and freshness](docs/assets/project-memory.jpg)](docs/assets/project-memory.jpg) | [![Skills catalog with available capabilities and observed load activity](docs/assets/skills.jpg)](docs/assets/skills.jpg) |
+| **Evidence and repair** | **Governed delivery** |
+| [![Acceptance view with failed evidence, repair linkage and reviewer history](docs/assets/verification-repair.jpg)](docs/assets/verification-repair.jpg) | [![Repository delivery view with Change Guardian results, artifacts and Git diff](docs/assets/repository-delivery.jpg)](docs/assets/repository-delivery.jpg) |
 
 The [dashboard tour](docs/DASHBOARD.md) explains each view, attribution limits,
 event windows and screenshot provenance. Unknown metrics remain unknown.
@@ -163,6 +177,8 @@ Private model reasoning is never a dashboard feature.
 **Agents are roles; skills are capabilities; tools execute; providers supply the backend.**
 Skills are discovered from trusted metadata and loaded for a task within its permission
 profile. The dashboard reports observed loads, not an invented acquisition animation.
+Visual movement may emphasize an observed state change, but it never implies that an
+unrecorded skill selection, provider call or task execution occurred.
 
 Project Memory retains architecture facts, repository knowledge, conventions, decisions,
 known issues and curated run knowledge with source files, commits and verification state.
@@ -781,8 +797,11 @@ Timeline pages through 50 tracks at a time; Activity keeps the latest 200 events
 API retains persisted history. See the [dashboard tour](docs/DASHBOARD.md) for all display
 limits, provenance and real screenshots.
 
-New browsers default to dark; system and light themes remain available. Developer mode
-exposes public structured data, not private model reasoning.
+New browsers default to the vivid Pitch-dark presentation; system and light themes remain
+available. Role and status accents retain labels and icons so meaning does not depend on
+color. Live transitions remain subtle, and reduced-motion preferences suppress
+nonessential movement. Developer mode exposes public structured data, not private model
+reasoning.
 
 Progress uses completed task weights in the current plan. Adding repair or delivery work
 can change its denominator. A completion percentage is not an acceptance vote. Timers come

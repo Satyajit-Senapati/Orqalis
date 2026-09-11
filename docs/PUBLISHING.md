@@ -3,9 +3,11 @@
 Orqalis 1.0.0 is MIT licensed. The Python Core remains authoritative; the npm package
 is a distribution launcher for that same Core. The private package in web/ is only the UI.
 
-This repository prepares release artifacts locally. It has not published Orqalis to npm
-and no remote repository or publishing identity is configured here. npm is the sole
-application release channel; see [ADR 0002](adr/0002-npm-distribution.md).
+This repository prepares release artifacts locally and is connected to
+[Satyajit-Senapati/Orqalis](https://github.com/Satyajit-Senapati/Orqalis). It has not
+published Orqalis to npm, and no npm publishing identity or package-name ownership has
+been verified. npm is the sole application release channel; see
+[ADR 0002](adr/0002-npm-distribution.md).
 
 ## What users install
 
@@ -75,6 +77,18 @@ The internal .tools/release/orqalis-1.0.0-py3-none-any.whl is copied to vendor/ 
 preparation. It is not a separate install/release channel. No source archive, native
 installer or Orqalis PyPI publication is part of this workflow.
 
+Verified local release candidate (2026-09-11):
+
+- All package checks and 12 npm launcher tests passed.
+- Package inventory: 56 entries and 0 forbidden entries.
+- Fresh global-prefix version, cold/cached launch, JSON output, invalid-exit behavior and
+  working-directory isolation checks passed.
+- npm publish --dry-run passed without uploading.
+
+At the 2026-09-11 release rehearsal, the registry lookup returned E404, so no published
+package occupied the public orqalis entry. npm whoami returned ENEEDAUTH. Actual publication
+and ownership verification require release-owner authentication and were not performed.
+
 Generated npm vendor/docs/README/sign-off/skill copies and dist artifacts are ignored by Git.
 The root README is the single product/usage source; preparation copies it into npm.
 Edit source files, then regenerate. Never edit generated copies to fix a release.
@@ -121,8 +135,8 @@ Run the normal PostgreSQL/Docker backend and browser suites from
    Refresh lockfiles when changing version or dependencies.
 2. Confirm the MIT copyright attribution. Frontend third-party notices are included
    in the wheel; installed Python dependencies retain their own distribution licenses.
-3. Add real repository, homepage and issue URLs to package metadata once the remote
-   is created. Do not publish placeholder URLs.
+3. Confirm the repository, homepage and issue URLs in package metadata still point to
+   the intended release repository.
 4. Confirm registry ownership and availability using npm whoami and npm view orqalis.
    An E404 availability check does not reserve the name. If unavailable, use a scoped
    package such as @your-org/orqalis; its bin command can still be orqalis.

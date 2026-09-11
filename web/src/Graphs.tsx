@@ -11,7 +11,7 @@ import {
 import { layout } from "./graph-layout";
 import "@xyflow/react/dist/style.css";
 import { duration } from "./api";
-import { Empty, label } from "./ui";
+import { classToken, Empty, label } from "./ui";
 import type { Snapshot } from "./types";
 import { actorName, visibleTasks, type Inspect } from "./runtime";
 
@@ -115,8 +115,13 @@ export function ExecutionGraph({
       nodes.push({
         id: "actor:" + actor.session.id,
         position: { x: 0, y: 0 },
-        className:
-          "task-node actor-node status-" + actor.session.status.toLowerCase(),
+        className: [
+          "task-node",
+          "actor-node",
+          "actor-" + actor.session.actor_type.toLowerCase(),
+          "role-" + classToken(actor.session.role ?? actor.session.actor_type),
+          "status-" + actor.session.status.toLowerCase(),
+        ].join(" "),
         data: {
           label: (
             <>
@@ -150,7 +155,11 @@ export function ExecutionGraph({
       nodes.push({
         id: "task:" + task.id,
         position: { x: 0, y: 0 },
-        className: "task-node status-" + task.status.toLowerCase(),
+        className: [
+          "task-node",
+          "role-" + classToken(task.preferred_role),
+          "status-" + task.status.toLowerCase(),
+        ].join(" "),
         data: {
           label: (
             <>

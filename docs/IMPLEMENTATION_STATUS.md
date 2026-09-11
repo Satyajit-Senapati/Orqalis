@@ -27,7 +27,7 @@ user branch or implementation was changed. Node 24 is available. Python 3.12.14 
 | 11 MCP | Complete | Project-scoped tools/resources, assistant-native work, independent review and gated delivery | 83 tests passed; protocol continuity and real stdio startup |
 | 12 Integrations | Complete | Anthropic adapter, Codex/Claude/Copilot MCP templates, external CLI host contract | 21 focused provider tests passed; live credentials unconfigured |
 | 13 Full Control Center | Complete | DAG/Gantt, Project Brain, acceptance/delivery inspection, analytics, comparison and themes | 96 backend tests, 3 frontend tests, active/completed browser checks, strict checks passed |
-| 14 Hardening/release | In progress | — | Sandbox, failure/recovery/concurrency and V1 release gates |
+| 14 Hardening/release | Complete | Sandbox limits, process cleanup, failure/recovery/concurrency, strict browser preflight and npm release artifact | Locally validated V1 release candidate; registry authentication/publication remains |
 
 ## Decisions and deviations
 
@@ -36,7 +36,10 @@ user branch or implementation was changed. Node 24 is available. Python 3.12.14 
 - PostgreSQL is the runtime store. No SQLite substitution is planned.
 - Contracts and schemas are introduced with their phase, avoiding unused speculative
   infrastructure. Canonical entity names remain unchanged.
-- The implementation release is recorded locally on main. No remote is configured and no implementation-repository push is performed. Product push behavior is tested against disposable local bare repositories.
+- The implementation repository uses
+  https://github.com/Satyajit-Senapati/Orqalis.git as origin; local main tracks
+  origin/main. Product delivery behavior is also tested against disposable local bare
+  repositories.
 
 ## Migrations and checks
 
@@ -64,10 +67,10 @@ Phase 11: MCP SDK 2.2 added with major-version bound. Native implementation assi
 
 Phase 12: no migration. Anthropic adapter normalizes public JSON/tool calls and reported cache usage, enforces local original-schema constraints, and discards private thinking/signatures. Both providers require explicit model/key. External CLI integration is an adapter/launcher contract for future hosts; no arbitrary CLI launcher is enabled. Codex/Claude/Copilot use native MCP today. 21 provider boundary/recovery tests passed; strict checks passed (168 files). No live provider credentials were used.
 
-Phase 13: no migration. API projections expose persisted intervals, aggregate attempts, critical path, actual usage with coverage, artifacts, findings and delivery. React Flow graphs, timeline inspection, evidence, searchable Project Brain, diffs, actor metrics, run comparison and themes pass browser checks against active and fully delivered fixtures. Provider and external artifacts share bounded hash capture. Full backend suite: 96 passed; strict checks and frontend build/lint passed. Phase 14 now addresses execution interruption, descendant cleanup and recovery.
+Phase 13: no migration. API projections expose persisted intervals, aggregate attempts, critical path, actual usage with coverage, artifacts, findings and delivery. React Flow graphs, timeline inspection, evidence, searchable Project Brain, diffs, actor metrics, run comparison and themes pass browser checks against active and fully delivered fixtures. Provider and external artifacts share bounded hash capture. Full backend suite: 96 passed; strict checks and frontend build/lint passed. Phase 14 subsequently addressed execution interruption, descendant cleanup and recovery.
 
 
-Phase 14 release verification: 117 tests passed without skips against PostgreSQL/Docker
+Initial Phase 14 release verification (2026-09-10): 117 tests passed without skips against PostgreSQL/Docker
 (84% coverage). Windows process-tree cleanup, read-only reviewer sandbox, persisted
 cancellation, explicit attempt recovery, requirements restart, revised-goal history, parallel
 context tasks, commit-object/attachment crashes and multi-destination push denial are covered.
@@ -98,12 +101,14 @@ Version 1.0.0 is locally runnable. All 15 canonical implementation phases have a
 working implementation and recorded validation. The final tree retains the signed-off
 architecture and adds no competing runtime/session models.
 
-Final checks: Ruff lint/format, strict mypy (Windows and Linux), staged diff/whitespace
-review, migration compatibility, packaged wheel/source contents, standalone installation,
-database upgrade/doctor, three frontend unit tests and two real browser scenarios.
-The full backend baseline passed 117 tests with no skips; subsequent focused runs verified
-the final migration, worktree-context, provider replay and task-order changes. The suite now
-contains 118 tests. Evidence summary: [verification/v1.0.0.json](verification/v1.0.0.json).
+Final local release-candidate checks: 122 Python tests passed at 85% coverage against
+PostgreSQL/pgvector and the Docker sandbox; 26 frontend tests, lint and production build
+passed; and the strict Playwright suite passed 7 tests with 0 skipped. All 12 npm launcher
+tests passed. The prepared npm artifact contained 56 entries, no forbidden files, and
+passed fresh global-prefix version, cold/cached launch, JSON, invalid-exit and
+working-directory isolation checks. The npm publish dry run passed without upload. Evidence:
+[verification/v1.0.0.json](verification/v1.0.0.json) and
+[dashboard-visual-refresh.json](verification/dashboard-visual-refresh.json).
 
 Known operational boundaries are in [RELEASE_NOTES.md](RELEASE_NOTES.md): live provider
 credentials were unavailable; embedding adapters are optional; remote hosting is disabled;
@@ -142,8 +147,10 @@ Hosted cross-platform CI has not run in this workspace. The previous full backen
 validation remains applicable; this slice changes distribution, not Core behavior.
 
 No architectural deviation or migration. MIT was selected by the release owner.
-Actual registry publication is pending account/name ownership and release-owner action.
-No publishing token, remote URL or public release was created.
+The 2026-09-11 registry lookup returned E404 and found no published orqalis package; npm whoami
+returned ENEEDAUTH. Actual publication requires release-owner authentication and has not
+occurred. The implementation repository origin is
+https://github.com/Satyajit-Senapati/Orqalis.git.
 
 
 ## Mission Control and README enhancement
@@ -254,3 +261,51 @@ tests, Node syntax/lint/format, Ruff/format and strict release-script typing pas
 The internal wheel and npm tarball build successfully; the packaged README matches
 the root source byte-for-byte and no separate guide ships. Python package metadata
 also reads the root README. Runtime regressions retain their previous baseline.
+
+
+## Pitch-dark dashboard visual refresh - 2026-09-11
+
+Status: complete for source, browser behavior and product media.
+
+Approved scope:
+
+- Adopt a Pitch-inspired primary dark visual system with deep navy/purple surfaces and
+  layered magenta, violet and cyan accents.
+- Apply stable semantic status colors and recognizable role accents across the shell,
+  cards, graph, timeline, activity and inspector surfaces.
+- Keep state understandable through text, icons and shape as well as color.
+- Use subtle state-aware motion without deriving or fabricating workflow progress in the
+  browser; honor reduced-motion preferences.
+- Preserve the existing light/system options, responsive navigation and Core-owned
+  orchestration contracts.
+- Regenerate the eight checked-in screenshots from newly seeded persisted integration
+  runs and expose them in the root README gallery.
+
+Architecture impact: presentation and documentation only. No workflow transition,
+runtime record, API contract, provider abstraction, database table or migration is
+introduced by this visual refresh. Mission Control continues to load authoritative
+snapshots and persisted events from Orqalis Core.
+
+Verification:
+
+- Python: 122 passed with 85% coverage against PostgreSQL/pgvector and the Docker sandbox.
+  One upstream Starlette/AnyIO deprecation warning remains; no application test failed
+  because of it.
+- Frontend: 26 unit tests passed; lint and the TypeScript/Vite production build were clean.
+  The four JavaScript chunks are 221.85, 173.14, 63.37 and 54.98 kB, removing the earlier
+  single-chunk advisory.
+- Browser: the strict npm run test:e2e preflight and Playwright suite passed 7 tests with
+  0 skipped. Coverage includes 390/768/1024/1440 responsive widths, theme persistence,
+  reduced motion, reconnect/error states, graphs, inspectors and operational views.
+- Media: eight validated 1600 x 1180 JPEGs were captured from newly seeded persisted
+  runs with zero browser diagnostics. Capture writes to staging and publishes atomically;
+  a forced failed capture left every previously published asset hash unchanged.
+- Data: no migration or schema change.
+- Distribution: all 12 npm launcher tests and package checks passed. The prepared tarball
+  contained 56 entries and 0 forbidden entries. Fresh global-prefix version, cold/cached
+  launch, JSON, invalid-exit and working-directory isolation checks passed. npm publish
+  --dry-run passed without upload.
+
+Registry lookup returned E404 and npm whoami returned ENEEDAUTH. No public registry
+publication was performed.
+Detailed evidence: [dashboard-visual-refresh.json](verification/dashboard-visual-refresh.json).

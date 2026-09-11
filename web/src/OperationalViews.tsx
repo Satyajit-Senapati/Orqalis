@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { duration, get } from "./api";
-import { Badge, Empty, label } from "./ui";
+import { Badge, classToken, Empty, label } from "./ui";
 import {
   actorName,
   taskRelations,
@@ -104,7 +104,9 @@ export function AgentList({
             <button
               key={a.session.id}
               className={
-                "actor-row " +
+                "actor-row role-" +
+                classToken(a.session.role ?? a.session.actor_type) +
+                " " +
                 (a.session.actor_type === "ORCHESTRATOR"
                   ? "orchestrator-row"
                   : "")

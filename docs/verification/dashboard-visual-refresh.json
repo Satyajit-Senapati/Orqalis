@@ -1,0 +1,81 @@
+{
+  "enhancement": "Pitch-dark dashboard visual refresh",
+  "date": "2026-09-11",
+  "baseline_commit": "5d30e76",
+  "schema_migrations": [],
+  "backend": {
+    "command": "uv run pytest --cov=orqalis",
+    "passed": 122,
+    "coverage_percent": 85,
+    "warning": "One upstream Starlette/AnyIO deprecation warning",
+    "services": [
+      "PostgreSQL with pgvector",
+      "Docker sandbox"
+    ]
+  },
+  "frontend": {
+    "unit_command": "npm run test --prefix web",
+    "unit_tests_passed": 26,
+    "lint": "PASS",
+    "typecheck_and_production_build": "PASS",
+    "javascript_chunks_kb": [
+      221.85,
+      173.14,
+      63.37,
+      54.98
+    ]
+  },
+  "browser": {
+    "command": "npm run test:e2e --prefix web",
+    "strict_fixture_preflight": "PASS",
+    "passed": 7,
+    "skipped": 0,
+    "viewport_widths": [
+      390,
+      768,
+      1024,
+      1440
+    ],
+    "reduced_motion": "PASS",
+    "external_git_fixture_root": "PASS"
+  },
+  "screenshots": {
+    "count": 8,
+    "dimensions": "1600x1180",
+    "format": "JPEG",
+    "browser_diagnostics": 0,
+    "atomic_publish": "PASS",
+    "failed_capture_rollback_preserved_existing_hashes": "PASS"
+  },
+  "distribution": {
+    "artifact": "dist/orqalis-1.0.0.tgz",
+    "package_tests_passed": 12,
+    "entries": 56,
+    "forbidden_entries": 0,
+    "fresh_global_prefix_smoke": {
+      "version": "PASS",
+      "cold_launch": "PASS",
+      "cached_launch": "PASS",
+      "json_output": "PASS",
+      "invalid_exit": "PASS",
+      "working_directory_isolation": "PASS"
+    },
+    "npm_publish_dry_run": {
+      "status": "PASS",
+      "uploaded": false
+    },
+    "registry_lookup": "E404",
+    "npm_whoami": "ENEEDAUTH",
+    "public_registry_publication": false
+  },
+  "architecture": {
+    "workflow_changes": false,
+    "api_contract_changes": false,
+    "database_changes": false,
+    "migration_required": false
+  },
+  "scope_exclusions": [
+    "live provider credentials",
+    "hosted cross-platform CI execution"
+  ]
+}

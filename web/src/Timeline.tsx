@@ -132,7 +132,7 @@ export function Timeline({ snapshot }: { snapshot: Snapshot }) {
             Previous tracks
           </button>
           <span>
-            Tracks {currentPage * 50 + 1}?
+            Tracks {currentPage * 50 + 1}–
             {Math.min((currentPage + 1) * 50, allRows.length)} of{" "}
             {allRows.length}
           </span>

@@ -3,7 +3,6 @@
 import asyncio
 import json
 import os
-from pathlib import Path
 from uuid import uuid4
 
 from orqalis.domain.acceptance import (
@@ -29,9 +28,12 @@ from orqalis.domain.provider import (
 )
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
+from tests.e2e.fixture_paths import fixture_root, pointer_path
 
-root = Path(__file__).resolve().parents[2] / ".tools"
+root = fixture_root()
 source = root / "mission-control-fixture"
+if not (source / ".git").is_dir():
+    raise SystemExit("Run tests.e2e.seed_runtime before tests.e2e.seed_execution")
 repair_demo = os.environ.get("ORQALIS_QA_REPAIR") == "1"
 sdk = Orqalis()
 project = sdk.initialize(source)
@@ -141,9 +143,13 @@ async def main() -> None:
         ),
     )
     assert result.state == "COMPLETED"
-    record = {"run_id": str(state.run.id), "commit": result.commit_sha}
-    (root / ("ui-repair.json" if repair_demo else "ui-completed.json")).write_text(
-        json.dumps(record)
+    record = {
+        "run_id": str(state.run.id),
+        "commit": result.commit_sha,
+        "fixture_root": str(root),
+    }
+    pointer_path("ui-repair.json" if repair_demo else "ui-completed.json").write_text(
+        json.dumps(record), encoding="utf-8"
     )
     print(json.dumps(record))
 

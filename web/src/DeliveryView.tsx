@@ -1,8 +1,14 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { get } from "./api";
 import { Badge, Empty } from "./ui";
 import type { Snapshot } from "./types";
 import type { Inspect } from "./runtime";
+
+interface DiffResponse {
+  path: string;
+  diff: string;
+  truncated: boolean;
+}
 
 export function DeliveryView({
   snapshot,
@@ -14,45 +20,64 @@ export function DeliveryView({
   inspect?: Inspect;
 }) {
   const report = snapshot.guardians.at(-1);
-  const [diff, setDiff] = useState<{
-    path: string;
-    diff: string;
-    truncated: boolean;
-  } | null>(null);
+  const [diff, setDiff] = useState<DiffResponse | null>(null);
   const [error, setError] = useState("");
+  const [loadingPath, setLoadingPath] = useState("");
+  const requestId = useRef(0);
+  const request = useRef<AbortController | null>(null);
+  const loadDiff = useCallback(
+    async (path: string) => {
+      const id = ++requestId.current;
+      request.current?.abort();
+      const controller = new AbortController();
+      request.current = controller;
+      setLoadingPath(path);
+      setDiff(null);
+      setError("");
+      try {
+        const value = await get<DiffResponse>(
+          "/api/runs/" +
+            snapshot.run.id +
+            "/diff?path=" +
+            encodeURIComponent(path),
+          controller.signal,
+        );
+        if (id === requestId.current && !controller.signal.aborted)
+          setDiff(value);
+      } catch (failure) {
+        if (id === requestId.current && !controller.signal.aborted)
+          setError(
+            failure instanceof Error ? failure.message : String(failure),
+          );
+      } finally {
+        if (id === requestId.current) {
+          request.current = null;
+          setLoadingPath("");
+        }
+      }
+    },
+    [snapshot.run.id],
+  );
   useEffect(() => {
     if (!initialPath) return;
-    const abort = new AbortController();
-    get<{ path: string; diff: string; truncated: boolean }>(
-      "/api/runs/" +
-        snapshot.run.id +
-        "/diff?path=" +
-        encodeURIComponent(initialPath),
-      abort.signal,
-    )
-      .then((value) => {
-        setDiff(value);
-        setError("");
-      })
-      .catch((failure: unknown) => {
-        if (!abort.signal.aborted) setError(String(failure));
-      });
-    return () => abort.abort();
-  }, [initialPath, snapshot.run.id]);
-  async function inspect(path: string) {
-    try {
-      setDiff(
-        await get(
-          `/api/runs/${snapshot.run.id}/diff?path=${encodeURIComponent(path)}`,
-        ),
-      );
-      setError("");
-    } catch (failure) {
-      setError(String(failure));
-    }
-  }
+    let current = true;
+    queueMicrotask(() => {
+      if (current) void loadDiff(initialPath);
+    });
+    return () => {
+      current = false;
+    };
+  }, [initialPath, loadDiff]);
+  useEffect(
+    () => () => {
+      requestId.current += 1;
+      request.current?.abort();
+      request.current = null;
+    },
+    [],
+  );
   return (
-    <section className="panel operational-panel">
+    <section className="panel operational-panel" aria-busy={loadingPath !== ""}>
       <div className="section-heading">
         <h2>Changes and delivery</h2>
         <span>{report?.changes.length ?? 0} inspected paths</span>
@@ -131,7 +156,8 @@ export function DeliveryView({
                   <td>
                     <button
                       className="text-link"
-                      onClick={() => void inspect(change.path)}
+                      disabled={loadingPath === change.path}
+                      onClick={() => void loadDiff(change.path)}
                     >
                       {change.path}
                     </button>
@@ -146,6 +172,11 @@ export function DeliveryView({
         </div>
       ) : (
         <Empty>Change Guardian has not inspected this workspace yet.</Empty>
+      )}
+      {loadingPath && (
+        <p className="panel-body" role="status" aria-live="polite">
+          Loading diff for <code>{loadingPath}</code>…
+        </p>
       )}
       {error && (
         <p className="panel-body" role="alert">
@@ -175,7 +206,7 @@ export function DeliveryView({
                     inspectRecord({ kind: "task", id: artifact.task_id! })
                   }
                 >
-                  Inspect originating task ?
+                  Inspect originating task ↗
                 </button>
               )}
               <code>{artifact.content_hash}</code>

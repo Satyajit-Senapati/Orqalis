@@ -1,7 +1,6 @@
 import json
 import os
 import subprocess
-from pathlib import Path
 
 from orqalis.domain.acceptance import (
     CriterionDefinition,
@@ -15,8 +14,9 @@ from orqalis.domain.run import RunState
 from orqalis.domain.task import Task, TaskDependency, TaskStatus
 from orqalis.evaluation.validators import LocalEvaluator
 from orqalis.sdk import Orqalis
+from tests.e2e.fixture_paths import fixture_root, pointer_path
 
-root = Path(__file__).resolve().parents[2] / ".tools" / "mission-control-fixture"
+root = fixture_root() / "mission-control-fixture"
 root.mkdir(parents=True, exist_ok=True)
 
 
@@ -123,7 +123,12 @@ sdk.orchestrator.advance(state.run.id, RunState.INTEGRATING, "qa:integrating")
 sdk.orchestrator.advance(state.run.id, RunState.TESTING, "qa:testing")
 active = sdk.orchestrator.start_task(state.run.id, tasks[1].id, "qa:test")
 sdk.goals.validate(state.run.id, "AC-001", LocalEvaluator(root), "qa:validation")
-record = {"run_id": str(state.run.id), "attempt_id": str(active.id), "repo": str(root)}
-(root.parent / "ui-fixture.json").write_text(json.dumps(record))
+record = {
+    "run_id": str(state.run.id),
+    "attempt_id": str(active.id),
+    "repo": str(root),
+    "fixture_root": str(root.parent),
+}
+pointer_path("ui-fixture.json").write_text(json.dumps(record), encoding="utf-8")
 print(json.dumps(record))
 sdk.close()

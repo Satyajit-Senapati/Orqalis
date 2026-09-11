@@ -272,11 +272,14 @@ Complete the local visual operating surface after the orchestration vertical sli
 - Project Brain memory/knowledge-graph view.
 - Changes/diff, tests, tools, and delivery views.
 - Historical run/project metrics and run comparison.
-- Light/dark/system themes, responsive/a11y, developer mode.
+- Pitch-inspired primary dark theme with vivid role/status accents, plus light/system
+  alternatives, responsive/a11y, reduced-motion behavior and developer mode.
 
 ### Acceptance
 - User can understand who is working on what, for how long, what is blocked, why a criterion failed, and what Orqalis will do next without reading raw logs.
 - Historical runs reconstruct from persisted state/events.
+- Semantic status remains understandable without color or animation, and reduced-motion
+  users receive the same runtime information and controls.
 
 ## Phase 14 - Hardening
 

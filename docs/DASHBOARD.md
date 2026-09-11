@@ -1,25 +1,48 @@
-# Dashboard enhancement audit and operating notes
+# Dashboard design and operating guide
 
-This is an enhancement to Orqalis 1.0.0 on the signed-off architecture v1.2.
-Discovery started on main at 2451063 with a clean working tree. The attached enhancement
-brief is the UX target; no separate accompanying design document was present.
+Orqalis Mission Control is the local browser projection of the signed-off v1.2 Core.
+This guide records the current navigation, visual contract, telemetry boundaries,
+performance limits and reproducible product media for Orqalis 1.0.0.
 
-## Gap analysis
+The first dashboard enhancement was audited from commit 2451063. The September 11, 2026
+visual refresh changes presentation only: orchestration, workflow transitions, persisted
+telemetry, APIs, security policy and Git delivery remain authoritative in Core.
 
-| Area | Audit category | Existing implementation | Enhancement |
-| --- | --- | --- | --- |
-| Core / CLI / SDK | Existing | Shared deterministic workflow, DAG scheduler, provider/tool boundaries, repair, safe Git delivery | Preserved |
-| Persistence | Existing | PostgreSQL/pgvector, SQLAlchemy, eight Alembic revisions, canonical runtime records | No new table or migration |
-| Browser shell | Partially Existing | React/TypeScript/Vite, theme, run history, tabs | Compact mission summary, dark default, readable status symbols, responsive drawers |
-| Graph | Partially Existing | React Flow/Dagre task DAG and actor graph | Combined orchestration relationships, selectable agents/tasks, stable topology layout |
-| Inspector | Needs UI Exposure | Attempts, actors, tools, evidence, artifacts in snapshots | Shared keyboard-accessible actor/task inspector and cross-view file/task links |
-| Activity | Partially Existing | Last 12 events, cursor-based WebSocket reconnect | Chronological activity, five filters, bounded pending/history buffers, explicit error states |
-| Agent context | Needs Runtime Telemetry | Initial run memory IDs persisted; provider request bodies intentionally not persisted | Add memory IDs, skill refs and a bounded context summary to existing invocation-start events |
-| Skills | Needs UI Exposure | Trusted metadata registry, capability selection, versioned SKILL_LOADED events | Read-only SDK/API catalog and event-derived load counts, users and last-load times |
-| Project Brain | Existing | Git freshness, sources, provenance, categories, search and knowledge graph | Highlight facts used in the run context |
-| Verification / delivery | Existing | Evidence, review history, repair ancestry, Guardian reports, final validation and Git diffs | Expose repair counter and originating-task navigation |
-| README | Needs Documentation Only | Canonical handoff index | Product front page, tested local setup, real screenshots, retained source-of-truth index |
-| Media | Missing | Ignored browser QA captures | Optimized screenshots of persisted deterministic integration runs |
+## Visual system
+
+The primary presentation is Pitch-inspired dark: a deep navy-to-purple canvas, layered
+magenta, violet and cyan light, luminous surfaces, and high-contrast type. Colorful
+components give actors, tasks, evidence and workflow phases a recognizable visual rhythm
+without turning the operating surface into a decorative slide.
+
+Role accents identify the Orchestrator and specialist agents. Semantic status colors are
+stable across cards, graph nodes, timelines, badges and activity. Color is never the only
+signal: text, icons, shapes and accessible names carry the same meaning. Decorative
+gradients do not encode runtime data.
+
+Motion is presentation state, not workflow state. A restrained pulse or flow may draw
+attention to active work and newly received events, while persisted status and timestamps
+remain the source of truth. The reduced-motion preference removes nonessential animation
+and preserves every status, relationship and control.
+
+Light and system themes remain available. The dark theme is the product's primary visual
+identity and the theme used for documentation captures.
+
+## Capability map
+
+| Area | Current contract |
+| --- | --- |
+| Core / CLI / SDK | Shared deterministic workflow, DAG scheduler, provider/tool boundaries, repair and safe Git delivery |
+| Persistence | PostgreSQL/pgvector, SQLAlchemy, migration-backed canonical runtime records |
+| Browser shell | Pitch-dark default, light/system alternatives, responsive navigation and inspectors |
+| Graph | Selectable orchestration, task and actor relationships with stable topology-aware layout |
+| Inspector | Keyboard-accessible actor/task detail with attempts, context, tools, evidence and artifacts |
+| Activity | Chronological persisted events, five filters, bounded pending/history buffers and explicit error states |
+| Agent context | Memory IDs, loaded skill references and a bounded context summary when recorded |
+| Skills | Trusted metadata catalog and event-derived load counts, users and last-load times |
+| Project Brain | Git freshness, sources, provenance, categories, search and knowledge relationships |
+| Verification / delivery | Evidence, review history, repair ancestry, Guardian reports, final validation and Git diffs |
+| Product media | Eight optimized screenshots captured from deterministic persisted integration runs |
 
 ## Navigation
 
@@ -61,7 +84,7 @@ ProviderCallProjection adds selected_skills, context_memory_ids and context_summ
 GET /api/skills calls the shared SDK registry catalog; GET /api/runs/{id}/events accepts
 an optional bounded limit. Workflow transitions, task execution, CLI behavior, configuration
 and database schemas are unchanged. Existing saved themes are preserved; new browsers
-default to dark and can choose light or system.
+default to Pitch-dark and can choose light or system.
 
 ## Performance and boundaries
 
@@ -86,7 +109,17 @@ inspector says attribution is unavailable. Cost/token fields retain unknown valu
 These are real browser captures of persisted local integration runs produced by
 tests/e2e/seed_runtime.py and tests/e2e/seed_execution.py. Deterministic test providers
 exercise the actual Core, tools, review, repair, Git and memory; live model credentials
-were not used. No production UI contains hard-coded fixture state.
+were not used. The disposable Git repositories live under a workspace-keyed OS temporary
+directory or an external ORQALIS_QA_FIXTURE_ROOT; fixture roots inside the checkout are
+rejected. Only ignored run-ID pointers are written under .tools. No production UI contains
+hard-coded fixture state.
+
+The strict npm run test:e2e command rejects missing, malformed or API-unreachable fixture
+IDs before Playwright starts. The capture process verifies the Pitch-dark tokens and
+required surfaces, waits for fonts and settled layout, freezes nonessential animation,
+and treats same-origin request/HTTP failures, console errors and page errors as diagnostics.
+All images stage and validate before a directory rename publishes the set, so a failed
+capture leaves the previously published screenshots unchanged.
 
 | View | Capture |
 | --- | --- |
@@ -100,4 +133,10 @@ were not used. No production UI contains hard-coded fixture state.
 | Repository delivery | [repository-delivery.jpg](assets/repository-delivery.jpg) |
 
 Regenerate with the capture command documented in [DEVELOPMENT.md](DEVELOPMENT.md).
+The September 11 refresh produced eight 1600 x 1180 JPEGs with zero browser diagnostics;
+a forced failed-capture check preserved all eight prior hashes. The strict browser suite
+passed 7 tests with 0 skipped across the documented responsive and reduced-motion
+coverage. See the dated
+[verification record](verification/dashboard-visual-refresh.json).
+
 See [SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md) for the original architecture reading order.

@@ -4,7 +4,7 @@ import { ThemeControl, RunControls } from "./Controls";
 import { duration, get, useRun } from "./api";
 import type { Project, Run } from "./types";
 
-import { Badge, label } from "./ui";
+import { Badge, label, statusTone } from "./ui";
 import { retryCount, visibleTasks } from "./runtime";
 const phases = [
   "CONTEXT",
@@ -70,13 +70,13 @@ export function App() {
         <span className="nav-caption">WORKSPACE</span>
         <nav aria-label="Primary">
           <a href="/" className={!runId ? "selected" : ""}>
-            <span>▦</span>Overview
+            <span aria-hidden="true">▦</span>Overview
           </a>
           <a
             href={runId ? `/runs/${runId}` : "/"}
             className={runId ? "selected" : ""}
           >
-            <span>◎</span>Mission Control
+            <span aria-hidden="true">◎</span>Mission Control
           </a>
         </nav>
         <div className="nav-caption recent-heading">
@@ -89,7 +89,9 @@ export function App() {
               href={`/runs/${run.id}`}
               className={run.id === runId ? "current-run" : ""}
             >
-              <i className={`run-dot dot-${run.state.toLowerCase()}`} />
+              <i
+                className={`run-dot dot-${run.state.toLowerCase()} tone-${statusTone(run.state)}`}
+              />
               <span>{run.request}</span>
             </a>
           ))}
@@ -273,7 +275,7 @@ export function App() {
                     <dt>Acceptance</dt>
                     <dd>
                       {passed}/{criteria.length} pass
-                      {failed ? " ? " + failed + " fail" : ""}
+                      {failed ? " · " + failed + " fail" : ""}
                     </dd>
                   </div>
                   <div>

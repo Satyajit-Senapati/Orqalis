@@ -93,18 +93,32 @@ one changed-source read for an incremental update.
 ## Browser verification
 
 ~~~sh
+# Optional. The default is a workspace-keyed directory under the OS temp directory.
+# Any override must resolve outside the Orqalis checkout.
+export ORQALIS_QA_FIXTURE_ROOT=/absolute/external/path/orqalis-dashboard-fixtures
 uv run python -m tests.e2e.seed_runtime
 uv run python -m tests.e2e.seed_execution
 uv run orqalis ui
 ~~~
 
 Set ORQALIS_E2E_RUN_ID from .tools/ui-fixture.json and ORQALIS_E2E_COMPLETED_RUN_ID
-from .tools/ui-completed.json. Run npx playwright test in web/.
+from .tools/ui-completed.json before npm run test:e2e. The wrapper is a strict preflight:
+it rejects missing or malformed run IDs and checks that both persisted runs are reachable
+from the configured Orqalis API before Playwright starts. A normal verification run must
+therefore execute every browser test rather than succeeding through fixture skips.
 ORQALIS_UI_URL selects another loopback URL. The default browser is installed Chrome;
 set ORQALIS_BROWSER_CHANNEL=chromium and install Playwright Chromium for CI.
 See [Playwright CI guidance](https://playwright.dev/docs/ci).
 
-The fixtures create real persisted active and completed runs. Browser checks inspect
+~~~sh
+npm run test:e2e --prefix web
+~~~
+
+The fixtures create disposable Git repositories outside the workspace so VS Code and
+repository-wide Git discovery do not treat them as Orqalis branches or changes. By
+default they live below the OS temporary directory; ORQALIS_QA_FIXTURE_ROOT selects
+another external root and rejects the checkout or any descendant. Only small ignored
+run-ID pointer files remain under .tools. Browser checks inspect
 actors, DAG, timeline, evidence, Project Brain, delivery diff, metrics, theme persistence,
 responsive layout and reload/reconnection. The UI obtains all statistics from Core.
 
@@ -156,9 +170,9 @@ No remote HTTP/MCP mode is enabled; authentication is required before adding one
 
 ## Dashboard enhancement and media
 
-See [DASHBOARD.md](DASHBOARD.md) for navigation, the brownfield audit, new read-only
-contracts, attribution boundaries and display limits. The existing orchestrator and
-CLI remain authoritative. No migration is required for this enhancement.
+See [DASHBOARD.md](DASHBOARD.md) for navigation, visual design, read-only contracts,
+attribution boundaries and display limits. The existing orchestrator and CLI remain
+authoritative. No migration is required for this enhancement.
 
 Create real persisted screenshots using deterministic providers:
 
@@ -182,10 +196,28 @@ ORQALIS_UI_URL can target a different loopback instance. Installed Chrome is the
 ORQALIS_BROWSER_CHANNEL=chromium selects Playwright Chromium. These are test-provider
 runs through real Core services, not mock production data.
 
+Reseed immediately before a documentation capture so an active run does not display an
+old elapsed time. The capture verifies the Pitch-dark design tokens, shell, summary,
+phase strip and panels; waits for web fonts and the authoritative snapshot; rejects
+same-origin HTTP/request failures, console errors and page errors; and requires all eight
+images at 1600 x 1180. It writes into a staging directory, validates the complete set,
+then atomically replaces docs/assets. Any failure removes staging and leaves every
+published asset unchanged. Nonessential animation is disabled for the still image;
+motion behavior is covered separately with reduced-motion browser checks.
+
+Review all eight outputs for legible text, real task/actor/evidence values and consistent
+semantic colors before committing them. The supplied visual reference is direction only;
+do not copy third-party logos, template assets or branding into Orqalis.
+
 Frontend checks now include bounded reconnect buffers, event filters, task relationships,
 retry counts, graph/inspector behavior, focus restoration, four viewport widths, reduced
 motion, empty/error states and a forced socket disconnect. Activity filters use explicit
 accessible names. The original browser contracts continue to run.
+
+For the visual refresh, retain assertions that status is also communicated by text or
+icons, the selected theme survives refresh, narrow layouts do not overflow, active-state
+motion stops under prefers-reduced-motion, and screenshots are reconstructed from
+persisted API/event data.
 
 For formatting the new UI files, the repository's npm tooling provides Prettier after
 npm ci --prefix packages/npm. Runtime source remains TypeScript; release scripts remain

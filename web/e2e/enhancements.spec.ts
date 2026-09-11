@@ -2,12 +2,73 @@ import { expect, test } from "@playwright/test";
 const active = process.env.ORQALIS_E2E_RUN_ID;
 const complete = process.env.ORQALIS_E2E_COMPLETED_RUN_ID;
 test.skip(!active || !complete, "Requires persisted browser fixtures");
+const motionSelectors = [
+  ".shell",
+  ".sidebar",
+  ".brand-mark",
+  ".run-summary",
+  ".progress-track i",
+  ".phase-strip",
+  ".phase-strip .active-phase > span",
+  ".panel",
+  ".react-flow__edge-path",
+  ".connection .green",
+];
+
+async function visualMotion(page: import("@playwright/test").Page) {
+  return page.evaluate((selectors) => {
+    const styles = selectors.flatMap((selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return [];
+      return [
+        getComputedStyle(element),
+        getComputedStyle(element, "::before"),
+        getComputedStyle(element, "::after"),
+      ];
+    });
+    return styles.map((style) => ({
+      animationName: style.animationName,
+      animationDuration: style.animationDuration,
+      transitionDuration: style.transitionDuration,
+    }));
+  }, motionSelectors);
+}
 
 test("inspectors retain keyboard navigation and mobile task access", async ({
   page,
 }) => {
   await page.goto("/runs/" + complete);
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  const palette = await page.evaluate(() => {
+    const style = getComputedStyle(document.documentElement);
+    return {
+      canvas: style.getPropertyValue("--canvas").trim().toLowerCase(),
+      magenta: style.getPropertyValue("--magenta").trim().toLowerCase(),
+      violet: style.getPropertyValue("--violet").trim().toLowerCase(),
+      electric: style.getPropertyValue("--electric").trim().toLowerCase(),
+    };
+  });
+  expect(palette).toEqual({
+    canvas: "#07070f",
+    magenta: "#f542a7",
+    violet: "#8b5cf6",
+    electric: "#4b8cff",
+  });
+  const activeMotion = await visualMotion(page);
+  expect(
+    activeMotion.some(
+      (style) =>
+        style.animationName !== "none" ||
+        [
+          ...style.animationDuration.split(","),
+          ...style.transitionDuration.split(","),
+        ].some((duration) => Number.parseFloat(duration) > 0),
+    ),
+  ).toBeTruthy();
   await page.getByRole("tab", { name: "Tasks", exact: true }).click();
+  await expect(
+    page.locator(".task-list-row .badge[class*=status-]").first(),
+  ).toBeVisible();
   await page.locator(".task-list-row").first().click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toContainText("Dependencies");
@@ -16,12 +77,20 @@ test("inspectors retain keyboard navigation and mobile task access", async ({
   await expect(dialog).not.toBeVisible();
   await expect(page.locator(".task-list-row").first()).toBeFocused();
   await page.getByRole("tab", { name: "Agents", exact: true }).click();
+  await expect(
+    page.locator(".agent-directory .badge[class*=status-]").first(),
+  ).toBeVisible();
   await page.locator(".agent-directory .actor-row").last().click();
   await expect(dialog).toContainText("Provider activity");
   await page.keyboard.press("Escape");
   for (const width of [1440, 1024, 768, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.getByRole("tab", { name: "Mission", exact: true }).click();
+    if (width === 390)
+      await expect(page.locator(".workspace-tabs")).toHaveCSS(
+        "position",
+        "sticky",
+      );
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -42,6 +111,16 @@ test("inspectors retain keyboard navigation and mobile task access", async ({
       () => matchMedia("(prefers-reduced-motion: reduce)").matches,
     ),
   ).toBeTruthy();
+  const reducedMotion = await visualMotion(page);
+  expect(reducedMotion.length).toBeGreaterThan(0);
+  for (const style of reducedMotion) {
+    expect(["", "none"]).toContain(style.animationName);
+    for (const duration of [
+      ...style.animationDuration.split(","),
+      ...style.transitionDuration.split(","),
+    ])
+      if (duration.trim()) expect(Number.parseFloat(duration)).toBe(0);
+  }
 });
 
 test("skills, context, chronological filters and delivery are connected", async ({
