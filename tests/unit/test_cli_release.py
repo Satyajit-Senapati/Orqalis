@@ -102,3 +102,14 @@ def test_cli_serve_denies_remote_binding_without_traceback(monkeypatch: pytest.M
     assert result.exit_code == 1
     assert "policy_denied" in result.stderr
     assert "Traceback" not in result.output
+
+
+def test_update_is_discoverable_but_requires_npm_launcher() -> None:
+    runner = CliRunner()
+    help_result = runner.invoke(app, ["--help"])
+    assert help_result.exit_code == 0
+    assert "update" in help_result.stdout
+
+    source_result = runner.invoke(app, ["update"])
+    assert source_result.exit_code == 2
+    assert "globally installed npm launcher" in source_result.output

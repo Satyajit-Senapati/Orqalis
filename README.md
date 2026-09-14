@@ -70,7 +70,7 @@ Install **Node.js 22+**, **Python 3.12+ with venv/pip**, **Git** and **Docker**.
 Orqalis is distributed through npm; its package includes the UI and local database
 Compose file. No source checkout or frontend build is required.
 
-**Orqalis 1.0.0 is available on [npm](https://www.npmjs.com/package/orqalis).**
+**Orqalis is available on [npm](https://www.npmjs.com/package/orqalis).**
 
 ```sh
 npm install -g orqalis
@@ -78,7 +78,8 @@ orqalis --version
 ```
 
 Installing the public package does not require an npm account or login.
-On Windows PowerShell, use `npm.cmd install -g orqalis` and `orqalis.cmd --version`.
+On Windows PowerShell, use `npm.cmd install -g orqalis` and the
+[session setup below](#install-globally) to type `orqalis` directly.
 
 Start the bundled database and UI (Bash/zsh):
 
@@ -90,8 +91,8 @@ orqalis doctor
 orqalis ui --open
 ```
 
-Open **http://localhost:7842**. On Windows use npm.cmd / orqalis.cmd and the
-[PowerShell setup](#start-the-local-database-and-ui).
+Open **http://localhost:7842**. On Windows use `npm.cmd` for installation and
+`orqalis` after the [PowerShell session setup](#install-globally).
 First launch creates an isolated Python runtime and needs internet access.
 
 Configure a provider/model using the [provider setup guide](#2-configuration-and-providers),
@@ -107,7 +108,9 @@ run returns provider_error; supply --contract for provider-free goal preparation
 Follow the [first-task walkthrough](#4-first-task-walkthrough).
 
 Before upgrading, stop active work and [back up the database](#13-data-backups-and-upgrades).
-Then run `npm install -g orqalis@latest` and `orqalis migrate`.
+Starting with version 1.0.1, `orqalis update` can install the latest package; then
+run `orqalis migrate` and restart the UI/MCP processes. Version 1.0.0 first needs
+`npm install -g orqalis@latest` to gain the updater.
 Uninstall with `npm uninstall -g orqalis`; application data is retained.
 Contributors and SDK developers use [source development setup](docs/DEVELOPMENT.md).
 
@@ -238,7 +241,9 @@ and [integration examples](docs/examples/).
 
 ## Usage guide
 
-This guide explains how to use **Orqalis 1.0.0** as a local engineering application.
+This guide explains how to use Orqalis as a local engineering application.
+The built-in updater is available starting with version 1.0.1. The published 1.0.0
+launcher requires one upgrade through npm to gain that command.
 The signed-off architecture baseline is v1.2; that is a separate version identifier.
 
 Orqalis coordinates work in an isolated Git worktree. It defines a versioned goal,
@@ -290,17 +295,21 @@ On Windows PowerShell:
 
 ~~~powershell
 npm.cmd install -g orqalis
-orqalis.cmd --version
-orqalis.cmd --help
+Set-Alias -Name orqalis -Value orqalis.cmd
+orqalis --version
+orqalis --help
 ~~~
 
 Version 1.0.0 was published on September 14, 2026. To select that release explicitly,
 use `npm install -g orqalis@1.0.0` (`npm.cmd` on Windows). An npm account, `npm login`
 and publishing two-factor authentication are unnecessary for public installation.
 
-The Windows examples use `.cmd` shims so PowerShell execution policy does not block
-the generated `.ps1` scripts. No virtual environment activation or absolute
-`orqalis.exe` path is required; the launcher manages its own Python environment.
+npm creates both `.ps1` and `.cmd` command shims on Windows. The session-local alias
+above lets you type `orqalis` even if PowerShell blocks the `.ps1` shim; repeat it in a
+new PowerShell session. You can always run `orqalis.cmd` directly, or use `orqalis` in
+Command Prompt and shells that allow the npm shim. Orqalis does not change your
+PowerShell execution policy. No virtual environment activation or separate
+`orqalis.exe` is required; the launcher manages its own Python environment.
 
 First launch installs hash-locked Python dependencies into an isolated per-user runtime.
 Initial setup needs internet access; npm installation works with --ignore-scripts.
@@ -325,9 +334,9 @@ On PowerShell:
 ~~~powershell
 $orqalisPackage = Join-Path (npm.cmd root -g) 'orqalis'
 docker compose -p orqalis -f "$orqalisPackage/compose.yaml" up -d --wait
-orqalis.cmd migrate
-orqalis.cmd doctor
-orqalis.cmd ui --open
+orqalis migrate
+orqalis doctor
+orqalis ui --open
 ~~~
 
 On Bash/zsh:
@@ -349,17 +358,24 @@ it does not authenticate providers or validate the project's sandbox image.
 
 Before upgrading, reach a safe execution checkpoint and follow the [backup guidance](#13-data-backups-and-upgrades).
 Stop your Orqalis UI server and MCP processes before updating the launcher and applying
-database migrations. Closing the browser does not stop a background server:
+database migrations. Closing the browser does not stop a background server.
+The built-in updater begins with version 1.0.1; the original 1.0.0 launcher
+must be upgraded once with `npm install -g orqalis@latest` (`npm.cmd` in
+PowerShell). From the new version onward:
 
 ~~~sh
-npm install -g orqalis@latest
-orqalis migrate
+orqalis update --check
+orqalis update
 orqalis --version
+orqalis migrate
 orqalis doctor
+orqalis ui --open
 ~~~
 
-Use `npm.cmd` and `orqalis.cmd` for the same commands in Windows PowerShell.
-After migration, run `orqalis ui --open` and reconnect your MCP clients to use the new runtime.
+In Windows PowerShell, use the session-local alias from [installation](#install-globally)
+or run `orqalis.cmd` when its `.ps1` shim is blocked. Reconnect MCP clients after
+migration so they launch the updated runtime. `orqalis update` installs the package;
+it does not back up data, run migrations, or restart active processes.
 To remove the global launcher:
 
 ~~~sh
@@ -385,7 +401,7 @@ For OpenAI:
 ~~~powershell
 $env:ORQALIS_OPENAI_MODEL = 'YOUR_AVAILABLE_MODEL_ID'
 $env:ORQALIS_OPENAI_API_KEY = Read-Host 'OpenAI API key' -MaskInput
-orqalis.cmd capabilities
+orqalis capabilities
 ~~~
 
 For Anthropic:
@@ -393,7 +409,7 @@ For Anthropic:
 ~~~powershell
 $env:ORQALIS_ANTHROPIC_MODEL = 'YOUR_AVAILABLE_MODEL_ID'
 $env:ORQALIS_ANTHROPIC_API_KEY = Read-Host 'Anthropic API key' -MaskInput
-orqalis.cmd capabilities
+orqalis capabilities
 ~~~
 
 Read-Host -MaskInput requires PowerShell 7.1+. On older shells, supply the variable
@@ -430,7 +446,7 @@ To use another local UI port:
 
 ~~~powershell
 $env:ORQALIS_PORT = '7843'
-orqalis.cmd ui --open
+orqalis ui --open
 ~~~
 
 Existing servers retain their original environment. Restart the server you own after
@@ -443,9 +459,9 @@ Choose an existing Git repository on a named branch, with at least one commit:
 
 ~~~powershell
 $repo = 'S:\Projects\example-app'
-orqalis.cmd init --repo $repo
-orqalis.cmd status --repo $repo
-orqalis.cmd memory status --repo $repo
+orqalis init --repo $repo
+orqalis status --repo $repo
+orqalis memory status --repo $repo
 ~~~
 
 Replace the example path with your actual repository. init records project identity,
@@ -465,7 +481,7 @@ as run delivery targets. The source checkout remains on its original branch.
 To obtain the project UUID for MCP or API configuration:
 
 ~~~powershell
-$projectState = orqalis.cmd status --repo $repo --json | ConvertFrom-Json
+$projectState = orqalis status --repo $repo --json | ConvertFrom-Json
 $projectId = $projectState.project.id
 ~~~
 
@@ -595,15 +611,15 @@ author_email in this policy.
 ### F. Prepare and inspect the run
 
 ~~~powershell
-orqalis.cmd run "Normalize names safely" --repo $repo --branch feature/normalize-names --contract $goalFile --open
+orqalis run "Normalize names safely" --repo $repo --branch feature/normalize-names --contract $goalFile --open
 ~~~
 
 Copy the printed run UUID:
 
 ~~~powershell
 $runId = 'REPLACE_WITH_PRINTED_RUN_UUID'
-orqalis.cmd goal show $runId
-orqalis.cmd runs show $runId --json
+orqalis goal show $runId
+orqalis runs show $runId --json
 ~~~
 
 The expected state is GOAL_DEFINED. Open the printed /runs/RUN_UUID URL in Mission Control.
@@ -611,7 +627,7 @@ The expected state is GOAL_DEFINED. Open the printed /runs/RUN_UUID URL in Missi
 For a new run, machine-readable creation is also available:
 
 ~~~powershell
-$prepared = orqalis.cmd run "Normalize names safely" --repo $repo --contract $goalFile --json | ConvertFrom-Json
+$prepared = orqalis run "Normalize names safely" --repo $repo --contract $goalFile --json | ConvertFrom-Json
 $runId = $prepared.run.id
 ~~~
 
@@ -621,8 +637,8 @@ run ID, use runs --json instead of submitting the request again.
 ### G. Execute through review
 
 ~~~powershell
-orqalis.cmd execute $runId --policy $executionPolicy --provider openai --workspaces $workspaces
-orqalis.cmd runs show $runId --json
+orqalis execute $runId --policy $executionPolicy --provider openai --workspaces $workspaces
+orqalis runs show $runId --json
 ~~~
 
 The Developer modifies the isolated worktree. Validators record evidence. The Reviewer
@@ -635,7 +651,7 @@ returned state and review; a structured command result does not always mean the 
 ### H. Finalize
 
 ~~~powershell
-orqalis.cmd finalize $runId --policy $deliveryPolicy
+orqalis finalize $runId --policy $deliveryPolicy
 ~~~
 
 Finalization runs independent Change Guardian checks, documentation, final validation,
@@ -650,7 +666,7 @@ commit, then use your normal merge or pull-request process. Orqalis does not mer
 Next time, omit --contract to use a Requirements actor:
 
 ~~~powershell
-orqalis.cmd run "Normalize names safely and preserve existing behavior" --repo $repo --provider openai --open
+orqalis run "Normalize names safely and preserve existing behavior" --repo $repo --provider openai --open
 ~~~
 
 Inspect the generated goal before execution. Generated validator commands must match the
@@ -659,7 +675,7 @@ approved execution policy.
 When the contract and policy are already approved, preparation and execution can be combined:
 
 ~~~powershell
-orqalis.cmd run "Normalize names safely" --repo $repo --contract $goalFile --policy $executionPolicy --provider openai --workspaces $workspaces --open
+orqalis run "Normalize names safely" --repo $repo --contract $goalFile --policy $executionPolicy --provider openai --workspaces $workspaces --open
 ~~~
 
 This still ends through review. Finalize remains a separate operation.
@@ -685,7 +701,7 @@ Inspect evidence in the Acceptance tab or JSON snapshot.
 An individual diagnostic validation can be invoked explicitly:
 
 ~~~powershell
-orqalis.cmd goal validate $runId AC-1 --workspace 'S:\OrqalisWorktrees\ACTUAL_RUN_DIRECTORY' --idempotency-key diagnostic-1 --allow-configured-commands --json
+orqalis goal validate $runId AC-1 --workspace 'S:\OrqalisWorktrees\ACTUAL_RUN_DIRECTORY' --idempotency-key diagnostic-1 --allow-configured-commands --json
 ~~~
 
 Use the actual workspace path from execute output. --allow-configured-commands enables
@@ -790,14 +806,14 @@ accepted commit remains traceable in its delivery record.
 ## 7. Mission Control
 
 ~~~powershell
-orqalis.cmd ui --open
+orqalis ui --open
 ~~~
 
 ui starts or reuses a background local server. Closing the browser stops neither the server
 nor execution. For foreground hosting and startup diagnostics:
 
 ~~~powershell
-orqalis.cmd serve
+orqalis serve
 ~~~
 
 Use an unused port when another server is listening. Ctrl+C stops a foreground server.
@@ -854,11 +870,11 @@ execution through CLI, SDK, or MCP. It is not a second orchestration engine.
 ## 8. Project Memory
 
 ~~~powershell
-orqalis.cmd memory status --repo $repo
-orqalis.cmd memory search "architecture" --repo $repo --limit 10
-orqalis.cmd memory search "decisions" --repo $repo --json
-orqalis.cmd memory refresh --repo $repo --json
-orqalis.cmd context "Where should name normalization be implemented?" --repo $repo --json
+orqalis memory status --repo $repo
+orqalis memory search "architecture" --repo $repo --limit 10
+orqalis memory search "decisions" --repo $repo --json
+orqalis memory refresh --repo $repo --json
+orqalis context "Where should name normalization be implemented?" --repo $repo --json
 ~~~
 
 memory status does not trigger a rescan. Search/context refresh committed changes first.
@@ -902,9 +918,9 @@ embedding adapter; configuring an LLM provider does not configure embeddings.
 ### Pause, resume, cancel
 
 ~~~powershell
-orqalis.cmd runs pause $runId
-orqalis.cmd runs resume $runId
-orqalis.cmd runs cancel $runId
+orqalis runs pause $runId
+orqalis runs resume $runId
+orqalis runs cancel $runId
 ~~~
 
 These are separate actions, not an automatic sequence. Pause requires a quiescent checkpoint
@@ -917,7 +933,7 @@ effects already completed. A canceled run remains canceled.
 ### Inspect after interruption
 
 ~~~powershell
-$snapshot = orqalis.cmd runs show $runId --json | ConvertFrom-Json
+$snapshot = orqalis runs show $runId --json | ConvertFrom-Json
 $snapshot.run
 $snapshot.blockers
 $snapshot.attempts | Select-Object id, task_id, status, started_at, completed_at
@@ -929,13 +945,13 @@ appropriate driver can reuse completed receipts and continue a known checkpoint.
 For failed context preparation:
 
 ~~~powershell
-orqalis.cmd runs prepare $runId
+orqalis runs prepare $runId
 ~~~
 
 For requirements ready to continue at ANALYZING:
 
 ~~~powershell
-orqalis.cmd define-goal $runId --provider openai
+orqalis define-goal $runId --provider openai
 ~~~
 
 When an uncertain provider/tool operation prevents continuation, stop any old worker and
@@ -943,15 +959,15 @@ inspect its effects. Then authorize a replacement attempt:
 
 ~~~powershell
 $executionId = 'REPLACE_WITH_INTERRUPTED_ATTEMPT_UUID'
-orqalis.cmd runs recover $runId $executionId --reason "Inspected the stopped worker and its workspace effects" --acknowledge-uncertainty
+orqalis runs recover $runId $executionId --reason "Inspected the stopped worker and its workspace effects" --acknowledge-uncertainty
 ~~~
 
 Use the attempt's id, not task_id or actor ID. If the run is BLOCKED after recovery, resume
 before continuing its driver:
 
 ~~~powershell
-orqalis.cmd runs resume $runId
-orqalis.cmd execute $runId --policy $executionPolicy --provider openai --workspaces $workspaces
+orqalis runs resume $runId
+orqalis execute $runId --policy $executionPolicy --provider openai --workspaces $workspaces
 ~~~
 
 For requirements, use define-goal instead of execute. For delivery, use finalize with the
@@ -967,11 +983,11 @@ not increase that budget.
 For an actual user-approved change to scope, pause and create a new version:
 
 ~~~powershell
-orqalis.cmd runs pause $runId
-orqalis.cmd goal revise $runId --contract 'S:\OrqalisPolicies\example-app\revised-goal.json' --reason "Approved scope clarification" --expected-version 1
-orqalis.cmd runs replan $runId
-orqalis.cmd runs resume $runId
-orqalis.cmd execute $runId --policy $executionPolicy --provider openai --workspaces $workspaces
+orqalis runs pause $runId
+orqalis goal revise $runId --contract 'S:\OrqalisPolicies\example-app\revised-goal.json' --reason "Approved scope clarification" --expected-version 1
+orqalis runs replan $runId
+orqalis runs resume $runId
+orqalis execute $runId --policy $executionPolicy --provider openai --workspaces $workspaces
 ~~~
 
 This sequence is for a run that already has an implementation plan. Before planning, normal
@@ -1127,10 +1143,10 @@ also apply to WebSocket connections.
 ## 12. Skills and capabilities
 
 ~~~powershell
-orqalis.cmd agents
-orqalis.cmd skills --json
-orqalis.cmd config show --json
-orqalis.cmd capabilities
+orqalis agents
+orqalis skills --json
+orqalis config show --json
+orqalis capabilities
 ~~~
 
 agents lists role definitions and permissions; runtime actor sessions are visible in run
@@ -1142,7 +1158,7 @@ A skill subdirectory contains skill.toml and instructions.md. Add an existing tr
 
 ~~~powershell
 $env:ORQALIS_SKILL_ROOTS = '["S:/OrqalisSkills"]'
-orqalis.cmd capabilities
+orqalis capabilities
 ~~~
 
 Create valid skill files before setting the root. Refer to the
@@ -1175,8 +1191,8 @@ Keep the worktrees and artifacts referenced by database records; a database back
 reconstruct deleted workspace files.
 
 Before upgrading, reach a safe execution checkpoint, stop your UI/MCP processes and
-retain a backup. Install the new npm package, run migrate, then restart UI/MCP processes
-with the intended environment. Ctrl+C stops a foreground `serve` process; for a background
+retain a backup. Use `orqalis update` once its package version supports it, then run
+`orqalis migrate` and restart UI/MCP processes with the intended environment. Ctrl+C stops a foreground `serve` process; for a background
 server, stop the Orqalis process you own. Closing its browser tab does not stop it.
 
 Do not remove a worktree containing active or unreviewed work. Safe worktree management
@@ -1198,7 +1214,7 @@ reasoning. Persisted events remain authoritative for UI execution statistics.
 
 | Symptom | Action |
 | --- | --- |
-| orqalis not found | Check npm prefix -g is on PATH; use orqalis.cmd on Windows |
+| orqalis not found or blocked | Check npm prefix -g is on PATH; in PowerShell run `Set-Alias orqalis orqalis.cmd` for this session, or call `orqalis.cmd` |
 | npm.ps1 blocked | Use npm.cmd |
 | doctor fails | Check Git, database container health, URL/credentials and migrate |
 | Frontend missing | Reinstall the reviewed npm package; report an incomplete tarball |
@@ -1229,11 +1245,12 @@ result/error code, and a redacted snapshot. Exclude API keys and private provide
 
 ## 15. Command reference
 
-Prefix these with orqalis (or orqalis.cmd in Windows PowerShell).
+Prefix these with orqalis (use the Windows PowerShell alias above if required).
 
 | Command | Purpose |
 | --- | --- |
 | --version / version / doctor / migrate | Version, connectivity, schema upgrades |
+| update / update --check | Install or check the latest public npm package from the npm-installed launcher |
 | init --repo PATH | Register and index a project |
 | status --repo PATH --json | Project identity and Git state |
 | memory status / refresh / search | Memory inspection and retrieval |
@@ -1256,10 +1273,10 @@ Prefix these with orqalis (or orqalis.cmd in Windows PowerShell).
 Inspect exact options through CLI help:
 
 ~~~powershell
-orqalis.cmd --help
-orqalis.cmd run --help
-orqalis.cmd runs recover --help
-orqalis.cmd goal validate --help
+orqalis --help
+orqalis run --help
+orqalis runs recover --help
+orqalis goal validate --help
 ~~~
 
 Further reading:

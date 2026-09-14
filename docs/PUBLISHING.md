@@ -1,6 +1,6 @@
 # Publishing Orqalis
 
-Orqalis 1.0.0 is MIT licensed. The Python Core remains authoritative; the npm package
+Orqalis is MIT licensed. The Python Core remains authoritative; the npm package
 is a distribution launcher for that same Core. The private package in web/ is only the UI.
 
 [Orqalis 1.0.0](https://www.npmjs.com/package/orqalis/v/1.0.0) was published to the
@@ -20,8 +20,9 @@ orqalis --help
 ```
 
 No npm account, login or manual virtual-environment activation is needed to install
-the public package. On Windows PowerShell, use `npm.cmd` and `orqalis.cmd` if script
-execution policy blocks the `.ps1` shims. The combined [README usage guide](../README.md#usage-guide)
+the public package. On Windows PowerShell, use `npm.cmd` for installation and the
+[session-local alias](../README.md#install-globally) to type `orqalis` when script
+execution policy blocks its `.ps1` shim. `orqalis.cmd` remains a fallback. The combined [README usage guide](../README.md#usage-guide)
 covers database setup, project initialization, the dashboard and assistant configuration.
 
 Requirements: Node.js 22+, Python 3.12+ with venv/pip, and internet for first-launch
@@ -48,9 +49,11 @@ A terminated setup may leave a lock, with manual recovery described in the npm R
 
 ## Prepare artifacts for the next release
 
-Version 1.0.0 is already public and cannot be overwritten. Before preparing another
-publication, choose an unused release version and update `pyproject.toml`,
-`src/orqalis/__init__.py`, `web/package.json` and `packages/npm/package.json` together.
+Version 1.0.0 is already public and cannot be overwritten. Version 1.0.1 adds the
+built-in updater; users on 1.0.0 need one npm upgrade to gain that command. Each
+subsequent publication must use an unused version and pass its release checks. For each
+new release, update
+`pyproject.toml`, `src/orqalis/__init__.py`, `web/package.json` and `packages/npm/package.json` together.
 Refresh their lockfiles and verify version consistency. Rebuilding an existing version
 for investigation is separate from publishing a new release.
 

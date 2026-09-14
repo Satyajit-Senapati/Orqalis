@@ -324,3 +324,44 @@ npm.cmd view orqalis@1.0.0 version dist.integrity --registry=https://registry.np
 - Optional future trusted publishing requires separate npm configuration; current workflows do not publish.
 
 The two maintainer readiness records are intentionally excluded from the npm tarball to avoid embedding private audit material or creating a circular tarball hash. Public usage documentation remains included. No database migration accompanies these fixes.
+
+## 1.0.1 direct-update patch candidate - 2026-09-14
+
+This section supplements the historical 1.0.0 audit above. The public registry still
+serves 1.0.0 as `latest`; the reviewed 1.0.1 package is **not published**. The source
+patch adds the npm-global `orqalis update --check` and `orqalis update` path, an
+explicit Windows PowerShell session alias for bare `orqalis` on restrictive hosts, and
+stale-wheel cleanup during consecutive release preparation. The updater calls the npm
+CLI installed beside Node with absolute argv, pins the exact version checked from the
+public registry, retains the invoking global prefix, and cannot downgrade.
+
+Validation: 175 Python unit tests (including 18 focused CLI/packaging tests)
+and 29 npm launcher tests passed;
+Python Ruff and strict script mypy, npm syntax/lint/Prettier, frontend lint/28 tests/build
+and `git diff --check` passed. `prepare_npm.py` staged only the 1.0.1 wheel. The exact
+reviewed `dist/orqalis-1.0.1.tgz` contains 59 files, including the current README,
+release notes, updater, wheel and locked requirements; it excludes stale wheels,
+maintainer-only audit records and GUIDE.md. `npm publish --dry-run` passed without an
+upload. Tarball SHA-256:
+`9C7ADB0110483B3EDED94BE4973166E12E9F0009CDB360613A7DEB091CB3A9A5`.
+
+An isolated Windows x64 install of this tarball passed cold/cached version startup,
+help, JSON output, invalid-command exit and hostile working-directory isolation on
+Node 24.16.0/Python 3.12.14. In restricted PowerShell, a session-local alias executed
+`orqalis update --check` and correctly refused to downgrade 1.0.1 while `latest` was
+1.0.0. To exercise actual self-replacement without touching the user's installation,
+a disposable global prefix had its fixture manifest marked 0.9.9; `orqalis update`
+then replaced that temporary package with the real public 1.0.0 and returned success.
+The first broad unit run exposed a test assertion hard-coded to 1.0.0 and one
+Windows process-cleanup timing failure. The assertion now checks release metadata.
+The timing case passed separately, its full module passed, and 12 measured repetitions
+completed in 0.203-0.297 seconds without escaped descendants. The subsequent
+complete unit run passed 175/175; no cleanup defect was reproduced.
+
+The final reviewed tarball was also installed over the real public 1.0.0 package
+in the same disposable prefix; its installed CLI smoke passed again.
+This does not claim an actual 1.0.1-to-future-version upgrade, which requires a future
+public release. No database or paid-provider call was needed for this patch validation.
+
+Public publication remains a separate irreversible release-owner action. Recheck the
+unused version, source commit, hosted CI and tarball integrity before publishing.

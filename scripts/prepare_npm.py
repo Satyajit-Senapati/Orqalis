@@ -110,6 +110,27 @@ def _replace_tree(
     shutil.copytree(source, destination, ignore=ignore)
 
 
+def _stage_wheel(wheel: Path, vendor: Path, checkout: Path) -> None:
+    """Replace the generated wheel without carrying older releases into npm pack."""
+    boundary = checkout.resolve()
+    target = vendor.resolve()
+    if vendor.is_symlink() or target == boundary or not target.is_relative_to(boundary):
+        raise ValueError("Generated release path must remain within the checkout")
+    vendor.mkdir(exist_ok=True)
+    if not vendor.is_dir():
+        raise ValueError(f"Generated release path must be a directory: {vendor}")
+    current = vendor / wheel.name
+    if current.is_symlink():
+        raise ValueError(f"Generated release wheel cannot be a symlink: {current}")
+    shutil.copy2(wheel, current)
+    for stale in vendor.glob("orqalis-*-py3-none-any.whl"):
+        if stale == current:
+            continue
+        if stale.is_symlink() or not stale.is_file():
+            raise ValueError(f"Generated release wheel must be a regular file: {stale}")
+        stale.unlink()
+
+
 def prepare(root: Path, uv: str) -> None:
     package = root / "packages" / "npm"
     config = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]
@@ -150,9 +171,8 @@ def prepare(root: Path, uv: str) -> None:
         source = _verify_wheel_source(archive, root / "src" / "orqalis")
         web = _verify_wheel_ui(archive, root / "web" / "dist")
     vendor = package / "vendor"
-    vendor.mkdir(exist_ok=True)
     # Explicit paths avoid accidentally shipping an older release from dist/.
-    shutil.copy2(wheel, vendor / wheel.name)
+    _stage_wheel(wheel, vendor, root)
     subprocess.run(
         [
             uv,

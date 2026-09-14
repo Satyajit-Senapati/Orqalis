@@ -1,3 +1,25 @@
+# Orqalis 1.0.1
+
+Version 1.0.1 adds
+`orqalis update --check` and `orqalis update` to the npm launcher so users can check
+and install the latest public Orqalis version from within Orqalis. The updater runs
+before Python runtime setup and leaves database migration and process restarts explicit.
+It checks that the invoking launcher belongs to a global npm installation and updates
+that same global prefix. It does not introduce another distribution channel.
+
+Windows examples can use `orqalis` directly after a session-local PowerShell alias
+when the generated npm `.ps1` shim is blocked; `orqalis.cmd` remains available as a
+fallback. The updater cannot be retrofitted into already-published 1.0.0. Users first
+install 1.0.1 once through npm, then use `orqalis update` for later releases.
+
+Candidate validation covered 175 Python unit tests, 29 npm launcher tests,
+packaging checks and a clean Windows global-prefix install. Restricted PowerShell
+alias invocation and an isolated real npm self-update also passed. The 1.0.1
+tarball is prepared for release-owner review; it has not been published.
+
+No workflow, provider, database, schema, migration or dashboard behavior changes in
+this patch. See the combined [upgrade guide](../README.md#upgrade-and-uninstall).
+
 # Orqalis 1.0.0
 
 Orqalis 1.0.0 is publicly available on [npm](https://www.npmjs.com/package/orqalis/v/1.0.0),
@@ -104,7 +126,8 @@ the existing Python Core/UI, migrations, skills, Compose configuration and docum
 Node.js 22+ and Python 3.12+ remain required; initial setup uses an isolated runtime.
 The wheel is internal to npm. Standalone executable, separate wheel/source and Orqalis
 PyPI releases are not maintained. Source development remains available to contributors.
-The public registry now lists `orqalis@1.0.0` under the `latest` tag. Its SHA-1 digest
+At the 1.0.0 publication, the registry listed `orqalis@1.0.0` under the
+`latest` tag. Its SHA-1 digest
 `c522b46f28ea793b914d9cc2c591f980e4d142a8` and SHA-512 integrity match the reviewed release
 artifact. Earlier E404/ENEEDAUTH observations were checks made before publication;
 they no longer describe package availability. Installers do not need an npm login.

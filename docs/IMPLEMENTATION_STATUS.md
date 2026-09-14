@@ -464,3 +464,35 @@ tarball remains byte-for-byte unchanged. Evidence is in the release audit public
 record; database and paid provider checks were not repeated for this documentation slice.
 
 No runtime, UI, schema, migration, version or architectural changes. No new publication.
+
+
+## Direct npm updater and Windows command UX - 2026-09-14
+
+Status: implementation complete; version 1.0.1 is a prepared, unpublished patch
+candidate. The already-published 1.0.0 tarball is immutable. The npm launcher now
+supports `orqalis update --check` and `orqalis update` before Python startup. It checks
+the public registry, compares versions without downgrading, installs the exact checked
+release into the invoking global npm prefix, and reports npm failures. npm is resolved
+from the Node installation rather than a project PATH entry. No Python runtime, database
+or UI process is started by the update command. Backup, migration and restart remain
+explicit operator steps.
+
+The combined README uses bare `orqalis` in PowerShell examples after a session-local
+alias for systems that block npm's generated `.ps1` shim. Users on 1.0.0 must run one
+`npm install -g orqalis@latest` upgrade after 1.0.1 publication to gain the built-in
+command. Release preparation now removes stale generated Orqalis wheels before packing
+consecutive versions, while retaining path and symlink safeguards.
+
+Validation: Python unit suite 175 passed (including 18 focused CLI/package tests);
+npm launcher tests 29 passed;
+Ruff, strict mypy, npm syntax/lint/Prettier, frontend lint/28 tests/build and diff
+whitespace checks passed. The 1.0.1 npm tarball contains 59 intended entries and one
+matching wheel. An isolated Windows x64 global install passed cold/cached CLI smoke,
+help, JSON, invalid-command and working-directory isolation. Restricted PowerShell
+alias plus `orqalis update --check` passed. A disposable prefix with an older fixture
+version successfully self-updated through the public npm registry to 1.0.0, leaving
+the user's global installation and database untouched. No schema migration is required.
+
+No competing distribution mechanism, orchestration change or UI behavior was added.
+The patch is not public until the release owner approves and publishes its reviewed
+1.0.1 tarball.

@@ -7,6 +7,7 @@ import pytest
 from scripts.prepare_npm import (
     _MAINTAINER_RELEASE_DOCS,
     _replace_tree,
+    _stage_wheel,
     _verify_wheel_source,
     _verify_wheel_ui,
 )
@@ -26,6 +27,39 @@ def test_replace_tree_removes_stale_generated_files(tmp_path: Path) -> None:
     _replace_tree(source, destination, tmp_path)
 
     assert [path.name for path in destination.iterdir()] == ["current.toml"]
+
+
+def test_stage_wheel_removes_only_previous_orqalis_release(tmp_path: Path) -> None:
+    vendor = tmp_path / "packages" / "npm" / "vendor"
+    vendor.mkdir(parents=True)
+    old = vendor / "orqalis-1.0.0-py3-none-any.whl"
+    old.write_bytes(b"old release")
+    requirements = vendor / "requirements.txt"
+    requirements.write_text("existing requirements", encoding="utf-8")
+    unrelated = vendor / "another-package-1.0.0-py3-none-any.whl"
+    unrelated.write_bytes(b"unrelated")
+    wheel = tmp_path / "orqalis-1.0.1-py3-none-any.whl"
+    wheel.write_bytes(b"new release")
+
+    _stage_wheel(wheel, vendor, tmp_path)
+    _stage_wheel(wheel, vendor, tmp_path)
+
+    assert not old.exists()
+    assert (vendor / wheel.name).read_bytes() == b"new release"
+    assert requirements.read_text(encoding="utf-8") == "existing requirements"
+    assert unrelated.read_bytes() == b"unrelated"
+
+
+def test_stage_wheel_rejects_vendor_outside_checkout(tmp_path: Path) -> None:
+    checkout = tmp_path / "checkout"
+    checkout.mkdir()
+    wheel = checkout / "orqalis-1.0.1-py3-none-any.whl"
+    wheel.write_bytes(b"new release")
+    outside = tmp_path / "outside"
+
+    with pytest.raises(ValueError, match="within the checkout"):
+        _stage_wheel(wheel, outside, checkout)
+    assert not outside.exists()
 
 
 def test_wheel_frontend_must_match_current_build_exactly(tmp_path: Path) -> None:

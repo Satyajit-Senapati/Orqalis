@@ -9,6 +9,7 @@ import pytest
 from pydantic import ValidationError
 from typer.testing import CliRunner
 
+from orqalis import __version__
 from orqalis.cli.app import app
 from orqalis.config.settings import Settings
 from orqalis.domain.project import Project
@@ -68,7 +69,7 @@ def test_logging_redaction_context_and_allowlist() -> None:
 def test_cli_help_and_version() -> None:
     runner = CliRunner()
     assert runner.invoke(app, ["--help"]).exit_code == 0
-    assert runner.invoke(app, ["version"]).stdout.strip() == "1.0.0"
+    assert runner.invoke(app, ["version"]).stdout.strip() == __version__
 
 
 def test_domain_dependency_boundary() -> None:

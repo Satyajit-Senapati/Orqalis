@@ -76,6 +76,17 @@ def version() -> None:
     typer.echo(__version__)
 
 
+@app.command("update")
+def update_installed_package() -> None:
+    """Check or install updates through the globally installed npm launcher."""
+    typer.echo(
+        "The update command requires the globally installed npm launcher; "
+        "install with npm install -g orqalis.",
+        err=True,
+    )
+    raise typer.Exit(2)
+
+
 @app.command()
 def migrate() -> None:
     """Upgrade PostgreSQL using installed migrations; no repository checkout required."""
