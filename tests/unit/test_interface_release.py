@@ -1,13 +1,21 @@
 import subprocess
+import threading
+import time
+import webbrowser
+from collections.abc import Callable
 from unittest.mock import Mock
 
 import httpx
 import pytest
+import uvicorn
 from pydantic import ValidationError
 
+import orqalis.api.hosting as hosting
+from orqalis import __version__
 from orqalis.api.app import ContextRequest, origin_allowed
-from orqalis.api.hosting import ensure_server
+from orqalis.api.hosting import ui_session
 from orqalis.config.settings import Settings
+from orqalis.domain.errors import ConflictError
 
 
 @pytest.mark.parametrize(
@@ -23,27 +31,184 @@ def test_malformed_origin_fails_closed(origin: str) -> None:
     assert not origin_allowed(origin, "http://localhost:7842")
 
 
-def test_background_ui_preserves_python_isolation(monkeypatch: pytest.MonkeyPatch) -> None:
-    import orqalis.api.hosting as hosting
-
-    process = Mock(spec=subprocess.Popen)
-    process.poll.return_value = None
-    launch = Mock(return_value=process)
-    requests = 0
-
-    def transport(request: httpx.Request) -> httpx.Response:
-        nonlocal requests
-        requests += 1
-        if requests == 1:
-            raise httpx.ConnectError("not listening", request=request)
-        return httpx.Response(200, json={"service": "orqalis", "version": "1.0.0"})
-
-    client = httpx.Client(transport=httpx.MockTransport(transport))
-    monkeypatch.setattr(httpx, "Client", lambda **kwargs: client)
-    monkeypatch.setattr(subprocess, "Popen", launch)
+def _mock_health(
+    monkeypatch: pytest.MonkeyPatch, handler: Callable[[httpx.Request], httpx.Response]
+) -> None:
+    real_client = httpx.Client
+    monkeypatch.setattr(
+        httpx,
+        "Client",
+        lambda **kwargs: real_client(transport=httpx.MockTransport(handler)),
+    )
     monkeypatch.setattr(hosting, "frontend_directory", lambda: object())
-    assert ensure_server(Settings()) == "http://127.0.0.1:7842"
-    assert launch.call_args.args[0][1:] == ["-I", "-m", "orqalis", "serve"]
+    monkeypatch.setattr(hosting, "_port_open", lambda settings: False)
+
+
+def test_ui_reuses_existing_host_without_taking_ownership(monkeypatch: pytest.MonkeyPatch) -> None:
+    _mock_health(
+        monkeypatch,
+        lambda request: httpx.Response(200, json={"service": "orqalis", "version": __version__}),
+    )
+    create_app = Mock(side_effect=AssertionError("must not start another host"))
+    monkeypatch.setattr(hosting, "create_app", create_app)
+    browser = Mock()
+    monkeypatch.setattr(webbrowser, "open", browser)
+
+    with ui_session(Settings(), "/runs/example") as session:
+        assert session.url == "http://127.0.0.1:7842"
+        assert not session.owned
+        session.wait()
+
+    create_app.assert_not_called()
+    browser.assert_called_once_with("http://127.0.0.1:7842/runs/example")
+
+
+def _mock_owned_server(monkeypatch: pytest.MonkeyPatch) -> tuple[threading.Event, threading.Event]:
+    running = threading.Event()
+    stopped = threading.Event()
+
+    class FakeServer:
+        def __init__(self, config: object) -> None:
+            self.should_exit = False
+            self.force_exit = False
+            self.started = False
+
+        def run(self) -> None:
+            self.started = True
+            running.set()
+            while not self.should_exit:
+                time.sleep(0.005)
+            stopped.set()
+
+    def health(request: httpx.Request) -> httpx.Response:
+        if not running.is_set():
+            raise httpx.ConnectError("not listening", request=request)
+        return httpx.Response(200, json={"service": "orqalis", "version": __version__})
+
+    _mock_health(monkeypatch, health)
+    monkeypatch.setattr(uvicorn, "Config", lambda *args, **kwargs: object())
+    monkeypatch.setattr(uvicorn, "Server", FakeServer)
+    monkeypatch.setattr(hosting, "create_app", lambda: object())
+    return running, stopped
+
+
+def test_ui_owned_host_stays_in_process_and_stops_on_exit(monkeypatch: pytest.MonkeyPatch) -> None:
+    running, stopped = _mock_owned_server(monkeypatch)
+    process = Mock(side_effect=AssertionError("must not spawn a child process"))
+    monkeypatch.setattr(subprocess, "Popen", process)
+
+    with ui_session(Settings()) as session:
+        assert session.owned
+        assert running.is_set()
+        assert not stopped.is_set()
+
+    assert stopped.wait(timeout=1)
+    process.assert_not_called()
+
+
+def test_ui_wait_blocks_until_owned_host_stops(monkeypatch: pytest.MonkeyPatch) -> None:
+    _, stopped = _mock_owned_server(monkeypatch)
+
+    with ui_session(Settings()) as session:
+        timer = threading.Timer(0.05, lambda: setattr(session._server, "should_exit", True))
+        timer.start()
+        session.wait()
+        timer.join(timeout=1)
+        assert stopped.is_set()
+
+
+def test_ui_ctrl_c_returns_to_prompt_and_closes_owned_host(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _, stopped = _mock_owned_server(monkeypatch)
+
+    with ui_session(Settings()) as session:
+        thread = session._thread
+        assert thread is not None
+        original_join = thread.join
+        interrupted = False
+
+        def interrupt_once(timeout: float | None = None) -> None:
+            nonlocal interrupted
+            if not interrupted:
+                interrupted = True
+                raise KeyboardInterrupt
+            original_join(timeout)
+
+        monkeypatch.setattr(thread, "join", interrupt_once)
+        session.wait()
+        assert interrupted
+
+    assert stopped.wait(timeout=1)
+
+
+def test_ui_startup_failure_does_not_leave_a_host(monkeypatch: pytest.MonkeyPatch) -> None:
+    stopped = threading.Event()
+
+    def unavailable(request: httpx.Request) -> httpx.Response:
+        raise httpx.ConnectError("not listening", request=request)
+
+    class FailedServer:
+        started = False
+        should_exit = False
+        force_exit = False
+
+        def __init__(self, config: object) -> None:
+            pass
+
+        def run(self) -> None:
+            stopped.set()
+
+    _mock_health(monkeypatch, unavailable)
+    monkeypatch.setattr(uvicorn, "Config", lambda *args, **kwargs: object())
+    monkeypatch.setattr(uvicorn, "Server", FailedServer)
+    monkeypatch.setattr(hosting, "create_app", lambda: object())
+
+    with pytest.raises(ConflictError, match="exited"), ui_session(Settings()):
+        pass
+
+    assert stopped.is_set()
+
+
+def test_ui_owned_host_stops_when_browser_open_fails(monkeypatch: pytest.MonkeyPatch) -> None:
+    _, stopped = _mock_owned_server(monkeypatch)
+    monkeypatch.setattr(webbrowser, "open", Mock(side_effect=RuntimeError("browser failed")))
+
+    with pytest.raises(RuntimeError, match="browser failed"), ui_session(Settings(), "/"):
+        pass
+
+    assert stopped.wait(timeout=1)
+
+
+def test_ui_rejects_foreign_service_on_configured_port(monkeypatch: pytest.MonkeyPatch) -> None:
+    _mock_health(monkeypatch, lambda request: httpx.Response(200, json={"service": "foreign"}))
+    create_app = Mock(side_effect=AssertionError("must not start a host"))
+    monkeypatch.setattr(hosting, "create_app", create_app)
+
+    with pytest.raises(ConflictError, match="another service"), ui_session(Settings()):
+        pass
+
+    create_app.assert_not_called()
+
+
+def test_ui_rejects_a_different_installed_version(monkeypatch: pytest.MonkeyPatch) -> None:
+    _mock_health(
+        monkeypatch,
+        lambda request: httpx.Response(200, json={"service": "orqalis", "version": "0.0.0"}),
+    )
+    with pytest.raises(ConflictError, match="different Orqalis version"), ui_session(Settings()):
+        pass
+
+
+def test_ui_rejects_occupied_non_http_port(monkeypatch: pytest.MonkeyPatch) -> None:
+    def unavailable(request: httpx.Request) -> httpx.Response:
+        raise httpx.RemoteProtocolError("invalid HTTP", request=request)
+
+    _mock_health(monkeypatch, unavailable)
+    monkeypatch.setattr(hosting, "_port_open", lambda settings: True)
+
+    with pytest.raises(ConflictError, match="another service"), ui_session(Settings()):
+        pass
 
 
 @pytest.mark.parametrize("budget", [1000, 200000])

@@ -19,7 +19,7 @@ orqalis run "Implement offline sync" --open
 orqalis serve
 ```
 
-A run prints its run ID and browser URL. `--open` starts/reuses the local service and opens the run route. Headless/CI execution can disable UI hosting without changing workflow behavior.
+A run prints its run ID and browser URL. `--open` starts a terminal-owned local UI host or reuses an existing healthy one, then opens the run route. When it starts the host, the CLI remains active after work completes until Ctrl+C; cleanup closes only its own host. `orqalis ui` has the same foreground lifetime. Headless/CI execution can disable UI hosting without changing workflow behavior. No Windows service or autostart entry is installed.
 
 ## 3. Information architecture
 
@@ -264,5 +264,7 @@ Node.js 22+ and Python 3.12+ remain prerequisites. Database Compose configuratio
 included in the package; an existing PostgreSQL/pgvector service can also be configured.
 
 npm installation never starts services or runs migrations automatically. The launcher
-reuses an isolated Python runtime; the browser remains a projection of Core APIs/events.
+reuses an isolated Python runtime; `ui` and `run --open` host only for the owning CLI
+session, and Ctrl+C stops an owned host. PostgreSQL is configured and started separately.
+The browser remains a projection of Core APIs/events.
 See [README.md](../README.md) and [ADR 0002](adr/0002-npm-distribution.md).

@@ -11,6 +11,11 @@ ORQALIS_ environment variables.
 
     orqalis run "Describe the requested change" --repo PATH --open
 
+`--open` hosts the local UI inside this CLI process while work runs. After the run,
+press Ctrl+C to stop its UI and return to the prompt, or use a second terminal for
+the commands below. If another Orqalis UI already owns the port, its host is reused
+and remains independently controlled. No Windows service is registered.
+
 A Requirements actor creates a structured goal and evidence-backed acceptance contract.
 The command prints a run ID before provider execution. The source branch is not switched.
 Use --branch to choose the owned run branch; otherwise a unique orqalis/run-* branch

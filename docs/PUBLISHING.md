@@ -20,7 +20,10 @@ orqalis --help
 ```
 
 No npm account, login or manual virtual-environment activation is needed to install
-the public package. On Windows PowerShell, use `npm.cmd` for installation and the
+the public package. Installation registers no Windows service, scheduled task or autostart
+entry. `orqalis ui --open` hosts in its terminal until Ctrl+C, and `run --open` keeps
+any UI host it starts in the invoking CLI session. On Windows PowerShell, use
+`npm.cmd` for installation and the
 [session-local alias](../README.md#install-globally) to type `orqalis` when script
 execution policy blocks its `.ps1` shim. `orqalis.cmd` remains a fallback. The combined [README usage guide](../README.md#usage-guide)
 covers database setup, project initialization, the dashboard and assistant configuration.

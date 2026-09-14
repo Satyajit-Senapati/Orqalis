@@ -78,6 +78,9 @@ orqalis --version
 ```
 
 Installing the public package does not require an npm account or login.
+Terminal-owned UI hosting requires Orqalis 1.0.1 or newer. Version 1.0.0 used a
+detached UI host; check `orqalis --version` and upgrade to 1.0.1 or newer for the
+Ctrl+C behavior described below.
 On Windows PowerShell, use `npm.cmd install -g orqalis` and the
 [session setup below](#install-globally) to type `orqalis` directly.
 
@@ -91,9 +94,11 @@ orqalis doctor
 orqalis ui --open
 ```
 
-Open **http://localhost:7842**. On Windows use `npm.cmd` for installation and
-`orqalis` after the [PowerShell session setup](#install-globally).
-First launch creates an isolated Python runtime and needs internet access.
+Open **http://localhost:7842**. The `ui --open` command stays in the terminal;
+leave it running and use another terminal for project commands. Ctrl+C stops its
+local UI/API host. On Windows use `npm.cmd` for installation and `orqalis` after
+the [PowerShell session setup](#install-globally). First launch creates an isolated
+Python runtime and needs internet access.
 
 Configure a provider/model using the [provider setup guide](#2-configuration-and-providers),
 then register a committed project and start requirements discovery:
@@ -349,7 +354,10 @@ orqalis doctor
 orqalis ui --open
 ~~~
 
-Open http://localhost:7842. If you already have PostgreSQL with pgvector, configure
+The UI command runs in the foreground. Leave this terminal open and use a second
+terminal for `init`, `run` and other commands. Ctrl+C stops the UI/API host; closing
+the browser tab does not. Open http://localhost:7842. If you already have PostgreSQL
+with pgvector, configure
 ORQALIS_DATABASE_URL instead of starting another database. Installation never creates
 or migrates a database automatically. doctor checks Git and database connectivity;
 it does not authenticate providers or validate the project's sandbox image.
@@ -358,7 +366,8 @@ it does not authenticate providers or validate the project's sandbox image.
 
 Before upgrading, reach a safe execution checkpoint and follow the [backup guidance](#13-data-backups-and-upgrades).
 Stop your Orqalis UI server and MCP processes before updating the launcher and applying
-database migrations. Closing the browser does not stop a background server.
+database migrations. Stop a terminal-owned UI session with Ctrl+C; closing the
+browser tab alone does not stop it.
 The built-in updater begins with version 1.0.1; the original 1.0.0 launcher
 must be upgraded once with `npm install -g orqalis@latest` (`npm.cmd` in
 PowerShell). From the new version onward:
@@ -614,6 +623,10 @@ author_email in this policy.
 orqalis run "Normalize names safely" --repo $repo --branch feature/normalize-names --contract $goalFile --open
 ~~~
 
+When this command starts its own UI host, it stays in the terminal after preparing
+the run. Copy the printed UUID and use another terminal for inspection, or press
+Ctrl+C to stop that UI host before continuing. The saved run remains available.
+
 Copy the printed run UUID:
 
 ~~~powershell
@@ -809,15 +822,19 @@ accepted commit remains traceable in its delivery record.
 orqalis ui --open
 ~~~
 
-ui starts or reuses a background local server. Closing the browser stops neither the server
-nor execution. For foreground hosting and startup diagnostics:
+`ui` starts Mission Control in the current terminal, or opens an already-running
+Orqalis UI without taking ownership of it. Ctrl+C stops a UI host started by this
+command. Closing the browser tab does not stop the terminal process or any active run.
+For API hosting without opening the browser:
 
 ~~~powershell
 orqalis serve
 ~~~
 
-Use an unused port when another server is listening. Ctrl+C stops a foreground server.
-There is no ui stop command in V1.
+Use an unused port when another service owns the address. `orqalis ui` and
+`orqalis serve` do not register a Windows service, scheduled task or autostart entry.
+A newly hosted `orqalis run --open` session remains in its terminal after the run
+finishes, until Ctrl+C. A separate, already-running UI is never stopped by it.
 
 Home opens with the registered project list and persisted run summary. Choose a project card
 or sidebar project to filter run history. **View all projects** clears the filter. Mission
@@ -1192,8 +1209,10 @@ reconstruct deleted workspace files.
 
 Before upgrading, reach a safe execution checkpoint, stop your UI/MCP processes and
 retain a backup. Use `orqalis update` once its package version supports it, then run
-`orqalis migrate` and restart UI/MCP processes with the intended environment. Ctrl+C stops a foreground `serve` process; for a background
-server, stop the Orqalis process you own. Closing its browser tab does not stop it.
+`orqalis migrate` and restart UI/MCP processes with the intended environment.
+Ctrl+C stops a UI/`serve` host owned by its terminal. Closing the browser tab does
+not stop that host. A PostgreSQL container started by Compose is separate and
+remains under your control until you stop it.
 
 Do not remove a worktree containing active or unreviewed work. Safe worktree management
 exists as a Python service; there is no blanket CLI cleanup command.
@@ -1267,7 +1286,7 @@ Prefix these with orqalis (use the Windows PowerShell alias above if required).
 | runs recover RUN_ID EXECUTION_ID | Explicit interrupted-attempt recovery |
 | runs replan RUN_ID | Plan work for an explicitly revised goal |
 | goal create / show / revise / validate | Contract and evidence operations |
-| ui --open / serve | Background or foreground local UI host |
+| ui --open / serve | Terminal-owned local UI/API host; Ctrl+C stops it |
 | mcp --policy FILE | Project-scoped MCP stdio server |
 
 Inspect exact options through CLI help:

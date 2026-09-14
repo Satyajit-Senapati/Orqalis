@@ -1,6 +1,7 @@
 import asyncio
 import json
 import shutil
+from contextlib import ExitStack
 from pathlib import Path
 from typing import Annotated
 from uuid import UUID, uuid4
@@ -11,7 +12,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from orqalis import __version__
-from orqalis.api.hosting import ensure_server, local_url
+from orqalis.api.hosting import local_url, ui_session
 from orqalis.cli.catalog import agents, config_app, discover_skills, skills
 from orqalis.cli.dependencies import command_errors, memory_service, project_service
 from orqalis.cli.goals import app as goals_app
@@ -199,9 +200,12 @@ def serve() -> None:
 
 @app.command()
 def ui(open_browser: bool = typer.Option(False, "--open")) -> None:
-    """Start or reuse local Mission Control."""
-    with project_service():
-        typer.echo(ensure_server(Settings(), "/" if open_browser else None))
+    """Host Mission Control in this terminal until Ctrl+C."""
+    with command_errors(), ui_session(Settings(), "/" if open_browser else None) as host:
+        typer.echo(host.url)
+        if host.owned:
+            typer.echo("Mission Control is running; press Ctrl+C to stop it.", err=True)
+            host.wait()
 
 
 @app.command("run")
@@ -217,7 +221,7 @@ def prepare_run(
     workspaces: Path = DEFAULT_WORKSPACES / ".orqalis" / "workspaces",
 ) -> None:
     """Prepare an observable goal and optionally execute its scoped policy."""
-    with project_service() as projects:
+    with project_service() as projects, ExitStack() as ui_stack:
         project, _ = projects.status(repo)
         sdk = Orqalis(unit_of_work=projects.unit_of_work)
         state = sdk.prepare_run(
@@ -228,8 +232,11 @@ def prepare_run(
             if contract
             else None,
         )
-        if open_browser:
-            ensure_server(Settings(), f"/runs/{state.run.id}")
+        host = (
+            ui_stack.enter_context(ui_session(Settings(), f"/runs/{state.run.id}"))
+            if open_browser
+            else None
+        )
         if not json_output:
             typer.echo(f"Run {state.run.id}: {state.run.state}")
             typer.echo(f"{local_url(Settings())}/runs/{state.run.id}")
@@ -250,6 +257,9 @@ def prepare_run(
         else:
             typer.echo(f"Run {state.run.id}: {state.run.state}")
             typer.echo(f"{local_url(Settings())}/runs/{state.run.id}")
+        if host is not None and host.owned:
+            typer.echo("Mission Control is running; press Ctrl+C to stop it.", err=True)
+            host.wait()
 
 
 @app.command()

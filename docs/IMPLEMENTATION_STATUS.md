@@ -496,3 +496,29 @@ the user's global installation and database untouched. No schema migration is re
 No competing distribution mechanism, orchestration change or UI behavior was added.
 The patch is not public until the release owner approves and publishes its reviewed
 1.0.1 tarball.
+
+## Foreground CLI hosting and service-free npm lifecycle - 2026-09-14
+
+Status: implementation and local release validation complete; 1.0.1 is unpublished.
+The npm install/update paths do not register a Windows service, scheduled task or
+startup entry. The previously detached UI helper has been replaced by a terminal-owned
+UI session in the same Python CLI process. `orqalis ui` and `orqalis run --open` keep
+an owned listener only while their command remains active; Ctrl+C closes it. A second
+CLI reuses a healthy same-version listener without claiming or stopping it. An occupied
+port belonging to another service or Orqalis version fails explicitly. `orqalis serve`
+remains a foreground API/UI command. PostgreSQL is a separately configured dependency,
+not a process installed or started by npm.
+
+Focused tests cover ownership, reuse, startup and shutdown failures, browser-open
+cleanup, stale-version rejection and CLI wait ordering. The installed-package harness
+now checks that the listener belongs to the exact npm CLI process tree and that the
+port is released after that owned process stops. No schema migration or provider change.
+
+Validation: 190 Python unit tests, seven PostgreSQL-backed API/schema integration
+tests, 29 npm launcher tests, Ruff, formatting and strict mypy passed. The rebuilt
+package passed npm publish --dry-run, cold/cached global CLI smoke and 17 installed
+Core/MCP/UI checks from a disposable npm prefix against disposable PostgreSQL.
+Windows source and isolated npm CLI Ctrl+C checks released their listening
+ports with no leftover process. The installed UI check verified listener ancestry and port release after
+stopping the exact test-owned CLI tree. The previous 1.0.1 tarball remains only
+historical evidence; the foreground candidate supersedes it before publication.

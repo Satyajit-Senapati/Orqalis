@@ -17,6 +17,9 @@ uv run orqalis doctor
 uv run orqalis ui --open
 ~~~
 
+The UI stays in this terminal until Ctrl+C. Run contributor commands in another
+terminal; installation does not register a Windows service.
+
 On Windows, use npm.cmd if PowerShell blocks npm.ps1. This checkout also contains an
 ignored local uv/Python installation under .tools and .venv/Scripts. Normal installations
 can use uv on PATH. See [OPERATIONS.md](OPERATIONS.md) for task execution and recovery.

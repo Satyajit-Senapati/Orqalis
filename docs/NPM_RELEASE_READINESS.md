@@ -365,3 +365,37 @@ public release. No database or paid-provider call was needed for this patch vali
 
 Public publication remains a separate irreversible release-owner action. Recheck the
 unused version, source commit, hosted CI and tarball integrity before publishing.
+
+## 1.0.1 foreground CLI candidate supersession - 2026-09-14
+
+The 1.0.1 tarball identified by SHA-256
+`9C7ADB0110483B3EDED94BE4973166E12E9F0009CDB360613A7DEB091CB3A9A5`
+above is historical and must **not** be published. It still contained the previous
+UI helper that could leave a detached `orqalis serve` process after the CLI returned.
+The final 1.0.1 candidate replaces that helper with terminal-owned hosting in the
+invoking Python CLI process. No Windows service, scheduled task, startup entry or
+post-install process is registered. The UI listener ends when its owning CLI exits;
+a healthy same-version listener may be reused without claiming its lifetime.
+
+Validation: 190 unit tests, seven PostgreSQL-backed API/schema integration tests,
+29 npm launcher tests, Ruff, format and strict mypy passed. `npm publish --dry-run`
+reports 59 intended entries. A disposable global npm install passed cold/cached
+launcher smoke and 17 installed Core/MCP/UI checks: exact CLI listener ownership,
+second-command reuse, packaged assets, API snapshot, ordered WebSocket replay and
+port release after stopping the test-owned CLI tree. Windows source and installed
+npm CLI Ctrl+C checks released their listeners and left no child process; a scoped
+installed Ctrl+Break check also released its listener and process group. The final
+README version note changed wheel metadata while Python source and npm launcher
+stayed unchanged. Final wheel SHA-256:
+`E9F3C99E3453B73C58330851D7081E6140750AC5FBD81841327D8FACEBA3EF09`.
+The exact final tarball passed installed global CLI smoke. The disposable PostgreSQL
+container and installed-prefix fixtures were removed after validation.
+
+The local full-suite attempt stalled in Windows collection after a transient resource
+exception; unit, targeted database integration and installed-package validation passed.
+Hosted CI must pass the full suite before publication.
+
+The replacement `dist/orqalis-1.0.1.tgz` SHA-256 is
+`8908D09867669179F258EDDA90E3DE980B441A25A622A5186B4CA7D2C299B8AD`.
+This is an unpublished candidate. Hosted CI status must be checked against the
+pushed source commit before the release owner decides whether to publish.

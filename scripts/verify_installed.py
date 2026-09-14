@@ -4,7 +4,7 @@ Run with the contributor Python environment for HTTP/MCP test clients; every ser
 and CLI under test comes from --prefix. Set ORQALIS_TEST_DATABASE_URL (or
 ORQALIS_DATABASE_URL) to an explicitly disposable database.
 The caller owns database cleanup; this harness removes its temporary repository and
-stops only the UI listener verified against its exact installed runtime command.
+stops only the foreground CLI process tree verified as the UI listener owner.
 POSIX smoke hosts require lsof for listener ownership inspection.
 """
 
@@ -21,6 +21,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from contextlib import suppress
 from pathlib import Path
 from typing import Any, NotRequired, Protocol, TypedDict
 
@@ -110,10 +111,11 @@ class UIProcessIdentity(TypedDict):
     CommandLine: str | None
     ParentProcessId: NotRequired[int]
     ParentCommandLine: NotRequired[str | None]
+    GrandparentProcessId: NotRequired[int]
 
 
 def isolated_ui_executable(command: str | None) -> Path | None:
-    suffix = " -I -m orqalis serve"
+    suffix = " -I -m orqalis ui"
     if command is None or not command.endswith(suffix):
         return None
     executable = command[: -len(suffix)].strip().strip('"')
@@ -121,24 +123,28 @@ def isolated_ui_executable(command: str | None) -> Path | None:
     return Path(executable).absolute() if executable else None
 
 
-def verified_ui_owner(record: UIProcessIdentity, python: Path) -> int:
+def verified_ui_owner(record: UIProcessIdentity, python: Path, cli_pid: int) -> int:
+    """Verify the listener's isolated runtime and ancestry before cleanup."""
     executable = isolated_ui_executable(record["CommandLine"])
     assert executable is not None, "Listener is not the isolated Orqalis UI server"
     assert record["ProcessId"] > 0, "Invalid UI process ID"
+    assert cli_pid > 0, "Invalid foreground CLI process ID"
     expected = python.absolute()
     if executable == expected:
+        assert record.get("ParentProcessId") == cli_pid, "Listener is not owned by the CLI"
         return record["ProcessId"]
-    # Windows venv redirectors launch a base-interpreter child. The exact managed
-    # runtime parent must have the same isolated UI argv; a base Python alone is insufficient.
+    # Windows venv redirectors launch a base-interpreter child. The managed
+    # runtime must be its exact parent, and our CLI must be its grandparent.
     parent_id = record.get("ParentProcessId")
     if isolated_ui_executable(record.get("ParentCommandLine")) == expected:
         assert parent_id is not None and parent_id > 0, "Invalid UI parent process ID"
+        assert record.get("GrandparentProcessId") == cli_pid, "Listener is not owned by the CLI"
         return parent_id
     raise AssertionError("Listener belongs to another runtime")
 
 
-def ui_owner(port: int, python: Path, cwd: Path, env: dict[str, str]) -> int:
-    """Resolve a unique listener and verify the exact installed-module command before cleanup."""
+def ui_owner(port: int, python: Path, cli_pid: int, cwd: Path, env: dict[str, str]) -> int:
+    """Resolve a unique listener and verify the foreground CLI owns it."""
     if sys.platform == "win32":
         script = (
             "$ErrorActionPreference='Stop'; "
@@ -149,31 +155,47 @@ def ui_owner(port: int, python: Path, cwd: Path, env: dict[str, str]) -> int:
             '$listener=Get-CimInstance Win32_Process -Filter "ProcessId = $ownedId"; '
             "$parentId=$listener.ParentProcessId; "
             '$parent=Get-CimInstance Win32_Process -Filter "ProcessId = $parentId"; '
+            "$grandparentId=$parent.ParentProcessId; "
             "[pscustomobject]@{ProcessId=$listener.ProcessId; CommandLine=$listener.CommandLine; "
-            "ParentProcessId=$listener.ParentProcessId; ParentCommandLine=$parent.CommandLine} | "
-            "ConvertTo-Json -Compress"
+            "ParentProcessId=$listener.ParentProcessId; ParentCommandLine=$parent.CommandLine; "
+            "GrandparentProcessId=$grandparentId} | ConvertTo-Json -Compress"
         )
         record = json.loads(
             run(["powershell", "-NoProfile", "-NonInteractive", "-Command", script], cwd, env)
         )
-        return verified_ui_owner(record, python)
-    else:
-        lsof = shutil.which("lsof")
-        if lsof is None:
-            raise RuntimeError("Installed UI smoke needs lsof to verify its listener ownership")
-        owners = run([lsof, "-nP", f"-iTCP:{port}", "-sTCP:LISTEN", "-t"], cwd, env).splitlines()
-        assert len(set(owners)) == 1, "Expected one smoke listener"
-        process_id = int(owners[0])
-        command = run(["ps", "-ww", "-p", str(process_id), "-o", "args="], cwd, env).strip()
-        return verified_ui_owner({"ProcessId": process_id, "CommandLine": command}, python)
+        return verified_ui_owner(record, python, cli_pid)
+    lsof = shutil.which("lsof")
+    if lsof is None:
+        raise RuntimeError("Installed UI smoke needs lsof to verify its listener ownership")
+    owners = run([lsof, "-nP", f"-iTCP:{port}", "-sTCP:LISTEN", "-t"], cwd, env).splitlines()
+    assert len(set(owners)) == 1, "Expected one smoke listener"
+    process_id = int(owners[0])
+    command = run(["ps", "-ww", "-p", str(process_id), "-o", "args="], cwd, env).strip()
+    parent_id = int(run(["ps", "-p", str(process_id), "-o", "ppid="], cwd, env).strip())
+    return verified_ui_owner(
+        {"ProcessId": process_id, "CommandLine": command, "ParentProcessId": parent_id},
+        python,
+        cli_pid,
+    )
 
 
-def stop_ui(port: int, python: Path, cwd: Path, env: dict[str, str]) -> None:
-    owner = ui_owner(port, python, cwd, env)
+def stop_ui(port: int, process: subprocess.Popen[str], cwd: Path, env: dict[str, str]) -> None:
+    """Stop only the CLI launched by this harness, including its server child."""
     if sys.platform == "win32":
-        run(["taskkill", "/PID", str(owner), "/T", "/F"], cwd, env)
+        if process.poll() is None:
+            run(["taskkill", "/PID", str(process.pid), "/T", "/F"], cwd, env)
     else:
-        os.kill(owner, signal.SIGTERM)
+        # Popen created a fresh session, so this process group contains only our CLI tree.
+        with suppress(ProcessLookupError):
+            os.killpg(process.pid, signal.SIGTERM)
+    try:
+        process.wait(timeout=20)
+    except subprocess.TimeoutExpired:
+        if sys.platform == "win32":
+            run(["taskkill", "/PID", str(process.pid), "/T", "/F"], cwd, env)
+        else:
+            os.killpg(process.pid, signal.SIGKILL)
+        process.wait(timeout=5)
     deadline = time.monotonic() + 20
     while time.monotonic() < deadline:
         with socket.socket() as probe:
@@ -327,43 +349,63 @@ def verify(prefix: Path, runtime: Path, workspace: Path | None = None) -> dict[s
         runtime_python = runtime_path / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
         if sys.platform != "win32" and shutil.which("lsof") is None:
             raise RuntimeError("Installed UI smoke needs lsof to verify its listener ownership")
-        started_ui = False
-        try:
-            assert run([*command, "ui"], root, env).strip() == base
-            started_ui = True
-            owner = ui_owner(port, runtime_python, root, env)
-            assert owner > 0
-            with httpx.Client(base_url=base, trust_env=False, timeout=30) as client:
-                deadline = time.monotonic() + 45
-                while True:
-                    try:
-                        response = client.get("/health")
-                        if response.status_code == 200:
-                            break
-                    except httpx.TransportError:
-                        pass
-                    if time.monotonic() > deadline:
-                        raise RuntimeError("Packaged UI startup timed out")
-                    time.sleep(0.2)
-                assert response.json()["version"] == manifest["version"]
-                assert run([*command, "ui"], root, env).strip() == base
-                page = client.get("/")
-                assert page.status_code == 200 and '<div id="root"></div>' in page.text
-                assets = set(re.findall(r'(?:src|href)="(/assets/[^\"]+)"', page.text))
-                assert assets
-                for asset in assets:
-                    response = client.get(asset)
-                    assert response.status_code == 200 and response.content
-                for path in [f"/runs/{run_id}", f"/runs/{run_id}"]:
-                    assert client.get(path).text == page.text
-                snapshot = client.get(f"/api/runs/{run_id}").json()
-                assert snapshot["run"]["id"] == run_id and snapshot["actors"]
-                assert any(p["id"] == project["id"] for p in client.get("/api/projects").json())
-                assert client.get("/openapi.json").json()["info"]["version"] == manifest["version"]
-                asyncio.run(websocket_check(base, run_id))
-        finally:
-            if started_ui:
-                stop_ui(port, runtime_python, root, env)
+        log_path = root / "ui.log"
+        with log_path.open("w", encoding="utf-8") as output:
+            process = subprocess.Popen(
+                [*command, "ui"],
+                cwd=root,
+                env=env,
+                stdout=output,
+                stderr=subprocess.STDOUT,
+                text=True,
+                start_new_session=sys.platform != "win32",
+                creationflags=(
+                    subprocess.CREATE_NEW_PROCESS_GROUP if sys.platform == "win32" else 0
+                ),
+            )
+            try:
+                with httpx.Client(base_url=base, trust_env=False, timeout=30) as client:
+                    deadline = time.monotonic() + 45
+                    while True:
+                        if process.poll() is not None:
+                            raise RuntimeError(
+                                "Packaged UI command exited before serving: "
+                                + log_path.read_text(encoding="utf-8")[-4000:]
+                            )
+                        try:
+                            response = client.get("/health")
+                            if response.status_code == 200:
+                                break
+                        except httpx.TransportError:
+                            pass
+                        if time.monotonic() > deadline:
+                            raise RuntimeError("Packaged UI startup timed out")
+                        time.sleep(0.2)
+                    assert response.json()["version"] == manifest["version"]
+                    assert process.poll() is None, "Foreground UI command exited after startup"
+                    assert ui_owner(port, runtime_python, process.pid, root, env) > 0
+                    assert process.poll() is None, "Foreground UI command exited after startup"
+                    assert run([*command, "ui"], root, env).strip() == base
+                    assert process.poll() is None, "UI reuse stopped the foreground session"
+                    page = client.get("/")
+                    assert page.status_code == 200 and '<div id="root"></div>' in page.text
+                    assets = set(re.findall(r'(?:src|href)="(/assets/[^"]+)"', page.text))
+                    assert assets
+                    for asset in assets:
+                        response = client.get(asset)
+                        assert response.status_code == 200 and response.content
+                    for path in [f"/runs/{run_id}", f"/runs/{run_id}"]:
+                        assert client.get(path).text == page.text
+                    snapshot = client.get(f"/api/runs/{run_id}").json()
+                    assert snapshot["run"]["id"] == run_id and snapshot["actors"]
+                    assert any(p["id"] == project["id"] for p in client.get("/api/projects").json())
+                    assert (
+                        client.get("/openapi.json").json()["info"]["version"] == manifest["version"]
+                    )
+                    asyncio.run(websocket_check(base, run_id))
+                    assert process.poll() is None, "Foreground UI command exited during checks"
+            finally:
+                stop_ui(port, process, root, env)
         with socket.socket() as probe:
             assert probe.connect_ex(("127.0.0.1", port)) != 0, "UI port remains open after shutdown"
         return {
@@ -384,6 +426,7 @@ def verify(prefix: Path, runtime: Path, workspace: Path | None = None) -> dict[s
                     "packaged_ui_host",
                     "ui_cold_start_hostile_cwd",
                     "ui_command_reuse",
+                    "ui_foreground_session",
                     "static_assets",
                     "direct_route_refresh",
                     "api_schema",

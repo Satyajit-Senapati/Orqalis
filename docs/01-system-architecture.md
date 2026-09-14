@@ -85,7 +85,7 @@ Workflow components emit typed events to a durable stream. UI clients load a run
 ## 3. Runtime deployment modes
 
 ### Local developer mode
-- Orqalis daemon/process runs on developer machine.
+- The local UI/API runs in the invoking CLI process while its terminal remains open; Ctrl+C stops it. No Windows service, scheduled task or autostart entry is registered.
 - SQLite may be permitted only for a prototype, but PostgreSQL is preferred quickly.
 - Local Git worktrees and Docker sandbox.
 - MCP transport can be stdio initially for IDE/CLI-local integration.

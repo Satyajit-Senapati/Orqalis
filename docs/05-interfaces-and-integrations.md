@@ -153,7 +153,14 @@ Initial endpoints may mirror domain use cases:
 - `GET /runs/{id}/events?after=<sequence>`
 - `WS /ws/runs/{id}`
 
-Use WebSocket/SSE for event streaming rather than polling. The Local Control Center loads an authoritative snapshot/projection through REST, then subscribes from a per-run event sequence/cursor. `orqalis run --open` starts/reuses the local UI host and launches the run URL; `orqalis ui` opens/reuses the project dashboard; `orqalis serve` explicitly hosts API/MCP/UI services. Headless mode remains fully supported.
+Use WebSocket/SSE for event streaming rather than polling. The Local Control Center
+loads an authoritative snapshot/projection through REST, then subscribes from a
+per-run event sequence/cursor. `orqalis run --open` hosts the UI in its own CLI
+process while the run executes, opens the run URL, then waits for Ctrl+C after
+completion; an existing healthy Orqalis UI may be reused without ownership.
+`orqalis ui` hosts the dashboard in its terminal, and `orqalis serve` hosts API/UI
+without browser launch. Headless mode remains fully supported. No UI command
+registers or leaves behind a Windows service or detached server.
 
 ## 11. Integration design rule
 

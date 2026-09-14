@@ -10,12 +10,12 @@ from scripts.verify_installed import UIProcessIdentity, stream_snapshot, verifie
 
 def test_ui_cleanup_owns_the_exact_runtime_listener(tmp_path: Path) -> None:
     python = tmp_path / "managed runtime" / "python.exe"
-    assert (
-        verified_ui_owner(
-            {"ProcessId": 20, "CommandLine": f'"{python}" -I -m orqalis serve'}, python
-        )
-        == 20
-    )
+    record: UIProcessIdentity = {
+        "ProcessId": 20,
+        "CommandLine": f'"{python}" -I -m orqalis ui',
+        "ParentProcessId": 10,
+    }
+    assert verified_ui_owner(record, python, 10) == 20
 
 
 def test_ui_cleanup_owns_windows_venv_redirector_parent(tmp_path: Path) -> None:
@@ -23,11 +23,45 @@ def test_ui_cleanup_owns_windows_venv_redirector_parent(tmp_path: Path) -> None:
     base = tmp_path / "base Python" / "python.exe"
     record: UIProcessIdentity = {
         "ProcessId": 20,
-        "CommandLine": f'"{base}" -I -m orqalis serve',
+        "CommandLine": f'"{base}" -I -m orqalis ui',
         "ParentProcessId": 10,
-        "ParentCommandLine": f'"{python}" -I -m orqalis serve',
+        "ParentCommandLine": f'"{python}" -I -m orqalis ui',
+        "GrandparentProcessId": 5,
     }
-    assert verified_ui_owner(record, python) == 10
+    assert verified_ui_owner(record, python, 5) == 10
+
+
+@pytest.mark.parametrize("parent_id", [None, 9])
+def test_ui_cleanup_rejects_runtime_listener_outside_foreground_cli(
+    tmp_path: Path, parent_id: int | None
+) -> None:
+    python = tmp_path / "managed" / "python.exe"
+    record: UIProcessIdentity = {
+        "ProcessId": 20,
+        "CommandLine": f'"{python}" -I -m orqalis ui',
+    }
+    if parent_id is not None:
+        record["ParentProcessId"] = parent_id
+    with pytest.raises(AssertionError, match="not owned by the CLI"):
+        verified_ui_owner(record, python, 10)
+
+
+@pytest.mark.parametrize("grandparent_id", [None, 9])
+def test_ui_cleanup_rejects_redirector_outside_foreground_cli(
+    tmp_path: Path, grandparent_id: int | None
+) -> None:
+    python = tmp_path / "managed" / "Scripts" / "python.exe"
+    base = tmp_path / "base" / "python.exe"
+    record: UIProcessIdentity = {
+        "ProcessId": 20,
+        "CommandLine": f'"{base}" -I -m orqalis ui',
+        "ParentProcessId": 10,
+        "ParentCommandLine": f'"{python}" -I -m orqalis ui',
+    }
+    if grandparent_id is not None:
+        record["GrandparentProcessId"] = grandparent_id
+    with pytest.raises(AssertionError, match="not owned by the CLI"):
+        verified_ui_owner(record, python, 5)
 
 
 @pytest.mark.parametrize("parent", ["base", "different-runtime", "missing-isolation", "absent"])
@@ -35,19 +69,20 @@ def test_ui_cleanup_rejects_unowned_base_interpreter(tmp_path: Path, parent: str
     python = tmp_path / "managed" / "python.exe"
     base = tmp_path / "base" / "python.exe"
     parent_command = {
-        "base": f'"{base}" -I -m orqalis serve',
-        "different-runtime": f'"{tmp_path / "other" / "python.exe"}" -I -m orqalis serve',
+        "base": f'"{base}" -I -m orqalis ui',
+        "different-runtime": f'"{tmp_path / "other" / "python.exe"}" -I -m orqalis ui',
         "missing-isolation": f'"{python}" -m orqalis serve',
         "absent": None,
     }[parent]
     record: UIProcessIdentity = {
         "ProcessId": 20,
-        "CommandLine": f'"{base}" -I -m orqalis serve',
+        "CommandLine": f'"{base}" -I -m orqalis ui',
         "ParentProcessId": 10,
         "ParentCommandLine": parent_command,
+        "GrandparentProcessId": 5,
     }
     with pytest.raises(AssertionError, match="another runtime"):
-        verified_ui_owner(record, python)
+        verified_ui_owner(record, python, 5)
 
 
 def test_ui_cleanup_rejects_nonisolated_listener_even_with_managed_parent(tmp_path: Path) -> None:
@@ -56,10 +91,11 @@ def test_ui_cleanup_rejects_nonisolated_listener_even_with_managed_parent(tmp_pa
         "ProcessId": 20,
         "CommandLine": f'"{tmp_path / "base" / "python.exe"}" -m orqalis serve',
         "ParentProcessId": 10,
-        "ParentCommandLine": f'"{python}" -I -m orqalis serve',
+        "ParentCommandLine": f'"{python}" -I -m orqalis ui',
+        "GrandparentProcessId": 5,
     }
     with pytest.raises(AssertionError, match="not the isolated"):
-        verified_ui_owner(record, python)
+        verified_ui_owner(record, python, 5)
 
 
 class ReplayStream:

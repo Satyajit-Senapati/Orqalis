@@ -12,12 +12,21 @@ when the generated npm `.ps1` shim is blocked; `orqalis.cmd` remains available a
 fallback. The updater cannot be retrofitted into already-published 1.0.0. Users first
 install 1.0.1 once through npm, then use `orqalis update` for later releases.
 
-Candidate validation covered 175 Python unit tests, 29 npm launcher tests,
-packaging checks and a clean Windows global-prefix install. Restricted PowerShell
-alias invocation and an isolated real npm self-update also passed. The 1.0.1
-tarball is prepared for release-owner review; it has not been published.
+Candidate validation covers 190 Python unit tests, seven PostgreSQL-backed API and
+schema tests, 29 npm launcher tests, and strict Python lint, format and type checks.
+The installed package passed 17 Core/MCP/UI checks, including CLI-owned UI hosting,
+assets, API and event stream behavior. Restricted PowerShell alias invocation
+and an isolated real npm
+self-update passed in the earlier updater slice. This 1.0.1 tarball is a prepared,
+unpublished release candidate.
 
-No workflow, provider, database, schema, migration or dashboard behavior changes in
+Local UI hosting is now terminal-owned: `orqalis ui --open` stays active until
+Ctrl+C, and `orqalis run --open` serves during execution and waits for Ctrl+C when
+it owns the UI. A second CLI can reuse a healthy listener without stopping it. No
+Windows service, scheduled task or autostart entry is registered. An installed
+Windows npm CLI released its listener and child process after terminal Ctrl+C.
+
+No workflow, provider, database, schema, migration or dashboard presentation changes in
 this patch. See the combined [upgrade guide](../README.md#upgrade-and-uninstall).
 
 # Orqalis 1.0.0

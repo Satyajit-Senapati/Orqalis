@@ -43,10 +43,22 @@ jobs:
         run: |
           uv run python -m tests.e2e.seed_runtime
           uv run python -m tests.e2e.seed_execution
-          uv run orqalis ui
           uv run python -c 'import json, os; from pathlib import Path; records = [("ORQALIS_E2E_RUN_ID", ".tools/ui-fixture.json"), ("ORQALIS_E2E_COMPLETED_RUN_ID", ".tools/ui-completed.json")]; Path(os.environ["GITHUB_ENV"]).open("a").writelines(name + "=" + json.loads(Path(path).read_text())["run_id"] + chr(10) for name, path in records)'
       - name: Browser contracts
         working-directory: web
         env:
           ORQALIS_BROWSER_CHANNEL: chromium
-        run: npm run test:e2e
+          ORQALIS_DATABASE_URL: postgresql+psycopg://orqalis:orqalis@127.0.0.1:5432/orqalis_test
+        run: |
+          ../.venv/bin/python -I -m orqalis ui > ../.tools/ci-ui.log 2>&1 &
+          ui_pid=$!
+          trap 'kill "$ui_pid" 2>/dev/null || true; wait "$ui_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:7842/health > /dev/null; then break; fi
+            sleep 0.25
+          done
+          if ! curl --fail --silent http://127.0.0.1:7842/health > /dev/null; then
+            cat ../.tools/ci-ui.log
+            exit 1
+          fi
+          npm run test:e2e

@@ -1,7 +1,12 @@
 """Release-facing CLI checks require no database or provider credentials."""
 
 import json
+from collections.abc import Iterator
+from contextlib import contextmanager
+from importlib import import_module
 from pathlib import Path
+from types import SimpleNamespace
+from uuid import uuid4
 
 import pytest
 from typer.testing import CliRunner
@@ -113,3 +118,84 @@ def test_update_is_discoverable_but_requires_npm_launcher() -> None:
     source_result = runner.invoke(app, ["update"])
     assert source_result.exit_code == 2
     assert "globally installed npm launcher" in source_result.output
+
+
+@pytest.mark.parametrize("owned", [True, False])
+def test_ui_command_waits_only_for_its_terminal_owned_host(
+    monkeypatch: pytest.MonkeyPatch, owned: bool
+) -> None:
+    cli = import_module("orqalis.cli.app")
+    events: list[str] = []
+
+    class Host:
+        url = "http://127.0.0.1:7842"
+
+        def __init__(self) -> None:
+            self.owned = owned
+
+        def wait(self) -> None:
+            events.append("wait")
+
+    @contextmanager
+    def session(settings: object, open_path: str | None = None) -> Iterator[Host]:
+        assert open_path == "/"
+        events.append("enter")
+        try:
+            yield Host()
+        finally:
+            events.append("close")
+
+    monkeypatch.setattr(cli, "ui_session", session)
+    result = CliRunner().invoke(app, ["ui", "--open"])
+    assert result.exit_code == 0, result.output
+    assert "http://127.0.0.1:7842" in result.stdout
+    assert events == (["enter", "wait", "close"] if owned else ["enter", "close"])
+
+
+def test_run_open_keeps_ui_during_goal_and_closes_owned_session(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    cli = import_module("orqalis.cli.app")
+    events: list[str] = []
+    run_id = uuid4()
+    project = SimpleNamespace(id=uuid4())
+    projects = SimpleNamespace(status=lambda repo: (project, object()), unit_of_work=object())
+
+    @contextmanager
+    def project_service() -> Iterator[SimpleNamespace]:
+        try:
+            yield projects
+        finally:
+            events.append("project_close")
+
+    @contextmanager
+    def session(settings: object, open_path: str | None = None) -> Iterator[SimpleNamespace]:
+        assert open_path == f"/runs/{run_id}"
+        events.append("ui_enter")
+        try:
+            yield SimpleNamespace(
+                owned=True,
+                wait=lambda: events.append("ui_wait"),
+            )
+        finally:
+            events.append("ui_close")
+
+    class FakeOrqalis:
+        def __init__(self, unit_of_work: object) -> None:
+            pass
+
+        def prepare_run(self, *args: object) -> SimpleNamespace:
+            events.append("goal_prepared")
+            return SimpleNamespace(run=SimpleNamespace(id=run_id, state="GOAL_DEFINED"))
+
+    monkeypatch.setattr(cli, "project_service", project_service)
+    monkeypatch.setattr(cli, "ui_session", session)
+    monkeypatch.setattr(cli, "Orqalis", FakeOrqalis)
+    contract = Path(__file__).parents[2] / "docs/examples/goal.json"
+    result = CliRunner().invoke(
+        app,
+        ["run", "Inspect fixture", "--repo", str(tmp_path), "--contract", str(contract), "--open"],
+    )
+    assert result.exit_code == 0, result.output
+    assert str(run_id) in result.stdout
+    assert events == ["goal_prepared", "ui_enter", "ui_wait", "ui_close", "project_close"]

@@ -9,6 +9,8 @@ orqalis@latest. The reviewed npm tarball is the single public application artifa
 Starting with version 1.0.1, `orqalis update` invokes npm to check or install the
 public `latest` release into its existing global prefix. Database migration remains
 an explicit operator command, and the npm package remains the sole public installer.
+The CLI runs on demand. Local UI/API hosting is terminal-owned and shuts down with
+its command; npm installation registers no Windows service or autostart entry.
 Registry publication is a release-owner action, separate from building and testing.
 The release owner published [orqalis@1.0.0](https://www.npmjs.com/package/orqalis/v/1.0.0)
 on September 14, 2026; the public registry integrity matches the reviewed artifact.
