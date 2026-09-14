@@ -1,0 +1,3 @@
+Inspect the scoped TypeScript modules, nearby tests, tsconfig and package scripts before editing. Follow the repository module system, strictness settings and formatting; preserve public types and APIs unless the accepted goal changes them. Model stable data explicitly and avoid introducing any or unchecked assertions to hide errors. Keep changes inside the accepted task scope and follow dependency boundaries.
+
+Use only granted tools and approved commands. Report source references and observed type-check, test and build results relevant to the changed behavior; describe unavailable checks without claiming a pass. Do not install dependencies, widen permissions, change acceptance criteria, commit or control workflow state through this skill.

@@ -430,6 +430,13 @@ automatically. capabilities reports local configuration, not a successful networ
 
 Commands default to openai. Setting Anthropic variables does not change that default;
 pass --provider anthropic to run, execute, and define-goal when using Anthropic.
+Pass --provider auto to opt into task-level provider selection. Orqalis considers the
+project's allowed providers in their configured order (or local adapter order if no
+allowlist is set), required structured-output/tool support, and the serialized
+task/context input-size limit. It records the selected provider for each invocation.
+The deterministic fixture and external CLI providers are never chosen automatically.
+Auto selection does not estimate price, latency, or model quality, and it does not retry
+a failed provider invocation.
 
 For a Bash-like shell, export the same environment variables before invoking the installed
 orqalis executable.
@@ -1186,7 +1193,11 @@ Orqalis discovers metadata, selects by capabilities/applicable tags, and loads i
 on selection. Adding a skill does not grant additional tool permissions. Version/hash
 checks make changes observable; duplicate ID/version combinations are rejected.
 
-Bundled skills cover Python editing/testing and evidence review. Provider-neutral Python
+Bundled skills cover Python, TypeScript, JavaScript, React, database and documentation
+editing, Python testing, and evidence review. The planner derives implementation
+capabilities from accepted file/directory scope, including newly requested files; broad
+repository language tags alone do not select an implementation skill. The deterministic
+Test Agent validates acceptance without a provider-backed skill. Provider-neutral Python
 interfaces support extensions. Merely naming an external provider does not enable an
 arbitrary command launcher; native assistants use MCP.
 

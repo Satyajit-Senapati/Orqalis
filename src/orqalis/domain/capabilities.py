@@ -26,6 +26,8 @@ class RoleDefinition(Contract):
     responsibility: str
     permissions: PermissionProfile
     capabilities: tuple[str, ...]
+    authority_boundaries: tuple[str, ...] = ()
+    output_contract: str = Field(default="unspecified", min_length=1)
     can_approve_acceptance: bool = False
 
 

@@ -7,6 +7,7 @@ from uuid import UUID, uuid5
 
 from pydantic import JsonValue
 
+from orqalis.agents.roles import provider_output_schema
 from orqalis.agents.routing import CapabilityRouter
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, locked_run, require_key
@@ -29,7 +30,7 @@ from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskStatus
 from orqalis.observability.instrumentation import observed_async
 from orqalis.providers.errors import ProviderError
-from orqalis.providers.validation import prompt_input, validate_result
+from orqalis.providers.validation import validate_result
 
 _ACTIVE_STATES = {
     RunState.ANALYZING,
@@ -99,8 +100,10 @@ class AgentExecutionService:
             project = uow.projects.get(run.project_id)
             if project is None or context.project_id != run.project_id:
                 raise NotFoundError("Provider context belongs to another project")
-            if project.settings.allowed_providers and provider_id not in (
-                project.settings.allowed_providers
+            if (
+                provider_id != "auto"
+                and project.settings.allowed_providers
+                and provider_id not in (project.settings.allowed_providers)
             ):
                 raise PolicyDeniedError("Provider is not permitted for this project")
             attempt = next(
@@ -127,30 +130,15 @@ class AgentExecutionService:
             )
             if task is None or actor is None:
                 raise NotFoundError("Execution contract not found")
+            # Deterministic service roles cannot be invoked as provider workers even
+            # through the low-level SDK entry point with a caller-supplied schema.
+            provider_output_schema(task.preferred_role)
             preparing = task.preferred_role == AgentRole.REQUIREMENTS and task.plan_version == 0
             if preparing:
                 if run.state != RunState.ANALYZING or tools:
                     raise PolicyDeniedError("Requirements are read-only preparatory work")
             elif goal is None or plan is None or run.state == RunState.ANALYZING:
                 raise NotFoundError("Accepted goal and implementation plan are required")
-            provider, request = self.router.prepare(
-                task,
-                context,
-                invocation_id,
-                actor.id,
-                attempt.id,
-                provider_id,
-                project.settings.permissions,
-                output_schema,
-                tools,
-                project.settings.repository_profile.languages,
-                project.settings.skill_pins,
-                budget,
-                observations,
-                goal.goal.constraints
-                if goal
-                else ("Define testable acceptance for the user request; do not assert PASS.",),
-            )
             proofs = tuple(
                 e
                 for criterion in (goal.criteria if goal else ())
@@ -158,7 +146,11 @@ class AgentExecutionService:
                 if (e := uow.runs.get_evidence(ref)) is not None
             )
             workspace = uow.execution.workspace(run_id)
-            constraints = request.constraints
+            constraints = (
+                goal.goal.constraints
+                if goal
+                else ("Define testable acceptance for the user request; do not assert PASS.",)
+            )
             if workspace:
                 constraints = (
                     *constraints,
@@ -181,16 +173,28 @@ class AgentExecutionService:
                     "Unresolved blocking findings require overall FAIL "
                     "and actionable blocking_findings.",
                 )
-            request = request.model_copy(
-                update={
-                    "acceptance": goal,
-                    "evidence": proofs,
-                    "constraints": constraints,
-                    "findings": findings,
-                }
+            provider, request = self.router.prepare(
+                task,
+                context,
+                invocation_id,
+                actor.id,
+                attempt.id,
+                provider_id,
+                project.settings.permissions,
+                output_schema,
+                tools,
+                project.settings.repository_profile.languages,
+                project.settings.skill_pins,
+                budget,
+                observations,
+                constraints,
+                project.settings.allowed_providers,
+                goal,
+                proofs,
+                findings,
             )
-            prompt_input(request)
-            fingerprint = _fingerprint(request, provider_id, provider.descriptor.model)
+            resolved_provider_id = provider.descriptor.id
+            fingerprint = _fingerprint(request, resolved_provider_id, provider.descriptor.model)
             existing = uow.providers.get(invocation_id)
             if existing:
                 if existing.request_hash != fingerprint:
@@ -219,7 +223,7 @@ class AgentExecutionService:
                 run_id=run_id,
                 task_execution_id=attempt.id,
                 actor_session_id=actor.id,
-                provider=provider_id,
+                provider=resolved_provider_id,
                 model=provider.descriptor.model,
                 request_hash=fingerprint,
                 idempotency_key=key,
@@ -234,7 +238,7 @@ class AgentExecutionService:
             uow.runtime.save_actor(
                 actor.model_copy(
                     update={
-                        "provider": provider_id,
+                        "provider": resolved_provider_id,
                         "model": provider.descriptor.model,
                         "loaded_skills": skill_refs,
                         "allowed_tools": tuple(tool.name.value for tool in request.allowed_tools),

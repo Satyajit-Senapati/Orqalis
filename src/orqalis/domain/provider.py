@@ -24,6 +24,7 @@ class ProviderDescriptor(Contract):
     model: str = Field(min_length=1, max_length=255)
     capabilities: tuple[str, ...] = ("structured_output",)
     available: bool = True
+    auto_selectable: bool = True
     max_input_chars: int = Field(default=150_000, gt=0)
 
 

@@ -43,6 +43,7 @@ class ExternalCLIProvider:
             model=model,
             available=transport is not None,
             capabilities=("structured_output", "tool_calls"),
+            auto_selectable=False,
         )
         self.command, self.transport = command, transport
 

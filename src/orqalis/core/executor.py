@@ -3,6 +3,7 @@ from collections.abc import Callable
 from pathlib import Path
 from uuid import UUID
 
+from orqalis.agents.roles import provider_output_schema
 from orqalis.core.goals import GoalService
 from orqalis.core.orchestrator import Orchestrator
 from orqalis.core.ports import ProjectUnitOfWork
@@ -115,7 +116,7 @@ class RunExecutor:
                 RunState.REVIEWING,
             }:
                 raise ConflictError("Run is not at an executable checkpoint")
-        if provider_id not in self.worker.agents.router.providers:
+        if provider_id != "auto" and provider_id not in self.worker.agents.router.providers:
             raise PolicyDeniedError("Requested provider is not configured")
         workspace = self.workspaces.ensure(run_id, policy)
         context = self.memory.context(
@@ -172,11 +173,7 @@ class RunExecutor:
                     if role == AgentRole.TESTER:
                         await self._validate(run_id, attempt, workspace.path, policy)
                     else:
-                        schema = (
-                            ReviewResult.model_json_schema()
-                            if role == AgentRole.REVIEWER
-                            else (WorkerResult.model_json_schema())
-                        )
+                        schema = provider_output_schema(role)
                         with self.factory() as uow:
                             completed_review = (
                                 next(
@@ -296,7 +293,11 @@ class RunExecutor:
         attempt = self._attempt(run_id, task)
         try:
             output = await self.worker.execute(
-                run_id, attempt.id, provider_id, context, WorkerResult.model_json_schema()
+                run_id,
+                attempt.id,
+                provider_id,
+                context,
+                provider_output_schema(task.preferred_role),
             )
             if not WorkerResult.model_validate(output).completed:
                 raise ConflictError("Context worker reported incomplete work")

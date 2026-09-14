@@ -2,12 +2,14 @@ import asyncio
 from collections.abc import Callable
 from uuid import UUID
 
+from orqalis.agents.roles import provider_output_schema
 from orqalis.agents.service import AgentExecutionService
 from orqalis.core.goals import GoalService
 from orqalis.core.orchestrator import Orchestrator
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import locked_run
 from orqalis.domain.acceptance import GoalContract, GoalDraft
+from orqalis.domain.agent import AgentRole
 from orqalis.domain.errors import ConflictError, NotFoundError, OrqalisError
 from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskStatus
@@ -52,7 +54,7 @@ class RequirementsCoordinator:
                     attempt.id,
                     provider_id,
                     context,
-                    GoalDraft.model_json_schema(),
+                    provider_output_schema(AgentRole.REQUIREMENTS),
                     f"requirements:{attempt.id}",
                 )
                 if result.output is None:

@@ -1,7 +1,7 @@
 import asyncio
 from datetime import timedelta
 from pathlib import Path
-from uuid import uuid5
+from uuid import uuid4, uuid5
 
 import pytest
 from sqlalchemy import Engine
@@ -9,8 +9,9 @@ from sqlalchemy import Engine
 from orqalis.agents.routing import CapabilityRouter
 from orqalis.agents.service import AgentExecutionService
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
+from orqalis.domain.agent import AgentRole
 from orqalis.domain.base import utc_now
-from orqalis.domain.errors import ConflictError
+from orqalis.domain.errors import ConflictError, PolicyDeniedError
 from orqalis.domain.events import EventType
 from orqalis.domain.plan import TaskPlan
 from orqalis.domain.provider import (
@@ -21,7 +22,7 @@ from orqalis.domain.provider import (
     ProviderUsage,
 )
 from orqalis.domain.run import RunState
-from orqalis.domain.task import Task
+from orqalis.domain.task import Task, TaskStatus
 from orqalis.persistence.database import session_factory
 from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.errors import ProviderError
@@ -65,19 +66,19 @@ def test_provider_durable_outcomes_idempotency_failure_and_cancellation(
         validation_method="file assertion",
         acceptance_criterion_ids=(state.goal.criteria[0].id,),
     )
+    tester_task = task.model_copy(update={"id": uuid4(), "preferred_role": AgentRole.TESTER})
     sdk.orchestrator.install_plan(
         TaskPlan(
             run_id=state.run.id,
             goal_version_id=state.goal.goal.id,
             version=1,
-            tasks=(task,),
+            tasks=(task, tester_task),
             dependencies=(),
         ),
         "plan",
     )
     sdk.orchestrator.advance(state.run.id, RunState.PLANNED, "planned")
     sdk.orchestrator.advance(state.run.id, RunState.EXECUTING, "execute")
-    attempt = sdk.orchestrator.start_task(state.run.id, task.id, "task")
     context = sdk.memory.context(project, "Inspect fixture")
     fake = FakeProvider(
         lambda _: ProviderExecutionResult(
@@ -86,6 +87,16 @@ def test_provider_durable_outcomes_idempotency_failure_and_cancellation(
         )
     )
     service = AgentExecutionService(factory, CapabilityRouter(SkillRegistry((tmp_path,)), (fake,)))
+    tester_attempt = sdk.orchestrator.start_task(state.run.id, tester_task.id, "tester-task")
+    with pytest.raises(PolicyDeniedError, match="deterministic service"):
+        asyncio.run(
+            service.invoke(state.run.id, tester_attempt.id, "fixture", context, SCHEMA, "tester")
+        )
+    assert fake.calls == 0
+    sdk.orchestrator.transition_task(
+        state.run.id, tester_attempt.id, TaskStatus.SUCCEEDED, "tester-finished"
+    )
+    attempt = sdk.orchestrator.start_task(state.run.id, task.id, "task")
 
     async def invoke(key: str) -> ProviderExecutionResult:
         return await service.invoke(state.run.id, attempt.id, "fixture", context, SCHEMA, key)
@@ -156,9 +167,18 @@ def test_provider_durable_outcomes_idempotency_failure_and_cancellation(
         assert sum(e.event_type == EventType.PROVIDER_INVOCATION_STARTED for e in events) == 3
         assert sum(e.event_type == EventType.PROVIDER_INVOCATION_COMPLETED for e in events) == 3
 
-    # Simulate process failure after the remote call but before its result commits.
+    # Auto-routing persists the concrete adapter rather than the selector name.
     fake.respond = lambda _: ProviderExecutionResult(output={"summary": "Observed"})
+    fake.descriptor = fake.descriptor.model_copy(update={"auto_selectable": True})
+    auto_result = asyncio.run(
+        service.invoke(state.run.id, attempt.id, "auto", context, SCHEMA, "auto-route")
+    )
+    assert auto_result.output == {"summary": "Observed"}
+    with factory() as uow:
+        selected = uow.providers.get(uuid5(state.run.id, "provider:auto-route"))
+        assert selected and selected.provider == "fixture"
 
+    # Simulate process failure after the remote call but before its result commits.
     def crash_before_commit(*args: object) -> None:
         raise RuntimeError("simulated process interruption")
 

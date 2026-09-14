@@ -20,6 +20,7 @@ class FakeProvider:
             id=provider_id,
             model="deterministic-fixture",
             capabilities=("structured_output", "tool_calls"),
+            auto_selectable=False,
         )
         self.respond = respond
         self.calls = 0

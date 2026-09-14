@@ -274,3 +274,95 @@ def test_router_reviewer_cannot_gain_write_access_from_skill(tmp_path: Path) -> 
         )
     with pytest.raises(ProviderError):
         check_schema({"$ref": "https://unsafe.invalid/schema"})
+
+
+def test_auto_provider_routing_respects_allowlist_order_and_capabilities(tmp_path: Path) -> None:
+    first = FakeProvider(lambda _: ProviderExecutionResult(output={"summary": "First"}), "first")
+    second = FakeProvider(lambda _: ProviderExecutionResult(output={"summary": "Second"}), "second")
+    first.descriptor = first.descriptor.model_copy(
+        update={"auto_selectable": True, "capabilities": ("structured_output",)}
+    )
+    second.descriptor = second.descriptor.model_copy(update={"auto_selectable": True})
+    router = CapabilityRouter(SkillRegistry((tmp_path,)), (first, second))
+    req = request()
+    read = ToolDefinition(
+        name=ToolName.FILE_READ, description="Read", parameters={"type": "object"}
+    )
+    provider, _ = router.prepare(
+        req.task,
+        req.context,
+        req.invocation_id,
+        req.actor_session_id,
+        req.task_execution_id,
+        "auto",
+        PermissionProfile(allowed_tools=(ToolName.FILE_READ,)),
+        SCHEMA,
+        (read,),
+        allowed_providers=("first", "second"),
+    )
+    assert provider.descriptor.id == "second"
+    provider, _ = router.prepare(
+        req.task,
+        req.context,
+        req.invocation_id,
+        req.actor_session_id,
+        req.task_execution_id,
+        "auto",
+        PermissionProfile(),
+        SCHEMA,
+        allowed_providers=("second", "first"),
+    )
+    assert provider.descriptor.id == "second"
+
+
+def test_auto_provider_routing_uses_context_budget_and_never_selects_fixture(
+    tmp_path: Path,
+) -> None:
+    small = FakeProvider(lambda _: ProviderExecutionResult(output={"summary": "Small"}), "small")
+    large = FakeProvider(lambda _: ProviderExecutionResult(output={"summary": "Large"}), "large")
+    small.descriptor = small.descriptor.model_copy(
+        update={"auto_selectable": True, "max_input_chars": 100}
+    )
+    large.descriptor = large.descriptor.model_copy(update={"auto_selectable": True})
+    req = request()
+    router = CapabilityRouter(SkillRegistry((tmp_path,)), (small, large))
+    provider, _ = router.prepare(
+        req.task,
+        req.context,
+        req.invocation_id,
+        req.actor_session_id,
+        req.task_execution_id,
+        "auto",
+        PermissionProfile(),
+        SCHEMA,
+        allowed_providers=("small", "large"),
+    )
+    assert provider.descriptor.id == "large"
+    fixture_only = CapabilityRouter(
+        SkillRegistry((tmp_path,)),
+        (FakeProvider(lambda _: ProviderExecutionResult(output={"summary": "Fixture"})),),
+    )
+    with pytest.raises(ProviderError) as unavailable:
+        fixture_only.prepare(
+            req.task,
+            req.context,
+            req.invocation_id,
+            req.actor_session_id,
+            req.task_execution_id,
+            "auto",
+            PermissionProfile(),
+            SCHEMA,
+        )
+    assert unavailable.value.error_code == ProviderErrorCode.UNAVAILABLE
+    with pytest.raises(PolicyDeniedError):
+        router.prepare(
+            req.task,
+            req.context,
+            req.invocation_id,
+            req.actor_session_id,
+            req.task_execution_id,
+            "small",
+            PermissionProfile(),
+            SCHEMA,
+            allowed_providers=("large",),
+        )

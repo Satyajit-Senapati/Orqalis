@@ -122,7 +122,11 @@ class ExternalWorkService:
         skills = self.registry.select(
             task.required_capabilities,
             tools,
-            tags=project.settings.repository_profile.languages,
+            tags=tuple(
+                dict.fromkeys(
+                    (*project.settings.repository_profile.languages, *task.required_capabilities)
+                )
+            ),
             built_in=role_definition(task.preferred_role).capabilities,
             pins=project.settings.skill_pins,
         )

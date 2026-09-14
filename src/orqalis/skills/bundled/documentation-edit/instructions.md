@@ -1,0 +1,3 @@
+Read the accepted goal, affected source, existing documentation structure and actual delivered behavior. Update the smallest relevant guide or reference; preserve canonical decisions unless an explicitly accepted change supersedes them. Keep installation commands, prerequisites, examples, links and supported feature claims consistent with the implementation. Separate verified behavior from planned or unavailable functionality.
+
+Check local links and examples with granted tools and approved commands where applicable. Record the files and evidence supporting the update; do not claim commands were tested when they were not. Do not expose secrets or private model reasoning, silently change acceptance criteria, publish content or perform Git delivery through this skill.

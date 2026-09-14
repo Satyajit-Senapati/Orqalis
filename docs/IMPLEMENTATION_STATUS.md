@@ -522,3 +522,33 @@ Windows source and isolated npm CLI Ctrl+C checks released their listening
 ports with no leftover process. The installed UI check verified listener ancestry and port release after
 stopping the exact test-owned CLI tree. The previous 1.0.1 tarball remains only
 historical evidence; the foreground candidate supersedes it before publication.
+
+## Agent and skill definition enhancement - 2026-09-14
+
+Status: implementation complete in the source tree; package publication remains a
+separate release-owner step. This strengthens the existing Phase 6/7 architecture without
+adding agents or changing Orchestrator-owned workflow state.
+
+The vertical planner now derives Python, TypeScript, JavaScript, React, database, and
+documentation capabilities from accepted file/directory scope, including new files and
+scoped monorepo paths. Five bundled versioned skills were added for TypeScript,
+JavaScript, React, database, and documentation editing. Repository-wide language tags
+cannot by themselves select an unrelated implementation skill; selected instructions
+remain lazily loaded under role/project tool permissions.
+
+All eleven roles now declare authority boundaries and an output contract. Provider-backed
+requirements, context, implementation/repair and review dispatch use a central typed
+schema lookup. Deterministic service roles do not accept provider-worker dispatch.
+Explicit providers remain supported. `--provider auto` adds deterministic task-level
+selection among configured, auto-selectable adapters by project allowlist order,
+structured-output/tool capability, and serialized task/context input size. The
+chosen adapter/model is persisted on the provider execution and actor session. The
+fixture and external CLI providers opt out of automatic selection. There is no silent post-invocation fallback, cost/latency prediction,
+or historical-quality scoring yet; those require reliable metadata and a later bounded
+policy design. No database migration is required.
+
+Validation: the final full pytest run had 233 passed and 57 skipped (database and
+Docker fixtures were not configured for that run). Focused PostgreSQL-backed executor,
+requirements, provider and external-skill integration tests passed in disposable
+containers. Ruff check/format and strict mypy passed. An offline wheel build contains
+all five new skill packs. Live paid-provider checks still require credentials.

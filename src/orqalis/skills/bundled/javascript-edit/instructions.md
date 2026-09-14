@@ -1,0 +1,3 @@
+Inspect the scoped JavaScript modules, package scripts and nearby tests. Preserve the repository module system, supported runtime, public API and error-handling conventions. Validate external data at boundaries and keep asynchronous error handling explicit. Reuse existing dependencies and make focused changes tied to the accepted goal.
+
+Use only granted tools and approved commands. Support the result with source references and observed lint, test or build evidence. Do not introduce a new framework, install dependencies, expand scope, change acceptance criteria or perform Git delivery through this skill.
