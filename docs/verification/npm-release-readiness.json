@@ -2,7 +2,7 @@
   "schema": 1,
   "date": "2026-09-14",
   "baseline_commit": "c0ff0ded46c35d8e044147553a2d13baaff00d20",
-  "decision": "NOT READY FOR NPM PUBLISH",
+  "decision": "READY FOR NPM PUBLISH",
   "requirements": [
     {
       "id": "R001",
@@ -909,7 +909,7 @@
       "area": "Persistence and quality",
       "requirement": "Complete backend unit/integration/API/CLI/MCP suite",
       "status": "PASS",
-      "evidence": "Final backend221 passed,0 failed,0 skipped,0 retries;87% coverage; backend-final.xml plus source/contract review. Latest memory and finding regressions are included.",
+      "evidence": "Local product/backend full suite221 passed (87% coverage), plus all13 added maintainer verifier regressions; all234 Python tests included in the successful hosted full suite;0 local failures/skips/retries",
       "command": "ORQALIS_TEST_DATABASE_URL=<disposable pgvector DB> ORQALIS_TEST_SANDBOX_IMAGE=pgvector/pgvector:pg17 python -m pytest --cov=orqalis --junitxml=backend-final.xml",
       "affected_files": "src/orqalis/persistence; migrations; pyproject.toml; web/package.json; scripts",
       "issue": "See resolved findings below; final gate incomplete",
@@ -922,7 +922,7 @@
       "requirement": "Frontend unit tests and production browser end-to-end suite",
       "status": "PASS",
       "evidence": "Installed production UI:11 Playwright passed,0 failed/skipped/flaky (48.3s); web/e2e contracts plus28 frontend unit tests; installed-browser.json; desktop/mobile screenshots visually inspected",
-      "command": "pytest; ruff check .; ruff format --check .; mypy; mypy --strict scripts; npm test/run lint/run build --prefix web; uv build --wheel",
+      "command": "npm test --prefix web; npm run test:e2e --prefix web -- --reporter=line,json with actual installed fixture IDs and server URL",
       "affected_files": "src/orqalis/persistence; migrations; pyproject.toml; web/package.json; scripts",
       "issue": "No application defect found in final browser sweep",
       "fix": "Existing dark-only responsive components verified against actual installed Core",
@@ -933,36 +933,36 @@
       "area": "Persistence and quality",
       "requirement": "Python Ruff lint/format and strict type checks",
       "status": "PASS",
-      "evidence": "python-quality.log: Ruff225 files; strict mypy207 source/tests and3 scripts; all PASS",
+      "evidence": "Final python-quality.log: Ruff225 files, strict mypy207 source/tests+3 scripts PASS; scripts also typechecked for Linux",
       "command": "pytest; ruff check .; ruff format --check .; mypy; mypy --strict scripts; npm test/run lint/run build --prefix web; uv build --wheel",
       "affected_files": "src/orqalis/persistence; migrations; pyproject.toml; web/package.json; scripts",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
-      "remaining_risk": "Final complete source regression running; no unresolved source-level defect identified"
+      "remaining_risk": "None identified in the tested local V1 scope"
     },
     {
       "id": "R079",
       "area": "Persistence and quality",
       "requirement": "Frontend ESLint, TypeScript and production build",
       "status": "PASS",
-      "evidence": "python-quality.log: Ruff224 files, strict mypy206+3 scripts; frontend-final.log:28 passed plus ESLint/TypeScript/Vite; frozen uv sync passed with unchanged locks",
+      "evidence": "frontend-final.log: ESLint, TypeScript/Vite production build and28 Vitest tests PASS; hosted quality repeats them",
       "command": "pytest; ruff check .; ruff format --check .; mypy; mypy --strict scripts; npm test/run lint/run build --prefix web; uv build --wheel",
       "affected_files": "src/orqalis/persistence; migrations; pyproject.toml; web/package.json; scripts",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
-      "remaining_risk": "Final complete source regression running; no unresolved source-level defect identified"
+      "remaining_risk": "None identified in the tested local V1 scope"
     },
     {
       "id": "R080",
       "area": "Persistence and quality",
       "requirement": "Frozen dependency installation and current lockfiles",
       "status": "PASS",
-      "evidence": "python-quality.log: Ruff224 files, strict mypy206+3 scripts; frontend-final.log:28 passed plus ESLint/TypeScript/Vite; frozen uv sync passed with unchanged locks",
-      "command": "pytest; ruff check .; ruff format --check .; mypy; mypy --strict scripts; npm test/run lint/run build --prefix web; uv build --wheel",
+      "evidence": "uv sync --frozen, frozen npm ci in both package trees locally/hosted; lockfiles unchanged, uv pip check68 installed packages compatible",
+      "command": "uv sync --frozen; npm ci --prefix web; npm ci --prefix packages/npm; uv pip check",
       "affected_files": "src/orqalis/persistence; migrations; pyproject.toml; web/package.json; scripts",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
-      "remaining_risk": "Final complete source regression running; no unresolved source-level defect identified"
+      "remaining_risk": "None identified in the tested local V1 scope"
     },
     {
       "id": "R081",
@@ -1010,7 +1010,7 @@
       "affected_files": "src/orqalis/security; src/orqalis/tools; src/orqalis/execution; packages/npm; uv.lock; web/package-lock.json",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
-      "remaining_risk": "Final complete source regression running; no unresolved source-level defect identified"
+      "remaining_risk": "None identified in the tested local V1 scope"
     },
     {
       "id": "R085",
@@ -1022,7 +1022,7 @@
       "affected_files": "src/orqalis/security; src/orqalis/tools; src/orqalis/execution; packages/npm; uv.lock; web/package-lock.json",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
-      "remaining_risk": "Final complete source regression running; no unresolved source-level defect identified"
+      "remaining_risk": "None identified in the tested local V1 scope"
     },
     {
       "id": "R086",
@@ -1034,7 +1034,7 @@
       "affected_files": "src/orqalis/security; src/orqalis/tools; src/orqalis/execution; packages/npm; uv.lock; web/package-lock.json",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
-      "remaining_risk": "Final complete source regression running; no unresolved source-level defect identified"
+      "remaining_risk": "None identified in the tested local V1 scope"
     },
     {
       "id": "R087",
@@ -1046,7 +1046,7 @@
       "affected_files": "src/orqalis/security; src/orqalis/tools; src/orqalis/execution; packages/npm; uv.lock; web/package-lock.json",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
-      "remaining_risk": "Final complete source regression running; no unresolved source-level defect identified"
+      "remaining_risk": "None identified in the tested local V1 scope"
     },
     {
       "id": "R088",
@@ -1233,24 +1233,24 @@
       "area": "Distribution",
       "requirement": "GitHub workflow permissions, artifact and platform strategy",
       "status": "PASS",
-      "evidence": "ci-packaging-review.json: read-only permissions, no publish step, build-once artifact consumed by all platform/installed-integration jobs; JSON evidence retained",
+      "evidence": "ci-packaging-review.json and successful hosted34819956822: contents:read, no publish step, one tarball across5 jobs; platform and installed integration JSON retained",
       "command": "npm test --prefix packages/npm; npm pack --dry-run; npm pack; scripts/smoke_npm.py; scripts/verify_installed.py",
       "affected_files": "packages/npm; scripts; .github/workflows/npm-package.yml; docs/PUBLISHING.md",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
-      "remaining_risk": "Hosted execution of modified workflow pending"
+      "remaining_risk": "Automated npm publication is intentionally not configured; manual reviewed-tarball publication requires external account checks"
     },
     {
       "id": "R104",
       "area": "Distribution",
       "requirement": "Hosted Windows/Linux/macOS checks for final pushed commit",
-      "status": "BLOCKED",
-      "evidence": "Active quality and npm package workflows verified through GitHub API; final source push and current-commit hosted execution pending",
-      "command": "npm test --prefix packages/npm; npm pack --dry-run; npm pack; scripts/smoke_npm.py; scripts/verify_installed.py",
+      "status": "PASS",
+      "evidence": "Release source c223af5: quality34819956866 and npm package34819956822 SUCCESS; backend/build/browser and all5 artifact jobs passed (build, Windows/Linux/macOS smokes, Linux installed CLI/MCP/UI)",
+      "command": "GitHub Actions workflows ci.yml and npm-package.yml; GitHub REST run/job status for exact release source SHA",
       "affected_files": "packages/npm; scripts; .github/workflows/npm-package.yml; docs/PUBLISHING.md",
-      "issue": "Hosted current-source gates pending",
-      "fix": "Same-tarball Windows/Linux/macOS smokes and Linux installed integration configured",
-      "remaining_risk": "Do not claim final hosted platform acceptance until all jobs pass"
+      "issue": "None outstanding",
+      "fix": "CI now consumes one built tarball in all platform and installed integration jobs; evidence retained as artifacts",
+      "remaining_risk": "Other CPU architecture/runtime combinations are unclaimed; final audit-only commits do not alter the release artifact"
     },
     {
       "id": "R105",
@@ -1258,7 +1258,7 @@
       "requirement": "Safe publish dry-run for the exact reviewed tarball",
       "status": "PASS",
       "evidence": "package-final-inspection.json:58 npm/180 wheel files, all source/UI/build hashes and versions match;135 links/29 anchors valid;0 forbidden or secret files; exact tarball dry-publish exit0",
-      "command": "npm test --prefix packages/npm; npm pack --dry-run; npm pack; scripts/smoke_npm.py; scripts/verify_installed.py",
+      "command": "npm publish ./dist/orqalis-1.0.0.tgz --dry-run --access public --registry=https://registry.npmjs.org/",
       "affected_files": "packages/npm; scripts; .github/workflows/npm-package.yml; docs/PUBLISHING.md",
       "issue": "None outstanding; applicable remediations are listed in F01-F15",
       "fix": "Independent review and regression-backed corrections applied",
@@ -1318,7 +1318,7 @@
       "name": "Python quality",
       "status": "PASS",
       "evidence": ".tools/release-audit-20260914/python-quality.log",
-      "detail": "Ruff224 files; strict mypy206 source/tests+3 scripts"
+      "detail": "Ruff225 files formatted; strict mypy207 source/tests and3 scripts PASS"
     },
     {
       "name": "npm quality",
@@ -1352,7 +1352,7 @@
     {
       "name": "final source quality",
       "status": "PASS",
-      "detail": "Ruff224 formatted files; mypy206 source/tests and3 scripts",
+      "detail": "Ruff225 files formatted; strict mypy207 source/tests and3 scripts PASS",
       "evidence": ".tools/release-audit-20260914/python-quality.log"
     },
     {
@@ -1425,6 +1425,19 @@
       "actual_secrets": 0,
       "reviewed_candidates": 21,
       "evidence": ".tools/release-audit-20260914/secret-scan-final.json"
+    },
+    {
+      "name": "hosted exact-source release gates",
+      "status": "PASS",
+      "detail": "quality and npm package workflows SUCCESS; all platform smokes and Linux installed integration SUCCESS",
+      "source_commit": "c223af5b9cbb35eb2be48699d67d7ce5e8a77779",
+      "evidence": "https://github.com/Satyajit-Senapati/Orqalis/actions/runs/34819956822"
+    },
+    {
+      "name": "audit-owned resource cleanup",
+      "status": "PASS",
+      "detail": "Verified server processes exited; removed external prefixes/runtimes/fixture repositories and labelled disposable database container; main is the only worktree",
+      "evidence": ".tools/release-audit-20260914/cleanup.json"
     }
   ],
   "findings": [
@@ -1558,10 +1571,9 @@
     }
   ],
   "next_steps": [
-    "Commit and push reviewed source directly to authorized main",
-    "Verify quality and same-artifact platform/installed Linux CI for pushed source",
-    "Record hosted links and final release decision in these excluded maintainer records",
-    "Remove owned temporary installation/fixture directories and disposable audit container"
+    "Release owner verifies npm login, intended package-name rights and 2FA",
+    "If public publication is explicitly authorized, publish the reviewed dist/orqalis-1.0.0.tgz; do not rebuild without rerunning the release gates",
+    "Optional future trusted publishing requires separate npm configuration; current workflows do not publish"
   ],
   "release_candidate": {
     "version": "1.0.0",
@@ -1574,6 +1586,66 @@
     "sha256": "699364407e1c86d78424186e87c695347859a2f89909b9d586676fa79322e7d2",
     "integrity": "sha512-5OkgN07xQHeyYC8iG+UHYgNeg7n8gM3vDVikJKYauBqITsem6CUqg/LjB82+pavKVP1NL3TBIeigt3XA7r2ryw==",
     "artifact": "dist/orqalis-1.0.0.tgz",
-    "platforms": "Local win32-x64 PASS with Node24.16.0/Python3.12.14. Current-source Ubuntu/Windows/macOS hosted gates pending; no other architecture claim."
-  }
+    "platforms": "Windows, Linux and macOS: hosted tarball smokes PASS; Linux installed Core/MCP/UI PASS; win32-x64 full local installed workflows/browser PASS. Node22/Linux+Python3.12, Node24/Windows+Python3.12, Node24/macOS+Python3.14. Other CPU/runtime combinations unclaimed."
+  },
+  "release_source_commit": "c223af5b9cbb35eb2be48699d67d7ce5e8a77779",
+  "hosted_ci": [
+    {
+      "id": 34819956866,
+      "name": "quality",
+      "status": "SUCCESS",
+      "url": "https://github.com/Satyajit-Senapati/Orqalis/actions/runs/34819956866"
+    },
+    {
+      "id": 34819956822,
+      "name": "npm package",
+      "status": "SUCCESS",
+      "url": "https://github.com/Satyajit-Senapati/Orqalis/actions/runs/34819956822",
+      "platform_smokes": "Windows Node24/Python3.12, Linux Node22/Python3.12 and macOS Node24/Python3.14 PASS",
+      "installed_linux_integration": "PASS"
+    }
+  ],
+  "totals": {
+    "requirements": 106,
+    "PASS": 105,
+    "NOT_APPLICABLE": 1
+  },
+  "quality_summary": {
+    "python_product_full_passed": 221,
+    "python_maintainer_regression_passed": 13,
+    "python_total": 234,
+    "frontend_unit_passed": 28,
+    "npm_unit_passed": 16,
+    "installed_browser_passed": 11,
+    "test_total": 289,
+    "failed": 0,
+    "skipped": 0,
+    "flaky_or_retried": 0,
+    "installed_application_checks": 16,
+    "coverage_percent": 87,
+    "warning": "One pre-existing upstream Starlette/AnyIO deprecation; no warning suppressed"
+  },
+  "remaining_repository_blockers": [],
+  "external_checks": [
+    "EXTERNAL_CHECK_REQUIRED: intended npm account login",
+    "EXTERNAL_CHECK_REQUIRED: package name availability/ownership and registry permission; E404 does not reserve the name",
+    "EXTERNAL_CHECK_REQUIRED: account 2FA policy",
+    "EXTERNAL_CHECK_REQUIRED: trusted publisher setup only if future automation is selected",
+    "Live paid OpenAI/Anthropic and native-assistant account calls unverified; transport and deterministic workflows tested"
+  ],
+  "known_v1_boundaries": [
+    "Local loopback hosting; remote multi-tenant deployment is outside V1",
+    "Deterministic V1 Developer/Tester/Reviewer DAG with parallel context and serialized writers follows ADR0001",
+    "Manual criteria are never auto-attested; explicit verifiable goal revisions remain user-authorized",
+    "Goal scope intersects policy automatically for wholly explicit file/glob/directory scopes; prose/mixed scopes require independent semantic review",
+    "Semantic retrieval requires a configured embedding adapter; default structured memory remains operational offline",
+    "Native assistant process integration is a provider-host/MCP contract, not an arbitrary command launcher",
+    "Documentation delivery updates an authorized file with accepted-run evidence; richer ADR authoring is task-specific"
+  ],
+  "safe_next_commands": [
+    "npm.cmd login --registry=https://registry.npmjs.org/",
+    "npm.cmd whoami --registry=https://registry.npmjs.org/",
+    "npm.cmd publish ./dist/orqalis-1.0.0.tgz --access public --registry=https://registry.npmjs.org/",
+    "npm.cmd view orqalis@1.0.0 version dist.integrity --registry=https://registry.npmjs.org/"
+  ]
 }
