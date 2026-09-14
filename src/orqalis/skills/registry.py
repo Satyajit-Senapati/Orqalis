@@ -70,7 +70,11 @@ class SkillRegistry:
             metadata
             for metadata in self.discover()
             if set(metadata.required_tools) <= set(tools)
-            and (not metadata.applicable_when or set(metadata.applicable_when) & set(tags))
+            and (
+                not metadata.applicable_when
+                or {tag.casefold() for tag in metadata.applicable_when}
+                & {tag.casefold() for tag in tags}
+            )
             and (not pins or metadata.id not in pins or pins[metadata.id] == metadata.version)
         ]
         selected = []

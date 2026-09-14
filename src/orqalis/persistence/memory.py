@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import case, delete, literal, or_, select, update
+from sqlalchemy import case, delete, func, literal, or_, select, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.elements import ColumnElement
@@ -130,6 +130,43 @@ class SQLMemoryRepository:
         self.session.add(SourceRow(**source.model_dump()))
         self.session.flush()
 
+    def missing_embeddings(
+        self, project_id: UUID, embedding_model: str, limit: int = 100
+    ) -> tuple[MemoryItem, ...]:
+        return tuple(
+            MemoryItem.model_validate(row, from_attributes=True)
+            for row in self.session.scalars(
+                select(MemoryRow)
+                .where(
+                    MemoryRow.project_id == project_id,
+                    MemoryRow.status == "active",
+                    MemoryRow.embedding_model == embedding_model,
+                    MemoryRow.embedding.is_(None),
+                )
+                .order_by(MemoryRow.id)
+                .limit(limit)
+            )
+        )
+
+    def save_embedding(
+        self,
+        project_id: UUID,
+        item_id: UUID,
+        embedding: tuple[float, ...],
+        embedding_model: str,
+    ) -> None:
+        self.session.execute(
+            update(MemoryRow)
+            .where(
+                MemoryRow.project_id == project_id,
+                MemoryRow.id == item_id,
+                MemoryRow.status == "active",
+                MemoryRow.embedding_model == embedding_model,
+                MemoryRow.embedding.is_(None),
+            )
+            .values(embedding=list(embedding))
+        )
+
     def attribute_commit(self, project_id: UUID, commit: str, run_id: UUID) -> None:
         self.session.execute(
             update(MemoryRow)
@@ -152,8 +189,6 @@ class SQLMemoryRepository:
         )
 
     def active_count(self, project_id: UUID) -> int:
-        from sqlalchemy import func
-
         return (
             self.session.scalar(
                 select(func.count())
@@ -170,9 +205,12 @@ class SQLMemoryRepository:
         limit: int,
         embedding: tuple[float, ...] | None = None,
         embedding_model: str | None = None,
+        excluded_ids: tuple[UUID, ...] = (),
     ) -> tuple[MemoryMatch, ...]:
         base = select(MemoryRow).where(
-            MemoryRow.project_id == project_id, MemoryRow.status == "active"
+            MemoryRow.project_id == project_id,
+            MemoryRow.status == "active",
+            MemoryRow.id.not_in(excluded_ids),
         )
         filters = [
             or_(
@@ -201,6 +239,8 @@ class SQLMemoryRepository:
                     MemoryRow.status == "active",
                     MemoryRow.embedding_model == embedding_model,
                     MemoryRow.embedding.is_not(None),
+                    func.vector_dims(MemoryRow.embedding) == len(embedding),
+                    MemoryRow.id.not_in(excluded_ids),
                 )
                 .order_by(distance)
                 .limit(limit)

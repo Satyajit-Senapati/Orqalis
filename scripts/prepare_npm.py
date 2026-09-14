@@ -11,6 +11,10 @@ import zipfile
 from email.parser import BytesParser
 from pathlib import Path
 
+_MAINTAINER_RELEASE_DOCS = frozenset(
+    {"NPM_RELEASE_READINESS.md", "verification/npm-release-readiness.json"}
+)
+
 _IGNORED_RELEASE_ARTIFACTS = shutil.ignore_patterns(
     "__pycache__", "*.pyc", "*.pyo", ".DS_Store", "Thumbs.db"
 )
@@ -60,7 +64,7 @@ def _verify_wheel_ui(archive: zipfile.ZipFile, frontend: Path) -> dict[str, str]
     return hashes
 
 
-def _verify_wheel_source(archive: zipfile.ZipFile, source_root: Path) -> None:
+def _verify_wheel_source(archive: zipfile.ZipFile, source_root: Path) -> dict[str, str]:
     source = _tree_files(source_root, ignore_artifacts=True)
     prefix = "orqalis/"
     packaged = {
@@ -74,12 +78,18 @@ def _verify_wheel_source(archive: zipfile.ZipFile, source_root: Path) -> None:
         missing = sorted(source.keys() - packaged.keys())
         extra = sorted(packaged.keys() - source.keys())
         raise ValueError(f"Wheel Python inventory is stale (missing={missing}, extra={extra})")
+    hashes: dict[str, str] = {}
     for name, path in source.items():
-        if archive.read(packaged[name]) != path.read_bytes():
+        content = path.read_bytes()
+        if archive.read(packaged[name]) != content:
             raise ValueError(f"Wheel Python source is stale: {name}")
+        hashes[name] = hashlib.sha256(content).hexdigest()
+    return hashes
 
 
-def _replace_tree(source: Path, destination: Path, checkout: Path) -> None:
+def _replace_tree(
+    source: Path, destination: Path, checkout: Path, *, excluded: frozenset[str] = frozenset()
+) -> None:
     _tree_files(source, ignore_artifacts=True)
     target = destination.resolve()
     boundary = checkout.resolve()
@@ -89,7 +99,15 @@ def _replace_tree(source: Path, destination: Path, checkout: Path) -> None:
         if not destination.is_dir():
             raise ValueError(f"Generated release path must be a directory: {destination}")
         shutil.rmtree(destination)
-    shutil.copytree(source, destination, ignore=_IGNORED_RELEASE_ARTIFACTS)
+
+    def ignore(directory: str, names: list[str]) -> set[str]:
+        return _IGNORED_RELEASE_ARTIFACTS(directory, names) | {
+            name
+            for name in names
+            if (Path(directory) / name).relative_to(source).as_posix() in excluded
+        }
+
+    shutil.copytree(source, destination, ignore=ignore)
 
 
 def prepare(root: Path, uv: str) -> None:
@@ -129,7 +147,7 @@ def prepare(root: Path, uv: str) -> None:
                 raise ValueError(f"Wheel is missing {required}")
         if not any("/versions/" in name and name.endswith(".py") for name in names):
             raise ValueError("Wheel must contain migrations")
-        _verify_wheel_source(archive, root / "src" / "orqalis")
+        source = _verify_wheel_source(archive, root / "src" / "orqalis")
         web = _verify_wheel_ui(archive, root / "web" / "dist")
     vendor = package / "vendor"
     vendor.mkdir(exist_ok=True)
@@ -167,13 +185,18 @@ def prepare(root: Path, uv: str) -> None:
             for name in (wheel.name, "requirements.txt")
         },
         "web": web,
+        "source": source,
+        "build_inputs": {
+            name: hashlib.sha256((root / name).read_bytes()).hexdigest()
+            for name in ("pyproject.toml", "uv.lock", "hatch_build.py")
+        },
     }
     (vendor / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     for name in ("LICENSE", "README.md", "SIGNOFF.md", "compose.yaml"):
         shutil.copy2(root / name, package / name)
     (package / "GUIDE.md").unlink(missing_ok=True)
     # Regenerate copied docs so removed installation routes cannot survive repacking.
-    _replace_tree(root / "docs", package / "docs", root)
+    _replace_tree(root / "docs", package / "docs", root, excluded=_MAINTAINER_RELEASE_DOCS)
     skill_path = Path("src/orqalis/skills/bundled")
     _replace_tree(root / skill_path, package / skill_path, root)
     output = root / "dist"

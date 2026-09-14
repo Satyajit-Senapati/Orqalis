@@ -94,6 +94,15 @@ async function preparedCheckout(t) {
     join(packageRoot, "package.json"),
     JSON.stringify({ version: "1.0.0", license: "MIT" }),
   );
+  await writeFile(join(repository, "src/orqalis/__init__.py"), "version = 1");
+  const buildInputs = {
+    "pyproject.toml": "project fixture",
+    "uv.lock": "dependency lock fixture",
+    "hatch_build.py": "build hook fixture",
+  };
+  for (const [name, content] of Object.entries(buildInputs)) {
+    await writeFile(join(repository, name), content);
+  }
   const wheelName = "orqalis-1.0.0-py3-none-any.whl";
   const wheel = "wheel fixture";
   const requirements = "locked fixture";
@@ -113,6 +122,16 @@ async function preparedCheckout(t) {
         "requirements.txt": sha256(requirements),
       },
       web: { "index.html": sha256(frontend) },
+      source: {
+        "__init__.py": sha256("version = 1"),
+        "skills/bundled/example/skill.toml": sha256("id = example"),
+      },
+      build_inputs: Object.fromEntries(
+        Object.entries(buildInputs).map(([name, content]) => [
+          name,
+          sha256(content),
+        ]),
+      ),
     }),
   );
   return { packageRoot, repository };
@@ -191,6 +210,63 @@ test("checkout prepack rejects stale generated release content", async (t) => {
   );
 });
 
+test("maintainer release audit is excluded while accidental prepared copies fail", async (t) => {
+  const { packageRoot, repository } = await preparedCheckout(t);
+  await mkdir(join(repository, "docs/verification"));
+  for (const name of [
+    "docs/NPM_RELEASE_READINESS.md",
+    "docs/verification/npm-release-readiness.json",
+  ]) {
+    await writeFile(join(repository, name), "local audit evidence");
+  }
+  await verifyPreparedCheckout(packageRoot, repository);
+  await writeFile(
+    join(packageRoot, "docs/NPM_RELEASE_READINESS.md"),
+    "accidental audit copy",
+  );
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /documentation inventory is stale/,
+  );
+});
+
+test("checkout prepack rejects source and dependency changes after preparation", async (t) => {
+  const { packageRoot, repository } = await preparedCheckout(t);
+  await verifyPreparedCheckout(packageRoot, repository);
+  const source = join(repository, "src/orqalis/new_module.py");
+  await writeFile(source, "changed = True");
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /Python source is stale/,
+  );
+  await rm(source);
+  const existing = join(repository, "src/orqalis/__init__.py");
+  await writeFile(existing, "version = 2");
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /Python source is stale/,
+  );
+  await rm(existing);
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /Python source is stale/,
+  );
+  await writeFile(existing, "version = 1");
+  for (const [name, original] of [
+    ["uv.lock", "dependency lock fixture"],
+    ["pyproject.toml", "project fixture"],
+    ["hatch_build.py", "build hook fixture"],
+  ]) {
+    await writeFile(join(repository, name), "changed");
+    await assert.rejects(
+      verifyPreparedCheckout(packageRoot, repository),
+      /build input .* is stale/,
+    );
+    await writeFile(join(repository, name), original);
+  }
+  await verifyPreparedCheckout(packageRoot, repository);
+});
+
 test("Python discovery requires supported Python and honors explicit override", () => {
   const calls = [];
   const probe = (command, args) => {
@@ -219,6 +295,17 @@ test("cache override must be absolute", () => {
     /absolute/,
   );
   assert.equal(cacheRoot({ ORQALIS_RUNTIME_HOME: tmpdir() }), tmpdir());
+});
+
+test("relative system cache variables cannot select the invoking project", () => {
+  for (const os of ["linux", "darwin", "win32"]) {
+    const key = os === "win32" ? "LOCALAPPDATA" : "XDG_CACHE_HOME";
+    assert.equal(cacheRoot({ [key]: "relative-cache" }, os), cacheRoot({}, os));
+    assert.equal(
+      cacheRoot({ [key]: tmpdir() }, os),
+      join(tmpdir(), os === "win32" ? "Orqalis" : "orqalis", "runtimes"),
+    );
+  }
 });
 
 test("setup lock serializes callers and releases after failure", async (t) => {

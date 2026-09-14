@@ -38,3 +38,33 @@ def test_source_scanner_does_not_store_literals_or_execute() -> None:
     assert result
     assert "validate" in result.summary
     assert "private" not in result.summary
+
+
+@pytest.mark.parametrize(
+    ("path", "category", "role"),
+    [
+        ("docs/domain-rules.md", "domain", "documentation"),
+        ("docs/known-issues.md", "known_issue", "documentation"),
+        ("CONTRIBUTING.md", "convention", "documentation"),
+        ("docs/adr/0001-storage.md", "decision", "documentation"),
+        ("docs/architecture.md", "architecture", "documentation"),
+        ("docs/address.md", "architecture", "documentation"),
+        ("build.gradle", "repository_map", "build_manifest"),
+        ("build.gradle.kts", "repository_map", "build_manifest"),
+        ("go.mod", "repository_map", "build_manifest"),
+        ("pom.xml", "repository_map", "build_manifest"),
+    ],
+)
+def test_memory_categories_and_supported_build_manifests(
+    path: str, category: str, role: str
+) -> None:
+    indexed = DeterministicMemoryIndexer().index(path, b"Source-backed project knowledge")
+    assert indexed is not None
+    assert indexed.memory_type == category
+    assert indexed.role == role
+
+
+@pytest.mark.parametrize("kind", ["EC", "DSA", "OPENSSH", "ENCRYPTED", "RSA"])
+def test_private_key_variants_are_excluded_before_excerpting(kind: str) -> None:
+    content = ("public context\n" * 600 + f"-----BEGIN {kind} PRIVATE KEY-----\nopaque").encode()
+    assert DeterministicMemoryIndexer().index("docs/notes.md", content) is None

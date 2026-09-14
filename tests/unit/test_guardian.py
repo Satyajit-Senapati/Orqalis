@@ -57,3 +57,47 @@ def test_guardian_blocks_secret_governance_test_reduction_and_binary_changes(
     assert not report.passed
     assert category in {finding.category for finding in report.findings}
     assert "unsafe-value" not in report.model_dump_json()
+
+
+def test_explicit_goal_scope_blocks_broader_execution_policy(git_repo: Path) -> None:
+    binding = workspace(git_repo, ("*",))
+    (git_repo / "main.py").write_text("answer = 43\n")
+    (git_repo / "unrelated.py").write_text("unrelated = True\n")
+    guardian = ChangeGuardian(LocalGitService())
+    rejected = guardian.inspect(
+        binding, DeliveryPolicy(), uuid4(), "implementation", goal_scope=("main.py",)
+    )
+    assert not rejected.passed
+    assert any(
+        f.category == "goal_scope" and f.source_ref == "unrelated.py" for f in rejected.findings
+    )
+    accepted = guardian.inspect(
+        binding, DeliveryPolicy(), uuid4(), "implementation", goal_scope=("*.py",)
+    )
+    assert accepted.passed
+
+
+def test_goal_directory_scope_and_prose_contract_remain_compatible(git_repo: Path) -> None:
+    binding = workspace(git_repo, ("tests/*",))
+    target = git_repo / "tests" / "test_extra.py"
+    target.write_text("def test_extra(): assert True\n")
+    guardian = ChangeGuardian(LocalGitService())
+    for scope in (("tests/",), ("tests",), ("Improve test coverage",)):
+        report = guardian.inspect(
+            binding, DeliveryPolicy(), uuid4(), "implementation", goal_scope=scope
+        )
+        assert report.passed
+
+
+def test_documentation_path_does_not_waive_explicit_goal_scope(git_repo: Path) -> None:
+    binding = workspace(git_repo, ("*",))
+    (git_repo / "README.md").write_text("# Outside goal documentation\n")
+    report = ChangeGuardian(LocalGitService()).inspect(
+        binding,
+        DeliveryPolicy(documentation_path="README.md"),
+        uuid4(),
+        "final",
+        goal_scope=("main.py",),
+    )
+    assert not report.passed
+    assert any(f.category == "goal_scope" and f.source_ref == "README.md" for f in report.findings)

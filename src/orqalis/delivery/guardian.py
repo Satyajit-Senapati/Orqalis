@@ -2,6 +2,7 @@ import difflib
 import fnmatch
 import hashlib
 from collections.abc import Callable
+from pathlib import PurePosixPath
 from uuid import UUID, uuid5
 
 from orqalis.core.ports import ProjectUnitOfWork
@@ -41,7 +42,13 @@ class ChangeGuardian:
         self.git = git
 
     def inspect(
-        self, workspace: RunWorkspace, policy: DeliveryPolicy, actor_id: UUID, checkpoint: str
+        self,
+        workspace: RunWorkspace,
+        policy: DeliveryPolicy,
+        actor_id: UUID,
+        checkpoint: str,
+        *,
+        goal_scope: tuple[str, ...] = (),
     ) -> ChangeReport:
         files = ScopedFilesystem(workspace.path, workspace.policy)
         findings: list[Finding] = []
@@ -59,6 +66,21 @@ class ChangeGuardian:
             )
 
         base_paths = set(self.git.tracked_files(workspace.path, workspace.base_commit))
+        # Goal scope also permits prose. Only an entirely path-based contract can
+        # serve as a deterministic allowlist; prose remains an independent review duty.
+        explicit_scope = bool(goal_scope) and all(
+            scope in base_paths
+            or any(path.startswith(scope.rstrip("/") + "/") for path in base_paths)
+            or (
+                not any(char.isspace() for char in scope)
+                and bool(
+                    PurePosixPath(scope).suffix
+                    or "/" in scope
+                    or any(char in scope for char in "*?[")
+                )
+            )
+            for scope in goal_scope
+        )
         for path in self.git.status(workspace.path).changed_paths:
             if safe_diagnostic(path) != path:
                 flag(path, "secret", "Sensitive content appears in a file name")
@@ -66,6 +88,11 @@ class ChangeGuardian:
                 fnmatch.fnmatchcase(path, pattern) for pattern in workspace.policy.write_paths
             ):
                 flag(path, "scope", "File lies outside the accepted write scope")
+            if explicit_scope and not any(
+                fnmatch.fnmatchcase(path, scope) or path.startswith(scope.rstrip("/") + "/")
+                for scope in goal_scope
+            ):
+                flag(path, "goal_scope", "File lies outside the explicit goal scope")
             parts = path.lower().split("/")
             if any(part in _GENERATED for part in parts):
                 flag(path, "generated", "Generated/build output must not be delivered")
@@ -174,7 +201,16 @@ class GuardianService:
             workspace = uow.execution.workspace(run_id)
             if workspace is None:
                 raise NotFoundError("Run workspace missing")
-            report = self.guardian.inspect(workspace, policy, actor_id, checkpoint)
+            goal = (
+                uow.runs.get_goal(run.current_goal_version_id)
+                if run.current_goal_version_id
+                else None
+            )
+            if goal is None:
+                raise NotFoundError("Accepted goal missing for scope certification")
+            report = self.guardian.inspect(
+                workspace, policy, actor_id, checkpoint, goal_scope=goal.goal.scope
+            )
             if checkpoint == "final":
                 accepted = [
                     r for r in uow.delivery.guardians(run_id) if r.checkpoint == "implementation"

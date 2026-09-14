@@ -109,6 +109,16 @@ class LocalGitService:
             return False
         return True
 
+    def is_ancestor(self, path: Path, ancestor: str, head: str) -> bool:
+        """Check committed provenance against the inspected history without changing refs."""
+        try:
+            ancestor_sha = self.resolve_commit(path, ancestor)
+            head_sha = self.resolve_commit(path, head)
+            base = self._execute(path, ("merge-base", ancestor_sha, head_sha)).decode().strip()
+        except GitError:
+            return False
+        return base == ancestor_sha
+
     def status(self, path: Path) -> GitStatus:
         root = self.root(path)
         head = self.resolve_commit(root, "HEAD")

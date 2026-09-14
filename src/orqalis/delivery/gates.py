@@ -22,6 +22,13 @@ def guard_delivery(uow: ProjectUnitOfWork, run: Run, target: RunState) -> None:
         RunState.COMPLETED,
     }:
         return
+    if any(
+        finding.category == "external_worker"
+        and finding.severity == "blocking"
+        and finding.status == "open"
+        for finding in uow.delivery.findings(run.id)
+    ):
+        raise PolicyDeniedError("Independent review must resolve blocking worker findings")
     reviews = uow.execution.reviews(run.id)
     if (
         not reviews

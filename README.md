@@ -73,7 +73,7 @@ After the first registry release:
 
 ```sh
 npm install -g orqalis
-orqalis version
+orqalis --version
 ```
 
 **Publication is pending.** Until then, install the reviewed tarball with
@@ -191,7 +191,8 @@ unrecorded skill selection, provider call or task execution occurred.
 
 Project Memory retains architecture facts, repository knowledge, conventions, decisions,
 known issues and curated run knowledge with source files, commits and verification state.
-Unchanged Git HEAD avoids another broad scan; changed committed files refresh selectively.
+Unchanged Git HEAD and indexing configuration avoid another broad scan; changed committed
+files refresh selectively.
 
 ```sh
 orqalis status --repo /absolute/path/to/project --json
@@ -278,7 +279,7 @@ After the first registry release is published:
 
 ~~~sh
 npm install -g orqalis
-orqalis version
+orqalis --version
 orqalis --help
 ~~~
 
@@ -294,7 +295,7 @@ arguments. No virtual environment activation or absolute orqalis.exe path is req
 
 First launch installs hash-locked Python dependencies into an isolated per-user runtime.
 Initial setup needs internet access; npm installation works with --ignore-scripts.
-Run orqalis version once before configuring an MCP client so setup completes outside
+Run orqalis --version once before configuring an MCP client so setup completes outside
 its startup timeout. Normal startup reuses the verified runtime.
 
 If Python discovery fails, set ORQALIS_PYTHON to the installed Python executable path.
@@ -841,16 +842,20 @@ orqalis.cmd context "Where should name normalization be implemented?" --repo $re
 ~~~
 
 memory status does not trigger a rescan. Search/context refresh committed changes first.
-Unchanged HEAD avoids broad source reads; changed commits refresh affected paths selectively.
+Unchanged HEAD avoids broad source reads while the indexer and embedding configuration stay
+the same. An indexer or embedding-model change triggers one refresh even at unchanged HEAD;
+changed commits normally refresh affected paths selectively.
 
-Knowledge has source files, source commits, confidence and verification/invalidation
-metadata. Dirty files require inspection and are not promoted as committed facts. Secret,
+Committed knowledge includes repository maps, architecture, conventions, ADRs/decisions,
+domain facts and known issues. Knowledge has source files, source commits, confidence and
+verification/invalidation metadata. Dirty files require inspection and are not promoted as committed facts. Secret,
 generated, oversized, and unsupported binary inputs are excluded or redacted.
 
 Successful delivery curates knowledge against its new commit. The original source checkout
 may remain on an older branch; its context queries continue to represent that branch.
 The Project Brain for a delivered run can inspect its worktree. Unmerged run knowledge
-does not automatically become current source-branch truth.
+does not automatically become current source-branch truth. Previous-run knowledge is retrieved
+only when its source commit is an ancestor of the currently inspected HEAD.
 
 Structured retrieval works without embeddings. Semantic retrieval needs an optional
 embedding adapter; configuring an LLM provider does not configure embeddings.
@@ -957,6 +962,10 @@ Old goals, tasks, and evidence stay in history. New criteria do not inherit old 
 The existing execution policy remains bound; broader permissions may require a new run.
 Once delivery starts, a changed goal requires a new run.
 
+When a configured embedding service is temporarily unavailable, structured memory remains
+usable. Later refreshes retry missing vectors from stored memory content in bounded batches;
+this recovery does not require reading the repository again.
+
 ## 10. Coding assistants and MCP
 
 An MCP client uses Orqalis Project Memory and workflow while implementation can happen in
@@ -996,12 +1005,18 @@ The native workflow is:
 2. start_task with an explicit goal draft.
 3. Inspect get_goal/get_plan; request get_next_work.
 4. Edit the assigned worktree within approved scope.
-5. report_result with the assigned execution ID.
-6. Request review_run; continue targeted repair if needed.
-7. Request finalize_run when independently accepted and permitted.
+5. Report observed issues with report_finding, an assigned execution ID and an idempotency key.
+6. report_result with the assigned execution ID.
+7. Request review_run; continue targeted repair if needed.
+8. Request finalize_run when independently accepted and permitted.
 
 A second client can continue with the same persisted run/attempt IDs. Worker reports cannot
-approve acceptance or waive the Guardian.
+approve acceptance or waive the Guardian. Findings must identify a current criterion or
+repository-relative source path. Only the independent reviewer can resolve them using
+current evidence or verified source assertions; unresolved blocking findings prevent delivery.
+A source finding can also resolve through a matching deterministic file validator, including
+file absence. Final validation rechecks relied-on evidence criteria even when optional, plus
+all source assertions used to resolve findings.
 
 Templates and details:
 
@@ -1080,6 +1095,11 @@ Invoke-RestMethod "http://127.0.0.1:7842/api/runs/$runId/timeline"
 WebSocket subscriptions use /ws/runs/RUN_UUID?after=EVENT_SEQUENCE and deliver structured
 event batches and snapshots. Preserve the sequence for reconnects.
 
+Project context is available through POST /api/projects/PROJECT_UUID/context with
+{"task":"Inspect architecture","max_chars":20000}; the character budget is 1,000 to 200,000.
+GET /api/projects/PROJECT_UUID/memory?query=architecture&limit=10 searches the same Git-aware
+memory service (limit 1 to 100).
+
 REST supports inspection, explicit-goal creation and supported controls. Do not assume
 execute/finalize HTTP routes exist; use CLI/SDK/MCP for those drivers. Loopback/origin checks
 also apply to WebSocket connections.
@@ -1087,8 +1107,16 @@ also apply to WebSocket connections.
 ## 12. Skills and capabilities
 
 ~~~powershell
+orqalis.cmd agents
+orqalis.cmd skills --json
+orqalis.cmd config show --json
 orqalis.cmd capabilities
 ~~~
+
+agents lists role definitions and permissions; runtime actor sessions are visible in run
+snapshots and Mission Control. skills lists metadata without loading every instruction body.
+config show reports local options and whether credentials are configured; it omits API keys
+and the database connection URL. These commands do not require a database connection.
 
 A skill subdirectory contains skill.toml and instructions.md. Add an existing trusted root:
 
@@ -1183,12 +1211,14 @@ Prefix these with orqalis (or orqalis.cmd in Windows PowerShell).
 
 | Command | Purpose |
 | --- | --- |
-| version / doctor / migrate | Version, connectivity, schema upgrades |
+| --version / version / doctor / migrate | Version, connectivity, schema upgrades |
 | init --repo PATH | Register and index a project |
 | status --repo PATH --json | Project identity and Git state |
 | memory status / refresh / search | Memory inspection and retrieval |
 | context "TASK" --repo PATH | Bounded, provenance-backed context |
+| agents / skills | Specialized roles and dynamically discoverable skills; optional --json |
 | capabilities | Configured providers and discoverable skills |
+| config show --json | Local configuration and credential presence; secrets omitted |
 | run "REQUEST" | Prepare requirements; optional --contract and --policy |
 | define-goal RUN_ID | Continue requirements |
 | execute RUN_ID --policy FILE | Implementation, validation, review, repair |

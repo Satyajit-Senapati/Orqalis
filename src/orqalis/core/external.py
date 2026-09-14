@@ -1,24 +1,26 @@
 import hashlib
 from collections.abc import Callable
-from uuid import UUID
+from uuid import UUID, uuid5
 
 from orqalis.agents.roles import effective_tools, role_definition
 from orqalis.core.goals import GoalService
 from orqalis.core.orchestrator import Orchestrator
 from orqalis.core.ports import ProjectUnitOfWork
-from orqalis.core.runtime_support import emit, locked_run
+from orqalis.core.runtime_support import emit, locked_run, require_key
 from orqalis.core.scheduler import ready_tasks
 from orqalis.core.vertical_plan import VerticalPlanner
 from orqalis.domain.agent import AgentRole
+from orqalis.domain.artifact import Finding
 from orqalis.domain.base import utc_now
 from orqalis.domain.capabilities import ToolName
 from orqalis.domain.errors import ConflictError, NotFoundError, PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
 from orqalis.domain.execution import ExecutionPolicy, WorkerResult
-from orqalis.domain.external import WorkAssignment
+from orqalis.domain.external import FindingReport, WorkAssignment
 from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskExecution, TaskStatus
 from orqalis.execution.artifacts import record_artifacts
+from orqalis.execution.filesystem import ScopedFilesystem
 from orqalis.execution.review import workspace_digest
 from orqalis.execution.workspaces import ExecutionWorkspaces
 from orqalis.git.service import LocalGitService
@@ -104,7 +106,7 @@ class ExternalWorkService:
                         AgentRole.DEVELOPER,
                         AgentRole.REPAIR,
                     }
-                    and set(t.required_capabilities) <= set(capabilities)
+                    and (not capabilities or set(t.required_capabilities) <= set(capabilities))
                 ),
                 None,
             )
@@ -224,3 +226,81 @@ class ExternalWorkService:
             return self.orchestrator.transition_task(
                 run_id, execution_id, TaskStatus.SUCCEEDED, f"external:finished:{execution_id}"
             )
+
+    def report_finding(
+        self,
+        run_id: UUID,
+        execution_id: UUID,
+        report: FindingReport,
+        key: str,
+    ) -> Finding:
+        require_key(key)
+        encoded = report.model_dump_json()
+        if safe_diagnostic(encoded) != encoded or safe_diagnostic(key) != key:
+            raise PolicyDeniedError("Unsafe external finding")
+        fingerprint = hashlib.sha256(f"{execution_id}:{encoded}".encode()).hexdigest()
+        receipt_key = f"external:finding:{hashlib.sha256(key.encode()).hexdigest()}"
+        finding_id = uuid5(run_id, receipt_key)
+        with self.factory() as lease:
+            if not lease.execution.try_run_lock(run_id):
+                raise ConflictError("Another controller owns this run")
+            with self.factory() as uow:
+                run = locked_run(uow, run_id)
+                attempt = next(
+                    (a for a in uow.runtime.executions(run_id) if a.id == execution_id), None
+                )
+                if not attempt or not uow.events.by_key(
+                    run_id, f"external:assigned:{execution_id}"
+                ):
+                    raise PolicyDeniedError("Only externally assigned work may report findings")
+                replay = uow.events.by_key(run_id, receipt_key)
+                if replay:
+                    if replay.payload.reason != fingerprint:
+                        raise ConflictError("Finding key belongs to a different report")
+                    return next(f for f in uow.delivery.findings(run_id) if f.id == finding_id)
+                if run.state != RunState.EXECUTING or attempt.status != TaskStatus.RUNNING:
+                    raise ConflictError("External task is not active")
+                goal = (
+                    uow.runs.get_goal(run.current_goal_version_id)
+                    if run.current_goal_version_id
+                    else None
+                )
+                if report.criterion_id and (
+                    not goal or report.criterion_id not in {c.id for c in goal.criteria}
+                ):
+                    raise PolicyDeniedError("Finding criterion is outside the current goal")
+                workspace = uow.execution.workspace(run_id)
+                if not workspace:
+                    raise NotFoundError("Workspace missing")
+                if report.source_ref:
+                    ScopedFilesystem(workspace.path, workspace.policy).target(report.source_ref)
+                finding = Finding(
+                    id=finding_id,
+                    run_id=run_id,
+                    task_id=attempt.task_id,
+                    criterion_id=report.criterion_id,
+                    severity=report.severity,
+                    category="external_worker",
+                    summary=report.summary,
+                    source_ref=report.source_ref,
+                )
+                uow.delivery.save_finding(finding)
+                emit(
+                    uow,
+                    run,
+                    EventType.FINDING_REPORTED,
+                    receipt_key,
+                    utc_now(),
+                    EventPayload(
+                        summary=finding.summary,
+                        reason=fingerprint,
+                        status=finding.severity,
+                        criterion_id=finding.criterion_id,
+                        finding_ids=(finding.id,),
+                    ),
+                    attempt.assigned_actor_session_id,
+                    attempt.task_id,
+                    attempt.id,
+                )
+                uow.commit()
+                return finding

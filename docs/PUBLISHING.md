@@ -15,7 +15,7 @@ After the first npm release:
 
 ```sh
 npm install -g orqalis
-orqalis version
+orqalis --version
 orqalis --help
 ```
 
@@ -24,7 +24,7 @@ dependency installation. Git, PostgreSQL/pgvector, Docker and provider configura
 are required for the corresponding application features; see [README.md](../README.md).
 
 The tarball contains a version-matched wheel (including UI, migrations and skills),
-hash-locked requirements exported from uv.lock, MIT license, guide, supporting docs and
+hash-locked requirements exported from uv.lock, MIT license, combined README usage guide, supporting docs and
 compose.yaml for source-free local PostgreSQL setup.
 It does not depend on a separately published Python package named orqalis. There are
 no production npm dependencies or install lifecycle scripts.
@@ -79,56 +79,69 @@ The internal .tools/release/orqalis-1.0.0-py3-none-any.whl is copied to vendor/ 
 preparation. It is not a separate install/release channel. No source archive, native
 installer or Orqalis PyPI publication is part of this workflow.
 
-Verified local release candidate (2026-09-11):
+The prepack manifest binds the exact Python source inventory, build inputs and UI hashes.
+Changes after preparation require rebuilding and preparing again. Maintainer-only
+`NPM_RELEASE_READINESS.md` and its JSON verification record stay in Git and are excluded
+from npm. Current results and the exact reviewed artifact digest are recorded in the
+[release audit](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/NPM_RELEASE_READINESS.md).
 
-- All package checks and 13 npm launcher tests passed.
-- Package inventory: 58 entries and 0 forbidden entries.
-- Fresh global-prefix version, cold/cached launch, JSON output, invalid-exit behavior and
-  working-directory isolation checks passed.
-- npm publish --dry-run passed without uploading.
+## Test a clean installation outside the repository
 
-At the 2026-09-11 release rehearsal, the registry lookup returned E404, so no published
-package occupied the public orqalis entry. npm whoami returned ENEEDAUTH. Actual publication
-and ownership verification require release-owner authentication and were not performed.
-
-Generated npm vendor/docs/README/sign-off/skill copies and dist artifacts are ignored by Git.
-The root README is the single product/usage source; preparation copies it into npm.
-Edit source files, then regenerate. Never edit generated copies to fix a release.
-
-## Test the actual npm tarball
-
-Install into an isolated prefix so an existing global installation is unaffected.
+Use a fresh OS temporary directory and an isolated global prefix; this leaves your
+existing global installation untouched. Run these commands from the repository root.
 
 PowerShell:
 
 ```powershell
-$prefix = Join-Path $PWD '.tools/npm-release-check'
-$runtime = Join-Path $PWD '.tools/npm-release-runtime'
+$auditRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('orqalis-release-' + [guid]::NewGuid())
+New-Item -ItemType Directory -Path $auditRoot | Out-Null
+$prefix = Join-Path $auditRoot 'prefix'
+$runtime = Join-Path $auditRoot 'runtime'
 $env:ORQALIS_PYTHON = (Resolve-Path '.venv/Scripts/python.exe').Path
 $env:ORQALIS_RUNTIME_HOME = $runtime
 npm.cmd install -g --prefix $prefix ./dist/orqalis-1.0.0.tgz --ignore-scripts --no-audit --no-fund
 uv run python scripts/smoke_npm.py --prefix $prefix --runtime $runtime
-& (Join-Path $prefix 'orqalis.cmd') version
+& (Join-Path $prefix 'orqalis.cmd') --version
 ```
 
 Linux/macOS:
 
 ```sh
+audit_root="$(mktemp -d -t orqalis-release.XXXXXX)"
 export ORQALIS_PYTHON="$(pwd)/.venv/bin/python"
-export ORQALIS_RUNTIME_HOME="$(pwd)/.tools/npm-release-runtime"
-npm install -g --prefix "$(pwd)/.tools/npm-release-check" ./dist/orqalis-1.0.0.tgz --ignore-scripts --no-audit --no-fund
-uv run python scripts/smoke_npm.py --prefix "$(pwd)/.tools/npm-release-check" --runtime "$ORQALIS_RUNTIME_HOME"
-./.tools/npm-release-check/bin/orqalis version
+export ORQALIS_RUNTIME_HOME="$audit_root/runtime"
+npm install -g --prefix "$audit_root/prefix" ./dist/orqalis-1.0.0.tgz --ignore-scripts --no-audit --no-fund
+uv run python scripts/smoke_npm.py --prefix "$audit_root/prefix" --runtime "$ORQALIS_RUNTIME_HOME"
+"$audit_root/prefix/bin/orqalis" --version
 ```
 
-Use a new runtime directory to exercise cold setup. The smoke script verifies version,
-cached startup, parseable JSON, invalid-command exit status and working-directory
-module isolation. It does not need a database or provider credentials.
-The package workflow builds once and tests that tarball on Windows, Linux and macOS.
-Hosted CI results must be checked before claiming those platforms are release validated.
+The smoke script executes the global shim from an unrelated directory. It checks cold
+and cached launch, version/help, parseable JSON, invalid-command status and hostile
+current-directory module isolation. It needs no database or provider credentials.
 
-Run the normal PostgreSQL/Docker backend and browser suites from
-[DEVELOPMENT.md](DEVELOPMENT.md) when Core/UI changes; packaging tests do not replace them.
+For packaged Core, MCP, API and UI verification, configure `ORQALIS_TEST_DATABASE_URL`
+to a **disposable** PostgreSQL/pgvector database. Then run:
+
+```powershell
+uv run python scripts/verify_installed.py --prefix $prefix --runtime $runtime --workspace $auditRoot --output .tools/installed-release.json
+```
+
+On Linux/macOS use `$audit_root/prefix`, `$ORQALIS_RUNTIME_HOME` and `$audit_root` for those
+three paths and install `lsof`. This harness migrates the disposable database, creates
+its own committed project, exercises init/status/memory/context/goals/catalogs and actual
+MCP stdio, cold-starts the packaged UI from a hostile current directory, verifies assets,
+direct routes, API and WebSocket reconnection, and stops only its verified UI listener.
+It removes its project fixture; the caller owns the database, prefix and runtime cleanup.
+Verify each absolute temporary target before deleting it.
+
+The package workflow builds once and tests the same tarball on Windows, Linux and macOS.
+Its Linux installed-integration job exercises Core/MCP/UI against PostgreSQL. Hosted
+results must pass before claiming those platforms are validated; the smoke report records
+actual Node platform and architecture. No separate native binaries are shipped. Runtime
+support also requires compatible binary Python dependency wheels.
+
+Run the full PostgreSQL/Docker backend and persisted browser suites described in
+[DEVELOPMENT.md](DEVELOPMENT.md). Basic packaging checks do not replace them.
 
 ## Release review and first publication
 

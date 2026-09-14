@@ -12,6 +12,8 @@ def smoke(prefix: Path, runtime: Path | None) -> None:
     modules = prefix / ("node_modules" if os.name == "nt" else "lib/node_modules")
     package = modules / "orqalis"
     launcher = package / "bin" / "orqalis.js"
+    executable = prefix / ("orqalis.cmd" if os.name == "nt" else "bin/orqalis")
+    assert executable.is_file(), "Global npm executable is missing"
     manifest = json.loads((package / "package.json").read_text(encoding="utf-8"))
     # npm users must have database setup and usage assets without a checkout.
     for name in ("compose.yaml", "README.md", "docs/MCP.md", "docs/adr/0002-npm-distribution.md"):
@@ -36,6 +38,28 @@ def smoke(prefix: Path, runtime: Path | None) -> None:
         )
         assert cached.returncode == 0 and cached.stdout.strip() == manifest["version"]
         assert "preparing isolated" not in cached.stderr
+        # Exercise npm's public shim from an unrelated directory as users do.
+        # Arguments are fixed here; no project or provider input reaches a shell.
+        global_version = subprocess.run(
+            [str(executable), "--version"],
+            cwd=cwd,
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        assert global_version.returncode == 0, global_version.stderr
+        assert global_version.stdout.strip() == manifest["version"]
+        help_result = subprocess.run(
+            [str(executable), "--help"],
+            cwd=cwd,
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        assert help_result.returncode == 0, help_result.stderr
+        assert "Usage:" in help_result.stdout and "Commands" in help_result.stdout
         capabilities = subprocess.run(
             [*command, "capabilities"], cwd=cwd, env=env, capture_output=True, text=True, timeout=60
         )
@@ -50,12 +74,26 @@ def smoke(prefix: Path, runtime: Path | None) -> None:
             timeout=60,
         )
         assert invalid.returncode == 2
+    node = json.loads(
+        subprocess.check_output(
+            [
+                "node",
+                "-p",
+                "JSON.stringify({platform:process.platform,arch:process.arch,version:process.version})",
+            ],
+            text=True,
+            timeout=10,
+        )
+    )
     print(
         json.dumps(
             {
                 "version": manifest["version"],
+                "node": node,
                 "cold_launch": "PASS",
                 "cached_launch": "PASS",
+                "global_version_flag": "PASS",
+                "global_help": "PASS",
                 "json_stdout": "PASS",
                 "invalid_exit_code": "PASS",
                 "cwd_isolation": "PASS",

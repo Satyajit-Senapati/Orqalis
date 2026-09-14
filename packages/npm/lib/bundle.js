@@ -46,7 +46,13 @@ async function requireSameFile(source, prepared, area) {
 }
 
 async function requireSameTree(repository, packageRoot, relativeRoot, area) {
-  const sourceFiles = await treeFiles(repository, relativeRoot, true);
+  const maintainerDocs = new Set([
+    "docs/NPM_RELEASE_READINESS.md",
+    "docs/verification/npm-release-readiness.json",
+  ]);
+  const sourceFiles = (await treeFiles(repository, relativeRoot, true)).filter(
+    (name) => !maintainerDocs.has(name),
+  );
   const preparedFiles = await treeFiles(packageRoot, relativeRoot);
   if (JSON.stringify(sourceFiles) !== JSON.stringify(preparedFiles)) {
     throw new Error(
@@ -91,6 +97,45 @@ export async function verifyPreparedCheckout(packageRoot, repository) {
     resolve(packageRoot, "vendor", wheel),
     "release wheel",
   );
+  const sourceFiles = await treeFiles(repository, "src/orqalis", true);
+  const source = Object.fromEntries(
+    await Promise.all(
+      sourceFiles.map(async (name) => [
+        name.slice("src/orqalis/".length),
+        sha256(await readFile(resolve(repository, name))),
+      ]),
+    ),
+  );
+  if (
+    JSON.stringify(Object.keys(manifest.source ?? {}).sort()) !==
+      JSON.stringify(Object.keys(source).sort()) ||
+    Object.entries(source).some(
+      ([name, hash]) => manifest.source[name] !== hash,
+    )
+  ) {
+    throw new Error(
+      "Prepared Python source is stale. Rebuild the wheel and run scripts/prepare_npm.py before packing.",
+    );
+  }
+  const inputs = ["pyproject.toml", "uv.lock", "hatch_build.py"];
+  if (
+    JSON.stringify(Object.keys(manifest.build_inputs ?? {}).sort()) !==
+    JSON.stringify(inputs.sort())
+  ) {
+    throw new Error(
+      "Prepared build inputs are stale. Run scripts/prepare_npm.py before packing.",
+    );
+  }
+  for (const name of inputs) {
+    if (
+      sha256(await readFile(resolve(repository, name))) !==
+      manifest.build_inputs[name]
+    ) {
+      throw new Error(
+        `Prepared build input ${name} is stale. Rebuild the wheel and run scripts/prepare_npm.py before packing.`,
+      );
+    }
+  }
   const webFiles = await treeFiles(repository, "web/dist");
   const web = Object.fromEntries(
     await Promise.all(

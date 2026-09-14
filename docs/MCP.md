@@ -5,7 +5,7 @@ Orqalis serves a registered project using MCP stdio:
     orqalis mcp --policy /absolute/path/to/mcp-policy.json
 
 Install globally with npm install -g orqalis (or the reviewed tarball before publication).
-Run orqalis version once to complete first-launch Python setup before the client's
+Run orqalis --version once to complete first-launch Python setup before the client's
 startup timeout. On Windows, use orqalis.cmd in an interactive terminal.
 
 For assistant hosts that spawn processes without a shell, use the absolute Node
@@ -35,16 +35,52 @@ The workflow is get_project_context, start_task with an explicit GoalDraft, get_
 get_next_work, native edits in the returned worktree, report_result, review_run,
 and finalize_run. WorkerResult is an implementation report, never an acceptance vote.
 Actual validators and the independent reviewer produce acceptance evidence. Failed
-reviews add bounded repair tasks; call get_next_work with the advertised diagnosis
-and implementation capabilities to continue. A second MCP client can continue the same
+reviews add bounded repair tasks. Call get_next_work again to continue. Omitting
+worker_capabilities leaves task selection unrestricted by client preference; the trusted
+registry still selects required skills within role/project permissions. A nonempty capability
+list restricts assignments to tasks whose requirements it covers. A second MCP client can continue the same
 persisted run using its UUID and assigned execution ID.
 
-The server exposes 15 tools and read-only project, run, architecture and decision
-resources. Core does not import MCP. The interface policy binds every run operation
+The server exposes compact project/context, workflow and capability tools plus read-only
+project, run, architecture and decision resources. list_agents and list_skills provide focused
+catalogs; list_capabilities combines those with configured providers. get_related_files returns
+paths from the same Git-aware Context Pack. The MCP handshake reports the installed Orqalis
+application version, matching orqalis --version. Core does not import MCP. The interface policy binds every run operation
 to one authorized project and separately controls work/delivery. Local stdio relies
 on the host OS/process identity. Remote HTTP hosting is not enabled; a future remote
 host must authenticate callers, map identity to server-owned project/action policy,
 and retain the same domain gates. Tool annotations are descriptive, not authorization.
+
+Report an observed issue with report_finding while its external assignment is active:
+
+```json
+{
+  "run_id": "RUN_UUID",
+  "execution_id": "ASSIGNED_EXECUTION_UUID",
+  "idempotency_key": "normalization-source-issue",
+  "finding": {
+    "severity": "blocking",
+    "summary": "Normalization still retains surrounding whitespace",
+    "source_ref": "main.py"
+  }
+}
+```
+
+Replace UUID placeholders with the actual assigned IDs. Severity is info, warning or blocking.
+Supply a current criterion_id, a repository-relative source_ref, or both. Reports reject
+private content, unrelated criteria and forged resolution fields. Repeating a key with the
+same payload returns its existing receipt; changing that payload is rejected.
+
+report_result does not resolve findings. The independent reviewer receives open findings and
+must address each through finding_reviews. A resolution requires current passing evidence
+or verified source assertions. A source-anchored finding needs a matching source check or
+current FileValidation evidence whose validator path and observed source both match the
+reported path. Orqalis rechecks that file condition before accepting resolution, including
+must_exist=false when deletion fixes the issue. Unrelated or stale evidence is rejected.
+Unresolved blocking findings produce failed review and targeted repair, and block delivery.
+Final validation rechecks resolved source assertions and every relied-on evidence criterion
+after documentation changes, even if that criterion was otherwise optional. No client
+method can self-approve a finding or waive the acceptance/Guardian gates.
 
 Client configuration examples:
 

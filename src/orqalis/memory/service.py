@@ -56,6 +56,28 @@ class MemoryService:
             raise InputError("Embedding provider returned an invalid vector")
         return result
 
+    def _backfill_embeddings(self, repository: MemoryRepository, project_id: UUID) -> bool:
+        if self.embeddings is None:
+            return False
+        changed = False
+        while items := repository.missing_embeddings(project_id, self.embeddings.model_id):
+            for item in items:
+                embedding = self._embed(item.content)
+                if embedding is None:
+                    return changed  # Preserve offline fallback without retrying every stored item.
+                repository.save_embedding(project_id, item.id, embedding, self.embeddings.model_id)
+                changed = True
+        return changed
+
+    def _fingerprint(self, project_id: UUID, commit: str) -> str:
+        embedding = (
+            f"{self.embeddings.model_id}:{self.embeddings.dimensions}"
+            if self.embeddings
+            else "structured"
+        )
+        identity = f"{project_id}:{commit}:indexer={self.indexer.VERSION}:embedding={embedding}"
+        return hashlib.sha256(identity.encode()).hexdigest()
+
     @observed("memory.refresh")
     def refresh(self, project: Project, origin_run: UUID | None = None) -> MemoryRefresh:
         with self.unit_of_work() as uow:
@@ -63,10 +85,26 @@ class MemoryService:
             repository.lock_project(project.id)
             head = self.git.resolve_commit(project.repo_root, "HEAD")
             previous = repository.latest_snapshot(project.id)
-            if previous and previous.indexed_commit_sha == head:
+            changed_indexer = bool(
+                previous
+                and previous.repo_fingerprint
+                != self._fingerprint(project.id, previous.indexed_commit_sha)
+            )
+            backfilled = bool(
+                previous
+                and not changed_indexer
+                and self._backfill_embeddings(repository, project.id)
+            )
+            if previous and previous.indexed_commit_sha == head and not changed_indexer:
+                if backfilled:
+                    uow.commit()
                 return MemoryRefresh(snapshot=previous, reused=True)
             rebuild = bool(
-                previous and not self.git.has_commit(project.repo_root, previous.indexed_commit_sha)
+                previous
+                and (
+                    changed_indexer
+                    or not self.git.has_commit(project.repo_root, previous.indexed_commit_sha)
+                )
             )
             if previous and not rebuild:
                 paths = self.git.changed_files(project.repo_root, previous.indexed_commit_sha, head)
@@ -162,7 +200,7 @@ class MemoryService:
             snapshot = ProjectSnapshot(
                 project_id=project.id,
                 indexed_commit_sha=head,
-                repo_fingerprint=hashlib.sha256(f"{project.id}:{head}".encode()).hexdigest(),
+                repo_fingerprint=self._fingerprint(project.id, head),
                 files_scanned=len(scanned),
                 invalidations=invalidations,
             )
@@ -207,7 +245,12 @@ class MemoryService:
                 project_id=project.id,
                 indexed_commit=indexed,
                 current_commit=status.head,
-                fresh=indexed == status.head and not status.changed_paths,
+                fresh=bool(
+                    snapshot
+                    and indexed == status.head
+                    and snapshot.repo_fingerprint == self._fingerprint(project.id, status.head)
+                    and not status.changed_paths
+                ),
                 dirty_paths=status.changed_paths,
                 active_items=uow.memory.active_count(project.id),
             )
@@ -217,14 +260,30 @@ class MemoryService:
             raise InputError("Search limit must be 1..100 and query at most 10000 characters")
         self.refresh(project)
         terms = tuple(dict.fromkeys(re.findall(r"[a-z0-9_]{2,}", query.lower())))[:32]
+        head = self.git.resolve_commit(project.repo_root, "HEAD")
+        embedding = self._embed(query)
+        model = self.embeddings.model_id if self.embeddings else None
+        ancestry: dict[str, bool] = {}
+        excluded: set[UUID] = set()
         with self.unit_of_work() as uow:
-            return uow.memory.search(
-                project.id,
-                terms,
-                limit,
-                self._embed(query),
-                self.embeddings.model_id if self.embeddings else None,
-            )
+            while True:
+                matches = uow.memory.search(
+                    project.id, terms, limit, embedding, model, tuple(sorted(excluded))
+                )
+                rejected = set()
+                for match in matches:
+                    if match.item.type != MemoryType.PREVIOUS_RUN:
+                        continue
+                    commit = match.item.source_commit
+                    if commit not in ancestry:
+                        ancestry[commit] = self.git.is_ancestor(project.repo_root, commit, head)
+                    if not ancestry[commit]:
+                        rejected.add(match.item.id)
+                if not rejected:
+                    return matches
+                # Exclude before SQL ranking/limit and refill so unrelated history cannot
+                # crowd current source facts out of a bounded Context Pack.
+                excluded.update(rejected)
 
     @observed("memory.context")
     def context(self, project: Project, task: str, max_chars: int = 20_000) -> ContextPack:

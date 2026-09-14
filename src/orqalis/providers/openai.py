@@ -16,6 +16,7 @@ from orqalis.domain.provider import (
     ProviderUsage,
 )
 from orqalis.providers.errors import ProviderError
+from orqalis.providers.openai_schema import openai_schema
 from orqalis.providers.validation import check_schema, prompt_input, validate_result
 
 
@@ -86,7 +87,7 @@ class OpenAIProvider:
                 "format": {
                     "type": "json_schema",
                     "name": "orqalis_result",
-                    "schema": request.output_schema,
+                    "schema": openai_schema(request.output_schema),
                     "strict": True,
                 }
             },
@@ -95,7 +96,7 @@ class OpenAIProvider:
                     "type": "function",
                     "name": tool.name.value.replace(".", "_"),
                     "description": tool.description,
-                    "parameters": tool.parameters,
+                    "parameters": openai_schema(tool.parameters),
                     "strict": True,
                 }
                 for tool in request.allowed_tools

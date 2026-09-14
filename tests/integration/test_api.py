@@ -80,6 +80,24 @@ def test_api_contract_and_websocket_reconnect(database: Engine, git_repo: Path) 
         assert any(item["kind"] == "actor" for item in intervals)
         brain = client.get(f"/api/projects/{project.id}/brain").json()
         assert brain["freshness"]["fresh"]
+        context = client.post(
+            f"/api/projects/{project.id}/context",
+            json={"task": "Python architecture", "max_chars": 200000},
+        )
+        assert context.status_code == 200
+        assert context.json()["project_id"] == str(project.id)
+        memory = client.get(f"/api/projects/{project.id}/memory?query=Python&limit=5")
+        assert memory.status_code == 200 and isinstance(memory.json(), list)
+        assert client.get(f"/api/projects/{project.id}/memory?limit=0").status_code == 422
+        assert (
+            client.get(
+                f"/api/projects/{project.id}/memory", params={"query": "x" * 10001}
+            ).status_code
+            == 422
+        )
+        assert (
+            client.post(f"/api/projects/{project.id}/context", json={"task": ""}).status_code == 422
+        )
         assert brain["freshness"]["indexed_commit"] == sdk.git.status(git_repo).head
         assert client.get(f"/api/runs/{run_id}/diff?path=main.py").status_code == 404
         assert client.get(f"/api/projects/{project.id}/brain?run_id={run_id}").status_code == 200
@@ -102,6 +120,10 @@ def test_api_denies_cross_origin_and_untrusted_host(database: Engine) -> None:
         response = client.post("/api/runs", json={"secret": "must-not-echo"})
         assert response.status_code == 422
         assert "must-not-echo" not in response.text
+        malformed_origin = client.post(
+            "/api/projects/init", json={"repo": "/"}, headers={"origin": "http://localhost:invalid"}
+        )
+        assert malformed_origin.status_code == 403
 
 
 def test_remote_client_cannot_bypass_loopback_policy_with_host_header(database: Engine) -> None:

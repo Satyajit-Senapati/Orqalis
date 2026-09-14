@@ -6,7 +6,7 @@ from pydantic import AwareDatetime, Field, JsonValue, model_validator
 
 from orqalis.domain.acceptance import GoalContract
 from orqalis.domain.agent import AgentRole
-from orqalis.domain.artifact import Evidence
+from orqalis.domain.artifact import Evidence, Finding
 from orqalis.domain.base import Contract, Entity
 from orqalis.domain.capabilities import LoadedSkill, ToolName
 from orqalis.domain.memory import ContextPack
@@ -61,6 +61,7 @@ class ProviderExecutionRequest(Contract):
     observations: tuple[ToolObservation, ...] = ()
     acceptance: GoalContract | None = None
     evidence: tuple[Evidence, ...] = ()
+    findings: tuple[Finding, ...] = ()
     output_schema: dict[str, JsonValue]
     budget: ExecutionBudget = Field(default_factory=ExecutionBudget)
     trace_id: str | None = None

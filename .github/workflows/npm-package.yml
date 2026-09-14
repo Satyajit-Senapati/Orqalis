@@ -77,8 +77,75 @@ jobs:
           $env:ORQALIS_RUNTIME_HOME = $runtime
           npm install -g --prefix $prefix $package --ignore-scripts --no-audit --no-fund
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          python scripts/smoke_npm.py --prefix $prefix --runtime $runtime
+          $report = Join-Path $env:RUNNER_TEMP 'orqalis-platform-smoke.json'
+          python scripts/smoke_npm.py --prefix $prefix --runtime $runtime | Tee-Object -FilePath $report
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $executable = if ($IsWindows) { Join-Path $prefix 'orqalis.cmd' } else { Join-Path $prefix 'bin/orqalis' }
           & $executable version
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Retain platform and architecture evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orqalis-smoke-${{ matrix.os }}-${{ matrix.node }}-${{ matrix.python }}
+          path: ${{ runner.temp }}/orqalis-platform-smoke.json
+          if-no-files-found: warn
+  installed-integration:
+    needs: package
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: orqalis
+          POSTGRES_PASSWORD: orqalis
+          POSTGRES_DB: orqalis_package_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U orqalis -d orqalis_package_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    env:
+      ORQALIS_TEST_DATABASE_URL: postgresql+psycopg://orqalis:orqalis@127.0.0.1:5432/orqalis_package_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: astral-sh/setup-uv@v6
+      - name: Install test clients and listener inspection utility
+        run: |
+          uv sync --frozen
+          sudo apt-get update
+          sudo apt-get install -y lsof
+      - uses: actions/download-artifact@v4
+        with:
+          name: orqalis-npm
+          path: dist
+      - name: Verify installed CLI, MCP, migrations, API and UI outside checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          packages=(dist/orqalis-*.tgz)
+          test "${#packages[@]}" -eq 1
+          test -f "${packages[0]}"
+          prefix="$RUNNER_TEMP/orqalis-integrated-npm"
+          runtime="$RUNNER_TEMP/orqalis-integrated-python"
+          workspace="$RUNNER_TEMP/orqalis-integrated-workspace"
+          mkdir -p "$workspace"
+          export ORQALIS_PYTHON="$(command -v python)"
+          export ORQALIS_RUNTIME_HOME="$runtime"
+          npm install -g --prefix "$prefix" "$(realpath "${packages[0]}")" --ignore-scripts --no-audit --no-fund
+          uv run python scripts/smoke_npm.py --prefix "$prefix" --runtime "$runtime" > "$RUNNER_TEMP/orqalis-installed-launcher.json"
+          uv run python scripts/verify_installed.py --prefix "$prefix" --runtime "$runtime" --workspace "$workspace" --output "$RUNNER_TEMP/orqalis-installed-integration.json"
+      - name: Retain installed release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orqalis-installed-integration
+          path: |
+            ${{ runner.temp }}/orqalis-installed-launcher.json
+            ${{ runner.temp }}/orqalis-installed-integration.json
+          if-no-files-found: warn

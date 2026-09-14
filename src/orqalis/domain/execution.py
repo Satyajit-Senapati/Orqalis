@@ -84,11 +84,20 @@ class CriterionReview(Contract):
     source_checks: tuple[SourceCheck, ...]
 
 
+class FindingReview(Contract):
+    finding_id: UUID
+    resolved: bool
+    reason: str = Field(min_length=1, max_length=4000)
+    evidence_refs: tuple[UUID, ...] = ()
+    source_checks: tuple[SourceCheck, ...] = ()
+
+
 class ReviewResult(Contract):
     overall: Literal["PASS", "FAIL"]
     criteria: tuple[CriterionReview, ...]
     blocking_findings: tuple[str, ...]
     non_blocking_findings: tuple[str, ...]
+    finding_reviews: tuple[FindingReview, ...] = ()
 
 
 class ReviewRecord(Entity):

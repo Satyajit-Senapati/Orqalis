@@ -12,7 +12,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from orqalis import __version__
 from orqalis.api.hosting import ensure_server, local_url
-from orqalis.cli.dependencies import memory_service, project_service
+from orqalis.cli.catalog import agents, config_app, discover_skills, skills
+from orqalis.cli.dependencies import command_errors, memory_service, project_service
 from orqalis.cli.goals import app as goals_app
 from orqalis.cli.memory import app as memory_app
 from orqalis.cli.runs import app as runs_app
@@ -24,7 +25,6 @@ from orqalis.observability.logging import configure_logging
 from orqalis.persistence.database import create_database_engine
 from orqalis.providers.configuration import configured_providers
 from orqalis.sdk import Orqalis
-from orqalis.skills.registry import SkillRegistry
 
 DEFAULT_WORKSPACES = Path.home()
 
@@ -36,10 +36,26 @@ app = typer.Typer(
 app.add_typer(memory_app, name="memory")
 app.add_typer(goals_app, name="goal")
 app.add_typer(runs_app, name="runs")
+app.add_typer(config_app, name="config")
+app.command("agents")(agents)
+app.command("skills")(skills)
+
+
+def version_option(value: bool) -> None:
+    if value:
+        typer.echo(__version__)
+        raise typer.Exit()
 
 
 @app.callback()
-def main() -> None:
+def main(
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version", callback=version_option, is_eager=True, help="Print version and exit."
+        ),
+    ] = False,
+) -> None:
     configure_logging()
     try:
         telemetry_console = Settings().telemetry_console
@@ -164,9 +180,10 @@ def serve() -> None:
 
     from orqalis.api.app import create_app
 
-    settings = Settings()
-    local_url(settings)
-    uvicorn.run(create_app(), host=settings.host, port=settings.port)
+    with command_errors():
+        settings = Settings()
+        local_url(settings)
+        uvicorn.run(create_app(), host=settings.host, port=settings.port)
 
 
 @app.command()
@@ -227,22 +244,22 @@ def prepare_run(
 @app.command()
 def capabilities() -> None:
     """List configured provider availability and discoverable skill metadata."""
-    settings = Settings()
-    registry = SkillRegistry(
-        (Path(__file__).parents[1] / "skills" / "bundled", *settings.skill_roots)
-    )
-    typer.echo(
-        json.dumps(
-            {
-                "providers": [
-                    provider.descriptor.model_dump(mode="json")
-                    for provider in configured_providers(settings)
-                ],
-                "skills": [skill.model_dump(mode="json") for skill in registry.discover()],
-            },
-            indent=2,
+    with command_errors():
+        settings = Settings()
+        typer.echo(
+            json.dumps(
+                {
+                    "providers": [
+                        provider.descriptor.model_dump(mode="json")
+                        for provider in configured_providers(settings)
+                    ],
+                    "skills": [
+                        skill.model_dump(mode="json") for skill in discover_skills(settings)
+                    ],
+                },
+                indent=2,
+            )
         )
-    )
 
 
 @app.command("execute")

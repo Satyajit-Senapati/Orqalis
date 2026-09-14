@@ -12,6 +12,7 @@ from fastapi import FastAPI, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import Field
 from sqlalchemy.exc import SQLAlchemyError
 from starlette.middleware.base import RequestResponseEndpoint
 from starlette.middleware.trustedhost import TrustedHostMiddleware
@@ -25,19 +26,25 @@ from orqalis.domain.base import Contract
 from orqalis.domain.capabilities import SkillCatalogEntry
 from orqalis.domain.errors import OrqalisError
 from orqalis.domain.events import Event
-from orqalis.domain.memory import ProjectBrain
+from orqalis.domain.memory import ContextPack, MemoryMatch, ProjectBrain
 from orqalis.domain.project import Project
 from orqalis.domain.projections import ActorProjection, RunSnapshot
 from orqalis.domain.run import Run
 from orqalis.domain.task import Task
 from orqalis.domain.telemetry import TimelineSegment
 from orqalis.sdk import Orqalis
+from orqalis.security.redaction import safe_diagnostic
 
 _LOCAL_HOSTS = {"localhost", "127.0.0.1", "::1"}
 
 
 class InitRequest(Contract):
     repo: Path
+
+
+class ContextRequest(Contract):
+    task: str = Field(min_length=1, max_length=10000)
+    max_chars: int = Field(default=20000, ge=1000, le=200000)
 
 
 class StartRequest(Contract):
@@ -70,13 +77,16 @@ def loopback_client(host: str | None) -> bool:
 def origin_allowed(origin: str | None, request_url: str) -> bool:
     if origin is None:
         return True  # Native local SDK/CLI requests do not send Origin.
-    parsed, target = urlparse(origin), urlparse(request_url)
-    return (
-        parsed.scheme in {"http", "https"}
-        and parsed.hostname in _LOCAL_HOSTS
-        and parsed.hostname == target.hostname
-        and parsed.port == target.port
-    )
+    try:
+        parsed, target = urlparse(origin), urlparse(request_url)
+        return (
+            parsed.scheme in {"http", "https"}
+            and parsed.hostname in _LOCAL_HOSTS
+            and parsed.hostname == target.hostname
+            and parsed.port == target.port
+        )
+    except ValueError:
+        return False
 
 
 def frontend_directory() -> Path | None:
@@ -120,7 +130,8 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
     async def domain_error(_: Request, exc: OrqalisError) -> JSONResponse:
         status = {"not_found": 404, "conflict": 409, "policy_denied": 403, "invalid_input": 422}
         return JSONResponse(
-            {"code": exc.code, "message": str(exc)}, status_code=status.get(exc.code, 400)
+            {"code": exc.code, "message": safe_diagnostic(str(exc))},
+            status_code=status.get(exc.code, 400),
         )
 
     @app.exception_handler(SQLAlchemyError)
@@ -153,6 +164,18 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
     @app.get("/api/projects/{project_id}")
     def project(project_id: UUID) -> Project:
         return sdk.get_project(project_id)
+
+    @app.post("/api/projects/{project_id}/context")
+    def context(project_id: UUID, command: ContextRequest) -> ContextPack:
+        return sdk.memory.context(sdk.get_project(project_id), command.task, command.max_chars)
+
+    @app.get("/api/projects/{project_id}/memory")
+    def memory(
+        project_id: UUID,
+        query: Annotated[str, Query(max_length=10000)] = "",
+        limit: Annotated[int, Query(ge=1, le=100)] = 10,
+    ) -> tuple[MemoryMatch, ...]:
+        return sdk.memory.search(sdk.get_project(project_id), query, limit)
 
     @app.get("/api/projects/{project_id}/brain")
     def brain(project_id: UUID, query: str = "", run_id: UUID | None = None) -> ProjectBrain:
@@ -269,6 +292,8 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
             return
         except OrqalisError:
             await websocket.close(code=1008, reason="Run unavailable")
+        except SQLAlchemyError:
+            await websocket.close(code=1011, reason="Runtime temporarily unavailable")
 
     frontend = frontend_directory()
     if frontend:
@@ -280,7 +305,12 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
         if frontend:
             return FileResponse(frontend / "index.html")
         return JSONResponse(
-            {"message": "Build the local UI with npm ci && npm run build in web/"}, status_code=503
+            {
+                "message": (
+                    "Frontend assets are missing; reinstall Orqalis or rebuild the contributor UI."
+                )
+            },
+            status_code=503,
         )
 
     return app

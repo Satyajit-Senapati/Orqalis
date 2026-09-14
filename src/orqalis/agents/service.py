@@ -164,8 +164,30 @@ class AgentExecutionService:
                     *constraints,
                     "Approved workspace policy: " + workspace.policy.model_dump_json(),
                 )
+            findings = (
+                tuple(
+                    finding
+                    for finding in uow.delivery.findings(run_id)
+                    if finding.category == "external_worker" and finding.status == "open"
+                )
+                if actor.role == AgentRole.REVIEWER
+                else ()
+            )
+            if findings:
+                constraints = (
+                    *constraints,
+                    "Independently evaluate every open worker finding in finding_reviews. "
+                    "Resolution requires current passing evidence or verifiable source checks. "
+                    "Unresolved blocking findings require overall FAIL "
+                    "and actionable blocking_findings.",
+                )
             request = request.model_copy(
-                update={"acceptance": goal, "evidence": proofs, "constraints": constraints}
+                update={
+                    "acceptance": goal,
+                    "evidence": proofs,
+                    "constraints": constraints,
+                    "findings": findings,
+                }
             )
             prompt_input(request)
             fingerprint = _fingerprint(request, provider_id, provider.descriptor.model)

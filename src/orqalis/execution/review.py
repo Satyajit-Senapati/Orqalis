@@ -13,6 +13,7 @@ from orqalis.domain.events import EventPayload, EventType
 from orqalis.domain.execution import ReviewRecord, ReviewResult, RunWorkspace
 from orqalis.domain.run import RunState
 from orqalis.execution.filesystem import ScopedFilesystem
+from orqalis.execution.finding_review import review_external_findings
 from orqalis.execution.workspaces import verify_workspace
 from orqalis.git.service import LocalGitService
 from orqalis.providers.validation import safe_value
@@ -77,15 +78,22 @@ class ReviewService:
                 item.id for item in goal.criteria
             } or (len(result.criteria) != len(goal.criteria)):
                 raise ConflictError("Reviewer must evaluate every current criterion exactly once")
-            expected_pass = not result.blocking_findings and all(
-                review.status == "PASS"
-                for review in result.criteria
-                if next(c for c in goal.criteria if c.id == review.criterion_id).priority
-                == "required"
+            files = ScopedFilesystem(workspace.path, workspace.policy)
+            unresolved = review_external_findings(
+                uow, run, actor_id, review_id, result, goal, files
+            )
+            expected_pass = (
+                not unresolved
+                and not result.blocking_findings
+                and all(
+                    review.status == "PASS"
+                    for review in result.criteria
+                    if next(c for c in goal.criteria if c.id == review.criterion_id).priority
+                    == "required"
+                )
             )
             if (result.overall == "PASS") != expected_pass:
                 raise ConflictError("Review overall outcome contradicts its criteria/findings")
-            files = ScopedFilesystem(workspace.path, workspace.policy)
             for item in result.criteria:
                 criterion = next(c for c in goal.criteria if c.id == item.criterion_id)
                 evidence = [uow.runs.get_evidence(ref) for ref in item.evidence_refs]

@@ -12,6 +12,7 @@ from mcp.types import CallToolResult
 from pydantic import BaseModel
 from sqlalchemy import Engine
 
+from orqalis import __version__
 from orqalis.domain.acceptance import (
     CommandValidation,
     CriterionDefinition,
@@ -24,6 +25,7 @@ from orqalis.domain.execution import (
     ApprovedCommand,
     CriterionReview,
     ExecutionPolicy,
+    FindingReview,
     ReviewResult,
     SourceCheck,
     WorkerResult,
@@ -102,6 +104,15 @@ def test_mcp_workflow_continues_across_clients_and_enforces_server_policy(
                 ),
                 blocking_findings=(),
                 non_blocking_findings=(),
+                finding_reviews=tuple(
+                    FindingReview(
+                        finding_id=finding.id,
+                        resolved=True,
+                        reason="Independently inspected the corrected source",
+                        source_checks=(SourceCheck(path="main.py", contains="answer = 43"),),
+                    )
+                    for finding in request.findings
+                ),
             ).model_dump(mode="json")
         )
 
@@ -126,7 +137,21 @@ def test_mcp_workflow_continues_across_clients_and_enforces_server_policy(
         server = create_mcp(sdk, policy, (provider,))
         async with Client(server, raise_exceptions=True) as first:
             names = {tool.name for tool in (await first.list_tools()).tools}
-            assert {"get_project_context", "get_next_work", "report_result", "review_run"} <= names
+            assert {
+                "get_project_context",
+                "get_next_work",
+                "report_result",
+                "review_run",
+                "get_architecture",
+                "get_decisions",
+                "get_related_files",
+                "list_agents",
+                "list_skills",
+                "report_finding",
+            } <= names
+            for tool in ("list_agents", "list_skills", "get_architecture", "get_decisions"):
+                assert not (await first.call_tool(tool, {})).is_error
+            assert not (await first.call_tool("get_related_files", {"task": "Python"})).is_error
             resource = await first.read_resource("orqalis://project")
             assert resource.contents
             context = await first.call_tool("get_project_context", {"task": "Python architecture"})
@@ -152,6 +177,60 @@ def test_mcp_workflow_continues_across_clients_and_enforces_server_policy(
             assert replay.execution.id == assignment.execution.id
             premature = await first.call_tool("review_run", {"run_id": run_id})
             assert premature.is_error
+            observation = {
+                "severity": "blocking",
+                "summary": "Answer must become 43",
+                "source_ref": "main.py",
+            }
+            report = {
+                "run_id": run_id,
+                "execution_id": str(assignment.execution.id),
+                "idempotency_key": "answer-finding",
+                "finding": {
+                    "severity": "blocking",
+                    "summary": "Answer must become 43",
+                    "source_ref": "main.py",
+                },
+            }
+            finding_result = await first.call_tool("report_finding", report)
+            assert not finding_result.is_error, finding_result.content
+            assert (
+                await first.call_tool("report_finding", report)
+            ).structured_content == finding_result.structured_content
+            forged = await first.call_tool(
+                "report_finding",
+                {
+                    **report,
+                    "finding": {**observation, "status": "resolved"},
+                },
+            )
+            assert forged.is_error
+            changed = await first.call_tool(
+                "report_finding",
+                {
+                    **report,
+                    "finding": {**observation, "summary": "Different observation"},
+                },
+            )
+            assert changed.is_error
+            unsafe = await first.call_tool(
+                "report_finding",
+                {
+                    **report,
+                    "idempotency_key": "unsafe",
+                    "finding": {**observation, "summary": "password=private-finding-value"},
+                },
+            )
+            assert unsafe.is_error and "private-finding-value" not in str(unsafe.content)
+            foreign = await first.call_tool(
+                "report_finding",
+                {
+                    **report,
+                    "idempotency_key": "foreign",
+                    "finding": {**observation, "criterion_id": str(uuid4())},
+                },
+            )
+            assert foreign.is_error
             (assignment.workspace / "main.py").write_text("answer = 43\n")
         # Another host/process shares persisted Orqalis state, not the first client's memory.
         resumed_sdk = Orqalis(unit_of_work=factory)
@@ -181,12 +260,43 @@ def test_mcp_workflow_continues_across_clients_and_enforces_server_policy(
                 },
             )
             assert forged.is_error
+            before_review = sdk.snapshot(created.run.id)
+            assert any(
+                f.category == "external_worker" and f.status == "open"
+                for f in before_review.findings
+            )
             review = await second.call_tool("review_run", {"run_id": run_id})
             assert not review.is_error, review.content
             delivered = decoded(
                 await second.call_tool("finalize_run", {"run_id": run_id}), DeliveryResult
             )
             assert delivered.state == "COMPLETED"
+            final_state = sdk.snapshot(created.run.id)
+            assert all(
+                f.status == "resolved"
+                for f in final_state.findings
+                if f.category == "external_worker"
+            )
+            assert (
+                len(
+                    [
+                        event
+                        for event in sdk.events(created.run.id)
+                        if event.event_type == "FINDING_REPORTED"
+                    ]
+                )
+                == 1
+            )
+            assert (
+                len(
+                    [
+                        event
+                        for event in sdk.events(created.run.id)
+                        if event.event_type == "FINDING_RESOLVED"
+                    ]
+                )
+                == 1
+            )
             assert provider.calls == 1
         readonly = policy.model_copy(update={"allow_work": False, "allow_delivery": False})
         async with Client(create_mcp(sdk, readonly, (provider,))) as observer:
@@ -218,6 +328,8 @@ def test_mcp_stdio_lifecycle_and_project_isolation(
 
     async def scenario() -> None:
         async with Client(parameters, read_timeout_seconds=30) as client:
+            assert client.server_info is not None
+            assert client.server_info.version == __version__
             result = await client.call_tool("get_project", {})
             assert not result.is_error
             assert result.structured_content and result.structured_content["id"] == str(project.id)

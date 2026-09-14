@@ -4,7 +4,12 @@ from pathlib import Path
 
 import pytest
 
-from scripts.prepare_npm import _replace_tree, _verify_wheel_source, _verify_wheel_ui
+from scripts.prepare_npm import (
+    _MAINTAINER_RELEASE_DOCS,
+    _replace_tree,
+    _verify_wheel_source,
+    _verify_wheel_ui,
+)
 
 
 def test_replace_tree_removes_stale_generated_files(tmp_path: Path) -> None:
@@ -64,7 +69,9 @@ def test_wheel_python_source_must_match_checkout_exactly(tmp_path: Path) -> None
         archive.write(module, "orqalis/__init__.py")
 
     with zipfile.ZipFile(wheel) as archive:
-        _verify_wheel_source(archive, source)
+        assert _verify_wheel_source(archive, source) == {
+            "__init__.py": hashlib.sha256(module.read_bytes()).hexdigest()
+        }
 
     module.write_text("version = 2\n", encoding="utf-8")
     with (
@@ -72,3 +79,17 @@ def test_wheel_python_source_must_match_checkout_exactly(tmp_path: Path) -> None
         pytest.raises(ValueError, match="Wheel Python source is stale: __init__.py"),
     ):
         _verify_wheel_source(archive, source)
+
+
+def test_release_docs_exclude_exact_maintainer_audits_only(tmp_path: Path) -> None:
+    source = tmp_path / "docs"
+    (source / "verification").mkdir(parents=True)
+    for name in (*_MAINTAINER_RELEASE_DOCS, "PUBLISHING.md", "verification/v1.0.0.json"):
+        (source / name).write_text("fixture", encoding="utf-8")
+    destination = tmp_path / "package" / "docs"
+    _replace_tree(source, destination, tmp_path, excluded=_MAINTAINER_RELEASE_DOCS)
+    assert sorted(
+        path.relative_to(destination).as_posix()
+        for path in destination.rglob("*")
+        if path.is_file()
+    ) == ["PUBLISHING.md", "verification/v1.0.0.json"]

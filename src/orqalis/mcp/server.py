@@ -7,15 +7,17 @@ from mcp.server import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
 from mcp.types import ToolAnnotations
 
+from orqalis import __version__
 from orqalis.agents.roles import role_definition
 from orqalis.domain.acceptance import GoalContract, GoalDraft
 from orqalis.domain.agent import AgentRole
+from orqalis.domain.artifact import Finding
 from orqalis.domain.base import Contract
 from orqalis.domain.capabilities import LoadedSkill, RoleDefinition, SkillMetadata
 from orqalis.domain.delivery import DeliveryResult
 from orqalis.domain.errors import ConflictError, OrqalisError, PolicyDeniedError
 from orqalis.domain.execution import ExecutionSummary, WorkerResult
-from orqalis.domain.external import WorkAssignment
+from orqalis.domain.external import FindingReport, WorkAssignment
 from orqalis.domain.memory import ArchitectureEntity, ArchitectureRelation, ContextPack, MemoryMatch
 from orqalis.domain.plan import TaskPlan
 from orqalis.domain.project import Project
@@ -59,7 +61,7 @@ def create_mcp(
 ) -> MCPServer[None]:
     server: MCPServer[None] = MCPServer(
         "Orqalis",
-        version="0.1.0",
+        version=__version__,
         log_level="WARNING",
         instructions=(
             "Retrieve project context before repository inspection. Work only in the assigned "
@@ -117,6 +119,12 @@ def create_mcp(
                 if m.item.type == "decision"
             )
 
+    @server.tool(annotations=reads)
+    def get_related_files(task: str) -> tuple[str, ...]:
+        """Retrieve source paths selected by the same Git-aware Context Pack service."""
+        with boundary():
+            return get_project_context(task).relevant_files
+
     @server.tool(annotations=writes)
     def start_task(request: str, branch: str, goal: GoalDraft) -> RunSnapshot:
         """Create a run with an explicit goal/acceptance contract; does not execute commands."""
@@ -164,6 +172,19 @@ def create_mcp(
             return external.report(run_id, execution_id, result)
 
     @server.tool(annotations=writes)
+    def report_finding(
+        run_id: UUID,
+        execution_id: UUID,
+        finding: FindingReport,
+        idempotency_key: str,
+    ) -> Finding:
+        """Report a source-backed issue; only independent review can resolve blockers."""
+        with boundary():
+            policy.require_work()
+            scoped_run(run_id)
+            return external.report_finding(run_id, execution_id, finding, idempotency_key)
+
+    @server.tool(annotations=writes)
     async def review_run(run_id: UUID) -> ExecutionSummary:
         """Run approved validators and an independent reviewer; return targeted repairs."""
         with boundary():
@@ -202,11 +223,28 @@ def create_mcp(
         """List role, skill and configured provider metadata."""
         with boundary():
             available = providers if providers is not None else configured_providers(sdk.settings)
+            for skill in registry.discover():
+                if safe_diagnostic(skill.model_dump_json()) != skill.model_dump_json():
+                    raise PolicyDeniedError("Skill metadata contains private or sensitive content")
             return Capabilities(
                 agents=tuple(role_definition(role) for role in AgentRole),
                 skills=registry.discover(),
                 providers=tuple(p.descriptor for p in available),
             )
+
+    @server.tool(annotations=reads)
+    def list_agents() -> tuple[RoleDefinition, ...]:
+        """List specialized role definitions and permission profiles."""
+        return list_capabilities().agents
+
+    @server.tool(annotations=reads)
+    def list_skills(query: str = "") -> tuple[SkillMetadata, ...]:
+        """Discover skill metadata without loading instructions."""
+        return tuple(
+            skill
+            for skill in list_capabilities().skills
+            if not query or query.casefold() in skill.model_dump_json().casefold()
+        )
 
     @server.tool(annotations=reads)
     def get_skill(skill_id: str, version: str) -> LoadedSkill:

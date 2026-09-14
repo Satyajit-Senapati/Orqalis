@@ -1,3 +1,4 @@
+import fnmatch
 from uuid import uuid5
 
 from orqalis.domain.acceptance import GoalContract
@@ -5,6 +6,20 @@ from orqalis.domain.agent import AgentRole
 from orqalis.domain.memory import ContextPack
 from orqalis.domain.plan import TaskPlan
 from orqalis.domain.task import Task, TaskDependency
+
+
+def implementation_capabilities(goal: GoalContract, context: ContextPack) -> tuple[str, ...]:
+    """Route from explicit source scope, never from an unrelated repository language."""
+    scopes = tuple(scope for scope in goal.goal.scope if not any(c.isspace() for c in scope))
+    python = any(scope.endswith(".py") for scope in scopes) or any(
+        path.endswith(".py")
+        and any(
+            fnmatch.fnmatchcase(path, scope) or (scope.endswith("/") and path.startswith(scope))
+            for scope in scopes
+        )
+        for path in context.relevant_files
+    )
+    return ("python",) if python else ()
 
 
 class VerticalPlanner:
@@ -22,7 +37,11 @@ class VerticalPlanner:
                 preferred_role=role,
                 validation_method=validation,
                 acceptance_criterion_ids=ids,
-                required_capabilities=("evidence_review",) if role == AgentRole.REVIEWER else (),
+                required_capabilities=("evidence_review",)
+                if role == AgentRole.REVIEWER
+                else implementation_capabilities(goal, context)
+                if role == AgentRole.DEVELOPER
+                else (),
             )
             for role, description, outcome, validation in (
                 (

@@ -409,3 +409,33 @@ release evidence; implementation-only handoff and reconciliation files remain ex
 the published package.
 
 No runtime, API, schema, migration or UI behavior changed.
+
+
+## V1 public npm release audit - 2026-09-14
+
+Status: release hardening implemented. The current release decision and authoritative
+requirement-by-requirement evidence are in [release audit](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/NPM_RELEASE_READINESS.md).
+
+Fixed cold UI child-process import isolation; structured credential and auth-header
+redaction; OpenAI strict transport schemas; Python skill selection and language matching;
+independent Guardian intersection of explicit goal scope and immutable write permissions;
+branch-aware memory retrieval, ranking refill, documentation categories, private-key
+exclusion and indexer/model refresh fingerprints. Added CLI version/catalog commands and
+typed untrusted MCP finding reports with independent evidence and final-tree checks.
+Source findings can resolve through matching current file-validation evidence, including
+file deletion; every relied-on criterion is checked again before delivery even when
+optional. Temporary embedding outages retain structured retrieval, and later refreshes
+backfill missing vectors from stored content without scanning the repository again.
+Aligned REST context budgets with Core. Package prepack now binds source/build inputs;
+relative OS cache roots are ignored, and internal readiness records stay out of npm.
+
+Release verification now exercises the actual npm global shim outside the repository,
+including a hostile current-directory module, and a packaged fresh-project/Core/MCP/UI
+harness against a disposable PostgreSQL database. CI retains one tarball across platform
+smoke jobs and adds a Linux packaged integration gate. Detailed source, dependency,
+artifact and installed browser results are maintained in the release audit.
+
+No competing orchestration/telemetry model, installer or provider-specific domain service
+was introduced. No migration is required. Signed-off phase order and npm-only application
+distribution remain unchanged. Live provider account and npm ownership/authentication
+checks remain explicitly external; no npm publish has been performed.

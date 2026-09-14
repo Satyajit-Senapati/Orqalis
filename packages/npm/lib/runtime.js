@@ -16,19 +16,18 @@ export function cacheRoot(env = process.env, os = platform()) {
   const override = env.ORQALIS_RUNTIME_HOME;
   if (override && !isAbsolute(override))
     throw new Error("ORQALIS_RUNTIME_HOME must be absolute.");
+  const configured = os === "win32" ? env.LOCALAPPDATA : env.XDG_CACHE_HOME;
+  const base =
+    configured && isAbsolute(configured)
+      ? configured
+      : os === "win32"
+        ? join(homedir(), "AppData", "Local")
+        : join(homedir(), ".cache");
   return (
     override ||
     (os === "win32"
-      ? join(
-          env.LOCALAPPDATA || join(homedir(), "AppData", "Local"),
-          "Orqalis",
-          "runtimes",
-        )
-      : join(
-          env.XDG_CACHE_HOME || join(homedir(), ".cache"),
-          "orqalis",
-          "runtimes",
-        ))
+      ? join(base, "Orqalis", "runtimes")
+      : join(base, "orqalis", "runtimes"))
   );
 }
 

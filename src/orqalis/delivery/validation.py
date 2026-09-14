@@ -82,10 +82,20 @@ class FinalValidationService:
             if goal is None or goal.goal.id != contract.goal.id:
                 raise PolicyDeniedError("Goal changed during final validation")
             after = workspace_digest(workspace, self.git)
+            reviews = uow.execution.reviews(run_id)
+            relied_criteria = {
+                proof.criterion_id
+                for review in reviews
+                if review.goal_version_id == goal.goal.id
+                for verdict in review.result.finding_reviews
+                if verdict.resolved
+                for reference in verdict.evidence_refs
+                if (proof := uow.runs.get_evidence(reference)) is not None
+            }
             passed = before == after and all(
                 item.status == AcceptanceStatus.PASS
                 for item in goal.criteria
-                if item.priority == "required"
+                if item.priority == "required" or item.id in relied_criteria
             )
             for artifact in uow.delivery.artifacts(run_id):
                 if artifact.type == "documentation" and (
@@ -93,15 +103,25 @@ class FinalValidationService:
                     != artifact.content_hash
                 ):
                     passed = False
-            reviews = uow.execution.reviews(run_id)
             if not reviews or reviews[-1].result.overall != "PASS":
                 passed = False
             elif reviews:
                 files = ScopedFilesystem(workspace.path, workspace.policy)
-                for reviewed in reviews[-1].result.criteria:
-                    for check in reviewed.source_checks:
-                        if check.contains not in files.read(check.path):
-                            passed = False
+                finding_reviews = tuple(
+                    verdict
+                    for review in reviews
+                    if review.goal_version_id == goal.goal.id
+                    for verdict in review.result.finding_reviews
+                    if verdict.resolved
+                )
+                checks = tuple(
+                    check
+                    for reviewed in reviews[-1].result.criteria
+                    for check in reviewed.source_checks
+                ) + tuple(check for reviewed in finding_reviews for check in reviewed.source_checks)
+                for check in checks:
+                    if check.contains not in files.read(check.path):
+                        passed = False
             result = FinalValidation(
                 id=validation_id,
                 run_id=run_id,

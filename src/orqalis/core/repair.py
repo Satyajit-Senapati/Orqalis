@@ -53,7 +53,11 @@ class RepairPlanner:
             description=f"Repair only the affected behavior: {reasons}",
             expected_outcome="Resolve failed criteria without changing the accepted goal",
             preferred_role=AgentRole.DEVELOPER,
-            required_capabilities=("implementation",),
+            required_capabilities=tuple(
+                dict.fromkeys(
+                    ("implementation", *(original.required_capabilities if original else ()))
+                )
+            ),
             validation_method="Affected checks and required regression suite",
             acceptance_criterion_ids=affected,
         )

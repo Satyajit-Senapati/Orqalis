@@ -10,7 +10,7 @@ from orqalis.domain.provider import (
     ProviderExecutionResult,
 )
 from orqalis.providers.errors import ProviderError
-from orqalis.security.redaction import safe_diagnostic
+from orqalis.security.redaction import is_credential_field, safe_diagnostic
 
 _PRIVATE_KEYS = {"chain_of_thought", "reasoning", "scratchpad", "analysis", "thinking"}
 
@@ -39,7 +39,11 @@ def check_schema(schema: dict[str, JsonValue]) -> None:
 def safe_value(value: JsonValue) -> None:
     if isinstance(value, dict):
         for key, item in value.items():
-            if key.lower() in _PRIVATE_KEYS or safe_diagnostic(key) != key:
+            if (
+                key.lower() in _PRIVATE_KEYS
+                or is_credential_field(key)
+                or safe_diagnostic(key) != key
+            ):
                 raise ProviderError(ProviderErrorCode.INVALID_OUTPUT)
             safe_value(item)
     elif isinstance(value, list):

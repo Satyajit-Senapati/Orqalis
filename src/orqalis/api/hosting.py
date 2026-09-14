@@ -23,7 +23,9 @@ def local_url(settings: Settings) -> str:
 def ensure_server(settings: Settings, open_path: str | None = None) -> str:
     url = local_url(settings)
     if frontend_directory() is None:
-        raise ConflictError("Build the frontend first: cd web; npm ci; npm run build")
+        raise ConflictError(
+            "Frontend assets are missing; reinstall Orqalis or rebuild the contributor UI"
+        )
     with httpx.Client(timeout=1, trust_env=False) as client:
 
         def healthy() -> bool:
@@ -53,7 +55,7 @@ def ensure_server(settings: Settings, open_path: str | None = None) -> str:
                 }
             )
             process = subprocess.Popen(
-                [sys.executable, "-m", "orqalis", "serve"],
+                [sys.executable, "-I", "-m", "orqalis", "serve"],
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,

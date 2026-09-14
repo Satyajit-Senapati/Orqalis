@@ -37,6 +37,8 @@ class EventType(StrEnum):
     AGENT_ASSIGNED = "AGENT_ASSIGNED"
     SKILL_LOADED = "SKILL_LOADED"
     EXTERNAL_RESULT_REPORTED = "EXTERNAL_RESULT_REPORTED"
+    FINDING_REPORTED = "FINDING_REPORTED"
+    FINDING_RESOLVED = "FINDING_RESOLVED"
     EVIDENCE_RECORDED = "EVIDENCE_RECORDED"
     CRITERION_PASSED = "CRITERION_PASSED"
     CRITERION_FAILED = "CRITERION_FAILED"
@@ -84,6 +86,7 @@ class EventPayload(Contract):
     phase_execution_id: UUID | None = None
     criterion_id: UUID | None = None
     evidence_ids: tuple[UUID, ...] = ()
+    finding_ids: tuple[UUID, ...] = ()
     task_ids: tuple[UUID, ...] = ()
     memory_ids: tuple[UUID, ...] = ()
 
