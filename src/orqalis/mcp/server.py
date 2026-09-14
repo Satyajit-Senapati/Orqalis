@@ -130,7 +130,14 @@ def create_mcp(
         """Create a run with an explicit goal/acceptance contract; does not execute commands."""
         with boundary():
             policy.require_work()
-            return sdk.prepare_run(policy.project_id, request, branch, goal)
+            return sdk.prepare_run(
+                policy.project_id,
+                request,
+                branch,
+                goal,
+                policy.control_mode,
+                policy.approval_gates,
+            )
 
     @server.tool(annotations=reads)
     def get_run(run_id: UUID) -> RunSnapshot:

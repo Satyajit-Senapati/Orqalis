@@ -66,11 +66,16 @@ class EventType(StrEnum):
     PUSH_COMPLETED = "PUSH_COMPLETED"
     DELIVERY_BLOCKED = "DELIVERY_BLOCKED"
     POLICY_DENIED = "POLICY_DENIED"
+    CONTROL_POLICY_CHANGED = "CONTROL_POLICY_CHANGED"
     APPROVAL_REQUESTED = "APPROVAL_REQUESTED"
     APPROVAL_RECORDED = "APPROVAL_RECORDED"
 
 
 class EventPayload(Contract):
+    approval_request_id: UUID | None = None
+    approval_stage: str | None = None
+    approval_subject_digest: str | None = None
+    approval_actor: str | None = None
     git_author_name: str | None = None
     git_author_email: str | None = None
     tool_invocation_id: UUID | None = None

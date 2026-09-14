@@ -1,10 +1,13 @@
 from collections.abc import Callable
 from datetime import datetime
 
+from orqalis.core.approval_guard import require_approval, require_delivery_binding
+from orqalis.core.approval_subjects import repair_subject
 from orqalis.core.planning import plan_identity
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, locked_run, require_key
 from orqalis.core.task_runtime import refresh_ready
+from orqalis.domain.approval import ApprovalStage
 from orqalis.domain.errors import ConflictError, PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
 from orqalis.domain.plan import TaskPlan
@@ -56,6 +59,29 @@ class PlanRevisionService:
             goal = uow.runs.get_goal(plan.goal_version_id)
             if current is None or goal is None:
                 raise ConflictError("Current execution contract is missing")
+            if not repair:
+                from orqalis.delivery.gates import guard_delivery
+
+                guard_delivery(uow, run, RunState.CHANGE_GUARD)
+                require_delivery_binding(uow, run)
+            if repair:
+                reviews = uow.execution.reviews(run.id)
+                review = reviews[-1] if reviews else None
+                if (
+                    review is None
+                    or review.result.overall != "FAIL"
+                    or review.goal_version_id != run.current_goal_version_id
+                    or review.plan_version != run.plan_version
+                ):
+                    raise ConflictError("Repair needs the current failed review")
+                require_approval(
+                    uow,
+                    run,
+                    ApprovalStage.REPAIR,
+                    run.plan_version,
+                    repair_subject(review),
+                    "Review failed evidence before targeted repair",
+                )
             old_tasks = {task.id: task for task in current.tasks}
             revised_tasks = {task.id: task for task in plan.tasks}
             if any(revised_tasks.get(key) != task for key, task in old_tasks.items()):

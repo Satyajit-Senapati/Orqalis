@@ -1,4 +1,5 @@
 import asyncio
+import secrets
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from importlib.resources import files
@@ -20,13 +21,21 @@ from starlette.responses import Response
 
 from orqalis import __version__
 from orqalis.api.contracts import AcceptanceView, RunMetrics
+from orqalis.core.plan_draft import draft_replacement
 from orqalis.delivery.inspection import DiffView
-from orqalis.domain.acceptance import GoalDraft
+from orqalis.domain.acceptance import GoalContract, GoalDraft
+from orqalis.domain.approval import (
+    ApprovalDecisionKind,
+    ApprovalRequest,
+    ControlMode,
+    ControlPolicy,
+)
 from orqalis.domain.base import Contract
 from orqalis.domain.capabilities import SkillCatalogEntry
-from orqalis.domain.errors import OrqalisError
+from orqalis.domain.errors import OrqalisError, PolicyDeniedError
 from orqalis.domain.events import Event
 from orqalis.domain.memory import ContextPack, MemoryMatch, ProjectBrain
+from orqalis.domain.plan import TaskPlan
 from orqalis.domain.project import Project
 from orqalis.domain.projections import ActorProjection, RunSnapshot
 from orqalis.domain.run import Run
@@ -52,6 +61,34 @@ class StartRequest(Contract):
     request: str
     branch: str
     goal: GoalDraft
+    mode: ControlMode = ControlMode.AUTONOMOUS
+
+
+class PlanCommand(Contract):
+    idempotency_key: str = Field(min_length=1, max_length=200)
+
+
+class PlanReplacement(Contract):
+    plan: TaskPlan
+    expected_version: int = Field(ge=1)
+    idempotency_key: str = Field(min_length=1, max_length=200)
+
+
+class GoalRevision(Contract):
+    goal: GoalDraft
+    reason: str = Field(min_length=1, max_length=1000)
+    expected_version: int = Field(ge=1)
+
+
+class ApprovalDecisionCommand(Contract):
+    decision: ApprovalDecisionKind
+    expected_subject_digest: str
+    reason: str = Field(default="", max_length=1000)
+
+
+class ControlView(Contract):
+    policy: ControlPolicy
+    approvals: tuple[ApprovalRequest, ...]
 
 
 class RecoveryRequest(Contract):
@@ -107,6 +144,18 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
 
     app = FastAPI(title="Orqalis Local API", version=__version__, lifespan=lifespan)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "[::1]"])
+
+    def require_operator(request: Request) -> str:
+        configured = sdk.settings.operator_token
+        supplied = request.headers.get("x-orqalis-operator-token", "")
+        if (
+            configured is None
+            or not configured.get_secret_value()
+            or not supplied
+            or not secrets.compare_digest(supplied, configured.get_secret_value())
+        ):
+            raise PolicyDeniedError("Operator token is required for approval and edits")
+        return "local-ui-operator"
 
     @app.middleware("http")
     async def local_origin(request: Request, call_next: RequestResponseEndpoint) -> Response:
@@ -195,11 +244,66 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
 
     @app.post("/api/runs")
     def start(command: StartRequest) -> RunSnapshot:
-        return sdk.prepare_run(command.project_id, command.request, command.branch, command.goal)
+        return sdk.prepare_run(
+            command.project_id, command.request, command.branch, command.goal, command.mode
+        )
 
     @app.get("/api/runs/{run_id}")
     def snapshot(run_id: UUID) -> RunSnapshot:
         return sdk.snapshot(run_id)
+
+    @app.get("/api/runs/{run_id}/controls")
+    def controls(run_id: UUID) -> ControlView:
+        return ControlView(
+            policy=sdk.approvals.policy(run_id),
+            approvals=sdk.approvals.list(run_id),
+        )
+
+    @app.post("/api/runs/{run_id}/plan/preview")
+    def preview_plan(run_id: UUID, command: PlanCommand, request: Request) -> TaskPlan:
+        require_operator(request)
+        return sdk.plans.preview(run_id, command.idempotency_key)
+
+    @app.get("/api/runs/{run_id}/plan/draft")
+    def draft_plan(run_id: UUID) -> TaskPlan:
+        state = sdk.snapshot(run_id)
+        if state.plan is None:
+            raise PolicyDeniedError("Run does not have a plan to edit")
+        return draft_replacement(state.plan)
+
+    @app.post("/api/runs/{run_id}/plan/replan")
+    def replan_goal(run_id: UUID, command: PlanCommand, request: Request) -> Run:
+        require_operator(request)
+        return sdk.replan(run_id, command.idempotency_key)
+
+    @app.post("/api/runs/{run_id}/plan/replace")
+    def replace_plan(run_id: UUID, command: PlanReplacement, request: Request) -> TaskPlan:
+        require_operator(request)
+        if command.plan.run_id != run_id:
+            raise PolicyDeniedError("Plan belongs to another run")
+        return sdk.plans.replace(command.plan, command.expected_version, command.idempotency_key)
+
+    @app.post("/api/runs/{run_id}/goal/revise")
+    def revise_goal(run_id: UUID, command: GoalRevision, request: Request) -> GoalContract:
+        require_operator(request)
+        return sdk.goals.revise(run_id, command.goal, command.reason, command.expected_version)
+
+    @app.post("/api/runs/{run_id}/approvals/{approval_id}/decision")
+    def decide_approval(
+        run_id: UUID,
+        approval_id: UUID,
+        command: ApprovalDecisionCommand,
+        request: Request,
+    ) -> ApprovalRequest:
+        actor = require_operator(request)
+        return sdk.approvals.decide(
+            run_id,
+            approval_id,
+            command.decision,
+            actor,
+            command.expected_subject_digest,
+            command.reason,
+        )
 
     @app.get("/api/runs/{run_id}/events")
     def events(

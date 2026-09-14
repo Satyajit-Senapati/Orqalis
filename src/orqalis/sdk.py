@@ -5,11 +5,14 @@ from uuid import UUID, uuid4
 from orqalis.agents.routing import CapabilityRouter
 from orqalis.agents.service import AgentExecutionService
 from orqalis.config.settings import Settings
+from orqalis.core.approval_subjects import goal_subject
+from orqalis.core.approvals import ApprovalService
 from orqalis.core.delivery import DeliveryCoordinator
 from orqalis.core.executor import RunExecutor
 from orqalis.core.external import ExternalWorkService
 from orqalis.core.goals import GoalService
 from orqalis.core.orchestrator import Orchestrator
+from orqalis.core.plan_preview import PlanPreviewService
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.projects import ProjectService
 from orqalis.core.requirements import RequirementsCoordinator
@@ -17,6 +20,7 @@ from orqalis.core.runtime_support import emit, locked_run
 from orqalis.core.vertical_plan import VerticalPlanner
 from orqalis.delivery.inspection import ChangeInspectionService
 from orqalis.domain.acceptance import GoalDraft
+from orqalis.domain.approval import ApprovalStage, ApprovalStatus, ControlMode
 from orqalis.domain.base import utc_now
 from orqalis.domain.capabilities import SkillCatalogEntry
 from orqalis.domain.errors import ConflictError, NotFoundError, PolicyDeniedError
@@ -64,9 +68,13 @@ class Orqalis:
         self.changes = ChangeInspectionService(self.unit_of_work, self.git)
         self.goals = GoalService(self.unit_of_work)
         self.orchestrator = Orchestrator(self.unit_of_work)
+        self.approvals = ApprovalService(self.unit_of_work)
+        self.plans = PlanPreviewService(
+            self.unit_of_work, self.orchestrator, self.goals, self.memory, self.git, self.approvals
+        )
         self.projections = SnapshotProjectionService(self.unit_of_work)
         self.delivery = DeliveryCoordinator(
-            self.unit_of_work, self.orchestrator, self.goals, self.git
+            self.unit_of_work, self.orchestrator, self.goals, self.git, self.approvals
         )
 
     def list_skills(self) -> tuple[SkillCatalogEntry, ...]:
@@ -122,6 +130,8 @@ class Orqalis:
             ExecutionWorkspaces(self.unit_of_work, WorktreeManager(workspaces_root, self.git)),
             worker,
             ReviewService(self.unit_of_work, self.git),
+            self.approvals,
+            self.plans,
         )
 
     def external_work(self, workspaces_root: Path) -> ExternalWorkService:
@@ -135,6 +145,8 @@ class Orqalis:
                 (Path(__file__).parent / "skills" / "bundled", *self.settings.skill_roots)
             ),
             self.git,
+            self.approvals,
+            self.plans,
         )
 
     def close(self) -> None:
@@ -166,15 +178,23 @@ class Orqalis:
             return uow.runs.list(project_id)
 
     def prepare_run(
-        self, project_id: UUID, request: str, branch: str, goal: GoalDraft | None = None
+        self,
+        project_id: UUID,
+        request: str,
+        branch: str,
+        goal: GoalDraft | None = None,
+        mode: ControlMode = ControlMode.AUTONOMOUS,
+        gates: frozenset[ApprovalStage] | None = None,
     ) -> RunSnapshot:
+        if mode == ControlMode.AUTONOMOUS and gates:
+            raise PolicyDeniedError("Custom approval gates require supervised mode")
         project = self.get_project(project_id)
         self.git.validate_branch(project.repo_root, branch, project.settings.protected_branches)
         status = self.git.status(project.repo_root)
         if goal is None:
-            run = self.goals.create_pending(project, request, branch, status.head)
+            run = self.goals.create_pending(project, request, branch, status.head, mode, gates)
         else:
-            run, _ = self.goals.create(project, request, branch, status.head, goal)
+            run, _ = self.goals.create(project, request, branch, status.head, goal, mode, gates)
         return self.continue_preparation(run.id)
 
     def continue_preparation(self, run_id: UUID) -> RunSnapshot:
@@ -252,6 +272,16 @@ class Orqalis:
                 prior = uow.events.by_key(run_id, f"replan:{key}")
                 if prior and prior.payload.goal_version_id == current.current_goal_version_id:
                     return current
+        contract = self.goals.get(run_id)
+        requested = self.approvals.ensure(
+            run_id,
+            ApprovalStage.GOAL,
+            contract.goal.version,
+            goal_subject(contract),
+            "Review revised goal and acceptance criteria before replanning",
+        )
+        if requested is not None and requested.status != ApprovalStatus.APPROVED:
+            raise PolicyDeniedError(f"Goal approval required: {requested.id}")
         state = self.snapshot(run_id)
         project = self.get_project(state.run.project_id)
         plan = VerticalPlanner().plan(

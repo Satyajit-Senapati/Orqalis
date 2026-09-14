@@ -2,6 +2,9 @@ from collections.abc import Callable
 from datetime import datetime
 from uuid import UUID, uuid5
 
+from orqalis.core.approval_guard import require_approval
+from orqalis.core.approval_subjects import requirements_task_subject, task_subject
+from orqalis.core.approvals import task_approval_reason
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import (
     emit,
@@ -12,8 +15,9 @@ from orqalis.core.runtime_support import (
 )
 from orqalis.core.scheduler import WRITE_ROLES, ready_tasks
 from orqalis.domain.agent import ActorSession, ActorStatus, ActorType, AgentRole
+from orqalis.domain.approval import ApprovalStage
 from orqalis.domain.base import utc_now
-from orqalis.domain.errors import ConflictError, NotFoundError
+from orqalis.domain.errors import ConflictError, NotFoundError, PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
 from orqalis.domain.run import Run, RunState
 from orqalis.domain.task import TaskExecution, TaskStatus
@@ -128,6 +132,27 @@ class TaskRuntime:
                 task = next((item for item in ready_tasks(plan) if item.id == task_id), None)
             if task is None:
                 raise ConflictError("Task is not dependency-ready")
+            control = uow.approvals.policy(run_id)
+            if control is not None and control.requires(ApprovalStage.TASK):
+                if run.state == RunState.ANALYZING:
+                    digest = requirements_task_subject(task)
+                    execution_policy = None
+                else:
+                    workspace = uow.execution.workspace(run_id)
+                    if workspace is None:
+                        raise PolicyDeniedError(
+                            "Task approval requires a persisted workspace policy"
+                        )
+                    execution_policy = workspace.policy
+                    digest = task_subject(task, execution_policy)
+                require_approval(
+                    uow,
+                    run,
+                    ApprovalStage.TASK,
+                    run.plan_version,
+                    digest,
+                    task_approval_reason(task, execution_policy),
+                )
             if task.preferred_role in WRITE_ROLES and any(
                 item.preferred_role in WRITE_ROLES
                 and item.status in {TaskStatus.RUNNING, TaskStatus.WAITING, TaskStatus.BLOCKED}

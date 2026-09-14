@@ -1,12 +1,15 @@
 from collections.abc import Callable
 from uuid import UUID, uuid5
 
+from orqalis.core.approval_subjects import plan_subject, repair_subject
+from orqalis.core.approvals import ApprovalService
 from orqalis.core.orchestrator import Orchestrator
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, locked_run
 from orqalis.domain.agent import AgentRole
+from orqalis.domain.approval import ApprovalStage, ApprovalStatus
 from orqalis.domain.base import utc_now
-from orqalis.domain.errors import ConflictError
+from orqalis.domain.errors import ConflictError, PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
 from orqalis.domain.execution import ReviewRecord
 from orqalis.domain.plan import TaskPlan
@@ -145,6 +148,15 @@ class RepairCoordinator:
             self.orchestrator.advance(run_id, RunState.HUMAN_REVIEW_REQUIRED, limit_key)
             return False
         if not installed:
+            requested = ApprovalService(self.factory).ensure(
+                run_id,
+                ApprovalStage.REPAIR,
+                review.plan_version,
+                repair_subject(review),
+                "Review failed evidence before targeted repair",
+            )
+            if requested is not None and requested.status != ApprovalStatus.APPROVED:
+                raise PolicyDeniedError(f"REPAIR approval required: {requested.id}")
             with self.factory() as uow:
                 current_run = locked_run(uow, run_id)
                 emit(
@@ -164,5 +176,19 @@ class RepairCoordinator:
                 raise ConflictError("Run is not at a repair planning checkpoint")
             revised = RepairPlanner().plan(plan, review, tuple(item.id for item in goal.criteria))
             self.orchestrator.install_repair_plan(revised, f"{key}:plan")
+        with self.factory() as uow:
+            current = locked_run(uow, run_id)
+            repair_plan = uow.runtime.get_plan(run_id, current.plan_version)
+            if repair_plan is None:
+                raise ConflictError("Installed repair plan is missing")
+        plan_request = ApprovalService(self.factory).ensure(
+            run_id,
+            ApprovalStage.PLAN,
+            repair_plan.version,
+            plan_subject(repair_plan),
+            "Review the targeted repair DAG before execution",
+        )
+        if plan_request is not None and plan_request.status != ApprovalStatus.APPROVED:
+            raise PolicyDeniedError(f"PLAN approval required: {plan_request.id}")
         self.orchestrator.advance(run_id, RunState.EXECUTING, f"{key}:execute")
         return True

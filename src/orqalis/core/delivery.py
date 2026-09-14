@@ -3,6 +3,8 @@ import hashlib
 from collections.abc import Callable
 from uuid import UUID, uuid5
 
+from orqalis.core.approval_subjects import delivery_subject
+from orqalis.core.approvals import ApprovalService
 from orqalis.core.delivery_plan import DELIVERY_STEPS, delivery_plan
 from orqalis.core.goals import GoalService
 from orqalis.core.orchestrator import Orchestrator
@@ -12,6 +14,7 @@ from orqalis.delivery.commits import CommitService
 from orqalis.delivery.documentation import DocumentationService
 from orqalis.delivery.guardian import ChangeGuardian, GuardianService
 from orqalis.delivery.validation import FinalValidationService
+from orqalis.domain.approval import ApprovalStage, ApprovalStatus
 from orqalis.domain.base import utc_now
 from orqalis.domain.delivery import ChangeReport, DeliveryPolicy, DeliveryResult
 from orqalis.domain.errors import ConflictError, NotFoundError, OrqalisError, PolicyDeniedError
@@ -34,8 +37,10 @@ class DeliveryCoordinator:
         orchestrator: Orchestrator,
         goals: GoalService,
         git: LocalGitService,
+        approvals: ApprovalService | None = None,
     ) -> None:
         self.factory, self.orchestrator, self.git = factory, orchestrator, git
+        self.approvals = approvals or ApprovalService(factory)
         self.guardian = GuardianService(factory, ChangeGuardian(git))
         self.documentation = DocumentationService(factory)
         self.validation = FinalValidationService(factory, goals, git)
@@ -50,6 +55,7 @@ class DeliveryCoordinator:
             return await watch_cancellation(self.factory, run_id, self._finalize(run_id, policy))
 
     async def _finalize(self, run_id: UUID, policy: DeliveryPolicy) -> DeliveryResult:
+        requested = None
         with self.factory() as uow:
             run = locked_run(uow, run_id)
             if run.state not in {
@@ -68,13 +74,43 @@ class DeliveryCoordinator:
             if bound and bound.payload.summary != fingerprint:
                 raise ConflictError("Delivery policy differs from its persisted authorization")
             if not bound:
+                reviews = uow.execution.reviews(run_id)
+                review = reviews[-1] if reviews else None
+                if review is None or review.result.overall != "PASS":
+                    raise ConflictError("Delivery approval requires a passing persisted review")
+        if not bound:
+            if review is None:
+                raise ConflictError("Passing review missing")
+            requested = self.approvals.ensure(
+                run_id,
+                ApprovalStage.DELIVERY,
+                run.plan_version,
+                delivery_subject(run, review, policy),
+                (
+                    f"Review tree {review.tree_hash[:16]}, push={policy.push}, "
+                    f"remote={policy.remote}, docs={policy.documentation_path or 'none'}, "
+                    f"sensitive paths={len(policy.approved_sensitive_paths)}. "
+                    "Inspect the delivery policy and repository diff before approval."
+                ),
+            )
+            if requested is not None and requested.status != ApprovalStatus.APPROVED:
+                raise PolicyDeniedError(f"Delivery approval required: {requested.id}")
+        with self.factory() as uow:
+            run = locked_run(uow, run_id)
+            bound = uow.events.by_key(run_id, "delivery:policy")
+            if not bound:
                 emit(
                     uow,
                     run,
                     EventType.APPROVAL_RECORDED,
                     "delivery:policy",
                     utc_now(),
-                    EventPayload(summary=fingerprint, reason="Explicit delivery policy"),
+                    EventPayload(
+                        summary=fingerprint,
+                        reason="Explicit delivery policy",
+                        approval_request_id=requested.id if requested else None,
+                        approval_subject_digest=requested.subject_digest if requested else None,
+                    ),
                 )
                 uow.commit()
             plan = uow.runtime.get_plan(run_id, run.plan_version)

@@ -78,9 +78,10 @@ orqalis --version
 ```
 
 Installing the public package does not require an npm account or login.
-Terminal-owned UI hosting requires Orqalis 1.0.1 or newer. Version 1.0.0 used a
-detached UI host; check `orqalis --version` and upgrade to 1.0.1 or newer for the
-Ctrl+C behavior described below.
+The public 1.0.0 package uses a detached `ui` helper. Its `serve` command
+runs in the foreground and stops with Ctrl+C, so the quick start below uses
+`serve`. The unpublished 1.0.1 source candidate also makes `ui --open`
+terminal-owned; that behavior reaches npm only after a new publication.
 On Windows PowerShell, use `npm.cmd install -g orqalis` and the
 [session setup below](#install-globally) to type `orqalis` directly.
 
@@ -91,10 +92,10 @@ ORQALIS_PACKAGE_ROOT="$(npm root -g)/orqalis"
 docker compose -p orqalis -f "$ORQALIS_PACKAGE_ROOT/compose.yaml" up -d --wait
 orqalis migrate
 orqalis doctor
-orqalis ui --open
+orqalis serve
 ```
 
-Open **http://localhost:7842**. The `ui --open` command stays in the terminal;
+Open **http://localhost:7842**. The `serve` command stays in the terminal;
 leave it running and use another terminal for project commands. Ctrl+C stops its
 local UI/API host. On Windows use `npm.cmd` for installation and `orqalis` after
 the [PowerShell session setup](#install-globally). First launch creates an isolated
@@ -105,7 +106,7 @@ then register a committed project and start requirements discovery:
 
 ```sh
 orqalis init --repo /absolute/path/to/project
-orqalis run "Normalize names consistently" --repo /absolute/path/to/project --branch feature/normalize-names --open
+orqalis run "Normalize names consistently" --repo /absolute/path/to/project --branch feature/normalize-names
 ```
 
 Implementation requires an explicit execution policy. Without a configured provider,
@@ -341,7 +342,7 @@ $orqalisPackage = Join-Path (npm.cmd root -g) 'orqalis'
 docker compose -p orqalis -f "$orqalisPackage/compose.yaml" up -d --wait
 orqalis migrate
 orqalis doctor
-orqalis ui --open
+orqalis serve
 ~~~
 
 On Bash/zsh:
@@ -351,12 +352,13 @@ ORQALIS_PACKAGE_ROOT="$(npm root -g)/orqalis"
 docker compose -p orqalis -f "$ORQALIS_PACKAGE_ROOT/compose.yaml" up -d --wait
 orqalis migrate
 orqalis doctor
-orqalis ui --open
+orqalis serve
 ~~~
 
-The UI command runs in the foreground. Leave this terminal open and use a second
-terminal for `init`, `run` and other commands. Ctrl+C stops the UI/API host; closing
-the browser tab does not. Open http://localhost:7842. If you already have PostgreSQL
+`serve` runs in the foreground on both public 1.0.0 and the 1.0.1 source
+candidate. Leave this terminal open and use a second terminal for `init`,
+`run` and other commands. Ctrl+C stops the UI/API host; closing the browser
+tab does not. Open http://localhost:7842. If you already have PostgreSQL
 with pgvector, configure
 ORQALIS_DATABASE_URL instead of starting another database. Installation never creates
 or migrates a database automatically. doctor checks Git and database connectivity;
@@ -366,8 +368,8 @@ it does not authenticate providers or validate the project's sandbox image.
 
 Before upgrading, reach a safe execution checkpoint and follow the [backup guidance](#13-data-backups-and-upgrades).
 Stop your Orqalis UI server and MCP processes before updating the launcher and applying
-database migrations. Stop a terminal-owned UI session with Ctrl+C; closing the
-browser tab alone does not stop it.
+database migrations. Stop a foreground `serve` session (or a 1.0.1 `ui --open` session) with
+Ctrl+C; closing the browser tab alone does not stop it.
 The built-in updater begins with version 1.0.1; the original 1.0.0 launcher
 must be upgraded once with `npm install -g orqalis@latest` (`npm.cmd` in
 PowerShell). From the new version onward:
@@ -462,7 +464,7 @@ To use another local UI port:
 
 ~~~powershell
 $env:ORQALIS_PORT = '7843'
-orqalis ui --open
+orqalis serve
 ~~~
 
 Existing servers retain their original environment. Restart the server you own after
@@ -627,12 +629,12 @@ author_email in this policy.
 ### F. Prepare and inspect the run
 
 ~~~powershell
-orqalis run "Normalize names safely" --repo $repo --branch feature/normalize-names --contract $goalFile --open
+orqalis run "Normalize names safely" --repo $repo --branch feature/normalize-names --contract $goalFile
 ~~~
 
-When this command starts its own UI host, it stays in the terminal after preparing
-the run. Copy the printed UUID and use another terminal for inspection, or press
-Ctrl+C to stop that UI host before continuing. The saved run remains available.
+Copy the printed UUID and open its run page in the `serve` browser session from
+the installation steps. In the unpublished 1.0.1 source candidate, `run --open`
+can instead own a foreground UI host until Ctrl+C.
 
 Copy the printed run UUID:
 
@@ -699,6 +701,66 @@ orqalis run "Normalize names safely" --repo $repo --contract $goalFile --policy 
 ~~~
 
 This still ends through review. Finalize remains a separate operation.
+
+### Supervised runs and operator approvals
+
+This control workflow is implemented in the 1.0.1 source candidate; the public 1.0.0
+package does not include it until a new package is published.
+
+Use --mode supervised when you want Orqalis to stop for an explicit human decision.
+The default autonomous mode retains the existing evidence, scope, and delivery-policy
+checks. Supervised mode adds durable GOAL, PLAN, REPAIR, and DELIVERY gates. --gate
+may be repeated to set an exact custom gate set; for example, pass all four defaults
+plus --gate task to approve every task assignment. Each gate binds to the exact
+goal/plan version and a SHA-256 subject digest. Editing a goal or plan creates a
+new version and requires a new decision.
+
+~~~powershell
+orqalis run "Normalize names safely" --repo $repo --contract $goalFile --mode supervised
+$runId = 'REPLACE_WITH_PRINTED_RUN_UUID'
+orqalis plan preview $runId
+orqalis approvals list $runId
+orqalis approvals approve $runId REQUEST_UUID --expected-digest SHA256_FROM_LIST --reason "Goal and criteria reviewed"
+orqalis plan preview $runId
+orqalis plan show $runId
+~~~
+
+The first preview request records the pending GOAL gate and stops. After approval,
+the second call persists the dependency plan at PLANNED without creating a worktree.
+For an edit, run orqalis plan draft $runId --output plan-draft.json, edit its typed
+task descriptions, outcomes, capabilities or dependencies, then run
+orqalis plan replace $runId --file plan-draft.json --expected-version 1.
+The draft contains fresh task IDs; the original plan and events stay in history.
+Plan replacement is allowed only before execution starts. Inspect the revised plan
+and approve its newly requested PLAN gate.
+
+orqalis execute $runId --policy $executionPolicy --provider openai requests
+PLAN approval and stops before workspace creation. List requests, approve the exact
+pending digest, then repeat the same execute command. A failed independent review
+similarly requests REPAIR approval before targeted repair planning. The repair plan
+then receives its own PLAN gate before it executes. orqalis finalize requests
+DELIVERY approval before documentation, commit or push; approve and repeat it.
+A rejection cannot be silently overridden: revise the subject or start a new run.
+
+Mission Control shows the same persisted policy, requests, decisions, goal and plan.
+For approval or edit buttons in the local browser, set a strong
+ORQALIS_OPERATOR_TOKEN in the process that starts orqalis ui or orqalis run --open,
+then enter that token in the dashboard. It stays in browser component memory and is
+not saved to local storage. Browser decisions, goal edits, plan replacement and
+replanning require this token. Local CLI decisions use the invoking OS user identity
+and do not require a browser token. Browser decisions are recorded as
+local-ui-operator; the shared local token does not identify individual people.
+Keep the token outside the repository. The UI invokes Core APIs; reissue the
+CLI execute or finalize command after approval.
+For DELIVERY, inspect the exact policy JSON used with finalize and the Repository
+Delivery diff before deciding. The browser approval card shows a policy summary and
+full subject digest, not the complete policy. For TASK, inspect the plan task and
+execution policy as well as the card.
+
+Use orqalis modes to list both run modes and the supervised defaults. The general CLI
+verbs are init, status, doctor, run, runs, goal, plan, approvals,
+execute, finalize, memory, ui, and mcp. A run mode controls how far Orqalis proceeds
+automatically; it does not replace scope, acceptance, Git safety, or delivery policies.
 
 ## 5. Goals and acceptance
 
@@ -826,22 +888,20 @@ accepted commit remains traceable in its delivery record.
 ## 7. Mission Control
 
 ~~~powershell
-orqalis ui --open
-~~~
-
-`ui` starts Mission Control in the current terminal, or opens an already-running
-Orqalis UI without taking ownership of it. Ctrl+C stops a UI host started by this
-command. Closing the browser tab does not stop the terminal process or any active run.
-For API hosting without opening the browser:
-
-~~~powershell
 orqalis serve
 ~~~
 
-Use an unused port when another service owns the address. `orqalis ui` and
-`orqalis serve` do not register a Windows service, scheduled task or autostart entry.
-A newly hosted `orqalis run --open` session remains in its terminal after the run
-finishes, until Ctrl+C. A separate, already-running UI is never stopped by it.
+Open http://localhost:7842. `serve` hosts the local UI/API in the current
+terminal on public 1.0.0 and the 1.0.1 source candidate. Ctrl+C stops that
+host; closing the browser tab does not stop it or an active run. Use an unused
+port when another service owns the address.
+
+The unpublished 1.0.1 source candidate also supports `orqalis ui --open`:
+it opens the browser and owns a foreground host when no compatible host is
+running. An existing host is reused without taking ownership. A newly hosted
+`orqalis run --open` session likewise remains in its terminal until Ctrl+C.
+These commands do not register a Windows service, scheduled task or autostart
+entry. Public 1.0.0 uses a detached `ui` helper, so use `serve` there.
 
 Home opens with the registered project list and persisted run summary. Choose a project card
 or sidebar project to filter run history. **View all projects** clears the filter. Mission
@@ -888,8 +948,9 @@ from persisted records; unavailable tokens and costs remain unreported.
 Refresh reconnects to the same run. An active-looking persisted status after a process crash
 does not prove a worker is still alive; inspect recovery details.
 
-The browser provides inspection and supported run controls. Create tasks and approve
-execution through CLI, SDK, or MCP. It is not a second orchestration engine.
+The browser projects Core state and provides pause/resume/cancel, goal and plan editing,
+plan preview, and persisted operator approvals. Execution and delivery continue through
+the CLI, SDK, or MCP after their gates are approved.
 
 ## 8. Project Memory
 
@@ -1221,8 +1282,8 @@ reconstruct deleted workspace files.
 Before upgrading, reach a safe execution checkpoint, stop your UI/MCP processes and
 retain a backup. Use `orqalis update` once its package version supports it, then run
 `orqalis migrate` and restart UI/MCP processes with the intended environment.
-Ctrl+C stops a UI/`serve` host owned by its terminal. Closing the browser tab does
-not stop that host. A PostgreSQL container started by Compose is separate and
+Ctrl+C stops a foreground `serve` host (and a 1.0.1 `ui` host) owned
+by its terminal. Closing the browser tab does not stop that host. A PostgreSQL container started by Compose is separate and
 remains under your control until you stop it.
 
 Do not remove a worktree containing active or unreviewed work. Safe worktree management
@@ -1276,6 +1337,10 @@ result/error code, and a redacted snapshot. Exclude API keys and private provide
 ## 15. Command reference
 
 Prefix these with orqalis (use the Windows PowerShell alias above if required).
+The `update`, `modes`, `plan` and `approvals` rows, plus `run --mode` and
+`run --gate`, describe the unpublished 1.0.1 source candidate; they are
+unavailable in public npm 1.0.0. The `ui --open` foreground behavior also
+starts with that candidate.
 
 | Command | Purpose |
 | --- | --- |
@@ -1287,8 +1352,9 @@ Prefix these with orqalis (use the Windows PowerShell alias above if required).
 | context "TASK" --repo PATH | Bounded, provenance-backed context |
 | agents / skills | Specialized roles and dynamically discoverable skills; optional --json |
 | capabilities | Configured providers and discoverable skills |
+| modes | Available run modes and default approval gates |
 | config show --json | Local configuration and credential presence; secrets omitted |
-| run "REQUEST" | Prepare requirements; optional --contract and --policy |
+| run "REQUEST" | Prepare requirements; optional --contract, --mode, --gate and --policy |
 | define-goal RUN_ID | Continue requirements |
 | execute RUN_ID --policy FILE | Implementation, validation, review, repair |
 | finalize RUN_ID --policy FILE | Document and deliver accepted work |
@@ -1296,8 +1362,10 @@ Prefix these with orqalis (use the Windows PowerShell alias above if required).
 | runs prepare / pause / resume / cancel | Preparation and lifecycle controls |
 | runs recover RUN_ID EXECUTION_ID | Explicit interrupted-attempt recovery |
 | runs replan RUN_ID | Plan work for an explicitly revised goal |
+| plan preview / show / draft / replace | Inspect and edit the persisted DAG before execution |
+| approvals list / approve / reject | Inspect and decide exact versioned operator gates |
 | goal create / show / revise / validate | Contract and evidence operations |
-| ui --open / serve | Terminal-owned local UI/API host; Ctrl+C stops it |
+| serve / ui --open | Foreground local UI/API host; ui is terminal-owned from 1.0.1 |
 | mcp --policy FILE | Project-scoped MCP stdio server |
 
 Inspect exact options through CLI help:

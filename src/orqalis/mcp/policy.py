@@ -4,6 +4,7 @@ from uuid import UUID
 
 from pydantic import model_validator
 
+from orqalis.domain.approval import ApprovalStage, ControlMode
 from orqalis.domain.base import Contract
 from orqalis.domain.delivery import DeliveryPolicy
 from orqalis.domain.errors import PolicyDeniedError
@@ -18,9 +19,13 @@ class MCPPolicy(Contract):
     execution: ExecutionPolicy | None = None
     delivery: DeliveryPolicy | None = None
     reviewer_provider: str = "openai"
+    control_mode: ControlMode = ControlMode.AUTONOMOUS
+    approval_gates: frozenset[ApprovalStage] | None = None
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
+        if self.control_mode == ControlMode.AUTONOMOUS and self.approval_gates:
+            raise ValueError("Custom approval gates require supervised control mode")
         if self.allow_work and self.execution is None:
             raise ValueError("Work permission requires a server-approved execution policy")
         if self.allow_delivery and (not self.allow_work or self.delivery is None):

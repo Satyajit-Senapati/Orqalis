@@ -3,6 +3,7 @@ import { WorkspaceViews } from "./WorkspaceViews";
 import { Overview } from "./Overview";
 import { Sidebar } from "./Sidebar";
 import { RunControls } from "./Controls";
+import { RunGovernance } from "./Governance";
 import { duration, get, useRun } from "./api";
 import type { Project, Run } from "./types";
 
@@ -267,6 +268,7 @@ export function App() {
                 })}
               </section>
               <RunControls snapshot={snapshot} />
+              <RunGovernance snapshot={snapshot} />
               <WorkspaceViews
                 snapshot={snapshot}
                 runs={displayedRuns}

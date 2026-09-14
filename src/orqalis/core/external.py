@@ -3,13 +3,17 @@ from collections.abc import Callable
 from uuid import UUID, uuid5
 
 from orqalis.agents.roles import effective_tools, role_definition
+from orqalis.core.approval_subjects import goal_subject, plan_subject
+from orqalis.core.approvals import ApprovalService
 from orqalis.core.goals import GoalService
 from orqalis.core.orchestrator import Orchestrator
+from orqalis.core.plan_preview import PlanPreviewService
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, locked_run, require_key
 from orqalis.core.scheduler import ready_tasks
 from orqalis.core.vertical_plan import VerticalPlanner
 from orqalis.domain.agent import AgentRole
+from orqalis.domain.approval import ApprovalStage, ApprovalStatus
 from orqalis.domain.artifact import Finding
 from orqalis.domain.base import utc_now
 from orqalis.domain.capabilities import ToolName
@@ -41,9 +45,13 @@ class ExternalWorkService:
         workspaces: ExecutionWorkspaces,
         registry: SkillRegistry,
         git: LocalGitService,
+        approvals: ApprovalService | None = None,
+        plans: PlanPreviewService | None = None,
     ) -> None:
         self.factory, self.orchestrator, self.goals = factory, orchestrator, goals
         self.memory, self.workspaces, self.registry, self.git = memory, workspaces, registry, git
+        self.approvals = approvals or ApprovalService(factory)
+        self.plans = plans
 
     def next_work(
         self,
@@ -74,18 +82,44 @@ class ExternalWorkService:
                 and "external" not in project.settings.allowed_providers
             ):
                 raise PolicyDeniedError("Project policy forbids external assistants")
+        if run.state == RunState.GOAL_DEFINED:
+            if self.plans is not None:
+                self.plans.preview(run_id, "external")
+            else:
+                contract = self.goals.get(run_id)
+                requested = self.approvals.ensure(
+                    run_id,
+                    ApprovalStage.GOAL,
+                    contract.goal.version,
+                    goal_subject(contract),
+                    "Review goal before planning",
+                )
+                if requested is not None and requested.status != ApprovalStatus.APPROVED:
+                    raise PolicyDeniedError(f"Goal approval required: {requested.id}")
+                original_context = self.memory.context(project, run.request)
+                self.orchestrator.install_plan(
+                    VerticalPlanner().plan(contract, original_context), "external:plan"
+                )
+                self.orchestrator.advance(run_id, RunState.PLANNED, "external:planned")
+        with self.factory() as uow:
+            run = locked_run(uow, run_id)
+            plan = uow.runtime.get_plan(run_id, run.plan_version)
+            if plan is None:
+                raise NotFoundError("Current plan missing")
+        requested = self.approvals.ensure(
+            run_id,
+            ApprovalStage.PLAN,
+            run.plan_version,
+            plan_subject(plan),
+            "Review the dependency plan before external work",
+        )
+        if requested is not None and requested.status != ApprovalStatus.APPROVED:
+            raise PolicyDeniedError(f"Plan approval required: {requested.id}")
         workspace = self.workspaces.ensure(run_id, policy)
         contract = self.goals.get(run_id)
         context = self.memory.context(
             project.model_copy(update={"repo_root": workspace.path}), run.request
         )
-        if run.state == RunState.GOAL_DEFINED:
-            self.orchestrator.install_plan(
-                VerticalPlanner().plan(contract, context), "external:plan"
-            )
-            self.orchestrator.advance(run_id, RunState.PLANNED, "external:planned")
-        with self.factory() as uow:
-            run = locked_run(uow, run_id)
         if run.state == RunState.PLANNED:
             self.orchestrator.advance(
                 run_id, RunState.EXECUTING, f"external:{run.plan_version}:executing"

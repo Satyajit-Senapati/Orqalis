@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     openai_model: str | None = None
     anthropic_api_key: SecretStr | None = None
     anthropic_model: str | None = None
+    operator_token: SecretStr | None = None
     skill_roots: tuple[Path, ...] = ()
     log_level: str = "INFO"
     telemetry_console: bool = False

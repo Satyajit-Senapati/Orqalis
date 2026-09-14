@@ -28,6 +28,7 @@ export interface Run {
   repair_iteration: number;
   max_repair_iterations: number;
   plan_version: number;
+  resume_state: string | null;
   started_at: string | null;
   completed_at: string | null;
 }
@@ -243,15 +244,20 @@ export interface Snapshot {
   run: Run;
   goal: {
     goal: {
+      id: string;
       goal: string;
       version: number;
       scope: string[];
+      out_of_scope?: string[];
       constraints: string[];
+      assumptions?: string[];
       definition_of_done: string[];
     };
     criteria: Criterion[];
   } | null;
   plan: {
+    goal_version_id: string;
+    version: number;
     tasks: Task[];
     dependencies: { task_id: string; depends_on_task_id: string }[];
   } | null;

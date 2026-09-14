@@ -1,6 +1,7 @@
 from collections.abc import Callable
 from uuid import UUID, uuid5
 
+from orqalis.core.approvals import save_initial_control_policy
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, orchestrator_actor
 from orqalis.domain.acceptance import (
@@ -12,6 +13,7 @@ from orqalis.domain.acceptance import (
     GoalVersion,
 )
 from orqalis.domain.agent import AgentRole
+from orqalis.domain.approval import ApprovalStage, ControlMode
 from orqalis.domain.artifact import Evidence, ValidationObservation
 from orqalis.domain.base import utc_now
 from orqalis.domain.errors import (
@@ -63,7 +65,14 @@ class GoalService:
         return GoalContract(goal=goal, criteria=criteria)
 
     def create(
-        self, project: Project, request: str, branch: str, base: str, draft: GoalDraft
+        self,
+        project: Project,
+        request: str,
+        branch: str,
+        base: str,
+        draft: GoalDraft,
+        mode: ControlMode = ControlMode.AUTONOMOUS,
+        gates: frozenset[ApprovalStage] | None = None,
     ) -> tuple[Run, GoalContract]:
         if safe_diagnostic(request) != request:
             raise PolicyDeniedError("Run requests cannot contain credentials")
@@ -88,6 +97,7 @@ class GoalService:
                 EventPayload(status=run.state),
             )
             orchestrator_actor(uow, run, run.created_at)
+            save_initial_control_policy(uow, run, mode, gates, at=run.created_at)
             emit(
                 uow,
                 run,
@@ -111,7 +121,15 @@ class GoalService:
                 run = persisted
         return run.model_copy(update={"current_goal_version_id": contract.goal.id}), contract
 
-    def create_pending(self, project: Project, request: str, branch: str, base: str) -> Run:
+    def create_pending(
+        self,
+        project: Project,
+        request: str,
+        branch: str,
+        base: str,
+        mode: ControlMode = ControlMode.AUTONOMOUS,
+        gates: frozenset[ApprovalStage] | None = None,
+    ) -> Run:
         if safe_diagnostic(request) != request:
             raise PolicyDeniedError("Run requests cannot contain credentials")
         run = Run(
@@ -132,6 +150,7 @@ class GoalService:
                 EventPayload(status=run.state),
             )
             orchestrator_actor(uow, run, run.created_at)
+            save_initial_control_policy(uow, run, mode, gates, at=run.created_at)
             uow.commit()
         return run
 

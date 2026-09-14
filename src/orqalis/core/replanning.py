@@ -1,9 +1,12 @@
 from collections.abc import Callable
 
+from orqalis.core.approval_guard import require_approval
+from orqalis.core.approval_subjects import goal_subject
 from orqalis.core.planning import plan_identity
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, locked_run, require_key
 from orqalis.core.task_runtime import TaskRuntime, refresh_ready
+from orqalis.domain.approval import ApprovalStage
 from orqalis.domain.base import utc_now
 from orqalis.domain.errors import ConflictError, PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
@@ -62,6 +65,14 @@ class GoalReplanning:
                 goal = uow.runs.get_goal(plan.goal_version_id)
                 if goal is None:
                     raise ConflictError("Current goal missing")
+                require_approval(
+                    uow,
+                    run,
+                    ApprovalStage.GOAL,
+                    goal.goal.version,
+                    goal_subject(goal),
+                    "Approve revised goal before replanning",
+                )
                 affected = {c for t in plan.tasks for c in t.acceptance_criterion_ids}
                 ids = {c.id for c in goal.criteria}
                 if (

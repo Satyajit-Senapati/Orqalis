@@ -174,9 +174,10 @@ No remote HTTP/MCP mode is enabled; authentication is required before adding one
 
 ## Dashboard enhancement and media
 
-See [DASHBOARD.md](DASHBOARD.md) for navigation, visual design, read-only contracts,
+See [DASHBOARD.md](DASHBOARD.md) for navigation, visual design, operator controls,
 attribution boundaries and display limits. The existing orchestrator and CLI remain
-authoritative. No migration is required for this enhancement.
+authoritative. The visual refresh required no migration; the later operator controls
+require migration 6b93c20e21af before use.
 
 Create real persisted screenshots using deterministic providers:
 
@@ -199,6 +200,12 @@ The capture script reads .tools/ui-fixture.json, .tools/ui-completed.json and
 ORQALIS_UI_URL can target a different loopback instance. Installed Chrome is the default;
 ORQALIS_BROWSER_CHANNEL=chromium selects Playwright Chromium. These are test-provider
 runs through real Core services, not mock production data.
+
+To exercise supervised browser approvals, start the local UI with
+ORQALIS_OPERATOR_TOKEN set to a dedicated disposable test value and set
+ORQALIS_E2E_OPERATOR_TOKEN to the same value for Playwright. Without that test
+token, the governance spec skips while the other browser checks still run.
+Never use a production operator token for screenshots or test artifacts.
 
 Reseed immediately before a documentation capture so an active run does not display an
 old elapsed time. The capture verifies the Pitch-dark design tokens, shell, summary,

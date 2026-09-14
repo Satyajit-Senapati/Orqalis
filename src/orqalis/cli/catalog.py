@@ -67,6 +67,7 @@ def show_config(json_output: bool = typer.Option(False, "--json")) -> None:
         if settings.anthropic_model
         else None,
         "anthropic_api_key_configured": bool(settings.anthropic_api_key),
+        "operator_token_configured": bool(settings.operator_token),
     }
     if json_output:
         typer.echo(json.dumps(values, sort_keys=True))

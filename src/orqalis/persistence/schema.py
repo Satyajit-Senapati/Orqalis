@@ -1,5 +1,6 @@
 """Import every mapped table for migration/schema inspection."""
 
+from orqalis.persistence import approval_models as approval_models
 from orqalis.persistence import delivery_models as delivery_models
 from orqalis.persistence import execution_models as execution_models
 from orqalis.persistence import memory_models as memory_models

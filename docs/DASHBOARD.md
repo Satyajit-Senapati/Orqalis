@@ -2,7 +2,8 @@
 
 Orqalis Mission Control is the local browser projection of the signed-off v1.2 Core.
 This guide records the current navigation, visual contract, telemetry boundaries,
-performance limits and reproducible product media for Orqalis 1.0.0.
+performance limits and reproducible product media for the 1.0.0 dashboard,
+plus operator controls implemented in the unpublished 1.0.1 source candidate.
 
 The first dashboard enhancement was audited from commit 2451063. The September 11, 2026
 visual refresh changes presentation only: orchestration, workflow transitions, persisted
@@ -41,6 +42,7 @@ Pitch-dark is the sole product theme and the theme used for documentation captur
 | Skills | Trusted metadata catalog and event-derived load counts, users and last-load times |
 | Project Brain | Git freshness, sources, provenance, categories, search and knowledge relationships |
 | Verification / delivery | Evidence, review history, repair ancestry, Guardian reports, final validation and Git diffs |
+| Operator control | Persisted run mode, version-bound approval requests/decisions, goal and plan edits through Core APIs |
 | Product media | Nine optimized screenshots captured from deterministic persisted integration runs |
 
 ## Navigation
@@ -83,6 +85,32 @@ a successful invocation. Dynamic acquisition milestones without events are expla
 the selection process, not shown as fabricated completed steps. Historical versions
 removed from the current registry remain listed from their load records.
 
+## Operator control in the 1.0.1 source candidate
+
+The run overview now includes Operator control. SUPERVISED runs show their durable
+GOAL, PLAN, REPAIR and DELIVERY gates; TASK may be enabled explicitly. A pending
+request shows its stage, version, reason and complete SHA-256 subject digest. The
+operator can approve or reject the exact request. Rejection requires a reason.
+Goal revisions, a first plan preview, plan-draft replacement and revised-goal
+replanning invoke the same Core services used by CLI and MCP. A changed subject
+gets a new version or digest and needs a new decision. The Orchestrator actor and
+timing derive approval waiting/blocking from persisted events.
+
+To enable browser mutations, set ORQALIS_OPERATOR_TOKEN in the terminal that
+starts the local UI and enter it on the run page. The token stays in React
+component memory and is sent in the request header; it is not written to
+local storage, URL or event payload. Read-only run views remain available
+without it. The approval and edit endpoints reject mutations when no server token is configured.
+
+For DELIVERY, inspect the exact policy JSON passed to finalize and the
+Repository Delivery diff before approving. The card summarizes that policy and
+shows its digest, but cannot display the full policy. For TASK, inspect the
+plan task and execution policy. Home does not create supervised runs yet;
+create one through CLI, SDK or trusted MCP policy. After browser approval,
+resume execute or finalize from CLI/SDK/MCP. Browser job submission and
+full-policy inspection remain follow-up work. The public npm 1.0.0 package
+does not include these controls until a new release is published.
+
 ## Observability and compatibility
 
 The existing PROVIDER_INVOCATION_STARTED payload now includes memory IDs, loaded skill
@@ -93,9 +121,11 @@ metadata explicitly remain unavailable.
 RunSnapshot adds skill_activity and context_memory_ids with empty defaults.
 ProviderCallProjection adds selected_skills, context_memory_ids and context_summary.
 GET /api/skills calls the shared SDK registry catalog; GET /api/runs/{id}/events accepts
-an optional bounded limit. Workflow transitions, task execution, CLI behavior, configuration
-and database schemas are unchanged. Stored browser theme preferences are ignored; every
-browser uses Pitch-dark.
+an optional bounded limit. In that September 11 visual-only enhancement,
+workflow transitions, task execution, CLI behavior, configuration and database
+schemas were unchanged. The later operator controls above add a migration and
+CLI/API behavior. Stored browser theme preferences are ignored; every browser
+uses Pitch-dark.
 
 ## Performance and boundaries
 

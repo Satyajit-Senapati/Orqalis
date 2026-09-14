@@ -23,6 +23,7 @@ _RUN_EVENTS = {
     EventType.RUN_CANCELLED,
     EventType.RUN_FAILED,
     EventType.RUN_COMPLETED,
+    EventType.TASK_STARTED,
 }
 _ACTIVE = {
     "WORKING",
@@ -48,13 +49,30 @@ _BLOCKED = {"BLOCKED", "HUMAN_REVIEW_REQUIRED"}
 _TERMINAL = {"SUCCEEDED", "FAILED", "COMPLETE", "COMPLETED", "CANCELLED", "SKIPPED"}
 
 
+def _operator_approval(event: Event) -> bool:
+    """Delivery-policy attestations also use APPROVAL_RECORDED; exclude them."""
+    return (
+        event.event_type in {EventType.APPROVAL_REQUESTED, EventType.APPROVAL_RECORDED}
+        and event.idempotency_key.startswith("operator-approval:")
+        and event.payload.approval_request_id is not None
+        and event.payload.approval_stage is not None
+        and event.payload.status in {"PENDING", "APPROVED", "REJECTED"}
+    )
+
+
+def _timing_status(event: Event) -> str | None:
+    if _operator_approval(event):
+        return "BLOCKED" if event.payload.status == "REJECTED" else "WAITING"
+    return event.payload.status
+
+
 def intervals(events: tuple[Event, ...], now: datetime) -> TimingBreakdown:
     if not events:
         return TimingBreakdown()
     counters = {"active_ms": 0, "waiting_ms": 0, "blocked_ms": 0, "idle_ms": 0}
     wall = 0
     for index, event in enumerate(events):
-        status = event.payload.status
+        status = _timing_status(event)
         if status in _TERMINAL:
             break
         end = events[index + 1].occurred_at if index + 1 < len(events) else now
@@ -109,7 +127,14 @@ class EventTimingProjection:
         )
 
     def run(self, events: tuple[Event, ...], now: datetime) -> TimingBreakdown:
-        return intervals(tuple(event for event in events if event.event_type in _RUN_EVENTS), now)
+        return intervals(
+            tuple(
+                event
+                for event in events
+                if event.event_type in _RUN_EVENTS or _operator_approval(event)
+            ),
+            now,
+        )
 
     def phase(self, events: tuple[Event, ...], phase_id: UUID, now: datetime) -> TimingBreakdown:
         return intervals(

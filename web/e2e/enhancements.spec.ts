@@ -143,7 +143,9 @@ test("skills, context, chronological filters and delivery are connected", async 
 }) => {
   await page.goto("/runs/" + complete);
   await page.getByRole("tab", { name: "Skills", exact: true }).click();
-  await expect(page.locator(".skill-card")).toHaveCount(3);
+  const catalog = (await (await page.request.get("/api/skills")).json()) as unknown[];
+  expect(catalog.length).toBeGreaterThanOrEqual(3);
+  await expect(page.locator(".skill-card")).toHaveCount(catalog.length);
   await expect(
     page.locator(".skill-card").filter({ hasText: "python-edit" }),
   ).toContainText("1.0.0");

@@ -552,3 +552,56 @@ Docker fixtures were not configured for that run). Focused PostgreSQL-backed exe
 requirements, provider and external-skill integration tests passed in disposable
 containers. Ruff check/format and strict mypy passed. An offline wheel build contains
 all five new skill packs. Live paid-provider checks still require credentials.
+
+## Operator controls, persisted approvals, and plan preview - 2026-09-14
+
+Status: implemented in the source tree; the 1.0.1 npm candidate is unpublished. This
+extends the existing Orchestrator and Mission Control without creating a second workflow
+controller. The default AUTONOMOUS mode retains existing behavior. SUPERVISED mode
+persists an immutable per-run gate policy (GOAL, PLAN, REPAIR, DELIVERY by default);
+TASK is opt-in through an exact custom gate set. Run mode and policy are committed
+atomically with run creation. Mode changes are rejected after requests/planning begin.
+
+Approval requests and decisions are persisted with operator identity, reason, subject
+version and SHA-256 digest. The Core enforces gates at authoritative transitions as
+well as the CLI, REST and MCP execution boundaries. A revised goal or plan gets a new
+version and a new decision; rejection requires a reason and cannot be silently
+overridden. Direct Orchestrator calls cannot skip GOAL/PLAN, repair or the exact
+approved DELIVERY binding. The delivery gate occurs before documentation, policy
+binding, commit or push. Approval waiting/blocking time and Orchestrator actor state
+come from persisted events and sessions.
+
+A first plan can be previewed and edited before execution worktree creation. Preview
+uses Project Memory when it is indexed at the run base commit; if the source branch
+has advanced, it uses that pinned commit's tracked-file map for planning and marks
+the context for inspection. The execution worker refreshes full memory from its
+pinned worktree. CLI commands `modes`, `plan preview/show/draft/replace` and
+`approvals list/approve/reject` share the SDK services with operator-token-protected
+browser edit/decision actions. MCP starts supervised runs only through trusted server
+policy; the assistant's start-task input cannot select a weaker mode.
+
+Migration: `6b93c20e21af_run_control_approvals.py` adds control policies, approval
+requests and decisions. Run `orqalis migrate` before using the new version.
+Architecture deviation: none from the signed-off authority and telemetry model.
+Operator approval is separate from evidence-backed acceptance review and Change
+Guardian. Credentials for browser decisions remain in component memory, not
+local storage. Browser decisions record the local UI operator identity; the
+shared token is not a multi-user identity system.
+
+Remaining UI work: Home does not yet create a supervised run. Mission Control shows
+and decides gates, edits goals/plans, and previews/replans; execution and finalization
+resume through CLI, SDK or MCP after approval. Browser execute/finalize controls need
+a separately designed job and policy submission flow. TASK and DELIVERY cards
+show a reviewable summary and full subject digest; the operator must inspect the
+plan/execution policy or delivery policy JSON and repository diff outside that card.
+An exact full-policy browser view is remaining UI work. Live paid-provider verification
+still needs configured credentials. Release packaging/publication of this slice has
+not occurred.
+
+Validation: 312 Python tests passed against the disposable PostgreSQL database
+(with one Docker-marked test deselected); the isolated Docker sandbox test passed.
+The focused approval, plan-preview, timing and delivery/repair paths passed within
+that sweep. Python Ruff check/format and strict mypy passed. Browser E2E passed
+12 tests against a disposable API/database, and the npm launcher passed 29 tests.
+Final frontend ESLint, 33 Vitest tests and the TypeScript/Vite production
+build passed. The independent Change Guardian review passed.

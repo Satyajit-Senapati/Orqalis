@@ -2,6 +2,7 @@ from types import TracebackType
 from typing import Protocol
 
 from orqalis.memory.ports import MemoryRepository
+from orqalis.persistence.approval_ports import ApprovalRepository
 from orqalis.persistence.delivery_ports import DeliveryRepository
 from orqalis.persistence.event_ports import EventRepository
 from orqalis.persistence.execution_ports import ExecutionRepository
@@ -12,6 +13,9 @@ from orqalis.persistence.runtime_ports import RuntimeRepository
 
 
 class ProjectUnitOfWork(Protocol):
+    @property
+    def approvals(self) -> ApprovalRepository: ...
+
     @property
     def projects(self) -> ProjectRepository: ...
 

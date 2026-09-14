@@ -1,6 +1,6 @@
 # Orqalis 1.0.1
 
-Version 1.0.1 adds
+The unpublished 1.0.1 source candidate adds
 `orqalis update --check` and `orqalis update` to the npm launcher so users can check
 and install the latest public Orqalis version from within Orqalis. The updater runs
 before Python runtime setup and leaves database migration and process restarts explicit.
@@ -12,13 +12,15 @@ when the generated npm `.ps1` shim is blocked; `orqalis.cmd` remains available a
 fallback. The updater cannot be retrofitted into already-published 1.0.0. Users first
 install 1.0.1 once through npm, then use `orqalis update` for later releases.
 
-Candidate validation covers 190 Python unit tests, seven PostgreSQL-backed API and
-schema tests, 29 npm launcher tests, and strict Python lint, format and type checks.
+The earlier updater/foreground-hosting candidate passed 190 Python unit tests,
+seven PostgreSQL-backed API and schema tests, 29 npm launcher tests, and strict
+Python lint, format and type checks. Those counts predate the later control slice.
 The installed package passed 17 Core/MCP/UI checks, including CLI-owned UI hosting,
 assets, API and event stream behavior. Restricted PowerShell alias invocation
 and an isolated real npm
-self-update passed in the earlier updater slice. This 1.0.1 tarball is a prepared,
-unpublished release candidate.
+self-update passed in the earlier updater slice. That earlier 1.0.1 tarball was
+unpublished and is superseded by the current source candidate; it must be
+rebuilt and reviewed before publication.
 
 Local UI hosting is now terminal-owned: `orqalis ui --open` stays active until
 Ctrl+C, and `orqalis run --open` serves during execution and waits for Ctrl+C when
@@ -26,8 +28,20 @@ it owns the UI. A second CLI can reuse a healthy listener without stopping it. N
 Windows service, scheduled task or autostart entry is registered. An installed
 Windows npm CLI released its listener and child process after terminal Ctrl+C.
 
-No workflow, provider, database, schema, migration or dashboard presentation changes in
-this patch. See the combined [upgrade guide](../README.md#upgrade-and-uninstall).
+The current source candidate also strengthens scoped agent/skill selection and
+adds SUPERVISED run mode with durable GOAL, PLAN, REPAIR and DELIVERY approval
+gates (optional TASK gate), versioned goal/plan editing, CLI and local browser
+decisions, and exact delivery-policy binding. The Orchestrator remains the sole
+workflow authority. Browser approvals use a dedicated local token and record
+the shared local UI identity; execute/finalize still resume through CLI/SDK/MCP.
+The browser shows a policy summary and full digest, while the operator inspects
+the exact delivery policy JSON and repository diff separately.
+
+Migration `6b93c20e21af` adds run control policies, approval requests and
+decisions. Run `orqalis migrate` before using this source candidate. Public
+npm 1.0.0 does not contain these controls; the 1.0.1 candidate has not been
+published. See the combined [upgrade guide](../README.md#upgrade-and-uninstall)
+and [operator-control instructions](../README.md#supervised-runs-and-operator-approvals).
 
 # Orqalis 1.0.0
 

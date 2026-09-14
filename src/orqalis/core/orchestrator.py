@@ -2,6 +2,8 @@ from collections.abc import Callable
 from datetime import datetime
 from uuid import UUID, uuid5
 
+from orqalis.core.approval_guard import require_approval, require_delivery_binding
+from orqalis.core.approval_subjects import goal_subject, plan_subject, repair_subject
 from orqalis.core.phases import update_phase
 from orqalis.core.plan_revision import PlanRevisionService
 from orqalis.core.planning import plan_identity
@@ -17,6 +19,7 @@ from orqalis.core.state_machine import PHASES, TERMINAL, validate_transition
 from orqalis.core.task_runtime import TaskRuntime, refresh_ready
 from orqalis.domain.acceptance import AcceptanceStatus
 from orqalis.domain.agent import ActorStatus, AgentRole
+from orqalis.domain.approval import ApprovalStage
 from orqalis.domain.base import utc_now
 from orqalis.domain.errors import ConflictError, PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
@@ -102,6 +105,14 @@ class Orchestrator:
                 raise ConflictError(
                     "Plan must cover required criteria and reference only this goal"
                 )
+            require_approval(
+                uow,
+                run,
+                ApprovalStage.GOAL,
+                contract.goal.version,
+                goal_subject(contract),
+                "Approve goal before planning",
+            )
             uow.runtime.save_plan(plan)
             run = run.model_copy(update={"plan_version": plan.version})
             uow.runs.save(run)
@@ -138,6 +149,13 @@ class Orchestrator:
         from orqalis.core.replanning import GoalReplanning
 
         return GoalReplanning(self.unit_of_work).install(plan, key)
+
+    def replace_preview_plan(self, plan: TaskPlan, expected_version: int, key: str) -> Run:
+        from orqalis.core.preview_revision import PreviewRevisionService
+
+        return PreviewRevisionService(self.unit_of_work, self.clock).replace(
+            plan, expected_version, key
+        )
 
     def install_repair_plan(self, plan: TaskPlan, key: str) -> Run:
         return PlanRevisionService(self.unit_of_work, self.clock).install_repair(plan, key)
@@ -239,6 +257,31 @@ class Orchestrator:
         from orqalis.delivery.gates import guard_delivery
 
         guard_delivery(uow, run, target)
+        if target == RunState.CHANGE_GUARD:
+            require_delivery_binding(uow, run)
+        if target == RunState.REPAIR_PLANNING:
+            reviews = uow.execution.reviews(run.id)
+            failed = reviews[-1] if reviews else None
+            if (
+                failed is None
+                or failed.result.overall != "FAIL"
+                or failed.plan_version != run.plan_version
+                or failed.goal_version_id != run.current_goal_version_id
+            ):
+                raise ConflictError("Repair planning requires the current failed review")
+            require_approval(
+                uow,
+                run,
+                ApprovalStage.REPAIR,
+                run.plan_version,
+                repair_subject(failed),
+                "Review failed evidence before targeted repair",
+            )
+        if target == RunState.EXECUTING and run.state == RunState.REPAIR_PLANNING:
+            reviews = uow.execution.reviews(run.id)
+            failed = reviews[-1] if reviews else None
+            if failed is None or run.plan_version != failed.plan_version + 1:
+                raise ConflictError("Repair plan must be installed before execution")
         if target in _SUSPENDED and any(
             attempt.status == TaskStatus.RUNNING for attempt in uow.runtime.executions(run.id)
         ):
@@ -249,6 +292,15 @@ class Orchestrator:
             plan = uow.runtime.get_plan(run.id, run.plan_version)
             if not plan or plan.goal_version_id != run.current_goal_version_id:
                 raise ConflictError("A valid plan for the current goal is required")
+            if target == RunState.EXECUTING:
+                require_approval(
+                    uow,
+                    run,
+                    ApprovalStage.PLAN,
+                    run.plan_version,
+                    plan_subject(plan),
+                    "Approve dependency plan before execution",
+                )
         if target == RunState.CHANGE_GUARD:
             contract = (
                 uow.runs.get_goal(run.current_goal_version_id)

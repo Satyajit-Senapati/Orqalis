@@ -2,6 +2,7 @@ from types import TracebackType
 
 from sqlalchemy.orm import Session, sessionmaker
 
+from orqalis.persistence.approvals import SQLApprovalRepository
 from orqalis.persistence.delivery import SQLDeliveryRepository
 from orqalis.persistence.events import SQLEventRepository
 from orqalis.persistence.execution import SQLExecutionRepository
@@ -16,6 +17,7 @@ class SQLProjectUnitOfWork:
     def __init__(self, sessions: sessionmaker[Session]) -> None:
         self.session = sessions()
         self.projects = SQLProjectRepository(self.session)
+        self.approvals = SQLApprovalRepository(self.session)
         self.memory = SQLMemoryRepository(self.session)
         self.runs = SQLRunRepository(self.session)
         self.events = SQLEventRepository(self.session)

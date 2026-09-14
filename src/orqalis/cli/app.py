@@ -14,12 +14,14 @@ from sqlalchemy.exc import SQLAlchemyError
 from orqalis import __version__
 from orqalis.api.hosting import local_url, ui_session
 from orqalis.cli.catalog import agents, config_app, discover_skills, skills
+from orqalis.cli.control import approvals_app, plan_app
 from orqalis.cli.dependencies import command_errors, memory_service, project_service
 from orqalis.cli.goals import app as goals_app
 from orqalis.cli.memory import app as memory_app
 from orqalis.cli.runs import app as runs_app
 from orqalis.config.settings import Settings
 from orqalis.domain.acceptance import GoalDraft
+from orqalis.domain.approval import ApprovalStage, ControlMode
 from orqalis.domain.delivery import DeliveryPolicy
 from orqalis.domain.execution import ExecutionPolicy
 from orqalis.observability.logging import configure_logging
@@ -37,6 +39,8 @@ app = typer.Typer(
 app.add_typer(memory_app, name="memory")
 app.add_typer(goals_app, name="goal")
 app.add_typer(runs_app, name="runs")
+app.add_typer(approvals_app, name="approvals")
+app.add_typer(plan_app, name="plan")
 app.add_typer(config_app, name="config")
 app.command("agents")(agents)
 app.command("skills")(skills)
@@ -75,6 +79,24 @@ def main(
 def version() -> None:
     """Print the installed version."""
     typer.echo(__version__)
+
+
+@app.command("modes")
+def modes(json_output: bool = typer.Option(False, "--json")) -> None:
+    """Describe run control modes and the default supervised gates."""
+    values = {
+        "autonomous": {"gates": [], "description": "Execute within accepted policies."},
+        "supervised": {
+            "gates": ["GOAL", "PLAN", "REPAIR", "DELIVERY"],
+            "description": "Pause at durable human approval checkpoints.",
+        },
+    }
+    if json_output:
+        typer.echo(json.dumps(values, sort_keys=True))
+    else:
+        for name, value in values.items():
+            typer.echo(f"{name}: {value['description']}")
+            typer.echo(f"  default gates: {', '.join(value['gates']) or 'none'}")
 
 
 @app.command("update")
@@ -219,8 +241,17 @@ def prepare_run(
     policy: Annotated[Path | None, typer.Option(exists=True, dir_okay=False)] = None,
     provider: str = "openai",
     workspaces: Path = DEFAULT_WORKSPACES / ".orqalis" / "workspaces",
+    mode: Annotated[str, typer.Option("--mode")] = "autonomous",
+    gate: Annotated[list[str] | None, typer.Option("--gate")] = None,
 ) -> None:
-    """Prepare an observable goal and optionally execute its scoped policy."""
+    """Prepare an observable goal with optional supervised stage gates."""
+    try:
+        selected_mode = ControlMode(mode.upper())
+        selected_gates = frozenset(ApprovalStage(item.upper()) for item in gate) if gate else None
+    except ValueError as exc:
+        raise typer.BadParameter("Invalid mode or gate; see orqalis run --help") from exc
+    if selected_gates and selected_mode == ControlMode.AUTONOMOUS:
+        raise typer.BadParameter("Custom gates require supervised mode")
     with project_service() as projects, ExitStack() as ui_stack:
         project, _ = projects.status(repo)
         sdk = Orqalis(unit_of_work=projects.unit_of_work)
@@ -231,6 +262,8 @@ def prepare_run(
             GoalDraft.model_validate_json(contract.read_text(encoding="utf-8"))
             if contract
             else None,
+            selected_mode,
+            selected_gates,
         )
         host = (
             ui_stack.enter_context(ui_session(Settings(), f"/runs/{state.run.id}"))

@@ -33,6 +33,17 @@ requires ProjectSettings.allow_push. Configure reviewer_provider and its credent
 on the server; native assistant implementation does not need an Orqalis model key,
 but independent model review does.
 
+In the unpublished 1.0.1 source candidate, an operator can set control_mode
+to SUPERVISED in the trusted MCP policy JSON.
+The assistant cannot select or remove gates through a tool call. By default, supervised
+runs require human GOAL, PLAN, REPAIR, and DELIVERY decisions; approval_gates can set
+an exact custom set, including TASK. get_next_work stops at pending gates and leaves
+the request in Core for the CLI or local Mission Control to display. Use
+orqalis approvals list RUN_ID and orqalis approvals approve RUN_ID REQUEST_ID
+--expected-digest DIGEST, or the token-protected browser controls, then repeat
+get_next_work. The MCP server cannot approve its own requests. The UI process
+needs ORQALIS_OPERATOR_TOKEN for browser decisions; the CLI uses the OS operator.
+
 The workflow is get_project_context, start_task with an explicit GoalDraft, get_goal,
 get_next_work, native edits in the returned worktree, report_result, review_run,
 and finalize_run. WorkerResult is an implementation report, never an acceptance vote.
