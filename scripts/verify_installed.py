@@ -360,7 +360,10 @@ def verify(prefix: Path, runtime: Path, workspace: Path | None = None) -> dict[s
                 text=True,
                 start_new_session=sys.platform != "win32",
                 creationflags=(
-                    subprocess.CREATE_NEW_PROCESS_GROUP if sys.platform == "win32" else 0
+                    # Windows-only flag is absent from POSIX subprocess stubs.
+                    int(getattr(subprocess, "CREATE_NEW_PROCESS_GROUP"))  # noqa: B009
+                    if sys.platform == "win32"
+                    else 0
                 ),
             )
             try:
