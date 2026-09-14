@@ -4,9 +4,10 @@ Orqalis serves a registered project using MCP stdio:
 
     orqalis mcp --policy /absolute/path/to/mcp-policy.json
 
-Install globally with npm install -g orqalis (or the reviewed tarball before publication).
-Run orqalis --version once to complete first-launch Python setup before the client's
-startup timeout. On Windows, use orqalis.cmd in an interactive terminal.
+Install the public npm package with `npm install -g orqalis` (`npm.cmd` on Windows).
+See the [installation guide](../README.md#1-installation-and-first-launch) for Node.js,
+Python and database requirements. Run `orqalis --version` once to complete first-launch
+Python setup before the client's startup timeout. On Windows, use orqalis.cmd in an interactive terminal.
 
 For assistant hosts that spawn processes without a shell, use the absolute Node
 executable plus the installed JavaScript launcher. This works across platforms and

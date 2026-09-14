@@ -1,7 +1,18 @@
 # Orqalis 1.0.0
 
-This local V1 implementation follows the canonical v1.2 architecture and phase plan.
-The architecture version and software release version are separate identifiers.
+Orqalis 1.0.0 is publicly available on [npm](https://www.npmjs.com/package/orqalis/v/1.0.0),
+published September 14, 2026 at 09:12:43 UTC. This local V1 application follows the
+canonical v1.2 architecture and phase plan. The architecture version and software
+release version are separate identifiers.
+
+```sh
+npm install -g orqalis
+orqalis --version
+```
+
+See the combined [installation and usage guide](../README.md#usage-guide) for prerequisites,
+database setup and your first project. Windows PowerShell users can use `npm.cmd` and
+`orqalis.cmd` when script execution policy blocks the PowerShell shims.
 
 ## Delivered
 
@@ -93,6 +104,9 @@ the existing Python Core/UI, migrations, skills, Compose configuration and docum
 Node.js 22+ and Python 3.12+ remain required; initial setup uses an isolated runtime.
 The wheel is internal to npm. Standalone executable, separate wheel/source and Orqalis
 PyPI releases are not maintained. Source development remains available to contributors.
-The public registry lookup returned E404, while npm whoami returned ENEEDAUTH. No package
-was uploaded; actual publication requires release-owner authentication. See
-[ADR 0002](adr/0002-npm-distribution.md).
+The public registry now lists `orqalis@1.0.0` under the `latest` tag. Its SHA-1 digest
+`c522b46f28ea793b914d9cc2c591f980e4d142a8` and SHA-512 integrity match the reviewed release
+artifact. Earlier E404/ENEEDAUTH observations were checks made before publication;
+they no longer describe package availability. Installers do not need an npm login.
+See [ADR 0002](adr/0002-npm-distribution.md) and the
+[release audit](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/NPM_RELEASE_READINESS.md).

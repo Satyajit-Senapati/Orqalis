@@ -27,7 +27,7 @@ user branch or implementation was changed. Node 24 is available. Python 3.12.14 
 | 11 MCP | Complete | Project-scoped tools/resources, assistant-native work, independent review and gated delivery | 83 tests passed; protocol continuity and real stdio startup |
 | 12 Integrations | Complete | Anthropic adapter, Codex/Claude/Copilot MCP templates, external CLI host contract | 21 focused provider tests passed; live credentials unconfigured |
 | 13 Full Control Center | Complete | DAG/Gantt, Project Brain, acceptance/delivery inspection, analytics, comparison and responsive dark UI | 96 backend tests, 3 frontend tests, active/completed browser checks, strict checks passed |
-| 14 Hardening/release | Complete | Sandbox limits, process cleanup, failure/recovery/concurrency, strict browser preflight and npm release artifact | Locally validated V1 release candidate; registry authentication/publication remains |
+| 14 Hardening/release | Complete | Sandbox limits, process cleanup, failure/recovery/concurrency, strict browser preflight and npm release artifact | Public npm release 1.0.0 verified on 2026-09-14; published integrity matches the audited tarball |
 
 ## Decisions and deviations
 
@@ -437,5 +437,30 @@ artifact and installed browser results are maintained in the release audit.
 
 No competing orchestration/telemetry model, installer or provider-specific domain service
 was introduced. No migration is required. Signed-off phase order and npm-only application
-distribution remain unchanged. Live provider account and npm ownership/authentication
-checks remain explicitly external; no npm publish has been performed.
+distribution remain unchanged. At the pre-publication audit, live provider account and
+npm ownership/authentication checks were external, and no npm publish had been performed.
+The publication update below supersedes that npm release status.
+
+
+## Public npm installation documentation - 2026-09-14
+
+Status: complete. The release owner published `orqalis@1.0.0` at 09:12:43.151 UTC.
+The public registry reports 1.0.0 as `latest`; its integrity matches the reviewed
+release tarball. Publication is recorded separately from the historical audit matrix.
+
+The combined README guide now starts with `npm install -g orqalis`, includes explicit
+PowerShell commands, explains prerequisites and managed Python setup, and puts backups
+before upgrades. MCP setup, release notes, ADR 0002 and the maintainer publishing guide
+now describe the public package. Future publishing instructions require an unused
+version. Git documentation can update immediately; npm's displayed README updates with
+a subsequent release. No separate GUIDE or installer was added.
+
+Validation: installed `orqalis@1.0.0` from the public registry into a fresh temporary
+global prefix outside the repository. Existing smoke checks passed cold/cached startup,
+global version/help, JSON output, invalid-command exit status and CWD isolation on
+Windows x64 with Node 24.16.0 and Python 3.12.14. Documentation links, section anchors,
+code fences, verification JSON and diff whitespace were checked. The published 1.0.0
+tarball remains byte-for-byte unchanged. Evidence is in the release audit publication
+record; database and paid provider checks were not repeated for this documentation slice.
+
+No runtime, UI, schema, migration, version or architectural changes. No new publication.

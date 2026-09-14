@@ -1570,11 +1570,6 @@
       "status": "FIXED;13 harness tests and all16 actual installed checks PASS"
     }
   ],
-  "next_steps": [
-    "Release owner verifies npm login, intended package-name rights and 2FA",
-    "If public publication is explicitly authorized, publish the reviewed dist/orqalis-1.0.0.tgz; do not rebuild without rerunning the release gates",
-    "Optional future trusted publishing requires separate npm configuration; current workflows do not publish"
-  ],
   "release_candidate": {
     "version": "1.0.0",
     "package_name": "orqalis",
@@ -1626,13 +1621,6 @@
     "warning": "One pre-existing upstream Starlette/AnyIO deprecation; no warning suppressed"
   },
   "remaining_repository_blockers": [],
-  "external_checks": [
-    "EXTERNAL_CHECK_REQUIRED: intended npm account login",
-    "EXTERNAL_CHECK_REQUIRED: package name availability/ownership and registry permission; E404 does not reserve the name",
-    "EXTERNAL_CHECK_REQUIRED: account 2FA policy",
-    "EXTERNAL_CHECK_REQUIRED: trusted publisher setup only if future automation is selected",
-    "Live paid OpenAI/Anthropic and native-assistant account calls unverified; transport and deterministic workflows tested"
-  ],
   "known_v1_boundaries": [
     "Local loopback hosting; remote multi-tenant deployment is outside V1",
     "Deterministic V1 Developer/Tester/Reviewer DAG with parallel context and serialized writers follows ADR0001",
@@ -1642,10 +1630,81 @@
     "Native assistant process integration is a provider-host/MCP contract, not an arbitrary command launcher",
     "Documentation delivery updates an authorized file with accepted-run evidence; richer ADR authoring is task-specific"
   ],
-  "safe_next_commands": [
+  "prepublication_next_steps": [
+    "Release owner verifies npm login, intended package-name rights and 2FA",
+    "If public publication is explicitly authorized, publish the reviewed dist/orqalis-1.0.0.tgz; do not rebuild without rerunning the release gates",
+    "Optional future trusted publishing requires separate npm configuration; current workflows do not publish"
+  ],
+  "prepublication_safe_next_commands": [
     "npm.cmd login --registry=https://registry.npmjs.org/",
     "npm.cmd whoami --registry=https://registry.npmjs.org/",
     "npm.cmd publish ./dist/orqalis-1.0.0.tgz --access public --registry=https://registry.npmjs.org/",
     "npm.cmd view orqalis@1.0.0 version dist.integrity --registry=https://registry.npmjs.org/"
+  ],
+  "prepublication_external_checks": [
+    "EXTERNAL_CHECK_REQUIRED: intended npm account login",
+    "EXTERNAL_CHECK_REQUIRED: package name availability/ownership and registry permission; E404 does not reserve the name",
+    "EXTERNAL_CHECK_REQUIRED: account 2FA policy",
+    "EXTERNAL_CHECK_REQUIRED: trusted publisher setup only if future automation is selected",
+    "Live paid OpenAI/Anthropic and native-assistant account calls unverified; transport and deterministic workflows tested"
+  ],
+  "publication": {
+    "status": "PUBLISHED",
+    "verified_date": "2026-09-14",
+    "registry": "https://registry.npmjs.org/",
+    "package": "orqalis",
+    "version": "1.0.0",
+    "published_at": "2026-09-14T09:12:43.151Z",
+    "latest_at_verification": "1.0.0",
+    "package_url": "https://www.npmjs.com/package/orqalis/v/1.0.0",
+    "dist": {
+      "tarball": "https://registry.npmjs.org/orqalis/-/orqalis-1.0.0.tgz",
+      "shasum": "c522b46f28ea793b914d9cc2c591f980e4d142a8",
+      "integrity": "sha512-5OkgN07xQHeyYC8iG+UHYgNeg7n8gM3vDVikJKYauBqITsem6CUqg/LjB82+pavKVP1NL3TBIeigt3XA7r2ryw==",
+      "fileCount": 58,
+      "unpackedSize": 1882257
+    },
+    "matches_audited_artifact": true,
+    "verification_command": "npm.cmd view orqalis name version dist-tags time dist --json --registry=https://registry.npmjs.org/",
+    "audit_scope": "Original decision, requirements, checks and totals are the pre-publication snapshot; publication records the subsequent public release.",
+    "documentation_scope": "Git documentation updated; published 1.0.0 tarball and bundled README unchanged.",
+    "registry_install": {
+      "status": "PASS",
+      "command": "npm.cmd install -g --prefix <temporary-prefix> orqalis@1.0.0 --ignore-scripts --no-audit --no-fund --registry=https://registry.npmjs.org/",
+      "smoke_command": "python scripts/smoke_npm.py --prefix <temporary-prefix> --runtime <temporary-runtime>",
+      "python": "3.12.14",
+      "result": {
+        "version": "1.0.0",
+        "node": {
+          "platform": "win32",
+          "arch": "x64",
+          "version": "v24.16.0"
+        },
+        "cold_launch": "PASS",
+        "cached_launch": "PASS",
+        "global_version_flag": "PASS",
+        "global_help": "PASS",
+        "json_stdout": "PASS",
+        "invalid_exit_code": "PASS",
+        "cwd_isolation": "PASS"
+      },
+      "evidence": ".tools/publication-docs-20260914/registry-smoke.json",
+      "scope": "Fresh installation by public package name outside the source checkout. Existing user global installation unchanged. No database or live provider checks repeated.",
+      "temporary_resources_removed": true
+    }
+  },
+  "next_steps": [
+    "Install the public npm package and follow README installation and usage instructions.",
+    "Prepare an unused version and repeat release gates for future publications.",
+    "Optional trusted publishing requires separate configuration; current CI does not publish."
+  ],
+  "safe_next_commands": [
+    "npm install -g orqalis",
+    "orqalis --version",
+    "orqalis --help"
+  ],
+  "external_checks": [
+    "Live paid OpenAI/Anthropic and native-assistant account calls remain unverified.",
+    "Trusted publishing is not configured; future publication requires the intended maintainer to meet current registry account requirements."
   ]
 }

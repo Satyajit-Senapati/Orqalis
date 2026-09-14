@@ -6,7 +6,10 @@ Status: accepted by the release owner, 2026-09-10.
 
 Users install and upgrade Orqalis with npm install -g orqalis and npm install -g
 orqalis@latest. The reviewed npm tarball is the single public application artifact.
-Registry publication remains a separate release-owner action and has not occurred.
+Registry publication is a release-owner action, separate from building and testing.
+The release owner published [orqalis@1.0.0](https://www.npmjs.com/package/orqalis/v/1.0.0)
+on September 14, 2026; the public registry integrity matches the reviewed artifact.
+This publication fulfills the accepted distribution decision without changing it.
 
 The npm launcher invokes the existing Python Core. Node.js 22+ and Python 3.12+
 with venv/pip remain prerequisites. First launch creates a hash-verified, isolated

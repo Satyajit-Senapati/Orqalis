@@ -1,16 +1,42 @@
 # Orqalis npm release readiness
 
-**READY FOR NPM PUBLISH**
+**Published: [orqalis@1.0.0](https://www.npmjs.com/package/orqalis/v/1.0.0)**
+
+Pre-publication audit decision: **READY FOR NPM PUBLISH**.
 
 Audit date: 2026-09-14. Version: 1.0.0. Public identity: `orqalis`.
 
 Source baseline: `c0ff0ded46c35d8e044147553a2d13baaff00d20`, branch `main`, repository `Satyajit-Senapati/Orqalis`. Canonical v1.2 requirements were read completely before changes; software release version is 1.0.0. ADR 0001 bounds the deterministic V1 execution DAG; ADR 0002 defines npm as the sole application distribution channel.
 
-## Current gate
+## Publication update - 2026-09-14
+
+The public npm registry records version 1.0.0 as published at 09:12:43.151 UTC,
+with `latest` pointing to 1.0.0. Its SHA-1 digest and SHA-512 integrity match the
+reviewed tarball below. Package publication is complete; install with:
+
+```sh
+npm install -g orqalis
+orqalis --version
+```
+
+A fresh global-prefix installation of `orqalis@1.0.0` from the public registry passed
+on Windows x64 (Node 24.16.0, Python 3.12.14). Cold and cached launch, the global
+`--version`/`--help` commands, JSON output, invalid-command exit status and hostile
+current-directory isolation all passed using `scripts/smoke_npm.py`. The temporary
+prefix and runtime were outside the source checkout. Results are retained in the
+[publication record](verification/npm-release-readiness.json).
+
+The requirement matrix and test totals below preserve the pre-publication audit.
+Earlier E404/ENEEDAUTH observations describe that audit, not current availability.
+Subsequent releases require an unused version and the gates in [PUBLISHING.md](PUBLISHING.md).
+The current [installation guide](../README.md#1-installation-and-first-launch) is maintained
+in Git; the already-published 1.0.0 archive remains unchanged.
+
+## Pre-publication gate
 
 NOT_APPLICABLE: 1, PASS: 105. Total: 106.
 
-No public npm publication has been performed. External account checks are separated from repository-controlled acceptance. PASS means recorded execution/source evidence; PARTIAL means some required evidence remains; BLOCKED means a prerequisite/check remains outstanding. NOT_APPLICABLE excludes an external gate from software readiness, without waiving publication authorization.
+No public npm publication had been performed when this audit was captured. External account checks were separated from repository-controlled acceptance. PASS means recorded execution/source evidence; PARTIAL means some required evidence remains; BLOCKED means a prerequisite/check remains outstanding. NOT_APPLICABLE excludes an external gate from software readiness, without waiving publication authorization.
 
 ## Release candidate
 
@@ -271,9 +297,11 @@ Each row is a canonical product or release acceptance requirement. Commands refe
 - Native assistant process integration is a provider-host/MCP contract, not an arbitrary command launcher
 - Documentation delivery updates an authorized file with accepted-run evidence; richer ADR authoring is task-specific
 
-## Safe publication commands
+## First-publication commands (historical)
 
-Run only after the release owner verifies the external checks and explicitly authorizes public publication. These commands have not been executed to publish.
+These commands were recorded before the release owner published 1.0.0. They are retained
+as audit context, not instructions to republish that version. For future releases use
+[PUBLISHING.md](PUBLISHING.md#review-and-publish-a-new-version).
 
 ```powershell
 npm.cmd login --registry=https://registry.npmjs.org/
@@ -283,16 +311,16 @@ npm.cmd view orqalis@1.0.0 version dist.integrity --registry=https://registry.np
 ```
 
 
-## External publication checks
+## External checks at audit time
 
 - **EXTERNAL_CHECK_REQUIRED:** intended npm login, package-name ownership, registry publish permission and account 2FA.
 - **EXTERNAL_CHECK_REQUIRED:** trusted publisher configuration if the owner chooses future automation. Current CI only builds, tests and uploads artifacts.
 - Live paid OpenAI/Anthropic account calls are unverified; transport contracts, failures, structured outputs and deterministic complete workflows are tested without credentials.
 
-## Resume / next steps
+## Current next steps
 
-- Release owner verifies npm login, intended package-name rights and 2FA
-- If public publication is explicitly authorized, publish the reviewed dist/orqalis-1.0.0.tgz; do not rebuild without rerunning the release gates
-- Optional future trusted publishing requires separate npm configuration; current workflows do not publish
+- Users install the public package with `npm install -g orqalis` and follow the combined README guide.
+- Maintainers prepare a new version for future changes; 1.0.0 cannot be overwritten.
+- Optional future trusted publishing requires separate npm configuration; current workflows do not publish.
 
 The two maintainer readiness records are intentionally excluded from the npm tarball to avoid embedding private audit material or creating a circular tarball hash. Public usage documentation remains included. No database migration accompanies these fixes.

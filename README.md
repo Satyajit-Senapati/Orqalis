@@ -13,7 +13,8 @@ Mission Control—from the first task through review, targeted repair and delive
 *Actual application capture from a persisted local integration run. Documentation examples
 use deterministic test providers; they exercise the real Core rather than mocked UI data.*
 
-[Usage guide](#usage-guide) · [Dashboard tour](docs/DASHBOARD.md) ·
+[npm package](https://www.npmjs.com/package/orqalis) · [Usage guide](#usage-guide) ·
+[Dashboard tour](docs/DASHBOARD.md) ·
 [Architecture](docs/01-system-architecture.md) · [Publishing](docs/PUBLISHING.md)
 
 ## Contents
@@ -69,15 +70,15 @@ Install **Node.js 22+**, **Python 3.12+ with venv/pip**, **Git** and **Docker**.
 Orqalis is distributed through npm; its package includes the UI and local database
 Compose file. No source checkout or frontend build is required.
 
-After the first registry release:
+**Orqalis 1.0.0 is available on [npm](https://www.npmjs.com/package/orqalis).**
 
 ```sh
 npm install -g orqalis
 orqalis --version
 ```
 
-**Publication is pending.** Until then, install the reviewed tarball with
-npm install -g /absolute/path/to/orqalis-1.0.0.tgz. See [release preparation](docs/PUBLISHING.md).
+Installing the public package does not require an npm account or login.
+On Windows PowerShell, use `npm.cmd install -g orqalis` and `orqalis.cmd --version`.
 
 Start the bundled database and UI (Bash/zsh):
 
@@ -105,8 +106,9 @@ Implementation requires an explicit execution policy. Without a configured provi
 run returns provider_error; supply --contract for provider-free goal preparation.
 Follow the [first-task walkthrough](#4-first-task-walkthrough).
 
-Upgrade with npm install -g orqalis@latest, then back up and migrate the database as
-described in the guide. Uninstall with npm uninstall -g orqalis; application data is retained.
+Before upgrading, stop active work and [back up the database](#13-data-backups-and-upgrades).
+Then run `npm install -g orqalis@latest` and `orqalis migrate`.
+Uninstall with `npm uninstall -g orqalis`; application data is retained.
 Contributors and SDK developers use [source development setup](docs/DEVELOPMENT.md).
 
 ## How it works
@@ -275,7 +277,8 @@ need a model key. Provider-backed requirements and independent model review do.
 
 ### Install globally
 
-After the first registry release is published:
+Install the public [orqalis package](https://www.npmjs.com/package/orqalis) from any
+directory. On macOS/Linux (Bash/zsh):
 
 ~~~sh
 npm install -g orqalis
@@ -283,15 +286,21 @@ orqalis --version
 orqalis --help
 ~~~
 
-Registry publication is pending. Until then, install the reviewed local npm tarball:
+On Windows PowerShell:
 
-~~~sh
-npm install -g /absolute/path/to/orqalis-1.0.0.tgz
+~~~powershell
+npm.cmd install -g orqalis
+orqalis.cmd --version
+orqalis.cmd --help
 ~~~
 
-On Windows, use npm.cmd and orqalis.cmd if PowerShell blocks generated .ps1 shims.
-The PowerShell examples below use orqalis.cmd; in Bash/zsh use orqalis with the same
-arguments. No virtual environment activation or absolute orqalis.exe path is required.
+Version 1.0.0 was published on September 14, 2026. To select that release explicitly,
+use `npm install -g orqalis@1.0.0` (`npm.cmd` on Windows). An npm account, `npm login`
+and publishing two-factor authentication are unnecessary for public installation.
+
+The Windows examples use `.cmd` shims so PowerShell execution policy does not block
+the generated `.ps1` scripts. No virtual environment activation or absolute
+`orqalis.exe` path is required; the launcher manages its own Python environment.
 
 First launch installs hash-locked Python dependencies into an isolated per-user runtime.
 Initial setup needs internet access; npm installation works with --ignore-scripts.
@@ -338,15 +347,26 @@ it does not authenticate providers or validate the project's sandbox image.
 
 ### Upgrade and uninstall
 
+Before upgrading, reach a safe execution checkpoint and follow the [backup guidance](#13-data-backups-and-upgrades).
+Stop your Orqalis UI server and MCP processes before updating the launcher and applying
+database migrations. Closing the browser does not stop a background server:
+
 ~~~sh
 npm install -g orqalis@latest
-# After backing up data and stopping active work:
 orqalis migrate
-# To remove the global launcher:
+orqalis --version
+orqalis doctor
+~~~
+
+Use `npm.cmd` and `orqalis.cmd` for the same commands in Windows PowerShell.
+After migration, run `orqalis ui --open` and reconnect your MCP clients to use the new runtime.
+To remove the global launcher:
+
+~~~sh
 npm uninstall -g orqalis
 ~~~
 
-Follow section 13 before upgrades. Each bundle has its own Python runtime. npm uninstall
+Each bundle has its own Python runtime. npm uninstall
 retains caches, PostgreSQL data, project repositories and worktrees. Remove only unused
 runtime directories after their processes stop. If setup reports a stale lock, confirm
 its owner PID has stopped before removing only the named lock and retrying.
@@ -1154,8 +1174,10 @@ Compose stores PostgreSQL in a named volume. Back it up with standard PostgreSQL
 Keep the worktrees and artifacts referenced by database records; a database backup cannot
 reconstruct deleted workspace files.
 
-Before upgrading, reach a safe execution checkpoint, retain a backup, install the new
-npm package, run migrate, and restart UI/MCP processes with the intended environment.
+Before upgrading, reach a safe execution checkpoint, stop your UI/MCP processes and
+retain a backup. Install the new npm package, run migrate, then restart UI/MCP processes
+with the intended environment. Ctrl+C stops a foreground `serve` process; for a background
+server, stop the Orqalis process you own. Closing its browser tab does not stop it.
 
 Do not remove a worktree containing active or unreviewed work. Safe worktree management
 exists as a Python service; there is no blanket CLI cleanup command.
