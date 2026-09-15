@@ -78,10 +78,9 @@ orqalis --version
 ```
 
 Installing the public package does not require an npm account or login.
-The public 1.0.0 package uses a detached `ui` helper. Its `serve` command
+Orqalis 1.0.1 makes `ui --open` terminal-owned. Its `serve` command also
 runs in the foreground and stops with Ctrl+C, so the quick start below uses
-`serve`. The unpublished 1.0.1 source candidate also makes `ui --open`
-terminal-owned; that behavior reaches npm only after a new publication.
+`serve` and works across supported package versions.
 On Windows PowerShell, use `npm.cmd install -g orqalis` and the
 [session setup below](#install-globally) to type `orqalis` directly.
 
@@ -248,8 +247,8 @@ and [integration examples](docs/examples/).
 ## Usage guide
 
 This guide explains how to use Orqalis as a local engineering application.
-The built-in updater is available starting with version 1.0.1. The published 1.0.0
-launcher requires one upgrade through npm to gain that command.
+The built-in updater is available in version 1.0.1 and later. A user remaining on
+1.0.0 needs one upgrade through npm to gain that command.
 The signed-off architecture baseline is v1.2; that is a separate version identifier.
 
 Orqalis coordinates work in an isolated Git worktree. It defines a versioned goal,
@@ -306,8 +305,8 @@ orqalis --version
 orqalis --help
 ~~~
 
-Version 1.0.0 was published on September 14, 2026. To select that release explicitly,
-use `npm install -g orqalis@1.0.0` (`npm.cmd` on Windows). An npm account, `npm login`
+Version 1.0.1 is the current release. To select it explicitly, use
+`npm install -g orqalis@1.0.1` (`npm.cmd` on Windows). An npm account, `npm login`
 and publishing two-factor authentication are unnecessary for public installation.
 
 npm creates both `.ps1` and `.cmd` command shims on Windows. The session-local alias
@@ -355,8 +354,8 @@ orqalis doctor
 orqalis serve
 ~~~
 
-`serve` runs in the foreground on both public 1.0.0 and the 1.0.1 source
-candidate. Leave this terminal open and use a second terminal for `init`,
+`serve` runs in the foreground on all supported versions. Leave this terminal open
+and use a second terminal for `init`,
 `run` and other commands. Ctrl+C stops the UI/API host; closing the browser
 tab does not. Open http://localhost:7842. If you already have PostgreSQL
 with pgvector, configure
@@ -633,8 +632,8 @@ orqalis run "Normalize names safely" --repo $repo --branch feature/normalize-nam
 ~~~
 
 Copy the printed UUID and open its run page in the `serve` browser session from
-the installation steps. In the unpublished 1.0.1 source candidate, `run --open`
-can instead own a foreground UI host until Ctrl+C.
+the installation steps. In Orqalis 1.0.1 and later, `run --open` can instead own
+a foreground UI host until Ctrl+C.
 
 Copy the printed run UUID:
 
@@ -704,8 +703,7 @@ This still ends through review. Finalize remains a separate operation.
 
 ### Supervised runs and operator approvals
 
-This control workflow is implemented in the 1.0.1 source candidate; the public 1.0.0
-package does not include it until a new package is published.
+This control workflow is available in public 1.0.1. Version 1.0.0 does not include it.
 
 Use --mode supervised when you want Orqalis to stop for an explicit human decision.
 The default autonomous mode retains the existing evidence, scope, and delivery-policy
@@ -892,11 +890,11 @@ orqalis serve
 ~~~
 
 Open http://localhost:7842. `serve` hosts the local UI/API in the current
-terminal on public 1.0.0 and the 1.0.1 source candidate. Ctrl+C stops that
+terminal on all supported versions. Ctrl+C stops that
 host; closing the browser tab does not stop it or an active run. Use an unused
 port when another service owns the address.
 
-The unpublished 1.0.1 source candidate also supports `orqalis ui --open`:
+Orqalis 1.0.1 and later also support `orqalis ui --open`:
 it opens the browser and owns a foreground host when no compatible host is
 running. An existing host is reused without taking ownership. A newly hosted
 `orqalis run --open` session likewise remains in its terminal until Ctrl+C.
@@ -1337,10 +1335,8 @@ result/error code, and a redacted snapshot. Exclude API keys and private provide
 ## 15. Command reference
 
 Prefix these with orqalis (use the Windows PowerShell alias above if required).
-The `update`, `modes`, `plan` and `approvals` rows, plus `run --mode` and
-`run --gate`, describe the unpublished 1.0.1 source candidate; they are
-unavailable in public npm 1.0.0. The `ui --open` foreground behavior also
-starts with that candidate.
+The `update`, `modes`, `plan` and `approvals` commands, plus `run --mode`,
+`run --gate` and terminal-owned `ui --open`, require Orqalis 1.0.1 or later.
 
 | Command | Purpose |
 | --- | --- |

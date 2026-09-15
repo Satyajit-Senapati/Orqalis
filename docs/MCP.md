@@ -33,8 +33,8 @@ requires ProjectSettings.allow_push. Configure reviewer_provider and its credent
 on the server; native assistant implementation does not need an Orqalis model key,
 but independent model review does.
 
-In the unpublished 1.0.1 source candidate, an operator can set control_mode
-to SUPERVISED in the trusted MCP policy JSON.
+In Orqalis 1.0.1 and later, an operator can set control_mode to SUPERVISED
+in the trusted MCP policy JSON.
 The assistant cannot select or remove gates through a tool call. By default, supervised
 runs require human GOAL, PLAN, REPAIR, and DELIVERY decisions; approval_gates can set
 an exact custom set, including TASK. get_next_work stops at pending gates and leaves

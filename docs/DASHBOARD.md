@@ -2,8 +2,8 @@
 
 Orqalis Mission Control is the local browser projection of the signed-off v1.2 Core.
 This guide records the current navigation, visual contract, telemetry boundaries,
-performance limits and reproducible product media for the 1.0.0 dashboard,
-plus operator controls implemented in the unpublished 1.0.1 source candidate.
+performance limits and reproducible product media, including the operator controls
+released in Orqalis 1.0.1.
 
 The first dashboard enhancement was audited from commit 2451063. The September 11, 2026
 visual refresh changes presentation only: orchestration, workflow transitions, persisted
@@ -85,7 +85,7 @@ a successful invocation. Dynamic acquisition milestones without events are expla
 the selection process, not shown as fabricated completed steps. Historical versions
 removed from the current registry remain listed from their load records.
 
-## Operator control in the 1.0.1 source candidate
+## Operator control in Orqalis 1.0.1
 
 The run overview now includes Operator control. SUPERVISED runs show their durable
 GOAL, PLAN, REPAIR and DELIVERY gates; TASK may be enabled explicitly. A pending

@@ -3,9 +3,9 @@
 Orqalis is MIT licensed. The Python Core remains authoritative; the npm package
 is a distribution launcher for that same Core. The private package in web/ is only the UI.
 
-[Orqalis 1.0.0](https://www.npmjs.com/package/orqalis/v/1.0.0) was published to the
-public npm registry on September 14, 2026. The registry tarball integrity matches the
-reviewed release artifact. Source and current documentation are maintained in
+[Orqalis 1.0.1](https://www.npmjs.com/package/orqalis/v/1.0.1) is the current public
+npm release. Published versions are immutable and their registry integrity is recorded
+with the corresponding reviewed artifact. Source and current documentation are maintained in
 [Satyajit-Senapati/Orqalis](https://github.com/Satyajit-Senapati/Orqalis). npm is the
 sole application release channel; see [ADR 0002](adr/0002-npm-distribution.md).
 
@@ -52,7 +52,7 @@ A terminated setup may leave a lock, with manual recovery described in the npm R
 
 ## Prepare artifacts for the next release
 
-Version 1.0.0 is already public and cannot be overwritten. Version 1.0.1 adds the
+Versions 1.0.0 and 1.0.1 are public and cannot be overwritten. Version 1.0.1 adds the
 built-in updater; users on 1.0.0 need one npm upgrade to gain that command. Each
 subsequent publication must use an unused version and pass its release checks. For each
 new release, update
@@ -234,8 +234,8 @@ it never publishes.
 
 The root README is the combined usage guide. Edit that source, then rebuild the wheel
 and run `scripts/prepare_npm.py` to copy it into the next release. Documentation commits
-update GitHub immediately; the README bundled with 1.0.0 stays unchanged. Updating the
-README displayed on npm requires publishing a new version, following npm's
+update GitHub immediately; READMEs bundled with already-published versions stay unchanged.
+Updating the README displayed on npm requires publishing a new version, following npm's
 [README update instructions](https://docs.npmjs.com/about-package-readme-files/).
 
 Python SDK development uses the contributor environment. Do not add a second public
@@ -254,7 +254,9 @@ npm version selects its runtime but does not reverse database schema changes; fo
 documented database restore/compatibility procedure before rollback.
 
 The canonical distribution amendment records npm as the installation channel. Runtime
-architecture and phase order are unchanged; no migration accompanies this consolidation.
+architecture and phase order are unchanged, and that distribution consolidation did not
+require a migration. Orqalis 1.0.1 separately includes migration `6b93c20e21af` for
+persisted run-control policies and operator approvals.
 
 References: [npm package metadata](https://docs.npmjs.com/cli/v12/configuring-npm/package-json/),
 [publishing public packages](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages/),

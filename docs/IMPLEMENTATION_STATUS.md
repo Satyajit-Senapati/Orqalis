@@ -27,7 +27,7 @@ user branch or implementation was changed. Node 24 is available. Python 3.12.14 
 | 11 MCP | Complete | Project-scoped tools/resources, assistant-native work, independent review and gated delivery | 83 tests passed; protocol continuity and real stdio startup |
 | 12 Integrations | Complete | Anthropic adapter, Codex/Claude/Copilot MCP templates, external CLI host contract | 21 focused provider tests passed; live credentials unconfigured |
 | 13 Full Control Center | Complete | DAG/Gantt, Project Brain, acceptance/delivery inspection, analytics, comparison and responsive dark UI | 96 backend tests, 3 frontend tests, active/completed browser checks, strict checks passed |
-| 14 Hardening/release | Complete | Sandbox limits, process cleanup, failure/recovery/concurrency, strict browser preflight and npm release artifact | Public npm release 1.0.0 verified on 2026-09-14; published integrity matches the audited tarball |
+| 14 Hardening/release | Complete | Sandbox limits, process cleanup, failure/recovery/concurrency, strict browser preflight and npm release artifact | Public npm releases 1.0.0 and 1.0.1; release integrity and installation verified |
 
 ## Decisions and deviations
 
@@ -468,8 +468,8 @@ No runtime, UI, schema, migration, version or architectural changes. No new publ
 
 ## Direct npm updater and Windows command UX - 2026-09-14
 
-Status: implementation complete; version 1.0.1 is a prepared, unpublished patch
-candidate. The already-published 1.0.0 tarball is immutable. The npm launcher now
+Status: released in version 1.0.1. The already-published 1.0.0 tarball is immutable.
+The npm launcher now
 supports `orqalis update --check` and `orqalis update` before Python startup. It checks
 the public registry, compares versions without downgrading, installs the exact checked
 release into the invoking global npm prefix, and reports npm failures. npm is resolved
@@ -479,7 +479,7 @@ explicit operator steps.
 
 The combined README uses bare `orqalis` in PowerShell examples after a session-local
 alias for systems that block npm's generated `.ps1` shim. Users on 1.0.0 must run one
-`npm install -g orqalis@latest` upgrade after 1.0.1 publication to gain the built-in
+`npm install -g orqalis@latest` upgrade to 1.0.1 or later to gain the built-in
 command. Release preparation now removes stale generated Orqalis wheels before packing
 consecutive versions, while retaining path and symlink safeguards.
 
@@ -494,12 +494,10 @@ version successfully self-updated through the public npm registry to 1.0.0, leav
 the user's global installation and database untouched. No schema migration is required.
 
 No competing distribution mechanism, orchestration change or UI behavior was added.
-The patch is not public until the release owner approves and publishes its reviewed
-1.0.1 tarball.
 
 ## Foreground CLI hosting and service-free npm lifecycle - 2026-09-14
 
-Status: implementation and local release validation complete; 1.0.1 is unpublished.
+Status: released in version 1.0.1 after local and packaged release validation.
 The npm install/update paths do not register a Windows service, scheduled task or
 startup entry. The previously detached UI helper has been replaced by a terminal-owned
 UI session in the same Python CLI process. `orqalis ui` and `orqalis run --open` keep
@@ -520,8 +518,8 @@ package passed npm publish --dry-run, cold/cached global CLI smoke and 17 instal
 Core/MCP/UI checks from a disposable npm prefix against disposable PostgreSQL.
 Windows source and isolated npm CLI Ctrl+C checks released their listening
 ports with no leftover process. The installed UI check verified listener ancestry and port release after
-stopping the exact test-owned CLI tree. The previous 1.0.1 tarball remains only
-historical evidence; the foreground candidate supersedes it before publication.
+stopping the exact test-owned CLI tree. The earlier 1.0.1 candidate tarball remains only historical evidence; the final
+reviewed 1.0.1 release artifact supersedes it.
 
 ## Agent and skill definition enhancement - 2026-09-14
 
@@ -555,7 +553,7 @@ all five new skill packs. Live paid-provider checks still require credentials.
 
 ## Operator controls, persisted approvals, and plan preview - 2026-09-14
 
-Status: implemented in the source tree; the 1.0.1 npm candidate is unpublished. This
+Status: released in version 1.0.1. This
 extends the existing Orchestrator and Mission Control without creating a second workflow
 controller. The default AUTONOMOUS mode retains existing behavior. SUPERVISED mode
 persists an immutable per-run gate policy (GOAL, PLAN, REPAIR, DELIVERY by default);
@@ -595,8 +593,7 @@ a separately designed job and policy submission flow. TASK and DELIVERY cards
 show a reviewable summary and full subject digest; the operator must inspect the
 plan/execution policy or delivery policy JSON and repository diff outside that card.
 An exact full-policy browser view is remaining UI work. Live paid-provider verification
-still needs configured credentials. Release packaging/publication of this slice has
-not occurred.
+still needs configured credentials.
 
 Validation: 312 Python tests passed against the disposable PostgreSQL database
 (with one Docker-marked test deselected); the isolated Docker sandbox test passed.
