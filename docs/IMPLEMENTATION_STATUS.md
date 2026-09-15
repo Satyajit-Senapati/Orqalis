@@ -602,3 +602,25 @@ that sweep. Python Ruff check/format and strict mypy passed. Browser E2E passed
 12 tests against a disposable API/database, and the npm launcher passed 29 tests.
 Final frontend ESLint, 33 Vitest tests and the TypeScript/Vite production
 build passed. The independent Change Guardian review passed.
+
+## Public npm 1.0.1 release - 2026-09-15
+
+Status: published and verified. npm accepted the exact 69-file artifact built from
+source commit `dfd8e31f2d6c84b2df9565bff8f3c1d03cd30c9f` at `2026-09-15T05:33:58.810Z` and assigned `latest` to
+1.0.1. The tarball SHA-256 is `b0bf31832c40d59c5b03b4e6cfed7f15f6ec9f47983e736b8a008867500c9011`; npm reports shasum `10d66da1c2a47b4aabcf9be4bad7cc7f7021705e` and
+integrity `sha512-3TNPpq3Eskq6eVsl0BFxYG4Ch5d8bq1wIfEtAApSO6CNLe8YuYEQR0depln7v2Y0mO9hz68A6JcTQ1HX4M/nSA==`. Migration `6b93c20e21af` is included and users must run
+`orqalis migrate` after upgrading.
+
+Release validation includes 312 PostgreSQL-backed Python tests, the isolated Docker
+sandbox test, 33 frontend tests, 12 browser end-to-end tests, 29 npm launcher tests,
+Ruff, formatting, strict mypy, ESLint, production build, dry publish, inventory and
+credential scans, and isolated local-tarball installation. GitHub Actions runs
+34932652087 (`quality`) and 34932652099 (`npm package`) passed for the exact source,
+including Windows/Linux/macOS launcher smokes and Linux installed integration.
+
+Fresh disposable public-registry installs of exact `orqalis@1.0.1` and unqualified
+`orqalis` both resolved to version 1.0.1 and the reviewed manifest. The exact install
+passed cold/cached launch, version/help, JSON, invalid-exit and hostile-working-directory
+isolation. The unqualified install passed `--version`, `modes --json`, and
+`update --check`, which reported 1.0.1 current. No user global installation, database,
+Windows service, scheduled task or autostart entry was created by these checks.

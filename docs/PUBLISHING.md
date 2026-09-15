@@ -9,6 +9,12 @@ with the corresponding reviewed artifact. Source and current documentation are m
 [Satyajit-Senapati/Orqalis](https://github.com/Satyajit-Senapati/Orqalis). npm is the
 sole application release channel; see [ADR 0002](adr/0002-npm-distribution.md).
 
+The 1.0.1 release source is commit `dfd8e31f2d6c84b2df9565bff8f3c1d03cd30c9f`. Its public npm tarball
+contains 69 files and has SHA-256 `b0bf31832c40d59c5b03b4e6cfed7f15f6ec9f47983e736b8a008867500c9011`, npm shasum `10d66da1c2a47b4aabcf9be4bad7cc7f7021705e`,
+and integrity `sha512-3TNPpq3Eskq6eVsl0BFxYG4Ch5d8bq1wIfEtAApSO6CNLe8YuYEQR0depln7v2Y0mO9hz68A6JcTQ1HX4M/nSA==`. npm published it at `2026-09-15T05:33:58.810Z` and
+assigned `latest` to 1.0.1. See [RELEASE_NOTES.md](RELEASE_NOTES.md#publication-record)
+for installation and CI verification.
+
 ## What users install
 
 Install the public package from any directory:

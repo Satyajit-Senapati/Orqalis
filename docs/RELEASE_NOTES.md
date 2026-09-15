@@ -36,6 +36,22 @@ decisions. After upgrading, run `orqalis migrate` before starting Orqalis 1.0.1.
 Version 1.0.0 does not contain these controls. See the combined [upgrade guide](../README.md#upgrade-and-uninstall)
 and [operator-control instructions](../README.md#supervised-runs-and-operator-approvals).
 
+## Publication record
+
+The public registry accepted version 1.0.1 at `2026-09-15T05:33:58.810Z` from source
+commit `dfd8e31f2d6c84b2df9565bff8f3c1d03cd30c9f` and assigned the `latest` tag. The reviewed
+69-file tarball is 1,539,392 bytes (1,968,593 bytes unpacked), with SHA-256
+`b0bf31832c40d59c5b03b4e6cfed7f15f6ec9f47983e736b8a008867500c9011`, npm shasum `10d66da1c2a47b4aabcf9be4bad7cc7f7021705e`, and integrity
+`sha512-3TNPpq3Eskq6eVsl0BFxYG4Ch5d8bq1wIfEtAApSO6CNLe8YuYEQR0depln7v2Y0mO9hz68A6JcTQ1HX4M/nSA==`.
+A direct registry download matched the reviewed local artifact byte-for-byte by SHA-256.
+
+Fresh disposable registry installs of both `orqalis@1.0.1` and unqualified
+`orqalis` resolved to the same reviewed manifest. Cold/cached startup, version/help,
+JSON output, invalid-command handling, working-directory isolation, `modes`, and
+`update --check` passed on Windows x64 with Node 24 and Python 3.12. The exact
+release-source GitHub `quality` and `npm package` workflows passed, including
+Windows/Linux/macOS launcher smokes and Linux installed Core/MCP/UI integration.
+
 # Orqalis 1.0.0
 
 Orqalis 1.0.0 is publicly available on [npm](https://www.npmjs.com/package/orqalis/v/1.0.0),

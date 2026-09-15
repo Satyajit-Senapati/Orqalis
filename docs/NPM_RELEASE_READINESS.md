@@ -1,14 +1,19 @@
 # Orqalis npm release readiness
 
-**Published: [orqalis@1.0.0](https://www.npmjs.com/package/orqalis/v/1.0.0)**
+**Current release: [orqalis@1.0.1](https://www.npmjs.com/package/orqalis/v/1.0.1)** (`latest`)
 
-Pre-publication audit decision: **READY FOR NPM PUBLISH**.
+The current publication and artifact record is [below](#public-101-publication---2026-09-15).
+The original matrix remains the historical 1.0.0 readiness audit.
+
+**Historical release: [orqalis@1.0.0](https://www.npmjs.com/package/orqalis/v/1.0.0)**
+
+Historical pre-publication audit decision: **READY FOR NPM PUBLISH**.
 
 Audit date: 2026-09-14. Version: 1.0.0. Public identity: `orqalis`.
 
 Source baseline: `c0ff0ded46c35d8e044147553a2d13baaff00d20`, branch `main`, repository `Satyajit-Senapati/Orqalis`. Canonical v1.2 requirements were read completely before changes; software release version is 1.0.0. ADR 0001 bounds the deterministic V1 execution DAG; ADR 0002 defines npm as the sole application distribution channel.
 
-## Publication update - 2026-09-14
+## Historical 1.0.0 publication update - 2026-09-14
 
 The public npm registry records version 1.0.0 as published at 09:12:43.151 UTC,
 with `latest` pointing to 1.0.0. Its SHA-1 digest and SHA-512 integrity match the
@@ -399,3 +404,30 @@ The replacement `dist/orqalis-1.0.1.tgz` SHA-256 is
 `8908D09867669179F258EDDA90E3DE980B441A25A622A5186B4CA7D2C299B8AD`.
 This is an unpublished candidate. Hosted CI status must be checked against the
 pushed source commit before the release owner decides whether to publish.
+
+## Public 1.0.1 publication - 2026-09-15
+
+The candidate hashes above are historical and were not published. The final release
+contains the updater, foreground UI ownership, enhanced agent/skill selection, and
+persisted supervised approval and plan-editing controls. Its source commit is
+`dfd8e31f2d6c84b2df9565bff8f3c1d03cd30c9f`. GitHub Actions `quality` run 34932652087 and `npm package` run
+34932652099 both passed for that exact commit. The package workflow passed package
+construction, Windows/Linux/macOS launcher smokes, and Linux installed Core/MCP/UI
+integration. Local validation passed 312 PostgreSQL-backed Python tests, the isolated
+Docker sandbox test, 33 frontend tests, 12 browser end-to-end tests, 29 npm launcher
+tests, all static checks, npm dry publish, and a disposable install of the exact tarball.
+
+The published `dist/orqalis-1.0.1.tgz` contains 69 files, is 1,539,392 bytes
+(1,968,593 bytes unpacked), and has SHA-256
+`b0bf31832c40d59c5b03b4e6cfed7f15f6ec9f47983e736b8a008867500c9011`. npm published version 1.0.1 at `2026-09-15T05:33:58.810Z` with shasum
+`10d66da1c2a47b4aabcf9be4bad7cc7f7021705e` and integrity
+`sha512-3TNPpq3Eskq6eVsl0BFxYG4Ch5d8bq1wIfEtAApSO6CNLe8YuYEQR0depln7v2Y0mO9hz68A6JcTQ1HX4M/nSA==`. Registry metadata identifies 1.0.1 as `latest`. A direct registry download matched the reviewed local tarball byte-for-byte by SHA-256.
+
+Fresh disposable public-registry installs of `orqalis@1.0.1` and unqualified `orqalis`
+both resolved to 1.0.1 and manifest SHA-256
+`c7488460f9cb442563388e354cb1d972f6c1cc40232ea97fb3263fae939fee07`, matching the
+reviewed package. The exact install passed cold/cached launch, version/help, JSON,
+invalid-exit and working-directory isolation; the unqualified install also passed
+`modes --json` and `update --check`. Temporary prefixes and runtimes were isolated from
+the user's global package and removed after verification. Migration
+`6b93c20e21af` must be applied with `orqalis migrate` after upgrading.
