@@ -36,6 +36,13 @@ class _FcntlModule(Protocol):
     def flock(self, descriptor: int, operation: int) -> object: ...
 
 
+class _MsvcrtModule(Protocol):
+    LK_NBLCK: int
+    LK_UNLCK: int
+
+    def locking(self, descriptor: int, mode: int, count: int) -> object: ...
+
+
 def _state_for(path: Path) -> _LockState:
     key = os.path.normcase(str(path.absolute()))
     with _REGISTRY_GUARD:
@@ -46,8 +53,7 @@ def _try_platform_lock(handle: BinaryIO) -> bool:
     handle.seek(0)
     try:
         if os.name == "nt":
-            import msvcrt
-
+            msvcrt = cast(_MsvcrtModule, importlib.import_module("msvcrt"))
             msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
         else:
             fcntl = cast(_FcntlModule, importlib.import_module("fcntl"))
@@ -62,8 +68,7 @@ def _try_platform_lock(handle: BinaryIO) -> bool:
 def _platform_unlock(handle: BinaryIO) -> None:
     handle.seek(0)
     if os.name == "nt":
-        import msvcrt
-
+        msvcrt = cast(_MsvcrtModule, importlib.import_module("msvcrt"))
         msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
     else:
         fcntl = cast(_FcntlModule, importlib.import_module("fcntl"))

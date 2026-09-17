@@ -98,8 +98,8 @@ edit has settled:
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `.tools/release/orqalis-2.0.0-py3-none-any.whl` | `451054F4DB9BE484F5A42EB8E79FA2F313E1B45A5110B403210D756DF8274BAC` |
-| `dist/orqalis-2.0.0.tgz` | `756BB21073994174FFDD386B2894710E86B79F63350AD71DE631E796E7B0B7CD` |
+| `.tools/release/orqalis-2.0.0-py3-none-any.whl` | `7E6129FC2F167C644A5E882BFACC208DFD3521A197505EEC0EB6B4E2D7CD2FB0` |
+| `dist/orqalis-2.0.0.tgz` | `2161403A190034585F07DE473530EC1B93FF4194AA745E062E6BB43CD4DE8A88` |
 
 The stale local 1.0.1 wheel/tarball and staged vendor wheel were removed or replaced; only
 2.0.0 release artifacts remain. Nothing was published. Public 1.0.1 remains immutable and
@@ -143,13 +143,20 @@ proved the exact `Node -> managed redirector -> listener` ancestry; the verifier
 that chain only when the parent is the expected runtime and the grandparent is the launched
 CLI. Positive and negative ancestry tests preserve the cleanup safety boundary.
 
-The Python wheel rebuilt byte-for-byte to its previous digest. The npm archive retained the
-same 69-entry allowlist but intentionally changed because the final publishing and
-implementation-status documents are shipped. Its final metadata is:
+The first hosted quality run then exposed one platform-specific static-analysis issue:
+Linux-targeted mypy inspected the Windows `msvcrt` lock branch. The lock implementation now
+loads both platform modules behind typed protocols, without changing runtime semantics.
+Native and Linux-targeted strict mypy passed across all 250 source/test files, Ruff and
+formatting passed, and all 25 filesystem-foundation tests passed. The rebuilt artifacts then
+passed the complete 7-check launcher and 17-check installed verifier again.
 
-- SHA-256 `756BB21073994174FFDD386B2894710E86B79F63350AD71DE631E796E7B0B7CD`;
-- npm shasum `31669aa40128449d2cc35ef44687b83471b97bec`; and
-- unpacked/package sizes 1,907,396 / 1,543,983 bytes.
+The final Python wheel and npm archive therefore have new digests attributable to that
+reviewed portability correction. The npm archive retains the same 69-entry allowlist. Its
+final metadata is:
+
+- SHA-256 `2161403A190034585F07DE473530EC1B93FF4194AA745E062E6BB43CD4DE8A88`;
+- npm shasum `b75c400eb6963cb4a31fc30b1becde541adeb44a`; and
+- unpacked/package sizes 1,907,436 / 1,544,012 bytes.
 
 Pack and publish dry-runs passed. Archive, dependency and secret scans found no project
 `.orqalis/`, credentials, local paths, retired database code or database requirement.
