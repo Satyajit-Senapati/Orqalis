@@ -2,28 +2,36 @@
 
 from collections.abc import Callable
 from pathlib import Path
+from typing import cast
 from uuid import uuid5
 
 import pytest
-from sqlalchemy import Engine, select
-from sqlalchemy.orm import Session
 
 from orqalis.core.projects import ProjectService
 from orqalis.domain.errors import EmbeddingUnavailableError, InputError
 from orqalis.domain.memory import MemoryItem, MemorySource, MemoryType
 from orqalis.memory.indexing import DeterministicMemoryIndexer
 from orqalis.memory.service import MemoryService
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.memory_models import MemoryRow
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
+from orqalis.persistence.filesystem import ProjectLayout, read_json_object
+from orqalis.sdk import Orqalis
 from tests.conftest import fixture_git
 from tests.integration.test_memory import ObservedGit
+from tests.support.filesystem import filesystem_uow_factory
 
-pytestmark = pytest.mark.postgres
+
+def _embeddings(root: Path) -> dict[str, dict[str, object]]:
+    """Read the rebuildable filesystem embedding cache for persistence assertions."""
+
+    path = ProjectLayout(root).cache / "search" / "embeddings.json"
+    if not path.is_file():
+        return {}
+    values = read_json_object(path).get("embeddings")
+    assert isinstance(values, dict)
+    return cast(dict[str, dict[str, object]], values)
 
 
-def test_context_task_categories_are_source_backed_without_repeated_scans(
-    database: Engine, git_repo: Path, commit_all: Callable[[Path], str]
+def test_context_graph_is_source_backed_without_repeated_scans(
+    git_repo: Path, commit_all: Callable[[Path], str]
 ) -> None:
     files = {
         "docs/architecture.md": (
@@ -43,28 +51,30 @@ def test_context_task_categories_are_source_backed_without_repeated_scans(
         source_path.write_text(content, encoding="utf-8")
     head = commit_all(git_repo)
     git = ObservedGit()
-
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    project = ProjectService(factory, git).initialize(git_repo)
+    sdk = Orqalis(root=git_repo)
+    project = sdk.initialize(git_repo)
+    factory = sdk.unit_of_work
     memory = MemoryService(factory, git)
     memory.refresh(project)
     git.reads.clear()
     git.enumerations = 0
-    for query, path, kind in [
-        ("architecture authentication", "docs/architecture.md", MemoryType.ARCHITECTURE),
-        ("sidebar", "web/Sidebar.tsx", MemoryType.REPOSITORY_MAP),
-        ("storage transaction", "data/storage.py", MemoryType.REPOSITORY_MAP),
-        ("navigation keyboard testing", "tests/test_navigation.py", MemoryType.REPOSITORY_MAP),
-        ("invoices currency domain", "docs/domain-rules.md", MemoryType.DOMAIN),
-        ("offline recovery", "docs/known-issues.md", MemoryType.KNOWN_ISSUE),
-        ("decision storage", "docs/adr/0001-storage.md", MemoryType.DECISION),
-        ("git reviewed commits", "CONTRIBUTING.md", MemoryType.CONVENTION),
+    for query, path in [
+        ("architecture authentication", "docs/architecture.md"),
+        ("sidebar", "web/Sidebar.tsx"),
+        ("storage transaction", "data/storage.py"),
+        ("navigation keyboard testing", "tests/test_navigation.py"),
+        ("invoices currency domain", "docs/domain-rules.md"),
+        ("offline recovery", "docs/known-issues.md"),
+        ("decision storage", "docs/adr/0001-storage.md"),
+        ("git reviewed commits", "CONTRIBUTING.md"),
     ]:
         context = memory.context(project, query)
-        match = next(item for item in context.items if item.item.title == path)
-        assert match.item.type == kind
+        match = next(
+            item
+            for item in context.items
+            if any(source.source_ref == path for source in item.sources)
+        )
+        assert match.item.type == MemoryType.REPOSITORY_MAP
         assert match.sources[0].commit_sha == head
         assert path in context.relevant_files
         assert context.freshness.fresh
@@ -72,7 +82,7 @@ def test_context_task_categories_are_source_backed_without_repeated_scans(
 
 
 def test_indexer_and_embedding_upgrade_refresh_once_at_unchanged_head(
-    database: Engine, git_repo: Path
+    git_repo: Path,
 ) -> None:
     class NextIndexer(DeterministicMemoryIndexer):
         VERSION = "next-fixture"
@@ -85,9 +95,7 @@ def test_indexer_and_embedding_upgrade_refresh_once_at_unchanged_head(
             return (1.0, 0.0, 0.0)
 
     git = ObservedGit()
-
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     project = ProjectService(factory, git).initialize(git_repo)
     original = MemoryService(factory, git)
@@ -107,8 +115,8 @@ def test_indexer_and_embedding_upgrade_refresh_once_at_unchanged_head(
     assert not git.reads and semantic.health(project).fresh
 
 
-def test_unmerged_run_memory_is_excluded_until_its_commit_is_in_history(
-    database: Engine, git_repo: Path, tmp_path: Path
+def test_legacy_run_projection_never_enters_authoritative_context(
+    git_repo: Path, tmp_path: Path
 ) -> None:
     (git_repo / "current-policy.md").write_text(
         "Future invoice policy is proposed but not yet implemented.", encoding="utf-8"
@@ -124,8 +132,7 @@ def test_unmerged_run_memory_is_excluded_until_its_commit_is_in_history(
     fixture_git(branch, "commit", "-m", "test: accepted invoice policy")
     delivered = git.resolve_commit(branch, "HEAD")
 
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     project = ProjectService(factory, git).initialize(git_repo)
     memory = MemoryService(factory, git)
@@ -175,7 +182,7 @@ def test_unmerged_run_memory_is_excluded_until_its_commit_is_in_history(
     delivered_context = memory.context(
         project.model_copy(update={"repo_root": branch}), "future invoice policy"
     )
-    assert any(match.item.type == MemoryType.PREVIOUS_RUN for match in delivered_context.items)
+    assert all(match.item.type != MemoryType.PREVIOUS_RUN for match in delivered_context.items)
     assert all(
         match.item.type != MemoryType.PREVIOUS_RUN
         for match in memory.search(project, "future invoice policy")
@@ -185,12 +192,14 @@ def test_unmerged_run_memory_is_excluded_until_its_commit_is_in_history(
         match.item.type == MemoryType.PREVIOUS_RUN
         for match in memory.search(project, "future invoice policy")
     )
+    merged_context = memory.context(project, "future invoice policy")
+    assert all(match.item.type != MemoryType.PREVIOUS_RUN for match in merged_context.items)
     assert git.status(git_repo).head == delivered
     git.remove_worktree(git_repo, branch)
 
 
 def test_recovered_embeddings_backfill_stored_content_without_git_reads(
-    database: Engine, git_repo: Path
+    git_repo: Path,
 ) -> None:
     class RecoveringEmbeddings:
         model_id = "temporarily-offline"
@@ -207,9 +216,7 @@ def test_recovered_embeddings_backfill_stored_content_without_git_reads(
                 self.remaining -= 1
             return (1.0, 0.0, 0.0)
 
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
+    factory = filesystem_uow_factory(git_repo)
     git, embeddings = ObservedGit(), RecoveringEmbeddings()
     project = ProjectService(factory, git).initialize(git_repo)
     memory = MemoryService(factory, git, embeddings=embeddings)
@@ -253,30 +260,23 @@ def test_recovered_embeddings_backfill_stored_content_without_git_reads(
     embeddings.remaining = 2
     partial = memory.refresh(project)
     assert partial.reused and partial.snapshot.id == first.snapshot.id
-    with Session(database) as session:
-        recovered = session.scalars(
-            select(MemoryRow).where(
-                MemoryRow.project_id == project.id,
-                MemoryRow.embedding_model == embeddings.model_id,
-                MemoryRow.embedding.is_not(None),
-                MemoryRow.id != protected[104],
-            )
-        ).all()
-        assert len(recovered) == 2  # A later outage does not discard completed backfill.
+    recovered = {
+        identifier: value
+        for identifier, value in _embeddings(git_repo).items()
+        if value.get("model") == embeddings.model_id and identifier != str(protected[104])
+    }
+    assert len(recovered) == 2  # A later outage does not discard completed backfill.
     embeddings.remaining = None
     recovered_refresh = memory.refresh(project)
     assert recovered_refresh.reused and recovered_refresh.snapshot.id == first.snapshot.id
     assert not git.reads and git.enumerations == 0
     with factory() as uow:
         assert not uow.memory.missing_embeddings(project.id, embeddings.model_id)
-    with Session(database) as session:
-        other_model = session.get(MemoryRow, protected[102])
-        invalidated = session.get(MemoryRow, protected[103])
-        other_dimensions = session.get(MemoryRow, protected[104])
-        assert other_model is not None and other_model.embedding is None
-        assert invalidated is not None and invalidated.embedding is None
-        assert other_dimensions is not None and other_dimensions.embedding is not None
-        assert len(other_dimensions.embedding) == 2
+    cached = _embeddings(git_repo)
+    assert str(protected[102]) not in cached
+    assert str(protected[103]) not in cached
+    other_dimensions = cached[str(protected[104])]["vector"]
+    assert isinstance(other_dimensions, list) and len(other_dimensions) == 2
     matches = memory.search(project, "unrelated semantic vocabulary")
     assert matches and all(match.score > 0.99 for match in matches)
     assert protected[104] not in {match.item.id for match in matches}
@@ -287,7 +287,7 @@ def test_recovered_embeddings_backfill_stored_content_without_git_reads(
 
 
 def test_embedding_backfill_validates_provider_dimensions_before_persisting(
-    database: Engine, git_repo: Path
+    git_repo: Path,
 ) -> None:
     class InvalidRecovery:
         model_id = "invalid-recovery"
@@ -299,9 +299,7 @@ def test_embedding_backfill_validates_provider_dimensions_before_persisting(
                 raise EmbeddingUnavailableError("unavailable")
             return (1.0, 0.0)
 
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
+    factory = filesystem_uow_factory(git_repo)
     git, embeddings = ObservedGit(), InvalidRecovery()
     project = ProjectService(factory, git).initialize(git_repo)
     memory = MemoryService(factory, git, embeddings=embeddings)
@@ -310,8 +308,6 @@ def test_embedding_backfill_validates_provider_dimensions_before_persisting(
     git.reads.clear()
     with pytest.raises(InputError, match="invalid vector"):
         memory.refresh(project)
-    with Session(database) as session:
-        rows = session.scalars(select(MemoryRow).where(MemoryRow.project_id == project.id)).all()
-        assert rows and all(row.embedding is None for row in rows)
+    assert not _embeddings(git_repo)
     assert memory.health(project).indexed_commit == first.snapshot.indexed_commit_sha
     assert not git.reads

@@ -1,16 +1,20 @@
 # ADR 0001: Durable runtime implementation choices
 
-Status: accepted implementation interpretation of the canonical v1.2 design.
+Status: accepted for workflow/runtime semantics; persistence decision superseded by ADR 0003.
 Date: 2026-09-10.
 
 The signed-off architecture remains authoritative. These decisions fill implementation
-details without changing its workflow, provider boundary or acceptance contract.
+details without changing its workflow, provider boundary or acceptance contract. As of
+2026-09-16, ADR 0003 replaces the PostgreSQL authority and locking details below with the
+repository-local filesystem store. They are retained here as historical context.
 
-- PostgreSQL stores canonical Run, GoalVersion, Task, TaskExecution, ActorSession,
-  PhaseExecution, Event, Evidence, Finding and Artifact records. Actors include the
-  Orchestrator. ProviderExecution and ToolInvocation hold invocation details.
-- Run writers serialize short transactions with a row lock. Execution drivers additionally
-  hold a PostgreSQL advisory lease. Provider/tool work runs outside state transactions.
+- **Superseded persistence choice:** PostgreSQL formerly stored canonical Run, GoalVersion,
+  Task, TaskExecution, ActorSession, PhaseExecution, Event, Evidence, Finding and Artifact
+  records. Current authority is the owning repository's `.orqalis/` Task Capsules and
+  filesystem stores.
+- **Superseded concurrency mechanism:** row locks and PostgreSQL advisory leases formerly
+  serialized writers. Current mutable structured files use atomic replacement and
+  project/task filesystem locks; provider/tool work still runs outside short state writes.
 - Task.plan_version records the introduction version. Zero identifies preparatory
   Requirements work before a goal exists. Such tasks use the same actor/attempt/event
   models and join the first implementation DAG after the goal is accepted.
@@ -24,8 +28,9 @@ details without changing its workflow, provider boundary or acceptance contract.
 - Cancellation propagates to providers and owned command threads. The execution lease
   remains held until cleanup reaches a checkpoint. Windows commands are started suspended,
   placed in an owned kill-on-close job and resumed; POSIX commands use an owned session.
-  Docker remains the isolation boundary; trusted_local is an explicit development fallback.
-- Reviewer commands require a read-only Docker workspace. The independent deterministic
+  Docker is an optional isolation boundary; trusted_local is an explicit development
+  fallback. Neither is required for persistence.
+- Reviewer commands may use a read-only Docker workspace when configured. The independent deterministic
   Change Guardian checks actual scope and hashes before and after documentation.
 - Git delivery persists the author identity, tree, message and timestamp before creating
   a commit object. A compare-and-swap update attaches only that commit to the run branch.
@@ -37,6 +42,10 @@ details without changing its workflow, provider boundary or acceptance contract.
   semantic retrieval; absence of embeddings never substitutes an invented relevance score.
 - OpenTelemetry exports operation metadata only. Persisted events supply UI statistics.
   Console telemetry is opt-in and writes to stderr, preserving MCP stdout framing.
+
+Current persisted events are structured JSONL inside Task Capsules plus authoritative
+snapshots. SQLAlchemy sessions, database transaction types and pgvector do not enter domain
+contracts or the shipped implementation; historical SQL adapters have been removed.
 
 No remote UI mode is enabled. Future remote hosting must add authentication and
 authorization rather than relax the loopback policy.

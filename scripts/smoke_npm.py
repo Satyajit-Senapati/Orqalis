@@ -15,8 +15,8 @@ def smoke(prefix: Path, runtime: Path | None) -> None:
     executable = prefix / ("orqalis.cmd" if os.name == "nt" else "bin/orqalis")
     assert executable.is_file(), "Global npm executable is missing"
     manifest = json.loads((package / "package.json").read_text(encoding="utf-8"))
-    # npm users must have database setup and usage assets without a checkout.
-    for name in ("compose.yaml", "README.md", "docs/MCP.md", "docs/adr/0002-npm-distribution.md"):
+    # npm users must have usage and integration assets without a checkout.
+    for name in ("README.md", "docs/MCP.md", "docs/adr/0002-npm-distribution.md"):
         assert (package / name).is_file(), f"Missing installed support file: {name}"
     assert not (package / "docs/PACKAGE_README.md").exists(), "Obsolete installer guide shipped"
     assert not (package / "GUIDE.md").exists(), "Separate usage guide shipped"

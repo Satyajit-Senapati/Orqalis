@@ -13,8 +13,10 @@ import uvicorn
 
 from orqalis import __version__
 from orqalis.api.app import create_app, frontend_directory
+from orqalis.api.scope import project_scope_id
 from orqalis.config.settings import Settings
 from orqalis.domain.errors import ConflictError, PolicyDeniedError
+from orqalis.persistence.filesystem import resolve_project_root
 
 _LOCAL_HOSTS = {"127.0.0.1", "localhost", "::1"}
 _STARTUP_TIMEOUT = 15.0
@@ -70,7 +72,14 @@ def _port_open(settings: Settings) -> bool:
         return False
 
 
-def _healthy(client: httpx.Client, url: str, settings: Settings, *, starting: bool = False) -> bool:
+def _healthy(
+    client: httpx.Client,
+    url: str,
+    settings: Settings,
+    expected_scope: str,
+    *,
+    starting: bool = False,
+) -> bool:
     try:
         response = client.get(f"{url}/health")
     except httpx.TransportError as exc:
@@ -91,6 +100,10 @@ def _healthy(client: httpx.Client, url: str, settings: Settings, *, starting: bo
         raise ConflictError(
             "A different Orqalis version owns the UI port; stop it before starting this version"
         )
+    if payload.get("project_scope") != expected_scope:
+        raise ConflictError(
+            "A different Orqalis project owns the UI port; stop it or choose another port"
+        )
     return True
 
 
@@ -102,6 +115,9 @@ def ui_session(settings: Settings, open_path: str | None = None) -> Iterator[UIS
     The owned listener is stopped even when browser opening or the caller fails.
     """
     url = local_url(settings)
+    root = resolve_project_root(settings.project_root)
+    expected_scope = project_scope_id(root)
+    assert expected_scope is not None
     if frontend_directory() is None:
         raise ConflictError(
             "Frontend assets are missing; reinstall Orqalis or rebuild the contributor UI"
@@ -110,12 +126,12 @@ def ui_session(settings: Settings, open_path: str | None = None) -> Iterator[UIS
     session: UISession | None = None
     try:
         with httpx.Client(timeout=1, trust_env=False) as client:
-            if _healthy(client, url, settings):
+            if _healthy(client, url, settings, expected_scope):
                 session = UISession(url=url, owned=False)
             else:
                 server = uvicorn.Server(
                     uvicorn.Config(
-                        create_app(),
+                        create_app(root=root),
                         host=settings.host,
                         port=settings.port,
                         log_level=settings.log_level.lower(),
@@ -136,7 +152,10 @@ def ui_session(settings: Settings, open_path: str | None = None) -> Iterator[UIS
                 )
                 deadline = time.monotonic() + _STARTUP_TIMEOUT
                 while time.monotonic() < deadline:
-                    if _healthy(client, url, settings, starting=True) and server.started:
+                    if (
+                        _healthy(client, url, settings, expected_scope, starting=True)
+                        and server.started
+                    ):
                         break
                     if not thread.is_alive():
                         if failure:

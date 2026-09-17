@@ -4,7 +4,6 @@ from pathlib import Path
 from uuid import uuid4, uuid5
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.agents.routing import CapabilityRouter
 from orqalis.agents.service import AgentExecutionService
@@ -23,27 +22,20 @@ from orqalis.domain.provider import (
 )
 from orqalis.domain.run import RunState
 from orqalis.domain.task import Task, TaskStatus
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.errors import ProviderError
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
 from orqalis.skills.registry import SkillRegistry
 from tests.unit.test_providers import SCHEMA
 
-pytestmark = pytest.mark.postgres
-
 
 def test_provider_durable_outcomes_idempotency_failure_and_cancellation(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    sdk = Orqalis(unit_of_work=factory)
+    sdk = Orqalis(root=git_repo)
+    factory = sdk.unit_of_work
     project = sdk.initialize(git_repo)
     draft = GoalDraft(
         goal="Inspect fixture",

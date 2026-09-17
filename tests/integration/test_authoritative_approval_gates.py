@@ -2,7 +2,6 @@ from pathlib import Path
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.core.delivery_plan import delivery_plan
 from orqalis.core.vertical_plan import VerticalPlanner
@@ -10,17 +9,11 @@ from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalD
 from orqalis.domain.approval import ApprovalDecisionKind, ApprovalStage, ControlMode
 from orqalis.domain.errors import PolicyDeniedError
 from orqalis.domain.run import RunState
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.sdk import Orqalis
 
-pytestmark = pytest.mark.postgres
 
-
-def test_direct_orchestrator_calls_cannot_skip_goal_or_plan_approval(
-    database: Engine, git_repo: Path
-) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+def test_direct_orchestrator_calls_cannot_skip_goal_or_plan_approval(git_repo: Path) -> None:
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
     goal = GoalDraft(
         goal="Check fixture",

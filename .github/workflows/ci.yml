@@ -3,20 +3,6 @@ on: [push, pull_request]
 jobs:
   backend:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: pgvector/pgvector:pg17
-        env:
-          POSTGRES_USER: orqalis
-          POSTGRES_PASSWORD: orqalis
-          POSTGRES_DB: orqalis_test
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U orqalis -d orqalis_test"
-          --health-interval 2s --health-timeout 3s --health-retries 30
-    env:
-      ORQALIS_TEST_SANDBOX_IMAGE: pgvector/pgvector:pg17
-      ORQALIS_TEST_DATABASE_URL: postgresql+psycopg://orqalis:orqalis@127.0.0.1:5432/orqalis_test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,6 +16,14 @@ jobs:
       - run: npm run build --prefix web
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --frozen
+      - name: Verify the install has no database runtime
+        run: >-
+          uv run python -c
+          "import importlib.util as i;
+          assert i.find_spec('sqlalchemy') is None;
+          assert i.find_spec('alembic') is None;
+          assert i.find_spec('pgvector') is None;
+          assert i.find_spec('psycopg') is None"
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run mypy
@@ -38,17 +32,15 @@ jobs:
         working-directory: web
         run: npx playwright install --with-deps chromium
       - name: Seed persisted browser runs
-        env:
-          ORQALIS_DATABASE_URL: postgresql+psycopg://orqalis:orqalis@127.0.0.1:5432/orqalis_test
         run: |
           uv run python -m tests.e2e.seed_runtime
           uv run python -m tests.e2e.seed_execution
-          uv run python -c 'import json, os; from pathlib import Path; records = [("ORQALIS_E2E_RUN_ID", ".tools/ui-fixture.json"), ("ORQALIS_E2E_COMPLETED_RUN_ID", ".tools/ui-completed.json")]; Path(os.environ["GITHUB_ENV"]).open("a").writelines(name + "=" + json.loads(Path(path).read_text())["run_id"] + chr(10) for name, path in records)'
+          uv run python -c 'import json, os; from pathlib import Path; live = json.loads(Path(".tools/ui-fixture.json").read_text()); complete = json.loads(Path(".tools/ui-completed.json").read_text()); values = {"ORQALIS_E2E_RUN_ID": live["run_id"], "ORQALIS_E2E_COMPLETED_RUN_ID": complete["run_id"], "ORQALIS_E2E_PROJECT_ROOT": live["repo"]}; Path(os.environ["GITHUB_ENV"]).open("a").writelines(name + "=" + value + chr(10) for name, value in values.items())'
       - name: Browser contracts
         working-directory: web
         env:
           ORQALIS_BROWSER_CHANNEL: chromium
-          ORQALIS_DATABASE_URL: postgresql+psycopg://orqalis:orqalis@127.0.0.1:5432/orqalis_test
+          ORQALIS_PROJECT_ROOT: ${{ env.ORQALIS_E2E_PROJECT_ROOT }}
         run: |
           ../.venv/bin/python -I -m orqalis ui > ../.tools/ci-ui.log 2>&1 &
           ui_pid=$!

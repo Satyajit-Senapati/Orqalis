@@ -1,8 +1,5 @@
 from pathlib import Path
 
-import pytest
-from sqlalchemy import Engine
-
 from orqalis.core.approval_subjects import goal_subject
 from orqalis.core.approvals import ApprovalService
 from orqalis.core.goals import GoalService
@@ -13,17 +10,13 @@ from orqalis.domain.agent import ActorStatus, ActorType
 from orqalis.domain.approval import ApprovalDecisionKind, ApprovalStage, ApprovalStatus, ControlMode
 from orqalis.domain.run import RunState
 from orqalis.git.service import LocalGitService
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
 def test_operator_checkpoint_persists_orchestrator_status_and_resumes_on_transition(
-    database: Engine, git_repo: Path
+    git_repo: Path,
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     git = LocalGitService()
     project = ProjectService(factory, git).initialize(git_repo)

@@ -1,236 +1,117 @@
 # Developer setup
 
-Orqalis requires Git, Python 3.12+, PostgreSQL with pgvector, and Docker for isolated
-commands. Node 24 is needed to build the React Control Center. End users install through
-npm as described in [README.md](../README.md); this source setup is for contributors and SDK
-development. The internal Python wheel is bundled into npm with UI, migrations and skills.
+Orqalis standard development requires Git, Python 3.12+, `uv`, Node.js 22+ and npm. It
+does not require PostgreSQL, pgvector, Docker or `DATABASE_URL`.
 
-## Contributor environment
+## Install
 
-~~~sh
+```bash
+uv sync --group dev
 npm ci --prefix web
-npm run build --prefix web
-uv sync --frozen
-docker compose up -d --wait
-uv run orqalis migrate
+npm ci --prefix packages/npm
+```
+
+Initialize a disposable fixture repository or this checkout:
+
+```bash
+uv run orqalis init
+uv run orqalis status
 uv run orqalis doctor
-uv run orqalis ui --open
-~~~
+```
 
-The UI stays in this terminal until Ctrl+C. Run contributor commands in another
-terminal; installation does not register a Windows service.
+The active root owns `.orqalis/`. Use `--root` where supported or set
+`ORQALIS_PROJECT_ROOT` when a process cannot inherit the intended working directory. Never
+point two unrelated fixtures at the same store.
 
-On Windows, use npm.cmd if PowerShell blocks npm.ps1. This checkout also contains an
-ignored local uv/Python installation under .tools and .venv/Scripts. Normal installations
-can use uv on PATH. See [OPERATIONS.md](OPERATIONS.md) for task execution and recovery.
-
-Compose binds PostgreSQL to loopback. Its development credentials are orqalis/orqalis.
-Override ORQALIS_POSTGRES_PASSWORD and ORQALIS_DATABASE_URL together if changing them.
-The database URL uses postgresql+psycopg://user:password@host:port/database.
-Settings read ORQALIS_ environment variables; repository .env files are not loaded.
-
-## Configure a provider and permissions
-
-Set ORQALIS_OPENAI_MODEL and ORQALIS_OPENAI_API_KEY for OpenAI, or
-ORQALIS_ANTHROPIC_MODEL and ORQALIS_ANTHROPIC_API_KEY for Anthropic. Models are explicit;
-Orqalis does not assume current model names or prices. No credentials are required for
-the local UI, structured memory, supplied contracts, or deterministic test providers.
-
-Execution requires an explicit [execution policy](examples/execution-policy.json):
-allowed write paths, exact command argv, timeout and an already-built sandbox image.
-Include the documentation destination in allowed write paths when using repository docs.
-The [delivery policy](examples/delivery-policy.json) controls documentation, sensitive
-configuration approvals and optional push. ProjectSettings.allow_push must also be true;
-SDK initialization accepts ProjectSettings. The default project prohibits push.
-
-Docker uses a read-only root, no network, dropped capabilities and CPU/memory/process
-limits. Build a project-specific image with its test dependencies in advance. Images are
-never pulled automatically. Reviewer commands also mount the workspace read-only.
-trusted_local is an explicit host-command fallback; it does not isolate executed code.
-
-Skills are discovered from packaged and explicitly configured ORQALIS_SKILL_ROOTS
-(JSON array of trusted directories). Metadata declares capabilities and permitted tools;
-instructions load on selection, with versions/content hashes pinned in invocation records.
-Project/role/skill/tool permissions intersect. Provider responses cannot expand them.
+Provider credentials are optional for storage and retrieval tests. When needed, configure
+them through environment variables, user-level configuration, keychain or the provider
+adapter. Do not put credentials in `.orqalis/` memory or fixtures.
 
 ## Quality checks
 
-~~~sh
+```bash
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
 uv run pytest
 npm run lint --prefix web
-npm test --prefix web
+npm run test --prefix web
 npm run build --prefix web
-uv build --wheel --out-dir .tools/release
-~~~
+npm run check --prefix packages/npm
+npm test --prefix packages/npm
+```
 
-Build the UI before the internal wheel. The wheel under .tools/release is consumed by
-[the npm packaging workflow](PUBLISHING.md), not published separately. The npm workflow
-owns artifact building and platform installation checks; Core CI focuses on runtime/UI
-regressions. No standalone executable, source archive or PyPI release is maintained.
+Use focused tests while developing, then run the full standard gates. Filesystem tests use
+temporary Git repositories and must cover root isolation, atomic writes, locks, restart,
+schema errors, cache/index deletion, dirty state, branch changes, rename/delete and secret
+rejection. Tests must not inspect or mutate the developer's real `.orqalis/` directory.
 
-For integration tests, create a disposable database:
+## Store and schema development
 
-~~~sh
-docker compose exec -T postgres createdb -U orqalis orqalis_test
-~~~
+The domain and application layers depend on storage-neutral protocols. Standard adapters
+live under `orqalis.persistence.filesystem`; graph, indexing, memory and context services
+are root-bound. Keep SQLAlchemy sessions, database IDs and PostgreSQL types out of domain
+models.
 
-Set ORQALIS_TEST_DATABASE_URL to
-postgresql+psycopg://orqalis:orqalis@127.0.0.1:5432/orqalis_test, and
-ORQALIS_TEST_SANDBOX_IMAGE to pgvector/pgvector:pg17 (already pulled by Compose).
-Run uv run pytest --cov=orqalis. On PowerShell use $env:VARIABLE='value'.
+Filesystem schema changes require:
 
-The suite downgrades/rebuilds the disposable database. Never use a database containing
-retained work, or run concurrent pytest processes against that database. Without configured
-services, the corresponding tests explicitly skip. CI provisions both and runs all tests.
+1. old-schema validation;
+2. backup of affected files;
+3. deterministic transformation;
+4. new-schema validation;
+5. atomic file replacement; and
+6. manifest version update last.
 
-Fixtures cover Python execution/repair, React source changes, Android/Gradle source
-changes, mixed repositories, independent scope rejection, safe local-remote push,
-cross-client MCP continuation, failure injection and incremental memory. React/Gradle
-fixtures validate source contracts; they do not claim a full platform SDK build.
-The 500-file performance fixture verifies zero source reads on unchanged HEAD and exactly
-one changed-source read for an incremental update.
+Add migration tests for success, interruption, malformed input and unsupported future
+versions. Index/cache format changes should prefer deletion and regeneration; never migrate
+derived content as if it were canonical.
 
-## Browser verification
+## Optional sandbox suite
 
-~~~sh
-# Optional. The default is a workspace-keyed directory under the OS temp directory.
-# Any override must resolve outside the Orqalis checkout.
-export ORQALIS_QA_FIXTURE_ROOT=/absolute/external/path/orqalis-dashboard-fixtures
+Docker is optional for the isolated-command sandbox integration test. It is not used as a
+storage prerequisite. The default suite collects this test and reports it as skipped when
+`ORQALIS_TEST_SANDBOX_IMAGE` is unset. Set that variable to an already-pulled image when
+validating the container boundary explicitly:
+
+```bash
+python -m pytest tests/integration/test_sandbox.py
+```
+
+The current source has no SQL compatibility suite or database exporter. Use historical
+tags only when inspecting legacy schemas; do not reintroduce database imports into the
+normal runtime.
+
+## Control Center development
+
+FastAPI is the only browser gateway to project state. The web application must not read
+`.orqalis` directly. Exercise initial snapshot loading, persisted-event replay, live
+WebSocket subscription, reconnection and historical Task Capsule rendering.
+
+Screenshots and other visual evidence belong in the documented evidence location, not in
+curated memory. Keep generated web assets and parser/index caches out of canonical data.
+
+To regenerate the documented dashboard screenshots, create the active, completed and repair
+fixtures against the same disposable repository, then run the UI bound to the repository
+recorded in `.tools/ui-fixture.json`:
+
+```bash
 uv run python -m tests.e2e.seed_runtime
 uv run python -m tests.e2e.seed_execution
-uv run orqalis ui
-~~~
+ORQALIS_QA_REPAIR=1 uv run python -m tests.e2e.seed_execution
+# In another terminal, set ORQALIS_PROJECT_ROOT to the `repo` value in
+# .tools/ui-fixture.json and run: uv run orqalis ui
+npm run capture:docs --prefix web
+```
 
-Set ORQALIS_E2E_RUN_ID from .tools/ui-fixture.json and ORQALIS_E2E_COMPLETED_RUN_ID
-from .tools/ui-completed.json before npm run test:e2e. The wrapper is a strict preflight:
-it rejects missing or malformed run IDs and checks that both persisted runs are reachable
-from the configured Orqalis API before Playwright starts. A normal verification run must
-therefore execute every browser test rather than succeeding through fixture skips.
-ORQALIS_UI_URL selects another loopback URL. The default browser is installed Chrome;
-set ORQALIS_BROWSER_CHANNEL=chromium and install Playwright Chromium for CI.
-See [Playwright CI guidance](https://playwright.dev/docs/ci).
+The capture command stages and validates all nine images before atomically replacing
+`docs/assets/`; a failed capture leaves the prior image set intact.
 
-~~~sh
-npm run test:e2e --prefix web
-~~~
+## Pull-request checklist
 
-The fixtures create disposable Git repositories outside the workspace so VS Code and
-repository-wide Git discovery do not treat them as Orqalis branches or changes. By
-default they live below the OS temporary directory; ORQALIS_QA_FIXTURE_ROOT selects
-another external root and rejects the checkout or any descendant. Only small ignored
-run-ID pointer files remain under .tools. Browser checks inspect project navigation,
-short-height sidebar scrolling, mobile drawer focus, partial API failure, actors, DAG,
-timeline, evidence, Project Brain, delivery diff, metrics, dark-theme enforcement,
-responsive layout and reload/reconnection. The UI obtains all statistics from Core.
-
-## Architecture and migrations
-
-Domain contracts do not import interfaces, persistence or provider SDKs. Application
-services own transactions; repository adapters flush without committing. The SDK is the
-composition root shared by CLI, REST/WebSocket and project-scoped stdio MCP.
-
-Use uv run alembic revision --autogenerate -m "description" for a schema change.
-Inspect the revision and test clean upgrade/downgrade/re-upgrade before delivery. Historical
-migrations contain their schema explicitly and never import live create_all models.
-The append-only event stream and canonical workflow tables share transaction boundaries.
-
-Project Memory indexes committed sources and stores provenance, confidence, freshness,
-supersession and originating runs. Unchanged HEAD skips broad inspection. Changed files
-are refreshed selectively. Dirty files become inspection targets, not committed facts.
-The graph currently connects files and directories; richer inferred semantic edges are
-future work. Optional EmbeddingProvider adapters enable model-scoped pgvector retrieval;
-structured search remains usable without one.
-
-Goal versions are immutable. Criteria require executable or verifiable source evidence.
-Manual criteria are never automatically passed. Final delivery rechecks the complete
-accepted tree after documentation. An independent deterministic Change Guardian evaluates
-scope, secrets, sensitive configuration, test reduction and final-tree integrity.
-
-OpenTelemetry records operation names, outcome and duration without prompts, commands,
-returned content or exception text. ORQALIS_TELEMETRY_CONSOLE=true enables stderr export.
-Applications may configure standard OpenTelemetry exporters instead. Runtime events include
-trace IDs when available. Logs exclude private reasoning and redact credential patterns.
-
-See [ADR 0001](adr/0001-runtime-implementation.md),
-[implementation status](IMPLEMENTATION_STATUS.md), and [MCP setup](MCP.md).
-
-## Provider interoperability
-
-OpenAI uses the Responses API and Anthropic uses Messages. Both use the same typed
-task/skill/tool/acceptance contract and validate original JSON schemas locally.
-Provider output limits, timeouts, refusals, errors and usage are normalized. Private
-thinking/signature blocks are discarded. Costs remain unknown without a configured source.
-
-The Anthropic adapter adapts unsupported grammar constraints for transport while retaining
-the unchanged local schema. See the [Messages API](https://platform.claude.com/docs/en/api/messages/create)
-and [structured output contract](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).
-
-ExternalCLIProvider defines a bounded host-owned CLITransport contract. An arbitrary CLI
-launcher is not enabled. Native Codex, Claude Code and Copilot use the tested MCP boundary.
-No remote HTTP/MCP mode is enabled; authentication is required before adding one.
-
-## Dashboard enhancement and media
-
-See [DASHBOARD.md](DASHBOARD.md) for navigation, visual design, operator controls,
-attribution boundaries and display limits. The existing orchestrator and CLI remain
-authoritative. The visual refresh required no migration; the later operator controls
-require migration 6b93c20e21af before use.
-
-Create real persisted screenshots using deterministic providers:
-
-~~~sh
-uv run python -m tests.e2e.seed_runtime
-uv run python -m tests.e2e.seed_execution
-~~~
-
-Then run the execution fixture once with ORQALIS_QA_REPAIR=1 to create a failed-review
-and successful-repair history (on PowerShell: $env:ORQALIS_QA_REPAIR='1').
-Clear that environment variable after the repair fixture.
-
-~~~sh
-uv run orqalis ui
-node web/scripts/capture-dashboard.mjs
-~~~
-
-The capture script reads .tools/ui-fixture.json, .tools/ui-completed.json and
-.tools/ui-repair.json, and writes nine optimized JPEGs to docs/assets, including the project workspace overview.
-ORQALIS_UI_URL can target a different loopback instance. Installed Chrome is the default;
-ORQALIS_BROWSER_CHANNEL=chromium selects Playwright Chromium. These are test-provider
-runs through real Core services, not mock production data.
-
-To exercise supervised browser approvals, start the local UI with
-ORQALIS_OPERATOR_TOKEN set to a dedicated disposable test value and set
-ORQALIS_E2E_OPERATOR_TOKEN to the same value for Playwright. Without that test
-token, the governance spec skips while the other browser checks still run.
-Never use a production operator token for screenshots or test artifacts.
-
-Reseed immediately before a documentation capture so an active run does not display an
-old elapsed time. The capture verifies the Pitch-dark design tokens, shell, summary,
-phase strip and panels; waits for web fonts and the authoritative snapshot; rejects
-same-origin HTTP/request failures, console errors and page errors; and requires all nine
-images at 1600 x 1180. It writes into a staging directory, validates the complete set,
-then atomically replaces docs/assets. Any failure removes staging and leaves every
-published asset unchanged. Nonessential animation is disabled for the still image;
-motion behavior is covered separately with reduced-motion browser checks.
-
-Review all nine outputs for legible text, real task/actor/evidence values and consistent
-semantic colors before committing them. The supplied visual reference is direction only;
-do not copy third-party logos, template assets or branding into Orqalis.
-
-Frontend checks now include bounded reconnect buffers, event filters, task relationships,
-retry counts, graph/inspector behavior, focus restoration, four viewport widths, reduced
-motion, empty/error states and a forced socket disconnect. Activity filters use explicit
-accessible names. The original browser contracts continue to run.
-
-For the visual refresh, retain assertions that status is also communicated by text or
-icons, the dark theme remains fixed across refresh, narrow layouts do not overflow, active-state
-motion stops under prefers-reduced-motion, and screenshots are reconstructed from
-persisted API/event data.
-
-For formatting the new UI files, the repository's npm tooling provides Prettier after
-npm ci --prefix packages/npm. Runtime source remains TypeScript; release scripts remain
-strictly typed Python. Keep the source files and screenshot capture script together when
-updating product documentation.
+- Behavior is covered at the service boundary and through the relevant interface.
+- Project-relative paths and explicit root checks prevent cross-project access.
+- Structured writes are atomic and secret-safe.
+- Canonical versus derived ownership is unambiguous.
+- New CLI/MCP/API surfaces are documented only after they exist.
+- Shipped npm documentation is regenerated or patched with the canonical source.
+- Standard checks pass without database or Docker services.

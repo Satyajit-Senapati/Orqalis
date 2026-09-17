@@ -4,7 +4,6 @@ from pathlib import Path
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.domain.acceptance import (
     CommandValidation,
@@ -28,24 +27,19 @@ from orqalis.domain.provider import (
     ProviderToolCall,
 )
 from orqalis.domain.run import RunState
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
 @pytest.mark.parametrize(("converges", "limit"), [(True, 1), (False, 1), (False, 0)])
 def test_targeted_repair_preserves_history_and_stops_at_limit(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
     converges: bool,
     limit: int,
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     sdk = Orqalis(unit_of_work=factory)
     project = sdk.initialize(git_repo, ProjectSettings(max_repair_iterations=limit))

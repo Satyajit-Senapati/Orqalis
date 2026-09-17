@@ -50,7 +50,7 @@ def skills(json_output: bool = typer.Option(False, "--json")) -> None:
 
 @config_app.command("show")
 def show_config(json_output: bool = typer.Option(False, "--json")) -> None:
-    """Show local options and credential presence; never reveal credentials or the database URL."""
+    """Show local options and credential presence without revealing secret values."""
     settings = Settings()
     # Explicit allowlist: future secret settings must never become visible implicitly.
     values: dict[str, object] = {
@@ -59,8 +59,10 @@ def show_config(json_output: bool = typer.Option(False, "--json")) -> None:
         "log_level": settings.log_level,
         "telemetry_console": settings.telemetry_console,
         "max_repair_iterations": settings.max_repair_iterations,
+        "project_root": safe_diagnostic(str(settings.project_root))
+        if settings.project_root
+        else None,
         "skill_roots": [safe_diagnostic(str(path)) for path in settings.skill_roots],
-        "database_url_configured": bool(settings.database_url.get_secret_value()),
         "openai_model": safe_diagnostic(settings.openai_model) if settings.openai_model else None,
         "openai_api_key_configured": bool(settings.openai_api_key),
         "anthropic_model": safe_diagnostic(settings.anthropic_model)

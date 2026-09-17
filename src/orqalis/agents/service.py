@@ -15,7 +15,7 @@ from orqalis.domain.agent import AgentRole
 from orqalis.domain.base import utc_now
 from orqalis.domain.errors import ConflictError, NotFoundError, PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
-from orqalis.domain.memory import ContextPack
+from orqalis.domain.memory import ContextPack, MemoryType
 from orqalis.domain.provider import (
     ExecutionBudget,
     InvocationStatus,
@@ -54,17 +54,42 @@ def _fingerprint(request: ProviderExecutionRequest, provider: str, model: str) -
             "attempt_count",
         },
     )
-    # Worktree dirty paths evolve as this attempt writes files. They are inspection
-    # hints, not a new invocation contract; committed facts and permissions remain bound.
+    # Worktree-derived repository-map entries evolve as this attempt writes files.
+    # They are inspection hints, not a new logical invocation contract. Keep durable
+    # memory/history content bound while removing projection timestamps and freshness
+    # fields that are expected to change when an interrupted worker is resumed.
     context = request.context.model_dump(
         mode="json",
         exclude={
+            "items": True,
+            "relevant_files": True,
             "freshness": {"dirty_paths", "fresh"},
             "confidence": True,
             "targeted_inspection_paths": True,
             "requires_inspection": True,
+            "size_chars": True,
         },
     )
+    freshness = context.get("freshness")
+    if isinstance(freshness, dict):
+        freshness.pop("active_items", None)
+    durable_items = []
+    for match in request.context.items:
+        if match.item.type == MemoryType.REPOSITORY_MAP:
+            continue
+        value = match.model_dump(mode="json")
+        item = value.get("item")
+        if isinstance(item, dict):
+            item.pop("created_at", None)
+            item.pop("last_verified_at", None)
+            item.pop("status", None)
+        sources = value.get("sources")
+        if isinstance(sources, list):
+            for source in sources:
+                if isinstance(source, dict):
+                    source.pop("created_at", None)
+        durable_items.append(value)
+    context["durable_items"] = durable_items
     data.update(task=task, context=context, provider=provider, model=model)
     return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
 

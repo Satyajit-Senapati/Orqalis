@@ -1,11 +1,10 @@
-"""Database-backed regression coverage for supervised delivery and repair gates."""
+"""Filesystem-backed regression coverage for supervised delivery and repair gates."""
 
 import asyncio
 from pathlib import Path
 from uuid import UUID, uuid4
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
 from orqalis.domain.agent import AgentRole
@@ -26,12 +25,8 @@ from orqalis.domain.provider import (
     ProviderToolCall,
 )
 from orqalis.domain.run import RunState
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
 
 
 def _approve_latest(sdk: Orqalis, run_id: UUID, stage: ApprovalStage) -> None:
@@ -47,13 +42,9 @@ def _approve_latest(sdk: Orqalis, run_id: UUID, stage: ApprovalStage) -> None:
     )
 
 
-def _reviewed_run(
-    database: Engine, git_repo: Path, tmp_path: Path, *, reviewer_passes: bool
-) -> tuple[Orqalis, UUID]:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    sdk = Orqalis(unit_of_work=factory)
+def _reviewed_run(git_repo: Path, tmp_path: Path, *, reviewer_passes: bool) -> tuple[Orqalis, UUID]:
+    sdk = Orqalis(root=git_repo)
+    factory = sdk.unit_of_work
     project = sdk.initialize(git_repo)
     goal = GoalDraft(
         goal="Set answer to 43",
@@ -143,9 +134,9 @@ def _reviewed_run(
 
 
 def test_delivery_requires_exact_approved_policy_before_finalization(
-    database: Engine, git_repo: Path, tmp_path: Path
+    git_repo: Path, tmp_path: Path
 ) -> None:
-    sdk, run_id = _reviewed_run(database, git_repo, tmp_path, reviewer_passes=True)
+    sdk, run_id = _reviewed_run(git_repo, tmp_path, reviewer_passes=True)
     policy = DeliveryPolicy(author_name="Orqalis Test", author_email="test@orqalis.invalid")
     with pytest.raises(PolicyDeniedError, match="Delivery approval required"):
         asyncio.run(sdk.delivery.finalize(run_id, policy))
@@ -186,9 +177,9 @@ def test_delivery_requires_exact_approved_policy_before_finalization(
 
 
 def test_failed_review_requires_repair_then_new_plan_approval(
-    database: Engine, git_repo: Path, tmp_path: Path
+    git_repo: Path, tmp_path: Path
 ) -> None:
-    sdk, run_id = _reviewed_run(database, git_repo, tmp_path, reviewer_passes=False)
+    sdk, run_id = _reviewed_run(git_repo, tmp_path, reviewer_passes=False)
     request = sdk.approvals.list(run_id)[-1]
     assert request.stage == ApprovalStage.REPAIR
     assert request.status == ApprovalStatus.PENDING

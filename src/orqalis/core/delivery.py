@@ -24,7 +24,6 @@ from orqalis.domain.task import TaskExecution, TaskStatus
 from orqalis.execution.cancellation import watch_cancellation
 from orqalis.git.service import LocalGitService
 from orqalis.memory.curation import MemoryCurator
-from orqalis.memory.service import MemoryService
 from orqalis.observability.instrumentation import observed_async
 
 
@@ -45,7 +44,7 @@ class DeliveryCoordinator:
         self.documentation = DocumentationService(factory)
         self.validation = FinalValidationService(factory, goals, git)
         self.commits = CommitService(factory, git)
-        self.curator = MemoryCurator(factory, MemoryService(factory, git), git)
+        self.curator = MemoryCurator(factory, git)
 
     @observed_async("delivery.finalize")
     async def finalize(self, run_id: UUID, policy: DeliveryPolicy) -> DeliveryResult:

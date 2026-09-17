@@ -2,7 +2,6 @@ import asyncio
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
 from orqalis.domain.agent import AgentRole
@@ -14,13 +13,9 @@ from orqalis.domain.provider import (
     ProviderExecutionResult,
     ProviderToolCall,
 )
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
 from tests.conftest import fixture_git
-
-pytestmark = pytest.mark.postgres
 
 STACKS = {
     "react": (
@@ -57,7 +52,6 @@ STACKS = {
 
 @pytest.mark.parametrize("stack", tuple(STACKS))
 def test_language_neutral_source_contract_to_accepted_commit(
-    database: Engine,
     tmp_path: Path,
     stack: str,
 ) -> None:
@@ -71,7 +65,7 @@ def test_language_neutral_source_contract_to_accepted_commit(
     fixture_git(repo, "init", "-b", "main")
     fixture_git(repo, "add", ".")
     fixture_git(repo, "commit", "-m", "test: seed stack fixture")
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(root=repo)
     project = sdk.initialize(repo)
     assert set(project.settings.repository_profile.languages) == languages
     draft = GoalDraft(

@@ -1,0 +1,88 @@
+"""Filesystem-backed project-store foundations."""
+
+from orqalis.persistence.filesystem.auxiliary_stores import (
+    AUXILIARY_SCHEMA_VERSION,
+    FilesystemDeliveryRepository,
+    FilesystemExecutionRepository,
+    FilesystemProviderRepository,
+)
+from orqalis.persistence.filesystem.io import (
+    FilesystemFormatError,
+    append_jsonl_atomic,
+    atomic_write_bytes,
+    atomic_write_json,
+    ensure_no_filesystem_links,
+    read_json,
+    read_json_object,
+    read_jsonl,
+    repair_jsonl_prefix,
+)
+from orqalis.persistence.filesystem.layout import (
+    CURRENT_SCHEMA_VERSION,
+    DEFAULT_STORE_GITIGNORE,
+    PROJECT_ROOT_ENV,
+    ManifestNotFoundError,
+    ManifestValidationError,
+    ProjectLayout,
+    ProjectRootError,
+    SchemaMigrationRequired,
+    UnsupportedSchemaError,
+    bootstrap_project_store,
+    ensure_current_schema,
+    load_manifest,
+    load_project_config,
+    migrate_manifest,
+    render_store_gitignore,
+    resolve_project_root,
+    update_graph_cursor,
+    validate_manifest,
+)
+from orqalis.persistence.filesystem.locking import FileLock, LockTimeoutError
+from orqalis.persistence.filesystem.memory_store import FilesystemMemoryRepository
+from orqalis.persistence.filesystem.task_store import (
+    TaskCapsuleSession,
+    TaskCapsuleStore,
+    TaskCapsuleUnitOfWork,
+)
+from orqalis.persistence.filesystem.unit_of_work import FilesystemProjectUnitOfWork
+
+__all__ = [
+    "AUXILIARY_SCHEMA_VERSION",
+    "CURRENT_SCHEMA_VERSION",
+    "DEFAULT_STORE_GITIGNORE",
+    "FileLock",
+    "FilesystemDeliveryRepository",
+    "FilesystemExecutionRepository",
+    "FilesystemFormatError",
+    "FilesystemMemoryRepository",
+    "FilesystemProjectUnitOfWork",
+    "FilesystemProviderRepository",
+    "LockTimeoutError",
+    "ManifestNotFoundError",
+    "ManifestValidationError",
+    "PROJECT_ROOT_ENV",
+    "ProjectLayout",
+    "ProjectRootError",
+    "SchemaMigrationRequired",
+    "TaskCapsuleSession",
+    "TaskCapsuleStore",
+    "TaskCapsuleUnitOfWork",
+    "UnsupportedSchemaError",
+    "append_jsonl_atomic",
+    "atomic_write_bytes",
+    "atomic_write_json",
+    "bootstrap_project_store",
+    "ensure_current_schema",
+    "ensure_no_filesystem_links",
+    "load_project_config",
+    "load_manifest",
+    "migrate_manifest",
+    "read_json",
+    "read_json_object",
+    "read_jsonl",
+    "repair_jsonl_prefix",
+    "render_store_gitignore",
+    "resolve_project_root",
+    "update_graph_cursor",
+    "validate_manifest",
+]

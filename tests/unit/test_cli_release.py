@@ -13,6 +13,7 @@ from typer.testing import CliRunner
 
 from orqalis import __version__
 from orqalis.cli.app import app
+from orqalis.config.settings import Settings
 from orqalis.domain.agent import AgentRole
 
 
@@ -161,16 +162,14 @@ def test_run_open_keeps_ui_during_goal_and_closes_owned_session(
     project = SimpleNamespace(id=uuid4())
     projects = SimpleNamespace(status=lambda repo: (project, object()), unit_of_work=object())
 
-    @contextmanager
-    def project_service() -> Iterator[SimpleNamespace]:
-        try:
-            yield projects
-        finally:
-            events.append("project_close")
+    foreign_root = tmp_path / "foreign-project"
+    foreign_root.mkdir()
+    monkeypatch.setenv("ORQALIS_PROJECT_ROOT", str(foreign_root))
 
     @contextmanager
-    def session(settings: object, open_path: str | None = None) -> Iterator[SimpleNamespace]:
+    def session(settings: Settings, open_path: str | None = None) -> Iterator[SimpleNamespace]:
         assert open_path == f"/runs/{run_id}"
+        assert settings.project_root == tmp_path.resolve()
         events.append("ui_enter")
         try:
             yield SimpleNamespace(
@@ -181,16 +180,23 @@ def test_run_open_keeps_ui_during_goal_and_closes_owned_session(
             events.append("ui_close")
 
     class FakeOrqalis:
-        def __init__(self, unit_of_work: object) -> None:
-            pass
+        def __init__(self) -> None:
+            self.projects = projects
 
         def prepare_run(self, *args: object) -> SimpleNamespace:
             events.append("goal_prepared")
             return SimpleNamespace(run=SimpleNamespace(id=run_id, state="GOAL_DEFINED"))
 
-    monkeypatch.setattr(cli, "project_service", project_service)
+    @contextmanager
+    def sdk_service(root: Path | None = None) -> Iterator[FakeOrqalis]:
+        assert root == tmp_path
+        try:
+            yield FakeOrqalis()
+        finally:
+            events.append("project_close")
+
+    monkeypatch.setattr(cli, "sdk_service", sdk_service)
     monkeypatch.setattr(cli, "ui_session", session)
-    monkeypatch.setattr(cli, "Orqalis", FakeOrqalis)
     contract = Path(__file__).parents[2] / "docs/examples/goal.json"
     result = CliRunner().invoke(
         app,

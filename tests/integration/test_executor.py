@@ -5,7 +5,6 @@ from uuid import UUID, uuid4
 
 import pytest
 from pydantic import JsonValue
-from sqlalchemy import Engine
 
 from orqalis.domain.acceptance import (
     CommandValidation,
@@ -34,26 +33,23 @@ from orqalis.domain.provider import (
     ProviderToolCall,
 )
 from orqalis.domain.run import RunState
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
+from orqalis.memory.curated import CuratedMemoryStore
+from orqalis.persistence.filesystem import ProjectLayout, TaskCapsuleStore
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
 from tests.conftest import fixture_git
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
 @pytest.mark.parametrize("forged_review,push", [(False, False), (False, True), (True, False)])
 def test_isolated_developer_test_review_vertical_slice_and_resume(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     forged_review: bool,
     push: bool,
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     sdk = Orqalis(unit_of_work=factory)
     project = sdk.initialize(git_repo, ProjectSettings(allow_push=push))
@@ -169,7 +165,7 @@ def test_isolated_developer_test_review_vertical_slice_and_resume(
     assert (summary.workspace / "main.py").read_text() == "answer = 43\n"
     assert (git_repo / "main.py").read_text() == "answer = 42\n"
     assert sdk.git.status(git_repo).branch == "main"
-    assert not sdk.git.status(git_repo).changed_paths
+    assert all(path.startswith(".orqalis/") for path in sdk.git.status(git_repo).changed_paths)
     calls = provider.calls
     restarted = Orqalis(unit_of_work=factory).executor(tmp_path / "worktrees", (provider,))
     resumed = asyncio.run(restarted.execute(state.run.id, "fixture", policy))
@@ -247,15 +243,21 @@ def test_isolated_developer_test_review_vertical_slice_and_resume(
             return original_push(run_id, actor_id)
 
         monkeypatch.setattr(recovered.delivery.commits, "push", checked_push)
-    refresh = recovered.delivery.curator.memory.refresh
+    stage_outcome = recovered.delivery.curator._stage_outcome
 
-    def refresh_then_crash(*args: object, **kwargs: object) -> object:
-        refresh(*args, **kwargs)  # type: ignore[arg-type]
-        raise RuntimeError("simulated crash after memory indexing")
+    def stage_then_crash(
+        root: Path,
+        run_id: UUID,
+        commit: str,
+        content: str,
+        validation_id: str,
+    ) -> object:
+        stage_outcome(root, run_id, commit, content, validation_id)
+        raise RuntimeError("simulated crash after memory staging")
 
     with monkeypatch.context() as patch:
-        patch.setattr(recovered.delivery.curator.memory, "refresh", refresh_then_crash)
-        with pytest.raises(RuntimeError, match="memory indexing"):
+        patch.setattr(recovered.delivery.curator, "_stage_outcome", stage_then_crash)
+        with pytest.raises(RuntimeError, match="memory staging"):
             asyncio.run(recovered.delivery.finalize(state.run.id, delivery_policy))
     delivered = asyncio.run(recovered.delivery.finalize(state.run.id, delivery_policy))
     assert delivered.state == RunState.COMPLETED
@@ -300,28 +302,33 @@ def test_isolated_developer_test_review_vertical_slice_and_resume(
     project_brain = sdk.brain.get(project.id, "architecture", state.run.id)
     assert project_brain.freshness.indexed_commit == delivered.commit_sha
 
-    promoted_project = project.model_copy(update={"repo_root": summary.workspace})
+    worktree_project = project.model_copy(update={"repo_root": summary.workspace})
     brain = recovered.memory.context(
-        promoted_project, "architecture accepted run README", max_chars=50000
+        worktree_project, "architecture accepted run README", max_chars=50000
     )
     assert brain.freshness.fresh
-    assert any(
-        m.item.introduced_by_run == state.run.id and m.item.type == "architecture"
-        for m in brain.items
-    )
+    assert not (summary.workspace / ".orqalis").exists()
+    capsule_id = TaskCapsuleStore.from_root(git_repo).capsule_id(state.run.id)
+    assert capsule_id is not None
+    curated = CuratedMemoryStore(ProjectLayout(git_repo))
+    proposals = curated.proposals(capsule_id)
+    assert len(proposals) == 1
+    proposal = proposals[0]
+    assert proposal.status == "PENDING"
+    assert proposal.policy == "review"
+    assert proposal.record.introduced_by_task == capsule_id
+    assert proposal.record.verified_commit == delivered.commit_sha
+    assert proposal.record.id not in {record.id for record in curated.list()}
+    assert all(match.item.title != proposal.record.title for match in brain.items)
     with factory() as uow:
-        promoted = uow.memory.items_for_run(state.run.id)
-        assert promoted
-        assert all(item.source_commit == delivered.commit_sha for item in promoted)
-        assert (
-            len(
-                [
-                    e
-                    for e in uow.events.list(state.run.id)
-                    if e.event_type == EventType.MEMORY_PROMOTED
-                ]
-            )
-            == 1
+        promoted_events = [
+            event
+            for event in uow.events.list(state.run.id)
+            if event.event_type == EventType.MEMORY_PROMOTED
+        ]
+        assert len(promoted_events) == 1
+        assert promoted_events[0].payload.summary == (
+            f"Staged curated memory {proposal.record.id} for review"
         )
     old_branch = recovered.memory.context(project, "README")
     assert all(m.item.title != "README.md" for m in old_branch.items)

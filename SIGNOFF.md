@@ -5,6 +5,34 @@
 **Date:** 2026-09-10  
 **Supersedes:** Original Orqalis handoff package and Enhanced v1.1 package from this session.
 
+## Local-first persistence amendment - 2026-09-16
+
+This amendment supersedes every database-first persistence assumption in the baseline while
+leaving the workflow, acceptance, provider, security, Git and Control Center invariants below
+in force.
+
+> Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project owns its project intelligence and execution history through a structured `.orqalis/` directory located in the repository root. External database infrastructure is not required for standard operation.
+
+The resolved repository root is the storage and isolation boundary. Canonical project
+configuration, curated memory, Task Capsules, evidence, decisions and delivery records live
+under `.orqalis/`. Parser/search caches, indexes and generated graph presentation are
+derived and rebuildable. Repository Graph, Curated Project Memory and Task History remain
+separate models.
+
+Task state uses authoritative snapshots plus structured append-only JSONL events. Important
+writes are atomic and locked. Memory records have provenance and freshness, durable changes
+may be staged for review, and secrets/hidden reasoning are never persisted. CLI, MCP, API
+and UI bind to one root; React never reads the project store directly.
+
+Standard install, startup, tests and npm operation require no PostgreSQL, pgvector,
+Alembic, Docker or database environment variable. Docker remains optional sandboxing. The
+former SQL adapters, migration command and compatibility extra have been removed; no
+legacy exporter command is implemented.
+
+ADR 0003 controls this amendment and supersedes the persistence portion of ADR 0001.
+Dated 1.0.x PostgreSQL verification remains historical evidence for those releases, not a
+current prerequisite.
+
 ## 1. Approved product scope
 
 Orqalis is a provider-agnostic, goal-driven multi-agent engineering orchestrator and durable project-intelligence layer. The canonical scope includes Git-aware Project Memory/Context Packs; versioned goals and measurable acceptance criteria; dependency-aware planning/scheduling; specialized agents with dynamic skills; provider abstraction; deterministic Orchestrator-owned state; resumable execution; evidence-based review; bounded targeted repair; Change Guardian; documentation; gated commit/optional push; memory curation; CLI/MCP/REST/WebSocket interfaces; cross-assistant continuity; durable telemetry; and a local browser Control Center.
@@ -72,6 +100,9 @@ This ordering is intentional: events/timing are built before the thin UI; the th
 ## 6. Implementation authority
 
 `docs/` and this `SIGNOFF.md` are the architecture source of truth. `docs/09-implementation-plan.md` is the authoritative phase/PR sequence. `CODEX_HANDOFF.md` tells Codex how to execute the plan. `docs/10-local-control-center.md` is the authoritative browser UX/runtime-visualization contract. `docs/07-data-model-and-observability.md` is the authoritative runtime entity/event/timing contract.
+
+For persistence, the 2026-09-16 amendment above, ADR 0003 and the revised documents take
+precedence over older baseline or release text.
 
 ## 7. Change control
 

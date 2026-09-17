@@ -1,255 +1,121 @@
-# CODEX HANDOFF - Orqalis
+# CODEX HANDOFF - Orqalis local-first persistence
 
-> **Canonical baseline:** Consolidated End-to-End Design v1.2 (2026-09-10).
+Status: canonical implementation handoff, revised 2026-09-16.
 
 ## Mission
 
-Implement Orqalis according to the design documents in this package. Orqalis is a provider-agnostic, goal-driven multi-agent engineering orchestrator with durable Git-aware project memory. It coordinates specialized agents/skills, verifies work against explicit acceptance criteria, performs bounded repair loops, updates documentation, and safely commits/pushes accepted changes.
+Preserve Orqalis's provider-neutral orchestration workflow while making the repository-local
+filesystem its standard persistence authority.
 
-## Source-of-truth order
+> Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project owns its project intelligence and execution history through a structured `.orqalis/` directory located in the repository root. External database infrastructure is not required for standard operation.
+
+## Read order
 
 1. `SIGNOFF.md`
-2. `docs/00-product-design.md`
-3. `docs/01-system-architecture.md`
-4. `docs/02-agent-and-skill-model.md`
-5. `docs/03-project-memory.md`
-6. `docs/04-workflow-and-acceptance.md`
-7. `docs/05-interfaces-and-integrations.md`
-8. `docs/06-security-git-and-governance.md`
-9. `docs/07-data-model-and-observability.md`
-10. `docs/08-features-and-roadmap.md`
-11. `docs/09-implementation-plan.md`
-12. `docs/10-local-control-center.md`
-13. `CONSOLIDATION_NOTES.md`
+2. `docs/SOURCE_OF_TRUTH.md`
+3. ADR 0003, then ADR 0001 and ADR 0002 for unaffected decisions
+4. `docs/01-system-architecture.md`
+5. `docs/07-data-model-and-observability.md`
+6. `docs/09-implementation-plan.md`
+7. interface, memory, security and Control Center chapters
+8. `docs/IMPLEMENTATION_STATUS.md` for dated evidence
 
-This v1.2 package supersedes earlier Orqalis files from the session. Do not combine it with the older ZIP/DOCX as parallel requirements. If wording appears ambiguous, follow `SIGNOFF.md`, then the domain-specific canonical document listed above.
+Database-first text in old releases and readiness evidence is historical. ADR 0003
+supersedes ADR 0001's persistence selection.
 
-## Codex operating instructions
+## Required execution order
 
-1. Read the design docs before creating code.
-2. Inspect the current repository before assuming it is empty.
-3. Preserve any existing project conventions unless they conflict with the approved architecture.
-4. Work incrementally by implementation phase/PR-sized slice.
-5. Do not implement future-phase complexity early without a concrete dependency.
-6. Keep domain models independent from FastAPI, MCP, database, and provider SDKs.
-7. All external side effects must be behind interfaces/services and testable with fakes.
-8. Use Pydantic typed contracts for agent/provider/workflow inputs and outputs.
-9. Add database migrations for persistence changes.
-10. Add tests in the same change as production code.
-11. Prefer deterministic validation over LLM judgment wherever possible.
-12. Never allow developer/reviewer agents to directly bypass Git delivery gates.
-13. Never store secrets or model scratch reasoning in project memory.
-14. Tie durable memory to provenance and Git commit SHAs.
-15. Design for process restart/resume from the beginning.
-16. Persist the canonical `Event` stream and actor/task/phase timestamps before building UI timers; UI/historical views must be authoritative.
-17. Treat the Orchestrator and sub-agents as runtime `ActorSession`s, planned work as `Task`, attempts as `TaskExecution`, and phases/acceptance/repairs as observable persisted state.
-18. Never expose private model chain-of-thought in UI, logs, telemetry, or memory.
-19. Do not introduce duplicate runtime models (`RunEvent`, `AgentExecution`, alternate timer stores) that compete with the canonical data model.
-20. UI progress is deterministic current-plan completion; do not invent ETA/confidence percentages.
-21. Implement phase/PR order from `docs/09-implementation-plan.md`; observability/event foundation precedes thin Mission Control.
+Audit first; then storage-neutral contracts; root/bootstrap; Task Capsules; events;
+curated memory; repository graph; Context Builder; historical retrieval; interfaces;
+database implementation removal; documentation and release validation. Do not keep
+PostgreSQL as a hidden authority or add a parallel database.
 
-## Initial stack
+After each coherent slice, run focused tests and the relevant lint/type checks. Preserve
+user changes in a dirty worktree. The SQL implementation was removed only after filesystem
+parity tests passed; do not recreate it as a compatibility shortcut.
 
-- Python 3.12+
-- Pydantic v2
-- Typer
-- FastAPI
-- PostgreSQL
-- pgvector
-- SQLAlchemy 2.x
-- Alembic
-- pytest
-- OpenTelemetry
-- React + TypeScript + Vite for Local Control Center
-- WebSocket/SSE event streaming
-- React Flow / Recharts / Monaco only where required by `docs/10-local-control-center.md`
-- Docker for sandboxing later in the plan
+## Storage contract
 
-Do not require Redis for the first vertical slice. Add it only when distributed locks/queues are needed.
+- Resolve explicit root, `ORQALIS_PROJECT_ROOT`, Git root, then current directory.
+- Bind each SDK/CLI/MCP/API service graph to one resolved root for its lifetime.
+- Keep project-relative paths in manifests and public records.
+- Use schema-versioned YAML/JSON/Markdown/JSONL under `.orqalis/`.
+- Use validated temporary writes, flush/fsync where appropriate, atomic rename and
+  platform-safe locks.
+- Fail closed for missing, corrupt, read-only or unsupported-schema stores.
+- Keep cache/index/presentation derived and reconstructable.
 
-## First implementation target
+Canonical data is manifest/configuration, curated memory, Task Capsules, evidence, durable
+decisions and delivery results. Derived data is parser/search/ranking cache, indexes,
+generated graph presentation and reproducible Context Pack projections.
 
-Complete Phases 0-2 before adding real multi-agent execution:
+## Knowledge separation
 
-### Phase A - bootstrap
-- Create project structure and quality tooling.
-- Implement domain IDs/enums/base models.
-- Add settings/logging.
-- Add PostgreSQL persistence + migrations.
-- Add Typer CLI shell.
+Repository Graph contains source-observable structure and typed relationships. Mark direct
+deterministic analysis `EXTRACTED`; mark secondary reasoning `INFERRED`, with confidence
+and evidence.
 
-### Phase B - Git/project initialization
-- Implement repository root detection.
-- Implement safe Git service.
-- Implement Project persistence.
-- Implement `orqalis init`.
-- Implement isolated worktree manager.
+Curated Project Memory contains durable product, architecture, technology, convention,
+domain, workflow, testing, pitfall, module and ADR knowledge. Record source paths, commit,
+introducing task, confidence and verification time. Changed provenance marks an item stale.
+Secret-scan proposals and never persist credential values.
 
-### Phase C - Project Memory MVP
-- Implement file index, snapshots, memory items/sources.
-- Implement bootstrap scanner.
-- Implement commit-aware incremental refresh.
-- Implement semantic interface with pgvector, but keep retrieval functional with structured search if embeddings are unavailable.
-- Implement `orqalis memory status`, `orqalis memory search`, and `orqalis context`.
+Task History contains one self-contained capsule for each request: request, context, goal,
+acceptance, plan/DAG, assignments, execution, review, evidence, changes, delivery and final
+outcome. Persist structured operational events, never chain-of-thought.
 
-Stop after these phases only if explicitly asked to make a staged handoff; otherwise continue through the implementation plan in order.
+## Task/runtime invariants
 
-## Required architecture invariants
+- The Orchestrator owns state transitions.
+- Goal versions are immutable once execution depends on them.
+- PASS requires criterion-linked evidence.
+- Repair is targeted, bounded and auditable.
+- Task snapshots provide current authority; JSONL provides history.
+- Unknown side effects are not blindly replayed after restart.
+- Change Guardian and Git policy gate delivery.
+- Provider conversations, UI state and indexes are never sources of truth.
 
-### Orchestrator owns state
-Agents return proposals/results. They do not directly mutate the workflow state machine.
+## Graph, index and context
 
-### Goal immutability
-After execution begins, goal/acceptance changes require an explicit versioned revision.
+Initial bootstrap may scan deeply. Later refresh compares branch/HEAD, tracked and
+untracked relevant files, stored hashes and dirty content. Reparse only changed/new files,
+remove deleted/renamed files and reuse parser output by content hash. Record duration,
+processed count and cache hits/misses.
 
-### Evidence gate
-A criterion cannot PASS without evidence references.
+Rank lexical/path/symbol matches, graph neighborhood/centrality, Git recency, memory and
+related tasks into a configured budget. Agents receive the Context Pack rather than an
+unconditional repository rescan. Indexes must rebuild from repository, memory, graph and
+Task Capsule summaries.
 
-### Bounded convergence
-Repair loops have a configurable maximum and move to BLOCKED or HUMAN_REVIEW_REQUIRED when exceeded.
+## Interfaces
 
-### Project memory is advisory
-Source code and deterministic tooling remain authoritative. Low-confidence/stale memory triggers targeted verification.
+CLI, MCP, SDK, REST/WebSocket and the Control Center use the same application services.
+MCP exposes high-level project/context/memory/graph/task/run operations, not arbitrary file
+mutation. FastAPI is the browser gateway. A late UI client loads a snapshot and persisted
+events, then subscribes live.
 
-### Provider independence
-Core/domain/workflow modules never import provider SDKs.
+Only document commands/tools that exist in the checked-in implementation. The current
+source contains no PostgreSQL adapter, schema command or database exporter.
 
-### Git safety
-No force push, destructive clean/reset, protected-branch push, or secret commit by default.
+## Security and configuration
 
-## Required domain contracts
+Provider credentials stay in environment variables, OS keychain, user configuration or
+provider configuration. Project Memory stores only the requirement for a credential, not
+its value. Default tracked/ignored policy is explicit and reviewable.
 
-Implement typed versions of at least:
-- `Project`
-- `ProjectSnapshot`
-- `Run`
-- `GoalVersion`
-- `AcceptanceCriterion`
-- `Task`
-- `TaskDependency`
-- `TaskExecution`
-- `PhaseExecution`
-- `ActorSession`
-- `Event`
-- `Evidence`
-- `Finding`
-- `Artifact`
-- `AgentRole`
-- `SkillDefinition`
-- `ProviderExecutionRequest`
-- `ProviderExecutionResult`
-- `MemoryItem`
-- `MemorySource`
-- `ContextPack`
+Docker may be used for optional command isolation. Historical PostgreSQL data must be
+handled outside the current runtime with an appropriate archived release or bespoke export;
+database compatibility code is not shipped by the current package.
 
-Use UUID/ULID-style IDs consistently. Do not use mutable global state.
+## Definition of done
 
-## Required service boundaries
-
-Define interfaces/protocols before implementations for:
-- ProjectRepository
-- RunRepository
-- MemoryRepository
-- EventRepository
-- ProjectionRepository
-- GitService
-- WorkspaceManager
-- ContextService
-- MemoryIndexer
-- MemoryRetriever
-- ProviderAdapter
-- SkillRegistry
-- Evaluator
-- TimingProjectionService
-- DocumentationUpdater
-
-## MVP CLI acceptance
-
-The following must work in a fixture Git repository:
-
-```bash
-orqalis init
-orqalis status
-orqalis memory status
-orqalis memory search "architecture"
-orqalis context "change authentication validation"
-```
-
-Later vertical-slice target:
-
-```bash
-orqalis run "implement a small validated feature" --branch feature/orqalis-test --no-push
-```
-
-The command must produce a persisted run with `GoalVersion`, plan, `TaskExecution` attempts, `ActorSession` activity, canonical `Event`s, validation evidence, review outcome, and final summary.
-
-## MCP target
-
-Once the workflow vertical slice is stable, implement these first MCP tools:
-
-```text
-get_project
-get_project_context
-search_project_memory
-start_task
-get_run
-get_goal
-get_plan
-get_next_work
-report_result
-report_finding
-review_run
-finalize_run
-list_agents
-list_skills
-```
-
-Keep MCP wrappers thin and call application services.
-
-## Definition of Done for each implementation slice
-
-- Code compiles/imports.
-- Unit tests added and pass.
-- Relevant integration tests pass.
-- Lint/type checks pass.
-- Migration included when schema changes.
-- Public behavior documented.
-- No provider-specific leakage into core domain.
-- No secrets committed.
-- Git diff contains only slice-related changes.
-
-## Commit guidance
-
-Use Conventional Commit style and include architectural significance in the body for non-trivial changes. Keep commits reviewable and phase-aligned rather than producing one monolithic implementation commit.
-
-## Do not do
-
-- Do not build the full advanced dashboard before the core vertical slice; build only the thin Mission Control immediately after canonical events/timing/projections exist.
-- Do not fake UI progress with browser-only timers or inferred agent activity.
-- Do not build a custom vector database.
-- Do not couple memory retrieval solely to embeddings.
-- Do not let agents write directly to canonical memory tables.
-- Do not let reviewers modify implementation files.
-- Do not let a provider conversation become the source of truth for run state.
-- Do not swallow tool/test failures to force a PASS.
-- Do not auto-push to protected branches.
-
-## Start instruction
-
-Begin by checking the repository state. If the repository is empty or only contains these design docs, implement Phase 0 from `docs/09-implementation-plan.md`. If code already exists, perform a gap analysis against Phases 0-2 and continue from the earliest incomplete requirement. Produce working code and tests, not another architecture proposal.
-
-## Canonical UI/telemetry handoff
-
-Before implementing Mission Control, implement `Event`, `ActorSession`, `TaskExecution`, `PhaseExecution`, monotonic per-run sequencing, timing semantics, and snapshot projections from `docs/07-data-model-and-observability.md`. Then implement the V1 thin UI from Phase 5. Do not use browser-only status/timing mock state except isolated visual unit fixtures.
-
-The required live experience is: visible Orchestrator -> visible sub-agent roster -> current task and timer per agent -> phase/task/acceptance/repair status -> structured activity -> final Git/memory delivery. Full DAG/Gantt/Project Brain analytics are Phase 13: they are not prerequisites for the first working agent runtime, but they are part of the signed-off V1 completion before the Phase 14 release gate.
-
-
-## Distribution amendment - 2026-09-10
-
-Use npm as the single V1 application installation/release channel. Follow
-[ADR 0002](docs/adr/0002-npm-distribution.md) and [Publishing](docs/PUBLISHING.md).
-Build the internal wheel only for the npm bundle; do not create standalone executable,
-source archive or PyPI release tracks. Preserve Python/Core and contributor tooling.
-Users must be able to configure the local database and launch UI/MCP from the globally
-installed package without a source checkout. This is an owner-authorized amendment.
+- Clean clone/init/run/resume works with no database server or `DATABASE_URL`.
+- Every request creates a durable Task Capsule immediately.
+- Cross-assistant continuation needs no private conversation history.
+- Project A and Project B cannot retrieve or mutate each other's knowledge.
+- One-file changes avoid full graph reparsing.
+- Deleted cache/index is recoverable without canonical loss.
+- Atomicity, locking, schema migration, branch/dirty/rename/delete, secret and read-only
+  tests pass.
+- CLI, MCP, API, WebSocket, Control Center, Python, web and npm release gates pass.
+- Canonical and npm-shipped documentation matches actual behavior.

@@ -3,7 +3,6 @@ from datetime import timedelta
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.core.vertical_plan import VerticalPlanner
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
@@ -14,21 +13,17 @@ from orqalis.domain.plan import TaskPlan
 from orqalis.domain.provider import ProviderExecutionRequest, ProviderExecutionResult
 from orqalis.domain.run import RunState
 from orqalis.domain.task import Task, TaskDependency
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
 def test_independent_context_workers_execute_in_parallel_before_dependency(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(unit_of_work=filesystem_uow_factory(git_repo))
     project = sdk.initialize(git_repo)
     state = sdk.prepare_run(
         project.id,

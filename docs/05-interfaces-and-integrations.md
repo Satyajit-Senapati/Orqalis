@@ -1,187 +1,129 @@
-# Interfaces and Coding-Assistant Integrations
+# Interfaces and integrations
 
-> **Canonical baseline:** Orqalis Consolidated End-to-End Design v1.2 (2026-09-10). This file supersedes earlier session versions.
+> **Canonical local-first baseline - 2026-09-16.** All interfaces bind to one repository
+> and use its filesystem store. No standard interface requires `DATABASE_URL`.
 
-## 1. Interface strategy
+## Shared boundary
 
-Orqalis exposes one core through three primary interfaces:
+CLI, SDK, MCP, REST/WebSocket, and the Control Center call the same application services.
+They do not mutate `.orqalis/` paths directly. Root-bound filesystem stores enforce
+identity, atomicity, locks, schema validation, and recovery.
 
-- CLI for developers and CI.
-- MCP server for coding assistants.
-- REST/WebSocket API for automation, dashboards, and future IDE extensions.
+## CLI
 
-The core must not depend on any interface.
-
-## 2. CLI design
-
-Initial command surface:
+Implemented project and diagnostic commands include:
 
 ```text
-orqalis init
-orqalis status
-orqalis doctor
-orqalis context <task>
-orqalis run <request>
-orqalis runs
-orqalis run show <run-id>
-orqalis run resume <run-id>
-orqalis run cancel <run-id>
-orqalis memory status
-orqalis memory search <query>
-orqalis memory refresh
-orqalis agents
-orqalis skills
-orqalis config show
-orqalis ui
-orqalis ui --open
-orqalis serve
+orqalis init [--repo PATH]
+orqalis status [--repo PATH]
+orqalis doctor [--repo PATH]
+orqalis context TASK [--repo PATH]
+orqalis rebuild-index [--repo PATH]
+orqalis tasks [--repo PATH]
+orqalis task show TASK_ID [--repo PATH]
+orqalis memory status|refresh|search|graph [--repo PATH]
 ```
 
-Important flags:
-- `--repo`
-- `--branch`
-- `--provider`
-- `--non-interactive`
-- `--json`
-- `--max-repair-loops`
-- `--no-push`
-- `--require-human-approval`
+Workflow commands include `run`, `define-goal`, `execute`, `finalize`, `runs`, `runs show`,
+`runs prepare`, `runs pause`, `runs resume`, `runs cancel`, `runs recover`, goal revision,
+plan controls, approvals, agents, skills, capabilities, `serve`, and `ui`.
 
-CLI output should have human-readable default and deterministic JSON mode for CI.
+`orqalis init` is idempotent and reruns deterministic bootstrap work. `rebuild-index`
+forces regeneration of disposable graph/search artifacts. `tasks` and `task show` read the
+compact local history and validated capsules. `memory graph --open` may open the generated
+graph document in a local browser.
 
-## 3. MCP design
+Filesystem layout migrations run through project-store services during supported opens.
+There is no database migration CLI in the current product.
 
-MCP is the primary seamless integration mechanism for Codex, Claude, Copilot, Cursor-like clients, and future assistants.
+## Python SDK
 
-Keep the MCP tool surface compact and high value.
+`Orqalis(root=...)` resolves and binds a filesystem store. `ORQALIS_PROJECT_ROOT` may
+provide the root when no explicit argument is supplied. A caller may still inject a unit of
+work for tests or optional adapters; injected storage does not change default composition.
+The SDK refuses initialization against a different root than the one to which it is bound.
 
-### Project/context tools
-- `get_project`
-- `get_project_context(task, depth)`
-- `search_project_memory(query, types, limit)`
-- `get_architecture(area)`
-- `get_decisions(topic)`
-- `get_related_files(task)`
+## MCP
 
-### Workflow tools
-- `start_task(request, options)`
-- `get_run(run_id)`
-- `get_goal(run_id)`
-- `get_plan(run_id)`
-- `get_next_work(run_id, worker_capabilities)`
-- `report_result(run_id, task_id, result)`
-- `report_finding(run_id, finding)`
-- `review_run(run_id)`
-- `finalize_run(run_id)`
+MCP is project-scoped stdio:
 
-### Capability tools
-- `list_agents()`
-- `list_skills(query)`
-- `get_skill(skill_id)`
+```sh
+orqalis mcp --root /absolute/project --policy /absolute/mcp-policy.json
+```
 
-Avoid exposing raw database methods through MCP.
-
-## 4. MCP resource model
-
-In addition to tools, expose read-only resources where useful:
-- project summary;
-- active run summary;
-- architecture index;
-- ADR list;
-- known issues;
-- project conventions.
-
-## 5. Codex integration
-
-Codex acts either as:
-
-### Assistant-driven mode
-The user is already in Codex. Codex calls Orqalis via MCP for context, workflow, acceptance criteria, and reporting. Orqalis does not need to replace the Codex interface.
-
-### Orqalis-driven mode
-Orqalis invokes an OpenAI provider adapter to execute a delegated task. The adapter receives the same typed task and context contract used by other providers.
-
-## 6. Claude Code integration
-
-Use the same MCP surface in assistant-driven mode. For Orqalis-driven execution, the Anthropic provider adapter converts the generic agent request to Claude-compatible invocation and tool policy.
-
-## 7. GitHub Copilot integration
-
-Copilot clients that support MCP can attach Orqalis as a local or remote server. Repository instructions should direct the assistant to request Orqalis context before significant work.
-
-## 8. Native repository instruction files
-
-Orqalis may generate or update lightweight integration files:
-- `AGENTS.md`
-- `CLAUDE.md`
-- `.github/copilot-instructions.md`
-
-These files must not duplicate full project memory. They should state project-specific guardrails and instruct compatible assistants to retrieve Orqalis context.
-
-## 9. Suggested MCP usage flow
+The policy identifies the project and controls work/delivery permissions. MCP stdout is
+reserved for protocol framing; setup, logging, and telemetry use stderr. Current high-level
+tools include:
 
 ```text
-Assistant receives user task
- -> get_project_context(task)
- -> start_task(request)
- -> get_goal(run_id)
- -> get_next_work(...)
- -> implement using assistant-native file/code tools
- -> report_result(...)
- -> review_run(...)
- -> repair if assigned
- -> finalize_run(...)
+get_project
+get_project_context
+search_project_memory
+get_architecture
+get_decisions
+get_related_files
+get_project_graph
+get_related_symbols
+list_tasks
+get_task
+get_task_context
+propose_memory_update
+refresh_project_memory
+start_task
+get_run
+get_goal
+get_plan
+get_next_work
+report_result
+report_finding
+review_run
+finalize_run
+list_capabilities
+list_agents
+list_skills
+get_skill
 ```
 
-## 10. REST API
+MCP exposes project/run/architecture/decision resources but no general filesystem write
+tool. A client cannot widen policy, approve its own supervised gate, fabricate acceptance
+evidence, or select another repository through a tool argument.
 
-Initial endpoints may mirror domain use cases:
-- `POST /projects/init`
-- `GET /projects/{id}`
-- `POST /projects/{id}/context`
-- `POST /runs`
-- `GET /runs/{id}`
-- `POST /runs/{id}/cancel`
-- `POST /runs/{id}/resume`
-- `GET /runs/{id}/events`
-- `GET /projects/{id}/memory`
-- `GET /runs/{id}/agents`
-- `GET /runs/{id}/tasks`
-- `GET /runs/{id}/timeline`
-- `GET /runs/{id}/metrics`
-- `GET /runs/{id}/acceptance`
-- `GET /runs/{id}/events?after=<sequence>`
-- `WS /ws/runs/{id}`
+Codex, Claude Code, Copilot, and other MCP clients can continue the same Task Capsule
+because continuity comes from `.orqalis/`, not model conversation history. Start a separate
+root-bound process for each repository.
 
-Use WebSocket/SSE for event streaming rather than polling. The Local Control Center
-loads an authoritative snapshot/projection through REST, then subscribes from a
-per-run event sequence/cursor. `orqalis run --open` hosts the UI in its own CLI
-process while the run executes, opens the run URL, then waits for Ctrl+C after
-completion; an existing healthy Orqalis UI may be reused without ownership.
-`orqalis ui` hosts the dashboard in its terminal, and `orqalis serve` hosts API/UI
-without browser launch. Headless mode remains fully supported. No UI command
-registers or leaves behind a Windows service or detached server.
+## REST and WebSocket
 
-## 11. Integration design rule
+The loopback FastAPI app exposes project initialization/context/memory/brain, run creation
+and snapshots, plan/goal controls, approvals, events, agents, tasks, acceptance, metrics,
+recovery, cancellation, pause/resume, timeline, and diff endpoints. The run WebSocket emits
+live EventBus records after a persisted snapshot/history handshake.
 
-Assistant integrations are clients of Orqalis, not owners of Orqalis state. A user can switch assistants without losing the project/run context.
+FastAPI calls application services and filesystem repositories. It never makes the React
+client parse local files, and it does not use database queries in the standard runtime.
+Remote hosting is not enabled; adding it requires authentication, authorization, tenancy,
+and root-scoping design.
 
-## 12. Local Control Center integration contract
+## Local Control Center
 
-Default local URL: `http://127.0.0.1:7842` (configurable). Bind loopback by default. The frontend is a packaged client of REST/WebSocket projections and must not directly query persistence or execute Git/tool commands.
+`orqalis ui [--open]` and `orqalis serve` host the packaged UI on loopback. The process is
+terminal-owned and stops with `Ctrl+C`; no system service is installed. The UI is a
+projection of canonical snapshots/events and cannot own workflow transitions, timers, or
+persistence.
 
-Recommended run flow: `GET /runs/{id}` for snapshot, then subscribe to `WS /ws/runs/{id}?after=<sequence>` (or SSE equivalent). On disconnect, reload/reconcile the snapshot and resume after the last durable sequence. All UI commands (cancel, pause, approve, resume, open artifact) invoke normal command endpoints and Policy Engine checks.
+## Provider and credential configuration
 
-The same project/run can be observed while work is driven from CLI, Codex, Claude Code, Copilot, MCP, or Orqalis-native providers.
+Provider selection is independent of storage. OpenAI and Anthropic credentials/models use
+environment or user/provider configuration. `ORQALIS_OPERATOR_TOKEN` protects browser
+approval actions. None belongs in project memory, config, Task Capsule projections, or MCP
+policy committed to Git.
 
-## Distribution and process entry points - npm amendment
+Optional command isolation uses an execution policy with exact argv and write scopes.
+Docker policy is separate from persistence and is not needed for read-only MCP, context,
+memory, API, or UI use.
 
-All end-user interfaces are reached through the globally installed npm package.
-The orqalis command delegates to Python Core; it owns no separate workflow state.
-Interactive Windows users can invoke orqalis.cmd. MCP process hosts use an absolute
-Node executable plus <global npm root>/orqalis/bin/orqalis.js and the usual MCP arguments;
-no standalone executable or checkout-specific virtual environment path is required.
+## Compatibility and future interfaces
 
-Complete first-launch setup with orqalis version before starting an MCP client.
-SDK source development remains documented separately. See [MCP setup](MCP.md) and
-[ADR 0002](adr/0002-npm-distribution.md) for the current install/launch contract.
+No PostgreSQL compatibility adapter or exporter CLI is shipped. New interface aliases must
+call existing root-bound services rather than introduce a parallel store. Historical
+database exports, if needed, belong to version-specific external tooling.

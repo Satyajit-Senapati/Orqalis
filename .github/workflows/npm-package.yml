@@ -3,6 +3,12 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the exact tested artifact from a version tag
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -93,19 +99,6 @@ jobs:
   installed-integration:
     needs: package
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: pgvector/pgvector:pg17
-        env:
-          POSTGRES_USER: orqalis
-          POSTGRES_PASSWORD: orqalis
-          POSTGRES_DB: orqalis_package_test
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U orqalis -d orqalis_package_test"
-          --health-interval 2s --health-timeout 3s --health-retries 30
-    env:
-      ORQALIS_TEST_DATABASE_URL: postgresql+psycopg://orqalis:orqalis@127.0.0.1:5432/orqalis_package_test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -124,7 +117,7 @@ jobs:
         with:
           name: orqalis-npm
           path: dist
-      - name: Verify installed CLI, MCP, migrations, API and UI outside checkout
+      - name: Verify installed CLI, project store, MCP, API and UI outside checkout
         shell: bash
         run: |
           set -euo pipefail
@@ -149,3 +142,49 @@ jobs:
             ${{ runner.temp }}/orqalis-installed-launcher.json
             ${{ runner.temp }}/orqalis-installed-integration.json
           if-no-files-found: warn
+  publish:
+    name: Publish exact tested npm artifact
+    needs:
+      - smoke
+      - installed-integration
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      inputs.publish == true &&
+      startsWith(github.ref, 'refs/tags/v')
+    environment: npm-release
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install pinned npm CLI with Trusted Publishing support
+        run: |
+          npm install --global npm@12.0.2
+          test "$(npm --version)" = "12.0.2"
+      - uses: actions/download-artifact@v4
+        with:
+          name: orqalis-npm
+          path: dist
+      - name: Verify the tag and exact tested package
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          packages=(dist/orqalis-*.tgz)
+          test "${#packages[@]}" -eq 1
+          package="${packages[0]}"
+          manifest_dir="$(mktemp -d)"
+          tar -xzf "$package" -C "$manifest_dir" package/package.json
+          manifest="$manifest_dir/package/package.json"
+          package_name="$(node -e 'const fs = require("node:fs"); const data = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); process.stdout.write(data.name)' "$manifest")"
+          package_version="$(node -e 'const fs = require("node:fs"); const data = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); process.stdout.write(data.version)' "$manifest")"
+          test "$package_name" = "orqalis"
+          test "$GITHUB_REF_NAME" = "v$package_version"
+          test "$package" = "dist/orqalis-$package_version.tgz"
+          printf 'package=%s\n' "$package" >> "$GITHUB_OUTPUT"
+      - name: Publish through npm Trusted Publishing
+        run: npm publish "${{ steps.release.outputs.package }}" --access public --provenance

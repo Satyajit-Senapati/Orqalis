@@ -35,7 +35,7 @@ source = root / "mission-control-fixture"
 if not (source / ".git").is_dir():
     raise SystemExit("Run tests.e2e.seed_runtime before tests.e2e.seed_execution")
 repair_demo = os.environ.get("ORQALIS_QA_REPAIR") == "1"
-sdk = Orqalis()
+sdk = Orqalis(root=source)
 project = sdk.initialize(source)
 goal = GoalDraft(
     goal="Normalize names consistently",

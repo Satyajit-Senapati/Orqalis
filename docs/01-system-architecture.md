@@ -1,233 +1,154 @@
-# Orqalis System Architecture
+# Orqalis system architecture
 
-> **Canonical baseline:** Orqalis Consolidated End-to-End Design v1.2 (2026-09-10). This file supersedes earlier session versions.
+> **Canonical local-first baseline - 2026-09-16.** This document supersedes the
+> PostgreSQL-backed persistence assumptions in the 2026-09-10 v1.2 architecture. Earlier
+> verification records remain historical evidence for the implementation tested then.
 
-## 1. Logical architecture
+> Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project
+> owns its project intelligence and execution history through a structured `.orqalis/`
+> directory located in the repository root. External database infrastructure is not
+> required for standard operation.
 
-```text
-Human / Coding Assistant / CI / Local Web UI
-                    |
-      +-------------+-------------+
-      |             |             |
-     CLI           MCP        REST/WS API
-      |             |             |
-      +-------------+-------------+
-                    |
-             Orqalis Core
-                    |
-    +---------------+----------------+
-    |               |                |
-Workflow Engine  Context Engine   Policy Engine
-    |               |                |
-    |          Project Memory         |
-    |          Knowledge Graph        |
-    |          Semantic Index         |
-    |               |                |
-    +------- Agent Runtime -----------+
-                    |
-        +-----------+-----------+
-        |           |           |
-      Codex       Claude      Other/Local
-        |           |           |
-        +-----------+-----------+
-                    |
-           Isolated Workspace
-                    |
-       Tests / Build / Git / Docs
-```
-
-## 2. Major subsystems
-
-### 2.1 Interface layer
-Provides CLI, MCP server, HTTP/WebSocket API, and the packaged Local Control Center. Interfaces are thin projections/command adapters; business logic and canonical state belong in the core.
-
-### 2.2 Workflow engine
-Owns the finite-state lifecycle, durable checkpoints, orchestration decisions, and authoritative progress. It must support dependency-aware scheduling, controlled parallel-ready tasks, retries, bounded repair loops, cancellation, resume, human-review states, idempotent transitions, and event emission.
-
-Recommended implementation: Python with a durable graph/state-machine abstraction. LangGraph is a reasonable implementation candidate, but Orqalis domain objects should remain framework-independent.
-
-### 2.3 Context engine
-Builds compact task-specific context packs using structured memory, semantic retrieval, Git history, repository metadata, and dependency relationships. It determines whether memory is sufficient or targeted repository inspection is required.
-
-### 2.4 Project memory service
-Stores canonical project knowledge, architecture entities, conventions, decisions, previous runs, known issues, file roles, provenance, confidence, embeddings, and memory-version metadata tied to source commits.
-
-### 2.5 Agent runtime
-Executes role-specific agents with restricted tools and skills. It passes typed task contracts rather than unstructured chat transcripts.
-
-### 2.6 Skill registry
-Stores reusable skills with metadata describing capability, applicability, required tools, expected outputs, constraints, and optional prompt/instruction content.
-
-### 2.7 Provider adapter layer
-Normalizes external model/agent providers behind one interface. Provider choice must not leak into orchestration logic.
-
-### 2.8 Workspace manager
-Creates isolated Git worktrees or equivalent workspaces per run. It manages locks, branch verification, base commit, cleanup, and artifact paths.
-
-### 2.9 Evaluation service
-Maps acceptance criteria to evidence, runs deterministic validators, collects reviewer findings, computes pass/fail state, and generates targeted repair scopes.
-
-### 2.10 GitOps service
-Performs safe Git status checks, diff collection, staging, commit generation, push, and later PR creation. It enforces policies before destructive or remote operations.
-
-### 2.11 Documentation service
-Uses final accepted diff and decisions to update relevant docs, ADRs, changelog, and project instructions without rewriting unrelated documentation.
-
-### 2.12 Observability service
-Captures durable structured events, traces, agent/task/phase timers, prompt/template versions, provider usage, reliable cost, latency, task outcomes, repairs, tests, Git activity, memory activity, and acceptance evidence. It is the telemetry source for the Local Control Center.
-
-### 2.13 Local Control Center
-A browser UI served locally by Orqalis. It visualizes the orchestrator as a first-class runtime entity, sub-agents, current tasks, dependency DAG, parallel execution, phases, elapsed/active/waiting time, utilization, acceptance evidence, repair loops, tools/tests, Git delivery, and Project Brain state. It never owns canonical workflow state. See `10-local-control-center.md`.
-
-### 2.14 Durable event/projection model
-Workflow components emit typed events to a durable stream. UI clients load a run snapshot and subscribe via WebSocket/SSE from an event sequence/cursor, supporting reconnect, historical replay, and reliable timing metrics.
-
-## 3. Runtime deployment modes
-
-### Local developer mode
-- The local UI/API runs in the invoking CLI process while its terminal remains open; Ctrl+C stops it. No Windows service, scheduled task or autostart entry is registered.
-- SQLite may be permitted only for a prototype, but PostgreSQL is preferred quickly.
-- Local Git worktrees and Docker sandbox.
-- MCP transport can be stdio initially for IDE/CLI-local integration.
-
-### Team/server mode
-- Orqalis API/MCP server hosted centrally.
-- PostgreSQL + pgvector.
-- Redis optional for queueing/cache/locks.
-- Remote runners or container workers execute tasks.
-- Authentication, tenancy, audit, and secrets management enabled.
-
-### CI mode
-- Non-interactive CLI invokes the same core.
-- Run state persists remotely or in an ephemeral DB depending on environment.
-- Output includes machine-readable JSON and exit status.
-
-## 4. Recommended technology stack
-
-- Python 3.12+ for core, services, CLI, and providers.
-- Pydantic v2 for typed contracts and validation.
-- FastAPI for REST/WebSocket interface and local UI host.
-- Typer for CLI.
-- React + TypeScript + Vite for the packaged Local Control Center.
-- React Flow for task/agent DAG visualization; Recharts for metrics; Monaco for diff/config views when needed.
-- PostgreSQL for durable state.
-- pgvector for semantic retrieval.
-- SQLAlchemy 2.x + Alembic for persistence/migrations.
-- Git CLI via controlled subprocess wrapper; avoid custom Git implementation.
-- Docker/OCI containers for isolated execution.
-- OpenTelemetry for traces/metrics/log correlation.
-- pytest for tests.
-- Optional Redis for distributed locks, queues, and transient cache.
-
-## 5. Repository structure
+## Architecture
 
 ```text
-orqalis/
-  pyproject.toml
-  README.md
-  src/orqalis/
-    cli/
-    api/
-    mcp/
-    core/
-      orchestrator.py
-      state_machine.py
-      scheduler.py
-      events.py
-    domain/
-      project.py
-      run.py
-      task.py
-      acceptance.py
-      agent.py
-      skill.py
-      memory.py
-      artifact.py
-    agents/
-      requirements.py
-      planner.py
-      architect.py
-      developer.py
-      tester.py
-      reviewer.py
-      change_guardian.py
-      documentation.py
-      gitops.py
-      memory_curator.py
-    skills/
-      registry.py
-      loader.py
-    providers/
-      base.py
-      openai.py
-      anthropic.py
-      external_cli.py
-      local.py
-    memory/
-      service.py
-      retrieval.py
-      indexing.py
-      invalidation.py
-      graph.py
-      embeddings.py
-    workspace/
-      manager.py
-      worktree.py
-      sandbox.py
-    evaluation/
-      evaluator.py
-      evidence.py
-      validators.py
-      repair.py
-    git/
-      service.py
-      policies.py
-    docs/
-      updater.py
-      adr.py
-    persistence/
-      models.py
-      repositories/
-      migrations/
-    observability/
-      events.py
-      projections.py
-      timing.py
-      tracing.py
-      metrics.py
-      logging.py
-    security/
-      permissions.py
-      secrets.py
-      policy.py
-    config/
-      settings.py
-  web/
-    src/
-      pages/
-      components/
-      features/
-      api/
-  tests/
-    unit/
-    integration/
-    e2e/
-  docs/
+                    CLI / MCP / Web UI
+                             |
+                             v
+                  Application Services
+                             |
+                             v
+                       Orchestrator
+                      /      |      \
+                     v       v       v
+                  Agents  Planner  Reviewer
+                      \      |      /
+                             v
+                     Context Builder
+                    /        |        \
+                   v         v         v
+        Repository Graph  Curated Memory  Task History
+                    \        |        /
+                             v
+                        .orqalis/
+                 local project filesystem
 ```
 
-## 6. Architectural boundaries
+The CLI, Python SDK, project-scoped MCP server, loopback FastAPI/WebSocket application,
+and React Control Center are adapters over the same application services. Domain models do
+not depend on FastAPI, MCP, provider SDKs, SQLAlchemy sessions, table identities, database
+transactions, or PostgreSQL types.
 
-The domain layer must not import vendor SDKs, FastAPI, React, CLI libraries, or MCP libraries. Provider-specific code belongs under `providers/`. Interface layers translate external requests into domain commands. Persistence is accessed through repositories/interfaces. The Local Control Center consumes snapshots/projections/events and cannot mutate state except through the same command/policy APIs used by CLI/MCP. This keeps Orqalis testable and prevents an early framework or UI decision from becoming the product architecture.
+## Persistence contracts
 
-## 7. Application distribution - npm amendment
+Application code depends on storage-neutral responsibilities:
 
-The supported V1 installation is npm install -g orqalis. Node.js 22+ launches the
-same Python 3.12+ Core through an isolated per-user runtime. The npm package carries
-the compiled Local Control Center, migrations, skills, usage docs and local Compose
-configuration. First launch verifies and installs pinned Python dependencies; database
-migration and provider setup remain explicit operator actions.
+- `ProjectStore` owns project identity and configuration for one root;
+- `MemoryStore` owns curated/source-backed durable knowledge;
+- `GraphStore` owns typed, rebuildable repository structure;
+- `TaskStore` owns Task Capsule aggregates and resume state;
+- `EventStore` owns structured append-only lifecycle events;
+- `ArtifactStore` resolves evidence and artifact metadata/payload locations.
 
-The wheel is an internal build artifact, not a separate application installer. No
-standalone executable, Python source release or Orqalis PyPI channel is maintained.
-Contributor source setup and the Python SDK remain available for development.
-See [ADR 0002](adr/0002-npm-distribution.md). This does not change Core boundaries.
+The shipped adapters are filesystem-backed. PostgreSQL adapters are not present in the
+current runtime, so there is no database persistence path or second source of truth.
+
+## Project store
+
+`.orqalis/manifest.yaml` declares filesystem backend and schema versions for the graph,
+memory, and tasks. `config.yaml` holds project policy. Useful content is created lazily:
+
+```text
+.orqalis/
+|-- manifest.yaml          # filesystem backend and schema versions
+|-- config.yaml            # context, memory and Git tracking policy
+|-- project/               # identity, stack, commands and current state
+|-- memory/                # curated knowledge, proposals and graph
+|-- tasks/                 # one authoritative capsule per request
+|-- index/                 # rebuildable lexical/machine indexes
+|-- runtime/               # locks and machine-local runtime state
+`-- cache/                 # disposable parser/search cache
+```
+
+Important YAML/JSON documents use temporary-file write, flush, validation, and atomic
+rename. Append-only JSONL updates use locks. Project/task locks are platform-safe and live
+below `runtime/locks/`. A transaction marker lets interrupted Task Capsule commits roll
+forward before readers observe state.
+
+## Root resolution and isolation
+
+The resolver uses explicit root, `ORQALIS_PROJECT_ROOT`, Git root, then current directory.
+Explicit/configured roots fail closed when unavailable. Every store path is checked to
+remain under the selected `.orqalis/`; linked stores and path traversal are rejected.
+
+CLI uses `--repo`, MCP uses `--root`, and API/SDK composition receives a root. One server
+started for project B cannot silently use project A. Concurrent assistants may operate on
+different roots, while per-project locks serialize shared mutable documents.
+
+## Canonical versus derived data
+
+Canonical data:
+
+- project manifest/configuration and durable project documents;
+- curated memory records, decisions, provenance, and reviewed proposals;
+- Task Capsules, acceptance/evidence, operational events, delivery and final summaries.
+
+Derived data:
+
+- repository graph representations and reports;
+- search/term/task indexes;
+- parser, graph, ranking, and search caches;
+- generated HTML and reproducible context views.
+
+Derived data may be deleted and rebuilt. No project history may exist only in an index or
+cache.
+
+## Graph and context
+
+`ProjectGraphEngine` is Orqalis-owned and does not require Graphify or Tree-sitter. It uses
+deterministic Python AST analysis plus generic/config/document parsing. Nodes and edges are
+typed; provenance distinguishes `EXTRACTED` facts from `INFERRED` relationships.
+
+The graph manifest records branch, HEAD, file hashes, parser version, graph schema, and
+index time. Git state plus content hashes identify changed, new, deleted, renamed, dirty,
+and untracked relevant files. Parser output is cached by content SHA-256. Incremental
+refresh avoids reparsing unchanged files.
+
+`ProjectContextBuilder` ranks a bounded selection from graph nodes, curated memory,
+historical Task Capsules, dirty Git paths, and relevant source files. The persisted Context
+Pack is a stage in the current Task Capsule, not a global conversation transcript.
+
+## Task lifecycle and live events
+
+Every request allocates `ORQ-YYYYMMDD-NNNN` before work proceeds. The capsule contains the
+request, goal and acceptance, plan/DAG, actors, attempts, phases, review, evidence, changes,
+delivery, and final result as those stages occur. `execution/state.yaml` is the current
+authoritative snapshot; `execution/events.jsonl` preserves structured history. Readable
+stage files are regenerable projections of the snapshot.
+
+The EventBus appends durable events and broadcasts live WebSocket updates. A late UI
+connection loads a current snapshot, reads relevant historical events, and then subscribes
+to live events. React never reads `.orqalis/` directly.
+
+## Deployment and optional components
+
+Standard deployment is one local process plus files in the selected repository. Required
+infrastructure is Git and the packaged Python runtime. A provider credential is required
+only for provider-backed work.
+
+Docker remains an optional command sandbox selected by execution policy. It is not a
+persistence, initialization, MCP, API, or UI dependency. Redis, MongoDB, Neo4j, hosted
+storage, and vector databases are not required. Embeddings may be added as an optional
+adapter, while lexical/graph retrieval remains complete enough for standard operation.
+
+The former PostgreSQL modules and dependency extra have been removed. No
+PostgreSQL-to-filesystem exporter command is implemented; legacy data requires a matching
+archived release or an external, one-time export process.
+
+## Boundaries that remain unchanged
+
+The storage redesign preserves goal generation, acceptance criteria, DAG planning,
+dynamic agents and skills, provider abstraction, parallel work, reviewer, bounded repair,
+Change Guardian, documentation updates, Git delivery, MCP, CLI, Local Control Center,
+timing, telemetry, and cross-assistant continuity. Storage changes do not weaken workflow
+or security gates.

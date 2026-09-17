@@ -9,9 +9,7 @@ class Settings(BaseSettings):
         env_prefix="ORQALIS_", extra="ignore", hide_input_in_errors=True
     )
 
-    database_url: SecretStr = SecretStr(
-        "postgresql+psycopg://orqalis:orqalis@127.0.0.1:5432/orqalis"
-    )
+    project_root: Path | None = None
     openai_api_key: SecretStr | None = None
     openai_model: str | None = None
     anthropic_api_key: SecretStr | None = None
@@ -23,13 +21,6 @@ class Settings(BaseSettings):
     max_repair_iterations: int = Field(default=5, ge=0, le=100)
     host: str = "127.0.0.1"
     port: int = Field(default=7842, ge=1, le=65535)
-
-    @field_validator("database_url")
-    @classmethod
-    def postgres_only(cls, value: SecretStr) -> SecretStr:
-        if not value.get_secret_value().startswith("postgresql+psycopg://"):
-            raise ValueError("A PostgreSQL psycopg URL is required")
-        return value
 
     @field_validator("log_level")
     @classmethod

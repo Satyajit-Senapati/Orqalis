@@ -6,7 +6,6 @@ from uuid import UUID, uuid4
 
 import pytest
 from pydantic import ValidationError
-from sqlalchemy import Engine
 
 from orqalis.delivery.gates import guard_delivery
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
@@ -25,21 +24,15 @@ from orqalis.domain.provider import ProviderExecutionRequest, ProviderExecutionR
 from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskExecution
 from orqalis.evaluation.validators import LocalEvaluator
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
 
-pytestmark = pytest.mark.postgres
-
 
 def test_external_finding_failure_repairs_then_resolves_independently(
-    database: Engine, git_repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    git_repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    sdk = Orqalis(unit_of_work=factory)
+    sdk = Orqalis(root=git_repo)
+    factory = sdk.unit_of_work
     project = sdk.initialize(git_repo)
     goal = GoalDraft(
         goal="Keep module and correct the reported behavior",
@@ -179,9 +172,9 @@ def test_external_finding_failure_repairs_then_resolves_independently(
     ],
 )
 def test_worker_findings_cannot_be_waived_without_evidence(
-    database: Engine, git_repo: Path, tmp_path: Path, bad_review: str
+    git_repo: Path, tmp_path: Path, bad_review: str
 ) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
     goal = GoalDraft(
         goal="Inspect worker report",
@@ -280,16 +273,13 @@ def test_finding_source_cannot_escape_repository(path: str) -> None:
     "scenario", ["accepted", "recreated_before_review", "recreated_before_delivery"]
 )
 def test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     scenario: str,
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    sdk = Orqalis(unit_of_work=factory)
+    sdk = Orqalis(root=git_repo)
+    factory = sdk.unit_of_work
     project = sdk.initialize(git_repo)
     goal = GoalDraft(
         goal="Remove the obsolete module",

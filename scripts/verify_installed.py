@@ -1,11 +1,9 @@
-"""Verify installed npm Core, MCP and UI against an explicitly disposable database.
+"""Verify installed npm Core, MCP and UI against a repository-local project store.
 
 Run with the contributor Python environment for HTTP/MCP test clients; every server
-and CLI under test comes from --prefix. Set ORQALIS_TEST_DATABASE_URL (or
-ORQALIS_DATABASE_URL) to an explicitly disposable database.
-The caller owns database cleanup; this harness removes its temporary repository and
-stops only the foreground CLI process tree verified as the UI listener owner.
-POSIX smoke hosts require lsof for listener ownership inspection.
+and CLI under test comes from --prefix. The harness creates and removes a temporary
+Git repository, while stopping only the foreground CLI process tree verified as the
+UI listener owner. POSIX smoke hosts require lsof for listener ownership inspection.
 """
 
 import argparse
@@ -42,10 +40,19 @@ def run(command: list[str], cwd: Path, env: dict[str, str]) -> str:
 
 
 async def mcp_check(
-    command: list[str], cwd: Path, env: dict[str, str], policy: Path, project: str, version: str
+    command: list[str],
+    cwd: Path,
+    env: dict[str, str],
+    policy: Path,
+    root: Path,
+    project: str,
+    version: str,
 ) -> int:
     parameters = StdioServerParameters(
-        command=command[0], args=[*command[1:], "mcp", "--policy", str(policy)], env=env, cwd=cwd
+        command=command[0],
+        args=[*command[1:], "mcp", "--policy", str(policy), "--root", str(root)],
+        env=env,
+        cwd=cwd,
     )
     async with Client(parameters, read_timeout_seconds=30) as client:
         assert client.server_info and client.server_info.version == version
@@ -130,16 +137,19 @@ def verified_ui_owner(record: UIProcessIdentity, python: Path, cli_pid: int) -> 
     assert record["ProcessId"] > 0, "Invalid UI process ID"
     assert cli_pid > 0, "Invalid foreground CLI process ID"
     expected = python.absolute()
-    if executable == expected:
-        assert record.get("ParentProcessId") == cli_pid, "Listener is not owned by the CLI"
+    parent_id = record.get("ParentProcessId")
+    if executable == expected and parent_id == cli_pid:
         return record["ProcessId"]
     # Windows venv redirectors launch a base-interpreter child. The managed
     # runtime must be its exact parent, and our CLI must be its grandparent.
-    parent_id = record.get("ParentProcessId")
+    # CPython may preserve the venv executable in both process command lines,
+    # so check verified ancestry before classifying the listener as direct.
     if isolated_ui_executable(record.get("ParentCommandLine")) == expected:
         assert parent_id is not None and parent_id > 0, "Invalid UI parent process ID"
         assert record.get("GrandparentProcessId") == cli_pid, "Listener is not owned by the CLI"
         return parent_id
+    if executable == expected:
+        raise AssertionError("Listener is not owned by the CLI")
     raise AssertionError("Listener belongs to another runtime")
 
 
@@ -206,11 +216,6 @@ def stop_ui(port: int, process: subprocess.Popen[str], cwd: Path, env: dict[str,
 
 
 def verify(prefix: Path, runtime: Path, workspace: Path | None = None) -> dict[str, Any]:
-    database_url = os.environ.get("ORQALIS_TEST_DATABASE_URL") or os.environ.get(
-        "ORQALIS_DATABASE_URL"
-    )
-    if not database_url:
-        raise RuntimeError("ORQALIS_TEST_DATABASE_URL must name an explicitly disposable database")
     package = prefix / ("node_modules/orqalis" if os.name == "nt" else "lib/node_modules/orqalis")
     manifest = json.loads((package / "package.json").read_text(encoding="utf-8"))
     node = shutil.which("node")
@@ -219,7 +224,6 @@ def verify(prefix: Path, runtime: Path, workspace: Path | None = None) -> dict[s
     command = [node, str(package / "bin/orqalis.js")]
     env = {key: value for key, value in os.environ.items() if not key.startswith("ORQALIS_")}
     env.update(
-        ORQALIS_DATABASE_URL=database_url,
         ORQALIS_RUNTIME_HOME=str(runtime),
         ORQALIS_HOST="127.0.0.1",
         NO_COLOR="1",
@@ -256,14 +260,18 @@ def verify(prefix: Path, runtime: Path, workspace: Path | None = None) -> dict[s
         )
         assert run([*command, "--version"], root, env).strip() == manifest["version"]
         assert "Commands" in run([*command, "--help"], root, env)
-        run([*command, "migrate"], root, env)
-        doctor = json.loads(run([*command, "doctor", "--json"], root, env))
-        assert doctor == {"git": True, "postgresql": True}
         project = json.loads(
             run([*command, "init", "--repo", str(repository), "--json"], root, env)
         )
+        env["ORQALIS_PROJECT_ROOT"] = str(repository)
         replay = json.loads(run([*command, "init", "--repo", str(repository), "--json"], root, env))
         assert replay["id"] == project["id"]
+        doctor = json.loads(
+            run([*command, "doctor", "--repo", str(repository), "--json"], root, env)
+        )
+        assert doctor["git"] is True
+        assert doctor["project_store"]["healthy"] is True
+        assert doctor["project_store"]["schema_version"] == 2
         status = json.loads(
             run([*command, "status", "--repo", str(repository), "--json"], root, env)
         )
@@ -330,7 +338,15 @@ def verify(prefix: Path, runtime: Path, workspace: Path | None = None) -> dict[s
             encoding="utf-8",
         )
         tools_count = asyncio.run(
-            mcp_check(command, root, env, policy, project["id"], manifest["version"])
+            mcp_check(
+                command,
+                root,
+                env,
+                policy,
+                repository,
+                project["id"],
+                manifest["version"],
+            )
         )
         with socket.socket() as probe:
             probe.bind(("127.0.0.1", 0))
@@ -420,7 +436,7 @@ def verify(prefix: Path, runtime: Path, workspace: Path | None = None) -> dict[s
                 name: "PASS"
                 for name in [
                     "version_help",
-                    "migrate_doctor",
+                    "filesystem_doctor_no_database",
                     "fresh_project_idempotent_init",
                     "status_memory_context",
                     "agent_skill_catalog",

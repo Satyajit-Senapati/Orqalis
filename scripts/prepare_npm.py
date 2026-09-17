@@ -12,8 +12,14 @@ from email.parser import BytesParser
 from pathlib import Path
 
 _MAINTAINER_RELEASE_DOCS = frozenset(
-    {"NPM_RELEASE_READINESS.md", "verification/npm-release-readiness.json"}
+    {
+        "NPM_RELEASE_READINESS.md",
+        "REPOSITORY_CLEANUP_AUDIT.md",
+        "verification/npm-release-readiness.json",
+    }
 )
+
+_DATABASE_PACKAGES = frozenset({"alembic", "pgvector", "psycopg", "psycopg-binary", "sqlalchemy"})
 
 _IGNORED_RELEASE_ARTIFACTS = shutil.ignore_patterns(
     "__pycache__", "*.pyc", "*.pyo", ".DS_Store", "Thumbs.db"
@@ -131,6 +137,19 @@ def _stage_wheel(wheel: Path, vendor: Path, checkout: Path) -> None:
         stale.unlink()
 
 
+def _verify_default_requirements(requirements: str) -> None:
+    """Reject database packages in the standard repo-local npm runtime."""
+
+    packages = {
+        line.partition("==")[0].strip().lower().replace("_", "-")
+        for line in requirements.splitlines()
+        if "==" in line and not line[:1].isspace()
+    }
+    leaked = sorted(packages & _DATABASE_PACKAGES)
+    if leaked:
+        raise ValueError("Default npm runtime includes database dependencies: " + ", ".join(leaked))
+
+
 def prepare(root: Path, uv: str) -> None:
     package = root / "packages" / "npm"
     config = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]
@@ -166,8 +185,6 @@ def prepare(root: Path, uv: str) -> None:
         ):
             if required not in names:
                 raise ValueError(f"Wheel is missing {required}")
-        if not any("/versions/" in name and name.endswith(".py") for name in names):
-            raise ValueError("Wheel must contain migrations")
         source = _verify_wheel_source(archive, root / "src" / "orqalis")
         web = _verify_wheel_ui(archive, root / "web" / "dist")
     vendor = package / "vendor"
@@ -196,6 +213,7 @@ def prepare(root: Path, uv: str) -> None:
         marker in requirements for marker in ("file://", " @ ", "--index-url", "--extra-index-url")
     ):
         raise ValueError("Dependencies must use pinned, hashed registry distributions")
+    _verify_default_requirements(requirements)
     manifest = {
         "schema": 1,
         "version": version,
@@ -212,7 +230,7 @@ def prepare(root: Path, uv: str) -> None:
         },
     }
     (vendor / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    for name in ("LICENSE", "README.md", "SIGNOFF.md", "compose.yaml"):
+    for name in ("LICENSE", "README.md", "SIGNOFF.md"):
         shutil.copy2(root / name, package / name)
     (package / "GUIDE.md").unlink(missing_ok=True)
     # Regenerate copied docs so removed installation routes cannot survive repacking.

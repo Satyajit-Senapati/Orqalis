@@ -9,6 +9,7 @@ from orqalis.core.goals import GoalService
 from orqalis.domain.acceptance import CommandValidation, GoalDraft
 from orqalis.evaluation.validators import LocalEvaluator
 from orqalis.git.service import LocalGitService
+from orqalis.persistence.filesystem import resolve_project_root
 
 app = typer.Typer(no_args_is_help=True, help="Versioned goals and evidence-backed acceptance.")
 
@@ -18,12 +19,13 @@ def create(
     request: str,
     contract: Annotated[Path, typer.Option(exists=True, dir_okay=False)],
     branch: Annotated[str, typer.Option()],
-    repo: Annotated[Path, typer.Option("--repo")] = Path("."),
+    repo: Annotated[Path | None, typer.Option("--repo")] = None,
     json_output: bool = typer.Option(False, "--json"),
 ) -> None:
     """Create a run and goal from an explicit JSON acceptance contract."""
-    with project_service() as projects:
-        project, status = projects.status(repo)
+    target = resolve_project_root(repo)
+    with project_service(target) as projects:
+        project, status = projects.status(target)
         LocalGitService().validate_branch(
             project.repo_root, branch, project.settings.protected_branches
         )

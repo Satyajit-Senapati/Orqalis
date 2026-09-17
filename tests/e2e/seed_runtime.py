@@ -52,7 +52,7 @@ if not (root / ".git").exists():
     )
     git("add", ".")
     git("commit", "-m", "test: create Mission Control fixture")
-sdk = Orqalis()
+sdk = Orqalis(root=root)
 project = sdk.initialize(root)
 draft = GoalDraft(
     goal="Validate repository behavior",

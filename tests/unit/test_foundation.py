@@ -41,14 +41,12 @@ def test_plan_weights_must_be_positive_finite(weight: float) -> None:
 
 def test_settings_override_and_secrets(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("ORQALIS_PORT", "7890")
-    monkeypatch.setenv("ORQALIS_DATABASE_URL", "postgresql+psycopg://u:private@localhost/db")
+    monkeypatch.setenv("ORQALIS_PROJECT_ROOT", str(Path.cwd()))
+    monkeypatch.setenv("ORQALIS_DATABASE_URL", "sqlite:///ignored-by-standard-runtime.db")
     settings = Settings()
     assert settings.port == 7890
-    assert "private" not in repr(settings)
-    assert "private" not in settings.model_dump_json()
-    monkeypatch.setenv("ORQALIS_DATABASE_URL", "sqlite:///prototype.db")
-    with pytest.raises(ValidationError):
-        Settings()
+    assert settings.project_root == Path.cwd()
+    assert "DATABASE_URL" not in repr(settings)
 
 
 def test_logging_redaction_context_and_allowlist() -> None:

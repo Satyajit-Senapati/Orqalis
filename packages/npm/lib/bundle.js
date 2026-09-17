@@ -48,6 +48,7 @@ async function requireSameFile(source, prepared, area) {
 async function requireSameTree(repository, packageRoot, relativeRoot, area) {
   const maintainerDocs = new Set([
     "docs/NPM_RELEASE_READINESS.md",
+    "docs/REPOSITORY_CLEANUP_AUDIT.md",
     "docs/verification/npm-release-readiness.json",
   ]);
   const sourceFiles = (await treeFiles(repository, relativeRoot, true)).filter(
@@ -77,7 +78,7 @@ export async function verifyPreparedCheckout(packageRoot, repository) {
   const manifest = JSON.parse(
     await readFile(resolve(packageRoot, "vendor/manifest.json"), "utf8"),
   );
-  for (const name of ["LICENSE", "README.md", "SIGNOFF.md", "compose.yaml"]) {
+  for (const name of ["LICENSE", "README.md", "SIGNOFF.md"]) {
     await requireSameFile(
       resolve(repository, name),
       resolve(packageRoot, name),
@@ -218,7 +219,6 @@ if (
     "README.md",
     "SIGNOFF.md",
     "docs/PUBLISHING.md",
-    "compose.yaml",
   ]) {
     if (!(await readFile(resolve(root, name), "utf8")).trim()) {
       throw new Error("Missing release documentation: " + name);

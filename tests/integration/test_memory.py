@@ -1,10 +1,10 @@
+import json
 import subprocess
 from collections.abc import Callable
 from pathlib import Path
+from typing import cast
 
 import pytest
-from sqlalchemy import Engine, select
-from sqlalchemy.orm import Session
 from typer.testing import CliRunner
 
 from orqalis.cli.app import app
@@ -12,12 +12,22 @@ from orqalis.core.projects import ProjectService
 from orqalis.domain.memory import MemoryItem, MemorySource, MemoryType
 from orqalis.git.service import LocalGitService
 from orqalis.memory.service import MemoryService
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.memory import SQLMemoryRepository
-from orqalis.persistence.memory_models import MemoryRow
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
+from tests.support.filesystem import filesystem_uow_factory
 
-pytestmark = pytest.mark.postgres
+
+def _memory_items(root: Path) -> tuple[dict[str, object], ...]:
+    """Read rebuildable legacy source-projection metadata."""
+
+    items: list[dict[str, object]] = []
+    cache = root / ".orqalis" / "cache" / "search" / "source-records"
+    for path in sorted(cache.glob("SRC-*.md")):
+        text = path.read_text(encoding="utf-8")
+        frontmatter, _ = text[4:].split("\n---\n", 1)
+        metadata = json.loads(frontmatter)
+        item = metadata.get("item")
+        assert isinstance(item, dict)
+        items.append(cast(dict[str, object], item))
+    return tuple(items)
 
 
 class ObservedGit(LocalGitService):
@@ -36,14 +46,11 @@ class ObservedGit(LocalGitService):
 
 
 def test_bootstrap_no_change_incremental_and_delete(
-    database: Engine,
     git_repo: Path,
     commit_all: Callable[[Path], str],
 ) -> None:
     git = ObservedGit()
-
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     project = ProjectService(factory, git).initialize(git_repo)
     memory = MemoryService(factory, git)
@@ -63,15 +70,14 @@ def test_bootstrap_no_change_incremental_and_delete(
     assert second.invalidated_items == 2  # source fact and project overview
     matches = memory.search(project, "revised_behavior")
     assert matches[0].sources[0].commit_sha == new_commit
-    with Session(database) as session:
-        old = session.scalars(
-            select(MemoryRow).where(
-                MemoryRow.project_id == project.id,
-                MemoryRow.title == "main.py",
-                MemoryRow.status == "superseded",
-            )
-        ).one()
-        assert old.superseded_by == matches[0].item.id
+    old = next(
+        item
+        for item in _memory_items(git_repo)
+        if item["project_id"] == str(project.id)
+        and item["title"] == "main.py"
+        and item["status"] == "superseded"
+    )
+    assert old["superseded_by"] == str(matches[0].item.id)
     (git_repo / "main.py").unlink()
     commit_all(git_repo)
     memory.refresh(project)
@@ -85,14 +91,11 @@ def test_bootstrap_no_change_incremental_and_delete(
 
 
 def test_refresh_rebuilds_memory_when_indexed_commit_is_no_longer_available(
-    database: Engine,
     git_repo: Path,
     commit_all: Callable[[Path], str],
 ) -> None:
     git = ObservedGit()
-
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     project = ProjectService(factory, git).initialize(git_repo)
     (git_repo / "main.py").write_text("def legacy_only():\n    return True\n", encoding="utf-8")
@@ -134,28 +137,24 @@ def test_refresh_rebuilds_memory_when_indexed_commit_is_no_longer_available(
     replacement = memory.search(project, "replacement_only")
     assert replacement[0].sources[0].commit_sha == new_commit
     assert memory.health(project).active_items == 5
-    with Session(database) as session:
-        old_main = session.scalars(
-            select(MemoryRow).where(
-                MemoryRow.project_id == project.id,
-                MemoryRow.title == "main.py",
-                MemoryRow.source_commit == old_commit,
-            )
-        ).one()
-        assert old_main.status == "invalidated"
-        active_commits = set(
-            session.scalars(
-                select(MemoryRow.source_commit).where(
-                    MemoryRow.project_id == project.id,
-                    MemoryRow.status == "active",
-                )
-            )
-        )
-        assert active_commits == {new_commit}
+    records = _memory_items(git_repo)
+    old_main = next(
+        item
+        for item in records
+        if item["project_id"] == str(project.id)
+        and item["title"] == "main.py"
+        and item["source_commit"] == old_commit
+    )
+    assert old_main["status"] == "invalidated"
+    active_commits = {
+        item["source_commit"]
+        for item in records
+        if item["project_id"] == str(project.id) and item["status"] == "active"
+    }
+    assert active_commits == {new_commit}
 
 
 def test_context_dirty_overlay_budget_and_secrets(
-    database: Engine,
     git_repo: Path,
     commit_all: Callable[[Path], str],
 ) -> None:
@@ -166,9 +165,7 @@ def test_context_dirty_overlay_budget_and_secrets(
     (git_repo / "private.md").write_text("<thinking>private scratch</thinking>")
     commit_all(git_repo)
     git = LocalGitService()
-
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     project = ProjectService(factory, git).initialize(git_repo)
     memory = MemoryService(factory, git)
@@ -178,13 +175,12 @@ def test_context_dirty_overlay_budget_and_secrets(
     assert pack.size_chars <= 2000
     assert pack.freshness.fresh
     assert "secret-value" not in pack.model_dump_json()
-    with Session(database) as session:
-        text = str(
-            session.scalars(
-                select(MemoryRow.content).where(MemoryRow.project_id == project.id)
-            ).all()
-        )
-        assert "must-not-persist" not in text and "private scratch" not in text
+    text = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in (git_repo / ".orqalis" / "cache" / "search" / "source-records").glob("SRC-*.md")
+    )
+    assert not tuple((git_repo / ".orqalis" / "memory" / "records").glob("SRC-*.md"))
+    assert "must-not-persist" not in text and "private scratch" not in text
     (git_repo / "architecture.md").write_text("new uncommitted design")
     dirty = memory.context(project, "authentication")
     assert not dirty.freshness.fresh
@@ -194,13 +190,11 @@ def test_context_dirty_overlay_budget_and_secrets(
     assert memory.context(project, "nonexistent concept").requires_inspection
 
 
-def test_vector_search_is_project_and_model_scoped(database: Engine, git_repo: Path) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
+def test_vector_search_is_project_and_model_scoped(git_repo: Path) -> None:
+    factory = filesystem_uow_factory(git_repo)
     project = ProjectService(factory, LocalGitService()).initialize(git_repo)
-    with Session(database) as session, session.begin():
-        repository = SQLMemoryRepository(session)
+    with factory() as uow:
+        repository = uow.memory
         for title, vector, model in [
             ("matching", (1.0, 0.0, 0.0), "fixture-v1"),
             ("unrelated", (0.0, 1.0, 0.0), "fixture-v1"),
@@ -225,11 +219,10 @@ def test_vector_search_is_project_and_model_scoped(database: Engine, git_repo: P
         )
         assert results[0].item.title == "matching"
         assert {result.item.title for result in results} == {"matching", "unrelated"}
+        uow.commit()
 
 
-def test_memory_cli(database: Engine, git_repo: Path) -> None:
-    import json
-
+def test_memory_cli(git_repo: Path) -> None:
     runner = CliRunner()
     for args in [
         ["init"],
@@ -244,7 +237,6 @@ def test_memory_cli(database: Engine, git_repo: Path) -> None:
 
 
 def test_failed_refresh_rolls_back_and_retries(
-    database: Engine,
     git_repo: Path,
     commit_all: Callable[[Path], str],
 ) -> None:
@@ -259,9 +251,7 @@ def test_failed_refresh_rolls_back_and_retries(
             return super().read_file(path, commit, relative_path)
 
     git = FailingGit()
-
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     project = ProjectService(factory, git).initialize(git_repo)
     memory = MemoryService(factory, git)
@@ -281,12 +271,10 @@ def test_failed_refresh_rolls_back_and_retries(
     )
 
 
-def test_concurrent_refresh_has_one_atomic_snapshot(database: Engine, git_repo: Path) -> None:
+def test_concurrent_refresh_has_one_atomic_snapshot(git_repo: Path) -> None:
     from concurrent.futures import ThreadPoolExecutor
 
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
+    factory = filesystem_uow_factory(git_repo)
     project = ProjectService(factory, LocalGitService()).initialize(git_repo)
     memory = MemoryService(factory, LocalGitService())
     with ThreadPoolExecutor(max_workers=2) as executor:
@@ -296,7 +284,6 @@ def test_concurrent_refresh_has_one_atomic_snapshot(database: Engine, git_repo: 
 
 
 def test_unavailable_embeddings_fall_back_to_structured_search(
-    database: Engine,
     git_repo: Path,
 ) -> None:
     from orqalis.domain.errors import EmbeddingUnavailableError
@@ -308,16 +295,13 @@ def test_unavailable_embeddings_fall_back_to_structured_search(
         def embed(self, text: str) -> tuple[float, ...]:
             raise EmbeddingUnavailableError("unavailable")
 
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
+    factory = filesystem_uow_factory(git_repo)
     project = ProjectService(factory, LocalGitService()).initialize(git_repo)
     memory = MemoryService(factory, LocalGitService(), embeddings=OfflineEmbeddings())
     assert memory.search(project, "main")
 
 
 def test_large_repository_refresh_reads_only_changed_source(
-    database: Engine,
     git_repo: Path,
     commit_all: Callable[[Path], str],
     record_testsuite_property: Callable[[str, object], None],
@@ -330,9 +314,7 @@ def test_large_repository_refresh_reads_only_changed_source(
         (source / f"module_{index}.py").write_text(f"def feature_{index}(): return {index}\n")
     commit_all(git_repo)
     git = ObservedGit()
-
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     project = ProjectService(factory, git).initialize(git_repo)
     memory = MemoryService(factory, git)

@@ -2,7 +2,6 @@ import asyncio
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.core.vertical_plan import VerticalPlanner
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
@@ -12,20 +11,16 @@ from orqalis.domain.execution import CriterionReview, ExecutionPolicy, ReviewRes
 from orqalis.domain.provider import ProviderExecutionRequest, ProviderExecutionResult
 from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskStatus
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
 def test_revised_goal_replans_without_rewriting_prior_history(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
 ) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(unit_of_work=filesystem_uow_factory(git_repo))
     project = sdk.initialize(git_repo)
     draft = GoalDraft(
         goal="Inspect source",

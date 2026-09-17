@@ -2,26 +2,21 @@ import asyncio
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
 from orqalis.domain.execution import ExecutionPolicy
 from orqalis.domain.provider import ProviderExecutionRequest, ProviderExecutionResult
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
 def test_persisted_cancel_interrupts_provider_without_reclassifying_terminal_run(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(unit_of_work=filesystem_uow_factory(git_repo))
     project = sdk.initialize(git_repo)
     state = sdk.prepare_run(
         project.id,

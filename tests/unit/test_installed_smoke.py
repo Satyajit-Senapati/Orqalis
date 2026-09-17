@@ -31,6 +31,37 @@ def test_ui_cleanup_owns_windows_venv_redirector_parent(tmp_path: Path) -> None:
     assert verified_ui_owner(record, python, 5) == 10
 
 
+def test_ui_cleanup_owns_redirector_when_child_repeats_venv_command(tmp_path: Path) -> None:
+    python = tmp_path / "managed runtime" / "Scripts" / "python.exe"
+    command = f'"{python}" -I -m orqalis ui'
+    record: UIProcessIdentity = {
+        "ProcessId": 20,
+        "CommandLine": command,
+        "ParentProcessId": 10,
+        "ParentCommandLine": command,
+        "GrandparentProcessId": 5,
+    }
+    assert verified_ui_owner(record, python, 5) == 10
+
+
+@pytest.mark.parametrize("grandparent_id", [None, 9])
+def test_ui_cleanup_rejects_repeated_venv_command_outside_cli(
+    tmp_path: Path, grandparent_id: int | None
+) -> None:
+    python = tmp_path / "managed runtime" / "Scripts" / "python.exe"
+    command = f'"{python}" -I -m orqalis ui'
+    record: UIProcessIdentity = {
+        "ProcessId": 20,
+        "CommandLine": command,
+        "ParentProcessId": 10,
+        "ParentCommandLine": command,
+    }
+    if grandparent_id is not None:
+        record["GrandparentProcessId"] = grandparent_id
+    with pytest.raises(AssertionError, match="not owned by the CLI"):
+        verified_ui_owner(record, python, 5)
+
+
 @pytest.mark.parametrize("parent_id", [None, 9])
 def test_ui_cleanup_rejects_runtime_listener_outside_foreground_cli(
     tmp_path: Path, parent_id: int | None

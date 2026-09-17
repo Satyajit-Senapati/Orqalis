@@ -76,7 +76,6 @@ async function preparedCheckout(t) {
     LICENSE: "MIT fixture",
     "README.md": "README fixture",
     "SIGNOFF.md": "Sign-off fixture",
-    "compose.yaml": "services: {}",
   };
   for (const [name, content] of Object.entries(direct)) {
     await writeFile(join(repository, name), content);
@@ -215,6 +214,7 @@ test("maintainer release audit is excluded while accidental prepared copies fail
   await mkdir(join(repository, "docs/verification"));
   for (const name of [
     "docs/NPM_RELEASE_READINESS.md",
+    "docs/REPOSITORY_CLEANUP_AUDIT.md",
     "docs/verification/npm-release-readiness.json",
   ]) {
     await writeFile(join(repository, name), "local audit evidence");
@@ -464,7 +464,7 @@ test("abnormal child termination retains the signal exit code", async () => {
   assert.equal(await result, 137);
 });
 
-test("prepack requires database configuration for installs without a checkout", async (t) => {
+test("prepack requires release documentation for installs without a checkout", async (t) => {
   const root = await fixture(t);
   await mkdir(join(root, "lib"));
   await mkdir(join(root, "docs"));
@@ -481,7 +481,6 @@ test("prepack requires database configuration for installs without a checkout", 
     "README.md",
     "SIGNOFF.md",
     "docs/PUBLISHING.md",
-    "compose.yaml",
   ]) {
     await writeFile(join(root, name), "fixture content");
   }
@@ -490,8 +489,8 @@ test("prepack requires database configuration for installs without a checkout", 
     spawnSync(process.execPath, command, { encoding: "utf8" }).status,
     0,
   );
-  await rm(join(root, "compose.yaml"));
+  await rm(join(root, "SIGNOFF.md"));
   const missing = spawnSync(process.execPath, command, { encoding: "utf8" });
   assert.notEqual(missing.status, 0);
-  assert.match(missing.stderr, /compose.yaml/);
+  assert.match(missing.stderr, /SIGNOFF.md/);
 });

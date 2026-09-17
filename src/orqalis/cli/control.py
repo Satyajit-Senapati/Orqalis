@@ -7,12 +7,11 @@ from uuid import UUID, uuid4
 
 import typer
 
-from orqalis.cli.dependencies import project_service
+from orqalis.cli.dependencies import sdk_service
 from orqalis.core.plan_draft import draft_replacement
 from orqalis.domain.approval import ApprovalDecisionKind
 from orqalis.domain.errors import ConflictError
 from orqalis.domain.plan import TaskPlan
-from orqalis.sdk import Orqalis
 
 approvals_app = typer.Typer(no_args_is_help=True, help="Inspect and decide operator gates.")
 plan_app = typer.Typer(no_args_is_help=True, help="Preview, inspect, and edit the task DAG.")
@@ -21,8 +20,8 @@ plan_app = typer.Typer(no_args_is_help=True, help="Preview, inspect, and edit th
 @approvals_app.command("list")
 def list_approvals(run_id: UUID, json_output: bool = typer.Option(False, "--json")) -> None:
     """Show pending and historical decisions with their exact subject fingerprints."""
-    with project_service() as projects:
-        service = Orqalis(unit_of_work=projects.unit_of_work).approvals
+    with sdk_service() as sdk:
+        service = sdk.approvals
         requests = service.list(run_id)
         if json_output:
             typer.echo("[" + ",".join(item.model_dump_json() for item in requests) + "]")
@@ -45,8 +44,8 @@ def decide_approval(
     reason: str = typer.Option("", "--reason"),
 ) -> None:
     """Record one human decision for the exact inspected subject digest."""
-    with project_service() as projects:
-        service = Orqalis(unit_of_work=projects.unit_of_work).approvals
+    with sdk_service() as sdk:
+        service = sdk.approvals
         result = service.decide(
             run_id, request_id, decision, getpass.getuser(), expected_digest, reason
         )
@@ -78,16 +77,15 @@ def reject(
 @plan_app.command("preview")
 def preview_plan(run_id: UUID) -> None:
     """Create the first durable plan without allocating an execution workspace."""
-    with project_service() as projects:
-        sdk = Orqalis(unit_of_work=projects.unit_of_work)
+    with sdk_service() as sdk:
         typer.echo(sdk.plans.preview(run_id, str(uuid4())).model_dump_json())
 
 
 @plan_app.command("show")
 def show_plan(run_id: UUID) -> None:
     """Print the current persisted dependency DAG as JSON."""
-    with project_service() as projects:
-        state = Orqalis(unit_of_work=projects.unit_of_work).snapshot(run_id)
+    with sdk_service() as sdk:
+        state = sdk.snapshot(run_id)
         if state.plan is None:
             raise ConflictError("Run does not have a plan yet")
         typer.echo(state.plan.model_dump_json())
@@ -99,8 +97,8 @@ def draft_plan(
     output: Annotated[Path, typer.Option("--output")],
 ) -> None:
     """Write a next-version JSON draft with fresh task IDs for editing."""
-    with project_service() as projects:
-        state = Orqalis(unit_of_work=projects.unit_of_work).snapshot(run_id)
+    with sdk_service() as sdk:
+        state = sdk.snapshot(run_id)
         if state.plan is None:
             raise ConflictError("Run does not have a plan yet")
         draft = draft_replacement(state.plan)
@@ -119,6 +117,5 @@ def replace_plan(
     draft = TaskPlan.model_validate_json(file.read_text(encoding="utf-8"))
     if draft.run_id != run_id:
         raise ConflictError("Plan belongs to another run")
-    with project_service() as projects:
-        sdk = Orqalis(unit_of_work=projects.unit_of_work)
+    with sdk_service() as sdk:
         typer.echo(sdk.plans.replace(draft, expected_version, str(uuid4())).model_dump_json())

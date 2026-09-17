@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.core.goals import GoalService
 from orqalis.core.projects import ProjectService
@@ -14,17 +13,11 @@ from orqalis.domain.acceptance import (
 from orqalis.domain.errors import ConflictError
 from orqalis.evaluation.validators import LocalEvaluator
 from orqalis.git.service import LocalGitService
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
-def test_persisted_goals_evidence_idempotency_and_revision(
-    database: Engine, git_repo: Path
-) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+def test_persisted_goals_evidence_idempotency_and_revision(git_repo: Path) -> None:
+    factory = filesystem_uow_factory(git_repo)
 
     git = LocalGitService()
     project = ProjectService(factory, git).initialize(git_repo)
@@ -68,13 +61,14 @@ def test_persisted_goals_evidence_idempotency_and_revision(
         goals.revise(run.id, draft, "stale caller", expected_version=1)
 
 
-def test_goal_cli(database: Engine, git_repo: Path, tmp_path: Path) -> None:
+def test_goal_cli(git_repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     import json
 
     from typer.testing import CliRunner
 
     from orqalis.cli.app import app
 
+    monkeypatch.chdir(git_repo)
     runner = CliRunner()
     assert runner.invoke(app, ["init", "--repo", str(git_repo)]).exit_code == 0
     draft = GoalDraft(

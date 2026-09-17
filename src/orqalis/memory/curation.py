@@ -1,5 +1,5 @@
-import hashlib
 from collections.abc import Callable
+from pathlib import Path
 from uuid import UUID, uuid5
 
 from orqalis.core.ports import ProjectUnitOfWork
@@ -9,20 +9,18 @@ from orqalis.domain.agent import ActorStatus, AgentRole
 from orqalis.domain.base import utc_now
 from orqalis.domain.errors import PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
-from orqalis.domain.memory import MemoryItem, MemorySource, MemoryType
 from orqalis.domain.run import RunState
 from orqalis.git.service import LocalGitService
-from orqalis.memory.service import MemoryService
+from orqalis.memory.curated import CuratedMemoryStore, MemoryProposal
+from orqalis.persistence.filesystem import ProjectLayout, TaskCapsuleStore
 from orqalis.security.redaction import safe_diagnostic
 
 
 class MemoryCurator:
-    """Promotes committed source summaries and verified run outcomes, never agent chatter."""
+    """Stage verified task outcomes under the configured curated-memory policy."""
 
-    def __init__(
-        self, factory: Callable[[], ProjectUnitOfWork], memory: MemoryService, git: LocalGitService
-    ) -> None:
-        self.factory, self.memory, self.git = factory, memory, git
+    def __init__(self, factory: Callable[[], ProjectUnitOfWork], git: LocalGitService) -> None:
+        self.factory, self.git = factory, git
 
     def promote(self, run_id: UUID, actor_id: UUID) -> tuple[UUID, ...]:
         with self.factory() as uow:
@@ -50,8 +48,7 @@ class MemoryCurator:
             ):
                 raise PolicyDeniedError("Delivered workspace changed before curation")
             replay = uow.events.by_key(run_id, "curation:promoted")
-            if replay:
-                return replay.payload.memory_ids
+            replayed = replay.payload.memory_ids if replay else None
             goal = (
                 uow.runs.get_goal(run.current_goal_version_id)
                 if run.current_goal_version_id
@@ -68,43 +65,24 @@ class MemoryCurator:
             )
             if safe_diagnostic(content) != content:
                 raise PolicyDeniedError("Unsafe durable run summary")
-        # Index the exact accepted branch. Subsequent retrieval revalidates its own HEAD;
-        # no checkout, merge or source-branch mutation is performed.
-        self.memory.refresh(
-            project.model_copy(update={"repo_root": workspace.path}), origin_run=run_id
+        proposal = self._stage_outcome(
+            project.repo_root,
+            run_id,
+            delivery.commit_sha,
+            content,
+            str(final.id),
         )
+        if replayed is not None:
+            return replayed
+        receipt = uuid5(run_id, f"curated-memory:{proposal.record.id}")
         with self.factory() as uow:
             run = locked_run(uow, run_id)
             if run.state != RunState.MEMORY_FINALIZATION:
                 raise PolicyDeniedError("Run left its memory curation checkpoint")
             guard_delivery(uow, run, RunState.MEMORY_FINALIZATION)
-            uow.memory.lock_project(project.id)
             replay = uow.events.by_key(run_id, "curation:promoted")
             if replay:
                 return replay.payload.memory_ids
-            uow.memory.attribute_commit(project.id, delivery.commit_sha, run_id)
-            summary = MemoryItem(
-                id=uuid5(run_id, "curated-outcome"),
-                project_id=project.id,
-                type=MemoryType.PREVIOUS_RUN,
-                title=f"Accepted run {run_id}",
-                content=content,
-                source_commit=delivery.commit_sha,
-                introduced_by_run=run_id,
-            )
-            uow.memory.add_item(
-                summary,
-                MemorySource(
-                    memory_item_id=summary.id,
-                    source_type="git_commit",
-                    source_ref=delivery.commit_sha,
-                    content_hash=hashlib.sha256(delivery.commit_sha.encode()).hexdigest(),
-                    commit_sha=delivery.commit_sha,
-                ),
-                None,
-                None,
-            )
-            promoted = tuple(item.id for item in uow.memory.items_for_run(run_id))
             emit(
                 uow,
                 run,
@@ -112,10 +90,35 @@ class MemoryCurator:
                 "curation:promoted",
                 utc_now(),
                 EventPayload(
-                    memory_ids=promoted,
-                    summary=f"Promoted {len(promoted)} committed source/outcome facts",
+                    memory_ids=(receipt,),
+                    summary=(
+                        f"Approved curated memory {proposal.record.id}"
+                        if proposal.status == "APPROVED"
+                        else f"Staged curated memory {proposal.record.id} for review"
+                    ),
                 ),
                 actor_id,
             )
             uow.commit()
-            return promoted
+            return (receipt,)
+
+    def _stage_outcome(
+        self,
+        root: Path,
+        run_id: UUID,
+        commit: str,
+        content: str,
+        validation_id: str,
+    ) -> MemoryProposal:
+        store = CuratedMemoryStore(ProjectLayout(root))
+        task_id = TaskCapsuleStore.from_root(root).capsule_id(run_id)
+        if task_id is None:
+            raise PolicyDeniedError("Memory promotion requires a persisted Task Capsule")
+        title = f"Accepted task {task_id}"
+        return store.propose_task_outcome(
+            task_id,
+            title,
+            content,
+            commit,
+            evidence=(f"commit:{commit}", f"final-validation:{validation_id}"),
+        )

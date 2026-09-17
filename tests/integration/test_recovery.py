@@ -2,7 +2,6 @@ import asyncio
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
 from orqalis.domain.agent import AgentRole
@@ -14,23 +13,19 @@ from orqalis.domain.provider import (
     ProviderExecutionRequest,
     ProviderExecutionResult,
 )
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.errors import ProviderError
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
 @pytest.mark.parametrize("attempt_limit", [1, 3])
 def test_explicit_recovery_uses_new_attempt_preserves_contract_and_enforces_limit(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
     attempt_limit: int,
 ) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(unit_of_work=filesystem_uow_factory(git_repo))
     project = sdk.initialize(git_repo, ProjectSettings(max_task_attempts=attempt_limit))
     state = sdk.prepare_run(
         project.id,

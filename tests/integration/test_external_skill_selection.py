@@ -1,24 +1,12 @@
 from pathlib import Path
 
-import pytest
-from sqlalchemy import Engine
-
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
 from orqalis.domain.execution import ExecutionPolicy
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.sdk import Orqalis
 
-pytestmark = pytest.mark.postgres
 
-
-def test_external_documentation_task_loads_scoped_skill(
-    database: Engine, git_repo: Path, tmp_path: Path
-) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    sdk = Orqalis(unit_of_work=factory)
+def test_external_documentation_task_loads_scoped_skill(git_repo: Path, tmp_path: Path) -> None:
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
     goal = GoalDraft(
         goal="Update the repository instructions",

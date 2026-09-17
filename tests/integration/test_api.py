@@ -2,19 +2,16 @@ from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import Engine
 
 from orqalis.api.app import create_app
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
+from orqalis.memory.curated import CuratedMemoryStore, MemoryCategory, MemoryProvenance
+from orqalis.persistence.filesystem import ProjectLayout
 from orqalis.sdk import Orqalis
 
-pytestmark = pytest.mark.postgres
 
-
-def test_api_contract_and_websocket_reconnect(database: Engine, git_repo: Path) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+def test_api_contract_and_websocket_reconnect(git_repo: Path) -> None:
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
     goal = GoalDraft(
         goal="Observe fixture",
@@ -103,8 +100,46 @@ def test_api_contract_and_websocket_reconnect(database: Engine, git_repo: Path) 
         assert client.get(f"/api/projects/{project.id}/brain?run_id={run_id}").status_code == 200
 
 
-def test_api_denies_cross_origin_and_untrusted_host(database: Engine) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+def test_api_memory_returns_only_approved_curated_records(git_repo: Path) -> None:
+    sdk = Orqalis(root=git_repo)
+    try:
+        project = sdk.initialize(git_repo)
+        store = CuratedMemoryStore(ProjectLayout(git_repo))
+        record = store.new_record(
+            MemoryCategory.CONVENTIONS,
+            "Authoritative naming convention",
+            "The aurora-marker identifies curated naming guidance.",
+            MemoryProvenance(type="user"),
+        )
+        proposal = store.propose(record, "Document a durable project convention")
+        store.approve(proposal.id, "Repository evidence confirms the convention")
+        assert tuple(
+            (git_repo / ".orqalis" / "cache" / "search" / "source-records").glob("SRC-*.md")
+        )
+
+        with TestClient(
+            create_app(sdk), base_url="http://localhost", client=("127.0.0.1", 50000)
+        ) as client:
+            response = client.get(
+                f"/api/projects/{project.id}/memory",
+                params={"query": "aurora-marker", "limit": 10},
+            )
+
+        assert response.status_code == 200, response.text
+        assert response.json() == [
+            {
+                "record": record.model_dump(mode="json"),
+                "freshness": "FRESH",
+                "changed_sources": [],
+            }
+        ]
+        assert all("item" not in value for value in response.json())
+    finally:
+        sdk.close()
+
+
+def test_api_denies_cross_origin_and_untrusted_host(git_repo: Path) -> None:
+    sdk = Orqalis(root=git_repo)
     with TestClient(
         create_app(sdk), base_url="http://localhost", client=("127.0.0.1", 50000)
     ) as client:
@@ -126,12 +161,12 @@ def test_api_denies_cross_origin_and_untrusted_host(database: Engine) -> None:
         assert malformed_origin.status_code == 403
 
 
-def test_remote_client_cannot_bypass_loopback_policy_with_host_header(database: Engine) -> None:
+def test_remote_client_cannot_bypass_loopback_policy_with_host_header(git_repo: Path) -> None:
     from uuid import uuid4
 
     from starlette.websockets import WebSocketDisconnect
 
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(root=git_repo)
     with TestClient(
         create_app(sdk), base_url="http://localhost", client=("203.0.113.10", 50000)
     ) as client:

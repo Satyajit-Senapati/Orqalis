@@ -7,7 +7,6 @@ from uuid import UUID, uuid4
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import SecretStr
-from sqlalchemy import Engine
 
 from orqalis.api.app import create_app
 from orqalis.config.settings import Settings
@@ -16,13 +15,9 @@ from orqalis.domain.approval import ApprovalDecisionKind, ApprovalStage, Approva
 from orqalis.domain.errors import PolicyDeniedError
 from orqalis.domain.execution import ExecutionPolicy
 from orqalis.domain.plan import TaskPlan
-from orqalis.persistence.approvals import SQLApprovalRepository
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
+from orqalis.persistence.filesystem.task_store import FilesystemApprovalRepository
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
 
 
 def fixture_goal() -> GoalDraft:
@@ -41,12 +36,9 @@ def fixture_goal() -> GoalDraft:
 
 
 def test_executor_stops_before_workspace_at_goal_and_plan_gates(
-    database: Engine, git_repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    git_repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    sdk = Orqalis(unit_of_work=factory)
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
     state = sdk.prepare_run(
         project.id,
@@ -101,12 +93,10 @@ def test_executor_stops_before_workspace_at_goal_and_plan_gates(
             asyncio.run(executor.execute(state.run.id, "fixture", policy))
 
 
-def test_local_api_requires_token_for_decisions_and_plan_edits(
-    database: Engine, git_repo: Path
-) -> None:
+def test_local_api_requires_token_for_decisions_and_plan_edits(git_repo: Path) -> None:
     sdk = Orqalis(
         settings=Settings(operator_token=SecretStr("test-operator-secret")),
-        unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)),
+        root=git_repo,
     )
     project = sdk.initialize(git_repo)
     state = sdk.prepare_run(
@@ -188,7 +178,7 @@ def test_local_api_requires_token_for_decisions_and_plan_edits(
         assert controls["approvals"][-1]["status"] == "PENDING"
         empty_token_sdk = Orqalis(
             settings=Settings(operator_token=SecretStr("")),
-            unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)),
+            root=git_repo,
         )
         with TestClient(
             create_app(empty_token_sdk),
@@ -199,16 +189,16 @@ def test_local_api_requires_token_for_decisions_and_plan_edits(
 
 
 def test_supervised_policy_is_atomic_with_run_creation(
-    database: Engine, git_repo: Path, monkeypatch: pytest.MonkeyPatch
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
 
-    def fail_policy_write(self: SQLApprovalRepository, policy: object) -> None:
+    def fail_policy_write(self: FilesystemApprovalRepository, policy: object) -> None:
         raise RuntimeError("simulated crash before commit")
 
     with monkeypatch.context() as patch:
-        patch.setattr(SQLApprovalRepository, "save_policy", fail_policy_write)
+        patch.setattr(FilesystemApprovalRepository, "save_policy", fail_policy_write)
         with pytest.raises(RuntimeError, match="simulated crash"):
             sdk.prepare_run(
                 project.id,

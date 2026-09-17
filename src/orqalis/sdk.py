@@ -4,7 +4,11 @@ from uuid import UUID, uuid4
 
 from orqalis.agents.routing import CapabilityRouter
 from orqalis.agents.service import AgentExecutionService
+from orqalis.bootstrap import ProjectBootstrapService
 from orqalis.config.settings import Settings
+from orqalis.context.builder import ProjectContextBuilder
+from orqalis.context.models import ProjectContextPack
+from orqalis.context.service import TaskContextService
 from orqalis.core.approval_subjects import goal_subject
 from orqalis.core.approvals import ApprovalService
 from orqalis.core.delivery import DeliveryCoordinator
@@ -23,7 +27,7 @@ from orqalis.domain.acceptance import GoalDraft
 from orqalis.domain.approval import ApprovalStage, ApprovalStatus, ControlMode
 from orqalis.domain.base import utc_now
 from orqalis.domain.capabilities import SkillCatalogEntry
-from orqalis.domain.errors import ConflictError, NotFoundError, PolicyDeniedError
+from orqalis.domain.errors import ConflictError, InputError, NotFoundError, PolicyDeniedError
 from orqalis.domain.events import Event, EventPayload, EventType
 from orqalis.domain.project import Project, ProjectSettings
 from orqalis.domain.projections import RunSnapshot
@@ -32,16 +36,29 @@ from orqalis.execution.review import ReviewService
 from orqalis.execution.tools import ToolService
 from orqalis.execution.worker import AgentWorker
 from orqalis.execution.workspaces import ExecutionWorkspaces
-from orqalis.git.service import LocalGitService
+from orqalis.git.service import GitError, LocalGitService
+from orqalis.graph import ProjectGraph, ProjectGraphEngine
+from orqalis.indexing import ProjectIndex, ProjectIndexBuildResult
 from orqalis.memory.brain import ProjectBrainService
+from orqalis.memory.curated import (
+    CuratedMemoryStore,
+    MemoryRecordStatus,
+    MemoryRevalidationResult,
+)
 from orqalis.memory.service import MemoryService
+from orqalis.observability.event_bus import ProjectEventBus
 from orqalis.observability.projections import SnapshotProjectionService
-from orqalis.persistence.database import create_database_engine, session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
+from orqalis.persistence.filesystem import (
+    FilesystemProjectUnitOfWork,
+    ProjectLayout,
+    TaskCapsuleStore,
+    resolve_project_root,
+)
 from orqalis.providers.configuration import configured_providers
 from orqalis.providers.ports import AgentProvider
 from orqalis.security.redaction import safe_diagnostic
 from orqalis.skills.registry import SkillRegistry
+from orqalis.tasks.history import TaskHistoryService
 from orqalis.workspace.manager import WorktreeManager
 
 
@@ -52,15 +69,24 @@ class Orqalis:
         self,
         settings: Settings | None = None,
         unit_of_work: Callable[[], ProjectUnitOfWork] | None = None,
+        root: Path | None = None,
+        event_bus: ProjectEventBus | None = None,
     ) -> None:
         self.settings = settings or Settings()
-        self.engine = create_database_engine(self.settings) if unit_of_work is None else None
+        self.event_bus = event_bus or ProjectEventBus()
+        self.project_root: Path | None = None
+        self._task_store: TaskCapsuleStore | None = None
+        self._contexts: TaskContextService | None = None
+        self._task_history: TaskHistoryService | None = None
+        self.unit_of_work: Callable[[], ProjectUnitOfWork]
         if unit_of_work is not None:
             self.unit_of_work = unit_of_work
         else:
-            assert self.engine is not None
-            sessions = session_factory(self.engine)
-            self.unit_of_work = lambda: SQLProjectUnitOfWork(sessions)
+            selected_root = root if root is not None else self.settings.project_root
+            self.project_root = resolve_project_root(selected_root)
+            store = TaskCapsuleStore.from_root(self.project_root)
+            self._task_store = store
+            self.unit_of_work = lambda: FilesystemProjectUnitOfWork(store, self.event_bus)
         self.git = LocalGitService()
         self.projects = ProjectService(self.unit_of_work, self.git)
         self.memory = MemoryService(self.unit_of_work, self.git)
@@ -150,15 +176,96 @@ class Orqalis:
         )
 
     def close(self) -> None:
-        if self.engine:
-            self.engine.dispose()
+        """Release composition-owned resources.
+
+        Filesystem units of work are scoped to each operation and close themselves.
+        The method remains part of the SDK lifecycle for injected adapters and callers.
+        """
+
+    @property
+    def contexts(self) -> TaskContextService | None:
+        """Return project context services once the bound store is initialized."""
+
+        if (
+            self._contexts is None
+            and self.project_root is not None
+            and self._task_store is not None
+            and ProjectLayout(self.project_root).manifest.is_file()
+        ):
+            self._contexts = TaskContextService(self.project_root, store=self._task_store)
+        return self._contexts
+
+    @property
+    def task_history(self) -> TaskHistoryService | None:
+        """Return validated Task Capsule history for an initialized local project."""
+
+        if (
+            self._task_history is None
+            and self.project_root is not None
+            and ProjectLayout(self.project_root).manifest.is_file()
+        ):
+            self._task_history = TaskHistoryService(self.project_root)
+        return self._task_history
+
+    def project_context(self, task: str, max_chars: int | None = None) -> ProjectContextPack:
+        if self.contexts is None or self.project_root is None:
+            raise NotFoundError("Project is not initialized; run orqalis init")
+        return ProjectContextBuilder(self.project_root, git=self.git).build(task, max_chars)
+
+    def rebuild_project_index(self) -> ProjectIndexBuildResult:
+        if self.project_root is None:
+            raise PolicyDeniedError("Project index requires a root-bound filesystem SDK")
+        return ProjectIndex(self.project_root, git=self.git).rebuild()
+
+    def project_graph(self) -> ProjectGraph:
+        if self.project_root is None:
+            raise PolicyDeniedError("Project graph requires a root-bound filesystem SDK")
+        return ProjectGraphEngine(self.project_root, git=self.git).refresh().graph
+
+    def search_project_memory(self, query: str, limit: int = 10) -> tuple[MemoryRecordStatus, ...]:
+        """Search curated durable memory and report current provenance freshness."""
+
+        if len(query) > 10_000 or not 1 <= limit <= 100:
+            raise InputError("Memory search requires a limit of 1..100 and query up to 10000 chars")
+        if self.project_root is None:
+            raise PolicyDeniedError("Project memory requires a root-bound filesystem SDK")
+        store = CuratedMemoryStore(ProjectLayout(self.project_root))
+        try:
+            head = self.git.status(self.project_root).head
+        except GitError:
+            head = None
+        return tuple(store.status(record, head) for record in store.search(query, limit))
+
+    def project_memory_status(self) -> tuple[MemoryRecordStatus, ...]:
+        """Return freshness for every approved durable memory record."""
+
+        if self.project_root is None:
+            raise PolicyDeniedError("Project memory requires a root-bound filesystem SDK")
+        head = self.git.status(self.project_root).head
+        store = CuratedMemoryStore(ProjectLayout(self.project_root))
+        return tuple(store.status(record, head) for record in store.list())
+
+    def revalidate_project_memory(
+        self, record_ids: tuple[str, ...] = ()
+    ) -> MemoryRevalidationResult:
+        """Explicitly revalidate selected stale memory provenance at the current HEAD."""
+
+        if self.project_root is None:
+            raise PolicyDeniedError("Project memory requires a root-bound filesystem SDK")
+        head = self.git.status(self.project_root).head
+        return CuratedMemoryStore(ProjectLayout(self.project_root)).revalidate(head, record_ids)
 
     def initialize(self, path: Path, project_settings: ProjectSettings | None = None) -> Project:
+        if self.project_root is not None and resolve_project_root(path) != self.project_root:
+            raise PolicyDeniedError("Initialization path does not match the bound project root")
         project = self.projects.initialize(
             path,
             project_settings
             or ProjectSettings(max_repair_iterations=self.settings.max_repair_iterations),
         )
+        ProjectBootstrapService(project.repo_root, git=self.git).bootstrap(project)
+        # Maintain the deletable legacy search projection for API compatibility. Agent
+        # context, curated memory, graph and task history use their authoritative stores.
         self.memory.refresh(project)
         return project
 
@@ -236,6 +343,8 @@ class Orqalis:
             )
             uow.commit()
         try:
+            if self.contexts is not None:
+                self.contexts.create(run.id)
             context = self.memory.context(self.get_project(run.project_id), run.request)
         except Exception:
             if self.snapshot(run.id).run.state == RunState.CONTEXT_SYNC:

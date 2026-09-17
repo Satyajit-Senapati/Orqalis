@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.core.approval_subjects import goal_subject
 from orqalis.core.approvals import ApprovalService
@@ -17,17 +16,11 @@ from orqalis.domain.approval import (
 from orqalis.domain.errors import ConflictError, InputError
 from orqalis.domain.events import EventType
 from orqalis.git.service import LocalGitService
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
-def test_persisted_operator_decisions_bind_to_goal_version_and_digest(
-    database: Engine, git_repo: Path
-) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+def test_persisted_operator_decisions_bind_to_goal_version_and_digest(git_repo: Path) -> None:
+    factory = filesystem_uow_factory(git_repo)
 
     git = LocalGitService()
     project = ProjectService(factory, git).initialize(git_repo)

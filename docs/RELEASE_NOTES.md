@@ -1,4 +1,32 @@
-# Orqalis 1.0.1
+# Release notes
+
+## Local-first architecture notice - 2026-09-16
+
+> Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project owns its project intelligence and execution history through a structured `.orqalis/` directory located in the repository root. External database infrastructure is not required for standard operation.
+
+The active development architecture uses `.orqalis/` filesystem stores and requires no
+PostgreSQL, pgvector, Docker or database environment variable for standard usage. The
+published 1.0.0/1.0.1 notes below are preserved as historical statements about those exact
+artifacts; their database-backed validation is not current setup guidance. Docker remains
+optional sandbox infrastructure. The 2.0.0 candidate contains no SQL compatibility extra,
+database migration command or legacy exporter.
+
+# Orqalis 2.0.0 (unreleased release candidate)
+
+Orqalis 2.0.0 makes the repository-local `.orqalis/` filesystem store authoritative for
+project intelligence, curated memory, repository graph/index data, Task Capsules, events,
+execution state, evidence and delivery history. Standard CLI, MCP, API and Control Center
+operation requires no external database or database environment variable.
+
+The major version records the incompatible retirement of the 1.0.x SQL storage runtime.
+There is no bundled PostgreSQL exporter; preserve legacy data and use the matching archived
+release when bespoke export work is required. The repository-controlled suite and the exact
+2.0.0 wheel/tarball pass isolated no-database installation and application verification;
+commands and hashes are recorded in the maintainer cleanup audit. The candidate has not
+been published. Public npm `latest` remains the historical 1.0.1 artifact until an
+authorized release owner publishes 2.0.0.
+
+# Orqalis 1.0.1 (historical published artifact)
 
 Orqalis 1.0.1 is publicly available on npm. It adds
 `orqalis update --check` and `orqalis update` to the npm launcher so users can check
@@ -33,8 +61,9 @@ the exact delivery policy JSON and repository diff separately.
 
 Migration `6b93c20e21af` adds run control policies, approval requests and
 decisions. After upgrading, run `orqalis migrate` before starting Orqalis 1.0.1.
-Version 1.0.0 does not contain these controls. See the combined [upgrade guide](../README.md#upgrade-and-uninstall)
-and [operator-control instructions](../README.md#supervised-runs-and-operator-approvals).
+Version 1.0.0 does not contain these controls. The current filesystem release has separate
+[upgrade guidance](../README.md#backup-migration-and-upgrades); the historical control
+surface remains described in the [dashboard guide](DASHBOARD.md#operator-control).
 
 ## Publication record
 
@@ -64,9 +93,10 @@ npm install -g orqalis
 orqalis --version
 ```
 
-See the combined [installation and usage guide](../README.md#usage-guide) for prerequisites,
-database setup and your first project. Windows PowerShell users can use `npm.cmd` and
-`orqalis.cmd` when script execution policy blocks the PowerShell shims.
+See the current [installation guide](../README.md#install-and-start) for the local-first
+candidate. Database setup for this historical artifact remains available from its release
+tag. Windows PowerShell users can use `npm.cmd` and `orqalis.cmd` when script execution
+policy blocks the PowerShell shims.
 
 ## Delivered
 

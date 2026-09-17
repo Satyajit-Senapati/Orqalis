@@ -14,13 +14,13 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import Field
-from sqlalchemy.exc import SQLAlchemyError
 from starlette.middleware.base import RequestResponseEndpoint
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.responses import Response
 
 from orqalis import __version__
 from orqalis.api.contracts import AcceptanceView, RunMetrics
+from orqalis.api.scope import project_scope_id
 from orqalis.core.plan_draft import draft_replacement
 from orqalis.delivery.inspection import DiffView
 from orqalis.domain.acceptance import GoalContract, GoalDraft
@@ -32,17 +32,19 @@ from orqalis.domain.approval import (
 )
 from orqalis.domain.base import Contract
 from orqalis.domain.capabilities import SkillCatalogEntry
-from orqalis.domain.errors import OrqalisError, PolicyDeniedError
+from orqalis.domain.errors import ConflictError, OrqalisError, PolicyDeniedError
 from orqalis.domain.events import Event
-from orqalis.domain.memory import ContextPack, MemoryMatch, ProjectBrain
+from orqalis.domain.memory import ContextPack, ProjectBrain
 from orqalis.domain.plan import TaskPlan
 from orqalis.domain.project import Project
 from orqalis.domain.projections import ActorProjection, RunSnapshot
 from orqalis.domain.run import Run
 from orqalis.domain.task import Task
 from orqalis.domain.telemetry import TimelineSegment
+from orqalis.memory.curated import MemoryRecordStatus
 from orqalis.sdk import Orqalis
 from orqalis.security.redaction import safe_diagnostic
+from orqalis.tasks import TaskCapsuleView, TaskHistoryEntry
 
 _LOCAL_HOSTS = {"localhost", "127.0.0.1", "::1"}
 
@@ -132,9 +134,9 @@ def frontend_directory() -> Path | None:
     return next((path for path in (development, packaged) if (path / "index.html").is_file()), None)
 
 
-def create_app(client: Orqalis | None = None) -> FastAPI:
+def create_app(client: Orqalis | None = None, *, root: Path | None = None) -> FastAPI:
     owns_client = client is None
-    sdk = client or Orqalis()
+    sdk = client or Orqalis(root=root)
 
     @asynccontextmanager
     async def lifespan(_: FastAPI) -> AsyncIterator[None]:
@@ -183,10 +185,6 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
             status_code=status.get(exc.code, 400),
         )
 
-    @app.exception_handler(SQLAlchemyError)
-    async def database_error(_: Request, exc: SQLAlchemyError) -> JSONResponse:
-        return JSONResponse({"code": "database_unavailable"}, status_code=503)
-
     @app.exception_handler(RequestValidationError)
     async def validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:
         return JSONResponse(
@@ -195,8 +193,12 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
         )
 
     @app.get("/health")
-    def health() -> dict[str, str]:
-        return {"service": "orqalis", "version": __version__}
+    def health() -> dict[str, str | None]:
+        return {
+            "service": "orqalis",
+            "version": __version__,
+            "project_scope": project_scope_id(sdk.project_root),
+        }
 
     @app.get("/api/skills")
     def skills() -> tuple[SkillCatalogEntry, ...]:
@@ -223,8 +225,9 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
         project_id: UUID,
         query: Annotated[str, Query(max_length=10000)] = "",
         limit: Annotated[int, Query(ge=1, le=100)] = 10,
-    ) -> tuple[MemoryMatch, ...]:
-        return sdk.memory.search(sdk.get_project(project_id), query, limit)
+    ) -> tuple[MemoryRecordStatus, ...]:
+        sdk.get_project(project_id)
+        return sdk.search_project_memory(query, limit)
 
     @app.get("/api/projects/{project_id}/brain")
     def brain(project_id: UUID, query: str = "", run_id: UUID | None = None) -> ProjectBrain:
@@ -241,6 +244,26 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
     @app.get("/api/runs")
     def runs(project_id: UUID | None = None) -> tuple[Run, ...]:
         return sdk.list_runs(project_id)
+
+    @app.get("/api/tasks")
+    def task_history(
+        limit: Annotated[int, Query(ge=1, le=10_000)] = 100,
+    ) -> tuple[TaskHistoryEntry, ...]:
+        """List project-local Task Capsules through the application service."""
+
+        history = sdk.task_history
+        if history is None:
+            raise ConflictError("Task history requires a root-bound filesystem project")
+        return history.list(limit)
+
+    @app.get("/api/tasks/{task_id}")
+    def task_capsule(task_id: str) -> TaskCapsuleView:
+        """Read a historical Task Capsule without exposing raw filesystem access."""
+
+        history = sdk.task_history
+        if history is None:
+            raise ConflictError("Task history requires a root-bound filesystem project")
+        return history.get(task_id)
 
     @app.post("/api/runs")
     def start(command: StartRequest) -> RunSnapshot:
@@ -373,31 +396,38 @@ def create_app(client: Orqalis | None = None) -> FastAPI:
         await websocket.accept()
         cursor = after
         try:
-            while True:
-                state = await asyncio.to_thread(sdk.snapshot, run_id)
-                if cursor > state.last_event_sequence:
-                    await websocket.close(code=1008, reason="Invalid event cursor")
-                    return
-                pending = await asyncio.to_thread(sdk.events, run_id, cursor)
-                # Bound the event batch by this snapshot's cursor; newer commits follow next tick.
-                batch = [
-                    event.model_dump(mode="json")
-                    for event in pending
-                    if event.sequence <= state.last_event_sequence
-                ]
-                if batch:
-                    await websocket.send_json({"type": "events", "events": batch})
-                await websocket.send_json(
-                    {"type": "snapshot", "snapshot": state.model_dump(mode="json")}
-                )
-                cursor = state.last_event_sequence
-                await asyncio.sleep(1)
+            # Subscribe before replaying the durable stream so a commit cannot fall
+            # between historical replay and the live subscription.
+            async with sdk.event_bus.subscribe(run_id) as subscription:
+                while True:
+                    state = await asyncio.to_thread(sdk.snapshot, run_id)
+                    if cursor > state.last_event_sequence:
+                        await websocket.close(code=1008, reason="Invalid event cursor")
+                        return
+                    pending = await asyncio.to_thread(sdk.events, run_id, cursor)
+                    # Bound the batch by this snapshot; a concurrent commit wakes the
+                    # subscription and is loaded from the authoritative JSONL stream.
+                    batch = [
+                        event.model_dump(mode="json")
+                        for event in pending
+                        if event.sequence <= state.last_event_sequence
+                    ]
+                    if batch:
+                        await websocket.send_json({"type": "events", "events": batch})
+                    await websocket.send_json(
+                        {"type": "snapshot", "snapshot": state.model_dump(mode="json")}
+                    )
+                    cursor = state.last_event_sequence
+                    try:
+                        notification = await subscription.receive(timeout=1.0)
+                    except TimeoutError:
+                        continue
+                    if notification.sequence <= cursor:
+                        continue
         except WebSocketDisconnect:
             return
         except OrqalisError:
             await websocket.close(code=1008, reason="Run unavailable")
-        except SQLAlchemyError:
-            await websocket.close(code=1011, reason="Runtime temporarily unavailable")
 
     frontend = frontend_directory()
     if frontend:

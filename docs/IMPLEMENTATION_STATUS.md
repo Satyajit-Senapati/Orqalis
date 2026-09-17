@@ -3,6 +3,12 @@
 Canonical baseline: v1.2. This tracks delivery evidence; `09-implementation-plan.md`
 remains the authoritative plan. Initial inspection: 2026-09-10.
 
+> **Current architecture notice - 2026-09-16:** The dated Phase 0-14 and 1.0.x sections
+> below record the database-backed implementation that was tested and released at that
+> time. They are preserved as historical evidence. They do not override the current
+> local-first section at the end of this document: standard Orqalis now uses the owning
+> repository's `.orqalis/` store and requires no database service.
+
 ## Repository baseline
 
 The supplied directory contained only canonical documentation, with no Git metadata,
@@ -403,10 +409,11 @@ Status: complete.
 The frozen extraction `MANIFEST.json` and generated all-in-one design export were removed.
 Every recorded extraction hash had become stale after approved implementation and npm
 distribution amendments, while the combined export duplicated the maintained modular
-specifications. `SIGNOFF.md`, `CODEX_HANDOFF.md`, `CONSOLIDATION_NOTES.md` and the numbered
-documents remain the canonical source set. `SIGNOFF.md` remains part of the npm package's
-release evidence; implementation-only handoff and reconciliation files remain excluded from
-the published package.
+specifications. At that date, `SIGNOFF.md`, `CODEX_HANDOFF.md`,
+`CONSOLIDATION_NOTES.md` and the numbered documents formed the canonical source set. The
+2026-09-16 local-first cleanup later retired `CONSOLIDATION_NOTES.md`; current authority is
+defined by `docs/SOURCE_OF_TRUTH.md`. `SIGNOFF.md` remains part of the npm package's release
+evidence, while implementation-only handoff material remains excluded from the package.
 
 No runtime, API, schema, migration or UI behavior changed.
 
@@ -624,3 +631,108 @@ passed cold/cached launch, version/help, JSON, invalid-exit and hostile-working-
 isolation. The unqualified install passed `--version`, `modes --json`, and
 `update --check`, which reported 1.0.1 current. No user global installation, database,
 Windows service, scheduled task or autostart entry was created by these checks.
+
+## Local-first persistence redesign - 2026-09-16
+
+Status: filesystem-first implementation and the repository-controlled Phase M release gates
+are complete. Exact candidate hashes and command-by-command evidence are maintained in the
+maintainer-only `REPOSITORY_CLEANUP_AUDIT.md`, which is intentionally excluded from the
+runtime package so recording final hashes cannot make the verified artifact stale.
+Phase L is closed by an explicit no-exporter decision: legacy SQL support is not shipped.
+Orchestrator, acceptance, repair, security, Git delivery, provider, MCP and Control Center
+semantics remain intact.
+
+Release candidate: 2.0.0, intentionally major because the 1.0.x SQL storage contract and
+`orqalis migrate` command are not retained. It is not published; public npm `latest`
+remains the historical 1.0.1 artifact.
+
+> Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project
+> owns its project intelligence and execution history through a structured `.orqalis/`
+> directory located in the repository root. External database infrastructure is not
+> required for standard operation.
+
+The PostgreSQL, pgvector, SQLAlchemy, Alembic, `DATABASE_URL`, Docker Compose and database
+migration statements above accurately describe the released 1.0.0/1.0.1 implementation
+and its validation environment. They remain historical release evidence, but are
+superseded as active architecture requirements by this migration. The filesystem-backed
+project store is the only source of truth. PostgreSQL dependencies, adapters, migrations,
+compatibility tests and the database schema command have been removed; no exporter command
+exists and no database is a parallel authority.
+
+### Migration impact matrix
+
+| Area | Previous active assumption | Local-first target |
+| --- | --- | --- |
+| Runtime | A configured PostgreSQL service owns durable project and workflow state. | The resolved repository root owns all project state under `.orqalis/`; project-scoped operations cannot cross that boundary. |
+| Configuration | Standard startup requires database URLs, PostgreSQL credentials, migrations and health checks. | Fresh use requires no database configuration; provider credentials remain in environment, keychain, user-level or provider configuration and never enter project memory. |
+| Tasks | Runs, goals, plans, evidence, attempts and delivery records are relational rows. | Every request immediately creates an authoritative, restartable Task Capsule under `.orqalis/tasks/ORQ-.../`, with a rebuildable compact task index. |
+| Events | Database transactions persist workflow state and the canonical event sequence. | Append-only `execution/events.jsonl` records structured operations while atomic YAML/JSON snapshots provide current state and practical recovery. |
+| Memory | Structured project memory and optional vectors are stored in database tables. | Human-readable Markdown/YAML stores curated memory with provenance, freshness, staging, review policy and secret rejection; short-lived execution state stays in Task Capsules. |
+| Graph | Repository files and relations are database entities, with pgvector-assisted retrieval. | `ProjectGraphEngine` owns typed deterministic nodes/edges, extracted-versus-inferred provenance, content-hash parser caching and Git-aware incremental refresh; graph and cache outputs are rebuildable. |
+| Context | Services query globally configured persistence for memory, graph and previous runs. | `ProjectContextBuilder` selectively ranks graph, memory, related tasks, Git diff and source files into a bounded `ContextPack` for the current repository only. |
+| API / MCP / UI | Shared application services are composed over database repositories; MCP selects a registered project and the UI reads database-backed projections. | CLI, explicit-root MCP and FastAPI use filesystem store interfaces; React continues to consume application APIs only, while snapshots plus JSONL replay and live EventBus broadcasts support historical and live UI. |
+| Packaging | The npm package and contributor flow include PostgreSQL Compose, Alembic migrations and database-backed release checks. | Standard install ships without a database runtime requirement; packaging validates clean repo-local init, restart, root isolation, filesystem migrations and cache/index rebuild. |
+| Documentation | Canonical architecture, setup, operations, handoff and release guidance describe PostgreSQL as required V1 infrastructure. | Canonical docs state the `.orqalis/` ownership model, canonical-versus-derived data, tracking policy and filesystem recovery/migrations while preserving dated release evidence as history. |
+
+### Phase A-M progress
+
+- [x] **Phase A - Audit:** inspected canonical documentation and implementation surfaces;
+  mapped PostgreSQL, SQLAlchemy, Alembic, pgvector, configuration, task/event/memory,
+  telemetry, API, MCP, UI, packaging and test dependencies. The impact matrix above is
+  the initial migration record.
+- [x] **Phase B - Filesystem domain contracts:** filesystem project/task/event/memory/graph,
+  index and artifact services sit behind storage-neutral application boundaries; domain
+  models do not depend on SQL sessions or PostgreSQL types.
+- [x] **Phase C - Project root and `.orqalis` bootstrap:** explicit/environment/Git/cwd
+  resolution, schema-v2 manifest/config, atomic I/O, locks, layout policy and tested
+  filesystem migrations are implemented.
+- [x] **Phase D - Task Store:** Task Capsules are authoritative, projected by stage, indexed
+  locally and restartable without PostgreSQL.
+- [x] **Phase E - Event Store:** structured JSONL events plus authoritative snapshots drive
+  recovery and snapshot/replay/live UI telemetry.
+- [x] **Phase F - Project Memory:** human-readable records support provenance, freshness,
+  curation/staging policy, approval/rejection and secret-safe promotion.
+- [x] **Phase G - Repository Graph:** typed deterministic extraction, provenance,
+  Git/content-hash incremental refresh, parser cache, deletion/rename handling and full
+  rebuild are implemented.
+- [x] **Phase H - Context Builder:** bounded Context Packs combine ranked graph, memory,
+  related history, Git state and relevant source, and persist into Task Capsules.
+- [x] **Phase I - Historical task retrieval:** compact task history and lexical project
+  indexes rebuild from repository, graph, curated memory and capsule summaries.
+- [x] **Phase J - API / MCP / UI:** standard composition is filesystem-first; CLI includes
+  tasks/context/graph/rebuild surfaces, MCP is explicit-root and high-level, and API/UI use
+  snapshots, persisted replay and live events without filesystem access from React.
+- [x] **Phase K - PostgreSQL removal:** dependencies, adapters, Alembic migrations, Compose
+  artifacts, startup/configuration, compatibility tests and database-only CI are removed.
+- [x] **Phase L - Migration utility decision:** no exporter is shipped. Legacy recovery
+  requires a matching archived release or reviewed external tooling and cannot restore a
+  PostgreSQL runtime authority.
+- [x] **Phase M - Documentation and release validation:** canonical and npm-shipped
+  documentation is migrated; the complete Python, frontend and npm source gates pass; and
+  the exact 2.0.0 wheel/tarball is checked through an isolated no-database install covering
+  CLI, doctor, idempotent initialization, Task Capsules, memory/context, MCP, API,
+  WebSocket history and the packaged Control Center. The classification, commands, counts
+  and artifact hashes are recorded in `REPOSITORY_CLEANUP_AUDIT.md`.
+
+## Orqalis 2.0.0 release preparation - 2026-09-17
+
+Status: repository-controlled release preparation is complete. The local-first source,
+Python wheel and npm package have passed the release gates described above without a
+database service or database environment variables. The annotated `v2.0.0` tag is the
+authoritative locator for the tested release commit; its exact commit ID is recorded in the
+release handoff after the tag is created rather than embedded self-referentially in the
+commit that it identifies.
+
+The npm package workflow builds once, exercises the same artifact through platform smoke
+and installed-application jobs, and exposes publication only through an explicit manual
+dispatch on a version tag. The publish job is protected by the `npm-release` environment,
+uses npm Trusted Publishing with job-scoped `id-token: write`, verifies the embedded package
+name/version against the selected tag, and has no long-lived npm token. Branch, pull-request,
+ordinary manual, and tag-push validation runs cannot publish.
+
+Repository verification and artifact construction are complete; npm publication and the
+post-publication registry smoke remain separate release-owner actions. Public npm `latest`
+continues to identify immutable `1.0.1` until that explicit publication succeeds. Exact
+artifact hashes, test totals, Git state, external publisher checks and publication status
+remain in `REPOSITORY_CLEANUP_AUDIT.md` and `NPM_RELEASE_READINESS.md` so release evidence can
+be updated without changing the packaged artifact.

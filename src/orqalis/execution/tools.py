@@ -1,8 +1,8 @@
-import hashlib
 from collections.abc import Callable
 from uuid import UUID, uuid5
 
 from orqalis.agents.roles import effective_tools
+from orqalis.core.approvals import fingerprint_subject
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, locked_run
 from orqalis.delivery.inspection import ChangeInspectionService
@@ -30,7 +30,7 @@ class ToolService:
     @observed("tool.execute")
     def execute(self, provider_invocation_id: UUID, call: ProviderToolCall) -> ToolObservation:
         invocation_id = uuid5(provider_invocation_id, call.id)
-        fingerprint = hashlib.sha256(call.model_dump_json().encode()).hexdigest()
+        fingerprint = fingerprint_subject(call.model_dump(mode="json"))
         with self.factory() as uow:
             provider = uow.providers.get(provider_invocation_id)
             if (

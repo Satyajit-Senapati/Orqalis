@@ -2,11 +2,15 @@ import hashlib
 import math
 import re
 from collections.abc import Callable
-from pathlib import PurePosixPath
 from uuid import UUID, uuid5
 
 from orqalis.core.ports import ProjectUnitOfWork
-from orqalis.domain.errors import ConflictError, EmbeddingUnavailableError, InputError
+from orqalis.domain.errors import (
+    ConflictError,
+    EmbeddingUnavailableError,
+    InputError,
+    NotFoundError,
+)
 from orqalis.domain.memory import (
     ArchitectureEntity,
     ArchitectureRelation,
@@ -22,6 +26,7 @@ from orqalis.domain.memory import (
 )
 from orqalis.domain.project import Project
 from orqalis.git.contracts import GitService
+from orqalis.graph import ProjectGraphEngine
 from orqalis.memory.indexing import DeterministicMemoryIndexer
 from orqalis.memory.ports import EmbeddingProvider, MemoryIndexer, MemoryRepository
 from orqalis.observability.instrumentation import observed
@@ -169,7 +174,6 @@ class MemoryService:
                         last_seen_commit=head,
                     )
                 )
-                self._index_graph(repository, project.id, path)
             files = repository.files(project.id)
             languages = sorted({file.language for file in files if file.language})
             summary = MemoryItem(
@@ -210,34 +214,13 @@ class MemoryService:
                 snapshot=snapshot, scanned_paths=tuple(scanned), invalidated_items=invalidations
             )
 
-    def _index_graph(self, repository: MemoryRepository, project_id: UUID, path: str) -> None:
-        module = f"directory:{PurePosixPath(path).parent}"
-        file_id, module_id = uuid5(project_id, path), uuid5(project_id, module)
-        repository.save_entity(
-            ArchitectureEntity(id=file_id, project_id=project_id, name=path, source_refs=(path,))
-        )
-        repository.save_entity(
-            ArchitectureEntity(
-                id=module_id,
-                project_id=project_id,
-                entity_type="directory",
-                name=module,
-                source_refs=(),
-            )
-        )
-        repository.save_relation(
-            ArchitectureRelation(
-                id=uuid5(project_id, f"{path}:belongs_to:{module}"),
-                project_id=project_id,
-                source_entity_id=file_id,
-                relation_type="belongs_to",
-                target_entity_id=module_id,
-                source_refs=(path,),
-            )
-        )
-
     def health(self, project: Project) -> MemoryHealth:
         status = self.git.status(project.repo_root)
+        dirty_paths = tuple(
+            path
+            for path in status.changed_paths
+            if path != ".orqalis" and not path.startswith(".orqalis/")
+        )
         with self.unit_of_work() as uow:
             snapshot = uow.memory.latest_snapshot(project.id)
             indexed = snapshot.indexed_commit_sha if snapshot else None
@@ -249,9 +232,9 @@ class MemoryService:
                     snapshot
                     and indexed == status.head
                     and snapshot.repo_fingerprint == self._fingerprint(project.id, status.head)
-                    and not status.changed_paths
+                    and not dirty_paths
                 ),
-                dirty_paths=status.changed_paths,
+                dirty_paths=dirty_paths,
                 active_items=uow.memory.active_count(project.id),
             )
 
@@ -281,7 +264,7 @@ class MemoryService:
                         rejected.add(match.item.id)
                 if not rejected:
                     return matches
-                # Exclude before SQL ranking/limit and refill so unrelated history cannot
+                # Exclude before ranking/limit and refill so unrelated history cannot
                 # crowd current source facts out of a bounded Context Pack.
                 excluded.update(rejected)
 
@@ -289,44 +272,55 @@ class MemoryService:
     def context(self, project: Project, task: str, max_chars: int = 20_000) -> ContextPack:
         if not 1000 <= max_chars <= 200_000:
             raise InputError("Context budget must be between 1000 and 200000 characters")
-        matches = self.search(project, task, limit=30)
-        health = self.health(project)
-        selected = []
-        size = 0
-        for match in matches:
-            item_size = len(match.model_dump_json())
-            if size + item_size <= max_chars:
-                selected.append(match)
-                size += item_size
-        paths = tuple(
-            sorted(
-                {
-                    source.source_ref
-                    for match in selected
-                    for source in match.sources
-                    if source.source_type == "file"
-                }
-            )
-        )
-        targeted = tuple(sorted(set(paths).intersection(health.dirty_paths)))
-        confidence = max((match.score * match.item.confidence for match in selected), default=0)
-        if not health.fresh:
-            confidence = min(confidence, 0.5)
-            targeted = tuple(sorted(set(targeted).union(health.dirty_paths)))
-        return ContextPack(
-            project_id=project.id,
-            task=task,
-            items=tuple(selected),
-            relevant_files=paths,
-            freshness=health,
-            confidence=confidence,
-            targeted_inspection_paths=targeted,
-            requires_inspection=confidence < 0.7 or not health.fresh,
-            size_chars=size,
-        )
+        from orqalis.context.agent import agent_context
+        from orqalis.context.builder import ProjectContextBuilder
+
+        with self.unit_of_work() as uow:
+            canonical_project = uow.projects.get(project.id)
+        if canonical_project is None:
+            raise NotFoundError("Project not found")
+        project_pack = ProjectContextBuilder(
+            canonical_project.repo_root,
+            source_root=project.repo_root,
+            git=self.git,
+        ).build(task, max_chars)
+        return agent_context(canonical_project, project_pack)
 
     def graph(
         self, project: Project
     ) -> tuple[tuple[ArchitectureEntity, ...], tuple[ArchitectureRelation, ...]]:
-        with self.unit_of_work() as uow:
-            return uow.memory.graph(project.id)
+        graph = ProjectGraphEngine(project.repo_root, git=self.git).refresh().graph
+        identifiers = {
+            node.id: uuid5(project.id, f"project-graph-node:{node.id}") for node in graph.nodes
+        }
+        paths = {node.id: node.file_path for node in graph.nodes}
+        entities = tuple(
+            ArchitectureEntity(
+                id=identifiers[node.id],
+                project_id=project.id,
+                entity_type=str(node.kind).casefold(),
+                name=node.name,
+                source_refs=(node.file_path,) if node.file_path else (),
+            )
+            for node in graph.nodes
+        )
+        relations = tuple(
+            ArchitectureRelation(
+                id=uuid5(project.id, f"project-graph-edge:{edge.id}"),
+                project_id=project.id,
+                source_entity_id=identifiers[edge.source_id],
+                relation_type=str(edge.relation).casefold(),
+                target_entity_id=identifiers[edge.target_id],
+                confidence=edge.confidence,
+                source_refs=tuple(
+                    dict.fromkeys(
+                        path
+                        for path in (paths.get(edge.source_id), paths.get(edge.target_id))
+                        if path
+                    )
+                ),
+            )
+            for edge in graph.edges
+            if edge.source_id in identifiers and edge.target_id in identifiers
+        )
+        return entities, relations

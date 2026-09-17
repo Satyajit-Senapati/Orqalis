@@ -2,7 +2,6 @@ from collections.abc import Callable
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.core.approvals import ApprovalService
 from orqalis.core.plan_preview import PlanPreviewService
@@ -14,15 +13,12 @@ from orqalis.domain.events import EventType
 from orqalis.domain.projections import RunSnapshot
 from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskStatus
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.sdk import Orqalis
+from tests.support.filesystem import filesystem_uow_factory
 
-pytestmark = pytest.mark.postgres
 
-
-def _prepared(database: Engine, git_repo: Path) -> tuple[Orqalis, PlanPreviewService, RunSnapshot]:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+def _prepared(git_repo: Path) -> tuple[Orqalis, PlanPreviewService, RunSnapshot]:
+    sdk = Orqalis(unit_of_work=filesystem_uow_factory(git_repo))
     project = sdk.initialize(git_repo)
     draft = GoalDraft(
         goal="Update the fixture source",
@@ -46,10 +42,8 @@ def _prepared(database: Engine, git_repo: Path) -> tuple[Orqalis, PlanPreviewSer
     )
 
 
-def test_preview_and_operator_edit_preserve_versions_and_events(
-    database: Engine, git_repo: Path
-) -> None:
-    sdk, service, state = _prepared(database, git_repo)
+def test_preview_and_operator_edit_preserve_versions_and_events(git_repo: Path) -> None:
+    sdk, service, state = _prepared(git_repo)
     run_id = state.run.id
     assert state.goal is not None
     original = service.preview(run_id, "preview")
@@ -102,9 +96,9 @@ def test_preview_and_operator_edit_preserve_versions_and_events(
 
 
 def test_preview_uses_pinned_git_base_after_head_moves(
-    database: Engine, git_repo: Path, commit_all: Callable[[Path], str]
+    git_repo: Path, commit_all: Callable[[Path], str]
 ) -> None:
-    sdk, service, state = _prepared(database, git_repo)
+    sdk, service, state = _prepared(git_repo)
     (git_repo / "main.py").write_text("answer = 43\n", encoding="utf-8")
     commit_all(git_repo)
     plan = service.preview(state.run.id, "preview")
@@ -114,8 +108,8 @@ def test_preview_uses_pinned_git_base_after_head_moves(
         assert uow.execution.workspace(state.run.id) is None
 
 
-def test_supervised_preview_waits_for_exact_goal_approval(database: Engine, git_repo: Path) -> None:
-    sdk, _, state = _prepared(database, git_repo)
+def test_supervised_preview_waits_for_exact_goal_approval(git_repo: Path) -> None:
+    sdk, _, state = _prepared(git_repo)
     approvals = ApprovalService(sdk.unit_of_work)
     approvals.configure(state.run.id, ControlMode.SUPERVISED, frozenset({ApprovalStage.GOAL}))
     service = PlanPreviewService(
@@ -137,10 +131,8 @@ def test_supervised_preview_waits_for_exact_goal_approval(database: Engine, git_
     assert service.preview(state.run.id, "preview").version == 1
 
 
-def test_preview_recovers_plan_installed_with_a_different_command_key(
-    database: Engine, git_repo: Path
-) -> None:
-    sdk, service, state = _prepared(database, git_repo)
+def test_preview_recovers_plan_installed_with_a_different_command_key(git_repo: Path) -> None:
+    sdk, service, state = _prepared(git_repo)
     assert state.goal is not None
     plan = VerticalPlanner().plan(
         state.goal, sdk.memory.context(sdk.get_project(state.run.project_id), state.run.request)

@@ -8,9 +8,20 @@ from scripts.prepare_npm import (
     _MAINTAINER_RELEASE_DOCS,
     _replace_tree,
     _stage_wheel,
+    _verify_default_requirements,
     _verify_wheel_source,
     _verify_wheel_ui,
 )
+
+
+def test_default_npm_requirements_reject_database_dependencies() -> None:
+    _verify_default_requirements(
+        "fastapi==1.0.0 \\\n    --hash=sha256:abc\nwebsockets==16.0.0 \\\n    --hash=sha256:def\n"
+    )
+
+    for package in ("alembic", "pgvector", "psycopg", "psycopg_binary", "sqlalchemy"):
+        with pytest.raises(ValueError, match="database dependencies"):
+            _verify_default_requirements(f"{package}==1.0.0 \\\n    --hash=sha256:abc\n")
 
 
 def test_replace_tree_removes_stale_generated_files(tmp_path: Path) -> None:
@@ -127,3 +138,44 @@ def test_release_docs_exclude_exact_maintainer_audits_only(tmp_path: Path) -> No
         for path in destination.rglob("*")
         if path.is_file()
     ) == ["PUBLISHING.md", "verification/v1.0.0.json"]
+
+
+def test_npm_publish_workflow_requires_manual_tag_dispatch_and_oidc() -> None:
+    workflow = (Path(__file__).parents[2] / ".github" / "workflows" / "npm-package.yml").read_text(
+        encoding="utf-8"
+    )
+    publish_job = workflow.split("\n  publish:\n", maxsplit=1)[1]
+
+    assert "workflow_dispatch:" in workflow
+    assert "default: false" in workflow
+    assert "type: boolean" in workflow
+    assert "github.event_name == 'workflow_dispatch'" in publish_job
+    assert "inputs.publish == true" in publish_job
+    assert "startsWith(github.ref, 'refs/tags/v')" in publish_job
+    assert "environment: npm-release" in publish_job
+    assert "contents: read" in publish_job
+    assert "id-token: write" in publish_job
+    assert "- smoke" in publish_job
+    assert "- installed-integration" in publish_job
+
+
+def test_npm_publish_workflow_uses_only_the_exact_tested_artifact() -> None:
+    workflow = (Path(__file__).parents[2] / ".github" / "workflows" / "npm-package.yml").read_text(
+        encoding="utf-8"
+    )
+    publish_job = workflow.split("\n  publish:\n", maxsplit=1)[1]
+
+    assert "npm install --global npm@12.0.2" in publish_job
+    assert "name: orqalis-npm" in publish_job
+    assert 'test "${#packages[@]}" -eq 1' in publish_job
+    assert "package/package.json" in publish_job
+    assert 'test "$package_name" = "orqalis"' in publish_job
+    assert 'test "$GITHUB_REF_NAME" = "v$package_version"' in publish_job
+    assert 'test "$package" = "dist/orqalis-$package_version.tgz"' in publish_job
+    assert (
+        'npm publish "${{ steps.release.outputs.package }}" --access public --provenance'
+        in publish_job
+    )
+    assert "NODE_AUTH_TOKEN" not in workflow
+    assert "NPM_TOKEN" not in workflow
+    assert workflow.count("npm publish") == 1

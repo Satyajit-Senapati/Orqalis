@@ -3,7 +3,6 @@ from pathlib import Path
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
 from orqalis.domain.approval import (
@@ -14,21 +13,14 @@ from orqalis.domain.approval import (
 )
 from orqalis.domain.errors import PolicyDeniedError
 from orqalis.domain.provider import ProviderExecutionResult
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
 
-pytestmark = pytest.mark.postgres
-
 
 def test_opt_in_task_gate_holds_provider_requirements_work_at_plan_zero(
-    database: Engine, git_repo: Path
+    git_repo: Path,
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    sdk = Orqalis(unit_of_work=factory)
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
     run = sdk.prepare_run(
         project.id,

@@ -241,7 +241,7 @@ export async function runUpdate(packageRoot, args = [], options = {}) {
     return 0;
   }
   stderr.write(
-    "Before updating, stop active Orqalis UI/MCP processes, reach a safe run checkpoint, and back up PostgreSQL.\n",
+    "Before updating, stop active Orqalis UI/MCP processes, reach a safe run checkpoint, and back up project .orqalis/ directories.\n",
   );
   const install = await npm(
     [
@@ -263,7 +263,7 @@ export async function runUpdate(packageRoot, args = [], options = {}) {
     );
   }
   stdout.write(
-    "Package update completed. Run orqalis --version, orqalis migrate, and orqalis doctor; then restart the UI and reconnect MCP clients.\n",
+    "Package update completed. Run orqalis --version and orqalis doctor in each initialized project; then restart the UI and reconnect MCP clients.\n",
   );
   return 0;
 }

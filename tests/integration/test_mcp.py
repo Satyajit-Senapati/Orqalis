@@ -5,12 +5,10 @@ import sys
 from pathlib import Path
 from uuid import uuid4
 
-import pytest
 from mcp import Client
 from mcp.client.stdio import StdioServerParameters
 from mcp.types import CallToolResult
 from pydantic import BaseModel
-from sqlalchemy import Engine
 
 from orqalis import __version__
 from orqalis.domain.acceptance import (
@@ -35,12 +33,8 @@ from orqalis.domain.projections import RunSnapshot
 from orqalis.domain.provider import ProviderExecutionRequest, ProviderExecutionResult
 from orqalis.mcp.policy import MCPPolicy
 from orqalis.mcp.server import create_mcp
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.providers.fake import FakeProvider
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
 
 
 def decoded[T: BaseModel](result: CallToolResult, model: type[T]) -> T:
@@ -53,14 +47,10 @@ def decoded[T: BaseModel](result: CallToolResult, model: type[T]) -> T:
 
 
 def test_mcp_workflow_continues_across_clients_and_enforces_server_policy(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
-
-    sdk = Orqalis(unit_of_work=factory)
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
     command = ApprovedCommand(
         id="assert-answer",
@@ -233,7 +223,7 @@ def test_mcp_workflow_continues_across_clients_and_enforces_server_policy(
             assert foreign.is_error
             (assignment.workspace / "main.py").write_text("answer = 43\n")
         # Another host/process shares persisted Orqalis state, not the first client's memory.
-        resumed_sdk = Orqalis(unit_of_work=factory)
+        resumed_sdk = Orqalis(root=git_repo)
         async with Client(create_mcp(resumed_sdk, policy, (provider,))) as second:
             current = decoded(await second.call_tool("get_run", {"run_id": run_id}), RunSnapshot)
             assert current.run.id == created.run.id
@@ -308,11 +298,10 @@ def test_mcp_workflow_continues_across_clients_and_enforces_server_policy(
 
 
 def test_mcp_stdio_lifecycle_and_project_isolation(
-    database: Engine,
     git_repo: Path,
     tmp_path: Path,
 ) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(root=git_repo)
     project = sdk.initialize(git_repo)
     policy = MCPPolicy(project_id=project.id, workspaces_root=tmp_path / "worktrees")
     config = tmp_path / "mcp-policy.json"
@@ -321,8 +310,7 @@ def test_mcp_stdio_lifecycle_and_project_isolation(
         command=str(
             Path(sys.executable).parent / ("orqalis.exe" if os.name == "nt" else "orqalis")
         ),
-        args=["mcp", "--policy", str(config)],
-        env={"ORQALIS_DATABASE_URL": os.environ["ORQALIS_TEST_DATABASE_URL"]},
+        args=["mcp", "--policy", str(config), "--root", str(git_repo)],
         cwd=Path(__file__).parents[2],
     )
 

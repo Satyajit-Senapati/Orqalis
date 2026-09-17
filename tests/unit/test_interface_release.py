@@ -3,6 +3,7 @@ import threading
 import time
 import webbrowser
 from collections.abc import Callable
+from pathlib import Path
 from unittest.mock import Mock
 
 import httpx
@@ -16,6 +17,8 @@ from orqalis.api.app import ContextRequest, origin_allowed
 from orqalis.api.hosting import ui_session
 from orqalis.config.settings import Settings
 from orqalis.domain.errors import ConflictError
+
+_PROJECT_SCOPE = "test-project-scope"
 
 
 @pytest.mark.parametrize(
@@ -42,12 +45,21 @@ def _mock_health(
     )
     monkeypatch.setattr(hosting, "frontend_directory", lambda: object())
     monkeypatch.setattr(hosting, "_port_open", lambda settings: False)
+    monkeypatch.setattr(hosting, "resolve_project_root", lambda root: Path.cwd())
+    monkeypatch.setattr(hosting, "project_scope_id", lambda root: _PROJECT_SCOPE)
 
 
 def test_ui_reuses_existing_host_without_taking_ownership(monkeypatch: pytest.MonkeyPatch) -> None:
     _mock_health(
         monkeypatch,
-        lambda request: httpx.Response(200, json={"service": "orqalis", "version": __version__}),
+        lambda request: httpx.Response(
+            200,
+            json={
+                "service": "orqalis",
+                "version": __version__,
+                "project_scope": _PROJECT_SCOPE,
+            },
+        ),
     )
     create_app = Mock(side_effect=AssertionError("must not start another host"))
     monkeypatch.setattr(hosting, "create_app", create_app)
@@ -83,12 +95,19 @@ def _mock_owned_server(monkeypatch: pytest.MonkeyPatch) -> tuple[threading.Event
     def health(request: httpx.Request) -> httpx.Response:
         if not running.is_set():
             raise httpx.ConnectError("not listening", request=request)
-        return httpx.Response(200, json={"service": "orqalis", "version": __version__})
+        return httpx.Response(
+            200,
+            json={
+                "service": "orqalis",
+                "version": __version__,
+                "project_scope": _PROJECT_SCOPE,
+            },
+        )
 
     _mock_health(monkeypatch, health)
     monkeypatch.setattr(uvicorn, "Config", lambda *args, **kwargs: object())
     monkeypatch.setattr(uvicorn, "Server", FakeServer)
-    monkeypatch.setattr(hosting, "create_app", lambda: object())
+    monkeypatch.setattr(hosting, "create_app", lambda **kwargs: object())
     return running, stopped
 
 
@@ -162,7 +181,7 @@ def test_ui_startup_failure_does_not_leave_a_host(monkeypatch: pytest.MonkeyPatc
     _mock_health(monkeypatch, unavailable)
     monkeypatch.setattr(uvicorn, "Config", lambda *args, **kwargs: object())
     monkeypatch.setattr(uvicorn, "Server", FailedServer)
-    monkeypatch.setattr(hosting, "create_app", lambda: object())
+    monkeypatch.setattr(hosting, "create_app", lambda **kwargs: object())
 
     with pytest.raises(ConflictError, match="exited"), ui_session(Settings()):
         pass
@@ -198,6 +217,29 @@ def test_ui_rejects_a_different_installed_version(monkeypatch: pytest.MonkeyPatc
     )
     with pytest.raises(ConflictError, match="different Orqalis version"), ui_session(Settings()):
         pass
+
+
+def test_ui_rejects_an_orqalis_host_for_another_project(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _mock_health(
+        monkeypatch,
+        lambda request: httpx.Response(
+            200,
+            json={
+                "service": "orqalis",
+                "version": __version__,
+                "project_scope": "another-project",
+            },
+        ),
+    )
+    create_app = Mock(side_effect=AssertionError("must not reuse or replace the other project"))
+    monkeypatch.setattr(hosting, "create_app", create_app)
+
+    with pytest.raises(ConflictError, match="different Orqalis project"), ui_session(Settings()):
+        pass
+
+    create_app.assert_not_called()
 
 
 def test_ui_rejects_occupied_non_http_port(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -1,55 +1,64 @@
-# Orqalis Design & Codex Handoff Package
+# Orqalis source of truth
 
-> **Canonical baseline:** Orqalis Consolidated End-to-End Design v1.2 (2026-09-10). This package supersedes the original and enhanced Orqalis packages produced earlier in this session.
+Revised 2026-09-16 for the local-first persistence architecture.
 
-Orqalis is a provider-agnostic, goal-driven multi-agent engineering orchestrator with durable Git-aware Project Memory, dynamic skills, evidence-based acceptance, bounded convergence, safe Git delivery, and a local browser Mission Control for live orchestration visibility.
+> Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project owns its project intelligence and execution history through a structured `.orqalis/` directory located in the repository root. External database infrastructure is not required for standard operation.
 
-## Source-of-truth and read order
+## Authority order
 
-1. `SIGNOFF.md` - approved scope, invariants, sequencing, and change-control authority.
-2. `docs/00-product-design.md` - product vision, principles, personas, and user journeys.
-3. `docs/01-system-architecture.md` - logical architecture, subsystems, deployment, and boundaries.
-4. `docs/02-agent-and-skill-model.md` - specialized agents, skills, provider abstraction, and runtime observability contract.
-5. `docs/03-project-memory.md` - persistent Project Brain, provenance, Git freshness, and Context Packs.
-6. `docs/04-workflow-and-acceptance.md` - state machine, goals, acceptance, task DAG, repair, and delivery gates.
-7. `docs/05-interfaces-and-integrations.md` - CLI, MCP, REST/WebSocket, Codex, Claude, Copilot, and local UI integration.
-8. `docs/06-security-git-and-governance.md` - permissions, sandboxing, secrets, audit, UI security, and Git policy.
-9. `docs/07-data-model-and-observability.md` - canonical persistence entities, event taxonomy, timing semantics, projections, and metrics.
-10. `docs/08-features-and-roadmap.md` - consolidated V1/V1.5/V2/V3 feature roadmap.
-11. `docs/09-implementation-plan.md` - authoritative phased build plan and PR sequence.
-12. `docs/10-local-control-center.md` - Mission Control, orchestrator/agent/task visualization, timers, stats, Project Brain, and delivery UI.
-13. `CODEX_HANDOFF.md` - repository-only implementation instructions for Codex after the architecture is understood.
-14. `CONSOLIDATION_NOTES.md` - repository-only reconciliation notes and superseded inconsistencies.
+When documents conflict, use this order:
 
-## Product principle
+1. `SIGNOFF.md` and accepted ADRs;
+2. this file;
+3. `docs/01-system-architecture.md` and `docs/07-data-model-and-observability.md`;
+4. `docs/09-implementation-plan.md` and `CODEX_HANDOFF.md`;
+5. interface and operation guides;
+6. dated implementation/release evidence for the version it records.
 
-Orqalis is not another coding assistant. It is the durable project-intelligence, orchestration, governance, observability, and delivery layer that coordinates Codex, Claude Code, GitHub Copilot, local models, and future assistants as interchangeable workers or clients.
+ADR 0003 supersedes the persistence portion of ADR 0001. Database-first statements in
+1.0.0/1.0.1 release records and historical readiness matrices describe those releases;
+they do not define current standard setup.
 
-## Canonical V1 success condition
+## Product invariants
 
-A user can initialize a Git repository once, submit a task, and have Orqalis: synchronize Project Memory incrementally; create a versioned goal and measurable acceptance criteria; plan a dependency DAG; select specialized agents, skills, providers, and permitted tools; execute safely in an isolated workspace; collect deterministic evidence; review and perform bounded targeted repair; run Change Guardian and final policy gates; update documentation; commit and optionally push to the selected branch; finalize memory against the resulting commit; resume safely after interruption; and expose the entire live run in a local browser with authoritative orchestrator, agent, task, phase, acceptance, timing, telemetry, repair, and delivery state.
+- The Orchestrator owns state transitions; providers remain replaceable workers.
+- Goals are versioned and acceptance/evidence gates completion.
+- Planning uses dependency-aware DAGs and bounded repair/convergence.
+- Change Guardian protects validated work before delivery.
+- Each project root owns an isolated `.orqalis/` store.
+- Repository Graph, Curated Project Memory and Task History remain separate concepts.
+- Important writes are atomic, locked where shared and schema-versioned.
+- Secrets and hidden reasoning are not durable project memory.
+- CLI, MCP and the Control Center use application services rather than raw file mutation.
 
-The CLI, MCP server, REST/WebSocket API, and Local Control Center are clients of one Orqalis Core. The browser never owns workflow state and never fabricates progress or timing.
+## Data authority
 
-## Implementation
+Canonical data is project configuration, curated memory, Task Capsules, acceptance
+evidence, durable decisions and final delivery records. Derived/rebuildable data is parser
+cache, search/index material, graph presentation, ranking cache and reproducible context
+projection. Deleting derived data must never erase project history.
 
-Start with the detailed [user guide](../README.md) for setup, a first task, policies, the UI,
-assistant integrations, and recovery.
+The Task Capsule snapshot is authoritative current execution state. Its JSONL stream is
+structured operational history. Human-readable stage files are projections created only
+when their stage exists. No provider conversation, browser state, cache or index becomes a
+competing authority.
 
-See [implementation status](IMPLEMENTATION_STATUS.md) for completed capabilities and
-[developer setup](DEVELOPMENT.md) for installation, migrations, CLI and checks.
+## Interfaces and isolation
 
-For release artifacts and npm distribution, see [Publishing Orqalis](PUBLISHING.md).
-Orqalis is licensed under the [MIT license](../LICENSE).
+Root resolution is explicit root, `ORQALIS_PROJECT_ROOT`, Git root, then current working
+directory. A service graph is bound once and cannot silently redirect to another project.
+MCP uses high-level project/task/memory/graph operations. React uses FastAPI and WebSocket;
+it never reads `.orqalis`.
 
+## Distribution decision
 
-## Current distribution decision
+The npm package remains a supported launcher/distribution. Its installation bundles the
+Python runtime and web assets without a database container. Docker is optional sandbox
+infrastructure. No database compatibility extra or exporter command is shipped.
 
-This index preserves the original reading order. The release-owner's 2026-09-10 npm
-amendment is recorded in [SIGNOFF](../SIGNOFF.md) and
-[ADR 0002](adr/0002-npm-distribution.md), and mirrored in the affected canonical documents.
-Use npm for application installation; source setup is for contributors and SDK development.
+## Success condition
 
-The original extraction manifest and generated all-in-one Markdown export are intentionally
-absent. They became stale as approved amendments were incorporated. This modular source set
-is authoritative and avoids maintaining a competing duplicate design.
+A clean clone can initialize, execute, stop, resume and inspect project knowledge on a
+machine with no database server. A second assistant can continue from `.orqalis` without
+the first assistant's conversation. One-file changes avoid full repository reparsing,
+derived data can be regenerated, and simultaneous Project A/Project B use cannot leak data.

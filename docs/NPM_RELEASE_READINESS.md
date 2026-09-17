@@ -1,6 +1,67 @@
 # Orqalis npm release readiness
 
-**Current release: [orqalis@1.0.1](https://www.npmjs.com/package/orqalis/v/1.0.1)** (`latest`)
+## Current local-first release gate - 2026-09-16
+
+> Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project owns its project intelligence and execution history through a structured `.orqalis/` directory located in the repository root. External database infrastructure is not required for standard operation.
+
+This section supersedes the setup assumptions in the historical 1.0.0/1.0.1 evidence below.
+The dated results are intentionally retained unchanged as evidence for the artifacts that
+were actually tested; mentions of PostgreSQL, pgvector, Docker and database environment
+variables in that historical appendix are **not** current standard-runtime requirements.
+
+The current candidate must pass, without a database service or `DATABASE_URL`:
+
+- clean npm pack/install and first-run bootstrap;
+- `orqalis init`, status and doctor in a temporary Git repository;
+- Task Capsule creation, event/snapshot restart and historical retrieval;
+- filesystem atomicity, locking, schema migration and read-only failure tests;
+- project-root and simultaneous-assistant isolation;
+- memory provenance/freshness/staging/secret tests;
+- graph incremental/cache/delete/rename/dirty/branch tests and derived-index recovery;
+- CLI, MCP, API, WebSocket and Control Center regressions;
+- Python lint/format/strict typing/tests, web lint/test/build and npm launcher checks; and
+- tarball inspection proving no Compose/database bootstrap or project `.orqalis/` data.
+
+Final local-first release evidence passed after the persistence, filesystem-migration,
+read-only-store, worktree-context and curated-memory authority corrections. Python collected
+425 tests (424 passed; one opt-in Docker sandbox test skipped without an image), the Control
+Center passed 33 tests plus lint/build, and the npm wrapper passed 29 tests plus syntax,
+lint and formatting. The exact rebuilt 2.0.0 tarball then passed isolated cold/cached launch
+and the installed CLI, project-store, Task Capsule, context/memory, 26-tool MCP, API,
+WebSocket and packaged-Control-Center verifier outside the checkout. Exact hashes are in
+`REPOSITORY_CLEANUP_AUDIT.md`.
+
+The Docker sandbox test is a separate opt-in check. The current package contains no SQL
+compatibility extra, database migration command or legacy exporter.
+
+Candidate version: `2.0.0` (unpublished). Public npm `latest` remains the immutable,
+historical database-backed `1.0.1` artifact until an authorized release owner publishes
+this candidate.
+
+### Final publication preparation - 2026-09-17
+
+The existing `npm-package.yml` workflow now keeps packaging, platform smoke,
+installed-application verification and publication in one artifact chain. Publication is
+disabled by default and is available only for an explicit `workflow_dispatch` with
+`publish=true` on a version tag, after both smoke jobs pass. The job uses the protected
+`npm-release` environment, npm Trusted Publishing, job-scoped `id-token: write`, pinned
+npm 12.0.2, exact-artifact name/version/tag checks and provenance. It contains no npm token
+or automatic tag-push publication path.
+
+Public registry inspection found `orqalis@1.0.0` and `orqalis@1.0.1`, with `1.0.1` as
+`latest`; `orqalis@2.0.0` remains unused. The expected maintainer is `satyajit-pro`.
+The local release environment is not authenticated to npm, and npm's private
+Trusted-Publisher relationship plus the GitHub `npm-release` environment cannot be
+confirmed without release-owner access. Those are external publication controls, not
+repository verification failures. No npm publication was attempted.
+
+## Historical 1.0.x verification appendix
+
+Everything below this heading records the published database-backed 1.0.x candidates and
+must be read in that historical context.
+
+**Historical public latest: [orqalis@1.0.1](https://www.npmjs.com/package/orqalis/v/1.0.1)**
+(`latest` at the time of this candidate audit)
 
 The current publication and artifact record is [below](#public-101-publication---2026-09-15).
 The original matrix remains the historical 1.0.0 readiness audit.
@@ -13,7 +74,7 @@ Audit date: 2026-09-14. Version: 1.0.0. Public identity: `orqalis`.
 
 Source baseline: `c0ff0ded46c35d8e044147553a2d13baaff00d20`, branch `main`, repository `Satyajit-Senapati/Orqalis`. Canonical v1.2 requirements were read completely before changes; software release version is 1.0.0. ADR 0001 bounds the deterministic V1 execution DAG; ADR 0002 defines npm as the sole application distribution channel.
 
-## Historical 1.0.0 publication update - 2026-09-14
+### Historical 1.0.0 publication update - 2026-09-14
 
 The public npm registry records version 1.0.0 as published at 09:12:43.151 UTC,
 with `latest` pointing to 1.0.0. Its SHA-1 digest and SHA-512 integrity match the
@@ -34,7 +95,7 @@ prefix and runtime were outside the source checkout. Results are retained in the
 The requirement matrix and test totals below preserve the pre-publication audit.
 Earlier E404/ENEEDAUTH observations describe that audit, not current availability.
 Subsequent releases require an unused version and the gates in [PUBLISHING.md](PUBLISHING.md).
-The current [installation guide](../README.md#1-installation-and-first-launch) is maintained
+The current [installation guide](../README.md#install-and-start) is maintained
 in Git; the already-published 1.0.0 archive remains unchanged.
 
 ## Pre-publication gate
@@ -113,9 +174,9 @@ Release source commit: `c223af5b9cbb35eb2be48699d67d7ce5e8a77779`. Final audit-o
 | F15 | P2 | Temporary embedding outage left missing vectors indefinitely at unchanged HEAD | Bounded recovery from stored content; stop on outage, retain progress, isolate model/dimensions; no Git rereads | src/orqalis/memory/service.py; src/orqalis/memory/ports.py; src/orqalis/persistence/memory.py; tests/integration/test_memory_release.py | FIXED; targeted and complete relevant regression passed |
 | F16 | P2 | Installed verifier assumed a direct Windows listener and snapshot-before-replay ordering | Verify exact managed runtime ancestry; disable fixture hooks/signing; validate replay/live/snapshot/reconnect sequencing | scripts/verify_installed.py; tests/unit/test_installed_smoke.py | FIXED;13 harness tests and all16 actual installed checks PASS |
 
-## Requirement matrix
+## Historical requirement matrix
 
-Each row is a canonical product or release acceptance requirement. Commands refer to repository-root invocations; PostgreSQL tests require a disposable database and the Docker sandbox image. Related checks may exercise several rows together. Evidence paths below are retained locally in the ignored audit directory; this committed matrix and its JSON companion preserve result summaries.
+Each row was a canonical product or release acceptance requirement for the recorded 1.0.x artifact. Commands refer to repository-root invocations; its PostgreSQL tests required a disposable database and its Docker sandbox image. Related checks may exercise several rows together. Evidence paths below are retained locally in the ignored audit directory; this committed matrix and its JSON companion preserve historical result summaries.
 
 ### Core workflow
 
@@ -306,7 +367,7 @@ Each row is a canonical product or release acceptance requirement. Commands refe
 
 These commands were recorded before the release owner published 1.0.0. They are retained
 as audit context, not instructions to republish that version. For future releases use
-[PUBLISHING.md](PUBLISHING.md#review-and-publish-a-new-version).
+[PUBLISHING.md](PUBLISHING.md#publication).
 
 ```powershell
 npm.cmd login --registry=https://registry.npmjs.org/

@@ -8,26 +8,29 @@ from uuid import UUID, uuid4
 
 import typer
 from pydantic import ValidationError
-from sqlalchemy import text
-from sqlalchemy.exc import SQLAlchemyError
 
 from orqalis import __version__
 from orqalis.api.hosting import local_url, ui_session
 from orqalis.cli.catalog import agents, config_app, discover_skills, skills
 from orqalis.cli.control import approvals_app, plan_app
-from orqalis.cli.dependencies import command_errors, memory_service, project_service
+from orqalis.cli.dependencies import (
+    command_errors,
+    sdk_service,
+)
 from orqalis.cli.goals import app as goals_app
 from orqalis.cli.memory import app as memory_app
 from orqalis.cli.runs import app as runs_app
+from orqalis.cli.tasks import task_app
+from orqalis.cli.tasks import tasks as list_tasks
 from orqalis.config.settings import Settings
+from orqalis.diagnostics import diagnose_project
 from orqalis.domain.acceptance import GoalDraft
 from orqalis.domain.approval import ApprovalStage, ControlMode
 from orqalis.domain.delivery import DeliveryPolicy
 from orqalis.domain.execution import ExecutionPolicy
 from orqalis.observability.logging import configure_logging
-from orqalis.persistence.database import create_database_engine
+from orqalis.persistence.filesystem import resolve_project_root
 from orqalis.providers.configuration import configured_providers
-from orqalis.sdk import Orqalis
 
 DEFAULT_WORKSPACES = Path.home()
 
@@ -39,11 +42,13 @@ app = typer.Typer(
 app.add_typer(memory_app, name="memory")
 app.add_typer(goals_app, name="goal")
 app.add_typer(runs_app, name="runs")
+app.add_typer(task_app, name="task")
 app.add_typer(approvals_app, name="approvals")
 app.add_typer(plan_app, name="plan")
 app.add_typer(config_app, name="config")
 app.command("agents")(agents)
 app.command("skills")(skills)
+app.command("tasks")(list_tasks)
 
 
 def version_option(value: bool) -> None:
@@ -111,52 +116,37 @@ def update_installed_package() -> None:
 
 
 @app.command()
-def migrate() -> None:
-    """Upgrade PostgreSQL using installed migrations; no repository checkout required."""
-    from alembic.util.exc import CommandError
-
-    from orqalis.persistence.migrate import upgrade_database
-
-    try:
-        upgrade_database()
-    except (SQLAlchemyError, CommandError):
-        typer.echo(
-            "Migration failed; check database access and installed schema history.", err=True
-        )
-        raise typer.Exit(1) from None
-    typer.echo("Database upgraded to the installed schema head.")
-
-
-@app.command()
-def doctor(json_output: bool = typer.Option(False, "--json")) -> None:
-    """Check Git and PostgreSQL connectivity without mutating the database."""
-    engine = create_database_engine(Settings())
-    database_ok = False
-    try:
-        with engine.connect() as connection:
-            database_ok = connection.scalar(text("SELECT 1")) == 1
-    except SQLAlchemyError:
-        pass  # Expected diagnostic failure; do not print connection credentials.
-    finally:
-        engine.dispose()
-    checks = {"git": shutil.which("git") is not None, "postgresql": database_ok}
+def doctor(
+    repo: Annotated[Path | None, typer.Option("--repo")] = None,
+    json_output: bool = typer.Option(False, "--json"),
+) -> None:
+    """Validate Git and the selected project-local filesystem store."""
+    git_ok = shutil.which("git") is not None
+    report = diagnose_project(repo)
     if json_output:
-        typer.echo(json.dumps(checks, sort_keys=True))
+        typer.echo(
+            json.dumps(
+                {"git": git_ok, "project_store": report.model_dump(mode="json")},
+                sort_keys=True,
+            )
+        )
     else:
-        for name, passed in checks.items():
-            typer.echo(f"{name}: {'OK' if passed else 'UNAVAILABLE'}")
-    if not all(checks.values()):
+        typer.echo(f"git: {'OK' if git_ok else 'UNAVAILABLE'}")
+        for check in report.checks:
+            typer.echo(f"{check.name}: {check.status} - {check.message}")
+    if not git_ok or not report.healthy:
         raise typer.Exit(1)
 
 
 @app.command("init")
 def initialize(
-    repo: Annotated[Path, typer.Option("--repo")] = Path("."),
+    repo: Annotated[Path | None, typer.Option("--repo")] = None,
     json_output: bool = typer.Option(False, "--json"),
 ) -> None:
     """Register the current committed Git repository idempotently."""
-    with project_service() as service:
-        project = Orqalis(unit_of_work=service.unit_of_work).initialize(repo)
+    target = resolve_project_root(repo)
+    with sdk_service(target) as sdk:
+        project = sdk.initialize(target)
         typer.echo(
             project.model_dump_json()
             if json_output
@@ -166,12 +156,13 @@ def initialize(
 
 @app.command()
 def status(
-    repo: Annotated[Path, typer.Option("--repo")] = Path("."),
+    repo: Annotated[Path | None, typer.Option("--repo")] = None,
     json_output: bool = typer.Option(False, "--json"),
 ) -> None:
     """Show persisted project identity and current repository state."""
-    with project_service() as service:
-        project, git_status = service.status(repo)
+    target = resolve_project_root(repo)
+    with sdk_service(target) as sdk:
+        project, git_status = sdk.projects.status(target)
         if json_output:
             typer.echo(
                 json.dumps(
@@ -190,21 +181,40 @@ def status(
 @app.command()
 def context(
     task: str,
-    repo: Annotated[Path, typer.Option("--repo")] = Path("."),
+    repo: Annotated[Path | None, typer.Option("--repo")] = None,
+    max_chars: Annotated[int | None, typer.Option("--max-chars", min=1000)] = None,
     json_output: bool = typer.Option(False, "--json"),
 ) -> None:
-    """Build a bounded, source-backed Context Pack with freshness and gaps."""
-    with memory_service(repo) as (project, service):
-        pack = service.context(project, task)
+    """Build a selective graph, memory, task-history, and Git Context Pack."""
+    with sdk_service(repo) as sdk:
+        pack = sdk.project_context(task, max_chars)
         if json_output:
             typer.echo(pack.model_dump_json())
         else:
+            typer.echo(f"Context: {pack.size_chars}/{pack.max_chars} characters")
+            typer.echo(f"Relevant files: {len(pack.relevant_files)}")
+            typer.echo(f"Graph items: {len(pack.graph)}; memory: {len(pack.memory)}")
+            typer.echo(f"Related tasks: {len(pack.related_tasks)}")
+
+
+@app.command("rebuild-index")
+def rebuild_index(
+    repo: Annotated[Path | None, typer.Option("--repo")] = None,
+    json_output: bool = typer.Option(False, "--json"),
+) -> None:
+    """Rebuild all disposable graph and lexical index artifacts."""
+
+    with sdk_service(repo) as sdk:
+        result = sdk.rebuild_project_index()
+        if json_output:
+            typer.echo(result.model_dump_json())
+        else:
+            metrics = result.metrics
             typer.echo(
-                f"Context: {len(pack.items)} items; inspection needed: {pack.requires_inspection}"
+                f"Indexed {metrics.documents_indexed} documents; "
+                f"processed {metrics.graph_processed_files} repository files in "
+                f"{metrics.duration_ms:.1f}ms"
             )
-            for match in pack.items:
-                typer.echo(match.item.title)
-                typer.echo(match.item.content)
 
 
 @app.command()
@@ -217,7 +227,7 @@ def serve() -> None:
     with command_errors():
         settings = Settings()
         local_url(settings)
-        uvicorn.run(create_app(), host=settings.host, port=settings.port)
+        uvicorn.run(create_app(root=settings.project_root), host=settings.host, port=settings.port)
 
 
 @app.command()
@@ -235,7 +245,7 @@ def prepare_run(
     request: str,
     contract: Annotated[Path | None, typer.Option(exists=True, dir_okay=False)] = None,
     branch: Annotated[str | None, typer.Option()] = None,
-    repo: Annotated[Path, typer.Option("--repo")] = Path("."),
+    repo: Annotated[Path | None, typer.Option("--repo")] = None,
     open_browser: bool = typer.Option(False, "--open"),
     json_output: bool = typer.Option(False, "--json"),
     policy: Annotated[Path | None, typer.Option(exists=True, dir_okay=False)] = None,
@@ -252,9 +262,10 @@ def prepare_run(
         raise typer.BadParameter("Invalid mode or gate; see orqalis run --help") from exc
     if selected_gates and selected_mode == ControlMode.AUTONOMOUS:
         raise typer.BadParameter("Custom gates require supervised mode")
-    with project_service() as projects, ExitStack() as ui_stack:
-        project, _ = projects.status(repo)
-        sdk = Orqalis(unit_of_work=projects.unit_of_work)
+    target = resolve_project_root(repo)
+    ui_settings = Settings(project_root=target)
+    with sdk_service(target) as sdk, ExitStack() as ui_stack:
+        project, _ = sdk.projects.status(target)
         state = sdk.prepare_run(
             project.id,
             request,
@@ -266,13 +277,13 @@ def prepare_run(
             selected_gates,
         )
         host = (
-            ui_stack.enter_context(ui_session(Settings(), f"/runs/{state.run.id}"))
+            ui_stack.enter_context(ui_session(ui_settings, f"/runs/{state.run.id}"))
             if open_browser
             else None
         )
         if not json_output:
             typer.echo(f"Run {state.run.id}: {state.run.state}")
-            typer.echo(f"{local_url(Settings())}/runs/{state.run.id}")
+            typer.echo(f"{local_url(ui_settings)}/runs/{state.run.id}")
         if contract is None:
             asyncio.run(sdk.requirements().define(state.run.id, provider))
             state = sdk.snapshot(state.run.id)
@@ -289,7 +300,7 @@ def prepare_run(
             typer.echo(state.model_dump_json())
         else:
             typer.echo(f"Run {state.run.id}: {state.run.state}")
-            typer.echo(f"{local_url(Settings())}/runs/{state.run.id}")
+            typer.echo(f"{local_url(ui_settings)}/runs/{state.run.id}")
         if host is not None and host.owned:
             typer.echo("Mission Control is running; press Ctrl+C to stop it.", err=True)
             host.wait()
@@ -324,8 +335,7 @@ def execute_run(
     workspaces: Path = DEFAULT_WORKSPACES / ".orqalis" / "workspaces",
 ) -> None:
     """Execute or continue a prepared run through evidence-backed review."""
-    with project_service() as projects:
-        sdk = Orqalis(unit_of_work=projects.unit_of_work)
+    with sdk_service() as sdk:
         result = asyncio.run(
             sdk.executor(workspaces).execute(
                 run_id,
@@ -342,8 +352,7 @@ def finalize_run(
     policy: Annotated[Path, typer.Option(exists=True, dir_okay=False)],
 ) -> None:
     """Certify, document and commit an accepted run under an explicit delivery policy."""
-    with project_service() as projects:
-        sdk = Orqalis(unit_of_work=projects.unit_of_work)
+    with sdk_service() as sdk:
         result = asyncio.run(
             sdk.delivery.finalize(
                 run_id, DeliveryPolicy.model_validate_json(policy.read_text(encoding="utf-8"))
@@ -353,13 +362,15 @@ def finalize_run(
 
 
 @app.command("mcp")
-def mcp_server(policy: Annotated[Path, typer.Option(exists=True, dir_okay=False)]) -> None:
+def mcp_server(
+    policy: Annotated[Path, typer.Option(exists=True, dir_okay=False)],
+    root: Annotated[Path | None, typer.Option("--root")] = None,
+) -> None:
     """Serve the authorized project over MCP stdio; stdout is reserved for protocol."""
     from orqalis.mcp.policy import MCPPolicy
     from orqalis.mcp.server import create_mcp
 
-    with project_service() as projects:
-        sdk = Orqalis(unit_of_work=projects.unit_of_work)
+    with sdk_service(root) as sdk:
         settings = MCPPolicy.model_validate_json(policy.read_text(encoding="utf-8"))
         sdk.get_project(settings.project_id)
         create_mcp(sdk, settings).run(transport="stdio")
@@ -368,6 +379,5 @@ def mcp_server(policy: Annotated[Path, typer.Option(exists=True, dir_okay=False)
 @app.command("define-goal")
 def define_goal(run_id: UUID, provider: str = "openai") -> None:
     """Continue a prepared request through its persisted Requirements actor."""
-    with project_service() as projects:
-        sdk = Orqalis(unit_of_work=projects.unit_of_work)
+    with sdk_service() as sdk:
         typer.echo(asyncio.run(sdk.requirements().define(run_id, provider)).model_dump_json())

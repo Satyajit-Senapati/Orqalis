@@ -274,8 +274,8 @@ test("update installs into the same custom global prefix, with no Python or data
     "-g",
     "orqalis@1.0.1",
   ]);
-  assert.match(h.errors, /back up PostgreSQL/);
-  assert.match(h.output, /orqalis migrate/);
+  assert.match(h.errors, /back up project \.orqalis\//);
+  assert.match(h.output, /orqalis doctor/);
 });
 
 test("same or newer installed version is never reinstalled or downgraded", async () => {

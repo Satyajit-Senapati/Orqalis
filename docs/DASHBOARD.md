@@ -33,7 +33,7 @@ Pitch-dark is the sole product theme and the theme used for documentation captur
 | Area | Current contract |
 | --- | --- |
 | Core / CLI / SDK | Shared deterministic workflow, DAG scheduler, provider/tool boundaries, repair and safe Git delivery |
-| Persistence | PostgreSQL/pgvector, SQLAlchemy, migration-backed canonical runtime records |
+| Persistence | Root-bound `.orqalis/` filesystem stores; canonical Task Capsules/memory plus rebuildable graph/index data |
 | Browser shell | Fixed Pitch-dark presentation, project-aware navigation, responsive drawer and inspectors |
 | Graph | Selectable orchestration, task and actor relationships with stable topology-aware layout |
 | Inspector | Keyboard-accessible actor/task detail with attempts, context, tools, evidence and artifacts |
@@ -85,7 +85,7 @@ a successful invocation. Dynamic acquisition milestones without events are expla
 the selection process, not shown as fabricated completed steps. Historical versions
 removed from the current registry remain listed from their load records.
 
-## Operator control in Orqalis 1.0.1
+## Operator control
 
 The run overview now includes Operator control. SUPERVISED runs show their durable
 GOAL, PLAN, REPAIR and DELIVERY gates; TASK may be enabled explicitly. A pending
@@ -108,8 +108,8 @@ shows its digest, but cannot display the full policy. For TASK, inspect the
 plan task and execution policy. Home does not create supervised runs yet;
 create one through CLI, SDK or trusted MCP policy. After browser approval,
 resume execute or finalize from CLI/SDK/MCP. Browser job submission and
-full-policy inspection remain follow-up work. The public npm 1.0.0 package
-does not include these controls until a new release is published.
+full-policy inspection remain follow-up work. These controls were introduced in the
+historical public 1.0.1 release and remain part of the local-first 2.0.0 candidate.
 
 ## Observability and compatibility
 

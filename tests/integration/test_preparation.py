@@ -1,21 +1,17 @@
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine
 
 from orqalis.domain.errors import ConflictError
 from orqalis.domain.events import EventType
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
 from orqalis.sdk import Orqalis
-
-pytestmark = pytest.mark.postgres
+from tests.support.filesystem import filesystem_uow_factory
 
 
 def test_context_failure_can_resume_same_run(
-    database: Engine, git_repo: Path, monkeypatch: pytest.MonkeyPatch
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    sdk = Orqalis(unit_of_work=lambda: SQLProjectUnitOfWork(session_factory(database)))
+    sdk = Orqalis(unit_of_work=filesystem_uow_factory(git_repo))
     project = sdk.initialize(git_repo)
     with monkeypatch.context() as patch:
 

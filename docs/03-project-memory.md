@@ -1,164 +1,116 @@
-# Project Memory Design
+# Project memory, graph, history, and context
 
-> **Canonical baseline:** Orqalis Consolidated End-to-End Design v1.2 (2026-09-10). This file supersedes earlier session versions.
+> **Canonical local-first baseline - 2026-09-16.** Earlier database/pgvector
+> recommendations are superseded.
 
-## 1. Objective
+## Three distinct knowledge systems
 
-Project Memory allows Orqalis and connected coding assistants to retain reliable repository-specific context across tasks without full repository re-analysis. Memory supplements the repository; it never replaces source-of-truth verification.
+Orqalis never collapses all knowledge into one file or one index.
 
-## 2. Memory scopes
+1. **Repository Graph** contains deterministic or explicitly inferred facts about files,
+   modules, symbols, tests, configuration, documentation, and their relationships.
+2. **Curated Project Memory** contains durable explanations: product intent, architecture,
+   technology, conventions, domain language, workflows, testing practice, pitfalls,
+   modules, and decisions.
+3. **Task History** contains one self-contained Task Capsule per request, including context,
+   goal, acceptance, plan, execution, review, evidence, repair, changes, and delivery.
 
-### Global memory
-Reusable engineering knowledge, skill definitions, organization policies, generic patterns, and tool instructions.
+Graph facts are not promoted as architectural rationale. Short-lived execution state stays
+in Task Capsules rather than curated memory.
 
-### Project memory
-Repository-specific architecture, modules, file roles, business/domain rules, conventions, decisions, CI/build/test rules, known issues, previous tasks, and high-value implementation facts.
+## Curated memory format
 
-### Run memory
-Goal, acceptance criteria, plan, current task state, findings, artifacts, test results, reviewer comments, repair attempts, decisions, and temporary coordination for a single run.
-
-After successful completion, selected run knowledge is promoted to project memory by the Memory Curator.
-
-## 3. Memory categories
-
-- Project identity and purpose.
-- Technology stack and versions where stable.
-- Architecture and module boundaries.
-- Repository map and important file roles.
-- Data flows and API contracts.
-- Domain entities and business rules.
-- Coding/testing conventions.
-- CI/CD and Git policies.
-- Architecture Decision Records.
-- Previous accepted changes.
-- Known issues, technical debt, flaky tests, and limitations.
-- Relationships/dependencies among files, modules, services, and concepts.
-
-## 4. Provenance model
-
-Every durable fact should include:
-
-```json
-{
-  "fact": "Room is the primary local persistence layer.",
-  "memory_type": "architecture",
-  "confidence": 0.98,
-  "source_paths": ["data/database/AppDatabase.kt", "docs/architecture.md"],
-  "source_commit": "91abc22",
-  "introduced_by_run": "ORQ-2026-0202",
-  "last_verified_at": "2026-09-10T10:00:00Z",
-  "status": "active"
-}
-```
-
-Memory must support superseding rather than destructive rewriting so history is auditable.
-
-## 5. Git-aware freshness
-
-Each project-memory snapshot records `indexed_commit_sha`. At run start:
-
-1. Read current HEAD/base commit.
-2. Compare to indexed commit.
-3. If equal, memory is considered structurally current.
-4. If different, calculate changed paths and commit range.
-5. Determine impacted memory entries and graph neighborhoods.
-6. Invalidate or mark stale only affected knowledge.
-7. Re-index changed areas.
-8. Update snapshot metadata.
-
-This turns repository refresh into an incremental process.
-
-## 6. Dependency-aware invalidation
-
-Memory should model relationships such as:
-
-```text
-Theme.kt -> defines -> AppTheme
-AppTheme -> used_by -> HomeScreen
-AppTheme -> used_by -> EditorScreen
-NotesRepository -> backed_by -> Room
-NotesRepository -> syncs_through -> SyncCoordinator
-```
-
-If a foundational file changes, Orqalis invalidates related facts and summaries rather than the whole project.
-
-## 7. Context Pack
-
-Agents should normally receive a Context Pack, not raw memory search results.
+Baseline category documents are Markdown. Individual durable records use Markdown with
+structured frontmatter and include, where applicable:
 
 ```yaml
-context_pack:
-  project: Novra Android
-  task: Add tablet split-pane editor
-  architecture:
-    - MVVM
-    - responsive layout uses WindowSizeClass
-  relevant_files:
-    - EditorScreen.kt
-    - EditorViewModel.kt
-    - ResponsiveScaffold.kt
-  conventions:
-    - UI state is immutable
-  decisions:
-    - ADR-008
-  related_runs:
-    - ORQ-0113
-  known_issues:
-    - ISSUE-42
-  confidence: 0.94
-  freshness:
-    indexed_commit: abc123
-    current_commit: abc123
+id: MEM-20260916-0001
+category: architecture
+source:
+  type: repository
+  paths: [src/sync/coordinator.py]
+  content_hashes:
+    src/sync/coordinator.py: <sha256>
+verified_commit: <git-sha>
+introduced_by_task: ORQ-20260916-0004
+confidence: 0.97
+last_verified_at: 2026-09-16T14:20:00+05:30
 ```
 
-## 8. Retrieval pipeline
+Paths are repository-relative. A source hash mismatch, missing source, or unverifiable
+commit marks a record `STALE`; stale records may still be retrieved at reduced relevance
+but must not be presented as unquestioned fact.
 
-1. Parse current task into concepts/capabilities.
-2. Retrieve structured facts by project/type.
-3. Semantic search over memory text/embeddings.
-4. Traverse relevant knowledge-graph relations.
-5. Include related prior runs and ADRs.
-6. Rank file candidates.
-7. Apply token/size budget.
-8. Return provenance and confidence.
-9. If confidence is below threshold or memory is stale, request targeted repository inspection.
+## Curation and secret safety
 
-## 9. Bootstrap
+The Memory Curator proposes only durable knowledge learned from accepted changes,
+review evidence, decisions, conventions, or pitfalls. Policies are `auto`, `review`, or
+`manual`. Reviewable proposals live under `memory/staging/MEM-PROP-.../`, containing the
+proposal, proposed Markdown, diff, and evidence. Approval promotes the record; rejection
+moves the proposal to history without changing active memory.
 
-`orqalis init` performs the only intentionally broad analysis:
+Candidate titles, content, rationale, evidence, and serialized metadata are scanned for
+credential fields, tokens, passwords, private keys, authenticated URLs, and private model
+diagnostics. Unsafe durable memory is rejected. Store only requirements such as
+"authentication uses `GITHUB_TOKEN`," never the value.
 
-- Detect languages/frameworks/build files.
-- Read repository instructions and documentation.
-- Identify entry points and module boundaries.
-- Detect tests, lint, build, format commands.
-- Map high-value files and dependencies.
-- Identify Git conventions/protected-branch assumptions where available.
-- Generate architecture summary and initial facts.
-- Build embeddings and initial graph.
-- Store current commit as memory baseline.
+## Repository graph
 
-## 10. Memory storage
+Graph nodes include file, module, package, class, function, method, interface, route,
+configuration, test, documentation, table, and reference kinds. Relations include
+`IMPORTS`, `CALLS`, `IMPLEMENTS`, `EXTENDS`, `USES`, `DEFINES`, `REFERENCES`, `TESTS`,
+`CONFIGURES`, `DEPENDS_ON`, `ROUTES_TO`, `READS_FROM`, and `WRITES_TO`.
 
-V1 recommendation: PostgreSQL + pgvector. Core relational entities should remain queryable without vector search. Embeddings augment, not replace, structured retrieval.
+Every edge records provenance:
 
-Core tables: projects, project_memory, memory_sources, memory_versions, repository_files, architecture_entities, architecture_relations, decisions, runs, run_findings, known_issues, embeddings.
+- `EXTRACTED`: deterministic repository analysis produced the relationship;
+- `INFERRED`: a secondary reasoning step produced it, with explicit confidence/evidence.
 
-## 11. Memory safety rules
+Python AST extraction is implemented; other supported source/config/document formats
+receive deterministic file-level nodes. Graphify may inspire or later adapt to the stable
+Orqalis contract, but it is not a runtime requirement.
 
-- Never store secrets, tokens, passwords, or raw credential files.
-- Redact likely secrets before persistence.
-- Do not promote transient chain-of-thought or model scratch reasoning.
-- Do not trust a single agent assertion as high-confidence architecture truth.
-- Prefer source-backed facts.
-- Mark inferred facts explicitly.
-- Tie accepted changes to commit SHAs.
+## Incremental refresh and caches
 
-## 12. Project Brain observability
+The graph manifest stores indexed branch/commit, file content hashes, parser/schema
+versions, and last indexed time. Refresh considers Git tracked files, relevant untracked
+and dirty files, and current content hashes. Only changed/new content is parsed; removed or
+renamed paths and their affected edges are invalidated. Cached parser output is keyed by
+SHA-256 and may be reused across paths with identical content.
 
-Project Memory is exposed in the Local Control Center as the **Project Brain**. The UI may show memory categories, indexed commit, freshness, relevant architecture entities/relations, ADRs, known issues, related runs, Context Pack composition, and source provenance.
+`memory/graph/`, `index/`, and `cache/` are derived. Removing them never removes curated
+memory or Task Capsules. Use `orqalis rebuild-index --repo PATH` for a full regeneration;
+idempotent `orqalis init --repo PATH` also restores missing bootstrap-derived data.
 
-Memory retrieval and curation emit privacy-safe structured events including query/task reference, selected memory IDs/types, source/commit freshness, count/size, invalidations, and promotions. Do not log full secrets, raw hidden prompts, or private chain-of-thought.
+The compatibility source-summary projection used by older orchestration contracts also
+lives under `cache/search/`. It is rebuildable input acceleration, never durable Project
+Memory, and may be deleted with the rest of the cache.
 
-## 13. Memory performance metrics
+## Local retrieval
 
-Track memory hit rate, context-pack size, percentage of repository re-analyzed, changed-file refresh scope, stale-memory invalidations, retrieval latency, and post-run promotions. These metrics help verify the core product claim that Orqalis reduces repeated repository analysis over time.
+Core retrieval combines lexical terms, symbol names, paths, tags, graph centrality and
+distance, incoming/outgoing relations, Git recency, memory relevance, and related task
+summaries. Embeddings are optional and cannot be a prerequisite or sole source of truth.
+
+Historical task retrieval uses compact `.orqalis/tasks/index.json` entries and reads only
+selected final summaries and affected metadata from matching capsules. It never injects an
+entire old event stream by default.
+
+## Context Pack
+
+`ProjectContextBuilder` produces a bounded `ProjectContextPack` containing project/branch,
+HEAD and dirty paths, relevant files, ranked graph nodes/neighbors, curated memory with
+freshness, decisions, and related historical tasks. The configured character budget is a
+hard bound. At run startup the pack is persisted to the current Task Capsule as:
+
+```text
+context/context-pack.md
+context/memory-used.yaml
+context/files-used.json
+context/graph-query.json
+```
+
+These are human-readable projections of the authoritative capsule snapshot.
+
+Implemented user commands include `orqalis memory status`, `memory refresh`, `memory
+search`, `memory graph [--open]`, `orqalis context`, and `orqalis rebuild-index`.

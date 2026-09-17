@@ -9,6 +9,8 @@ from mcp.types import ToolAnnotations
 
 from orqalis import __version__
 from orqalis.agents.roles import role_definition
+from orqalis.context.builder import ProjectContextBuilder
+from orqalis.context.models import ProjectContextPack
 from orqalis.domain.acceptance import GoalContract, GoalDraft
 from orqalis.domain.agent import AgentRole
 from orqalis.domain.artifact import Finding
@@ -18,18 +20,30 @@ from orqalis.domain.delivery import DeliveryResult
 from orqalis.domain.errors import ConflictError, OrqalisError, PolicyDeniedError
 from orqalis.domain.execution import ExecutionSummary, WorkerResult
 from orqalis.domain.external import FindingReport, WorkAssignment
-from orqalis.domain.memory import ArchitectureEntity, ArchitectureRelation, ContextPack, MemoryMatch
+from orqalis.domain.memory import ArchitectureEntity, ArchitectureRelation
 from orqalis.domain.plan import TaskPlan
 from orqalis.domain.project import Project
 from orqalis.domain.projections import RunSnapshot
 from orqalis.domain.provider import ProviderDescriptor
 from orqalis.domain.task import TaskExecution, TaskStatus
+from orqalis.graph import GraphNode, GraphNodeKind, ProjectGraph, ProjectGraphEngine
 from orqalis.mcp.policy import MCPPolicy
+from orqalis.memory.curated import (
+    CuratedMemoryStore,
+    MemoryCategory,
+    MemoryProposal,
+    MemoryProvenance,
+    MemoryRecordStatus,
+    MemoryRevalidationResult,
+    source_hashes,
+)
+from orqalis.persistence.filesystem import ProjectLayout, resolve_project_root
 from orqalis.providers.configuration import configured_providers
 from orqalis.providers.ports import AgentProvider
 from orqalis.sdk import Orqalis
 from orqalis.security.redaction import safe_diagnostic
 from orqalis.skills.registry import SkillRegistry
+from orqalis.tasks.history import TaskCapsuleView, TaskHistoryEntry, TaskHistoryService
 
 
 class Capabilities(Contract):
@@ -50,7 +64,7 @@ def boundary() -> Iterator[None]:
     except OrqalisError as exc:
         raise ToolError(f"{exc.code}: {safe_diagnostic(str(exc))}") from None
     except Exception:
-        # SDK/SQL/provider exceptions may contain credentials and raw input.
+        # SDK/provider exceptions may contain credentials and raw input.
         raise ToolError(
             "internal_error: operation failed; inspect Orqalis runtime status"
         ) from None
@@ -82,6 +96,13 @@ def create_mcp(
             raise PolicyDeniedError("Run is outside this server's authorized project")
         return snapshot
 
+    def scoped_root() -> Path:
+        project = sdk.get_project(policy.project_id)
+        root = resolve_project_root(sdk.project_root or project.repo_root)
+        if root != project.repo_root.resolve(strict=True):
+            raise PolicyDeniedError("SDK root does not match the authorized MCP project")
+        return root
+
     @server.tool(annotations=reads)
     def get_project() -> Project:
         """Get this server's authorized project and repository policy."""
@@ -89,34 +110,34 @@ def create_mcp(
             return sdk.get_project(policy.project_id)
 
     @server.tool(annotations=reads)
-    def get_project_context(task: str, max_chars: int = 20000) -> ContextPack:
-        """Retrieve Git-validated memory and targeted inspection gaps."""
+    def get_project_context(task: str, max_chars: int = 20000) -> ProjectContextPack:
+        """Retrieve selective graph, curated memory, task history, and Git context."""
         with boundary():
-            return sdk.memory.context(sdk.get_project(policy.project_id), task, max_chars)
+            return ProjectContextBuilder(scoped_root()).build(task, max_chars)
 
     @server.tool(annotations=reads)
-    def search_project_memory(query: str, limit: int = 10) -> tuple[MemoryMatch, ...]:
-        """Search source-backed project memory with current Git freshness."""
+    def search_project_memory(query: str, limit: int = 10) -> tuple[MemoryRecordStatus, ...]:
+        """Search curated durable project memory with provenance freshness."""
         with boundary():
-            return sdk.memory.search(sdk.get_project(policy.project_id), query, limit)
+            scoped_root()
+            return sdk.search_project_memory(query, limit)
 
     @server.tool(annotations=reads)
     def get_architecture() -> ArchitectureGraph:
         """Read the persisted architecture graph after Git freshness validation."""
         with boundary():
             project = sdk.get_project(policy.project_id)
-            sdk.memory.refresh(project)
             entities, relations = sdk.memory.graph(project)
             return ArchitectureGraph(entities=entities, relations=relations)
 
     @server.tool(annotations=reads)
-    def get_decisions(topic: str = "") -> tuple[MemoryMatch, ...]:
-        """Retrieve source-backed ADR/decision knowledge."""
+    def get_decisions(topic: str = "") -> tuple[MemoryRecordStatus, ...]:
+        """Retrieve curated ADR/decision knowledge."""
         with boundary():
             return tuple(
-                m
-                for m in sdk.memory.search(sdk.get_project(policy.project_id), topic, 100)
-                if m.item.type == "decision"
+                item
+                for item in sdk.search_project_memory(topic, 100)
+                if item.record.category == MemoryCategory.DECISION
             )
 
     @server.tool(annotations=reads)
@@ -124,6 +145,91 @@ def create_mcp(
         """Retrieve source paths selected by the same Git-aware Context Pack service."""
         with boundary():
             return get_project_context(task).relevant_files
+
+    @server.tool(annotations=reads)
+    def get_project_graph() -> ProjectGraph:
+        """Read the typed deterministic repository graph for this project."""
+        with boundary():
+            return ProjectGraphEngine(scoped_root()).refresh().graph
+
+    @server.tool(annotations=reads)
+    def get_related_symbols(task: str, limit: int = 20) -> tuple[GraphNode, ...]:
+        """Return the highest-ranked non-file symbols for a task query."""
+        with boundary():
+            if not 1 <= limit <= 100:
+                raise PolicyDeniedError("Symbol limit must be between 1 and 100")
+            pack = get_project_context(task)
+            return tuple(item.node for item in pack.graph if item.node.kind != GraphNodeKind.FILE)[
+                :limit
+            ]
+
+    @server.tool(annotations=reads)
+    def list_tasks(limit: int = 100) -> tuple[TaskHistoryEntry, ...]:
+        """List compact project-local Task Capsule history."""
+        with boundary():
+            return TaskHistoryService(scoped_root()).list(limit)
+
+    @server.tool(annotations=reads)
+    def get_task(task_id: str) -> TaskCapsuleView:
+        """Read one validated Task Capsule without exposing raw filesystem access."""
+        with boundary():
+            return TaskHistoryService(scoped_root()).get(task_id)
+
+    @server.tool(annotations=reads)
+    def get_task_context(task_id: str) -> ProjectContextPack | None:
+        """Read the selective Context Pack persisted for one Task Capsule."""
+        with boundary():
+            return TaskHistoryService(scoped_root()).get(task_id).context
+
+    @server.tool(annotations=writes)
+    def propose_memory_update(
+        category: MemoryCategory,
+        title: str,
+        content: str,
+        rationale: str,
+        source_paths: tuple[str, ...] = (),
+        evidence: tuple[str, ...] = (),
+        introduced_by_task: str | None = None,
+        confidence: float = 1.0,
+    ) -> MemoryProposal:
+        """Stage a secret-scanned durable memory proposal for review."""
+        with boundary():
+            policy.require_work()
+            root = scoped_root()
+            if introduced_by_task is not None:
+                TaskHistoryService(root).get(introduced_by_task)
+            project = sdk.get_project(policy.project_id)
+            head = sdk.git.status(project.repo_root).head
+            store = CuratedMemoryStore(ProjectLayout(root))
+            record = store.new_record(
+                category,
+                title,
+                content,
+                MemoryProvenance(
+                    type="repository" if source_paths else "user",
+                    paths=source_paths,
+                    content_hashes=source_hashes(root, source_paths),
+                ),
+                verified_commit=head,
+                introduced_by_task=introduced_by_task,
+                confidence=confidence,
+            )
+            return store.propose(
+                record,
+                rationale,
+                policy=store.configured_policy(),
+                evidence=evidence,
+            )
+
+    @server.tool(annotations=writes)
+    def refresh_project_memory(
+        record_ids: tuple[str, ...] = (),
+    ) -> MemoryRevalidationResult:
+        """Explicitly revalidate selected stale curated-memory provenance."""
+        with boundary():
+            policy.require_work()
+            scoped_root()
+            return sdk.revalidate_project_memory(record_ids)
 
     @server.tool(annotations=writes)
     def start_task(request: str, branch: str, goal: GoalDraft) -> RunSnapshot:
@@ -280,6 +386,6 @@ def create_mcp(
     def decisions_resource() -> str:
         from pydantic import TypeAdapter
 
-        return TypeAdapter(tuple[MemoryMatch, ...]).dump_json(get_decisions()).decode()
+        return TypeAdapter(tuple[MemoryRecordStatus, ...]).dump_json(get_decisions()).decode()
 
     return server

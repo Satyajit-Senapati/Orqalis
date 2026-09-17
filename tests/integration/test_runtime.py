@@ -4,9 +4,6 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 import pytest
-from sqlalchemy import Engine, update
-from sqlalchemy.exc import DBAPIError
-from sqlalchemy.orm import Session
 
 from orqalis.core.goals import GoalService
 from orqalis.core.orchestrator import Orchestrator
@@ -20,11 +17,8 @@ from orqalis.domain.run import RunState
 from orqalis.domain.task import Task, TaskDependency, TaskStatus
 from orqalis.git.service import LocalGitService
 from orqalis.observability.projections import SnapshotProjectionService
-from orqalis.persistence.database import session_factory
-from orqalis.persistence.runtime_models import EventRow
-from orqalis.persistence.unit_of_work import SQLProjectUnitOfWork
-
-pytestmark = pytest.mark.postgres
+from orqalis.persistence.filesystem import TaskCapsuleStore
+from tests.support.filesystem import filesystem_uow_factory
 
 
 @dataclass
@@ -38,11 +32,8 @@ class Clock:
         self.at += timedelta(seconds=seconds)
 
 
-def test_durable_task_attempts_pause_resume_cancel_and_timing(
-    database: Engine, git_repo: Path
-) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+def test_durable_task_attempts_pause_resume_cancel_and_timing(git_repo: Path) -> None:
+    factory = filesystem_uow_factory(git_repo)
 
     git = LocalGitService()
     project = ProjectService(factory, git).initialize(git_repo)
@@ -101,7 +92,7 @@ def test_durable_task_attempts_pause_resume_cancel_and_timing(
     clock.tick(3)
     orchestrator.advance(run.id, RunState.PAUSED, "pause")
     clock.tick(2)
-    # New service instances reload every authoritative value from PostgreSQL.
+    # New service instances reload every authoritative value from the Task Capsule.
     resumed = Orchestrator(factory, clock)
     resumed.resume(run.id, "resume")
     resumed.transition_task(run.id, attempt.id, TaskStatus.RUNNING, "continue")
@@ -132,11 +123,10 @@ def test_durable_task_attempts_pause_resume_cancel_and_timing(
         resumed.advance(run.id, RunState.EXECUTING, "restart")
 
 
-def test_event_sequence_concurrency_idempotency_and_append_only(
-    database: Engine, git_repo: Path
+def test_event_sequence_concurrency_idempotency_and_corruption_detection(
+    git_repo: Path,
 ) -> None:
-    def factory() -> SQLProjectUnitOfWork:
-        return SQLProjectUnitOfWork(session_factory(database))
+    factory = filesystem_uow_factory(git_repo)
 
     git = LocalGitService()
     project = ProjectService(factory, git).initialize(git_repo)
@@ -188,5 +178,10 @@ def test_event_sequence_concurrency_idempotency_and_append_only(
             )
         uow.rollback()
         assert len(uow.events.list(run.id)) == before
-    with Session(database) as session, pytest.raises(DBAPIError):
-        session.execute(update(EventRow).where(EventRow.run_id == run.id).values(status="tampered"))
+    capsule = TaskCapsuleStore.from_root(git_repo).capsule_path(run.id)
+    assert capsule is not None
+    events_path = capsule / "execution" / "events.jsonl"
+    lines = events_path.read_text(encoding="utf-8").splitlines()
+    events_path.write_text("\n".join(lines[:-1]) + "\n", encoding="utf-8")
+    with factory() as uow, pytest.raises(ConflictError):
+        uow.events.list(run.id)

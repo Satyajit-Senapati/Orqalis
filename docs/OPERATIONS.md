@@ -1,98 +1,101 @@
 # Local operation and recovery
 
-Install globally through npm and migrate using [README.md](../README.md). The browser runs on
-127.0.0.1:7842 by default. ORQALIS_PORT changes the local port.
+Orqalis stores each project's durable intelligence and task history below that repository's
+`.orqalis/` directory. Normal operation requires no external database.
 
-## Run a task
+## Initialize and inspect
 
-Initialize a committed Git repository once with orqalis init --repo PATH.
-Configure an explicit OpenAI or Anthropic model and API key through the documented
-ORQALIS_ environment variables.
+```bash
+cd /path/to/repository
+orqalis init
+orqalis status
+orqalis doctor
+```
 
-    orqalis run "Describe the requested change" --repo PATH --open
+Root resolution is explicit root, `ORQALIS_PROJECT_ROOT`, Git root, then current working
+directory. Verify the reported root before operating from scripts, editors or MCP hosts.
+Never share one server process across unrelated roots.
 
-`--open` hosts the local UI inside this CLI process while work runs. After the run,
-press Ctrl+C to stop its UI and return to the prompt, or use a second terminal for
-the commands below. If another Orqalis UI already owns the port, its host is reused
-and remains independently controlled. No Windows service is registered.
+`doctor` validates the manifest, schema support, writable structure and project-local
+derived data. `status` reports Git and Orqalis project state.
 
-A Requirements actor creates a structured goal and evidence-backed acceptance contract.
-The command prints a run ID before provider execution. The source branch is not switched.
-Use --branch to choose the owned run branch; otherwise a unique orqalis/run-* branch
-name is generated. This command prepares the contract. Execution requires an explicit
-tool/write policy:
+## Run, inspect and resume
 
-    orqalis execute RUN_ID --policy execution-policy.json --provider openai
-    orqalis finalize RUN_ID --policy delivery-policy.json
+```bash
+orqalis run "Implement the requested change"
+orqalis runs
+orqalis runs show <run-uuid>
+orqalis runs resume <run-uuid>
+orqalis task show <task-id>
+```
 
-You can pass --policy to run to execute after requirements. Existing contract files remain
-supported with --contract; they avoid a requirements provider call. Inspect generated
-acceptance before execution; unavailable commands or manual checks remain blocked/pending,
-and Orqalis never weakens criteria to force a pass.
+A request creates its Task Capsule immediately. If execution stops, restart from
+`task.yaml`, `execution/state.yaml`, `execution/events.jsonl`, plan and review state. Do not
+delete a capsule to clear a lock. Inspect `.orqalis/runtime/locks/`, verify no owner is
+active, and use the supported recovery/control command. Run-control commands accept the run
+UUID; use `task show` for an `ORQ-...` Task Capsule ID.
 
-If context synchronization failed, use orqalis runs prepare RUN_ID to resume that same run.
-After context preparation, use orqalis define-goal RUN_ID to continue the persisted
-Requirements checkpoint. A successful response/goal is reused without another provider call.
+## Data ownership and backup
 
-## Inspect and control
+Back up or version the canonical files:
 
-    orqalis runs show RUN_ID --json
-    orqalis runs pause RUN_ID
-    orqalis runs resume RUN_ID
-    orqalis runs cancel RUN_ID
+- `.orqalis/manifest.yaml` and `config.yaml`;
+- `.orqalis/project/`;
+- `.orqalis/memory/` except configured generated presentation;
+- `.orqalis/tasks/` according to task-history policy; and
+- acceptance evidence and durable delivery records.
 
-Pause requires a quiescent checkpoint. Cancel stops unfinished work and prevents delivery.
-A canceled run stays canceled. A provider failure or uncertain operation blocks the run.
+`cache/`, `index/`, runtime locks/sessions and generated graph HTML are derived or
+ephemeral. They need not be backed up. Removing cache or index content is safe for history;
+run `orqalis rebuild-index --repo PATH` to regenerate it. Do not delete manifest, memory or
+task capsules as a recovery shortcut.
 
-The Control Center exposes actor/task details, timeline, acceptance evidence, Project Brain,
-diffs, tool/provider results, delivery receipts and historical comparison. Unknown tokens and
-cost display as not reported. Developer mode contains public structured snapshots only.
+## Git and branch changes
 
-## Explicit recovery
+Task metadata records branch and starting commit. On branch change the graph service
+compares manifest state, content hashes and dirty files, refreshes affected nodes, and marks
+memory with changed provenance stale. Untracked relevant files participate in analysis.
+Generated `.orqalis` content is excluded from repository scanning.
 
-Stop any old external worker and inspect its workspace/tool effects before authorizing a retry.
-The old attempt, outputs and evidence remain in history.
+The default tracking policy keeps durable project/memory/task summaries trackable while
+ignoring cache, index, runtime, locks, raw event streams and generated graph HTML. Review
+`.orqalis/.gitignore` and `config.yaml` before changing policy.
 
-    orqalis runs recover RUN_ID EXECUTION_ID --reason "Describe what was inspected and fixed" --acknowledge-uncertainty
-    orqalis runs resume RUN_ID
-    orqalis execute RUN_ID --policy execution-policy.json
+## Memory operations
 
-For preparatory work, continue with define-goal instead of execute. For a delivery checkpoint,
-continue with finalize using the original policy. Recovery cannot take over a live execution
-lease or silently retry beyond ProjectSettings.max_task_attempts (default three).
-A repair-limit escalation needs human review; recovery cannot extend that repair budget.
+```bash
+orqalis memory status
+orqalis memory search "retry policy"
+orqalis memory refresh
+```
 
-## Explicit goal revisions
+Treat `STALE` memory as a revalidation request, not a fact. Review staged durable proposals
+under `.orqalis/memory/staging/` according to `auto`, `review` or `manual` policy. Never put
+tokens, passwords, private keys or credential-bearing connection strings in a proposal.
 
-At a quiescent checkpoint:
+## Control Center
 
-    orqalis runs pause RUN_ID
-    orqalis goal revise RUN_ID --contract revised-goal.json --reason "User-approved scope change" --expected-version 1
-    orqalis runs replan RUN_ID
-    orqalis runs resume RUN_ID
-    orqalis execute RUN_ID --policy execution-policy.json
+`orqalis ui` or `orqalis serve` starts the project-bound application host. Reconnecting
+clients load a snapshot and persisted events before subscribing live. A browser never needs
+filesystem access and cannot select another root through a data request.
 
-A revision creates fresh criteria and a new plan, preserving prior goals, tasks, evidence
-and timing. It cannot silently reinterpret old success as acceptance of a new contract.
-Once delivery starts, a changed goal requires a new run.
+## Failure cases
 
-## Data and diagnostics
+- **Missing/invalid manifest:** stop and initialize or repair through schema-aware tools;
+  do not guess a project identity.
+- **Unsupported future schema:** upgrade Orqalis; never downgrade files in place.
+- **Read-only repository:** no mutating operation is safe; copy or fix permissions.
+- **Interrupted write:** atomic rename keeps the last valid snapshot; inspect temporary
+  artifacts and event history before retrying.
+- **Stale lock:** verify the owner/session before recovery.
+- **Deleted cache/index:** regenerate; canonical history is unaffected.
+- **Cross-project mismatch:** stop the process and relaunch with the intended explicit root.
 
-PostgreSQL contains runtime state and Project Memory. Back it up using normal PostgreSQL
-tools. Owned worktrees and external documentation artifacts must be retained along with
-the database to support restart and evidence inspection. Do not remove an active worktree.
+## Historical database data
 
-ORQALIS_TELEMETRY_CONSOLE=true enables OpenTelemetry span/metric export to stderr.
-Embedding applications may configure OpenTelemetry providers/exporters themselves.
-Operation telemetry excludes prompts, commands, returned content and exception text.
-Runtime events include trace IDs when a recording span is active.
+The current release contains no PostgreSQL adapter, Alembic schema command or exporter.
+Keep legacy backups separate from active `.orqalis/` projects. If records must be recovered,
+use the matching archived release or a reviewed one-time external export; never run a
+database as a parallel source of truth.
 
-Docker commands run with network disabled, a read-only root, bounded memory/CPU/process
-counts and a temporary scratch directory. Images must already be available locally.
-Reviewer commands mount the workspace read-only. trusted_local executes approved argv
-on the host and is intended for explicitly trusted development commands.
-On POSIX hosts, sandbox containers use the Orqalis process's effective user and group IDs,
-which keeps owner-only workspaces accessible and generated files owned by the caller.
-
-Remote HTTP/MCP transport is not enabled. Native assistant interoperability uses the
-project-scoped stdio [MCP interface](MCP.md).
+Docker remains optional for isolated command execution. It is unrelated to persistence.
