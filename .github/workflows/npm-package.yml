@@ -185,6 +185,7 @@ jobs:
           test "$package_name" = "orqalis"
           test "$GITHUB_REF_NAME" = "v$package_version"
           test "$package" = "dist/orqalis-$package_version.tgz"
-          printf 'package=%s\n' "$package" >> "$GITHUB_OUTPUT"
+          # A bare dist/name.tgz is parsed as GitHub shorthand by npm on Linux.
+          printf 'package=%s\n' "$(realpath "$package")" >> "$GITHUB_OUTPUT"
       - name: Publish through npm Trusted Publishing
         run: npm publish "${{ steps.release.outputs.package }}" --access public --provenance

@@ -172,6 +172,8 @@ def test_npm_publish_workflow_uses_only_the_exact_tested_artifact() -> None:
     assert 'test "$package_name" = "orqalis"' in publish_job
     assert 'test "$GITHUB_REF_NAME" = "v$package_version"' in publish_job
     assert 'test "$package" = "dist/orqalis-$package_version.tgz"' in publish_job
+    assert 'printf \'package=%s\\n\' "$(realpath "$package")"' in publish_job
+    assert "printf 'package=%s\\n' \"$package\"" not in publish_job
     assert (
         'npm publish "${{ steps.release.outputs.package }}" --access public --provenance'
         in publish_job
