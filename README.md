@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="docs/RELEASE_NOTES.md"><img src="https://img.shields.io/badge/candidate-2.1.0-8b5cf6?style=flat-square" alt="Release candidate: 2.1.0 (unpublished)"></a>
+  <a href="docs/RELEASE_NOTES.md"><img src="https://img.shields.io/badge/version-2.1.0-8b5cf6?style=flat-square" alt="Version 2.1.0"></a>
   <a href="#architecture"><img src="https://img.shields.io/badge/local--first-repo--native-0f766e?style=flat-square" alt="Local-first, repo-native"></a>
   <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat-square&amp;logo=python&amp;logoColor=white" alt="Python 3.12 or newer">
   <img src="https://img.shields.io/badge/Node.js-22%2B-417e38?style=flat-square&amp;logo=nodedotjs&amp;logoColor=white" alt="Node.js 22 or newer">
@@ -54,13 +54,8 @@ use. Docker is optional and only needed for container-isolated command execution
 
 Install the released local-first version from npm:
 
-This checkout prepares **2.1.0** with the enhancements described here. It is not yet
-published; the released registry version remains 2.0.0. Use the
-[development setup](#development) to try those changes; the registry package contains
-only the released version.
-
 ```sh
-npm install -g orqalis@2.0.0
+npm install -g orqalis@2.1.0
 orqalis --version
 
 cd /path/to/your/repository

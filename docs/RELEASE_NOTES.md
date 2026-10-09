@@ -1,8 +1,10 @@
 # Release notes
 
-## Orqalis 2.1.0 (local candidate, unpublished)
+<a id="orqalis-210-local-candidate-unpublished"></a>
 
-This candidate adds portable Agent Skills, bounded repository graph queries and exact
+## Orqalis 2.1.0
+
+This version adds portable Agent Skills, bounded repository graph queries and exact
 symbol reads, conservative JavaScript/TypeScript/TSX extraction, identifier retrieval,
 reviewed memory supersession and discovery, MCP lifecycle/history tools, local traces
 and provider metrics, durable sandbox ownership and stronger test-integrity checks.
@@ -61,7 +63,7 @@ current8,470.894/4,672.093ms versus baseline1,596.899/1,504.215ms. Warm refresh,
 one-file delta and context comparisons stayed below the lines in that current-source
 study. Reader/publication controls did not support a safe fallback. A bounded cache-read
 experiment passed123 focused tests but failed its fixed performance screen and was
-reverted exactly; it is excluded from this candidate. The user explicitly accepted this measured cold-rebuild cost for2.1.0 on2026-10-09
+reverted exactly; it is excluded from this version. The user explicitly accepted this measured cold-rebuild cost for2.1.0 on2026-10-09
 and deferred cache optimization to the next release. This is a known release
 tradeoff, not a speed fix; its cause remains unknown. All original measurements
 and safeguards remain. The recorded local package checks validate their captured documentation snapshot.

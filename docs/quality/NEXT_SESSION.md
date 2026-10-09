@@ -119,3 +119,15 @@ Only that checkout setting changed; assertions and baseline remain fixed. The
 records four changed support inputs/390 original matches with unchanged application,
 tests and dependencies. Fresh hosted quality/package success for the final revision
 remains a prerequisite to tagging/publication.
+
+## Merge and publication preparation, 2026-10-09
+
+The user authorized merging and releasing. Main was fast-forwarded to tested commit
+`d767255f722d870e35d6af6836b0d7777565044a`. Both hosted quality and package workflows
+passed, including Linux/Windows/macOS smoke and installed integration. The required
+release-owner review gate is now configured on `npm-release`. After user security-key verification, npm's Settings page confirmed the existing
+Trusted Publisher is Valid for `Satyajit-Senapati/Orqalis`, `npm-package.yml`,
+`npm-release`, with `npm publish` permission. No npm access settings were changed;
+local CLI authentication is unnecessary for this OIDC release. README and release-note presentation are being prepared for the
+2.1.0 artifact; fresh CI for this prose revision must pass before a new tag/publication.
+No tag or publication has been performed at this checkpoint.
