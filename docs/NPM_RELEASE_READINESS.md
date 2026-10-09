@@ -2,10 +2,23 @@
 
 <a id="candidate-210---local-preparation-on-2026-10-03"></a>
 
-## Candidate 2.1.0 - local preparation, 2026-10-09
+## Published 2.1.0 - 2026-10-09
 
-**Local qualification with an accepted cold-performance tradeoff; documentation/artifact integrity is recorded below. Commit/push authorized; tagging and publication pending hosted and owner gates.**
-Current application `01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42`
+**Published and verified as npm's `latest`, with the accepted cold-rebuild tradeoff.**
+Main was merged, and immutable `v2.1.0` points to `19865786a0280e6875902fe2d4dbe9d02975cc23`.
+[GitHub release](https://github.com/Satyajit-Senapati/Orqalis/releases/tag/v2.1.0),
+[npm package](https://www.npmjs.com/package/orqalis/v/2.1.0) and
+[publication receipt](quality/evidence/release-publication-closeout-2.1.0-20261009-v1.json) record the completed release.
+Exact-source hosted quality passed 913 Python tests with 22 explicit skips and no
+failures; browser checks passed 13 with one explicit skip. The published artifact
+passed Linux/Windows/macOS launcher smoke and 17 Linux installed integration checks,
+including 41 MCP tools. Public registry download and GitHub release asset match the
+publication-workflow artifact byte for byte. The release-owner environment review
+and Valid npm Trusted Publisher binding were checked before publication.
+
+## Original local qualification and preparation
+
+The original locally qualified application `01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42`
 retains its original whole30/31 qualification against the 394-input freeze
 `a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038`.
 After the first push, hosted Linux typing found Windows-only API references in three
@@ -14,7 +27,7 @@ only; application/tests/workflows/dependencies are unchanged. The
 [successor input map](quality/evidence/release-input-freeze-portable-scripts-20261009-v1.json)
 and [Linux/macOS/Windows static checks](quality/evidence/release-hosted-portable-script-checks-20261009-v2.json)
 record the fix without rebinding earlier benchmark or full-suite evidence. Fresh hosted
-CI on the follow-up commit remains required. The initial quality run also lacked the
+CI on the final release source passed; the publication receipt above records its exact revision. The initial quality run also lacked the
 pinned immutable-contract baseline in its shallow checkout. Quality now fetches full
 history, with both affected fixture tests passing locally and all assertions preserved.
 [Latest input binding](quality/evidence/release-input-freeze-hosted-history-20261009-v1.json)
@@ -27,30 +40,31 @@ The frontend advisory is resolved by the dev-only source-map-js1.2.2 update.
 [Engineering status](quality/ENHANCEMENT_STATUS.md) owns findings, retained failures
 and tradeoffs. The [worklist](quality/NEXT_SESSION.md) owns remaining local work;
 this document owns release-owner gates. Historical captures retain their original
-source identities and do not substitute for the current candidate's qualification.
+source identities and do not substitute for the published release's hosted qualification.
 
 ## Current evidence and gates
 
 | Gate | Current disposition |
 | --- | --- |
-| Source/input/helper identities | Source01 / inputa0; exact frozen inputs and retained helper bindings |
-| Python regression | Current focused133 and immutable86 PASS; whole30:933PASS/2explicitSKIP/0FAIL/ERROR; whole31:933PASS/2explicitSKIP/0FAIL/ERROR |
-| Browser/static/advisories | Fresh13 static gates PASS; original browser14 PASS in both30/31; three current audits clean |
+| Source/input/helper identities | Published tag at `19865786a0280e6875902fe2d4dbe9d02975cc23`; original Source01/inputa0 local records retain their capture bindings |
+| Python regression | Exact-release hosted:913 PASS/22 explicit SKIP/0 FAIL; original local whole30/31 each:933 PASS/2 explicit SKIP/0 FAIL/ERROR |
+| Browser/static/advisories | Exact-release hosted:13 browser PASS/1 explicit SKIP; strict typing291 files and frontend9 test files PASS; original local static/advisory checks retain their bindings |
 | Installed wheel/npm | Current installed17/MCP41, exact installed dependency audits, archive/source/frontend review PASS; final prose checked in the linked packaging records |
 | Heldout/history | Fixed263-file graph/gold/delta checks and1,001-row/33-page history PASS; larger-corpus cold cost accepted for2.1.0 and deferred to the next release |
 | Paired quality/execution/memory/UI/constrained | Both timed rounds PASS with all30 reviewed quality tradeoffs retained; execution medians25.810/20.452s against pooled all-nine55.870s; bounded local acceptance with cold exception; broader per-ID evaluations remain pending |
 | Master sections53/54 | Two exact-source complete local qualifications accepted WITH the user-approved cold-performance exception; broader23 IMPLEMENTED_PENDING_EVAL /13 DEFER remain; no clean/global convergence claim |
 | Documentation/distribution | Canonical docs retained; final-prose artifact, archive/installed payload and link records linked below |
-| Hosted platform gates | Reviewed committed candidate must pass Linux/Windows/macOS package matrix and Linux installed integration |
-| Publication | Requires release-owner authorization and protected workflow/account controls |
+| Hosted platform gates | PASS on exact released artifact: Linux/Windows/macOS launcher checks and Linux installed17/MCP41 |
+| Publication | PUBLISHED: user authorization, owner environment review, Valid Trusted Publisher, provenance and exact registry-download identity recorded |
 
-## Finish local preparation, then release-owner gates
+## Preparation evidence and retained acceptance boundaries
 
 Do not select the slow baseline to accept execution timing. Preserve all failed captures,
 raw quality losses and measured costs. Any production change requires refreshed
 source-bound qualification; prose alone does not require another full functional run.
-Paid/live models, native assistant harnesses, live Docker and native Linux/macOS runtime
-are not certified by provider-free local Windows tests or static platform selections.
+Paid/live models, native assistant harnesses and live Docker remain unqualified. Hosted
+Linux quality/integration and Windows/macOS launcher smoke now have native evidence;
+those checks do not certify every native feature or workload.
 
 The candidate's final-prose checks are recorded in [the serial pipeline](quality/evidence/release-owned-temp-final-docs-actual-v7.json),
 [artifact identity](quality/evidence/release-final-artifact-identity-owned-temp-release-docs-v3.json),
@@ -58,16 +72,14 @@ The candidate's final-prose checks are recorded in [the serial pipeline](quality
 and [local links](quality/evidence/release-owned-temp-final-docs-actual-v7.json).
 Runtime smoke reuse requires exact bytes, sizes and archive modes. Repository-only
 quality docs are excluded from npm. Packaging validates the tested candidate; final
-release acceptance retains the explicit user-approved cold-cost exception. Documentation consolidation supersedes the old local package prose snapshot. The next
-artifact must be rebuilt and checked from the exact committed LF tree and current docs;
-old tarballs are retained only as historical evidence and are removed locally during cleanup.
+release acceptance retains the explicit user-approved cold-cost exception. Documentation consolidation supersedes the old local package prose snapshot. The released
+artifact was rebuilt and checked from the exact committed LF tree before publication;
+old local tarballs remain historical evidence only and were removed during cleanup.
 
-The user authorized cleanup, commit and push on 2026-10-09. Tagging and npm publication remain separate release-owner actions.
-Owned disposable QA-fixture commits are authorized. Local preparation cannot satisfy
-hosted gates requiring a reviewed committed candidate. The protected npm-release
-workflow publishes the exact tested version-tag artifact only with explicit owner
-authorization. Account ownership, environment approval and npm Trusted-Publisher access
-remain owner controls under [PUBLISHING.md](PUBLISHING.md).
+The user authorized merge and publication on 2026-10-09. Exact-source hosted quality
+and all artifact gates passed before the owner approved `npm-release`. OIDC published
+the tested tagged artifact. Published versions and tags remain immutable; future releases
+follow [PUBLISHING.md](PUBLISHING.md).
 
 ## Historical release evidence
 

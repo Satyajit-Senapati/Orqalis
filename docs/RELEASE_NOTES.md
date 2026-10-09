@@ -4,6 +4,13 @@
 
 ## Orqalis 2.1.0
 
+Published 2026-10-09 as npm's `latest` and [GitHub v2.1.0](https://github.com/Satyajit-Senapati/Orqalis/releases/tag/v2.1.0),
+from `19865786a0280e6875902fe2d4dbe9d02975cc23`. Exact-source hosted quality passed 913 Python tests with 22 explicit
+skips and 13 browser checks with one explicit skip. Linux/Windows/macOS launcher smoke
+and 17 Linux installed checks with 41 MCP tools passed. The
+[publication receipt](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-publication-closeout-2.1.0-20261009-v1.json) records owner controls, provenance and identical
+registry/GitHub/CI artifact bytes. The accepted cold-rebuild cost remains deferred.
+
 This version adds portable Agent Skills, bounded repository graph queries and exact
 symbol reads, conservative JavaScript/TypeScript/TSX extraction, identifier retrieval,
 reviewed memory supersession and discovery, MCP lifecycle/history tools, local traces
@@ -67,8 +74,8 @@ reverted exactly; it is excluded from this version. The user explicitly accepted
 and deferred cache optimization to the next release. This is a known release
 tradeoff, not a speed fix; its cause remains unknown. All original measurements
 and safeguards remain. The recorded local package checks validate their captured documentation snapshot.
-After documentation consolidation, hosted CI must rebuild and test the current committed
-package; the earlier local tarball is historical evidence. No universal speed,
+After documentation consolidation, hosted CI rebuilt and tested the exact released
+package; the earlier local tarball remains historical evidence. No universal speed,
 RAM or portable latency guarantee is claimed.
 Historical failures and all nine reference timings remain retained; current passing
 checks do not establish the historical failures' causes.
@@ -76,16 +83,16 @@ checks do not establish the historical failures' causes.
 The [engineering status](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/ENHANCEMENT_STATUS.md)
 owns exact identities, retained failures and acceptance dispositions; the
 [worklist](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/NEXT_SESSION.md)
-owns the remaining steps. Hosted platform gates are required before publication.
-Native Linux/macOS execution, live Docker, direct symlink creation and paid assistant
-harnesses remain unqualified by these local Windows checks. Cleanup, commit and push
-were authorized on 2026-10-09; tagging and publication remain pending release-owner gates.
+owns the next-release steps. Hosted Linux quality/integration and Windows/macOS
+launcher smoke passed before publication. These checks do not certify every native
+feature, live Docker, direct symlink creation or paid assistant harnesses. Published
+tag/package bytes remain unchanged by this documentation closeout.
 
 ## Release status checked 2026-09-26
 
-The public npm registry now reports `orqalis@2.0.0` as `latest`. This supersedes the dated
-pre-publication statements below. The registry package does not include the post-release
-working-tree enhancements. [Registry metadata](https://registry.npmjs.org/orqalis/latest).
+On 2026-09-26, the public npm registry reported `orqalis@2.0.0` as `latest`. This
+historical observation superseded the older pre-publication statements below. That
+2.0.0 package did not include the later 2.1.0 enhancements. [Registry metadata](https://registry.npmjs.org/orqalis/latest).
 
 ## Local-first architecture notice - 2026-09-16
 

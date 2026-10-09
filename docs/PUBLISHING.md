@@ -4,15 +4,16 @@ This guide describes the current local-first npm release. PostgreSQL/pgvector, D
 database environment variables are not standard build, installation or verification
 requirements.
 
-The local-first `orqalis@2.0.0` is already published; its version, tag and artifacts are
-immutable. The prepared candidate is **2.1.0**, with synchronized Python, frontend and
-launcher metadata. Bounded local qualification passed with the accepted cold-rebuild
-tradeoff. Commit/push is authorized; publication awaits the hosted and owner gates below.
-The public registry reported `latest=2.0.0` and no exact `2.1.0` version on 2026-10-03.
-Recheck the selected version immediately before future publication. Public 1.0.x remains
-historical database-backed software. This guide does not authorize publication.
-[Registry observation](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-registry-observation-readpath-v1.json)
-records that point-in-time boundary.
+**`orqalis@2.1.0` was published as npm's `latest` on 2026-10-09.**
+[GitHub v2.1.0](https://github.com/Satyajit-Senapati/Orqalis/releases/tag/v2.1.0) points to
+`19865786a0280e6875902fe2d4dbe9d02975cc23`. Exact-source quality, three-platform package smoke, Linux installed
+integration, release-owner review, OIDC provenance and public artifact identity are
+recorded in the [publication receipt](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-publication-closeout-2.1.0-20261009-v1.json).
+The cold graph-rebuild tradeoff was explicitly accepted for this release.
+Published versions, tags and artifacts are immutable. The gates below apply to future
+releases; recheck version availability immediately before publication. This guide
+does not itself authorize a release. Public 1.0.x remains historical database-backed
+software; earlier registry observations retain their original dates.
 
 ## Public artifact
 
@@ -54,7 +55,7 @@ cache entered the package.
 
 ## Standard release gates
 
-The commands below are the standard checks. Candidate 2.1.0 additionally requires the
+The commands below are the standard checks. The 2.1.0 qualification is recorded in the
 [acceptance checklist](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/NPM_RELEASE_READINESS.md#candidate-210---local-preparation-on-2026-10-03),
 including comparative contracts, installed verification, benchmarks, two complete rounds
 and independent review.

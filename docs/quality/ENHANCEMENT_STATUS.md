@@ -1,7 +1,11 @@
 # Enhancement status
 
-Updated 2026-10-09 for **Orqalis 2.1.0: local candidate, uncommitted and unpublished**.
-HEAD remains `b8506f7d9c471516fe4b21c9caa735a7a7909af6`.
+Updated 2026-10-09: **Orqalis 2.1.0 is published and verified.**
+Immutable `v2.1.0` points to `19865786a0280e6875902fe2d4dbe9d02975cc23`.
+[Publication receipt](evidence/release-publication-closeout-2.1.0-20261009-v1.json) records exact-source hosted quality,
+platform smoke, installed integration and public artifact identity. The original local
+qualification checkpoint was `b8506f7d9c471516fe4b21c9caa735a7a7909af6`;
+historical evidence below retains its original bindings.
 
 **Current disposition, Oct9:** the user explicitly accepted cold graph-rebuild cost
 for2.1.0 and deferred optimization to the next release (PERF-COLD-01).
@@ -13,8 +17,9 @@ All23 capability statuses remain IMPLEMENTED_PENDING_EVAL /13 DEFER. In particul
 source01 history1001 proves ordered coverage/integrity, not current1,001-row latency;
 older-source timings have no proved equivalence bridge. Final prose/package checks
 are refreshed in [the serial record](evidence/release-owned-temp-final-docs-actual-v7.json).
-No production change, new full run or commit is implied. Earlier blocked dispositions
-below retain their capture-time meaning; the measured regression remains real.
+The later hosted release checks are recorded separately in the publication receipt;
+these local captures are not rebound. Earlier blocked dispositions below retain their
+capture-time meaning; the measured regression remains real.
 
 **Resumed on Oct7 at the user's request; round28 failure is retained; the current candidate has completed both whole functional qualifications.**
 

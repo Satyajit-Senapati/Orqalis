@@ -1,16 +1,20 @@
 # Release qualification worklist
 
-Updated 2026-10-09 for **Orqalis2.1.0: cleanup/commit/push authorized; publication pending**.
+Updated 2026-10-09: **Orqalis 2.1.0 is published and verified as npm's latest.**
+Immutable `v2.1.0` points to `19865786a0280e6875902fe2d4dbe9d02975cc23`.
+[Publication receipt](evidence/release-publication-closeout-2.1.0-20261009-v1.json) records exact-source hosted quality,
+three-platform package smoke, installed integration and public artifact identity.
+Release preparation is complete; this worklist now tracks the next release.
 This is the single active worklist. [Status](ENHANCEMENT_STATUS.md) owns detailed
 findings, failures and tradeoffs; the [master plan](MASTER_ENHANCEMENT_PLAN.md) owns
 acceptance criteria; [release readiness](../NPM_RELEASE_READINESS.md) owns owner gates.
 
-## Current candidate and completed checks
+## Historical local qualification and completed checks
 
 Source `01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42` and
 [394-input freeze](evidence/release-input-freeze-owned-temp-v4.json)
 `a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038` were restored exactly.
-HEAD remains `b8506f7d9c471516fe4b21c9caa735a7a7909af6`.
+The restored local checkpoint was `b8506f7d9c471516fe4b21c9caa735a7a7909af6`; it is not the released commit.
 Current focused133, immutable86,13 static gates, clean exact dependency audits,
 installed wheel/npm17/MCP41, fixed263-file graph/gold and1,001-row/33-page history
 checks passed. Whole30/31 each collected935 tests:933PASS/2explicitSKIP/0FAIL/ERROR.
@@ -52,40 +56,32 @@ advisory26, browser28 and the experiment's initial failed/corrected focused runs
 All raw proofs remain retained. Passing current tests do not explain older failures.
 The user confirmed concurrent work; that is context, not a causal or host-idleness proof.
 
-## Remaining work, in order
+## Remaining work for the next release
 
-1. The historical prose artifact and archive/installed parity are recorded in
-   [the serial record](evidence/release-owned-temp-final-docs-actual-v7.json).
-   [Documentation cleanup](evidence/release-prepush-doc-cleanup-20261009-v1.json)
-   supersedes that prose snapshot. Hosted CI must build/test the committed LF tree and
-   current docs. The qualified raw application source and frozen test inputs are unchanged.
-2. Existing whole30/31 are accepted as2/2 bounded local qualifications WITH the
-   explicit cold exception. Broader OSS convergence remains incomplete:23 capability
-   evaluations remain pending, including current1,001-row payload/timing attribution
-   for I03. Semantic1001/33-page correctness has passed; it is not a timing result.
-   [Registry](capabilities.json), [matrix](OSS_BENCHMARK_MATRIX.md) and
-   [sign-off](OSS_ENHANCEMENT_SIGNOFF.md) retain these scope distinctions;13 DEFER remains.
-3. Hosted Linux/Windows/macOS package matrices, Linux installed integration and
-   publication require release-owner action and a reviewed committed candidate.
-   Cleanup, commit and push were explicitly authorized on2026-10-09.
-   Tagging and npm publication remain pending hosted and owner gates.
-   [Preparation record](evidence/release-git-npm-preparation-20261009-v1.json) notes
-   the missing environment reviewer gate and unverified Trusted Publisher binding.
-   [Preparation security review](evidence/release-git-preparation-security-review-20261009-v1.json)
-   requires fresh `ci.yml` quality success on the exact committed LF revision before
-   tagging/publication. The package publish job does not depend on that separate workflow.
-4. Next release: investigate PERF-COLD-01 with preserved snapshot/freshness/security
-   guards and new source-bound qualification. No blind retries or weaker reader.
+1. Investigate [PERF-COLD-01](ENHANCEMENT_BACKLOG.md#next-release-cache-performance-perf-cold-01)
+   with preserved snapshot/freshness/security guards and fresh source-bound qualification.
+   The accepted 2.1.0 cold-cost exception is not a performance fix.
+2. Complete the 23 IMPLEMENTED_PENDING_EVAL capability evaluations and revisit the
+   13 DEFER decisions only where justified. [Registry](capabilities.json),
+   [matrix](OSS_BENCHMARK_MATRIX.md) and [sign-off](OSS_ENHANCEMENT_SIGNOFF.md) own scope.
+3. Resolve I03 current 1,001-row payload/timing attribution. Ordered 1001/33-page
+   correctness has passed; older-source timings do not establish current latency.
 
 ## Retained boundaries
 
 No deadline, assertion or gold relaxation; no global host/security change or universal
-speed/RAM claim. Native Linux/macOS, live Docker, direct symlink creation, paid providers
-and native assistant tiers remain unqualified. Three memory systems means graph facts,
+speed/RAM claim. Paid providers, native assistant tiers, live Docker and direct symlink creation remain
+unqualified by these checks. Hosted Linux quality and three-platform launcher smoke
+do not certify every native feature or workload. Three memory systems means graph facts,
 reviewed project memory and Task Capsules; it does not mean three canonical files.
 No owned QA workload or descendants should remain after final checks.
 
-## Cleanup and commit/push preparation, 2026-10-09
+## Historical preparation checkpoints, 2026-10-09
+
+The following checkpoints retain their capture-time scope. The publication receipt
+above supersedes their pending release gates.
+
+### Cleanup and commit/push preparation
 
 The user authorized cleanup, commit and push. Three redundant handoff/migration/audit
 documents were merged into existing authority, implementation-status and readiness docs;
@@ -97,7 +93,7 @@ installed fixtures were removed. The qualified application source and all 394 fr
 inputs still match. Documentation changed, so hosted CI must build/test a fresh artifact
 from the exact pushed revision before tagging or publication.
 
-## Hosted package portability follow-up
+### Hosted package portability follow-up
 
 The first pushed candidate's package workflow failed strict Linux typing in three
 Windows-only benchmark helpers before packing. [Failure and fix disposition](evidence/release-hosted-package-portability-failure-disposition-20261009-v1.json)
@@ -120,7 +116,7 @@ records four changed support inputs/390 original matches with unchanged applicat
 tests and dependencies. Fresh hosted quality/package success for the final revision
 remains a prerequisite to tagging/publication.
 
-## Merge and publication preparation, 2026-10-09
+### Merge and publication preparation
 
 The user authorized merging and releasing. Main was fast-forwarded to tested commit
 `d767255f722d870e35d6af6836b0d7777565044a`. Both hosted quality and package workflows

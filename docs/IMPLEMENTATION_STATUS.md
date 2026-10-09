@@ -1,8 +1,8 @@
 # Implementation status
 
-## Current 2.1.0 release candidate - 2026-10-09
+## Published 2.1.0 - 2026-10-09
 
-The candidate adds portable skills, conservative graph and symbol navigation, reviewed
+The release adds portable skills, conservative graph and symbol navigation, reviewed
 memory lifecycle, MCP lifecycle/history tools, traces/provider metrics and durable
 execution ownership. Project filesystem data remains authoritative.
 
@@ -18,11 +18,13 @@ for the next release. This is bounded local acceptance with an exception, not co
 OSS convergence: 23 capability evaluations remain pending and 13 decisions remain
 DEFER. Current large-history timing attribution is still open; correctness is proven.
 
-Commit and push were authorized on 2026-10-09. Publication remains pending fresh hosted
-quality CI for the exact committed revision, package/platform/installed gates, required
-release-owner environment review and verification of npm Trusted Publishing. See
-[release readiness](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/NPM_RELEASE_READINESS.md) and [publishing](PUBLISHING.md).
-The immutable v2.0.0 tag and released npm package do not include these enhancements.
+Published as npm's `latest` and [GitHub v2.1.0](https://github.com/Satyajit-Senapati/Orqalis/releases/tag/v2.1.0)
+from `19865786a0280e6875902fe2d4dbe9d02975cc23`. Exact-source hosted quality passed 913 Python tests with 22 explicit
+skips and 13 browser checks with one explicit skip. The release artifact passed
+Linux/Windows/macOS launcher smoke and 17 Linux installed checks with 41 MCP tools.
+Owner review, Trusted Publishing and exact registry-download identity are recorded in
+the [publication receipt](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-publication-closeout-2.1.0-20261009-v1.json). The immutable tag/package remain unchanged
+by this documentation closeout. Future releases follow [publishing](PUBLISHING.md).
 
 ## Historical implementation record
 
