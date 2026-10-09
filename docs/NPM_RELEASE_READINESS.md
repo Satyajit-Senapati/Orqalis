@@ -6,7 +6,15 @@
 
 **Local qualification with an accepted cold-performance tradeoff; documentation/artifact integrity is recorded below. Commit/push authorized; tagging and publication pending hosted and owner gates.**
 Current application `01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42`
-is bound to the 394-input freeze `a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038`.
+retains its original whole30/31 qualification against the 394-input freeze
+`a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038`.
+After the first push, hosted Linux typing found Windows-only API references in three
+benchmark helpers. The focused portability correction changes those three helper inputs
+only; application/tests/workflows/dependencies are unchanged. The
+[successor input map](quality/evidence/release-input-freeze-portable-scripts-20261009-v1.json)
+and [Linux/macOS/Windows static checks](quality/evidence/release-hosted-portable-script-checks-20261009-v2.json)
+record the fix without rebinding earlier benchmark or full-suite evidence. Fresh hosted
+CI on the follow-up commit remains required.
 Atomic writes verify bytes through the owned temporary descriptor and check identity
 before replacement. Original durability, retry and recovery contracts remain.
 The frontend advisory is resolved by the dev-only source-map-js1.2.2 update.

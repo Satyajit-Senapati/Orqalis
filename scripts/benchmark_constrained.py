@@ -6,7 +6,6 @@ import argparse
 import ctypes
 import hashlib
 import json
-import os
 import runpy
 import subprocess
 import sys
@@ -46,8 +45,14 @@ class ExtendedLimits(ctypes.Structure):
     ]
 
 
-def windows_limits() -> tuple[ctypes.WinDLL, int, ExtendedLimits]:
-    if os.name != "nt":
+def windows_error() -> OSError:
+    if sys.platform == "win32":
+        return ctypes.WinError(ctypes.get_last_error())
+    return OSError("Windows job-object API is unavailable on this platform")
+
+
+def windows_limits() -> tuple[ctypes.CDLL, int, ExtendedLimits]:
+    if sys.platform != "win32":
         raise RuntimeError("This qualification harness uses Windows job-object limits")
     kernel = ctypes.WinDLL("kernel32", use_last_error=True)
     kernel.GetCurrentProcess.restype = wintypes.HANDLE
@@ -71,7 +76,7 @@ def windows_limits() -> tuple[ctypes.WinDLL, int, ExtendedLimits]:
     process = kernel.GetCurrentProcess()
     allowed, system = ctypes.c_size_t(), ctypes.c_size_t()
     if not kernel.GetProcessAffinityMask(process, ctypes.byref(allowed), ctypes.byref(system)):
-        raise ctypes.WinError(ctypes.get_last_error())
+        raise windows_error()
     limits = ExtendedLimits()
     limits.basic.flags = 0x100 | 0x10 | 0x2000  # PROCESS_MEMORY | AFFINITY | KILL_ON_JOB_CLOSE.
     limits.basic.affinity = allowed.value & -allowed.value
@@ -80,9 +85,9 @@ def windows_limits() -> tuple[ctypes.WinDLL, int, ExtendedLimits]:
     if not job or not kernel.SetInformationJobObject(
         job, 9, ctypes.byref(limits), ctypes.sizeof(limits)
     ):
-        raise ctypes.WinError(ctypes.get_last_error())
+        raise windows_error()
     if not kernel.AssignProcessToJobObject(job, process):
-        raise ctypes.WinError(ctypes.get_last_error())
+        raise windows_error()
     observed = ctypes.c_size_t()
     if (
         not kernel.GetProcessAffinityMask(process, ctypes.byref(observed), ctypes.byref(system))
@@ -169,7 +174,7 @@ def main() -> None:
     if not kernel.QueryInformationJobObject(
         job, 9, ctypes.byref(limits), ctypes.sizeof(limits), None
     ):
-        raise ctypes.WinError(ctypes.get_last_error())
+        raise windows_error()
     assert limits.basic.flags & (0x100 | 0x10 | 0x2000) == (0x100 | 0x10 | 0x2000)
     assert limits.process_memory == 256 * 1024 * 1024
     assert limits.basic.affinity.bit_count() == 1

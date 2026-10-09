@@ -96,3 +96,16 @@ Raw validation evidence and reviewed investigation helpers remain; old local tar
 installed fixtures were removed. The qualified application source and all 394 frozen
 inputs still match. Documentation changed, so hosted CI must build/test a fresh artifact
 from the exact pushed revision before tagging or publication.
+
+## Hosted package portability follow-up
+
+The first pushed candidate's package workflow failed strict Linux typing in three
+Windows-only benchmark helpers before packing. [Failure and fix disposition](evidence/release-hosted-package-portability-failure-disposition-20261009-v1.json)
+retains the original hosted failure and first local correction failure. The final
+platform guards pass script lint/format and strict typing for Linux, macOS and Windows
+([static checks](evidence/release-hosted-portable-script-checks-20261009-v2.json)).
+Application source, tests, dependencies and workflows are unchanged; 391 original input
+hashes match and three helper hashes changed. The [successor input map](evidence/release-input-freeze-portable-scripts-20261009-v1.json)
+does not rebind the old full rounds or timings. Fresh hosted CI must pass on the
+follow-up commit before tagging/publication; static platform checks do not certify
+native runtime behavior.

@@ -260,6 +260,9 @@ def main() -> None:
             "port=int(sys.argv[4]),log_level='warning')"
         )
         base = f"http://127.0.0.1:{port}"
+        creationflags = 0
+        if sys.platform == "win32":
+            creationflags = subprocess.CREATE_NO_WINDOW
         with (root / "server.log").open("w", encoding="utf-8") as log:
             process = subprocess.Popen(
                 [
@@ -275,7 +278,7 @@ def main() -> None:
                 env=HELPERS["controlled_environment"](),
                 stdout=log,
                 stderr=log,
-                creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
+                creationflags=creationflags,
             )
             try:
                 deadline = time.monotonic() + 20

@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-10-09T07:10:08.747821+00:00",
+  "failed_commit": "a9f1ad03c462d3f83114637e22a09b01c8bfaa05",
+  "failed_workflow_url": "https://github.com/Satyajit-Senapati/Orqalis/actions/runs/37896923334",
+  "failure": "Linux strict mypy: twelve Windows-only API attribute/type errors in three benchmark scripts. Package construction stopped before wheel/pack; no artifact or publish job ran.",
+  "preceding_passes": [
+    "uv frozen sync",
+    "frontend build",
+    "npm syntax/lint/format/unit tests",
+    "script lint/format"
+  ],
+  "fix": "Use sys.platform statement guards for Windows APIs, portable CDLL supertype annotation, and guarded Windows error construction. Runtime application, contracts, benchmark workloads/gold/budgets and workflow checks unchanged.",
+  "changed_input_hashes": {
+    "scripts/benchmark_constrained.py": {
+      "qualified_raw_sha256": "d6f0b7ac3933bceebf989ddeb1e73ae9088e13c4fb90eeefb6abaa85c88703d0",
+      "current_raw_sha256": "cd2b0f76a4dfa4e40ff20b3dd5d686bac7ba35cc20f26cfc90f627355b96e89f"
+    },
+    "scripts/benchmark_ui.py": {
+      "qualified_raw_sha256": "2b4cbf771a4df87bcef91b6238a0ac48d493c9810aac3e8a1a6ee13f2b9c9be1",
+      "current_raw_sha256": "bb7a24658a67d6e306b227d413e0cdda8edcea2368f9922f15bcbd957300918d"
+    },
+    "scripts/build_benchmark_frontend.py": {
+      "qualified_raw_sha256": "4c25698086d659d9c9b47e5cfca03e71811ec736f6b39d07931d87d1ac8b54a0",
+      "current_raw_sha256": "4cf33881b622c599586702b8190ec3468529db1cd3c48df2d310fefe633b9bd5"
+    }
+  },
+  "unchanged_frozen_inputs": 391,
+  "application_source_unchanged": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "qualification_boundary": "Historical whole30/31 and timing/installed artifact captures keep original input/source bindings; portability static checks are not new timings or native execution certification. Hosted CI must qualify exact new revision.",
+  "first_local_fix_attempt": "Static v1 fixed ten errors but two CREATE_NO_WINDOW ternary expressions still type-checked on Linux; original FAIL evidence retained. Final fix uses statement guards.",
+  "successor_input_record": "release-input-freeze-portable-scripts-20261009-v1.json"
+}

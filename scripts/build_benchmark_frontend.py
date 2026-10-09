@@ -8,6 +8,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -121,7 +122,9 @@ def build(source: Path, output: Path, dependency_root: Path) -> dict[str, Any]:
     if builder_hash != file_hash(Path(__file__)):
         raise RuntimeError("Frontend builder changed after loading")
     lock_hash = file_hash(dependency_root / "package-lock.json")
-    creationflags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+    creationflags = 0
+    if sys.platform == "win32":
+        creationflags = subprocess.CREATE_NO_WINDOW
     logs: list[str] = []
     output.mkdir(parents=True)
     with tempfile.TemporaryDirectory(prefix="orqalis-qualified-web-") as directory:

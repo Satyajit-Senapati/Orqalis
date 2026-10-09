@@ -1,0 +1,119 @@
+{
+  "recorded_at": "2026-10-09T07:08:09.296203+00:00",
+  "status": "FAIL",
+  "checks": [
+    {
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+        "-I",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "scripts"
+      ],
+      "cleanup_errors": [],
+      "owned_launcher_pid": 15180,
+      "assigned_before_resume": true,
+      "exit_code": 0,
+      "child_reaped": true,
+      "job_before_cleanup": {
+        "total_processes": 4,
+        "active_processes": 1,
+        "terminated_processes": 0
+      },
+      "job_after_normal_exit_grace": {
+        "total_processes": 4,
+        "active_processes": 0,
+        "terminated_processes": 0
+      },
+      "unexpected_live_descendants_after_normal_exit": false,
+      "job_after_cleanup": {
+        "total_processes": 4,
+        "active_processes": 0,
+        "terminated_processes": 0
+      },
+      "job_handle_closed": true,
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "name": "ruff-lint"
+    },
+    {
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+        "-I",
+        "-B",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "scripts"
+      ],
+      "cleanup_errors": [],
+      "owned_launcher_pid": 35060,
+      "assigned_before_resume": true,
+      "exit_code": 0,
+      "child_reaped": true,
+      "job_before_cleanup": {
+        "total_processes": 4,
+        "active_processes": 1,
+        "terminated_processes": 0
+      },
+      "job_after_normal_exit_grace": {
+        "total_processes": 4,
+        "active_processes": 0,
+        "terminated_processes": 0
+      },
+      "unexpected_live_descendants_after_normal_exit": false,
+      "job_after_cleanup": {
+        "total_processes": 4,
+        "active_processes": 0,
+        "terminated_processes": 0
+      },
+      "job_handle_closed": true,
+      "log_sha256": "04eb0d6e6734823dcd2b2b704729e976f683df7a8f334da7216520ef1cb319bf",
+      "name": "ruff-format"
+    },
+    {
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+        "-I",
+        "-B",
+        "-m",
+        "mypy",
+        "--strict",
+        "--platform",
+        "linux",
+        "--cache-dir",
+        "S:\\Orqalis\\.tools\\release-portable-mypy-linux",
+        "scripts"
+      ],
+      "cleanup_errors": [],
+      "owned_launcher_pid": 27624,
+      "assigned_before_resume": true,
+      "exit_code": 1,
+      "child_reaped": true,
+      "job_before_cleanup": {
+        "total_processes": 3,
+        "active_processes": 1,
+        "terminated_processes": 0
+      },
+      "job_after_normal_exit_grace": {
+        "total_processes": 3,
+        "active_processes": 0,
+        "terminated_processes": 0
+      },
+      "unexpected_live_descendants_after_normal_exit": false,
+      "job_after_cleanup": {
+        "total_processes": 3,
+        "active_processes": 0,
+        "terminated_processes": 0
+      },
+      "job_handle_closed": true,
+      "log_sha256": "658438e6fdd28e6a379bc54464dc72117a9e39f62ee8f6d5d590d399225f6696",
+      "name": "mypy-linux"
+    }
+  ],
+  "helper_sha256": "a21cfb1aeef2b83cc6c9837da28318fb042f999a1a1a1cb6a64f750837f9f026",
+  "controller_sha256": "1c476805dad1f4ec28c2f03862ba1ea957d19c942aecc8169f702ab381c65519",
+  "scope": "Static checks only. No benchmark timings or full runtime qualification rerun."
+}
