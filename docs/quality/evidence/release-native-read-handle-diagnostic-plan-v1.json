@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:24:39.218973+00:00",
+  "status": "STAGED_UNRUN_REQUIRES_ROOT_EXACT_RUNNER_REVIEW_BEFORE_INVOCATION",
+  "runner_relative": ".tools/research/release_native_read_handle_v1.py",
+  "runner_sha256": "7d216ca285cbae53ffb0fa7f6f4c5cbc0fe2a3519fb20b911f4e20ce4a7daf31",
+  "source_sha256_recorded": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256_recorded": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "io_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+  "io_binding": "Actual io file hash checked before/after; imported io module/function code filename must match current source. Full source196/input390 not rehashed by this tiny native probe; source binding is recorded provenance.",
+  "expected_dependency_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+  "dependencies": "Record actual environment/dependency metadata before/after; require current audited dependency digest.",
+  "fixture_relative": ".tools/research/release-native-read-handle-fixture-v1",
+  "output_relative": "docs/quality/evidence/release-native-read-handle-diagnostic-v1.json",
+  "stdout_relative": ".tools/research/release-native-read-handle-v1.stdout.log",
+  "replace_line": 142,
+  "fixed_cases": [
+    "Exclusive fresh owned fixture; targetprobe.bin initialized exactly b\"before\" and verified writable ordinary attrs.",
+    "Keep ordinary Path.open(\"rb\") handle open, verified native handle and before bytes. Call original atomic_write_bytes(target,b\"after\") exactly once; unchanged3attempts/20,40ms logic inside source function. Capture native PermissionError/WinError/errno/operation traceback, target bytes/attrs and temp cleanup.",
+    "Close controlled reader in finally. ONE explicit atomic_write_bytes(target,b\"after\") recovery call, original bounded policy; require after bytes and zero temp residue. Unexpected errors stop without adaptive retries."
+  ],
+  "expectations": {
+    "positive": "Native PermissionError with WinError5/32/33 at original os.replace line142, reader remains open, oldtarget b\"before\", no temp residue; closing reader followed by one recovery succeeds b\"after\". Status CONTROLLED_NATIVE_BLOCKING_REPRODUCED.",
+    "negative": "Held-handle atomic write succeeds and correct b\"after\"/cleanup, then fixed close+recovery also succeeds. Status DIAGNOSTIC_COMPLETED_MECHANISM_NOT_REPRODUCED; valid negative observation, not failure hidden as proof.",
+    "unexpected": "Different error/code/origin, wrong bytes/attributes, residue, changed input/environment or recovery failure => FAIL, original exception reraised after durable new result/stdout; no retry-untilgreen.",
+    "setup_guard": "NonWindows/nonisolated/stale source/dependency/existing fixture or output stops before experiment; root must retain caller stderr. No POSIX interpretation."
+  },
+  "native_errors": "Actual OS calls only; no monkeypatch/mocks/ctypes artificial sharing restrictions. Ordinary CPython Path.open uses its actual supported native semantics; exact share flags not queried or assumed.",
+  "observations": [
+    "Targetstat mode/size/st_file_attributes/readonly bit",
+    "Actual held native reader handle and open/closed state",
+    "Native errorfields+atomic source traceback line",
+    "Targetbytes and ownedtemp filenames after blocked call and recovery",
+    "Original function elapsed time, configured retries only (not mocked per-attempt telemetry)",
+    "Actual io SHA/environment dependency identity before/after"
+  ],
+  "read_json_object_scope": "Separate and excluded; no change to single-read/strict JSON semantics or false guarantee that parser readers held the original execution16 file.",
+  "scope_limits": [
+    "One owned fresh local fixture; retain it/results, no main commit or registry/system/cache/security changes.",
+    "Controlled handle can demonstrate a mechanism on current Windows, not prove original execution16 holder/AV/OS timing cause.",
+    "Two planned top-level atomic calls only if first has expected native outcome; unexpected error fail-fast skips recovery and remains failed evidence.",
+    "Three internal attempts20/40ms are existing production policy, not new retry/deadline extension.",
+    "No benchmark/test/profile/history coordinator invocation by reviewer; independently reviewed runner must precede one native invocation."
+  ],
+  "primary_reference": {
+    "url": "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew",
+    "meaning": "Sharing options persist until handle close; FILE_SHARE_DELETE permits later delete access, and delete access covers rename. Supports mechanism theory, not attribution of any previous failure."
+  },
+  "executed": false,
+  "frozen_source_tests_helpers_inputs_edited": false,
+  "release_credit": 0
+}

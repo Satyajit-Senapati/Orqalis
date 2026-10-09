@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-04T06:24:30.041667+00:00",
+  "status": "APPLIED_THREE_PURE_WORK_DELTAS_STATIC_REVIEW_NO_CONFIRMED_P0_P1_FRESH_QUALIFICATION_REQUIRED",
+  "reviewer": "release_security_review",
+  "scope": "Exact three production files vs retained originals, bounded named helper/call-site/AST review only; no product import, test, replay, benchmark, native query, source edit or commit.",
+  "changes": {
+    "src/orqalis/persistence/filesystem/task_store.py": {
+      "before_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+      "applied_sha256": "0867154bd96853d4a4666b7f5e4bbaac0c76868c784e791c17073721111864e4",
+      "changed_top_level_definitions": [
+        "_ensure_secret_safe",
+        "TaskCapsuleSession"
+      ],
+      "other_top_level_definitions_ast_equal": true,
+      "changed_session_methods": [
+        "_documents"
+      ],
+      "other_session_methods_ast_equal": true
+    },
+    "src/orqalis/persistence/filesystem/locking.py": {
+      "before_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+      "applied_sha256": "20937f14ce49a257a0ed84f569502c2e37f733d7e660b36ea8d9405c24e04eac",
+      "changed_top_level_definitions": [
+        "_state_for"
+      ],
+      "other_top_level_definitions_ast_equal": true
+    },
+    "src/orqalis/security/redaction.py": {
+      "before_sha256": "f0f3324097898199e0f48819ce58d174e477f4b3ac2956d5f9518b6e35a335f4",
+      "applied_sha256": "68632a517f31692ec43686f2186a1474eb831811172bc98dd38058888f255e67",
+      "changed_top_level_definitions": [
+        "safe_diagnostic"
+      ],
+      "other_top_level_definitions_ast_equal": true
+    }
+  },
+  "findings": [],
+  "semantic_review": [
+    {
+      "file": "src/orqalis/persistence/filesystem/task_store.py",
+      "lines": "102-116,1280-1287",
+      "conclusion": "Unchanged strict sort_keys/allow_nan=False/indent/UTF8/newline serialization occurs once, identical encoded text passes unchanged safe_diagnostic equality check before checked immutable bytes are reused as execution/state.yaml. Secret rejection and unserializable/nonfinite ConflictError unchanged. Only caller inspected _documents uses bytes; state bytes are produced before intervening task projection serialization, preserving security validation on exactly written state.",
+      "limits": "Custom replacement serializer/side-effecting injected state producers can observe fewer serialization calls; intended private optimization. No test monkeypatch contract or total persisted-work reduction asserted without fresh tests."
+    },
+    {
+      "file": "src/orqalis/persistence/filesystem/locking.py",
+      "lines": "83-116",
+      "conclusion": "Same registry, normalized absolute key and same mutex; existing state returned without constructing discarded default. Missing _LockState allocation and insertion both occur while guard held, so same-path threads still share one gate/handle/depth. FIFO/reentrancy/platform locks/timeouts/registry lifetime untouched.",
+      "limits": "Registry retains existing lifetime/memory behavior; no weak cache or eviction introduced."
+    },
+    {
+      "file": "src/orqalis/security/redaction.py",
+      "lines": "65-79",
+      "conclusion": "Original regexes and private marker substrings unchanged, evaluated against same lowercased plain-string contents; credential redact receives original text exactly as before. Repeated lower allocations removed on ordinary non-private-key paths.",
+      "limits": "lower is now eager even when private-key regex would short-circuit, adding one lower allocation on that denied path. str subclasses with side-effecting lower can observe changed call count/order; no broad custom-string behavior or universal speed/memory win claimed."
+    }
+  ],
+  "security_invariants": "No filesystem path check, journal/durability/recovery/replacement retry, deadline, authorization, lock acquisition/ownership or checkpoint transaction changed in these three exact diffs.",
+  "qualification": "New application source requires fresh source-bound affected tests/static checks and release qualification. No historicalsource24 package/test/performance report qualifies these bytes. Prior provisional package pipeline actual review was interrupted before report reads completed and no independent closure is claimed here.",
+  "root_test_focus": [
+    "Existing state format/secret/nonfinite rejection and canonical byte equality tests; serialization once meaningful if checking private reduction.",
+    "Existing lock concurrency/reentrancy/registry identity suite; avoid inventing mirror implementation tests.",
+    "Existing diagnostic redaction credential/private marker Unicode/plain-string coverage."
+  ],
+  "performance_limits": "Static pure-work reduction only. No measured speedup, historical execution-delay cause, Master53 closure, accepted convergence, stable-release certification or final signoff.",
+  "commit_publication": "None; main project no commits/pushes/tags/publication.",
+  "review_metadata_correction": {
+    "prior_report_sha256": "a87ba1bcd9380a24fcdf13e3da0c73c3b4a8361d7b14f3e1bfeaefa029c9e431",
+    "prior_report_preserved": true,
+    "detail": "Initial report exclusion used class name TaskCapsuleStore instead of actual TaskCapsuleSession, making ancillary other-definitions check falsely negative. Actual changed class is correctly recorded in v1. Correctly scoped inverse here proves only _documents method changed and all other session/top-level definitions unchanged. No runtime/source/proposal/test bytes changed."
+  }
+}

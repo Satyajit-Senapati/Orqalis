@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T08:50:54.581767+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "PASS_EXACT_UNAPPLIED_GRAPH_CONSTRUCTOR_PROPOSAL_STATIC_REVIEW",
+  "production_source_sha256": "f7ca46771370685dc149bf226ceb49220387ba486effe43cd0308cb949e7fa27",
+  "production_graph_sha256": "ddb2e1958b373cb8aab340d699ca5a06f476b8bae25cfe93a24d563c992e61e9",
+  "private_proposal_sha256": "7c026f934b8d18ec657c9ce6057b117b7a150b525b5cc298b8ee038c7306c32f",
+  "proposal_applied": false,
+  "reviewer_workloads_or_application_helper_test_edits": false,
+  "confirmed_new_P0_P1_findings": 0,
+  "exact_delta": "Only ProjectGraphEngine.__init__ root/common-directory block differs. Entire module AST excluding that constructor is identical; remaining constructor layout/graph/cache target setup is unchanged.",
+  "guard_assessment": [
+    "Canonical git.root(root) always runs, preserving root-validation failures and injected GitService dispatch.",
+    "source_root=None reuses normalized canonical root. Explicit source_root still invokes git.root(source_root), including explicit same-root normalization.",
+    "Canonical common_directory(store_root) always runs even when roots match; injected rejection/error is not bypassed.",
+    "Every distinct normalized source root invokes its common_directory and must match canonical identity. Linked worktrees remain accepted only via shared common directory; unrelated repositories remain denied before storage target initialization.",
+    "Same normalized source/canonical root skips only redundant same-path identity re-query. Windows Path equality normalizes case semantics, while LocalGitService resolves roots. No graph/status/root cache introduced.",
+    "ProjectLayout and every graph/parser storage target validation remain unchanged. Source status, refresh/rebuild, memory freshness and persistence APIs remain untouched."
+  ],
+  "compatibility_limit": "Stateful/non-idempotent injected Git implementations or call-count mocks may differ when redundant queries disappear; arbitrary custom callback equivalence is not asserted. Canonical rejection remains authoritative, and explicit distinct-root source rejection remains authoritative. No new path check-to-use guarantee or general performance claim.",
+  "recommended_prequalification_checks": [
+    "No-source root resolves once but canonical common-directory validation still runs.",
+    "Explicit same-root still normalizes the source and succeeds without duplicate same-root identity query.",
+    "Distinct linked worktree succeeds and writes canonical storage.",
+    "Distinct unrelated source is denied; canonical injected common-directory denial propagates even in no-source/same-root case.",
+    "Retain existing context linked-worktree/freshness and unrelated-repository tests."
+  ],
+  "authorization_and_qualification": "Eligible bounded reversible optimization within existing request, subject to normal automatic review and parent evidence of actual latency need. Production graph remains unchanged during active original14 browser capture. No tests, benchmarks, native runs or installed-artifact qualification executed by reviewer; no full browser/performance/round convergence/release certification."
+}

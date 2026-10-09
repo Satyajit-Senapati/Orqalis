@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T18:08:41.107434+00:00",
+  "status": "STAGED_UNRUN_PENDING_SETUP_ONLY_VALIDATION_AND_ROOT_SECURITY_REVIEW",
+  "original_helper": {
+    "path": ".tools/research/release_history_quiet.py",
+    "sha256": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683"
+  },
+  "runner_sha256": "cb0b187c36194f636ff4ce0821894b7216171d28aebb10aef7ce93bd8b7436b1",
+  "source_sha256": "75b1df2b7e5888cb895408476190d0aa72a4976b560d50dc6e2beadb7455deb7",
+  "source_files": 196,
+  "input_sha256": "72bd85b95671892fef14075a16bcecbeaf9344e7cfc86fe3b7f1e6d22e109463",
+  "input_files": 390,
+  "freeze": "docs/quality/evidence/release-input-freeze-windows-replace-v1.json",
+  "freeze_sha256": "2aef52c68b6782388c5155495c260a0b83fbee5fe5902c2d644b3b302fe59a70",
+  "inventory": "docs/quality/evidence/release-private-helper-inventory-websocket-v1.json",
+  "inventory_sha256": "8e4c4071cff393f4117edf58897e6756269f3f563ab4f00c7ba5b887b308e923",
+  "protected_helpers": 18,
+  "dependency_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+  "canonical_sha256": "2f2688cf4aa2ceab4b74484df0ffd4df1c399a33f7491c94a471ca6fb264045f",
+  "outputs": {
+    "raw": "docs/quality/evidence/release-history-windows-replace-native-v1.json",
+    "counter": "docs/quality/evidence/release-history-windows-replace-native-counters-v1.json",
+    "setup": "docs/quality/evidence/release-history-native-counters-setup-v1.json",
+    "ack": "docs/quality/evidence/release-history-native-counters-launch-ack-v1.json"
+  },
+  "workload_preservation": {
+    "explicit_child_args_only": true,
+    "auto_ABBA_removed": true,
+    "traversals": 3,
+    "page_size": 100,
+    "pages": 33,
+    "canonical_rows": 1001,
+    "canonical_validations_expected": 33033,
+    "owned_concurrent_reservation": 1,
+    "original_scanning_wait_seconds": 10,
+    "existing_future_and_FileLock_deadlines": "Unchanged",
+    "original_workload_inverse_AST_equal": true,
+    "all_original_page_read_lock_wrappers_statements_and_assertions_preserved": true,
+    "initial_raw_exclusive_create": "Additional pre-capture placeholder; original traversal/final raw updates remain intact."
+  },
+  "observer": {
+    "functions": [
+      "GetProcessIoCounters",
+      "GetProcessTimes",
+      "QueryProcessCycleTime",
+      "K32GetProcessMemoryInfo"
+    ],
+    "target": "Own process pseudo-handle only, read-only query access; no CloseHandle on pseudo-handle",
+    "types": "HANDLE pointer-width; BOOL/DWORD native Win32 definitions;6 uint64 IO fields;FILETIME two32-bit fields;memory2DWORD+8SIZE_T fields. Errors immediately WinError(last_error), propagate.",
+    "placement": "Each snapshot before original locks.clear/start and after original rows.append clocks already recorded.66 bundles outside timed page intervals; no constructor/reservation observer callbacks.",
+    "no_mutations": "No added method/class/instance callbacks/profile/trace/cache; original light wrappers identical protected helper.",
+    "screen": "ONE prospective quantitative-credibility screen: total measured66 boundary query bundle wall<=1% original sum33 page wall. Not application latency budget; failure invalidates quantitative correlation and never retries.",
+    "counter_intervals": "Before/after native query timestamps are not simultaneous; native deltas can include small boundary overhead even outside original page wall/CPU intervals. Preserve raw snapshots and bounded overhead.",
+    "setup": "--validate-native-setup imports no Orqalis module, performs two native own-process snapshots and validates structure sizes/APIs/monotonic cumulative counters only. No source fingerprint, page, Git, reserve, benchmark or profile."
+  },
+  "interpretation_limits": [
+    "No historical native counters: cannot retroactively prove195/663/334ms cause from one capture.",
+    "Keep all earlier unprofiled observations/tails and invalidB2252ms/2063msCPU; no subtraction or profiler repeat.",
+    "Native counters aggregate all process threads and logical/nonfileIO; not exact source-path bytes or physical disk IO.",
+    "PageFaultCount does not distinguish hard paging; working-set snapshots are boundary observations, not complete memory/RSS/peak attribution.",
+    "CPU cycles are not instructions and must never be converted to elapsed time or CPU frequency.",
+    "Host/cache/order/native runtime effects remain possible, not proven. Credible counters guide investigation, do not automatically explain historical change or grant master53 convergence.",
+    "Originalfatal/unmatched replacementdenials independent; five-attempt writer change does not alter history read work.",
+    "No registry/security/priority/cache/policy changes, no main commit or publication."
+  ],
+  "primary_sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessiocounters",
+    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesstimes",
+    "https://learn.microsoft.com/en-us/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryprocesscycletime",
+    "https://learn.microsoft.com/en-us/windows/win32/api/realtimeapiset/nf-realtimeapiset-querythreadcycletime",
+    "https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessmemoryinfo"
+  ],
+  "launch": "Root+security must independently review exact plan/runner and native setup evidence; later exact-plan source-bound ack requires one_capture_authorized/no_other_owned_workload_active. No measurement invocation by staging/setup validation.",
+  "executed_workload": false,
+  "production_tests_public_docs_original_helpers_changed": false
+}

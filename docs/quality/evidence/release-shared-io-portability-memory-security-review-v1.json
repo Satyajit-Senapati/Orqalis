@@ -1,0 +1,62 @@
+{
+  "reviewed_at_utc": "2026-10-04T11:14:27.682688+00:00",
+  "status": "BOUNDED_STATIC_SUCCESSOR_ACCOUNTING_APPROVED_NO_CONFIRMED_P0_P1",
+  "scope": "Read-only current platform restructuring and exact private memory accounting successor; no helper/product import, tests or workload executed. Parent must apply normal prelaunch source/dataset/helper/output guards.",
+  "files_sha256": {
+    "src/orqalis/persistence/filesystem/_windows_io.py": "e4a7f68f08f3d1f0f1c19f264803feaa3505f7313846ebffcb430c5160563705",
+    "src/orqalis/persistence/filesystem/io.py": "5d363eb287c4cf2d4d8ea300ab2f7f9e2359b33357d0ca870ff919f603cd0600",
+    "tests/unit/test_filesystem_shared_reads.py": "f51e0944f9116f81c41c315cda1da5773bd37a3beb332731c54a41880a330405",
+    "tests/unit/test_filesystem_foundation.py": "ab6986832f3a229d8e98e12fb239b88120a1991157b0c9f97a431d57406e7570",
+    "scripts/benchmark_memory.py": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a",
+    ".tools/research/release_memory_shared_io_v1.py": "43151a86e46152eb194e4ff462e907a61381513f09d5e18d811e4767624277ff",
+    "docs/quality/evidence/release-shared-io-regression-actual-v1.json": "c24e43dce70151b431c148c0e0556143a326b4b56512684b3df7654fc8c423b3",
+    "docs/quality/evidence/release-shared-io-security-independent-static-v1.json": "f96e1abfa847ce00d94d58fc2eff625b2fb9967ef1958924ce7bc8e7ca42ba26"
+  },
+  "native_review": [
+    "Native ctypes declarations and native functions now live in the positive sys.platform==win32 branch; portable else functions call os.open/os.replace. Windows CreateFile access/sharing/open-reparse flags, handle transfer, RenameInfoEx22 flags3, unsupported fallback after close, permission fail-closed and primary-close-error preservation remain unchanged.",
+    "io._replace_file local assignment refers to the imported implementation; existing monkeypatch seams and original validation/fsync/retry/cleanup paths remain.",
+    "Native test bodies requiring ctypes/msvcrt now positively platform guarded and winerror assertion uses getattr; observed assertions remain meaningful. This closes the reported conditional-stub static concern, subject to exact current static-result captures.",
+    "No original22 actor/holder cause attribution, retry expansion, ACL/read-only bypass, journal/UOW/approval change or release/performance credit. Unsupported platforms/filesystems retain old replacement behavior."
+  ],
+  "measurement_successor": {
+    "sha256": "43151a86e46152eb194e4ff462e907a61381513f09d5e18d811e4767624277ff",
+    "protected_original_sha256": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a",
+    "whole_module_inverse_AST_exact": true,
+    "allowed_deltas": [
+      "builtins import",
+      "REPO parents1 to parents2 for private location",
+      "ReadProbe local canonical-open instrumentation and extracted unchanged classifier",
+      "one full worker measurement-policy label including canonical filesystem open/read coverage"
+    ],
+    "CountedReader_AST_exact": true,
+    "counted_classifier_body_AST_exact": true,
+    "all_workloads_gold_witnesses_checks_fixtures_main_capture_AST_exact": true,
+    "coverage": [
+      "Windows canonical binary/text reads resolve module-local io.open to canonical_open, which calls unpatched builtins.open exactly once and wraps one CountedReader. Builtins.open does not traverse Path.open.",
+      "Portable binary _read_bytes calls Path.open only; portable text read_text calls module-local open only. Source and other existing Path.open reads remain one original Path.open delegate and one CountedReader.",
+      "Patch scope is filesystem io module only, not builtins or stdlib io globally. ExitStack restores that alias and Path.open on normal context exit. Native fd/handle lifetime is retained through unchanged CountedReader context delegation.",
+      "Same classification/root filtering, open/read/returned-byte/character/invalid/pending counters and graph instrumentation. No physical disk/kernel/subprocess read or universal arbitrary Python-open coverage claim."
+    ],
+    "limits": [
+      "Added Python instrumentation cost remains included as declared; no new timing observed or optimization credit. Compare future measurements using the prospectively reviewed accounting method and exact source/helper/dataset bindings.",
+      "No setup self-tests or workload were invoked by reviewer; call-path uniqueness is a bounded static conclusion for repository canonical helper and Path.open paths.",
+      "A first reviewer AST check stopped on matching a string fragment; Python represents the entire concatenated policy label as one Constant. Corrected exact full-string comparison and whole-module inverse AST passed. This did not execute the helper or change files."
+    ]
+  },
+  "focused_capture": {
+    "record_sha256": "c24e43dce70151b431c148c0e0556143a326b4b56512684b3df7654fc8c423b3",
+    "reported_source_sha256": "89165559003a6778b85d8b31dbfc08d2a0304da41448fa4f2b022f8eeb8d617d",
+    "reported_cases": 143,
+    "reported_failures": 0,
+    "reported_errors": 0,
+    "reported_skips": 0,
+    "junit_sha256_recorded": "072e89888fa15e6535589abe61ba01315bdfed358428d8feb563894a1b51f7c1",
+    "scope": "Focused persistence, memory, task history and hard-crash regression; not a whole qualification round",
+    "raw_JUnit_path_not_provided_to_this_review": true,
+    "qualification_limit": "Capture is bound to prior89165559 source before portability-only restructuring. Current reviewed file hashes above are distinct;143-case capture is historical Windows behavior evidence, not a freshly rebound full current-source pass. Parent reports strict Windows289 and Linux/darwin3-file passes; exact raw statics were not inspected here."
+  },
+  "pending": [
+    "Fresh current-source capture/gates and exact source/helper/dataset freezes remain required.",
+    "Original22 terminal denial and Master53 performance blocker remain unresolved until renewed qualification; no readiness, convergence or publication claim."
+  ]
+}

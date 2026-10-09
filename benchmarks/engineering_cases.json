@@ -1,0 +1,567 @@
+{
+  "schema_version": 1,
+  "fixture_revision": "b8506f7d9c471516fe4b21c9caa735a7a7909af6",
+  "context_budget_chars": 6000,
+  "retrieval_k": 5,
+  "fixture_paths": [
+    "README.md",
+    "docs/01-system-architecture.md",
+    "docs/02-agent-and-skill-model.md",
+    "docs/03-project-memory.md",
+    "docs/07-data-model-and-observability.md",
+    "src/orqalis/execution/evaluator.py",
+    "src/orqalis/context/builder.py",
+    "src/orqalis/core/orchestrator.py",
+    "src/orqalis/core/repair.py",
+    "src/orqalis/core/scheduler.py",
+    "src/orqalis/core/vertical_plan.py",
+    "src/orqalis/domain/capabilities.py",
+    "src/orqalis/domain/events.py",
+    "src/orqalis/domain/execution.py",
+    "src/orqalis/domain/provider.py",
+    "src/orqalis/domain/task.py",
+    "src/orqalis/execution/commands.py",
+    "src/orqalis/execution/worker.py",
+    "src/orqalis/git/service.py",
+    "src/orqalis/graph/engine.py",
+    "src/orqalis/indexing/service.py",
+    "src/orqalis/mcp/server.py",
+    "src/orqalis/memory/curated.py",
+    "src/orqalis/observability/analytics.py",
+    "src/orqalis/persistence/filesystem/io.py",
+    "src/orqalis/agents/service.py",
+    "src/orqalis/delivery/guardian.py",
+    "src/orqalis/skills/registry.py",
+    "web/src/MetricsView.tsx",
+    "web/src/types.ts"
+  ],
+  "cases": [
+    {
+      "id": "bug-fix",
+      "category": "small bug fix",
+      "query": "tokenize project index search identifiers",
+      "relevant_paths": [
+        "src/orqalis/indexing/service.py"
+      ],
+      "scope": [
+        "src/orqalis/indexing/service.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/unit/test_project_index.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "refactor",
+      "category": "cross-module refactor",
+      "query": "provider request response execution worker",
+      "relevant_paths": [
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/worker.py"
+      ],
+      "scope": [
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/worker.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/integration/test_executor.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "frontend",
+      "category": "frontend change",
+      "query": "MetricsView duration statistics telemetry",
+      "relevant_paths": [
+        "web/src/MetricsView.tsx",
+        "web/src/types.ts"
+      ],
+      "scope": [
+        "web/src/MetricsView.tsx",
+        "web/src/types.ts"
+      ],
+      "expected_capabilities": [
+        "typescript",
+        "react"
+      ],
+      "contract_tests": [
+        "tests/integration/test_stack_fixtures.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "backend",
+      "category": "backend change",
+      "query": "MCP create task project root policy",
+      "relevant_paths": [
+        "src/orqalis/mcp/server.py"
+      ],
+      "scope": [
+        "src/orqalis/mcp/server.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/integration/test_mcp.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "architecture",
+      "category": "architecture change",
+      "query": "atomic snapshot filesystem transaction recovery",
+      "relevant_paths": [
+        "src/orqalis/persistence/filesystem/io.py",
+        "docs/07-data-model-and-observability.md"
+      ],
+      "scope": [
+        "src/orqalis/persistence/filesystem/io.py",
+        "docs/07-data-model-and-observability.md"
+      ],
+      "expected_capabilities": [
+        "python",
+        "database",
+        "documentation"
+      ],
+      "contract_tests": [
+        "tests/integration/test_runtime.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "test-failure",
+      "category": "test failure",
+      "query": "WorkspaceEvaluator validation evidence criterion",
+      "relevant_paths": [
+        "src/orqalis/execution/evaluator.py"
+      ],
+      "scope": [
+        "src/orqalis/execution/evaluator.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/integration/test_external_findings.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "git-conflict",
+      "category": "Git conflict",
+      "query": "worktree delivery commit base conflict",
+      "relevant_paths": [
+        "src/orqalis/git/service.py"
+      ],
+      "scope": [
+        "src/orqalis/git/service.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/unit/test_git.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "documentation",
+      "category": "documentation-only task",
+      "query": "Skill Registry capabilities permissions provider",
+      "relevant_paths": [
+        "docs/02-agent-and-skill-model.md"
+      ],
+      "scope": [
+        "docs/02-agent-and-skill-model.md"
+      ],
+      "expected_capabilities": [
+        "documentation"
+      ],
+      "contract_tests": [
+        "tests/integration/test_external_skill_selection.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "memory",
+      "category": "project-memory lookup",
+      "query": "curated memory proposal provenance freshness",
+      "relevant_paths": [
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md"
+      ],
+      "scope": [
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md"
+      ],
+      "expected_capabilities": [
+        "python",
+        "documentation"
+      ],
+      "contract_tests": [
+        "tests/integration/test_memory_release.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "unfamiliar",
+      "category": "unfamiliar module",
+      "query": "ProjectGraphEngine resolve symbol imports cache",
+      "relevant_paths": [
+        "src/orqalis/graph/engine.py"
+      ],
+      "scope": [
+        "src/orqalis/graph/engine.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/unit/test_project_graph.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "multi-agent",
+      "category": "multi-agent task",
+      "query": "scheduler ready tasks parallel dependencies",
+      "relevant_paths": [
+        "src/orqalis/core/scheduler.py"
+      ],
+      "scope": [
+        "src/orqalis/core/scheduler.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/integration/test_parallel.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "repair",
+      "category": "repair-loop task",
+      "query": "RepairPlanner failed criterion repair limit",
+      "relevant_paths": [
+        "src/orqalis/core/repair.py"
+      ],
+      "scope": [
+        "src/orqalis/core/repair.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/integration/test_repair.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "security",
+      "category": "security-sensitive change",
+      "query": "ChangeGuardian test modification secret scope",
+      "relevant_paths": [
+        "src/orqalis/delivery/guardian.py"
+      ],
+      "scope": [
+        "src/orqalis/delivery/guardian.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/unit/test_security.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "resume",
+      "category": "interrupted/resumed task",
+      "query": "recover interrupted tool invocation task attempt",
+      "relevant_paths": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "scope": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": [
+        "tests/integration/test_recovery.py"
+      ],
+      "partition": "engineering"
+    },
+    {
+      "id": "probe-tokenize",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "_tokenize",
+      "relevant_paths": [
+        "src/orqalis/indexing/service.py"
+      ],
+      "scope": [
+        "src/orqalis/indexing/service.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-camel",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "ProjectContextBuilder",
+      "relevant_paths": [
+        "src/orqalis/context/builder.py"
+      ],
+      "scope": [
+        "src/orqalis/context/builder.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-natural-symbol",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "project context builder",
+      "relevant_paths": [
+        "src/orqalis/context/builder.py"
+      ],
+      "scope": [
+        "src/orqalis/context/builder.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-snake",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "source_hashes",
+      "relevant_paths": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "scope": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-natural-snake",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "source hashes",
+      "relevant_paths": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "scope": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-routing",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "implementation_capabilities",
+      "relevant_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "scope": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-scoped-routing",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "implementation capabilities",
+      "relevant_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "scope": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-events",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "Event event_type correlation_id",
+      "relevant_paths": [
+        "src/orqalis/domain/events.py"
+      ],
+      "scope": [
+        "src/orqalis/domain/events.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-test-command",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "ApprovedCommand timeout_seconds",
+      "relevant_paths": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "scope": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-usage",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "ProviderUsage input_tokens output_tokens",
+      "relevant_paths": [
+        "src/orqalis/domain/provider.py"
+      ],
+      "scope": [
+        "src/orqalis/domain/provider.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-permissions",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "PermissionProfile allowed_tools",
+      "relevant_paths": [
+        "src/orqalis/domain/capabilities.py"
+      ],
+      "scope": [
+        "src/orqalis/domain/capabilities.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-restore",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "restore interrupted changes safely",
+      "relevant_paths": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "scope": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-hub",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "run project context task",
+      "relevant_paths": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "scope": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "expected_capabilities": [
+        "python"
+      ],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-no-match",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "zebracat astrophotography glacier",
+      "relevant_paths": [],
+      "scope": [
+        "unrelated/"
+      ],
+      "expected_capabilities": [],
+      "contract_tests": []
+    },
+    {
+      "id": "probe-substring-negative",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "query": "tification",
+      "relevant_paths": [],
+      "scope": [
+        "unrelated/"
+      ],
+      "expected_capabilities": [],
+      "contract_tests": []
+    }
+  ],
+  "memories": [
+    {
+      "title": "Filesystem durability",
+      "content": "Atomic snapshots and transaction markers recover interrupted writes. Replay never blindly reruns an uncertain external tool action.",
+      "paths": [
+        "src/orqalis/persistence/filesystem/io.py"
+      ]
+    },
+    {
+      "title": "Skill permissions",
+      "content": "Skill requirements describe necessary tools. The role and project permission intersection remains authoritative. Skills cannot grant shell access.",
+      "paths": [
+        "src/orqalis/skills/registry.py"
+      ]
+    },
+    {
+      "title": "Curated memory freshness",
+      "content": "Curated memory proposals require evidence and review. Source hashes detect changes; stale records are discounted during context ranking.",
+      "paths": [
+        "src/orqalis/memory/curated.py"
+      ]
+    },
+    {
+      "title": "Delivery conflict policy",
+      "content": "Git delivery uses an isolated worktree and an exact base. Preserve the canonical source branch when it has advanced.",
+      "paths": [
+        "src/orqalis/git/service.py"
+      ]
+    }
+  ],
+  "label_scope": "Primary target paths, not exhaustive relevance judgments; precision is labeled-target precision. Negative cases have no expected relevant path."
+}

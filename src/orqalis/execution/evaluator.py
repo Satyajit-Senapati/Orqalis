@@ -6,12 +6,15 @@ from orqalis.domain.errors import PolicyDeniedError
 from orqalis.domain.execution import ExecutionPolicy
 from orqalis.evaluation.validators import LocalEvaluator
 from orqalis.execution.commands import CommandRunner
+from orqalis.execution.sandbox import SandboxOwner
 
 
 class WorkspaceEvaluator:
-    def __init__(self, workspace: Path, policy: ExecutionPolicy) -> None:
+    def __init__(
+        self, workspace: Path, policy: ExecutionPolicy, *, sandbox_owner: SandboxOwner | None = None
+    ) -> None:
         self.local = LocalEvaluator(workspace)
-        self.commands = CommandRunner(workspace, policy)
+        self.commands = CommandRunner(workspace, policy, sandbox_owner=sandbox_owner)
         self.policy = policy
 
     def evaluate(self, spec: ValidationSpec) -> ValidationObservation:

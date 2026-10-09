@@ -17,10 +17,11 @@ from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskStatus
 from orqalis.execution.commands import CommandRunner
 from orqalis.execution.filesystem import ScopedFilesystem
+from orqalis.execution.sandbox import SandboxOwner
 from orqalis.execution.tool_definitions import ReadDiff, ReadFile, RunCommand, WriteFile
 from orqalis.execution.workspaces import verify_workspace
 from orqalis.git.service import LocalGitService
-from orqalis.observability.instrumentation import observed
+from orqalis.observability.instrumentation import annotate_operation, observed
 
 
 class ToolService:
@@ -42,7 +43,7 @@ class ToolService:
             run = locked_run(uow, provider.run_id)
             if call not in provider.result.tool_calls:
                 raise PolicyDeniedError("Tool call does not match the persisted provider result")
-            existing = uow.execution.tool(invocation_id)
+            existing = uow.execution.tool(invocation_id, run_id=run.id)
             if existing:
                 if existing.request_hash != fingerprint:
                     raise ConflictError("Tool call identity was reused with different arguments")
@@ -56,6 +57,14 @@ class ToolService:
             )
             actor = next(
                 item for item in uow.runtime.actors(run.id) if item.id == provider.actor_session_id
+            )
+            annotate_operation(
+                run_id=run.id,
+                task_id=attempt.task_id,
+                actor_session_id=actor.id,
+                task_execution_id=attempt.id,
+                provider_invocation_id=provider.id,
+                tool_invocation_id=invocation_id,
             )
             project = uow.projects.get(run.project_id)
             workspace = uow.execution.workspace(run.id)
@@ -106,7 +115,10 @@ class ToolService:
             uow.commit()
         try:
             observation = self._dispatch(
-                workspace, call, read_only=actor.role in {AgentRole.REVIEWER, AgentRole.REPAIR}
+                workspace,
+                call,
+                read_only=actor.role in {AgentRole.REVIEWER, AgentRole.REPAIR},
+                sandbox_owner=SandboxOwner(project.repo_root, run.id),
             )
         except (OrqalisError, OSError, ValueError) as error:
             observation = ToolObservation(
@@ -142,7 +154,12 @@ class ToolService:
         return observation
 
     def _dispatch(
-        self, workspace: RunWorkspace, call: ProviderToolCall, *, read_only: bool = False
+        self,
+        workspace: RunWorkspace,
+        call: ProviderToolCall,
+        *,
+        read_only: bool = False,
+        sandbox_owner: SandboxOwner | None = None,
     ) -> ToolObservation:
         files = ScopedFilesystem(workspace.path, workspace.policy)
         succeeded = True
@@ -166,9 +183,9 @@ class ToolService:
             )
             if command is None:
                 raise PolicyDeniedError("Unknown approved command")
-            result = CommandRunner(workspace.path, workspace.policy, read_only=read_only).run(
-                command
-            )
+            result = CommandRunner(
+                workspace.path, workspace.policy, read_only=read_only, sandbox_owner=sandbox_owner
+            ).run(command)
             succeeded, summary = result.passed, result.model_dump_json()[:16_000]
         elif call.name == ToolName.GIT_DIFF:
             diff = ReadDiff.model_validate(call.arguments)

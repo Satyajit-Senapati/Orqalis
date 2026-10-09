@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "status": "PASS_SCOPED_PRELAUNCH_DESIGN_PENDING_ROOT_ACK",
+  "created_at": "2026-10-07T09:01:09.064045+00:00",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "controller": {
+    "path": ".tools/research/release_owned_temp_finish_v1.py",
+    "sha256": "35ec8c84d87b1fbc8409407018d65690fa122aeb4a15d204bcb7e5ef51e67b63"
+  },
+  "plan": {
+    "path": "docs/quality/evidence/release-owned-temp-qualification-plan-v1.json",
+    "sha256": "d821d3a43962aed484b1c336d12b7254f51d0d168ca21007537e8d8d701f88af",
+    "labels": [
+      "30",
+      "31"
+    ],
+    "helpers": {
+      ".tools/research/release_owned_temp_finish_v1.py": "35ec8c84d87b1fbc8409407018d65690fa122aeb4a15d204bcb7e5ef51e67b63",
+      ".tools/research/release_qualification_owned_temp_v2.py": "dd09c4e21bd51e4edcffdd0ebf40c6f9f40b90c85677954457461eb40792dad0",
+      ".tools/research/run_full_regression_release_v17.py": "4847a7123a7f00283fcffff99e852d85170dcec17c7908725ca8d245776c776d",
+      ".tools/research/verify_execution_reference_owned_temp_v1.py": "5a4b42dd0b085cb587b7e8e8697d3adcc31aa7edbc2970e340ab90dcebb498c9",
+      ".tools/research/release_owned_temp_prerequisites_v2.py": "0dbbffbac7f3e3e04f5b82df2b280fb877e22af2cf0e486231c6338122b798da"
+    },
+    "evidence_bindings_verified": 29
+  },
+  "reviewed_named_helpers": {
+    ".tools/research/release_qualification_owned_temp_v2.py": "dd09c4e21bd51e4edcffdd0ebf40c6f9f40b90c85677954457461eb40792dad0",
+    ".tools/research/run_full_regression_release_v17.py": "4847a7123a7f00283fcffff99e852d85170dcec17c7908725ca8d245776c776d",
+    ".tools/research/verify_execution_reference_owned_temp_v1.py": "5a4b42dd0b085cb587b7e8e8697d3adcc31aa7edbc2970e340ab90dcebb498c9"
+  },
+  "freeze": {
+    "path": "docs/quality/evidence/release-input-freeze-owned-temp-v4.json",
+    "sha256": "aa5d2b13d0760a6ef9553fb3b06ed853ee62ad99a98614cbf35abd030f614728",
+    "declared_files": 394,
+    "scope": "Named record/hash and source/input fields verified; no new whole-source/input inventory scan. Controller/qualifier perform actual pre/post per-file verification."
+  },
+  "helper_inventory": {
+    "path": "docs/quality/evidence/release-private-helper-inventory-owned-temp-v2.json",
+    "sha256": "4fd9c7542b49c492966d810d1bfed5589c14ce7a9d61d3133173895d86c43247",
+    "declared_entries": 57,
+    "scope": "Five plan helpers individually rehashed; qualifier/full/verifier/prerequisite belong to inventory. Controller is separately pinned by plan and forthcoming ACK; no inventory-wide rehash by reviewer."
+  },
+  "lifecycle": {
+    "prior_helper": ".tools/research/release_resume_20261007_finish_v2.py",
+    "prior_sha256": "1c476805dad1f4ec28c2f03862ba1ea957d19c942aecc8169f702ab381c65519",
+    "exact_ast_equal_named_definitions": [
+      "_BasicLimits",
+      "_IOCounters",
+      "_ExtendedLimits",
+      "_ThreadEntry",
+      "_windows_error",
+      "OwnedJob",
+      "note",
+      "owned",
+      "sha",
+      "load",
+      "exclusive",
+      "launch"
+    ],
+    "scope": "Owned suspended launcher assigned before resume, job-descendant termination/drain, reaping and primary-error notes preserved. Each whole-round coordinator cap remains10800s; no benchmark deadline change."
+  },
+  "fresh_prerequisites": {
+    "path": "docs/quality/evidence/release-owned-temp-prerequisites-actual-v2.json",
+    "sha256": "0216fc81488dfd33f7ed3b6e0835f1957166430228f8a2c82630092aeabb2448",
+    "status": "COMPLETE",
+    "stages": [
+      {
+        "label": "artifacts",
+        "elapsed_seconds": 197.60899999993853,
+        "exit_code": 0,
+        "child_reaped": true,
+        "job_handle_closed": true,
+        "job_after_cleanup": {
+          "total_processes": 438,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "cleanup_errors": []
+      },
+      {
+        "label": "heldout",
+        "elapsed_seconds": 85.625,
+        "exit_code": 0,
+        "child_reaped": true,
+        "job_handle_closed": true,
+        "job_after_cleanup": {
+          "total_processes": 2257,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "cleanup_errors": []
+      },
+      {
+        "label": "history",
+        "elapsed_seconds": 32.04700000002049,
+        "exit_code": 0,
+        "child_reaped": true,
+        "job_handle_closed": true,
+        "job_after_cleanup": {
+          "total_processes": 7,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "cleanup_errors": []
+      }
+    ],
+    "scope": "Actual artifact/heldout/history admission witnesses checked; functional PASS does not grant latency or convergence acceptance."
+  },
+  "current_contracts": {
+    "json": "docs/quality/evidence/release-contracts-current-owned-temp-release-v2.json",
+    "xml": "docs/quality/evidence/release-contracts-current-owned-temp-release-v2.junit.xml",
+    "xml_sha256": "2dd48136aaa348d60b3d192e49f120a345ce1d5b8d926212e7956bc5e1360c48",
+    "tests": 86,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "scope": "Exact source01 preflight; full current suites remain mandatory in both rounds."
+  },
+  "static": {
+    "path": "docs/quality/evidence/release-static-owned-temp-release.json",
+    "sha256": "7d02033c69d41aed8a5f84db52f82e2351b59c2d1f7c59567f1a170d1faa7fa1",
+    "declared_gates": 13,
+    "status": "PASS"
+  },
+  "criterion_review": {
+    "execution": {
+      "references": [
+        {
+          "path": "docs/quality/evidence/release-execution-baseline-diagnostic.json",
+          "sha256": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+          "samples_ms": [
+            55642.85999999265,
+            55686.493799992604,
+            55371.642699989025
+          ],
+          "median_ms": 55642.85999999265
+        },
+        {
+          "path": "docs/quality/evidence/release-execution-baseline-2.json",
+          "sha256": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+          "samples_ms": [
+            56502.89820000762,
+            55870.139499995275,
+            55730.52120000648
+          ],
+          "median_ms": 55870.139499995275
+        },
+        {
+          "path": "docs/quality/evidence/release-execution-baseline-8-fixed-diagnostic-v1.json",
+          "sha256": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+          "samples_ms": [
+            95421.07120002038,
+            95099.94379998534,
+            95016.15999999922
+          ],
+          "median_ms": 95099.94379998534
+        }
+      ],
+      "all9_pooled_median_ms": 55870.139499995275,
+      "semantic_check_count": 26,
+      "stability_check_count": 4,
+      "policy": {
+        "path": "docs/quality/evidence/release-execution-reference-policy-owned-temp-v1.json",
+        "sha256": "d7f439405ec9e2ec6ab49120bd1810c00ac8b3a2d43341b40f38d1be4ce61027"
+      },
+      "verifier_scope": "Exact reference/fixture/source/helpers/environment checks; no performance verdict or baseline re-execution. Retain fastest capture median55.643s and pooled55.870s alongside95.100s reference; never select only slower reference."
+    },
+    "quality": "Exact30 accepted bounded metric dispositions required, numeric1e-9/path equality with only MEM date normalization. Raw comparison remains REVIEW; no hard invariants or additional review reasons allowed.",
+    "round_workloads": "Original full14 browser, advisory checks, both quality3/UI3/constrained, current execution3, memory5 and full current Python regressions retained. Current-first30/baseline-first31 alternate unchanged comparative stages.",
+    "acceptance": "Both rounds record COMPLETE_PENDING_INDEPENDENT_REVIEW; outer accepted_convergence_iterations remains0 until independent all-observations quality/performance disposition and final packaging/link gates."
+  },
+  "conditions_before_invocation": [
+    "Root ACK must be prospective, bind this exact controller/plan/four independent review hashes, and attest no other owned workload active.",
+    "Parent/security/acceptance exact reviews plus complete plan helper/evidence guards required; source/inputs/protected helper byte checks occur at runtime.",
+    "Fresh30/31 outputs remain exclusive and failures retained; first failure stops without retries or promotion."
+  ],
+  "limits": [
+    "No application import, native query, QA, benchmark, process scan, archive/dependency inventory scan, or runtime/public/protected-helper mutation by reviewer.",
+    "Plan34 named bindings rehashed; recorded source/input aggregate fields do not substitute reviewer-performed entire inventory verification.",
+    "Fresh heldout/history costs, graph/index/store/Pythonallocation and memory complete-answer latency need separate explicit bounded dispositions after capture; allocations are not RSS.",
+    "Strict Master53 unexplained degradation remains an acceptance condition, not closed by prior nativev5 timing, old browser diagnostics, range overlap or disclosed costs.",
+    "No universal quiet-host/OS causation guarantee, live-provider/Docker/Linux/macOS certification, commit or publication.",
+    "No whole30/31 capture or release/convergence credit at this staged point."
+  ],
+  "workloads_invoked": 0,
+  "accepted_convergence_iterations": 0
+}

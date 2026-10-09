@@ -22,6 +22,7 @@ from orqalis.domain.events import EventPayload, EventType
 from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskExecution, TaskStatus
 from orqalis.execution.cancellation import watch_cancellation
+from orqalis.execution.sandbox import SandboxOwner, reconcile_sandboxes
 from orqalis.git.service import LocalGitService
 from orqalis.memory.curation import MemoryCurator
 from orqalis.observability.instrumentation import observed_async
@@ -51,6 +52,12 @@ class DeliveryCoordinator:
         with self.factory() as lease:
             if not lease.execution.try_run_lock(run_id):
                 raise ConflictError("Another Orchestrator worker owns this run")
+            with self.factory() as uow:
+                run = locked_run(uow, run_id)
+                project = uow.projects.get(run.project_id)
+                workspace = uow.execution.workspace(run_id)
+                if project and workspace:
+                    reconcile_sandboxes(SandboxOwner(project.repo_root, run_id), workspace.path)
             return await watch_cancellation(self.factory, run_id, self._finalize(run_id, policy))
 
     async def _finalize(self, run_id: UUID, policy: DeliveryPolicy) -> DeliveryResult:
@@ -88,7 +95,8 @@ class DeliveryCoordinator:
                 (
                     f"Review tree {review.tree_hash[:16]}, push={policy.push}, "
                     f"remote={policy.remote}, docs={policy.documentation_path or 'none'}, "
-                    f"sensitive paths={len(policy.approved_sensitive_paths)}. "
+                    f"sensitive paths={len(policy.approved_sensitive_paths)}, "
+                    f"reviewed test changes={len(policy.reviewed_test_changes)}. "
                     "Inspect the delivery policy and repository diff before approval."
                 ),
             )

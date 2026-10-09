@@ -1,0 +1,231 @@
+{
+  "scope": "Six alternating quiet diagnostic repetitions rebound to final typed script; original console observations separately preserved, not additional formal timing samples. Instrumentation changes scheduling; no speedup or throughput claim.",
+  "script": "scripts/diagnose_lock_contention.py",
+  "fixture_root": "S:\\Orqalis\\.tools\\research\\lock-diagnostic-fixture",
+  "fixture_files": [
+    {
+      "path": "pyproject.toml",
+      "sha256": "3aa57f52846d96f97e6a562b57e657c9185706ff5b1edbaf9be24da0196c6f26"
+    },
+    {
+      "path": "tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/conftest.py",
+      "sha256": "aa597b96e67a0953ec0f0f80e18863fb5b895d94242838b0094003d9f3e16514"
+    },
+    {
+      "path": "tests/support/filesystem.py",
+      "sha256": "6d0234b723745f528dcd8e8f57e6a6b8e9e32b05cc5f8126f5436f234097ecad"
+    },
+    {
+      "path": "tests/integration/test_runtime.py",
+      "sha256": "ca64d8d46f23a2c7b8b1e9a095eef4a81a9e2e0b948ce05c69f535496939bdca"
+    }
+  ],
+  "environment_policy": "Python -I, selected source import audit, shared frozen fixture, controlled environment from hash-bound benchmark_quality.py; no parallel heavy workloads reported by coordinator/other agents.",
+  "timeout_policy": "Unmodified production default: 10 seconds. No timeout retries introduced into this event test.",
+  "runs": [
+    {
+      "source": "baseline",
+      "repeat": 1,
+      "artifact": "docs/quality/evidence/lock-baseline-quiet-1.json",
+      "artifact_sha256": "6eedd688c52c88ea3894a2a9ca54975c6e63f1972473c9fc6cb2a4364bdc3a5e",
+      "junit": "docs/quality/evidence/lock-baseline-quiet-1.xml",
+      "junit_sha256": "91fe338051c52469c3ed16006824fa88fcb652f50f4883da15cae50740242129",
+      "junit_cases": [
+        {
+          "classname": "tests.integration.test_runtime",
+          "name": "test_event_sequence_concurrency_idempotency_and_corruption_detection",
+          "time": "4.957",
+          "failed": false,
+          "error": false,
+          "skipped": false
+        }
+      ],
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "source_stable": true,
+      "fixture_sha256": "e5d0af6ee92e4befa3a3cafff0a4548fbe0880113c8745004abca28c9d4bbdb8",
+      "fixture_stable": true,
+      "script_sha256": "45726e99cf30c09743781a76bfc70d6433b3d5d10f1c1f3f51c0e7dbdf780cd0",
+      "script_stable": true,
+      "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+      "helper_stable": true,
+      "pytest_exit_code": 0,
+      "elapsed_s": 5.5865389999962645,
+      "maximum_wait_s": 0.8591005,
+      "maximum_hold_s": 0.3841107,
+      "bad_imports": [],
+      "acquisition_failures": [],
+      "unreleased_acquisitions": 0
+    },
+    {
+      "source": "current",
+      "repeat": 1,
+      "artifact": "docs/quality/evidence/lock-current-quiet-1.json",
+      "artifact_sha256": "cbe055a5896f41da9ae0d24d22988cb342ce5f42e813bd9b22c2349938c594e5",
+      "junit": "docs/quality/evidence/lock-current-quiet-1.xml",
+      "junit_sha256": "eca23f1e39b892a03f9088cfa29247d0c346fb3b0a319744758777faf6b456e2",
+      "junit_cases": [
+        {
+          "classname": "tests.integration.test_runtime",
+          "name": "test_event_sequence_concurrency_idempotency_and_corruption_detection",
+          "time": "5.207",
+          "failed": false,
+          "error": false,
+          "skipped": false
+        }
+      ],
+      "source_sha256": "a37dda9e2ca4d37e58ffc6fcab606324df31e16b02dc1261a3371cd44792a757",
+      "source_stable": true,
+      "fixture_sha256": "e5d0af6ee92e4befa3a3cafff0a4548fbe0880113c8745004abca28c9d4bbdb8",
+      "fixture_stable": true,
+      "script_sha256": "45726e99cf30c09743781a76bfc70d6433b3d5d10f1c1f3f51c0e7dbdf780cd0",
+      "script_stable": true,
+      "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+      "helper_stable": true,
+      "pytest_exit_code": 0,
+      "elapsed_s": 5.7254095999960555,
+      "maximum_wait_s": 0.7326969,
+      "maximum_hold_s": 0.6292085,
+      "bad_imports": [],
+      "acquisition_failures": [],
+      "unreleased_acquisitions": 0
+    },
+    {
+      "source": "baseline",
+      "repeat": 2,
+      "artifact": "docs/quality/evidence/lock-baseline-quiet-2.json",
+      "artifact_sha256": "9785d0e69f0a9abb20188b63b57aeaf861c79e64426ce2c574dd000dbb11c3ed",
+      "junit": "docs/quality/evidence/lock-baseline-quiet-2.xml",
+      "junit_sha256": "0c7267bda690497bc7b214bbb47cb7a118252ffbf89c0a2255b6d50bc48dfa97",
+      "junit_cases": [
+        {
+          "classname": "tests.integration.test_runtime",
+          "name": "test_event_sequence_concurrency_idempotency_and_corruption_detection",
+          "time": "4.731",
+          "failed": false,
+          "error": false,
+          "skipped": false
+        }
+      ],
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "source_stable": true,
+      "fixture_sha256": "e5d0af6ee92e4befa3a3cafff0a4548fbe0880113c8745004abca28c9d4bbdb8",
+      "fixture_stable": true,
+      "script_sha256": "45726e99cf30c09743781a76bfc70d6433b3d5d10f1c1f3f51c0e7dbdf780cd0",
+      "script_stable": true,
+      "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+      "helper_stable": true,
+      "pytest_exit_code": 0,
+      "elapsed_s": 5.218151900000521,
+      "maximum_wait_s": 0.72687,
+      "maximum_hold_s": 0.3813873,
+      "bad_imports": [],
+      "acquisition_failures": [],
+      "unreleased_acquisitions": 0
+    },
+    {
+      "source": "current",
+      "repeat": 2,
+      "artifact": "docs/quality/evidence/lock-current-quiet-2.json",
+      "artifact_sha256": "1132812f19ad1d2796da187183dc196d95b619918318109092d894267ab71af1",
+      "junit": "docs/quality/evidence/lock-current-quiet-2.xml",
+      "junit_sha256": "e8322182e9a5958efdf969ae92c829ad39ee50e592a6b9ab9cc72aafffae8748",
+      "junit_cases": [
+        {
+          "classname": "tests.integration.test_runtime",
+          "name": "test_event_sequence_concurrency_idempotency_and_corruption_detection",
+          "time": "4.843",
+          "failed": false,
+          "error": false,
+          "skipped": false
+        }
+      ],
+      "source_sha256": "a37dda9e2ca4d37e58ffc6fcab606324df31e16b02dc1261a3371cd44792a757",
+      "source_stable": true,
+      "fixture_sha256": "e5d0af6ee92e4befa3a3cafff0a4548fbe0880113c8745004abca28c9d4bbdb8",
+      "fixture_stable": true,
+      "script_sha256": "45726e99cf30c09743781a76bfc70d6433b3d5d10f1c1f3f51c0e7dbdf780cd0",
+      "script_stable": true,
+      "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+      "helper_stable": true,
+      "pytest_exit_code": 0,
+      "elapsed_s": 5.341571000004478,
+      "maximum_wait_s": 0.7270505,
+      "maximum_hold_s": 0.4426418,
+      "bad_imports": [],
+      "acquisition_failures": [],
+      "unreleased_acquisitions": 0
+    },
+    {
+      "source": "baseline",
+      "repeat": 3,
+      "artifact": "docs/quality/evidence/lock-baseline-quiet-3.json",
+      "artifact_sha256": "9d1b8317cd246f6773cdb1cefbfcc6070b6b758f075611c48d0d39bd263fe661",
+      "junit": "docs/quality/evidence/lock-baseline-quiet-3.xml",
+      "junit_sha256": "0d10f1a6db8c3a5837e7b9930deacedb3c396430587ea620a8c34c14b2998843",
+      "junit_cases": [
+        {
+          "classname": "tests.integration.test_runtime",
+          "name": "test_event_sequence_concurrency_idempotency_and_corruption_detection",
+          "time": "4.318",
+          "failed": false,
+          "error": false,
+          "skipped": false
+        }
+      ],
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "source_stable": true,
+      "fixture_sha256": "e5d0af6ee92e4befa3a3cafff0a4548fbe0880113c8745004abca28c9d4bbdb8",
+      "fixture_stable": true,
+      "script_sha256": "45726e99cf30c09743781a76bfc70d6433b3d5d10f1c1f3f51c0e7dbdf780cd0",
+      "script_stable": true,
+      "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+      "helper_stable": true,
+      "pytest_exit_code": 0,
+      "elapsed_s": 4.879893499994068,
+      "maximum_wait_s": 0.8044656,
+      "maximum_hold_s": 0.3873445,
+      "bad_imports": [],
+      "acquisition_failures": [],
+      "unreleased_acquisitions": 0
+    },
+    {
+      "source": "current",
+      "repeat": 3,
+      "artifact": "docs/quality/evidence/lock-current-quiet-3.json",
+      "artifact_sha256": "f6aaf2be1088a50bf859784e65c63d18ab3dba7fb0f7931cb1077853b8548e73",
+      "junit": "docs/quality/evidence/lock-current-quiet-3.xml",
+      "junit_sha256": "896a06687facc326fbdfd7fa91f88948b8a729768ced4510ec61dddc12b201a0",
+      "junit_cases": [
+        {
+          "classname": "tests.integration.test_runtime",
+          "name": "test_event_sequence_concurrency_idempotency_and_corruption_detection",
+          "time": "4.253",
+          "failed": false,
+          "error": false,
+          "skipped": false
+        }
+      ],
+      "source_sha256": "a37dda9e2ca4d37e58ffc6fcab606324df31e16b02dc1261a3371cd44792a757",
+      "source_stable": true,
+      "fixture_sha256": "e5d0af6ee92e4befa3a3cafff0a4548fbe0880113c8745004abca28c9d4bbdb8",
+      "fixture_stable": true,
+      "script_sha256": "45726e99cf30c09743781a76bfc70d6433b3d5d10f1c1f3f51c0e7dbdf780cd0",
+      "script_stable": true,
+      "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+      "helper_stable": true,
+      "pytest_exit_code": 0,
+      "elapsed_s": 4.667683599996963,
+      "maximum_wait_s": 0.8951083,
+      "maximum_hold_s": 0.4616945,
+      "bad_imports": [],
+      "acquisition_failures": [],
+      "unreleased_acquisitions": 0
+    }
+  ],
+  "disposition": "No reproduced final-source regression or changed lock/transaction semantics established. Original preflight in-process RLock deadline remains observed; exact loaded-host cause unknown. No production lock edit proposed. Final whole-suite qualification remains pending.",
+  "process_status": "All diagnostic subprocesses completed; no runtime-agent tests or benchmarks left running. Further work stopped at user request."
+}

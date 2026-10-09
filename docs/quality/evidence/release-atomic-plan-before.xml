@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="15.221" timestamp="2026-10-02T18:27:24.347391+05:30" hostname="THOR-GALAXY"><testcase classname="tests.integration.test_plan_preview" name="test_plan_checkpoint_notifications_include_matching_approval" time="14.318"><failure message="assert [] == [1, 2]&#10;  &#10;  Right contains 2 more items, first extra item: 1&#10;  Use -v to get more diff">git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-505/test_plan_checkpoint_notificat0/source')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001C533AF28D0&gt;
+
+    def test_plan_checkpoint_notifications_include_matching_approval(
+        git_repo: Path, monkeypatch: pytest.MonkeyPatch
+    ) -&gt; None:
+        sdk, _, state = _prepared(git_repo)
+        assert state.goal is not None
+        approvals = ApprovalService(sdk.unit_of_work)
+        approvals.configure(
+            state.run.id, ControlMode.SUPERVISED, frozenset({ApprovalStage.GOAL, ApprovalStage.PLAN})
+        )
+        service = PlanPreviewService(
+            sdk.unit_of_work, sdk.orchestrator, sdk.goals, sdk.memory, sdk.git, approvals
+        )
+        with pytest.raises(PolicyDeniedError):
+            service.preview(state.run.id, "goal-gate")
+        goal_request = approvals.list(state.run.id)[-1]
+        approvals.decide(
+            state.run.id,
+            goal_request.id,
+            ApprovalDecisionKind.APPROVE,
+            "fixture-operator",
+            goal_request.subject_digest,
+        )
+        native_publish = sdk.event_bus.publish
+        observed_versions: list[int] = []
+    
+        def observe_commit(events: Iterable[Event]) -&gt; None:
+            batch = tuple(events)
+            if any(
+                event.event_type == EventType.PLAN_REVISED
+                or event.event_type == EventType.RUN_STATE_CHANGED
+                and event.payload.status == RunState.PLANNED
+                for event in batch
+            ):
+                snapshot = sdk.snapshot(state.run.id)
+                requests = approvals.list(state.run.id)
+                assert snapshot.plan is not None
+                assert requests[-1].stage == ApprovalStage.PLAN
+                assert requests[-1].subject_version == snapshot.run.plan_version
+                assert requests[-1].status == "PENDING"
+                assert any(
+                    event.event_type == EventType.APPROVAL_REQUESTED
+                    and event.payload.approval_request_id == requests[-1].id
+                    for event in batch
+                )
+                observed_versions.append(snapshot.run.plan_version)
+            native_publish(batch)
+    
+        monkeypatch.setattr(sdk.event_bus, "publish", observe_commit)
+        first = service.preview(state.run.id, "atomic-preview")
+        edited = VerticalPlanner().plan(
+            state.goal,
+            sdk.memory.context(sdk.get_project(state.run.project_id), state.run.request),
+            version=2,
+        )
+        second = service.replace(edited, first.version, "atomic-edit")
+        before = sdk.events(state.run.id)
+        assert service.preview(state.run.id, "atomic-preview") == second
+        assert service.replace(edited, first.version, "atomic-edit") == second
+        assert sdk.events(state.run.id) == before
+&gt;       assert observed_versions == [1, 2]
+E       assert [] == [1, 2]
+E         
+E         Right contains 2 more items, first extra item: 1
+E         Use -v to get more diff
+
+tests\integration\test_plan_preview.py:208: AssertionError</failure></testcase></testsuite></testsuites>

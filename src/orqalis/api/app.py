@@ -9,6 +9,7 @@ from typing import Annotated
 from urllib.parse import urlparse
 from uuid import UUID
 
+from anyio import CancelScope
 from fastapi import FastAPI, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
@@ -277,10 +278,8 @@ def create_app(client: Orqalis | None = None, *, root: Path | None = None) -> Fa
 
     @app.get("/api/runs/{run_id}/controls")
     def controls(run_id: UUID) -> ControlView:
-        return ControlView(
-            policy=sdk.approvals.policy(run_id),
-            approvals=sdk.approvals.list(run_id),
-        )
+        policy, approvals = sdk.approvals.control_state(run_id)
+        return ControlView(policy=policy, approvals=approvals)
 
     @app.post("/api/runs/{run_id}/plan/preview")
     def preview_plan(run_id: UUID, command: PlanCommand, request: Request) -> TaskPlan:
@@ -394,8 +393,9 @@ def create_app(client: Orqalis | None = None, *, root: Path | None = None) -> Fa
             await websocket.close(code=1008)
             return
         await websocket.accept()
-        cursor = after
-        try:
+
+        async def send_updates() -> None:
+            cursor = after
             # Subscribe before replaying the durable stream so a commit cannot fall
             # between historical replay and the live subscription.
             async with sdk.event_bus.subscribe(run_id) as subscription:
@@ -424,10 +424,34 @@ def create_app(client: Orqalis | None = None, *, root: Path | None = None) -> Fa
                         continue
                     if notification.sequence <= cursor:
                         continue
+
+        async def receive_disconnect() -> None:
+            # Reading the inbound channel observes peer closure even while snapshot
+            # I/O is running or no new durable events are arriving.
+            while True:
+                message = await websocket.receive()
+                if message["type"] == "websocket.disconnect":
+                    return
+
+        sender = asyncio.create_task(send_updates())
+        receiver = asyncio.create_task(receive_disconnect())
+        try:
+            done, _ = await asyncio.wait((sender, receiver), return_when=asyncio.FIRST_COMPLETED)
+            for task in done:
+                await task
         except WebSocketDisconnect:
             return
         except OrqalisError:
             await websocket.close(code=1008, reason="Run unavailable")
+        finally:
+            # Cancel stream/subscription waits promptly. Already-running to_thread I/O
+            # still finishes under its normal filesystem locks; it is never force-killed.
+            # Framework cancellation must not interrupt child finalization or replace
+            # its origin with a completed receiver's unlabelled cancellation.
+            with CancelScope(shield=True):
+                sender.cancel()
+                receiver.cancel()
+                await asyncio.gather(sender, receiver, return_exceptions=True)
 
     frontend = frontend_directory()
     if frontend:

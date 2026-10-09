@@ -1,0 +1,13 @@
+{
+  "status": "TEST_ONLY_PRIVATE_TYPE_CORRECTION_UNAPPLIED",
+  "before_sha256": "c98303233f677e0bb69422f4a96b8c2f9f219a9d988562c003723afc636936f6",
+  "proposal": ".tools/research/release_readonly_cleanup_foundation_proposal_v4.py",
+  "proposal_sha256": "3daefbc8ddfbb4f4d2f7f61603a3e3196bf9d8cd2c6344310ec0e93f3a543f62",
+  "delta": "Seven private os import accesses use already-imported os.chmod and equivalent pytest string setattr lookup to same io.os attributes. Receiver/platform/fixtures/assertions/cases unchanged; no type ignore/export expansion/gold/runtime change.",
+  "original_failure_log": ".tools/research/release-windows-cleanup-preflight-strict-app-test-types.log",
+  "log_sha256": "1b46a1cb302ce681a75df02e2f8bff84237def20b374f51336820255caac5409",
+  "pipeline_session": 13452,
+  "actual_exit_code": 1,
+  "prior_pipeline_report_preserved": true,
+  "staging_note": "Initial setup-only assertion incorrectly searched raw text for io.os strings; stopped beforewrites. CorrectedASTattribute check; no workload/sourcechange."
+}

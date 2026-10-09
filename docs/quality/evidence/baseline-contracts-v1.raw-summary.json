@@ -1,0 +1,38 @@
+{
+  "kind": "unqualified-compatibility-v1-contract-junit-summary",
+  "qualified": false,
+  "contract_capture_schema": null,
+  "status": "COMPLETED_UNQUALIFIED",
+  "test_run_complete": true,
+  "runner_stable": false,
+  "source_stable": null,
+  "qualification_reasons": [
+    "Runner and helper changed while this preflight was running.",
+    "Suite used the old Git fixture policy; CRLF mismatch remains visible.",
+    "Original baseline runtime cancellation-poll lock timeout remains visible."
+  ],
+  "junit_path": "docs/quality/evidence/baseline-contracts-v1.junit.xml",
+  "junit_sha256": "a1c822e9cb9431a5fe4c7f15cd5b9e401281e7eb3cc3ce67f791edc720742ff5",
+  "test_count": 86,
+  "counts": {
+    "passed": 84,
+    "failure": 2
+  },
+  "failures": [
+    {
+      "classname": "tests.integration.test_external_findings",
+      "name": "test_worker_findings_cannot_be_waived_without_evidence[missing_text]",
+      "outcome": "failure",
+      "message": "orqalis.persistence.filesystem.locking.LockTimeoutError: Timed out acquiring lock: C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-410\\test_worker_findings_cannot_be3\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock"
+    },
+    {
+      "classname": "tests.unit.test_git",
+      "name": "test_repository_detection_dirty_paths_and_committed_read",
+      "outcome": "failure",
+      "message": "AssertionError: assert b'answer = 42\\r\\n' == b'answer = 42\\n'\n  \n  At index 11 diff: b'\\r' != b'\\n'\n  Use -v to get more diff"
+    }
+  ],
+  "terminal_pytest_seconds": 2845.62,
+  "termination": "Finished naturally before the targeted termination guard; not killed.",
+  "limits": "Raw JUnit only; not valid schema-2 comparison evidence."
+}

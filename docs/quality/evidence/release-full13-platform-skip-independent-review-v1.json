@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "status": "FULL13_PASS_WITH_TWO_EXPLICIT_PLATFORM_SKIPS_NOT_CONVERGENCE",
+  "reviewed_at": "2026-10-03T15:31:35.305653+00:00",
+  "reviewer": "release_acceptance_review",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "full13_json_sha256": "1ede4672b23f6e70048e0df3597767351feb55dcb20cc5da7cefa5dff2b3789c",
+  "full13_xml_sha256": "93d3f76eb9fba1389bf8fc1e73de6cfd9b2a1bc56e04491469b1db4dda919109",
+  "actual_xml_summary": {
+    "total": 894,
+    "passed": 892,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2
+  },
+  "actual_exit_code": 0,
+  "recorded_stability_flags": {
+    "source_stable": true,
+    "tests_stable": true,
+    "helper_stable": true,
+    "wrapper_stable": true,
+    "environment_stable": true
+  },
+  "tests_fingerprint_sha256": "f3ae8e09df8fea765a345f98d8a2c9c319c1d11fd67ff5b99f104d9393277116",
+  "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+  "wrapper_sha256": "d84ae1d8a5cd3eca2f40a593f789ae0dba7301a312f74b64a63253293363cdc4",
+  "elapsed_seconds": 2241.719000000012,
+  "skips": [
+    {
+      "id": "tests.integration.test_sandbox::test_docker_workspace_network_and_readonly_root",
+      "reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image"
+    },
+    {
+      "id": "tests.unit.test_portable_skills::test_skill_symlink_parent_is_rejected",
+      "reason": "Creating symlinks requires local OS permissions"
+    }
+  ],
+  "mapped_actual_suite_results": {
+    "test_portable_skills": {
+      "total": 22,
+      "passed": 21,
+      "skipped": 1
+    },
+    "test_guardian_integrity": {
+      "total": 19,
+      "passed": 19,
+      "skipped": 0
+    },
+    "test_filesystem_foundation": {
+      "total": 67,
+      "passed": 67,
+      "skipped": 0
+    },
+    "test_sandbox_lifecycle": {
+      "total": 13,
+      "passed": 13,
+      "skipped": 0
+    },
+    "test_sandbox_recovery": {
+      "total": 1,
+      "passed": 1,
+      "skipped": 0
+    },
+    "test_hard_crash_matrix": {
+      "total": 8,
+      "passed": 8,
+      "skipped": 0
+    }
+  },
+  "actual_required_link_guard_results": [
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_project_store_rejects_linked_store_and_subtrees",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_storage_guard_rejects_missing_descendant_of_link[symlink]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_storage_guard_rejects_missing_descendant_of_link[junction]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_storage_guard_preserves_unexpected_metadata_errors_before_write[failure0]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_storage_guard_preserves_unexpected_metadata_errors_before_write[failure1]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_descendant_full_guard_rejects_new_links[symlink-store]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_descendant_full_guard_rejects_new_links[symlink-parent]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_descendant_full_guard_rejects_new_links[symlink-target]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_descendant_full_guard_rejects_new_links[junction-store]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_descendant_full_guard_rejects_new_links[junction-parent]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_descendant_full_guard_rejects_new_links[junction-target]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_absolute_escape_cannot_bypass_linked_store",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_descendant_propagates_metadata_faults[failure0]",
+      "passed": true
+    },
+    {
+      "id": "tests.unit.test_filesystem_foundation::test_layout_descendant_propagates_metadata_faults[failure1]",
+      "passed": true
+    }
+  ],
+  "reviewed_local_source_sha256": {
+    "tests/unit/test_portable_skills.py": "79a9c839d6bfab84976c1570c6ca8ca2d53217705373a58e45b9bade9e550b8e",
+    "tests/unit/test_filesystem_foundation.py": "7fff7432a577e37ccb249d2c87f4bddc2d48569bdf70e578aa43045374efea15",
+    "src/orqalis/skills/registry.py": "e2836acb98b075844afc3fcc40a488f45ba7f6be96308c1e08e4a72cf58a3bf8",
+    "src/orqalis/persistence/filesystem/io.py": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+    "tests/unit/test_guardian_integrity.py": "8cfe19296a9469352c7243b128a547fff9fc715d2f23b2ed0498301cd263530a",
+    "docs/quality/capabilities.json": "d263b59d20e63f78ee9584c4c2ed40f3d693d0104c68dc41f8f9a65ded39c7fd",
+    "docs/quality/ENHANCEMENT_BACKLOG.md": "2198fae15d6543160d6fd667f265bf98eeef9a694b58b2d1effc548f1602a9ac"
+  },
+  "criterion_mapping_correction": "S01 is Change Guardian test-integrity (assertion/skip/xfail/hash review), with19 actual full13 passes. Portable skill containment maps to H01/H02; H01 link-denial acceptance is mandatory and is not waived.",
+  "skill_link_disposition": {
+    "status": "PLATFORM_CONDITIONAL_DIRECT_LIVE_PROBE_SKIPPED_WITH_MANDATORY_SHARED_GUARD_EVIDENCE",
+    "live_skipped_probe": "tests.unit.test_portable_skills::test_skill_symlink_parent_is_rejected",
+    "actual_test_condition": "Creating directory symlink raises OSError; test emits existing local-OS-permissions reason before invoking SkillRegistry. Broad OSError catch does not preserve native error code, so exact reason remains unproven.",
+    "production_wiring": "SkillRegistry trusted-root discovery and manifest/body/resource reads directly use ensure_no_filesystem_links. Shared guard lstats every ancestor and denies symlink mode or Windows junction reparse tag before resolving/reading; resource path escape also denied.",
+    "actual_alternatives": "All67 filesystem foundation cases pass, including actual Windows directory-junction rejection and deterministic symlink/junction parent/store/target/missing-descendant metadata guards plus unexpected metadata error denial.21 other portable skill cases pass, including path escape, malicious metadata, bounded resources, tool requirements and content pins.",
+    "not_certified": "The direct live symbolic-link skill-registry probe is not PASS; native symlink creation/traversal and cross-platform skill behavior are unqualified. Native shared Windows junction proof does not become native symbolic-link proof.",
+    "no_waiver": "Mandatory skill containment, fail-closed link/metadata behavior, path policy and integrity checks remain required in both current-source full iterations. Any failure or skip in mandatory alternative evidence stops closure; this is not a new test exception or OS permission change."
+  },
+  "docker_disposition_reference": {
+    "path": "release-optional-live-docker-spec-disposition-v1.json",
+    "sha256": "d28c75d5a1e1c317c00d6be14a05cb9296d0eca67584c36430b47de39bdb39e4",
+    "scope": "Optional live-Docker tier only; now actual mandatory lifecycle13/recovery1 pass. No live daemon certification."
+  },
+  "launch_prerequisite": "Actual JSON/XML prerequisite passes for frozen source. Parent reports session3941 observed EXIT0 and closed; this review reads persisted evidence, not independent OS process state. Reviewed coordinator may be launched only with truthful parent exit attestation and original guards.",
+  "acceptance_state": {
+    "standalone_full13_credit": "Full regression prerequisite only; zero convergence rounds",
+    "qualified_iterations": 0,
+    "required_iterations": 2,
+    "accepted_P1": 23,
+    "accepted_P1_status": "IMPLEMENTED_PENDING_EVAL",
+    "release_ready": false
+  },
+  "reporting_requirements": "Retain2skips and exact reasons alongside892passes; disclose Windows/local/fake-provider limits, live Docker unqualified and direct live skill-symlink probe unqualified. Preserve historical full10/full12 failures; full13 does not retroactively alter them or close accepted criteria alone. Fresh current86/preflight/artifacts/heldout/history/two complete fulliterations/independent metrics/reviews remain.",
+  "reviewer_workloads_executed": false,
+  "symlinks_created_or_OS_permissions_changed": false,
+  "heavy_scans_executed": false,
+  "production_tests_public_docs_edits": false,
+  "commits_or_publication": false
+}

@@ -62,7 +62,7 @@ class GoalReplanning:
                     raise ConflictError(
                         "Replacement work must have fresh, unexecuted task identities"
                     )
-                goal = uow.runs.get_goal(plan.goal_version_id)
+                goal = uow.runs.get_goal(plan.goal_version_id, run_id=plan.run_id)
                 if goal is None:
                     raise ConflictError("Current goal missing")
                 require_approval(

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "status": "STAGED_TEST_ONLY_UNAPPLIED",
+  "created_at": "2026-10-03T14:25:36.807858+00:00",
+  "original_test_sha256": "60a052b0394f7dffb0595fbf706fefda3d74545f80c03611779fd1abd1a1a348",
+  "staged_test_sha256": "61cfc32564f6a994c7caf2960c45d662b7ded11c47297136469385530f23df43",
+  "application_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "change": "Intentional test assertion-semantics correction for documented Windows asynchronous lock release; live-owner exclusion added; first-kill-start30s shared processwait/deadlease budget. Fresh UoW closes acquired lease before deadline check, persistent contention and unexpectederrorsfail. Seven deterministic safety/deadline cases added. All state/history/effect/review/delivery assertions unchanged.",
+  "not_a_diagnosed_fix": true,
+  "original_failure_and_diagnostic_retained": true,
+  "next": "Independent actualdelta review, then apply testonly, refresh390 input/static binding and completefreshfullsuite/two candidate iterations; frozen86/gold/baseline/production/artifact bytes unchanged.",
+  "formatting": "Ruff import ordering and format applied to staged copy before review; original test untouched.",
+  "counterexamples": [
+    "live owner erroneously granted",
+    "finite delayed release",
+    "persistent busy",
+    "wait consumes shared budget",
+    "kill consumes shared budget",
+    "late success",
+    "unexpected native error"
+  ]
+}

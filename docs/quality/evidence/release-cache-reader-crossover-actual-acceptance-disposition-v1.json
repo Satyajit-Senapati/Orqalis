@@ -1,0 +1,75 @@
+{
+  "status": "VALID_DIAGNOSTIC_AGED_CACHE_READER_DESIGN_SECONDS_HYPOTHESIS_UNSUPPORTED_MASTER53_PENDING",
+  "reviewed_at": "2026-10-07T10:50:28.162199+00:00",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "evidence_sha256": {
+    "release-cache-reader-crossover-observation-v1.json": "599bfef18fb118e2fd4ec3a817856532be808e2d874ea426a388eb6284246da5",
+    "release-cache-reader-crossover-outer-v1.json": "bd32bab635ed8bf37e082df3496def68344a14c6ebea57ba713594623d8c5d1e"
+  },
+  "validation": {
+    "all_526_pairs_exact_plan_order_and_returned_bytes_hash": true,
+    "all_526_native_opener_calls_once_without_error": true,
+    "source_input_hooks_before_after_stable": true,
+    "owned_job_clean_exit_zero_reaped_closed": true,
+    "log_hash_matches": true
+  },
+  "actual": [
+    {
+      "pass": 1,
+      "readers": {
+        "builtin": {
+          "calls": 263,
+          "wall_ms": 17.6681,
+          "thread_cpu_ms": 15.625,
+          "bytes": 2097910
+        },
+        "native": {
+          "calls": 263,
+          "wall_ms": 20.2634,
+          "thread_cpu_ms": 31.25,
+          "bytes": 2097910
+        }
+      },
+      "native_minus_builtin_wall_ms": 2.5953000000000017
+    },
+    {
+      "pass": 2,
+      "readers": {
+        "builtin": {
+          "calls": 263,
+          "wall_ms": 15.6003,
+          "thread_cpu_ms": 31.25,
+          "bytes": 2097910
+        },
+        "native": {
+          "calls": 263,
+          "wall_ms": 21.1815,
+          "thread_cpu_ms": 31.25,
+          "bytes": 2097910
+        }
+      },
+      "native_minus_builtin_wall_ms": 5.581199999999999
+    }
+  ],
+  "total_native_minus_builtin_wall_ms": 8.1765,
+  "native_opener_total_wall_ms": 13.9379,
+  "direct_bookkeeping_ms_lower_bound": 1.4039,
+  "interpretation": [
+    "Native versus builtin wall difference is millisecond-scale on the aged, already-hashed identical cache set. A persistent multi-second native-reader implementation penalty is unsupported in this controlled observation.",
+    "Builtin control is not a reconstructed baseline release or security-equivalent shipping fallback. No product replacement or reader optimization is justified by this result.",
+    "Native-only observer perturbation, prehash-induced warming, repeated references, opposed chronological orders and coarse caller-CPU counters limit attribution. Do not subtract the bookkeeping lower bound as total observer cost.",
+    "Original qualified cold8011.4349ms and phase snapshots7840.9353/4451.1888ms are retained separately; none is replaced or historically explained by these micro-read measurements."
+  ],
+  "remaining_mechanism_hypothesis": "Freshly published cache-file lifecycle can differ from an aged, prehashed cache set. Specific OS, scheduler or security-agent cause remains unproven.",
+  "finite_next_diagnostic_design": [
+    "Use only exact pinned cache bytes and new owned twin cohorts; unchanged canonical atomic writer creates files outside read clocks, no SDK/graph/Git/fixture execution.",
+    "Predeclare opposed reader assignments and creation order, all263 source references with duplicates retained, and one fixed comparison without automatic retries.",
+    "Record writer completion and read-start age; perform identical fresh ancestry/stat guards without content-prehashing new targets before first reads; verify exact returned bytes/hashes after each timed read.",
+    "Keep the natural native-opener pass-through observation, all byte/identity/source/environment/helper and cleanup guards, every failed and successful observation, and no performance acceptance credit.",
+    "If this finite check does not explain the multi-second difference, stop blind mechanism trials and report the unresolved strictMaster53 performance-evidence gap; no confirmed current correctness P1 or actionable production fix follows from missing historical attribution alone."
+  ],
+  "master53": "PENDING; original investigation trigger not waived and current two full rounds not promoted to accepted convergence",
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false
+}

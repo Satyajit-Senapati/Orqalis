@@ -1,0 +1,205 @@
+{
+  "review": "Independent atomic candidate freshness and qualification guard review",
+  "created_utc": "2026-10-02T13:13:31.270817+00:00",
+  "status": "PASS_READ_ONLY_GUARD_REVIEW_NO_CONFIRMED_REGRESSION_IN_REVIEWED_SCOPE",
+  "source_sha256": "0d26e92999fe556b69f9695d792ab8bc60313f60740cf74743741f420a0c8a4b",
+  "release_input_sha256": "68de4158978e4b720b70d9cc1d9f08d46a12105320a0db64499be59929cbd242",
+  "release_input_count": 390,
+  "private_helper_inventory": {
+    "path": "docs/quality/evidence/release-private-helper-inventory-atomic.json",
+    "sha256": "2580b600faa9ab5b5b9b6095caf5280fc05bcfef773e733af0ff833f6260f480",
+    "helper_count": 11,
+    "all_current_helper_bytes_match": true,
+    "hashes": {
+      ".tools/research/release_artifacts_atomic.py": "752374dcbef254ea38509be2e718bcf9860cb54536f8532861b232485d04f266",
+      ".tools/research/verify_installed_release_atomic.py": "0ca4b8fe6791c89392c89a11c89b75834354556beceef0b9dc81768c88bef62a",
+      ".tools/research/release_repack_docs_atomic.py": "d2484738e91e8302a42b3cc62ce5b6ccb3d355f67f496ec1dc577eb5a26978cd",
+      ".tools/research/release_heldout_probe_v7.py": "98cd04c34f19ee352392966e54647174f973f2eb89d0ccfca7afa9d3d5d01948",
+      ".tools/research/run_full_regression_release_v5.py": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+      ".tools/research/release_qualification_v6.py": "5d87bdbace591e5212d4be6018c8ea24d8aecf083758d7baa97327c638abc43e",
+      ".tools/research/release_complete_rounds_v5.py": "23a13e96c367bfb8d83ef634a8f90c9568f509d18156213af64d971fb8b6451c",
+      ".tools/research/release_browser_qualification_v3.py": "0bb6256f651b90d8c887af419262c2688d3d7587bab39f86df56cdf3b03b6c71",
+      ".tools/research/release_governance_diagnostic_v2.py": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275",
+      ".tools/research/release_governance_diagnostic_v4.py": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53",
+      ".tools/research/release-quality-review.json": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e"
+    }
+  },
+  "release_input_inventory": {
+    "path": "docs/quality/evidence/release-input-freeze-atomic.json",
+    "sha256": "c725c534e3f4d8ba191077133480b38ea7bdcbff616fbc6780d8de08338d7a1c",
+    "source_and_complete_input_digests_independently_recomputed": true
+  },
+  "helper_copy_diffs": [
+    {
+      "prior": ".tools/research/release_qualification_v5.py",
+      "fresh": ".tools/research/release_qualification_v6.py",
+      "prior_sha256": "eaa1d9f6ab564be4528d7bf56159bc816d50408a6acad2a754f86f7fb60fd32a",
+      "fresh_sha256": "5d87bdbace591e5212d4be6018c8ea24d8aecf083758d7baa97327c638abc43e",
+      "assert_count": 29,
+      "numeric_constants_identical": true,
+      "delta_scope": "Only inspected source/input/private-helper bindings and fresh output/helper path names; all case/assertion/deadline semantics retained."
+    },
+    {
+      "prior": ".tools/research/release_complete_rounds_v4.py",
+      "fresh": ".tools/research/release_complete_rounds_v5.py",
+      "prior_sha256": "096245aea0894d596a485bef47df372ba369dfb23a52f5f89faaa3e82393a052",
+      "fresh_sha256": "23a13e96c367bfb8d83ef634a8f90c9568f509d18156213af64d971fb8b6451c",
+      "assert_count": 6,
+      "numeric_constants_identical": true,
+      "delta_scope": "Only inspected source/input/private-helper bindings and fresh output/helper path names; all case/assertion/deadline semantics retained."
+    },
+    {
+      "prior": ".tools/research/run_full_regression_release_v4.py",
+      "fresh": ".tools/research/run_full_regression_release_v5.py",
+      "prior_sha256": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+      "fresh_sha256": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+      "assert_count": 2,
+      "numeric_constants_identical": true,
+      "delta_scope": "Byte-identical"
+    },
+    {
+      "prior": ".tools/research/release_artifacts_lookup.py",
+      "fresh": ".tools/research/release_artifacts_atomic.py",
+      "prior_sha256": "c17b450b5d1d84b88d572318f46045451b3f676408e134f8b16ef2f0f8d0e976",
+      "fresh_sha256": "752374dcbef254ea38509be2e718bcf9860cb54536f8532861b232485d04f266",
+      "assert_count": 13,
+      "numeric_constants_identical": true,
+      "delta_scope": "Only inspected source/input/private-helper bindings and fresh output/helper path names; all case/assertion/deadline semantics retained."
+    },
+    {
+      "prior": ".tools/research/verify_installed_release_lookup.py",
+      "fresh": ".tools/research/verify_installed_release_atomic.py",
+      "prior_sha256": "5fe2334f416766b96e57f5d8ca125bc16cfa106a068a31e505a37dfb4184add3",
+      "fresh_sha256": "0ca4b8fe6791c89392c89a11c89b75834354556beceef0b9dc81768c88bef62a",
+      "assert_count": 6,
+      "numeric_constants_identical": true,
+      "delta_scope": "Only inspected source/input/private-helper bindings and fresh output/helper path names; all case/assertion/deadline semantics retained."
+    },
+    {
+      "prior": ".tools/research/release_repack_docs_lookup.py",
+      "fresh": ".tools/research/release_repack_docs_atomic.py",
+      "prior_sha256": "d2bebd6577e8b084bbabb5f69f07c9a8f5b688e9086d2da2a4cad1b821daba34",
+      "fresh_sha256": "d2484738e91e8302a42b3cc62ce5b6ccb3d355f67f496ec1dc577eb5a26978cd",
+      "assert_count": 6,
+      "numeric_constants_identical": true,
+      "delta_scope": "Only inspected source/input/private-helper bindings and fresh output/helper path names; all case/assertion/deadline semantics retained."
+    },
+    {
+      "prior": ".tools/research/release_heldout_probe_v6.py",
+      "fresh": ".tools/research/release_heldout_probe_v7.py",
+      "prior_sha256": "99b4d7951fa1098c0a2fd73a021cb53c01b96cfe1094b339620a483e20f1d4f2",
+      "fresh_sha256": "98cd04c34f19ee352392966e54647174f973f2eb89d0ccfca7afa9d3d5d01948",
+      "assert_count": 11,
+      "numeric_constants_identical": true,
+      "delta_scope": "Only inspected source/input/private-helper bindings and fresh output/helper path names; all case/assertion/deadline semantics retained."
+    }
+  ],
+  "guards": [
+    {
+      "file": ".tools/research/release_qualification_v6.py",
+      "lines": [
+        8,
+        10,
+        12,
+        18,
+        32,
+        33,
+        34,
+        47,
+        53,
+        55,
+        58,
+        59,
+        62,
+        68,
+        83,
+        84,
+        85,
+        86,
+        92,
+        93
+      ],
+      "assessment": "Hardcoded fresh source plus full frozen input digest and private helper hashes checked at launch and after every subprocess. Prior baseline source separately checked. Fresh command logs reject existing paths; preflight selected result paths reject existing captures. Exact prior tradeoff cardinality/values/path lists and invariants retained, no newly waived advisory or regression. Round9 requires matching successful round8 source/input binding. Frontend dependency/build/source/artifact proof is preserved."
+    },
+    {
+      "file": ".tools/research/run_full_regression_release_v5.py",
+      "lines": [
+        19,
+        25,
+        31,
+        38,
+        39
+      ],
+      "assessment": "Byte-identical to v4: fresh JSON/XML capture requirement; source-selected imports asserted; complete current suite, first failure stops, source/tests/helper/wrapper/environment stability and explicit JUnit failure/error checks retained."
+    },
+    {
+      "file": ".tools/research/release_heldout_probe_v7.py",
+      "lines": [
+        9,
+        11,
+        17,
+        23,
+        25,
+        33,
+        35,
+        41,
+        44,
+        45,
+        51
+      ],
+      "assessment": "Only fresh v7 outputs changed. Corpus digest, source-isolated imports, fresh fixture and baseline/current capture paths, incremental0/1 checks, target-first retrieval/context witnesses, bounded context and source/environment stability remain."
+    },
+    {
+      "file": ".tools/research/release_artifacts_atomic.py",
+      "assessment": "Only atomic dirs and capture/helper names changed. Fresh artifact/runtime dirs, root boundaries, frozen inputs, verified installed source, full installed pins including pip26.2.1, strict audits with no advisory exclusions, artifact/source stability and exact docs inventory unchanged."
+    },
+    {
+      "file": ".tools/research/release_repack_docs_atomic.py",
+      "lines": [
+        9,
+        20,
+        27,
+        28,
+        30
+      ],
+      "assessment": "Original tested runtime-smoke tarball preserved; final docs repack must match every non-documentation runtime byte before smoke reuse, installed docs exact and source stable. New final identity output cannot overwrite an existing report."
+    },
+    {
+      "file": ".tools/research/release_browser_qualification_v3.py",
+      "lines": [
+        12,
+        16,
+        36,
+        37,
+        42,
+        43,
+        46
+      ],
+      "assessment": "Current hash matches prior helper inventory unchanged. Dedicated ephemeral operator token and native host setup, unchanged full browser assertions/deadlines, all skipped/errors/failures rejected, source stability and owned host cleanup preserved; no new auth bypass."
+    },
+    {
+      "file": "scripts/run_quality_contracts.py",
+      "lines": [
+        36,
+        41,
+        64,
+        79,
+        82,
+        138,
+        140,
+        169,
+        170,
+        195
+      ],
+      "assessment": "Frozen release input; selected baseline/current root is asserted both in main process and known synchronous/async CLI module child launches. Approved workspace commands preserved, native subprocess cleanup retained. Fresh helper mapping introduces no new baseline import path."
+    }
+  ],
+  "freshness_observed": "At review round8/9 result JSON/XML captures were absent; all four atomic build/install/runtime directories were absent. Prior lookup helper hashes still match retained inventory, confirming copies did not rewrite originals. Preflight is running; existing newly generated atomic preflight logs/audits are current captures and this reviewer did not modify them.",
+  "findings": [],
+  "limits": [
+    "Static guard review with independent read-only SHA/digest and AST inspection; no tests, audits, benchmarks, source/docs/test edits or commits.",
+    "No PASS claim for running preflight or pending loops, artifacts, heldout results or regression convergence. Fresh outcomes still need independent source-bound evidence review.",
+    "Command failure metadata sidecars are retained diagnostic aids; primary command logs and result outputs supply immutable fresh capture identity. No current-name collision observed.",
+    "Existing bounded Windows/local/fake-provider/ephemeral-token qualifications remain; no paid-provider/native-host/publication/universal security claim."
+  ]
+}

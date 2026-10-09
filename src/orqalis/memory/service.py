@@ -26,10 +26,47 @@ from orqalis.domain.memory import (
 )
 from orqalis.domain.project import Project
 from orqalis.git.contracts import GitService
-from orqalis.graph import ProjectGraphEngine
+from orqalis.graph import ProjectGraph, ProjectGraphEngine
 from orqalis.memory.indexing import DeterministicMemoryIndexer
 from orqalis.memory.ports import EmbeddingProvider, MemoryIndexer, MemoryRepository
 from orqalis.observability.instrumentation import observed
+
+
+def _project_graph_entities(
+    project: Project, graph: ProjectGraph
+) -> tuple[tuple[ArchitectureEntity, ...], tuple[ArchitectureRelation, ...]]:
+    identifiers = {
+        node.id: uuid5(project.id, f"project-graph-node:{node.id}") for node in graph.nodes
+    }
+    paths = {node.id: node.file_path for node in graph.nodes}
+    entities = tuple(
+        ArchitectureEntity(
+            id=identifiers[node.id],
+            project_id=project.id,
+            entity_type=str(node.kind).casefold(),
+            name=node.name,
+            source_refs=(node.file_path,) if node.file_path else (),
+        )
+        for node in graph.nodes
+    )
+    relations = tuple(
+        ArchitectureRelation(
+            id=uuid5(project.id, f"project-graph-edge:{edge.id}"),
+            project_id=project.id,
+            source_entity_id=identifiers[edge.source_id],
+            relation_type=str(edge.relation).casefold(),
+            target_entity_id=identifiers[edge.target_id],
+            confidence=edge.confidence,
+            source_refs=tuple(
+                dict.fromkeys(
+                    path for path in (paths.get(edge.source_id), paths.get(edge.target_id)) if path
+                )
+            ),
+        )
+        for edge in graph.edges
+        if edge.source_id in identifiers and edge.target_id in identifiers
+    )
+    return entities, relations
 
 
 class MemoryService:
@@ -290,37 +327,51 @@ class MemoryService:
         self, project: Project
     ) -> tuple[tuple[ArchitectureEntity, ...], tuple[ArchitectureRelation, ...]]:
         graph = ProjectGraphEngine(project.repo_root, git=self.git).refresh().graph
-        identifiers = {
-            node.id: uuid5(project.id, f"project-graph-node:{node.id}") for node in graph.nodes
-        }
-        paths = {node.id: node.file_path for node in graph.nodes}
-        entities = tuple(
-            ArchitectureEntity(
-                id=identifiers[node.id],
-                project_id=project.id,
-                entity_type=str(node.kind).casefold(),
-                name=node.name,
-                source_refs=(node.file_path,) if node.file_path else (),
-            )
-            for node in graph.nodes
+        return _project_graph_entities(project, graph)
+
+    def graph_context(
+        self,
+        project: Project,
+        inspected_project: Project,
+        task: str,
+        max_chars: int = 20_000,
+    ) -> tuple[tuple[ArchitectureEntity, ...], tuple[ArchitectureRelation, ...], ContextPack]:
+        if (
+            type(self) is not MemoryService
+            or "graph" in self.__dict__
+            or "context" in self.__dict__
+            or project.id != inspected_project.id
+            or project.repo_root != inspected_project.repo_root
+        ):
+            entities, relations = self.graph(project)
+            return entities, relations, self.context(inspected_project, task, max_chars)
+        with self.unit_of_work() as uow:
+            canonical_project = uow.projects.get(project.id)
+        if canonical_project is None or canonical_project.repo_root != project.repo_root:
+            entities, relations = self.graph(project)
+            return entities, relations, self.context(inspected_project, task, max_chars)
+        context, graph = self._context_with_graph(
+            canonical_project, inspected_project, task, max_chars
         )
-        relations = tuple(
-            ArchitectureRelation(
-                id=uuid5(project.id, f"project-graph-edge:{edge.id}"),
-                project_id=project.id,
-                source_entity_id=identifiers[edge.source_id],
-                relation_type=str(edge.relation).casefold(),
-                target_entity_id=identifiers[edge.target_id],
-                confidence=edge.confidence,
-                source_refs=tuple(
-                    dict.fromkeys(
-                        path
-                        for path in (paths.get(edge.source_id), paths.get(edge.target_id))
-                        if path
-                    )
-                ),
-            )
-            for edge in graph.edges
-            if edge.source_id in identifiers and edge.target_id in identifiers
-        )
-        return entities, relations
+        entities, relations = _project_graph_entities(project, graph)
+        return entities, relations, context
+
+    @observed("memory.context")
+    def _context_with_graph(
+        self,
+        canonical_project: Project,
+        inspected_project: Project,
+        task: str,
+        max_chars: int,
+    ) -> tuple[ContextPack, ProjectGraph]:
+        if not 1000 <= max_chars <= 200_000:
+            raise InputError("Context budget must be between 1000 and 200000 characters")
+        from orqalis.context.agent import agent_context
+        from orqalis.context.builder import ProjectContextBuilder
+
+        project_pack, graph = ProjectContextBuilder(
+            canonical_project.repo_root,
+            source_root=inspected_project.repo_root,
+            git=self.git,
+        ).build_with_graph(task, max_chars)
+        return agent_context(canonical_project, project_pack), graph

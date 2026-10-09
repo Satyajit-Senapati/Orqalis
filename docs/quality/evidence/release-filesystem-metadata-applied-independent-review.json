@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T05:41:22.722379+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "PASS_APPLIED_DELTA_AND_CAPTURE_REVIEW_BOUNDED",
+  "source_sha256": "a39b723de8d0631363b643263d69e550a4239bd24f7dcda7d2aa3318c1f72604",
+  "source_before_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "io_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+  "exact_reviewed_proposal_applied": true,
+  "delta_proof": "Reversing only the reviewed guard-function block in memory produces original IO f1450938 and entire previous b7f752e5 source fingerprint; all other production inputs are unchanged. Current actual source is a39b723d. No production or helper writes were performed by reviewer.",
+  "unchanged_approval_service_checkpoint_source_sha256": {
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "src/orqalis/core/goals.py": "57cdd235ac7f551c6ba03445e92d2111130b8839aec51056c706c94a3ed3a45d",
+    "src/orqalis/core/approvals.py": "2480231ce3f59d27b49dd2ea8ef4737f168a17c8e52ed3858fcc60c9673f7ba4",
+    "src/orqalis/core/approval_guard.py": "9ecb24c74b20295f0938431dab89455ebda87f76bda59806d2545107dae0e363",
+    "src/orqalis/core/approval_subjects.py": "de370a5f494f6f1d2367c2c4b28b06d95e5ea557201f965a7f6b6fb1b2cb8edc",
+    "src/orqalis/core/orchestrator.py": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+    "src/orqalis/domain/base.py": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+    "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9"
+  },
+  "confirmed_new_P0_P1_findings": 0,
+  "guard_conclusion": "Single lstat preserves S_ISLNK and Windows mount-point reparse-tag checks on candidate and every lexical parent. Missing/not-directory results continue to parent checks. Unexpected metadata errors propagate before storage operations. No cache, root guard weakening, goal-service bypass, approval call removal, UOW/commit movement or checkpoint change is present.",
+  "platform_error_semantics": "Python 3.12/3.14 Windows and POSIX successful-stat predicates match the classes described in the preceding source-backed security review. Other metadata errors intentionally propagate, stricter than old suppressed predicates; not bit-for-bit error behavior equivalence. Pre-existing path check-to-use race is unchanged and not claimed solved.",
+  "focused_capture": {
+    "report": "docs/quality/evidence/release-metadata-focused-v1.json",
+    "report_sha256": "eaeb7e0be4c05f6735cf77608b266836dff5d304663e98d80d4180aa96a9ed86",
+    "helper": ".tools/research/release_metadata_focused.py",
+    "helper_sha256": "fe75467aac31f42bbba677d8a5666ae4646d52a4e0a7e620aea9558ba7c4a61d",
+    "status": "PASS",
+    "tests": 86,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source_stable": true,
+    "test_files_stable": true,
+    "test_file_sha256": {
+      "tests/unit/test_filesystem_foundation.py": "684483acb939fafc2e834cc86cae44771256d8e0c20257cf1858c5046a8355b7",
+      "tests/unit/test_project_graph.py": "761609677f15f1f2ce1363decb2ea5842a9b930d3e8c2b254b804386af8f837b",
+      "tests/integration/test_api.py": "0732594b2cddb69f0ed44990d5dcd83d8a399a92fac76e57cfd53a55d2afb5ee",
+      "tests/unit/test_interface_release.py": "714c414d01e582ee1ff89c52814ecf48604499377bd99ceb5d8989047b16cda8"
+    },
+    "junit": ".tools/research/release-metadata-focused-v1.junit.xml",
+    "junit_sha256": "f19c34217b5d387049ba734214a7816ec1827a92d792f0ce1d34669b403c5586",
+    "log": ".tools/research/release-metadata-focused-v1.log",
+    "log_sha256": "fdc497d72181fceaa858ed6b778d4cdb67b00ef5fc51387b44cbc364551ccb8e",
+    "elapsed_seconds": 109.20300000000861,
+    "new_behavior_cases": [
+      "test_storage_guard_rejects_missing_descendant_of_link[symlink]",
+      "test_storage_guard_rejects_missing_descendant_of_link[junction]",
+      "test_storage_guard_preserves_unexpected_metadata_errors_before_write[failure0]",
+      "test_storage_guard_preserves_unexpected_metadata_errors_before_write[failure1]",
+      "test_storage_guard_allows_missing_regular_descendants"
+    ]
+  },
+  "native_staged_captures": {
+    "regular_existing_missing_and_junction_cases": 9,
+    "dangling_junction_cases": 3,
+    "all_before_after_equal": true,
+    "proposal_binding_exact": true,
+    "prior_probe_binding_exact": true,
+    "dangling_target_restored_reported": true,
+    "evidence_sha256": {
+      "docs/quality/evidence/release-filesystem-metadata-staged-equivalence.json": "4f50d5e5c606ba415a105f3736f196b9d9b2e0a26419ac1d5113083d24c89d4a",
+      "docs/quality/evidence/release-filesystem-metadata-staged-equivalence-v2.json": "33b7f57d33ff6ef3e9c1aef44a8383cb9e27d2bc9d77581a568dcb41f9aaaf46"
+    },
+    "scope": "Observed immutable staged Windows capture results; reviewer did not rerun native fixtures."
+  },
+  "coverage_conclusion": "The five added public cases exercise rejection of synthetic symlink/junction ancestors despite missing descendants, exact unexpected-error propagation with pre-existing bytes retained before write, and acceptance of ordinary missing descendants. Existing focused foundation suite also exercises real Windows junction store/subtree rejection. Assertions do not solely count implementation calls.",
+  "prior_static_review": {
+    "path": "docs/quality/evidence/release-filesystem-metadata-security-independent-review.json",
+    "sha256": "f32d5c19166d439f7ac1092bded73c537aee6fafe80f23b522fd0d0c665d0bce"
+  },
+  "authorization": "Parent reports direct user continuation on 2026-10-03 and automatic approval of this exact distinct metadata proposal. Both plan-preview alternatives remain unapplied; actual plan_preview and all reviewed authoritative approval source hashes are unchanged.",
+  "project_head_observed": "b8506f7d9c471516fe4b21c9caa735a7a7909af6",
+  "limitations": [
+    "Read-only review of actual byte bindings, tests and completed reports; no tests, audits or measured workloads run by reviewer.",
+    "Strict typing PASS reported by parent; no independent typing capture verification or added claim here.",
+    "No Linux/Python 3.14 interpreter fixture execution asserted; earlier primary-source review supports compatibility.",
+    "No native browser latency pass, performance improvement, fresh installed artifact or complete release qualification claimed.",
+    "Full release rounds remain 0/2 per parent; no release certification or convergence statement."
+  ]
+}

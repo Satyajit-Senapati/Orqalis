@@ -7,12 +7,12 @@ import threading
 import time
 from contextlib import suppress
 from pathlib import Path
-from uuid import uuid4
 
 from orqalis.domain.artifact import ValidationObservation
 from orqalis.domain.errors import PolicyDeniedError
 from orqalis.domain.execution import ApprovedCommand, ExecutionPolicy
 from orqalis.execution.cancellation import cancellation_requested
+from orqalis.execution.sandbox import DockerSandbox, SandboxOwner
 from orqalis.execution.windows_job import WindowsJob
 from orqalis.security.redaction import safe_diagnostic
 
@@ -57,9 +57,17 @@ class CommandRunner:
     development fallback and cannot confine code executed by an approved command.
     """
 
-    def __init__(self, root: Path, policy: ExecutionPolicy, *, read_only: bool = False) -> None:
+    def __init__(
+        self,
+        root: Path,
+        policy: ExecutionPolicy,
+        *,
+        read_only: bool = False,
+        sandbox_owner: SandboxOwner | None = None,
+    ) -> None:
         self.root = root.resolve(strict=True)
         self.policy, self.read_only = policy, read_only
+        self.sandbox_owner = sandbox_owner
 
     def run(
         self, command: ApprovedCommand, validator_type: str = "command", expected_exit_code: int = 0
@@ -68,18 +76,14 @@ class CommandRunner:
             raise PolicyDeniedError("Command is not in the approved execution policy")
         if self.read_only and self.policy.command_mode != "docker":
             raise PolicyDeniedError("Read-only reviewer commands require Docker isolation")
-        container = f"orqalis-{uuid4()}"
         docker = self.policy.command_mode == "docker"
+        sandbox = DockerSandbox(self.root, self.sandbox_owner) if docker else None
+        argv: tuple[str, ...]
         if docker:
             if not self.policy.container_image:
                 raise PolicyDeniedError("No sandbox image configured")
-            argv = (
-                "docker",
-                "run",
-                "--rm",
+            create_args = (
                 "--pull=never",
-                "--name",
-                container,
                 *_docker_user_args(),
                 "--network=none",
                 "--cap-drop=ALL",
@@ -98,6 +102,8 @@ class CommandRunner:
                 self.policy.container_image,
                 *command.argv,
             )
+            assert sandbox is not None
+            argv = ("docker", "start", "--attach", sandbox.name)
         else:
             argv = command.argv
         env = {key: value for key, value in os.environ.items() if key.upper() in _ENV}
@@ -109,6 +115,9 @@ class CommandRunner:
         error: str | None = None
         job = WindowsJob() if os.name == "nt" else None
         try:
+            if sandbox:
+                sandbox.prepare()
+                sandbox.create(create_args)
             with subprocess.Popen(
                 argv,
                 cwd=self.root,
@@ -174,29 +183,21 @@ class CommandRunner:
                 exit_code = process.returncode
                 if overflow.is_set():
                     error = "output_limit"
-        except (OSError, subprocess.SubprocessError):
+        except (OSError, subprocess.SubprocessError, PolicyDeniedError):
             # Cleanup failures must not replace a timeout, cancellation, or
             # output-limit result that was already observed.
             exit_code, error = None, error or "command_failed"
         finally:
             if job:
                 job.close()
-            if docker:
-                # Only the unique container created for this invocation can be removed.
+            if sandbox:
                 try:
-                    subprocess.run(
-                        ["docker", "rm", "--force", container],
-                        env=env,
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL,
-                        timeout=15,
-                        check=False,
-                        creationflags=0x08000000 if sys.platform == "win32" else 0,
-                    )
-                except (OSError, subprocess.SubprocessError):
+                    sandbox.cleanup()
+                except (OSError, subprocess.SubprocessError, PolicyDeniedError):
                     error = error or "sandbox_cleanup_failed"
         return ValidationObservation(
             validator_type=validator_type,
+            source_ref=f"docker:{sandbox.name}" if sandbox else None,
             passed=error is None and exit_code == expected_exit_code,
             exit_code=exit_code,
             output=safe_diagnostic(output.decode("utf-8", errors="replace")),

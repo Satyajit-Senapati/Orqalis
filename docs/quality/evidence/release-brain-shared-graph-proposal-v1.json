@@ -1,0 +1,75 @@
+{
+  "kind": "private_unapplied_request_local_brain_graph_context_proposal",
+  "created_at": "2026-10-03T10:54:22.654323+00:00",
+  "source_binding": {
+    "sha256": "e536c8f8ce6caf175993a750bfd2396727d0d8912bd0663279424710bc4535b6",
+    "file_count": 196
+  },
+  "proposals": [
+    {
+      "production_source": "src/orqalis/context/builder.py",
+      "original_file_sha256": "0a28af97935402832a1362a61b1551388b3a0d7a1ff0e0ac3ae963f3b98f52c1",
+      "proposal": ".tools/research/release_brain_shared_graph_builder_proposal_v1.py",
+      "proposal_sha256": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+      "exact_unified_diff": "--- src/orqalis/context/builder.py\n+++ .tools/research/release_brain_shared_graph_builder_proposal_v1.py\n@@ -121,6 +121,11 @@\n         self.tasks = TaskCapsuleStore(self.layout)\n \n     def build(self, task: str, max_chars: int | None = None) -> ProjectContextPack:\n+        return self.build_with_graph(task, max_chars)[0]\n+\n+    def build_with_graph(\n+        self, task: str, max_chars: int | None = None\n+    ) -> tuple[ProjectContextPack, ProjectGraph]:\n         if not task.strip() or len(task) > 10_000:\n             raise InputError(\"Context task must contain 1..10000 characters\")\n         budget = max_chars if max_chars is not None else self._configured_budget()\n@@ -240,7 +245,7 @@\n         )\n         # Model overhead changes slightly when selected arrays are populated. Remove the\n         # lowest-ranked tail until the serialized contract itself fits the hard budget.\n-        return self._fit(result)\n+        return self._fit(result), graph\n \n     def _configured_budget(self) -> int:\n         if not self.layout.config.is_file():\n"
+    },
+    {
+      "production_source": "src/orqalis/memory/service.py",
+      "original_file_sha256": "6dd804b608689a48c30b23390a2dff2accd9464882244cc274d4359bac871ac7",
+      "proposal": ".tools/research/release_brain_shared_graph_memory_proposal_v1.py",
+      "proposal_sha256": "b1d186020312157d2f923a07937ddb3bc5473f0e30fc3056dae01f962050142c",
+      "exact_unified_diff": "--- src/orqalis/memory/service.py\n+++ .tools/research/release_brain_shared_graph_memory_proposal_v1.py\n@@ -26,10 +26,49 @@\n )\n from orqalis.domain.project import Project\n from orqalis.git.contracts import GitService\n-from orqalis.graph import ProjectGraphEngine\n+from orqalis.graph import ProjectGraph, ProjectGraphEngine\n from orqalis.memory.indexing import DeterministicMemoryIndexer\n from orqalis.memory.ports import EmbeddingProvider, MemoryIndexer, MemoryRepository\n from orqalis.observability.instrumentation import observed\n+\n+\n+def _project_graph_entities(\n+    project: Project, graph: ProjectGraph\n+) -> tuple[tuple[ArchitectureEntity, ...], tuple[ArchitectureRelation, ...]]:\n+    identifiers = {\n+        node.id: uuid5(project.id, f\"project-graph-node:{node.id}\") for node in graph.nodes\n+    }\n+    paths = {node.id: node.file_path for node in graph.nodes}\n+    entities = tuple(\n+        ArchitectureEntity(\n+            id=identifiers[node.id],\n+            project_id=project.id,\n+            entity_type=str(node.kind).casefold(),\n+            name=node.name,\n+            source_refs=(node.file_path,) if node.file_path else (),\n+        )\n+        for node in graph.nodes\n+    )\n+    relations = tuple(\n+        ArchitectureRelation(\n+            id=uuid5(project.id, f\"project-graph-edge:{edge.id}\"),\n+            project_id=project.id,\n+            source_entity_id=identifiers[edge.source_id],\n+            relation_type=str(edge.relation).casefold(),\n+            target_entity_id=identifiers[edge.target_id],\n+            confidence=edge.confidence,\n+            source_refs=tuple(\n+                dict.fromkeys(\n+                    path\n+                    for path in (paths.get(edge.source_id), paths.get(edge.target_id))\n+                    if path\n+                )\n+            ),\n+        )\n+        for edge in graph.edges\n+        if edge.source_id in identifiers and edge.target_id in identifiers\n+    )\n+    return entities, relations\n \n \n class MemoryService:\n@@ -290,37 +329,52 @@\n         self, project: Project\n     ) -> tuple[tuple[ArchitectureEntity, ...], tuple[ArchitectureRelation, ...]]:\n         graph = ProjectGraphEngine(project.repo_root, git=self.git).refresh().graph\n-        identifiers = {\n-            node.id: uuid5(project.id, f\"project-graph-node:{node.id}\") for node in graph.nodes\n-        }\n-        paths = {node.id: node.file_path for node in graph.nodes}\n-        entities = tuple(\n-            ArchitectureEntity(\n-                id=identifiers[node.id],\n-                project_id=project.id,\n-                entity_type=str(node.kind).casefold(),\n-                name=node.name,\n-                source_refs=(node.file_path,) if node.file_path else (),\n-            )\n-            for node in graph.nodes\n-        )\n-        relations = tuple(\n-            ArchitectureRelation(\n-                id=uuid5(project.id, f\"project-graph-edge:{edge.id}\"),\n-                project_id=project.id,\n-                source_entity_id=identifiers[edge.source_id],\n-                relation_type=str(edge.relation).casefold(),\n-                target_entity_id=identifiers[edge.target_id],\n-                confidence=edge.confidence,\n-                source_refs=tuple(\n-                    dict.fromkeys(\n-                        path\n-                        for path in (paths.get(edge.source_id), paths.get(edge.target_id))\n-                        if path\n-                    )\n-                ),\n-            )\n-            for edge in graph.edges\n-            if edge.source_id in identifiers and edge.target_id in identifiers\n-        )\n-        return entities, relations\n+        return _project_graph_entities(project, graph)\n+\n+    def graph_context(\n+        self,\n+        project: Project,\n+        inspected_project: Project,\n+        task: str,\n+        max_chars: int = 20_000,\n+    ) -> tuple[\n+        tuple[ArchitectureEntity, ...], tuple[ArchitectureRelation, ...], ContextPack\n+    ]:\n+        if (\n+            type(self) is not MemoryService\n+            or \"graph\" in self.__dict__\n+            or \"context\" in self.__dict__\n+            or project.id != inspected_project.id\n+            or project.repo_root != inspected_project.repo_root\n+        ):\n+            entities, relations = self.graph(project)\n+            return entities, relations, self.context(inspected_project, task, max_chars)\n+        with self.unit_of_work() as uow:\n+            canonical_project = uow.projects.get(project.id)\n+        if canonical_project is None or canonical_project.repo_root != project.repo_root:\n+            entities, relations = self.graph(project)\n+            return entities, relations, self.context(inspected_project, task, max_chars)\n+        context, graph = self._context_with_graph(canonical_project, inspected_project, task, max_chars)\n+        entities, relations = _project_graph_entities(project, graph)\n+        return entities, relations, context\n+\n+    @observed(\"memory.context\")\n+    def _context_with_graph(\n+        self,\n+        canonical_project: Project,\n+        inspected_project: Project,\n+        task: str,\n+        max_chars: int,\n+    ) -> tuple[ContextPack, ProjectGraph]:\n+        if not 1000 <= max_chars <= 200_000:\n+            raise InputError(\"Context budget must be between 1000 and 200000 characters\")\n+        from orqalis.context.agent import agent_context\n+        from orqalis.context.builder import ProjectContextBuilder\n+\n+        project_pack, graph = ProjectContextBuilder(\n+            canonical_project.repo_root,\n+            source_root=inspected_project.repo_root,\n+            git=self.git,\n+        ).build_with_graph(task, max_chars)\n+        return agent_context(canonical_project, project_pack), graph\n+\n"
+    },
+    {
+      "production_source": "src/orqalis/memory/brain.py",
+      "original_file_sha256": "e301d5ac4b2a41ba5d1f7d2a94174e15920ecfd45b2367c62011fbb275ea57dc",
+      "proposal": ".tools/research/release_brain_shared_graph_brain_proposal_v1.py",
+      "proposal_sha256": "bc3f21d69a19422667c2fcf431fa33b352296acfd81f8e7e0a220e4237dad2ea",
+      "exact_unified_diff": "--- src/orqalis/memory/brain.py\n+++ .tools/research/release_brain_shared_graph_brain_proposal_v1.py\n@@ -32,11 +32,17 @@\n         # The stable Brain graph shape remains a projection of the typed repository\n         # graph. The ContextPack is the authority for ranked knowledge and freshness;\n         # it contains curated memory, graph context, and related Task Capsules.\n-        entities, relations = self.memory.graph(project)\n-        context = self.memory.context(\n-            inspected_project,\n-            query if query.strip() else _DEFAULT_BRAIN_QUERY,\n-        )\n+        task = query if query.strip() else _DEFAULT_BRAIN_QUERY\n+        if (\n+            type(self.memory) is MemoryService\n+            and \"graph\" not in self.memory.__dict__\n+            and \"context\" not in self.memory.__dict__\n+            and project.repo_root == inspected_project.repo_root\n+        ):\n+            entities, relations, context = self.memory.graph_context(project, inspected_project, task)\n+        else:\n+            entities, relations = self.memory.graph(project)\n+            context = self.memory.context(inspected_project, task)\n         return ProjectBrain(\n             project_id=project_id,\n             inspected_root=inspected_project.repo_root,\n"
+    }
+  ],
+  "mechanical_proofs": {
+    "existing_MemoryService_context_AST_unchanged": true,
+    "graph_projection_helper_body_exact_existing_graph_body_after_refresh": true,
+    "builder_build_with_graph_body_identical_except_last_return_tuple": true,
+    "original_Brain_project_run_workspace_lookup_and_output_fields_unchanged": true,
+    "no_production_inputs_changed": true
+  },
+  "design": [
+    "Additive builder build_with_graph performs the existing validated fresh build and returns its internally refreshed graph along with pack. Existing build returns the pack; no caller-supplied graph/status is accepted.",
+    "MemoryService.graph still independently refreshes then delegates its exact pure projection body. Combined graph_context re-fetches canonical project using injected UoW before choosing reuse.",
+    "Reuse requires exact built-in MemoryService type, no instance graph/context override, matching project IDs and exact canonical/project/inspected Path roots.",
+    "Subclass/instance override or differing inspected worktree is delegated to existing graph(project) then context(inspected_project), preserving canonical entity graph and inspected context semantics.",
+    "Missing or changed canonical root falls back to existing graph/context calls; missing canonical project still fails through existing context NotFoundError and changed root retains original context re-fetch/common-directory authority.",
+    "Fast path constructs the normal builder with canonical storage root, inspected source root and same injected GitService. Root/common-directory/storage guards and graph schema/parser/hash validation remain; no cache or validation bypass.",
+    "The fresh graph used to rank context is projected into Brain entities/relations within the same request. No tuple/model/status is persisted or retained across requests."
+  ],
+  "instrumentation_scope": [
+    "Existing context @observed(memory.context) and body unchanged. Fast path private context helper records the same operation name/outcome and preserves budget/build/agent conversion error instrumentation.",
+    "Canonical lookup for reuse occurs outside the fast-path observed context duration; this is an explicit small span-boundary change. Fallback invokes original context exactly once without nested new context spans.",
+    "Graph entity projection remains outside the observed context operation."
+  ],
+  "limits": [
+    "Proposal is unapplied; no tests/type/lint/build/browser/benchmark executed for these private files.",
+    "External filesystem/Git/canonical project mutations during a request are best-effort observations as before; no global atomic snapshot promise.",
+    "Existing build now delegates additively to build_with_graph; subclasses overriding only build retain their public override, but new combined call uses build_with_graph on a normally owned built-in builder.",
+    "Private helper accepts authoritative project objects but never externally supplied graph/status tuples; only internal same-root guard calls it.",
+    "No browser five-second cure, performance improvement, P1 closure, frozen86 acceptance or full release qualification claimed. Full rounds remain0/2."
+  ],
+  "required_validation": [
+    "Same-root one refresh and exact entity/relation/context shape parity; existing context and graph public contracts remain.",
+    "Two successive requests after HEAD/branch/dirty-file changes remain fresh; no request-local data leaks.",
+    "Different inspected worktree HEAD/dirty contents preserves canonical entity graph versus inspected context with separate calls.",
+    "Unrelated workspace denial, missing run/project, project/run mismatch and linked/corrupt storage fail through original guards.",
+    "Fresh canonical project missing or root changed after initial Brain lookup takes original fallback, including differing repository denial.",
+    "MemoryService subclass and instance graph/context overrides remain invoked; custom injected UoW/Git denial and project isolation preserved.",
+    "Budget/query validation, context observed operation name/error outcome, rank freshness/task history and full dirty paths retained."
+  ],
+  "publication_or_mutation": {
+    "application_edits": false,
+    "test_edits": false,
+    "frozen_helper_frontend_edits": false,
+    "commits": false,
+    "security_review_required_before_application": true
+  }
+}

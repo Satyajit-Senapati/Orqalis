@@ -1,13 +1,14 @@
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime
 from graphlib import TopologicalSorter
+from math import ceil
 from uuid import UUID
 
 from orqalis.domain.events import Event, EventType
 from orqalis.domain.execution import ReviewRecord
 from orqalis.domain.plan import TaskPlan
-from orqalis.domain.provider import ProviderExecution
-from orqalis.domain.telemetry import RuntimeStatistics, TimelineSegment
+from orqalis.domain.provider import InvocationStatus, ProviderExecution
+from orqalis.domain.telemetry import ProviderStatistics, RuntimeStatistics, TimelineSegment
 from orqalis.domain.timing import TimingBreakdown
 from orqalis.observability.timing import _ACTOR_EVENTS, _TASK_EVENTS, _TERMINAL
 
@@ -91,6 +92,7 @@ def statistics(
         critical_path_task_ids=critical[1],
         critical_path_working_ms=critical[0],
         provider_calls=len(providers),
+        providers=provider_statistics(providers),
         tool_calls=tools_count,
         calls_with_usage=sum(
             any(v is not None for v in (u.input_tokens, u.output_tokens, u.cached_input_tokens))
@@ -103,3 +105,66 @@ def statistics(
         calls_with_cost=len(cost),
         first_pass_success=reviews[0].result.overall == "PASS" if reviews else None,
     )
+
+
+def provider_statistics(providers: tuple[ProviderExecution, ...]) -> tuple[ProviderStatistics, ...]:
+    """Aggregate observed call outcomes; provider success is not acceptance evidence.
+
+    Nearest-rank percentiles include completed calls with valid timestamps. Running
+    and missing-duration calls are counted but never assigned fabricated latency.
+    """
+    groups: dict[tuple[str, str], list[ProviderExecution]] = defaultdict(list)
+    for invocation in providers:
+        groups[(invocation.provider, invocation.model)].append(invocation)
+    result = []
+    for (provider, model), calls in sorted(groups.items()):
+        statuses = Counter(call.status for call in calls)
+        latencies = sorted(
+            int((call.completed_at - call.started_at).total_seconds() * 1000)
+            for call in calls
+            if call.status != InvocationStatus.RUNNING
+            and call.completed_at is not None
+            and call.completed_at >= call.started_at
+        )
+        usage = [call.result.usage for call in calls if call.result is not None]
+        inputs = [item.input_tokens for item in usage if item.input_tokens is not None]
+        outputs = [item.output_tokens for item in usage if item.output_tokens is not None]
+        cost = [item.estimated_cost_usd for item in usage if item.estimated_cost_usd is not None]
+        result.append(
+            ProviderStatistics(
+                provider=provider,
+                model=model,
+                calls=len(calls),
+                succeeded=statuses[InvocationStatus.SUCCEEDED],
+                failed=statuses[InvocationStatus.FAILED],
+                cancelled=statuses[InvocationStatus.CANCELLED],
+                interrupted=statuses[InvocationStatus.INTERRUPTED],
+                running=statuses[InvocationStatus.RUNNING],
+                calls_with_latency=len(latencies),
+                p50_latency_ms=latencies[ceil(len(latencies) * 0.5) - 1] if latencies else None,
+                p95_latency_ms=latencies[ceil(len(latencies) * 0.95) - 1] if latencies else None,
+                calls_with_usage=sum(
+                    any(
+                        value is not None
+                        for value in (
+                            item.input_tokens,
+                            item.output_tokens,
+                            item.cached_input_tokens,
+                        )
+                    )
+                    for item in usage
+                ),
+                calls_with_cost=len(cost),
+                reported_input_tokens=sum(inputs) if inputs else None,
+                reported_output_tokens=sum(outputs) if outputs else None,
+                reported_cost_usd=sum(cost) if cost else None,
+                errors=dict(
+                    sorted(
+                        Counter(
+                            call.error_code.value for call in calls if call.error_code is not None
+                        ).items()
+                    )
+                ),
+            )
+        )
+    return tuple(result)

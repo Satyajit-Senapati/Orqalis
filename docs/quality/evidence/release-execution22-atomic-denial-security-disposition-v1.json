@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-04T07:47:50.423764+00:00",
+  "status": "CURRENT22_REAL_ATOMIC_REPLACEMENT_FAILURE_ROOT_CAUSE_UNPROVEN_RELEASE_BLOCKED",
+  "reviewer": "release_security_review",
+  "source_sha256": "4f4088875af3050f10f5be510f8b05159e2bedd37f88fd818a6365a2f0348d44",
+  "input_sha256": "6a9316bf2d1decb71aef5e40983ad896c1d9bbd082e473f70cdd4d86b2ee5ee3",
+  "evidence_hashes": {
+    "docs/quality/evidence/release-execution-current-22.json": "ba1ac06dd02b1098949614c86d2d597beb914f60efa63291d4dade0b36e9c060",
+    "docs/quality/evidence/release-pure-work-complete-actual-v1.json": "1d404c952f396b8ecb021292c619862872f6a6c781f3ae7b1b1907b9efe46a43",
+    ".tools/research/release-pure-work-execution-current-22.log": "0a4e8e59cc5856ac5b64ad9bc2c99572e4859203a42e75f7d0d3cbc2253c1b61",
+    "src/orqalis/persistence/filesystem/io.py": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+    "src/orqalis/persistence/filesystem/task_store.py": "0867154bd96853d4a4666b7f5e4bbaac0c76868c784e791c17073721111864e4",
+    "src/orqalis/tasks/history.py": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+    "src/orqalis/execution/cancellation.py": "4b8e92e3b09b1a1d43ebabe19f3f001f79ce8d174fa67f5a11229cf286344816",
+    "src/orqalis/agents/service.py": "27798522a11b0e24bc20e2982b343c5fe0e3b00403723fb3b8afb2ee91cbd516",
+    "scripts/benchmark_execution.py": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+    "tests/support/trace_fixture.py": "08f212d1ca71b23f24a42cc5ac6e6562345b058f77cef9a09b6ca17eea23ad6f"
+  },
+  "actual": {
+    "capture_complete": false,
+    "failure_repetition_zero_based": 1,
+    "failure_worker_returncode": 1,
+    "prior_sample_count": 1,
+    "first_sample_ms": 70859.50090002734,
+    "first_sample26checks_and4stability_pass": true,
+    "root_status": "STOPPED_ON_FIRST_FAILURE",
+    "root_prerequisite_source_environment_stable": true,
+    "accepted_convergence": 0,
+    "failing_target": "execution/agents/8cf93710-8974-54e8-a8c8-73de22becbc7/session.yaml",
+    "failure_site": "agents.service.invoke commit -> TaskCapsuleSession._commit_capsule/_recover -> atomic_write_bytes os.replace PermissionErrorWin5",
+    "five_attempt_policy_unchanged": "20/40/80/160ms backoff, final denial re-raised",
+    "fixture_retention": "Original capture TemporaryDirectory cleanup removed workspace; no failure-time target/temp attrs, ACL or holder witness exists in retained record."
+  },
+  "code_findings": [
+    {
+      "file": "src/orqalis/persistence/filesystem/io.py",
+      "scope": "atomic_write_bytes",
+      "conclusion": "Owned write fdopen scope closes before readback validation; Path.read_bytes validation closes before replacement. Existing five attempts, fresh path checks, fsync and cleanup remain. Actual fatal trace is replacement error, no cleanup-mask branch recorded."
+    },
+    {
+      "file": "src/orqalis/persistence/filesystem/task_store.py",
+      "lines": "606-663,759-780,1347-1375,1452-1479",
+      "conclusion": "Commit retains run-state lock; journal written first, canonicalstate replaced last, marker removed only after document/event replay. Failure precedes generation/dirty completion; session close/rollback releases owned locks. No newly supported lock/descriptor ownership leak established by this bounded source review."
+    },
+    {
+      "file": "src/orqalis/tasks/history.py",
+      "lines": "154-157,261-273,314-320",
+      "conclusion": "Contrary to writer-only literal assumption, actor projection reader exists via glob */session.yaml in _agents, reached by history get/list. Reads are short-lived Path.read_bytes without a run-state lock. This is an available Windows reader/replacement overlap mechanism for concurrent history consumers, not proof it ran in failed execution."
+    },
+    {
+      "file": "src/orqalis/sdk.py and named execution fixture/core/agents/context/memory call-site searches",
+      "conclusion": "SDK history accessor is lazy; no TaskHistoryService/get/list/history accessor invocation identified on frozen execution fixture path. Cancellation polls canonical UOW run/state, not actor projections. No actual history read witness in failed run."
+    }
+  ],
+  "assessment": "Real current reliability failure prevents release qualification. Code/records do not establish owner leak, reader overlap, readonly target, permissions/ACL or external holder cause. Do not assign AV/host attribution, certify no defect globally, or treat more retries as causal repair. Earlier controlled Windows read-sharing proof establishes possible mechanism separately, not cause of current actor-session failure.",
+  "prospective_minimal_diagnostic": {
+    "scope": "ONE predeclared current-source original worker on fresh persistent owned fixture; no baseline retry or repeat until failure. Preserve original worker body/26checks/4stability/source/helpers/environment and300s native-owned lifecycle, five attempts/deadlines/path/security policy. Root independent exact design review before invocation.",
+    "observations": "Pass-through io.open calls return original unmodified stream, retain weakrefs only plus bounded owned relative path/mode/open timestamp. On terminal recognized writer replacement denial only, collect source+target lstat native attrs/mode/reparse/exists and current weakref stream.closed exactpath matches, before cleanup; no payload contents, ACL or policy writes. os.replace delegate calls native once and preserves original exception.",
+    "timing": "Capture after all five attempts, avoiding metadata queries between backoff attempts. Weak tracking can perturb scheduling; all timing is diagnostic, no qualification/performance credit. A closing-time observation is not exact handle lifetime or all-process ownership proof.",
+    "failure_preservation": "Secondary metadata/observer/output errors retained as secondary without masking native error. Fixed bounded records/drop counts; save result/log/failed fixture regardless outcome, no automatic cleanup before review. Before/after helper/plan/source/input/gold/output exclusivity guard.",
+    "limits": "io.open weakrefs cover observed Python file objects only, excluding duplicated fd, native/library handles and external processes. No matching observed own stream cannot establish an external holder. Snapshot can miss holder that closes immediately after denial.",
+    "later_only_if_warranted": "If no owned match and attributes remain ordinary, consider prospectively reviewed exact-file Windows RestartManager holder query or fixed-window workspace-specific OS log metadata, with no process-wide scan/system changes. No invocation authorized by this disposition."
+  },
+  "constraints": "No tests/workloads/product imports/native queries/source edits/retries by reviewer. Raw failed22/23unrun preserved; no current qualification/convergence/signoff/publication/maincommit."
+}

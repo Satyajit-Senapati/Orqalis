@@ -1,0 +1,30 @@
+{
+  "status": "FIX_APPLIED_PENDING_CLEAN_AUDIT",
+  "repairs": [
+    {
+      "package": "web",
+      "changes": {
+        "node_modules/brace-expansion": {
+          "before": "5.0.9",
+          "after": "5.0.12"
+        }
+      }
+    },
+    {
+      "package": "packages/npm",
+      "changes": {
+        "node_modules/brace-expansion": {
+          "before": "5.0.9",
+          "after": "5.0.12"
+        }
+      }
+    }
+  ],
+  "primary_source": "https://github.com/juliangruber/brace-expansion/releases",
+  "advisory_sources": [
+    "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+    "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+    "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p"
+  ],
+  "scope": "Development ESLint/minimatch dependency only; no frontend/launcher runtime source change, no forced audit upgrades."
+}

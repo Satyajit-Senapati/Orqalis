@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-04T13:53:27.232161+00:00",
+  "status": "STATIC_APPROVED_ONE_C_CONDITIONAL_QUALIFICATION_AND_QUIET_ROOT_ACK",
+  "scope": "Exact UNRUN v4 prelaunch static review only; no helper/product import, native query, copies, source mutation, runtime or measured workload. No release/performance/Master53 credit.",
+  "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "input_sha256": "56c454c8630d017a71802cccda1ef0d8d8521964babfa6ee4df8c1284a2c8750",
+  "reviewed_files": {
+    ".tools/research/release_execution_native_cost_v3.py": "1cced47634e5af4ce0bf23f70de981b9031751a2f7b40fcc99f437f2c80e5e43",
+    ".tools/research/release_execution_native_cost_v4.py": "c32f6a0c19ebdbb7ab1e5efe05f78f117ffe71bfd9c8d37726abd72ac49d975c",
+    ".tools/research/release-execution-native-cost-plan-v3.json": "375c308e9a6c2c903958a7877c180843b97a8af631fda9530adce0f9c5405664",
+    ".tools/research/release-execution-native-cost-plan-v4.json": "44d6317df7ae9452cbd4980dd2aa988e257fb25d5e0cf30f1ac0230d4ad910f0",
+    "docs/quality/evidence/release-execution-native-cost-security-prelaunch-v3.json": "26c2da562fb5e5971ec1870f11c7d908168d1cb78719db97cedc3d744095ce65"
+  },
+  "findings": [],
+  "prior_two_blockers_closed": {
+    "log_hash": "Guarded hash catches secondary BaseException. Active original_error is preserved with guarded metadata/note; no-primary hash error propagates.",
+    "result_write": "Guarded exclusive call retains active primary, emits guarded type-only stderr; standalone write/guard/serialization failure propagates. No fallback output, overwrite or retry.",
+    "final_guard_note": "New note helper swallows only secondary reporting failures; primary remains outward. A newly created final-guard error is raised when no earlier active exception exists."
+  },
+  "independent_static_proofs": {
+    "all_prior_functions_classes_except_measure_ast_equal_after_path_literal_normalization": {
+      "file_sha": true,
+      "owned_path_guard": true,
+      "owned_workspace_guard": true,
+      "check_owned_paths": true,
+      "exclusive": true,
+      "IO_COUNTERS": true,
+      "PROCESS_MEMORY_COUNTERS": true,
+      "NativeCounters": true,
+      "OwnedNativeProcess": true,
+      "retain_startup_cleanup_error": true,
+      "publish_identity_record": true,
+      "identity_handshake": true,
+      "wait_handshake": true,
+      "stop_owned_tree": true,
+      "load_plan": true,
+      "original_namespace": true,
+      "guard": true,
+      "scalar_attribution": true,
+      "OperationObservers": true,
+      "observed_worker": true,
+      "child": true,
+      "main": true
+    },
+    "measure_reporting_handlers_inverse_ast_equal_v3": true,
+    "nine_native_lifetime_definitions_and_two_observer_hooks_unchanged": true,
+    "worker_transform_ast_unchanged_and_prior_independent_forward_inverse_proof_retained": true,
+    "original_worker_ast_sha256": "eb0ce0a87780a54ea117371e240bfbf4778ca88f9dd42ee64cecc8f6c23fe77d",
+    "protected_bounds_sha256": "3a8b7d45f8bf376cb77c1b93de82429f1b403bf07abbbf5ef1831c53b0f1527a",
+    "semantic_checks": 26,
+    "stability_checks": 4,
+    "external_worker_stop_cap_seconds": 300,
+    "cleanup_wait_seconds": 10,
+    "plan_method_identity_inputs_unchanged": true
+  },
+  "approved_conditions": [
+    "Only ONE C original worker after actual owned qualification has fully exited and root explicit quiet ACK binds exact v4 plan/helper. No baseline retry or repeat until green.",
+    "Actual invocation must honor all393 before/after per-file/input guards, both helper maps, exact source/gold/environment, exclusive paths, owned native handshake/held handle/exit/reap/CloseHandle. Reviewer inspected these guards but did not invoke them.",
+    "C: exact frozen original temporary-root unique v4 retained workspace leaf; S: nine exact controls/helpers/evidence paths. All10 paths hardcoded, nonoverlapping and guarded against existing links/reparse. No atomic TOCTOU claim.",
+    "Success requires original26+4 plus actual observer/alias/error/source/lifecycle closure. Any unknown child exit/observer/guard/binding error leaves result invalid; no further capture."
+  ],
+  "attribution_limits": [
+    "Two native bundles outside original clocks; inclusive _read_bytes/_replace_file wall/thread CPU with once-only outcome-preserving delegates. Private ctypes native errors captured inside original before observer bookkeeping; no generic GetLastError claim.",
+    "Direct partial <1% observer screen cannot establish total dispatch/memory/scheduling perturbation. Whole-self counters exclude Git/tool child CPU/IO, and logical IO/faults are not physical disk/hardpaging.",
+    "Explicit target coverage excludes read_text, guard work outside _read_bytes, fsync, serialization, retry sleeps and unrelated calls. Small target totals cannot exonerate those or reconstruct historical execution delay.",
+    "This new C-only placement retains original temp root/volume but not the original random leaf/hardware-latency equivalence; no original fatal Win5 holder or historical cause attribution."
+  ],
+  "unrun_versions_retained": [
+    "v1",
+    "v2",
+    "v3"
+  ],
+  "writes_only": [
+    "docs/quality/evidence/release-execution-native-cost-security-prelaunch-v4.json"
+  ]
+}

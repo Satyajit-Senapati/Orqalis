@@ -38,12 +38,22 @@ from orqalis.execution.worker import AgentWorker
 from orqalis.execution.workspaces import ExecutionWorkspaces
 from orqalis.git.service import GitError, LocalGitService
 from orqalis.graph import ProjectGraph, ProjectGraphEngine
+from orqalis.graph.queries import Direction, GraphPath, GraphQueries, GraphTraversal
+from orqalis.graph.symbols import SymbolBody, SymbolMatches, SymbolReferences, SymbolService
 from orqalis.indexing import ProjectIndex, ProjectIndexBuildResult
 from orqalis.memory.brain import ProjectBrainService
 from orqalis.memory.curated import (
     CuratedMemoryStore,
+    MemoryLifecycle,
+    MemoryProposal,
     MemoryRecordStatus,
     MemoryRevalidationResult,
+)
+from orqalis.memory.navigation import (
+    MemoryDiscoveryResult,
+    MemoryIntegrityReport,
+    MemoryNavigationService,
+    MemoryReadPage,
 )
 from orqalis.memory.service import MemoryService
 from orqalis.observability.event_bus import ProjectEventBus
@@ -222,6 +232,80 @@ class Orqalis:
             raise PolicyDeniedError("Project graph requires a root-bound filesystem SDK")
         return ProjectGraphEngine(self.project_root, git=self.git).refresh().graph
 
+    def graph_impact(
+        self,
+        node_or_path: str,
+        *,
+        max_depth: int = 3,
+        max_nodes: int = 100,
+        include_inferred: bool = True,
+        min_confidence: float = 0,
+    ) -> GraphTraversal:
+        return GraphQueries(self.project_graph()).impact(
+            node_or_path,
+            max_depth=max_depth,
+            max_nodes=max_nodes,
+            include_inferred=include_inferred,
+            min_confidence=min_confidence,
+        )
+
+    def graph_path(
+        self,
+        source_id: str,
+        target_id: str,
+        *,
+        max_depth: int = 8,
+        max_nodes: int = 1000,
+        direction: Direction = "outgoing",
+        include_inferred: bool = True,
+        min_confidence: float = 0,
+    ) -> GraphPath:
+        return GraphQueries(self.project_graph()).shortest_path(
+            source_id,
+            target_id,
+            max_depth=max_depth,
+            max_nodes=max_nodes,
+            direction=direction,
+            include_inferred=include_inferred,
+            min_confidence=min_confidence,
+        )
+
+    def _symbols(self) -> SymbolService:
+        if self.project_root is None:
+            raise PolicyDeniedError("Symbol reads require a root-bound filesystem SDK")
+        return SymbolService(self.project_root)
+
+    def find_project_symbols(
+        self,
+        query: str,
+        file_path: str | None = None,
+        limit: int = 20,
+        max_chars: int = 12000,
+    ) -> SymbolMatches:
+        return self._symbols().find(query, file_path=file_path, limit=limit, max_chars=max_chars)
+
+    def project_symbol_outline(self, file_path: str, max_chars: int = 12000) -> SymbolMatches:
+        return self._symbols().outline(file_path, max_chars=max_chars)
+
+    def project_symbol_body(
+        self,
+        symbol_id: str,
+        expected_hash: str,
+        max_chars: int = 20000,
+    ) -> SymbolBody:
+        return self._symbols().body(symbol_id, expected_hash=expected_hash, max_chars=max_chars)
+
+    def project_symbol_references(
+        self,
+        symbol_id: str,
+        include_inferred: bool = True,
+        limit: int = 50,
+        max_chars: int = 12000,
+    ) -> SymbolReferences:
+        return self._symbols().references(
+            symbol_id, include_inferred=include_inferred, limit=limit, max_chars=max_chars
+        )
+
     def search_project_memory(self, query: str, limit: int = 10) -> tuple[MemoryRecordStatus, ...]:
         """Search curated durable memory and report current provenance freshness."""
 
@@ -234,7 +318,65 @@ class Orqalis:
             head = self.git.status(self.project_root).head
         except GitError:
             head = None
-        return tuple(store.status(record, head) for record in store.search(query, limit))
+        return tuple(
+            status
+            for status in store.statuses(store.search(query, limit), head)
+            if status.lifecycle == MemoryLifecycle.ACTIVE
+        )
+
+    def _memory_navigation(self) -> tuple[MemoryNavigationService, str | None]:
+        if self.project_root is None:
+            raise PolicyDeniedError("Project memory requires a root-bound filesystem SDK")
+        try:
+            head = self.git.status(self.project_root).head
+        except GitError:
+            head = None
+        return MemoryNavigationService(CuratedMemoryStore(ProjectLayout(self.project_root))), head
+
+    def discover_project_memory(
+        self,
+        query: str,
+        limit: int = 10,
+        max_chars: int = 6000,
+    ) -> MemoryDiscoveryResult:
+        service, head = self._memory_navigation()
+        return service.discover(query, current_commit=head, limit=limit, max_chars=max_chars)
+
+    def get_project_memory(
+        self,
+        record_id: str,
+        offset: int = 0,
+        max_chars: int = 10000,
+    ) -> MemoryReadPage:
+        service, head = self._memory_navigation()
+        return service.read(record_id, current_commit=head, offset=offset, max_chars=max_chars)
+
+    def check_project_memory(self) -> MemoryIntegrityReport:
+        service, _ = self._memory_navigation()
+        return service.check()
+
+    def project_memory_proposal(self, proposal_id: str) -> MemoryProposal:
+        service, _ = self._memory_navigation()
+        return service.store.proposal(proposal_id)
+
+    def project_memory_proposals(self) -> tuple[MemoryProposal, ...]:
+        service, _ = self._memory_navigation()
+        return service.store.proposals()
+
+    def review_project_memory(
+        self,
+        proposal_id: str,
+        *,
+        approved: bool,
+        reason: str,
+    ) -> MemoryProposal:
+        """Operator review entrypoint; intentionally not an assistant MCP capability."""
+        service, _ = self._memory_navigation()
+        return (
+            service.store.approve(proposal_id, reason)
+            if approved
+            else service.store.reject(proposal_id, reason)
+        )
 
     def project_memory_status(self) -> tuple[MemoryRecordStatus, ...]:
         """Return freshness for every approved durable memory record."""
@@ -243,7 +385,7 @@ class Orqalis:
             raise PolicyDeniedError("Project memory requires a root-bound filesystem SDK")
         head = self.git.status(self.project_root).head
         store = CuratedMemoryStore(ProjectLayout(self.project_root))
-        return tuple(store.status(record, head) for record in store.list())
+        return store.statuses(store.list(), head)
 
     def revalidate_project_memory(
         self, record_ids: tuple[str, ...] = ()

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T14:48:34.961711+00:00",
+  "status": "BOUNDED_PROPOSAL_ACCEPTED_PENDING_APPLIED_VALIDATION",
+  "review_mode": "Read-only static/source/AST/hash/XML review; no workload executed by independent reviewer. Only this new review artifact written.",
+  "source_before": {
+    "sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+    "files": 196
+  },
+  "proposal": {
+    "path": "docs/quality/evidence/release-websocket-cleanup-proposal-v1.json",
+    "sha256": "b4bd61fb4ada9cea98ab3535a6b250729b7c6efded3fa766fe8d420972d5fb78",
+    "status": "PROPOSED_UNAPPLIED",
+    "all_declared_file_and_diagnostic_hashes_match": true
+  },
+  "bindings": {
+    "src/orqalis/api/app.py": "924c9c29ff8f083dbcbfc05e14dee09f49d393623c8ae3a04aabad45656d5421",
+    ".tools/research/staged_websocket_cleanup_v1.py": "9fad01130aa77bfcde291ff870d1c89047d26c1e35bec47b0ae2af070da9c3f9",
+    "tests/integration/test_api.py": "a8c5d5fed2c47e4accf56196507effbdbef4d7848fe5e87580f916cbb779fb09",
+    "src/orqalis/observability/event_bus.py": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+    "docs/quality/evidence/full-regression-release-12.json": "6818361175f3246a1ae8a90e1ac316191163cceffd5eb154408307d54a4a4cc5",
+    "docs/quality/evidence/full-regression-release-12.xml": "58b22ffbdc5368af2726a27cb8b4787ef78601c4f8d5abc91b96f864e14faf5e",
+    "docs/quality/evidence/release-websocket-cancellation-red-v3.xml": "ac73f519ca3a9efe8c1d49c2686b8a18ee1b00ffc67d509bcc5048ef253d151d",
+    ".tools/python/cpython-3.12-windows-x86_64-none/Lib/asyncio/tasks.py": "6f6aad82d597fea1800004075b9a2481604da0035f1143af1eb267823ec460e3",
+    ".tools/python/cpython-3.12-windows-x86_64-none/Lib/asyncio/futures.py": "f6daaf2a051fc61ea146811d7d4b4db1cac31d7f4777aa4d10617812d78bd943",
+    ".venv/Lib/site-packages/anyio/_backends/_asyncio.py": "56acbb3b5ca6984a714e23f37a14ae042553ce21802cd57e05bb0845a297b20e",
+    ".venv/Lib/site-packages/anyio/from_thread.py": "89965b7dc3724a2e3001cc75fdcc40404e09d18642f3ca9130862a43a485f6c7",
+    ".venv/Lib/site-packages/starlette/testclient.py": "4cf49139b46669742733f24c2e6baab0a358f4f1772f775f5f1d03b59aa42d6d"
+  },
+  "mechanical_delta": {
+    "exact_inverse_AST_matches_entire_original_app": true,
+    "allowed_delta": [
+      "Import anyio.CancelScope",
+      "Wrap only the original finally sender.cancel(), receiver.cancel(), await asyncio.gather(..., return_exceptions=True) with CancelScope(shield=True)",
+      "Two explanatory cleanup comments"
+    ],
+    "unchanged": [
+      "Authorization/loopback/origin validation",
+      "Subscribe-before-replay and durable snapshot/event ordering",
+      "FIRST_COMPLETED coordination and existing error handling",
+      "Per-write filesystem guards and filesystem worker behavior",
+      "All existing deadlines, close codes and request contracts"
+    ],
+    "no_cancellation_or_BaseException_catch_added": true
+  },
+  "mechanism": {
+    "static_confirmed_path": "A normally completed receiver is the last gather argument. Transport AnyIO cancellation during pending sender finalization cancels gather; if sender accepts cancellation, gather._cancel_requested is true. CPython tasks.py791-818 then constructs the propagated cancellation from its last iterated child (the normally completed receiver). futures.py126-144 returns an unlabelled CancelledError with no prior cancellation context. AnyIO CancelScope.__exit__530-536 refuses to consume cancellation without its scope-origin marker. BlockingPortal from_thread268-270 cancels its future, which Starlette TestClient ExitStack future.result surfaces.",
+    "actual_original_full_suite_branch": "UNPROVEN; original full-regression-release-12 failure remains retained and is not waived.",
+    "event_bus_cleanup": "Subscription removal is synchronous under its threading lock; the original receive uses cancellable queue/wait_for. Existing to_thread workers finish normally and are not force-killed or awaited to finish by this change."
+  },
+  "controlled_red_evidence": {
+    "xml": "docs/quality/evidence/release-websocket-cancellation-red-v3.xml",
+    "sha256": "ac73f519ca3a9efe8c1d49c2686b8a18ee1b00ffc67d509bcc5048ef253d151d",
+    "tests": 2,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "transport": "FAIL asyncio.CancelledError with current production handler",
+    "native": "PASS; actual task directly awaited, original native-stop cancellation propagated",
+    "test_quality": "Actual route and actual bus with a cancellation-finalization gate on subscription.receive. Disconnect completes receiver; gate positions scope cancellation during sender cleanup. Checks cleanup completion, subscriber_count zero, scope-origin consumption for transport and preserved native cancellation for direct Task.cancel. Finite 2s gates/0.5s completion assertions, no sleeps to reproduce the race.",
+    "capture_identity_limit": "XML does not independently carry source/test hashes; actual current source and test match proposal, and parent reports these exact bytes were loaded for red v3. Independent reviewer did not rerun."
+  },
+  "dependency_disposition": {
+    "direct_requirement": "anyio>=4.5,<5 appropriate because application directly imports its public API",
+    "installed_reported": "4.15.1 remains unchanged",
+    "pending": "Review actual pyproject/lock metadata after application; do not assume environment/package bytes unchanged without identity proof."
+  },
+  "risks_and_limits": [
+    "Shield protects AnyIO scope cancellation only; it intentionally does not swallow native Task.cancel or arbitrary BaseException. Native branch must remain passing.",
+    "Only cancellation joining is shielded, not snapshot/event I/O or the entire stream. Existing cooperative bus cleanup has no durable writes. A custom cancellation-uncooperative subscription could stall finalization; no universal bounded-shutdown claim is made.",
+    "Minimal v1-v3 generic diagnostics failed to reproduce because they lacked a normally completed last receiver; preserve them and the earlier red-v2 native observer artifact.",
+    "No applied-source green result, full-suite pass, P1 closure, browser cure, release certification or completed release iteration is claimed."
+  ],
+  "required_after_apply": [
+    "Both controlled cancellation cases green at actual applied source",
+    "Existing disconnect cases and original restart/replay test pass unchanged",
+    "Affected source lint/type/static checks and direct-dependency/lock identity review",
+    "Fresh source/input/helper freeze and complete original release gates/required full iterations; preserve all prior failed captures"
+  ],
+  "primary_reference": "https://anyio.readthedocs.io/en/stable/cancellation.html#finalization"
+}

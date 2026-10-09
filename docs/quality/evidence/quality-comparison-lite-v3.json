@@ -1,0 +1,728 @@
+{
+  "schema_version": 2,
+  "baseline_source": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "current_source": "403e121f6e2a313a36f10e595e995eb915c951da95a95c0a564b451f99d808dd",
+  "dataset_sha256": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+  "changes": {
+    "mean_index_recall_at_k": {
+      "baseline": 0.7222222222222222,
+      "current": 0.8703703703703703,
+      "delta": 0.14814814814814814
+    },
+    "mean_context_recall_at_k": {
+      "baseline": 0.8518518518518519,
+      "current": 0.8703703703703703,
+      "delta": 0.01851851851851849
+    },
+    "mean_context_bytes": {
+      "baseline": 5764.068965517241,
+      "current": 5688.620689655172,
+      "delta": -75.44827586206884
+    },
+    "cli_startup": {
+      "baseline_ms": 2233.1341999961296,
+      "current_ms": 1708.7000999890734,
+      "ratio": 0.7651578216804144
+    },
+    "mcp_startup_to_project_response": {
+      "baseline_ms": 3544.8487999965437,
+      "current_ms": 3286.090699999477,
+      "ratio": 0.9270044747755337
+    },
+    "graph_cold": {
+      "baseline_ms": 3665.5903999926522,
+      "current_ms": 2357.1387999982107,
+      "ratio": 0.6430447875471672
+    },
+    "graph_unchanged": {
+      "baseline_ms": 399.3602999980794,
+      "current_ms": 389.53920001222286,
+      "ratio": 0.9754079211531447
+    },
+    "graph_one_file_changed": {
+      "baseline_ms": 1582.6088999892818,
+      "current_ms": 1518.9460000110557,
+      "ratio": 0.9597734475152659
+    },
+    "graph_bytes": {
+      "baseline": 1125777,
+      "current": 2243664,
+      "ratio": 1.9929915071990278
+    },
+    "index_bytes": {
+      "baseline": 2354319,
+      "current": 6471050,
+      "ratio": 2.748586746316026
+    },
+    "project_store_bytes": {
+      "baseline": 3872336,
+      "current": 9240083,
+      "ratio": 2.38617800728036
+    },
+    "python_peak_allocated_bytes": {
+      "baseline": 7054454,
+      "current": 13629203,
+      "ratio": 1.9319996983466048
+    }
+  },
+  "partitions": {
+    "baseline": {
+      "engineering": {
+        "case_count": 14,
+        "mean_context_bytes": 5812.285714285715,
+        "index": {
+          "recall_at_k": 0.75,
+          "precision_at_k": 0.425,
+          "mrr": 0.6547619047619048,
+          "ndcg_at_k": 0.6383930964252991,
+          "positive_cases": 14,
+          "negative_cases": 0,
+          "negative_returned_paths": 0
+        },
+        "context": {
+          "recall_at_k": 0.8571428571428571,
+          "precision_at_k": 0.40595238095238095,
+          "mrr": 0.8,
+          "ndcg_at_k": 0.7504240323914165,
+          "positive_cases": 14,
+          "negative_cases": 0,
+          "negative_returned_paths": 0
+        }
+      },
+      "held-out": {
+        "case_count": 15,
+        "mean_context_bytes": 5719.066666666667,
+        "index": {
+          "recall_at_k": 0.6923076923076923,
+          "precision_at_k": 0.6346153846153846,
+          "mrr": 0.6923076923076923,
+          "ndcg_at_k": 0.6923076923076923,
+          "positive_cases": 13,
+          "negative_cases": 2,
+          "negative_returned_paths": 0
+        },
+        "context": {
+          "recall_at_k": 0.8461538461538461,
+          "precision_at_k": 0.5897435897435898,
+          "mrr": 0.8461538461538461,
+          "ndcg_at_k": 0.8461538461538461,
+          "positive_cases": 13,
+          "negative_cases": 2,
+          "negative_returned_paths": 2
+        }
+      }
+    },
+    "current": {
+      "engineering": {
+        "case_count": 14,
+        "mean_context_bytes": 5685.5,
+        "index": {
+          "recall_at_k": 0.8928571428571429,
+          "precision_at_k": 0.22142857142857145,
+          "mrr": 0.7523809523809524,
+          "ndcg_at_k": 0.7570044122612722,
+          "positive_cases": 14,
+          "negative_cases": 0,
+          "negative_returned_paths": 0
+        },
+        "context": {
+          "recall_at_k": 0.8928571428571429,
+          "precision_at_k": 0.44285714285714284,
+          "mrr": 0.8571428571428571,
+          "ndcg_at_k": 0.8218526038199879,
+          "positive_cases": 14,
+          "negative_cases": 0,
+          "negative_returned_paths": 0
+        }
+      },
+      "held-out": {
+        "case_count": 15,
+        "mean_context_bytes": 5691.533333333334,
+        "index": {
+          "recall_at_k": 0.8461538461538461,
+          "precision_at_k": 0.30128205128205127,
+          "mrr": 0.8461538461538461,
+          "ndcg_at_k": 0.8461538461538461,
+          "positive_cases": 13,
+          "negative_cases": 2,
+          "negative_returned_paths": 0
+        },
+        "context": {
+          "recall_at_k": 0.8461538461538461,
+          "precision_at_k": 0.3782051282051282,
+          "mrr": 0.8461538461538461,
+          "ndcg_at_k": 0.8461538461538461,
+          "positive_cases": 13,
+          "negative_cases": 2,
+          "negative_returned_paths": 0
+        }
+      }
+    }
+  },
+  "per_case_metric_regressions": [
+    {
+      "case": "bug-fix",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.25,
+      "current": 0.2,
+      "baseline_paths": [
+        "docs/03-project-memory.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/indexing/service.py",
+        ".orqalis/memory/records/MEM-20260927-0002.md"
+      ],
+      "current_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md",
+        "web/src/types.ts",
+        "src/orqalis/context/builder.py"
+      ]
+    },
+    {
+      "case": "bug-fix",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.3333333333333333,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md"
+      ],
+      "current_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md",
+        "web/src/types.ts"
+      ]
+    },
+    {
+      "case": "refactor",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "mrr",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/execution/evaluator.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py"
+      ]
+    },
+    {
+      "case": "frontend",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "web/src/MetricsView.tsx",
+        "src/orqalis/observability/analytics.py"
+      ],
+      "current_paths": [
+        "web/src/MetricsView.tsx",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/observability/analytics.py"
+      ]
+    },
+    {
+      "case": "architecture",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0001.md",
+        "src/orqalis/persistence/filesystem/io.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0001.md",
+        "src/orqalis/persistence/filesystem/io.py",
+        "web/src/types.ts",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/memory/curated.py"
+      ]
+    },
+    {
+      "case": "test-failure",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/execution/evaluator.py",
+        ".orqalis/memory/records/MEM-20260927-0003.md"
+      ],
+      "current_paths": [
+        "src/orqalis/execution/evaluator.py",
+        "web/src/types.ts",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/execution/worker.py"
+      ]
+    },
+    {
+      "case": "git-conflict",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/git/service.py"
+      ],
+      "current_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/git/service.py",
+        "src/orqalis/core/orchestrator.py"
+      ]
+    },
+    {
+      "case": "documentation",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "mrr",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "docs/02-agent-and-skill-model.md",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/domain/capabilities.py",
+        "docs/02-agent-and-skill-model.md"
+      ]
+    },
+    {
+      "case": "documentation",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "ndcg_at_k",
+      "baseline": 0.6309297535714575,
+      "current": 0.38685280723454163,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "docs/02-agent-and-skill-model.md",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/domain/capabilities.py",
+        "docs/02-agent-and-skill-model.md"
+      ]
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "recall_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20260927-0004.md",
+        ".orqalis/memory/records/MEM-20260927-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ]
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.4,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20260927-0004.md",
+        ".orqalis/memory/records/MEM-20260927-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ]
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "ndcg_at_k",
+      "baseline": 0.6934264036172708,
+      "current": 0.38685280723454163,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20260927-0004.md",
+        ".orqalis/memory/records/MEM-20260927-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ]
+    },
+    {
+      "case": "multi-agent",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/scheduler.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/scheduler.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/indexing/service.py"
+      ]
+    },
+    {
+      "case": "repair",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/repair.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/repair.py",
+        "web/src/types.ts",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/persistence/filesystem/io.py"
+      ]
+    },
+    {
+      "case": "repair",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.25,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/repair.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/persistence/filesystem/io.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/repair.py",
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/execution.py",
+        "web/src/types.ts",
+        "src/orqalis/core/orchestrator.py"
+      ]
+    },
+    {
+      "case": "security",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/delivery/guardian.py"
+      ],
+      "current_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/core/vertical_plan.py",
+        "web/src/types.ts"
+      ]
+    },
+    {
+      "case": "probe-camel",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/context/builder.py"
+      ],
+      "current_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py"
+      ]
+    },
+    {
+      "case": "probe-camel",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "current_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md"
+      ]
+    },
+    {
+      "case": "probe-snake",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/mcp/server.py",
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py"
+      ]
+    },
+    {
+      "case": "probe-snake",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/git/service.py"
+      ]
+    },
+    {
+      "case": "probe-natural-snake",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/git/service.py"
+      ]
+    },
+    {
+      "case": "probe-routing",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/mcp/server.py"
+      ]
+    },
+    {
+      "case": "probe-routing",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/mcp/server.py"
+      ]
+    },
+    {
+      "case": "probe-events",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/events.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/events.py",
+        "web/src/types.ts",
+        "web/src/MetricsView.tsx",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/delivery/guardian.py"
+      ]
+    },
+    {
+      "case": "probe-events",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/domain/events.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/events.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "web/src/types.ts"
+      ]
+    },
+    {
+      "case": "probe-test-command",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/observability/analytics.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/evaluator.py"
+      ]
+    },
+    {
+      "case": "probe-test-command",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py"
+      ]
+    },
+    {
+      "case": "probe-usage",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/provider.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/agents/service.py",
+        "web/src/types.ts",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/context/builder.py"
+      ]
+    },
+    {
+      "case": "probe-permissions",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/domain/capabilities.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "web/src/MetricsView.tsx",
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "src/orqalis/execution/worker.py"
+      ]
+    },
+    {
+      "case": "probe-permissions",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/graph/engine.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/skills/registry.py"
+      ]
+    }
+  ],
+  "failed_invariants": [],
+  "requires_review": [
+    "Per-case recall/ranking regressions need explicit analysis"
+  ],
+  "status": "REVIEW",
+  "limits": "PASS means these deterministic comparison gates passed; it does not establish live model engineering task success, token savings, Docker isolation, or cross-machine performance."
+}

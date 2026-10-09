@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from importlib import import_module
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import Mock
 from uuid import uuid4
 
 import pytest
@@ -205,3 +206,23 @@ def test_run_open_keeps_ui_during_goal_and_closes_owned_session(
     assert result.exit_code == 0, result.output
     assert str(run_id) in result.stdout
     assert events == ["goal_prepared", "ui_enter", "ui_wait", "ui_close", "project_close"]
+
+
+@pytest.mark.parametrize(
+    ("platform", "expected"),
+    [("win32", "orqalis.api.hosting:_windows_ui_loop_factory"), ("linux", "auto")],
+)
+def test_cli_serve_selects_same_local_loop_without_changing_binding(
+    monkeypatch: pytest.MonkeyPatch, platform: str, expected: str
+) -> None:
+    hosting = import_module("orqalis.api.hosting")
+    api = import_module("orqalis.api.app")
+    uvicorn = import_module("uvicorn")
+    application = object()
+    monkeypatch.setattr(hosting, "sys", SimpleNamespace(platform=platform))
+    monkeypatch.setattr(api, "create_app", lambda **kwargs: application)
+    run = Mock()
+    monkeypatch.setattr(uvicorn, "run", run)
+    result = CliRunner().invoke(app, ["serve"])
+    assert result.exit_code == 0, result.output
+    run.assert_called_once_with(application, host="127.0.0.1", port=7842, loop=expected)

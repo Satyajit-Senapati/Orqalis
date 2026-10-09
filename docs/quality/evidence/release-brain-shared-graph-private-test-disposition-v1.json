@@ -1,0 +1,19 @@
+{
+  "status": "TEST_HELPER_CORRECTED_PENDING_VALIDATION",
+  "prior_capture": "release-brain-shared-graph-private-v2.json",
+  "prior_tests_sha256": "fd94b6f9cffcabdaa82ab08146cd2e4de5a5c677c6e172b93d88638e1beba694",
+  "new_tests_sha256": "a9f55ab2ea7bbe6dbc1c08f6f06618cef851ea94d24170aa50da4d8bf85aacf2",
+  "failures": [
+    {
+      "cases": 5,
+      "error": "Recording Git subclass lacked timeout_seconds because test initializer omitted super().__init__()",
+      "change": "Invoke real parent initializer before recording status calls."
+    },
+    {
+      "cases": 1,
+      "error": "Malformed manifest wraps FilesystemFormatError as existing ManifestValidationError",
+      "change": "Assert existing explicit public manifest-validation exception; corruption and expected rejection unchanged."
+    }
+  ],
+  "scope": "Only private test helper/expected public exception corrected. Exact3privateproposals and actuale536 source remain unchanged. Raw15errors and9PASS6FAIL retained; no claim of source failure cured."
+}

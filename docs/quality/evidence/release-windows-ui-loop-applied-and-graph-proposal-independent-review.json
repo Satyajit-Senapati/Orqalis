@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T08:47:45.888070+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "PASS_APPLIED_WINDOWS_HOST_DELTA_BOUNDED_AND_UNAPPLIED_GRAPH_DEDUP_STATIC_REVIEW",
+  "actual_source_sha256": "f7ca46771370685dc149bf226ceb49220387ba486effe43cd0308cb949e7fa27",
+  "prior_source_sha256": "645f15aaf168a4db976c376330478366872835c1085b068e961c62fdd3b3a367",
+  "production_hosting_sha256": "475b2f51d7b62b26795191ba4e76261771ba9fb21e3d0e08d9eabba06c23571a",
+  "exact_reviewed_corrected_proposal_applied": true,
+  "graph_engine_unchanged_sha256": "ddb2e1958b373cb8aab340d699ca5a06f476b8bae25cfe93a24d563c992e61e9",
+  "reviewer_workloads_or_source_helper_test_edits": false,
+  "confirmed_new_P0_P1_findings": 0,
+  "applied_delta_proof": "Reversing only reviewed hosting imports/factory/Config.loop and Uvicorn minimum changes in pyproject and uv.lock in memory reconstructs full prior645f source. All locked package names/versions remain identical, including Uvicorn0.52.4. No other production input differs.",
+  "compatibility_closure": "Both pyproject and uv.lock now require >=0.36,<1. This closes advertised0.34 custom-loop KeyError finding. Correct zero-argument factory returns SelectorEventLoop instance to Uvicorn custom factory protocol. No global policy, authentication, port ownership, WebSocket subscription/cancellation, approval/checkpoint or native startup/shutdown deadline change.",
+  "private_probe": {
+    "report": "docs/quality/evidence/release-windows-ui-loop-private-probe-v1.json",
+    "report_sha256": "afc70bb5b65f25cdb0b43c46e2f389718530996b2454481e8d848cb884e6bbc8",
+    "helper_current_sha256": "a988b0c0c9cd3da429620e925172b0f82ba7cfb0096adc2b74d18675a9843789",
+    "junit_sha256": "4ad9492660ecebb3427128a784f14e1920d417c617b0c03eead4231b0b1d2167",
+    "hosting_tests": 19,
+    "failures_errors_skips": 0,
+    "actual_proactor_callback_control": "Injected controlled shutdown reset through actual installed CPython callback skips socket.close/server detach/connection_lost completion marker. Reproduces implementation vulnerability, not proof of earlier browser await chain.",
+    "native_selector_reset_scope": "Fixed20 actual owned HTTP sockets reset and host thread closes in captured0.156 seconds under original deadlines.",
+    "independent_worker": "Original worker asyncio.run creates ProactorEventLoop and executes asyncio subprocess successfully; policy object unchanged.",
+    "historical_binding_limit": "Probe report binds source/proposal/JUnit; helper/current hosting test bytes were inspected but full historical private-input hash inventory is not asserted."
+  },
+  "actual_hosting_JUnit": {
+    "path": ".tools/research/release-ui-loop-actual-hosting-v1.junit.xml",
+    "sha256": "e0c42f66ff60a1012dc9b9ecfdd3c545f044f457887c5365eb901fb23fd91ae7",
+    "tests": 22,
+    "failures_errors_skips": 0,
+    "three_new_cases": [
+      "test_owned_ui_selects_only_its_platform_loop[win32-orqalis.api.hosting:_windows_ui_loop_factory]",
+      "test_owned_ui_selects_only_its_platform_loop[linux-auto]",
+      "test_windows_ui_factory_returns_loop_without_changing_policy"
+    ],
+    "current_test_file_sha256": "5f74a03a2bd05b6c6baef745ac405191463644d749d1e67477368864367581de",
+    "scope": "Actual22-case JUnit observed; no separate source/test-stability JSON was provided, so do not claim full qualification capture binding."
+  },
+  "windows_host_scope_limits": [
+    "Selector supports512 total sockets, not512 clients; no general large-scale host guarantee.",
+    "Windows selector does not support asyncio subprocess or pipe transport on this host loop. Current API is socket-only with sync SDK endpoints/to_thread; independent SDK/CLI worker loops and sync Popen paths unchanged.",
+    "Controlled reset probe does not close original full14 browser/shutdown failures; fresh full capture still required."
+  ],
+  "prospective_graph_dedup": {
+    "applied": false,
+    "conclusion": "Eligible bounded simplification with no concrete guard regression found on existing GitService semantics.",
+    "required_shape": "Always retain git.root(root) and common_directory(store_root). For source_root=None reuse store_root. For explicit source root retain git.root(source_root); whenever normalized root differs, require common_directory(source)==canonical common directory. Keep layout/storage guards and status/refresh paths unchanged.",
+    "proof": [
+      "No-source root and source are literally the same normalized path; duplicate identical root/common-directory queries add no independent repository boundary.",
+      "Canonical common-directory call remains, preserving injected errors/denials even in no-source case.",
+      "Explicit linked worktree and unrelated root remain distinct and receive canonical/source identity comparison.",
+      "Injected GitService methods remain called; no global/root/status/graph cache introduced.",
+      "Non-idempotent/stateful custom service call counts or transient mutation between identical repeated queries can differ; arbitrary callback equivalence not claimed. Existing Git operation path TOCTOU is not claimed solved."
+    ],
+    "recommended_tests": [
+      "Retain linked-worktree canonical storage/freshness and unrelated-source rejection tests.",
+      "Verify no-source avoids redundant root call but still invokes canonical common-directory validation.",
+      "Verify explicit normalized same-root succeeds and explicit distinct/unrelated root remains denied."
+    ],
+    "limitation": "No exact proposed graph patch reviewed or applied and no post-change test result asserted."
+  },
+  "evidence_hashes": {
+    "src/orqalis/api/app.py": "874600f19e3c8d46a27a5f4a20ef5dd1da49569075be4f090a6c71ca887fc811",
+    "src/orqalis/api/scope.py": "33b52cef05d189e3d42fdc7d771d8c80625c2f3d49f147f27d11bae8c9bc614e",
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "src/orqalis/execution/commands.py": "1b42123323ac14322416cfb5f48e922830c4e7420440b552678577ed727a4c77",
+    "pyproject.toml": "0696931afd361f71ea109406eb7b3436f0dd03ced20b514838efdf2ba7f774f4",
+    "uv.lock": "a4c5c57d65e9a26f0fc0bd20464cdbb2e0de979d076c1703ad89dd2b7ce01898"
+  },
+  "prior_review_sha256": "4a0c3060ccb8d80a146ad38f4a63590678607808e987859eb5554f78ea649a2e",
+  "limitations": [
+    "No workloads, source/helper/test edits or native/browser test executions by reviewer.",
+    "No current installed artifact, full browser pass, performance benefit, complete release rounds or release-ready certification.",
+    "Raw earlier browser/shutdown failures retained; no proven universal cleanup or latency cure."
+  ]
+}

@@ -30,9 +30,10 @@ from orqalis.persistence.filesystem.io import (
     FilesystemFormatError,
     atomic_write_bytes,
     atomic_write_json,
-    ensure_no_filesystem_links,
+    read_bytes,
     read_json_object,
     read_jsonl,
+    read_text,
 )
 from orqalis.persistence.filesystem.layout import ProjectLayout
 from orqalis.persistence.filesystem.locking import FileLock
@@ -64,7 +65,7 @@ def _record_bytes(record: _StoredMemory) -> bytes:
 
 def _read_record(path: Path) -> _StoredMemory:
     try:
-        text = ensure_no_filesystem_links(path).read_text(encoding="utf-8")
+        text = read_text(path)
         if not text.startswith("---\n"):
             raise ValueError
         raw, body = text[4:].split("\n---\n", 1)
@@ -148,7 +149,7 @@ class FilesystemMemoryRepository:
         legacy_records = self.layout.contained(self.layout.memory / "records")
         if legacy_records.is_dir():
             for source in sorted(legacy_records.glob("SRC-*.md")):
-                payload = ensure_no_filesystem_links(source).read_bytes()
+                payload = read_bytes(source)
                 try:
                     _read_record(source)
                 except ConflictError:
@@ -263,6 +264,11 @@ class FilesystemMemoryRepository:
         self._files.clear()
         self._entities.clear()
         self._relations.clear()
+
+    @property
+    def write_locked(self) -> bool:
+        """Whether this transaction retains the source-projection write lease."""
+        return self._lock is not None
 
     def _prepare_write(self) -> None:
         if self._lock is not None:

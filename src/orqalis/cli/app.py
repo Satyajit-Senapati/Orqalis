@@ -1,16 +1,17 @@
+from __future__ import annotations
+
 import asyncio
 import json
 import shutil
-from contextlib import ExitStack
+from contextlib import AbstractContextManager, ExitStack
 from pathlib import Path
-from typing import Annotated
+from typing import TYPE_CHECKING, Annotated
 from uuid import UUID, uuid4
 
 import typer
 from pydantic import ValidationError
 
 from orqalis import __version__
-from orqalis.api.hosting import local_url, ui_session
 from orqalis.cli.catalog import agents, config_app, discover_skills, skills
 from orqalis.cli.control import approvals_app, plan_app
 from orqalis.cli.dependencies import (
@@ -31,6 +32,24 @@ from orqalis.domain.execution import ExecutionPolicy
 from orqalis.observability.logging import configure_logging
 from orqalis.persistence.filesystem import resolve_project_root
 from orqalis.providers.configuration import configured_providers
+
+if TYPE_CHECKING:
+    from orqalis.api.hosting import UISession
+
+
+def local_url(settings: Settings) -> str:
+    from orqalis.api.hosting import local_url as host_url
+
+    return host_url(settings)
+
+
+def ui_session(
+    settings: Settings, open_path: str | None = None
+) -> AbstractContextManager[UISession]:
+    from orqalis.api.hosting import ui_session as host_session
+
+    return host_session(settings, open_path)
+
 
 DEFAULT_WORKSPACES = Path.home()
 
@@ -223,11 +242,17 @@ def serve() -> None:
     import uvicorn
 
     from orqalis.api.app import create_app
+    from orqalis.api.hosting import local_loop
 
     with command_errors():
         settings = Settings()
         local_url(settings)
-        uvicorn.run(create_app(root=settings.project_root), host=settings.host, port=settings.port)
+        uvicorn.run(
+            create_app(root=settings.project_root),
+            host=settings.host,
+            port=settings.port,
+            loop=local_loop(),
+        )
 
 
 @app.command()

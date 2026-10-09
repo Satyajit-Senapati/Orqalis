@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T10:37:54.199955+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "DIRECT_REPLACEMENT_NOT_SAFE_BOUNDED_FAST_PATH_POSSIBLE",
+  "source_sha256": "635e1fec1b39c5998e8294ba376ee2a641546f4c632b5973a775b7a26cff6957",
+  "source_inputs": 196,
+  "scope": "Read-only ProjectLayout._storage_path duplicate prefix guard conceptual review. No source proposal applied, tests run or workload executed by reviewer.",
+  "layout": {
+    "path": "src/orqalis/persistence/filesystem/layout.py",
+    "sha256": "7fdc7abfa7ffbaa4d4d1181cc0f7578a01233acd03768bbcad2752bb82fcf660",
+    "lines": [
+      64,
+      68,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76
+    ]
+  },
+  "guard": {
+    "path": "src/orqalis/persistence/filesystem/io.py",
+    "sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+    "line": 24
+  },
+  "findings": [
+    {
+      "severity": "proposal security regression; production unaffected",
+      "detail": "Blind replacement of self.store with self.root/.orqalis loses prefix validation when absolute join parts discard store. If .orqalis links to an outside directory and absolute part selects exactly that outside directory, candidate guard does not visit linked .orqalis, resolved_store equals resolved_candidate, and containment accepts. Existing self.store denies the linked prefix first."
+    },
+    {
+      "severity": "proposal extension compatibility",
+      "detail": "Replacing self.store unconditionally bypasses subclass property overrides, including alternative roots, policy denials or instrumentation. No polymorphism equivalence should be claimed."
+    }
+  ],
+  "safe_candidate_requirements": [
+    "Fast path only for exact ProjectLayout base type. All subclasses retain original self.store call and original logic; this preserves custom store property and instance attribute access overrides.",
+    "For base fast path compute raw store and joined candidate without IO; require candidate lexically inside/equal raw store and its relative components contain no parent traversal .. . Otherwise retain original self.store prefix check.",
+    "Keep the full fresh ensure_no_filesystem_links(candidate) including candidate and every parent, store.resolve(strict=False), candidate.resolve(strict=False) and current containment condition unchanged.",
+    "Keep public store property, contained, post-init root normalization, recovery and atomic write independent guards, approval/transaction/durability behavior unchanged. No root/path metadata cache.",
+    "Unexpected metadata errors remain fail closed. Error prioritization and concurrent filesystem mutation observations can differ because an earlier redundant prefix pass is removed; do not claim bit-for-bit race/error chronology equivalence."
+  ],
+  "suggested_fallback_logic": "For exact base type raw_candidate=raw_store.joinpath(*parts); optimize only raw_candidate.is_relative_to(raw_store) and no .. in raw_candidate.relative_to(raw_store).parts; otherwise use self.store. Subclasses always use self.store. Final candidate guard/resolves/containment remain authoritative.",
+  "acceptance_cases": [
+    "ordinary existing and missing descendants; fresh guard each call",
+    "real store symlink/junction, root ancestor link and descendant link all denied",
+    "absolute outside path with linked store denied through fallback",
+    "traversal parts use original fallback; unrelated absolute target denied",
+    "custom subclass store override preserved including alternative path and explicit denial",
+    "unexpected lstat permission/OSError fail closed before any downstream write",
+    "base root anchored and empty parts/store-equal candidate handled"
+  ],
+  "limitations": [
+    "No concrete exact private patch reviewed yet; final delta must be assessed separately.",
+    "No production defect attributed to this unapplied conceptual proposal.",
+    "Potential fewer metadata calls on ordinary descendants is not evidence of passing 5-second browser cases; current timed qualification remains separate.",
+    "Dynamic monkeypatching of base class descriptors can still alter optimization assumptions; exact-type fallback guarantees subclass dispatch only."
+  ]
+}

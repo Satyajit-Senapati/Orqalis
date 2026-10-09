@@ -1,0 +1,482 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-02T14:02:54.158970+00:00",
+  "reviewer": "/root/release_quality_review",
+  "status": "AUXILIARY_P1_REPAIR_ACCEPTED_FOCUSED_EVIDENCE_PASS_PENDING_FRESH_RELEASE_QUALIFICATION",
+  "scope": "Independent read-only production/design/test-evidence review. Reviewer did not execute tests, measured workloads, benchmarks, or edit application/tests/dependencies.",
+  "source": {
+    "files": [
+      "pyproject.toml",
+      "src/orqalis/__init__.py",
+      "src/orqalis/__main__.py",
+      "src/orqalis/agents/__init__.py",
+      "src/orqalis/agents/roles.py",
+      "src/orqalis/agents/routing.py",
+      "src/orqalis/agents/service.py",
+      "src/orqalis/api/__init__.py",
+      "src/orqalis/api/app.py",
+      "src/orqalis/api/contracts.py",
+      "src/orqalis/api/hosting.py",
+      "src/orqalis/api/scope.py",
+      "src/orqalis/bootstrap.py",
+      "src/orqalis/cli/__init__.py",
+      "src/orqalis/cli/app.py",
+      "src/orqalis/cli/catalog.py",
+      "src/orqalis/cli/control.py",
+      "src/orqalis/cli/dependencies.py",
+      "src/orqalis/cli/goals.py",
+      "src/orqalis/cli/memory.py",
+      "src/orqalis/cli/runs.py",
+      "src/orqalis/cli/tasks.py",
+      "src/orqalis/config/__init__.py",
+      "src/orqalis/config/settings.py",
+      "src/orqalis/context/__init__.py",
+      "src/orqalis/context/agent.py",
+      "src/orqalis/context/builder.py",
+      "src/orqalis/context/models.py",
+      "src/orqalis/context/service.py",
+      "src/orqalis/core/__init__.py",
+      "src/orqalis/core/approval_guard.py",
+      "src/orqalis/core/approval_subjects.py",
+      "src/orqalis/core/approvals.py",
+      "src/orqalis/core/delivery.py",
+      "src/orqalis/core/delivery_plan.py",
+      "src/orqalis/core/executor.py",
+      "src/orqalis/core/external.py",
+      "src/orqalis/core/goals.py",
+      "src/orqalis/core/orchestrator.py",
+      "src/orqalis/core/phases.py",
+      "src/orqalis/core/plan_draft.py",
+      "src/orqalis/core/plan_preview.py",
+      "src/orqalis/core/plan_revision.py",
+      "src/orqalis/core/planning.py",
+      "src/orqalis/core/ports.py",
+      "src/orqalis/core/preview_revision.py",
+      "src/orqalis/core/projects.py",
+      "src/orqalis/core/recovery.py",
+      "src/orqalis/core/repair.py",
+      "src/orqalis/core/replanning.py",
+      "src/orqalis/core/requirements.py",
+      "src/orqalis/core/runtime_support.py",
+      "src/orqalis/core/scheduler.py",
+      "src/orqalis/core/state_machine.py",
+      "src/orqalis/core/task_runtime.py",
+      "src/orqalis/core/vertical_plan.py",
+      "src/orqalis/delivery/__init__.py",
+      "src/orqalis/delivery/commits.py",
+      "src/orqalis/delivery/documentation.py",
+      "src/orqalis/delivery/gates.py",
+      "src/orqalis/delivery/guardian.py",
+      "src/orqalis/delivery/inspection.py",
+      "src/orqalis/delivery/test_integrity.py",
+      "src/orqalis/delivery/validation.py",
+      "src/orqalis/diagnostics.py",
+      "src/orqalis/domain/__init__.py",
+      "src/orqalis/domain/acceptance.py",
+      "src/orqalis/domain/agent.py",
+      "src/orqalis/domain/approval.py",
+      "src/orqalis/domain/artifact.py",
+      "src/orqalis/domain/base.py",
+      "src/orqalis/domain/capabilities.py",
+      "src/orqalis/domain/delivery.py",
+      "src/orqalis/domain/errors.py",
+      "src/orqalis/domain/events.py",
+      "src/orqalis/domain/execution.py",
+      "src/orqalis/domain/external.py",
+      "src/orqalis/domain/memory.py",
+      "src/orqalis/domain/plan.py",
+      "src/orqalis/domain/project.py",
+      "src/orqalis/domain/projections.py",
+      "src/orqalis/domain/provider.py",
+      "src/orqalis/domain/run.py",
+      "src/orqalis/domain/task.py",
+      "src/orqalis/domain/telemetry.py",
+      "src/orqalis/domain/timing.py",
+      "src/orqalis/evaluation/__init__.py",
+      "src/orqalis/evaluation/ports.py",
+      "src/orqalis/evaluation/validators.py",
+      "src/orqalis/execution/__init__.py",
+      "src/orqalis/execution/artifacts.py",
+      "src/orqalis/execution/cancellation.py",
+      "src/orqalis/execution/commands.py",
+      "src/orqalis/execution/evaluator.py",
+      "src/orqalis/execution/filesystem.py",
+      "src/orqalis/execution/finding_review.py",
+      "src/orqalis/execution/review.py",
+      "src/orqalis/execution/sandbox.py",
+      "src/orqalis/execution/tool_definitions.py",
+      "src/orqalis/execution/tools.py",
+      "src/orqalis/execution/windows_job.py",
+      "src/orqalis/execution/worker.py",
+      "src/orqalis/execution/workspaces.py",
+      "src/orqalis/git/__init__.py",
+      "src/orqalis/git/contracts.py",
+      "src/orqalis/git/delivery.py",
+      "src/orqalis/git/inspection.py",
+      "src/orqalis/git/service.py",
+      "src/orqalis/graph/__init__.py",
+      "src/orqalis/graph/ecmascript.py",
+      "src/orqalis/graph/engine.py",
+      "src/orqalis/graph/models.py",
+      "src/orqalis/graph/parsing.py",
+      "src/orqalis/graph/queries.py",
+      "src/orqalis/graph/symbols.py",
+      "src/orqalis/indexing/__init__.py",
+      "src/orqalis/indexing/models.py",
+      "src/orqalis/indexing/service.py",
+      "src/orqalis/mcp/__init__.py",
+      "src/orqalis/mcp/policy.py",
+      "src/orqalis/mcp/server.py",
+      "src/orqalis/memory/__init__.py",
+      "src/orqalis/memory/brain.py",
+      "src/orqalis/memory/curated.py",
+      "src/orqalis/memory/curation.py",
+      "src/orqalis/memory/indexing.py",
+      "src/orqalis/memory/navigation.py",
+      "src/orqalis/memory/ports.py",
+      "src/orqalis/memory/service.py",
+      "src/orqalis/observability/__init__.py",
+      "src/orqalis/observability/activity.py",
+      "src/orqalis/observability/analytics.py",
+      "src/orqalis/observability/event_bus.py",
+      "src/orqalis/observability/instrumentation.py",
+      "src/orqalis/observability/logging.py",
+      "src/orqalis/observability/projections.py",
+      "src/orqalis/observability/timing.py",
+      "src/orqalis/observability/trace.py",
+      "src/orqalis/persistence/__init__.py",
+      "src/orqalis/persistence/approval_ports.py",
+      "src/orqalis/persistence/contracts.py",
+      "src/orqalis/persistence/delivery_ports.py",
+      "src/orqalis/persistence/event_ports.py",
+      "src/orqalis/persistence/execution_ports.py",
+      "src/orqalis/persistence/filesystem/__init__.py",
+      "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+      "src/orqalis/persistence/filesystem/io.py",
+      "src/orqalis/persistence/filesystem/layout.py",
+      "src/orqalis/persistence/filesystem/locking.py",
+      "src/orqalis/persistence/filesystem/memory_store.py",
+      "src/orqalis/persistence/filesystem/task_store.py",
+      "src/orqalis/persistence/filesystem/unit_of_work.py",
+      "src/orqalis/persistence/ports.py",
+      "src/orqalis/persistence/provider_ports.py",
+      "src/orqalis/persistence/run_ports.py",
+      "src/orqalis/persistence/runtime_ports.py",
+      "src/orqalis/providers/__init__.py",
+      "src/orqalis/providers/anthropic.py",
+      "src/orqalis/providers/anthropic_schema.py",
+      "src/orqalis/providers/configuration.py",
+      "src/orqalis/providers/errors.py",
+      "src/orqalis/providers/external_cli.py",
+      "src/orqalis/providers/fake.py",
+      "src/orqalis/providers/openai.py",
+      "src/orqalis/providers/openai_schema.py",
+      "src/orqalis/providers/ports.py",
+      "src/orqalis/providers/validation.py",
+      "src/orqalis/py.typed",
+      "src/orqalis/retrieval.py",
+      "src/orqalis/sdk.py",
+      "src/orqalis/security/__init__.py",
+      "src/orqalis/security/redaction.py",
+      "src/orqalis/skills/__init__.py",
+      "src/orqalis/skills/bundled/database-edit/instructions.md",
+      "src/orqalis/skills/bundled/database-edit/skill.toml",
+      "src/orqalis/skills/bundled/documentation-edit/instructions.md",
+      "src/orqalis/skills/bundled/documentation-edit/skill.toml",
+      "src/orqalis/skills/bundled/evidence-review/instructions.md",
+      "src/orqalis/skills/bundled/evidence-review/skill.toml",
+      "src/orqalis/skills/bundled/javascript-edit/instructions.md",
+      "src/orqalis/skills/bundled/javascript-edit/skill.toml",
+      "src/orqalis/skills/bundled/python-edit/instructions.md",
+      "src/orqalis/skills/bundled/python-edit/skill.toml",
+      "src/orqalis/skills/bundled/python-test/instructions.md",
+      "src/orqalis/skills/bundled/python-test/skill.toml",
+      "src/orqalis/skills/bundled/react-edit/instructions.md",
+      "src/orqalis/skills/bundled/react-edit/skill.toml",
+      "src/orqalis/skills/bundled/typescript-edit/instructions.md",
+      "src/orqalis/skills/bundled/typescript-edit/skill.toml",
+      "src/orqalis/skills/markdown.py",
+      "src/orqalis/skills/registry.py",
+      "src/orqalis/tasks/__init__.py",
+      "src/orqalis/tasks/history.py",
+      "src/orqalis/workspace/__init__.py",
+      "src/orqalis/workspace/manager.py",
+      "uv.lock"
+    ],
+    "sha256": "35ad417eb1d64f096d04fb497449de7b73b19783f9179ea21032f1d504d5eafa"
+  },
+  "read_file_sha256": {
+    "src/orqalis/persistence/filesystem/task_store.py": "62392acef6e0ab1d63594f4aaab87c3a88484923c08e609b972e8f35786f3fb4",
+    "src/orqalis/persistence/filesystem/auxiliary_stores.py": "8433e0f801cf77e9bac3d8c80a9d83131049929f5d221910175d8d8b49d71f50",
+    "src/orqalis/persistence/filesystem/unit_of_work.py": "45436869a92b142b2f0fa3fa98d11bc336085b13e8710d9bb8c3e28a942319d8",
+    "src/orqalis/persistence/filesystem/memory_store.py": "420b0fc8ce46592a176131c8af66648a9271f8283a833ea3b22245a4bba8004c",
+    "src/orqalis/persistence/filesystem/locking.py": "0b6a097ea313ab219e08d95528476eb179f87f70dddee057f53eb500fb98ef53",
+    "src/orqalis/persistence/provider_ports.py": "45ff4732d5f8c08ac14428ec3db49c6b9a9f24ccb1aec762b0a0ba673f656cc1",
+    "src/orqalis/persistence/execution_ports.py": "99c46536f0c0bdcb72eace1060f2ab79a878b75908addd925c79e8bb8e3f4ba0",
+    "src/orqalis/agents/service.py": "27798522a11b0e24bc20e2982b343c5fe0e3b00403723fb3b8afb2ee91cbd516",
+    "src/orqalis/execution/tools.py": "3a1fe6339463aa327d6752d6c82cbc15eb34b43dfdf54651228eae5530a6b4fc",
+    "tests/unit/test_filesystem_auxiliary_stores.py": "95ab98aee9ad9de1a869c4eb2e44e4d35a0e6ebc88090c3d6b9eaa4cd53e942d"
+  },
+  "narrow_review_counts": {
+    "confirmed_remaining_p0": 0,
+    "confirmed_remaining_p1": 0,
+    "previous_inherited_p1_root_cause_repaired": 1
+  },
+  "previous_finding": "P1-AUXILIARY-SCAN-LOCK-ORDER; canonical release-auxiliary-lock-independent-review-v1.json and private original report retain source 0d26e929 and original static proof.",
+  "dispositions": [
+    {
+      "topic": "Owning capsule lock inversion",
+      "disposition": "ACCEPTED",
+      "evidence": "task_store.py:510-556 releases every held state lock before waiting on the auxiliary identity lease, reacquires the original locks in deterministic UUID order, and compares each persisted aggregate disk generation. A change rejects staged authorization via ConflictError instead of continuing."
+    },
+    {
+      "topic": "Global uniqueness and foreign validation",
+      "disposition": "ACCEPTED",
+      "evidence": "auxiliary_stores.py:109 acquires the auxiliary identity lease before the unchanged exhaustive branch of _find. Lease persists until transaction cleanup. Foreign capsules are still loaded through canonical recovery, all domain models and event history validation. _ensure_upsert_owner and write-side identity/idempotency checks remain active. No lock-free state/journal reader or derived owner index introduced."
+    },
+    {
+      "topic": "Foreign cached snapshots",
+      "disposition": "ACCEPTED_CODE_REVIEW_DIRECT_REGRESSION_ADDED_EXECUTION_PENDING",
+      "evidence": "task_store.py:544-550 retains previously locked/staged owners, evicts unlocked clean foreign snapshots after the first lease acquisition, and rejects dirty foreign state lacking an update lock. Thus first global identity discovery reloads foreign state after waiting. Once the auxiliary lease is retained, normal auxiliary writers cannot advance that foreign auxiliary state before transaction completion. Newly reviewed test_identity_lease_refreshes_foreign_read_cache:522-539 preloads foreign B while A owns its update lock, lets another UoW commit the matching provider UUID to B, then verifies A cannot claim it using its stale cached B view."
+    },
+    {
+      "topic": "Partial handoff failure",
+      "disposition": "ACCEPTED",
+      "evidence": "task_store.py:551-555 marks the session invalid, releases partially reacquired state locks and the auxiliary lease. _ensure_open:1473-1479 blocks commit/pending_events and future global identity acquisitions until rollback. rollback:1432-1442 discards staged aggregates/project state, resets invalid status, releases remaining leases. Injected lease/reacquisition failures and stale generation tests allow successor UoWs to commit."
+    },
+    {
+      "topic": "Same-thread nested transaction ownership",
+      "disposition": "ACCEPTED",
+      "evidence": "task_store.py:523-526 rejects a different same-thread session already owning the auxiliary lease before releasing its state locks. Registry ownership is protected by the existing guard, installed after actual acquisition, removed only for the matching lease token in cleanup. Already-owned lease calls return idempotently at :518-519. This prevents FileLock thread reentrancy from admitting competing uncommitted nested identity claims."
+    },
+    {
+      "topic": "Memory lock ordering",
+      "disposition": "ACCEPTED",
+      "evidence": "unit_of_work.py:43 attaches _check_auxiliary_lock_order, which rejects first auxiliary acquisition while the original memory adapter retains its write lease. memory_store.py:267-270 exposes existing retained lock state without changing memory locking/validation/writes. Auxiliary-before-memory remains allowed; already-owned auxiliary lease never repeats the guard. Reviewed production auxiliary callers do not access uow.memory before identity operations."
+    },
+    {
+      "topic": "New reservation",
+      "disposition": "ACCEPTED_CODE_REVIEW_NEW_ROLLBACK_ASSERTIONS_EXECUTION_PENDING",
+      "evidence": "Reacquired genuinely new aggregates skip disk-generation comparison because no canonical generation exists; their original aggregate/reservation and reacquired state lock remain retained. The test:492-519 now covers both durable new project/run auxiliary identity creation and a second reserved run/claim abandoned via rollback, asserting neither run nor claim survives a fresh reader. Initial v2 execution predates those added rollback assertions."
+    },
+    {
+      "topic": "Scoped reads",
+      "disposition": "ACCEPTED",
+      "evidence": "ProviderRepository.get and ExecutionRepository.tool gain optional keyword run_id. Scoped _find resolves the owner document and validates embedded ownership/duplicates, returning None for missing owner/foreign identifier. AgentExecutionService initial/completion reads use their known run_id. ToolService initial provider lookup remains generic before owning run lock, then known tool lookup is scoped. Source search found no additional repository implementations/test doubles requiring signature adaptation."
+    },
+    {
+      "topic": "Callsite and transaction lifetime",
+      "disposition": "ACCEPTED_WITH_DECLARED_SERIALIZATION_COST",
+      "evidence": "Provider/tool/review/delivery/recovery writes all route through the retained global identity lease. External model/tool execution occurs outside the corresponding committing UoW. Existing controller leases remain held through handoff. All state locks are dropped before releasing the auxiliary lease during cleanup; no new per-project mutex is added to every UoW."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/quality/evidence/release-auxiliary-lock-before.xml",
+      "sha256": "0266786988ed853ae4902c82542959ba07b48b1f6211d4eb79ddc183d321bf45",
+      "suite_attributes": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "1",
+        "time": "11.298",
+        "timestamp": "2026-10-02T19:22:35.758973+05:30",
+        "hostname": "THOR-GALAXY"
+      },
+      "cases": [
+        {
+          "name": "test_parallel_provider_identity_checks_do_not_invert_run_locks[read]",
+          "time_seconds": "10.618",
+          "failed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "path": "docs/quality/evidence/release-auxiliary-lock-focused.xml",
+      "sha256": "cc3d8fe22ae641f874b5082347e79be8110622b32ac4fbce7ea48e226d1e653b",
+      "suite_attributes": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "7",
+        "time": "3.226",
+        "timestamp": "2026-10-02T19:25:20.024025+05:30",
+        "hostname": "THOR-GALAXY"
+      },
+      "cases": [
+        {
+          "name": "test_auxiliary_repositories_roundtrip_restart_and_preserve_semantics",
+          "time_seconds": "0.657",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_full_uow_rollback_discards_capsule_extensions_and_memory",
+          "time_seconds": "0.266",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_controller_lease_is_held_until_full_uow_closes",
+          "time_seconds": "0.249",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_task_only_uow_preserves_unrelated_corrupt_source_projection",
+          "time_seconds": "0.282",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_delayed_memory_access_observes_commit_and_releases_its_lock",
+          "time_seconds": "0.340",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_parallel_provider_identity_checks_do_not_invert_run_locks[read]",
+          "time_seconds": "0.511",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_parallel_provider_identity_checks_do_not_invert_run_locks[upsert]",
+          "time_seconds": "0.636",
+          "failed": false,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "path": "docs/quality/evidence/release-auxiliary-lock-focused-v2.xml",
+      "sha256": "6aef422cf64f9b6f71fcfbc3f86bddfb15575be62d21efa8431391d73b9ded10",
+      "suite_attributes": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "13",
+        "time": "9.641",
+        "timestamp": "2026-10-02T19:27:49.695490+05:30",
+        "hostname": "THOR-GALAXY"
+      },
+      "cases": [
+        {
+          "name": "test_auxiliary_repositories_roundtrip_restart_and_preserve_semantics",
+          "time_seconds": "0.731",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_full_uow_rollback_discards_capsule_extensions_and_memory",
+          "time_seconds": "0.298",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_controller_lease_is_held_until_full_uow_closes",
+          "time_seconds": "0.262",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_task_only_uow_preserves_unrelated_corrupt_source_projection",
+          "time_seconds": "0.261",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_delayed_memory_access_observes_commit_and_releases_its_lock",
+          "time_seconds": "0.358",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_parallel_provider_identity_checks_do_not_invert_run_locks[read]",
+          "time_seconds": "0.757",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_parallel_provider_identity_checks_do_not_invert_run_locks[upsert]",
+          "time_seconds": "1.166",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_concurrent_cross_run_identity_claim_has_one_owner",
+          "time_seconds": "1.262",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_identity_handoff_rejects_stale_staged_run_and_releases_lease",
+          "time_seconds": "0.656",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_failed_identity_handoff_releases_all_owned_locks[lease]",
+          "time_seconds": "0.464",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_failed_identity_handoff_releases_all_owned_locks[reacquire]",
+          "time_seconds": "0.468",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_nested_identity_owner_and_memory_lock_order_fail_fast",
+          "time_seconds": "2.313",
+          "failed": false,
+          "skipped": false
+        },
+        {
+          "name": "test_new_capsule_auxiliary_claim_keeps_reservation_and_rolls_back",
+          "time_seconds": "0.366",
+          "failed": false,
+          "skipped": false
+        }
+      ]
+    }
+  ],
+  "observed_focus": {
+    "before_read_seconds": "10.618 with one failure; original default FileLock timeout unchanged",
+    "final_read_seconds": "0.757 PASS",
+    "final_upsert_seconds": "1.166 PASS",
+    "final_tests": 13,
+    "final_failures": 0,
+    "final_errors": 0,
+    "final_skips": 0,
+    "final_suite_seconds": "9.641",
+    "concurrent_competing_identity": "Two real concurrent run transactions attempt the same provider UUID; exactly one saves and the other rejects foreign ownership, leaving exactly one durable identity."
+  },
+  "test_evidence_limits": [
+    "The first 7-pass and final 13-pass artifacts are distinct runs; do not aggregate them as independent full qualification rounds.",
+    "Final XML itself has no canonical source fingerprint field; source binding relies on current canonical fingerprint plus parent execution record. Reviewer independently verified the retained XML contents/hashes and current source but did not rerun tests.",
+    "Injected acquisition failures exercise lease/reacquisition cleanup, not arbitrary OS failures during FileLock.release or power interruption.",
+    "After the independently inspected 13-pass v2 run, the same existing test file added the direct foreign-cache regression and explicit new-reservation rollback assertions. Reviewer inspected these new assertions read-only; corrected broader v4 execution is pending. Earlier v3 command collected zero tests due to nonexistent requested paths and is not passing validation."
+  ],
+  "declared_limits": [
+    "Generic global auxiliary reads and auxiliary mutations now serialize on one per-project identity lease for the lifetime of their UoW. Busy transactions can still experience legitimate contention at the unchanged default timeout; this is not a universal latency SLO or proof of no possible application lock cycle.",
+    "Scoped owning-run reads avoid global duplicate discovery by design. Global writes still perform full cross-owner duplicate/integrity checks.",
+    "The source-memory guard rejects memory-first mixed identity transactions; callers must order identity operations before retained memory writes. This is an explicit compatibility bound, not silent deadlock avoidance.",
+    "Nested same-thread independent identity transactions are explicitly rejected. Generic direct adapter transactions holding other independently managed locks remain responsible for respecting those lock orders.",
+    "Existing filesystem journal/capsule commit atomicity, version format, general lock deadlines, approvals and crash recovery are unchanged. The repair does not claim atomicity across every project adapter or multiple capsule commits."
+  ],
+  "qualification_next": "No new confirmed product blocker found in this narrow repair. Preserve the original raw failed test and earlier browser/host failures. Freeze the new source/input set and perform required fresh full contracts/quality/execution/governance/regression rounds before stable release qualification. This review does not assert convergence, universal tail-latency repair, or publish/commit authorization.",
+  "subsequent_test_source_review": {
+    "file": "tests/unit/test_filesystem_auxiliary_stores.py",
+    "sha256": "95ab98aee9ad9de1a869c4eb2e44e4d35a0e6ebc88090c3d6b9eaa4cd53e942d",
+    "foreign_cache_case_lines": "522-539",
+    "new_reservation_rollback_lines": "511-519",
+    "broader_corrected_focus_v4": "pending; not executed by reviewer",
+    "source_unchanged": "35ad417eb1d64f096d04fb497449de7b73b19783f9179ea21032f1d504d5eafa"
+  }
+}

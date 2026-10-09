@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "status": "BOUNDED_TESTCLIENT_UPSTREAM_DEPRECATION_RETAINED",
+  "reviewed_at": "2026-10-03T16:23:08.793331+00:00",
+  "source_context_from_actual_full13_capture": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "source_rehashed": false,
+  "capture": {
+    "report": {
+      "path": "docs/quality/evidence/full-regression-release-13.json",
+      "sha256": "1ede4672b23f6e70048e0df3597767351feb55dcb20cc5da7cefa5dff2b3789c"
+    },
+    "log": {
+      "path": ".tools/research/full-regression-release-13.log",
+      "sha256": "e54f3718c899d62469b8cff836e07e9e74206c924d4f8308af5f59167b3c7ab3"
+    },
+    "junit": {
+      "path": "docs/quality/evidence/full-regression-release-13.xml",
+      "sha256": "93d3f76eb9fba1389bf8fc1e73de6cfd9b2a1bc56e04491469b1db4dda919109"
+    },
+    "passed": 892,
+    "skipped": 2,
+    "failures": 0,
+    "errors": 0,
+    "deprecation_warning_entries": 1
+  },
+  "warning": {
+    "raw_entry": {
+      "line": 906,
+      "text": "  S:\\Orqalis\\.venv\\Lib\\site-packages\\starlette\\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead."
+    },
+    "raw_summary_lines_904_908": [
+      "============================== warnings summary ===============================",
+      ".venv\\Lib\\site-packages\\starlette\\testclient.py:53",
+      "  S:\\Orqalis\\.venv\\Lib\\site-packages\\starlette\\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.",
+      "    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]",
+      ""
+    ],
+    "installed_starlette_version": "1.6.0",
+    "installed_anyio_version": "4.15.1",
+    "origin": ".venv/Lib/site-packages/starlette/testclient.py:53",
+    "expression": "_PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]"
+  },
+  "read_only_evidence": [
+    {
+      "path": ".venv/Lib/site-packages/anyio/abc/__init__.py",
+      "observation": "Deprecated alias map sends BlockingPortal to anyio.from_thread.BlockingPortal."
+    },
+    {
+      "path": ".venv/Lib/site-packages/anyio/_lazyimport.py:83",
+      "observation": "emit_deprecation_warning emits DeprecationWarning; set_deprecated_aliases lines104-107 then imports the target and returns the real attribute. This installed alias still resolves, rather than raising a missing-symbol error."
+    },
+    {
+      "path": ".venv/Lib/site-packages/starlette/testclient.py:427",
+      "observation": "Actual TestClient portal creation calls anyio.from_thread.start_blocking_portal; line681 does likewise."
+    },
+    {
+      "path": ".venv/Lib/site-packages/fastapi/testclient.py:1",
+      "observation": "Reexports Starlette TestClient; tests/integration/test_api.py:4 imports this test client."
+    },
+    {
+      "path": "src/orqalis/api/app.py:12",
+      "observation": "Production imports anyio.CancelScope, and line451 uses CancelScope(shield=True) for existing child cancel/join. rg across src/orqalis found no BlockingPortal or TestClient import/use."
+    },
+    {
+      "path": "pyproject.toml:14",
+      "observation": "Direct runtime requirement is anyio>=4.5,<5. Installed and current lock metadata agree on AnyIO4.15.1 and Starlette1.6.0 (uv.lock lines29-30 and1222-1223). The direct metadata addition is not evidence of a package-version change."
+    }
+  ],
+  "disposition": "This observed warning originates in upstream Starlette TestClient import-time typing alias used by tests. It is a retained upstream deprecation, not an observed application runtime regression or evidence that the CancelScope cleanup repair uses the deprecated alias. No confirmed P0/P1 arises from this warning. Keep the raw warning and current locked versions; do not suppress it or perform a release-driven dependency upgrade merely to remove the message.",
+  "new_confirmed_findings": {
+    "P0": [],
+    "P1": []
+  },
+  "limitations": [
+    "This is static inspection of actual installed code and existing full13 capture; no new test, import probe, runtime workload, remote lookup or future-version compatibility test ran.",
+    "No prediction about the alias removal version or future Starlette/AnyIO compatibility.",
+    "Full13 has two retained skips and does not by itself certify the installed packages, frozen86 comparative contracts, measured rounds or release convergence.",
+    "The warning is test-only in the inspected Orqalis source usage; an external consumer importing Starlette TestClient could encounter it too.",
+    "Initial local discovery included two nonexistent test-file guesses and an incorrect src/orqalis/api/ui path; corrected exact paths were inspected. These read failures made no changes.",
+    "No source/helper input scan, production/dependency/public-doc/frozen-file edit, warning suppression or dependency upgrade was performed. Only actual report/log/JUnit evidence files were hashed."
+  ]
+}

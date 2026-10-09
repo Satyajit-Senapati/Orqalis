@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="86" time="2845.302" timestamp="2026-09-26T21:42:16.494313+05:30" hostname="THOR-GALAXY"><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[False-False]" time="216.374" /><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[False-True]" time="168.141" /><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[True-False]" time="93.261" /><testcase classname="tests.integration.test_external_findings" name="test_external_finding_failure_repairs_then_resolves_independently" time="209.790" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[omitted]" time="79.336" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[assertion_only]" time="66.490" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[wrong_source]" time="101.401" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[missing_text]" time="101.746"><failure message="orqalis.persistence.filesystem.locking.LockTimeoutError: Timed out acquiring lock: C:\Users\senap\AppData\Local\Temp\pytest-of-senap\pytest-410\test_worker_findings_cannot_be3\source\.orqalis\runtime\locks\ORQ-20260926-0001.state.lock">git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-410/test_worker_findings_cannot_be3/source')
+tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-410/test_worker_findings_cannot_be3')
+bad_review = 'missing_text'
+
+    @pytest.mark.parametrize(
+        "bad_review",
+        [
+            "omitted",
+            "assertion_only",
+            "wrong_source",
+            "missing_text",
+            "unrelated_evidence",
+            "criterion_evidence_only",
+            "stale_evidence",
+        ],
+    )
+    def test_worker_findings_cannot_be_waived_without_evidence(
+        git_repo: Path, tmp_path: Path, bad_review: str
+    ) -&gt; None:
+        sdk = Orqalis(root=git_repo)
+        project = sdk.initialize(git_repo)
+        goal = GoalDraft(
+            goal="Inspect worker report",
+            scope=("main.py",),
+            definition_of_done=("Evidence backs review",),
+            criteria=(
+                CriterionDefinition(
+                    key="AC-1",
+                    description="Module exists",
+                    validation_spec=FileValidation(path="pyproject.toml"),
+                ),
+            ),
+        )
+        state = sdk.prepare_run(project.id, goal.goal, "feature/finding-proof", goal)
+        policy = ExecutionPolicy(write_paths=("main.py",), command_mode="trusted_local")
+        external = sdk.external_work(tmp_path / "worktrees")
+        work = external.next_work(state.run.id, policy)
+        assert work is not None
+        early_proof = (
+            sdk.goals.validate(state.run.id, "AC-1", LocalEvaluator(work.workspace), "before-finding")
+            if bad_review == "stale_evidence"
+            else None
+        )
+        finding = external.report_finding(
+            state.run.id,
+            work.execution.id,
+            FindingReport(severity="blocking", summary="Verify answer", source_ref="main.py"),
+            "issue",
+        )
+        external.report(
+            state.run.id,
+            work.execution.id,
+            WorkerResult(summary="Implementation reported", completed=True, artifact_paths=()),
+        )
+    
+        def respond(request: ProviderExecutionRequest) -&gt; ProviderExecutionResult:
+            assert request.acceptance is not None
+            verdict = FindingReview(
+                finding_id=finding.id,
+                resolved=True,
+                reason="Asserted resolution",
+                source_checks=(
+                    SourceCheck(
+                        path="README.md" if bad_review == "wrong_source" else "main.py",
+                        contains="nonexistent marker",
+                    ),
+                )
+                if bad_review in {"wrong_source", "missing_text"}
+                else (),
+                evidence_refs=(early_proof.id,)
+                if early_proof is not None
+                else (uuid4(),)
+                if bad_review == "unrelated_evidence"
+                else request.acceptance.criteria[0].evidence_refs
+                if bad_review == "criterion_evidence_only"
+                else (),
+            )
+            return ProviderExecutionResult(
+                output=ReviewResult(
+                    overall="PASS",
+                    criteria=tuple(
+                        CriterionReview(
+                            criterion_id=c.id,
+                            status="PASS",
+                            reason="Observed file",
+                            evidence_refs=c.evidence_refs,
+                            source_checks=(),
+                        )
+                        for c in request.acceptance.criteria
+                    ),
+                    blocking_findings=(),
+                    non_blocking_findings=(),
+                    finding_reviews=() if bad_review == "omitted" else (verdict,),
+                ).model_dump(mode="json")
+            )
+    
+        with pytest.raises((ConflictError, PolicyDeniedError)):
+&gt;           asyncio.run(
+                sdk.executor(tmp_path / "worktrees", (FakeProvider(respond),)).execute(
+                    state.run.id, "fixture", policy
+                )
+            )
+
+tests\integration\test_external_findings.py:255: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+..\..\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+..\baseline-b8506f7\src\orqalis\observability\instrumentation.py:59: in invoke
+    return await function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\baseline-b8506f7\src\orqalis\core\executor.py:80: in execute
+    result = await watch_cancellation(
+..\baseline-b8506f7\src\orqalis\execution\cancellation.py:59: in watch_cancellation
+    run = uow.runs.get(run_id)
+          ^^^^^^^^^^^^^^^^^^^^
+..\baseline-b8506f7\src\orqalis\persistence\filesystem\task_store.py:1429: in get
+    return self.session.load_capsule(run_id, for_update=for_update).run
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\baseline-b8506f7\src\orqalis\persistence\filesystem\task_store.py:685: in load_capsule
+    self._state_lock(run_id, capsule_id)
+..\baseline-b8506f7\src\orqalis\persistence\filesystem\task_store.py:487: in _state_lock
+    lock.acquire()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;orqalis.persistence.filesystem.locking.FileLock object at 0x00000239D7710920&gt;
+
+    def acquire(self) -&gt; None:
+        deadline = time.monotonic() + self.timeout
+        if not self._state.gate.acquire(timeout=self.timeout):
+&gt;           raise LockTimeoutError(f"Timed out acquiring lock: {self.path}")
+E           orqalis.persistence.filesystem.locking.LockTimeoutError: Timed out acquiring lock: C:\Users\senap\AppData\Local\Temp\pytest-of-senap\pytest-410\test_worker_findings_cannot_be3\source\.orqalis\runtime\locks\ORQ-20260926-0001.state.lock
+
+..\baseline-b8506f7\src\orqalis\persistence\filesystem\locking.py:105: LockTimeoutError</failure></testcase><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[unrelated_evidence]" time="106.853" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[criterion_evidence_only]" time="86.784" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[stale_evidence]" time="86.616" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[../secret]" time="0.003" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[/tmp/secret]" time="0.004" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[C:/private]" time="0.008" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[..\\secret]" time="0.005" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[accepted]" time="192.054" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[recreated_before_review]" time="45.873" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[recreated_before_delivery]" time="76.651" /><testcase classname="tests.integration.test_external_skill_selection" name="test_external_documentation_task_loads_scoped_skill" time="22.393" /><testcase classname="tests.integration.test_mcp" name="test_mcp_workflow_continues_across_clients_and_enforces_server_policy" time="175.157" /><testcase classname="tests.integration.test_mcp" name="test_mcp_stdio_lifecycle_and_project_isolation" time="20.171" /><testcase classname="tests.integration.test_memory_release" name="test_context_graph_is_source_backed_without_repeated_scans" time="34.745" /><testcase classname="tests.integration.test_memory_release" name="test_indexer_and_embedding_upgrade_refresh_once_at_unchanged_head" time="15.320" /><testcase classname="tests.integration.test_memory_release" name="test_legacy_run_projection_never_enters_authoritative_context" time="22.911" /><testcase classname="tests.integration.test_memory_release" name="test_recovered_embeddings_backfill_stored_content_without_git_reads" time="26.364" /><testcase classname="tests.integration.test_memory_release" name="test_embedding_backfill_validates_provider_dimensions_before_persisting" time="6.720" /><testcase classname="tests.integration.test_parallel" name="test_independent_context_workers_execute_in_parallel_before_dependency" time="82.512" /><testcase classname="tests.integration.test_recovery" name="test_explicit_recovery_uses_new_attempt_preserves_contract_and_enforces_limit[1]" time="29.716" /><testcase classname="tests.integration.test_recovery" name="test_explicit_recovery_uses_new_attempt_preserves_contract_and_enforces_limit[3]" time="68.065" /><testcase classname="tests.integration.test_repair" name="test_targeted_repair_preserves_history_and_stops_at_limit[True-1]" time="134.748" /><testcase classname="tests.integration.test_repair" name="test_targeted_repair_preserves_history_and_stops_at_limit[False-1]" time="141.493" /><testcase classname="tests.integration.test_repair" name="test_targeted_repair_preserves_history_and_stops_at_limit[False-0]" time="39.192" /><testcase classname="tests.integration.test_runtime" name="test_durable_task_attempts_pause_resume_cancel_and_timing" time="11.211" /><testcase classname="tests.integration.test_runtime" name="test_event_sequence_concurrency_idempotency_and_corruption_detection" time="4.236" /><testcase classname="tests.integration.test_stack_fixtures" name="test_language_neutral_source_contract_to_accepted_commit[react]" time="108.085" /><testcase classname="tests.integration.test_stack_fixtures" name="test_language_neutral_source_contract_to_accepted_commit[android]" time="98.066" /><testcase classname="tests.integration.test_stack_fixtures" name="test_language_neutral_source_contract_to_accepted_commit[monorepo]" time="118.230" /><testcase classname="tests.unit.test_git" name="test_repository_detection_dirty_paths_and_committed_read" time="1.377"><failure message="AssertionError: assert b'answer = 42\r\n' == b'answer = 42\n'&#10;  &#10;  At index 11 diff: b'\r' != b'\n'&#10;  Use -v to get more diff">git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-410/test_repository_detection_dirt0/source')
+
+    def test_repository_detection_dirty_paths_and_committed_read(git_repo: Path) -&gt; None:
+        service = LocalGitService()
+        assert service.root(git_repo / "tests/test_main.py") == git_repo
+        status = service.status(git_repo)
+        assert status.branch == "main"
+        assert status.changed_paths == ()
+        assert service.has_commit(git_repo, status.head)
+        assert not service.has_commit(git_repo, "0" * 40)
+        (git_repo / "main.py").write_text("changed locally\n")
+        (git_repo / "with spaces.txt").write_text("untracked\n")
+        assert service.status(git_repo).changed_paths == ("main.py", "with spaces.txt")
+&gt;       assert service.read_file(git_repo, status.head, "main.py") == b"answer = 42\n"
+E       AssertionError: assert b'answer = 42\r\n' == b'answer = 42\n'
+E         
+E         At index 11 diff: b'\r' != b'\n'
+E         Use -v to get more diff
+
+tests\unit\test_git.py:31: AssertionError</failure></testcase><testcase classname="tests.unit.test_git" name="test_rename_includes_old_and_new_paths" time="1.000" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[../secret]" time="0.003" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[/absolute]" time="0.005" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[.git/config]" time="0.004" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[C:/secret]" time="0.004" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[a/../b]" time="0.004" /><testcase classname="tests.unit.test_git" name="test_git_environment_cannot_redirect_repo" time="0.816" /><testcase classname="tests.unit.test_git" name="test_worktree_create_cleanup_preserves_source" time="3.041" /><testcase classname="tests.unit.test_git" name="test_dirty_or_changed_branch_cleanup_denied" time="2.172" /><testcase classname="tests.unit.test_git" name="test_worktree_unsafe_branches_denied[main]" time="0.812" /><testcase classname="tests.unit.test_git" name="test_worktree_unsafe_branches_denied[master]" time="0.957" /><testcase classname="tests.unit.test_git" name="test_worktree_unsafe_branches_denied[--force]" time="0.769" /><testcase classname="tests.unit.test_git" name="test_worktree_unsafe_branches_denied[../unsafe]" time="0.771" /><testcase classname="tests.unit.test_git" name="test_existing_branch_and_nested_workspace_denied" time="1.025" /><testcase classname="tests.unit.test_project_graph" name="test_graph_models_support_typed_and_extension_relations" time="0.002" /><testcase classname="tests.unit.test_project_graph" name="test_python_ast_graph_and_persisted_manifest" time="2.793" /><testcase classname="tests.unit.test_project_graph" name="test_dirty_incremental_refresh_cache_hit_rename_and_delete" time="3.267" /><testcase classname="tests.unit.test_project_graph" name="test_schema_valid_graph_tampering_forces_deterministic_rebuild" time="1.670" /><testcase classname="tests.unit.test_project_graph" name="test_graph_refresh_synchronizes_top_level_manifest_cursor" time="2.474" /><testcase classname="tests.unit.test_project_graph" name="test_untracked_files_and_full_rebuild_after_cache_deletion" time="2.522" /><testcase classname="tests.unit.test_project_graph" name="test_graph_engine_isolates_repository_roots" time="3.381" /><testcase classname="tests.unit.test_project_graph" name="test_git_branch_switch_refreshes_graph_and_memory_freshness" time="2.781" /><testcase classname="tests.unit.test_project_index" name="test_rebuild_generates_all_artifacts_and_searches_each_source" time="2.494" /><testcase classname="tests.unit.test_project_index" name="test_search_rebuilds_deleted_index_after_cache_deletion" time="2.706" /><testcase classname="tests.unit.test_project_index" name="test_indexes_are_strictly_isolated_by_repository_root" time="4.446" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[api_key]" time="0.002" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[ORQALIS_OPENAI_API_KEY]" time="0.002" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[DATABASE_PASSWORD]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[access_token]" time="0.002" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[refresh_token]" time="0.002" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[client_secret]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[apiKey]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[accessToken]" time="0.002" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[refreshToken]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[databasePassword]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[privateKey]" time="0.002" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[authorization]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[cookie]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[DATABASE_PASSWORD=&quot;a secret with spaces {secret}&quot;]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[access_token={secret}]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[Authorization: Basic {secret}]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[Request headers: Authorization: Basic {secret}]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[Cookie: session={secret}; identity=private]" time="0.004" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[postgresql://operator:{secret}@localhost/database]" time="0.001" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[{{&quot;summary&quot;: &quot;access_token={secret}&quot;}}]" time="0.002" /><testcase classname="tests.unit.test_security" name="test_usage_metadata_and_ordinary_source_remain_public" time="0.002" /><testcase classname="tests.unit.test_security" name="test_escaped_json_credentials_and_long_assignment_text_are_bounded" time="0.011" /><testcase classname="tests.unit.test_security" name="test_guardian_rejects_environment_named_opaque_credentials" time="1.746" /></testsuite></testsuites>

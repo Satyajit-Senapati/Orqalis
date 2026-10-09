@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T15:51:31.412140+00:00",
+  "status": "PASS_SCOPED_APPLIED_EDITORIAL_REVIEW_NO_QUALIFICATION_CREDIT",
+  "scope": "Independent read-only comparison of two applied documents/private originals/drafts and bounded linked-file/fragment/recorded-outcome checks. No builds/workloads/application hashing or external access.",
+  "source_binding": {
+    "application_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+    "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+    "binding_method": "Existing source-bound static/full13 records and exact applied document bytes; no new live source fingerprint computation."
+  },
+  "applied_record": {
+    "path": "docs\\quality\\evidence\\release-doc-purpose-consolidation-applied-v1.json",
+    "sha256": "7268c3c971b560ba53aea68fbc0cbe90ab14c493658a9b63c18fc5074e4141be"
+  },
+  "documents": [
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "original_private_copy": ".tools/research/release-doc-consolidation-originals-v1/NPM_RELEASE_READINESS.md",
+      "original_sha256": "6f28c8daedcf6a84a348018a1c368635f0aa5c3dbe6be3339401887811a32153",
+      "reviewed_draft_sha256": "a5792a983f46d54e1d034733a4dd49d3a048713e7c2430feb870625f817f17dd",
+      "applied_sha256": "7e5717ea791f3fc675960b3b4784e89ce9aefd4c382b0abb6c2eff00537c00ea",
+      "original_draft_applied_hashes_match_record": true,
+      "lines": 102,
+      "bytes": 8228
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "original_private_copy": ".tools/research/release-doc-consolidation-originals-v1/ENHANCEMENT_STATUS.md",
+      "original_sha256": "56638251b8bb894f5866ca2fc61fb63d592bbf98da98e0c469d58713e0788052",
+      "reviewed_draft_sha256": "2f474f3276b703e71c918dc053a36146e9de13dafb67574fea9f61d398021abf",
+      "applied_sha256": "6f16696fd8b7f8ecda39dde3a5b8e934d6057fbd52c96c8d92a51e3e0ebeaaf7",
+      "original_draft_applied_hashes_match_record": true,
+      "lines": 173,
+      "bytes": 14423
+    }
+  ],
+  "disclosed_deltas": [
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "changes": [
+        {
+          "tag": "replace",
+          "draft_start": 22,
+          "applied_start": 22,
+          "before": [
+            "| Current static/advisory/86-contract preflight | Running; no accepted result claimed here | [Active worklist](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/NEXT_SESSION.md) |"
+          ],
+          "after": [
+            "| Current static/advisory/86-contract preflight | 11 static gates PASS, three fresh audits clean; current86 running, preflight acceptance pending | [Active worklist](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/NEXT_SESSION.md) |"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "changes": [
+        {
+          "tag": "replace",
+          "draft_start": 45,
+          "applied_start": 45,
+          "before": [
+            "| Fresh static/advisory/86-contract preflight | Running; no accepted result claimed here |"
+          ],
+          "after": [
+            "| Fresh static/advisory/86-contract preflight | [11 static gates PASS](evidence/release-static-websocket.json), three fresh audits clean; current86 running, preflight acceptance pending |"
+          ]
+        },
+        {
+          "tag": "replace",
+          "draft_start": 99,
+          "applied_start": 99,
+          "before": [
+            "Ordinary-path layout optimization retains fresh ancestry checks, both resolves and",
+            "containment; arbitrary paths/subclasses keep their fallback and independent atomic-write",
+            "guards. [Applied layout review](evidence/release-layout-resolution-applied-independent-review-v1.json)"
+          ],
+          "after": [
+            "Ordinary-path layout optimization skips only redundant store-prefix resolution after",
+            "fresh full ancestry validation; candidate resolution and containment remain. Noncanonical",
+            "stores, arbitrary paths and subclasses retain fallback and independent atomic-write guards. [Applied layout review](evidence/release-layout-resolution-applied-independent-review-v1.json)"
+          ]
+        }
+      ]
+    }
+  ],
+  "layout_correction": "Matches existing applied layout review bounds: only eligible redundant store-prefix resolution skipped after fresh ancestry; candidate resolve/containment and atypical/custom/fallback/independent atomic guards remain. No universal both-resolves claim retained.",
+  "recorded_evidence_checks": {
+    "static": {
+      "path": "docs\\quality\\evidence\\release-static-websocket.json",
+      "sha256": "4cc518cab69b69048f040911d5e20abb53a14701a1bca17b7eeb57f22b95abfb",
+      "gates": 11,
+      "all_recorded_PASS": true
+    },
+    "advisories": [
+      {
+        "path": "docs\\quality\\evidence\\release-python-advisories-websocket.json",
+        "sha256": "b9c5b259cfc5701b721e974b81249da80d6a6093ed29fb7bd20ea7c69f5d5672",
+        "recorded_vulnerabilities": 0
+      },
+      {
+        "path": "docs\\quality\\evidence\\release-web-advisories-websocket.json",
+        "sha256": "2b14817574e6290e67865d4bc517f834e26a6ff90af8a36d906f8936559b3c93",
+        "recorded_vulnerabilities": 0
+      },
+      {
+        "path": "docs\\quality\\evidence\\release-launcher-advisories-websocket.json",
+        "sha256": "63b438e17b8e5147b74190133b6a805956878b33859c6ec496bda2c3afe86b87",
+        "recorded_vulnerabilities": 0
+      }
+    ],
+    "full13": {
+      "path": "docs\\quality\\evidence\\full-regression-release-13.json",
+      "sha256": "1ede4672b23f6e70048e0df3597767351feb55dcb20cc5da7cefa5dff2b3789c",
+      "passed": 892,
+      "tests": 894,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "recorded_stability_flags": {
+        "source_stable": true,
+        "tests_stable": true,
+        "helper_stable": true,
+        "wrapper_stable": true,
+        "environment_stable": true
+      },
+      "standalone_only_no_round_credit": true
+    }
+  },
+  "retention": "The reviewed 10-entry private retention map remains applicable apart from explicitly corrected layout resolve wording and actual static/audit update. Historical106×8 matrix preserved in existing JSON; original entire public prose backups verified exact. No historical source797 result promoted to current qualification.",
+  "limits_preserved": [
+    "23 accepted P1 IMPLEMENTED_PENDING_EVAL;13DEFER;0of2;no signoff.",
+    "Full13 two probes unqualified, precise symlink OSError unrecorded; live shared Windows junction/fake sandbox mandatory proof bounded, no native/paid/cross-platform certification.",
+    "Failed8/10/full10/full12 and older browser observations remain; original causes/precise cleanup branch untraced.",
+    "Allnine retained baseline timings and raw30REVIEW losses, previouscandidate/selectionbias/noquiet/RSS/universalSLO constraints remain.",
+    "No main commit/push/tag/publication; disposablefixturecommits authorized; hosted exactartifact/platform/publication owner gates remain future.",
+    "Final current artifacts,86/preflight,two complete rounds,independent dispositions,final repack/runtime equality/installed snapshot/package docs audit remain required."
+  ],
+  "link_checks": {
+    "references_checked": 81,
+    "markdown_fragments_checked": 11,
+    "missing_targets": 0,
+    "missing_fragments": 0,
+    "github_urls_checked_against_local_repository": true,
+    "remote_access_or_deployed_snapshot_verified": false,
+    "final_package_or_complete_repository_audit": false
+  },
+  "qualification_disposition": "Editorial PASS only. Current86/preflight acceptance/fullcandidate rounds/artifacts/finalindependentreviews remain pending; this review closes no capability or convergence iteration.",
+  "changes_by_reviewer": "Only this new canonical review JSON; no public/source/test/helper/backup/draft changes."
+}

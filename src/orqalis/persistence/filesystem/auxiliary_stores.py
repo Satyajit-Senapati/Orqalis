@@ -12,7 +12,7 @@ from pydantic import ValidationError
 from orqalis.domain.artifact import Artifact, Finding
 from orqalis.domain.base import Entity
 from orqalis.domain.delivery import ChangeReport, FinalValidation, GitDelivery
-from orqalis.domain.errors import ConflictError
+from orqalis.domain.errors import ConflictError, NotFoundError
 from orqalis.domain.execution import ReviewRecord, RunWorkspace, ToolInvocation
 from orqalis.domain.provider import ProviderExecution
 from orqalis.persistence.filesystem.task_store import TaskCapsuleSession
@@ -90,7 +90,23 @@ def _find[EntityT: Entity](
     key: str,
     model: type[EntityT],
     identifier: UUID,
+    *,
+    run_id: UUID | None = None,
 ) -> tuple[UUID, EntityT] | None:
+    if run_id is not None:
+        try:
+            document = _document(session, run_id, namespace)
+        except NotFoundError:
+            return None
+        return next(
+            (
+                (run_id, value)
+                for value in _models(document, key, model, run_id=run_id)
+                if value.id == identifier
+            ),
+            None,
+        )
+    session.lock_auxiliary_identities()
     found: tuple[UUID, EntityT] | None = None
     for aggregate in session.iter_capsules():
         document = _document(session, aggregate.run.id, namespace)
@@ -194,13 +210,14 @@ class FilesystemExecutionRepository:
         document["workspace"] = _dump_workspace(workspace, self.session.layout.root)
         self.session.save_extension(workspace.run_id, _EXECUTION_NAMESPACE, document)
 
-    def tool(self, invocation_id: UUID) -> ToolInvocation | None:
+    def tool(self, invocation_id: UUID, *, run_id: UUID | None = None) -> ToolInvocation | None:
         found = _find(
             self.session,
             _EXECUTION_NAMESPACE,
             "tools",
             ToolInvocation,
             invocation_id,
+            run_id=run_id,
         )
         return found[1] if found else None
 
@@ -270,13 +287,14 @@ class FilesystemProviderRepository:
     def __init__(self, session: TaskCapsuleSession) -> None:
         self.session = session
 
-    def get(self, invocation_id: UUID) -> ProviderExecution | None:
+    def get(self, invocation_id: UUID, *, run_id: UUID | None = None) -> ProviderExecution | None:
         found = _find(
             self.session,
             _PROVIDER_NAMESPACE,
             "invocations",
             ProviderExecution,
             invocation_id,
+            run_id=run_id,
         )
         return found[1] if found else None
 

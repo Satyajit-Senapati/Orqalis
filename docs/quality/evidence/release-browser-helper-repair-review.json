@@ -1,0 +1,45 @@
+{
+  "reviewed_at": "2026-10-02T11:51:49.482432+00:00",
+  "scope": "Independent static review only; no tests, benchmark workloads, installer runs or audits performed. Private helper repair does not alter frozen source or test inputs.",
+  "status": "HELPER_REPAIR_ACCEPTED_FOR_FRESH_QUALIFICATION_NOT_CONVERGED",
+  "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "release_input_sha256": "49af6bd8978badbb6fcf10e84d7d92a4b74133e40dae53e51d6de24c821dab1b",
+  "release_input_inventory": "docs/quality/evidence/release-input-freeze-bootstrap.json",
+  "verified_frozen_inputs": 390,
+  "input_hash_mismatches": [],
+  "private_helper_inventory": "docs/quality/evidence/release-private-helper-inventory-v4-corrected.json",
+  "helper_hashes": {
+    ".tools/research/release_complete_rounds_v3.py": "e3244950ba4ca3520eb7e301678c5d445610d94a37dd776bbcab575e2cbca5bc",
+    ".tools/research/release_qualification_v4.py": "864b8593b81cd8cee6cc4f3647a2b2eb852bd3cc63155ba00c05280f86f52e90",
+    ".tools/research/release_browser_qualification_v3.py": "0bb6256f651b90d8c887af419262c2688d3d7587bab39f86df56cdf3b03b6c71",
+    ".tools/research/run_full_regression_release_v3.py": "444b7d8f1d7879ab009b87157d80befb0e53bb61155b30f6515374721c02c610"
+  },
+  "helper_hash_mismatches": [],
+  "operator_token_flow": {
+    "generation": "secrets.token_urlsafe(32), ephemeral owned local fixture only",
+    "host_configuration": "configured_host overrides parent ORQALIS_OPERATOR_TOKEN during native ui_session; API create_app(root) SDK Settings receives normal environment configuration. Host Settings also uses SecretStr.",
+    "browser_configuration": "matching ORQALIS_E2E_OPERATOR_TOKEN in dedicated browser subprocess environment; not a command-line argument",
+    "restoration": "finally restores previously configured parent value; otherwise removes ORQALIS_OPERATOR_TOKEN, including exceptional exits",
+    "report_serialization": "token value and its hash are absent from helper JSON report; operator_token_in_report=False is a narrow claim",
+    "limits": "Failure artifacts, traces, browser assertion output or logs may expose this transient fixture token. No broad no-persistence assertion is accepted."
+  },
+  "qualification_strategy": {
+    "fresh_attempts": [
+      6,
+      7
+    ],
+    "ordering": "Sequential complete fresh rounds, browser gate first, stop on failure; frozen source/input identities checked around each round",
+    "required_browser_result": "All 14 unchanged test cases execute with zero skips, failures or errors and stable source",
+    "preserved_history": [
+      "release-browser-2.json / XML: 13 passed, 1 skipped, failed gate",
+      "release-round-2-interruption.json: incomplete round, not clean",
+      "release-round-4-pre-host-interruption.json: stopped owned wrapper before host/browser qualification",
+      "Earlier private helpers and inventories remain historical records"
+    ],
+    "current_complete_clean_rounds": 0,
+    "required_complete_clean_rounds": 2
+  },
+  "implementation_or_test_changes": "All 390 frozen input hashes match, including source, E2E tests and Playwright configuration; review observes no assertion or timeout weakening. Only private release qualification helpers changed.",
+  "findings": [],
+  "release_signoff": "Pending two actual clean complete rounds and final source-bound acceptance evidence. This helper review is not a PASS for unexecuted browser or full regression gates."
+}

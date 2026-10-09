@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T18:02:04.897103+00:00",
+  "status": "ISOLATED_NATIVE_PROOF_DESIGN_APPROVED_NO_PRODUCTION_APPLICATION_OR_RELEASE_ACCEPTANCE",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "reviewed_files_sha256": {
+    "docs/quality/evidence/release-windows-replace-proof-plan-v1.json": "45495841127c90aeeb169ac37914d6d8197719ca225ba8594968053dfef3fd5a",
+    ".tools/research/release_windows_replace_io_proposal_v1.py": "3035593133a783cd0f4553e7b4ca7435d1799c171e6290faf8cb8ae8ee96e7cc",
+    ".tools/research/release_windows_replace_proof_v1.py": "62ee30960451abc170b7f968d6c087e8c6177b1ff9b67d1342631c2283a2aa81",
+    ".tools/research/release_windows_replace_proposal_v1.patch": "9e444cf00cb2a6a0e07a2c6f04723687fc4477004f016510882da140fdcdba1c",
+    ".tools/research/release_windows_replace_tests_proposal_v1.py": "2d8a754779d35b2b61abe9f182d6fd08caad287af24ea955e2166b6a27df27d9"
+  },
+  "current_io_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+  "current_io_matches_frozen_input": true,
+  "changed_functions_only": [
+    "atomic_write_bytes"
+  ],
+  "imports_unchanged": true,
+  "exclusive_destinations_absent": {
+    "owned_fixture": true,
+    "result": true
+  },
+  "proposal_disposition": {
+    "retry": "Five total attempts; only nt PermissionError winerror5/32/33. Four scheduled waits20/40/80/160ms sum300ms versus prior60ms, +240ms per affected write. Unknown codes/nonWindows/other exception types remain immediate.",
+    "durability": "Same flushed/fsynced/read-back-validated complete temporary bytes, mode handling, atomic replace, directory fsync and finally unlink. Final persistent denial propagates and leaves original bytes intact; no partial-write success.",
+    "policy": "Target full ancestry guard still before backoff, newly after backoff before any later replace; policy rejection interrupts retry and cleanup remains. No storage format/dependency/lock/caller deadline edit.",
+    "latency": "Scheduled backoff limit only; OS/scheduler/native call latency can exceed it. Additional cost must remain disclosed, not guaranteed recovery or wall-time budget."
+  },
+  "native_proof_disposition": {
+    "mechanism": "Actual os.replace delegated on fresh owned target with real reader. Wrapper logs real recognized native denial then closes actual reader after third denial, reraises same error. Original policy should fail at3, proposed succeeds at4; persistent actual open reader must fail at5. No injected native timing threshold or scheduler waiver.",
+    "cases": "Exactly3 native cases plus2 mocked unknown/nonWindows classifier cases. Namespaces for os/time are local copies; shared global modules are not rewritten. Reader closes in finally; target bytes/temp-file absence asserted.",
+    "bindings": "Script before/after compares all390 listed file hashes, seven exact plan-protected records and plan hash. This is not a full source file-set/18-helper inventory scan; do not describe it as such. Current io individually exact matches freeze in this review.",
+    "permission": "One isolated controlled proof invocation only once parent confirms no other owned workload. Not application of proposal, benchmark retry or original failure cause reproduction."
+  },
+  "staged_test_review": {
+    "status": "PROSPECTIVE_COVERAGE_READY_TO_FORMAT_AND_FREEZE_NOT_EXECUTED",
+    "coverage": [
+      "Transient3/4 denial recovery cases added to existing1/2",
+      "Persistent5 attempts rejects with old bytes/temp cleanup",
+      "Unknown/nonWindows denied operation immediate one call/zero waits using cloned namespace",
+      "Guard denial after first scheduled wait precedes second replace, rejects operation and retains old bytes/temp cleanup",
+      "Existing general OSError interruption behavior unchanged"
+    ],
+    "remaining": "Format/lint/freeze exact successor tests then actual focused tests and strict typing before production qualification. Native proof does not execute these tests."
+  },
+  "before_production_application": [
+    "Read actual controlled proof results, including genuine native error and all five cases/stability flags; no inferred pass.",
+    "Apply only reviewed tiny production delta plus finalized protected test successor; source freeze must refresh.",
+    "Run meaningful focused tests covering post-wait guard, persistent/unknown/nonWindows failures and durability; fresh contracts/full qualification/artifacts required on changed source.",
+    "Keep original execution16 failure and unidentified denying process/cause unresolved unless separately proven. Increased bounded tolerance is a policy adjustment, not causal diagnosis."
+  ],
+  "release_limits": "23pending13DEFER0of2. No application runtime/source mutation, native proof/test/benchmark invocation, commit or publication by reviewer."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T23:16:29.767341+00:00",
+  "status": "GENERATION_CORRECTION_NO_JOURNAL_OPTIMIZATION_RECOMMENDED_PENDING_BOUNDED_TRACE_COST_REPLAY",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "separately_rehashed_named_files": {
+    "src/orqalis/persistence/filesystem/task_store.py": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+    "src/orqalis/observability/projections.py": "de100c5ed92628db9792531acd7d06c3d64c3f26d656205fcb8b1c5a9be8587f",
+    "src/orqalis/observability/trace.py": "4fae4815b33e79864d629a2c2fbf18c2ca7cdefbb8d6ff9fa2e2ba4caaaea787",
+    ".tools/research/baseline-b8506f7/src/orqalis/observability/projections.py": "f8682878cb5c20d0871ad5c763e0100e64ea344d3125bbc0eb12915b977a34ef",
+    "docs/quality/evidence/release-execution-candidate-operations-independent-disposition-v3.json": "8019b9d36b14312add864110765e108fd82786ed1e8ac02ccc2febf1aea4bf34"
+  },
+  "correction": [
+    "2120 atomic operations across88 repeated targets proves replacement frequency only, not equal content. Most serialized projections embed generation; required bytes change even when domain entities do not.",
+    "The earlier identical-byte recovery fastpath suggestion is speculative and not established material. Do not implement it for release on this evidence; markdown-only savings unmeasured and broader durability complexity unjustified.",
+    "Original raw observation and prior independent disposition retained unmodified."
+  ],
+  "actual_projection_delta": {
+    "changed_named_functions_vs_immutable_baseline": [
+      "get_snapshot"
+    ],
+    "added_work": "get_snapshot invokes new trace_hierarchy: sorted event scan, phase/attempt/actor/provider maps, actor-assignment sorting and TraceNode model construction.",
+    "removed_or_reused_work": "Scoped current goal/evidence lookup avoids global discovery. Actors/phases repository collections are bound once and reused both for existing projection and trace; no added repository fetch.",
+    "trace_algorithm_bounds": "For E events and N entities, event sorting O(E log E), one event pass, dictionary/set construction and entity-node creation; per-actor assignment sorting. No filesystem/store/SDK/Git/transaction calls in trace_hierarchy itself.",
+    "other_added_projection_logic_found": null,
+    "cause_limit": "Reachable added feature cost is concrete; no measured old snapshot-call count or per-call runtime is present in reviewed qualification reports, so do not assert material historical attribution."
+  },
+  "next_step": {
+    "permitted_parent_work": "One prospectively reviewed read-only final-fixture domain replay of trace_hierarchy on exact saved state/events, with actual frozen file hashes before/after and scalar-only result. No SDK/UOW/store/recovery/new execution.",
+    "reviewer_workloads_invoked": 0,
+    "decision": "If fixed domain cost is not material, retain unexplained execution performance blocker rather than adopting speculative write skipping, replacing qualification samples or repeating timings."
+  },
+  "final_docs_preparation": "Previously reviewed final-docv3 design remains unrun; no final signoff/promotion and no claim final archive checks passed. Final installed-doc/link/runtime-equivalence/no-links-special-duplicates checks mandatory after any approved repack.",
+  "performance_acceptance": "BLOCKED_MASTER53_NO_EXPLAINED_MATERIAL_EXECUTION_COST_YET",
+  "release_acceptance_credit": 0
+}

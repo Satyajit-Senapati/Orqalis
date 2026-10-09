@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T12:00:07.850929+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "BOUNDED_APPLIED_LAYOUT_V2_STATIC_REVIEW_PASS_FOCUSED_PENDING",
+  "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "source_inputs": 196,
+  "prior_source_sha256": "a360ed56a5afecf0490fee3e8661894cab982e15e51ee8fd5e6d0744e7bc64e1",
+  "scope": "Read-only applied source/proposal byte identity and full-source inverse proof. No workload/tests/source/helper edits by reviewer.",
+  "production": {
+    "path": "src/orqalis/persistence/filesystem/layout.py",
+    "sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba"
+  },
+  "proposal": {
+    "path": ".tools/research/release_layout_resolution_proposal_v2.py",
+    "sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba"
+  },
+  "applied_proposal_byte_identical": true,
+  "original_reconstructed_sha256": "c93b8b8b532e7c21a35782b0f20915f92c9eddc09886d501fa14d7f65023e52b",
+  "inverse_full_source_matches_prior": true,
+  "only_one_production_delta_proved": true,
+  "line_endings": "Applied v2 and reconstructed prior layout are LF; exactc93b prior byte hash matches without CRLF conversion. Earlier Git files\u2019 CRLF normalization is already part of unchangeda360 source and is not a new delta here.",
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "static_proposal_review": {
+    "path": "docs/quality/evidence/release-layout-resolution-proposal-independent-review-v2.json",
+    "sha256": "38fcebd1b6ab61b144d75eba25dbc15c813032e8ab1c084cd9ab31cd29bbd3b2",
+    "limits_retained": true
+  },
+  "bounds": [
+    "Skip only redundant store.resolve for ordinary descendant whose store has exact native Path type, absolute path and no .. components.",
+    "Subclasses/custom Path/relative or parent-traversal mutated roots/atypical target parts retain original store resolution.",
+    "Full fresh candidate ancestry link/junction/metadata guard remains, then candidate.resolve and original resolved containment predicate. No path cache or caller-supplied trusted snapshot.",
+    "Public store/contained/root post-init and all unrelated methods unchanged; recovery and atomic independent guards, permissions/durability, approvals/transaction/checkpoint/UOW boundaries unchanged."
+  ],
+  "limits": [
+    "Error precedence/artificial prefix-specific resolve hooks and transient filesystem observations can differ on eligible paths. Existing TOCTOU remains; no race-free/error-identical guarantee.",
+    "Normal Windows Path comparison semantics used; exhaustive exotic alias parity not claimed.",
+    "Focused seven-file capture and four appended foundation cases were running at request; no actual focused PASS or browser PASS observed/claimed in this static review.",
+    "Root-reported strict287/lint success is not independently qualified captured evidence in this report.",
+    "No5s browser cure/performance/full86/all11preflight/installed/two-round convergence/release readiness claim."
+  ],
+  "focused_report_presence_at_static_save": false,
+  "qualification_disposition": "Read-only static evidence only; final captured focused/browser results require separate review and current bindings."
+}

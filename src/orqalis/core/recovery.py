@@ -12,6 +12,7 @@ from orqalis.domain.events import EventPayload, EventType
 from orqalis.domain.provider import InvocationStatus, ProviderErrorCode
 from orqalis.domain.run import RunState
 from orqalis.domain.task import Task, TaskStatus
+from orqalis.execution.sandbox import SandboxOwner, reconcile_sandboxes
 from orqalis.security.redaction import safe_diagnostic
 
 
@@ -93,6 +94,9 @@ class RecoveryService:
                     for a in uow.runtime.executions(run_id)
                 ):
                     raise ConflictError("A newer task attempt already exists")
+                workspace = uow.execution.workspace(run_id)
+                if workspace:
+                    reconcile_sandboxes(SandboxOwner(project.repo_root, run_id), workspace.path)
                 at = utc_now()
                 for provider in uow.providers.list(run_id):
                     if (

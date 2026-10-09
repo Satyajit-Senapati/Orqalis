@@ -1,0 +1,155 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-10-07T06:51:48.458703+00:00",
+  "controller_sha256": "d39baeb87577eec0ee9c0f9145317ebe3edd119cd4694804275a7b312de324b6",
+  "cases": [
+    {
+      "case": "success",
+      "status": "PASS",
+      "observed_primary": null,
+      "entry": {
+        "command": [
+          "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+          "-I",
+          "-B",
+          "-c",
+          "print(\"owned lifecycle success\",flush=True)"
+        ],
+        "cleanup_errors": [],
+        "owned_launcher_pid": 17040,
+        "assigned_before_resume": true,
+        "exit_code": 0,
+        "child_reaped": true,
+        "job_before_cleanup": {
+          "total_processes": 3,
+          "active_processes": 1,
+          "terminated_processes": 0
+        },
+        "job_after_normal_exit_grace": {
+          "total_processes": 3,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "unexpected_live_descendants_after_normal_exit": false,
+        "job_after_cleanup": {
+          "total_processes": 3,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "job_handle_closed": true,
+        "log_sha256": "6c1f23e4351db95747119269c2ed36e88b28c78dc8a8f9f442ecfa80dfe8d5a1"
+      }
+    },
+    {
+      "case": "timeout_descendant",
+      "status": "PASS",
+      "observed_primary": "TimeoutExpired",
+      "entry": {
+        "command": [
+          "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+          "-I",
+          "-B",
+          "-c",
+          "import subprocess,sys,time; subprocess.Popen([sys.executable,\"-I\",\"-B\",\"-c\",\"import time; time.sleep(120)\"]); print(\"owned descendant started\",flush=True); time.sleep(120)"
+        ],
+        "cleanup_errors": [],
+        "owned_launcher_pid": 36176,
+        "assigned_before_resume": true,
+        "primary_error_type": "TimeoutExpired",
+        "job_before_cleanup": {
+          "total_processes": 5,
+          "active_processes": 5,
+          "terminated_processes": 0
+        },
+        "unexpected_live_descendants_after_normal_exit": false,
+        "owned_job_termination_requested": true,
+        "job_after_cleanup": {
+          "total_processes": 5,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "job_handle_closed": true,
+        "exit_code": 4294967295,
+        "child_reaped": true,
+        "log_sha256": "b7b7d13e43824fe2c692287c8e437af594feb198c3ec13e3c88217cbc81ce7ce"
+      }
+    },
+    {
+      "case": "assignment_failure",
+      "status": "PASS",
+      "observed_primary": "RuntimeError",
+      "entry": {
+        "command": [
+          "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+          "-I",
+          "-B",
+          "-c",
+          "import subprocess,sys,time; subprocess.Popen([sys.executable,\"-I\",\"-B\",\"-c\",\"import time; time.sleep(120)\"]); print(\"owned descendant started\",flush=True); time.sleep(120)"
+        ],
+        "cleanup_errors": [],
+        "owned_launcher_pid": 13032,
+        "primary_error_type": "RuntimeError",
+        "owned_unassigned_launcher_termination_requested": true,
+        "job_before_cleanup": {
+          "total_processes": 0,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "unexpected_live_descendants_after_normal_exit": false,
+        "job_after_cleanup": {
+          "total_processes": 0,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "job_handle_closed": true,
+        "exit_code": 1,
+        "child_reaped": true,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "normal_exit_leaked_descendant",
+      "status": "PASS",
+      "observed_primary": "RuntimeError",
+      "entry": {
+        "command": [
+          "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+          "-I",
+          "-B",
+          "-c",
+          "import subprocess,sys,time; subprocess.Popen([sys.executable,\"-I\",\"-B\",\"-c\",\"import time; time.sleep(120)\"]); print(\"owned descendant started\",flush=True)"
+        ],
+        "cleanup_errors": [
+          {
+            "phase": "job-drain",
+            "type": "RuntimeError"
+          }
+        ],
+        "owned_launcher_pid": 22016,
+        "assigned_before_resume": true,
+        "exit_code": 0,
+        "child_reaped": true,
+        "job_before_cleanup": {
+          "total_processes": 4,
+          "active_processes": 2,
+          "terminated_processes": 0
+        },
+        "job_after_normal_exit_grace": {
+          "total_processes": 5,
+          "active_processes": 3,
+          "terminated_processes": 0
+        },
+        "unexpected_live_descendants_after_normal_exit": true,
+        "owned_job_termination_requested": true,
+        "job_after_cleanup": {
+          "total_processes": 5,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "job_handle_closed": true,
+        "log_sha256": "b7b7d13e43824fe2c692287c8e437af594feb198c3ec13e3c88217cbc81ce7ce"
+      }
+    }
+  ],
+  "scope": "Tiny owned-process lifecycle only; leaked descendant after exit0 correctly FAILS controller admission. No product workload or global termination."
+}

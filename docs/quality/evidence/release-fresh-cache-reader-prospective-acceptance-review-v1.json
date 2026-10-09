@@ -1,0 +1,36 @@
+{
+  "status": "CHANGES_REQUIRED_BEFORE_INVOCATION",
+  "reviewed_at": "2026-10-07T10:51:53.275529+00:00",
+  "scope": "Static named-file review only; no product import, publication, reader or workload invocation.",
+  "reviewed_sha256": {
+    ".tools/research/release_fresh_cache_reader_v1.py": "0e24e85a4ca2ce0e5f790b800a176ec8c2369c9f00027107a1bd109ff466de28",
+    ".tools/research/release_fresh_cache_reader_outer_v1.py": "d06d071d5a7af9f56c44b88a7374eb2a08d37602125750e780ace690f428712c",
+    "docs/quality/evidence/release-fresh-cache-reader-plan-v1.json": "f0254171903c66f21488537092bd4680975a96173337c2d02e93f6538ea3bd1a"
+  },
+  "blocking_findings": [
+    {
+      "file": ".tools/research/release_fresh_cache_reader_v1.py",
+      "line": 5,
+      "issue": "PLAN_PATH is release-cache-reader-fresh-cache-reader-plan-v1.json; actual staged plan and outer use release-fresh-cache-reader-plan-v1.json. This fails before the workload or binds an unintended file.",
+      "required": "Preserved successor must use exact staged plan path and update plan/helper/outer hashes."
+    },
+    {
+      "file": ".tools/research/release_fresh_cache_reader_v1.py",
+      "line": 6,
+      "issue": "OUTPUT is release-cache-reader-fresh-cache-reader-observation-v1.json; outer expects release-fresh-cache-reader-observation-v1.json. Successful worker output would not satisfy the outer.",
+      "required": "Preserved successor must use exact declared observation path and update all bindings."
+    }
+  ],
+  "otherwise_reviewed_scope": [
+    "Unchanged atomic_write_bytes publishes each separate owned copy outside reader clocks. Production owned-descriptor verification is explicitly disclosed.",
+    "Only ancestry/path/stat checks occur on newly published target before first external read; digest checks happen after measured return.",
+    "Native opener observer active only for native read, not writer; opposed orders and retained copies remain prospective diagnostic-only.",
+    "Outer retains original owned-job lifecycle, exact whole/full admission, failure-preserving all-outcome guards, review/rootACK requirements and 300-second cap."
+  ],
+  "limitations": [
+    "Immediate publication/read per reference does not recreate all263 initialization-cache age distribution or SDK background activity. It tests this concrete fresh-publication hypothesis only.",
+    "Native-only observer perturbation and publication scheduling remain limitations; no historical cause, original8011replacement, threshold waiver or final criterion closure."
+  ],
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false
+}

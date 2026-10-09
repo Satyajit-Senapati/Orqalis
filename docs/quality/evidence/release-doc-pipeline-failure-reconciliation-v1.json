@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T17:21:06.639525+00:00",
+  "status": "APPLIED_ACTUAL_FAILED_PIPELINE_DOC_RECONCILIATION_NO_CLOSURE",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "documents": [
+    {
+      "path": "docs/quality/NEXT_SESSION.md",
+      "before_sha256": "54aaf929f8d71b05cb7fb8a84baa788e4aac23e9bb263a7c8e5cbbd8655d1034",
+      "after_sha256": "444f9acc3344f26541ca043a0607817810820e0bd0a8155592c9984adf8624ff",
+      "bytes": 8492,
+      "lines": 117
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before_sha256": "8747cb6eefcbd3d491770da40eaf8538aff1412b8d8354ae6371764700e10cb4",
+      "after_sha256": "e00e8f619e9a2e6d383cee16ff89e0b6d55f6a51a26b5f87a01093b72cc1c247",
+      "bytes": 16457,
+      "lines": 188
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before_sha256": "2bffad50a95c4de8d1e6288cfd44887de1eab09d1a42ce86d130b94b92ea2a36",
+      "after_sha256": "0576bd8b8dc243104c989bff768fd148a26861a86e2c99685dfc96d34c9336d3",
+      "bytes": 9977,
+      "lines": 115
+    },
+    {
+      "path": "docs/quality/capabilities.json",
+      "before_sha256": "162cfa7940ee39dad4cff2160573230587be056ca5102921beaf6a23fc801dcc",
+      "after_sha256": "e7ac2c55cdb17d5e0e722c53a7057081583b59b8cd2e9d1533a86a31c3dfd342",
+      "bytes": 46107,
+      "lines": 982
+    },
+    {
+      "path": "docs/RELEASE_NOTES.md",
+      "before_sha256": "c918cc7d277df6499630f9d6ee55c95a02da8d7e5a140cb472e31223dc9476b0",
+      "after_sha256": "5c0684bed260a335613933590b23c305b4bacf97ca776160f667b86b63e32dde",
+      "bytes": 18152,
+      "lines": 271
+    }
+  ],
+  "exact_changes": [
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before": "The sequential preflight pipeline is running. No current complete accepted release\niteration or final sign-off exists: **23 P1 pending, 13 DEFER, 0/2 full iterations**.",
+      "after": "The [sequential pipeline](evidence/release-websocket-pipeline-v1.json) closed with exit1:\ncapture16 failed current execution repetition1 on WinError5 replacing `task.yaml`.\nThe cause remains unproven;17 is unrun. Release preparation is **blocked**, with no\nfinal sign-off: **23 P1 pending, 13 DEFER, 0/2 complete accepted iterations**."
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before": "| Fresh static/advisory/86-contract preflight | [11 static gates PASS](evidence/release-static-websocket.json), [86 frozen contracts PASS](evidence/release-contracts-current-websocket-v2.json), zero skips; three fresh audits clean; actual frontend/preflight acceptance pending |",
+      "after": "| Fresh static/advisory/86-contract preflight | 11 gates/86 contracts PASS, zero skips; three audits clean; [actual frontend/preflight acceptance PASS](evidence/release-source-freeze-websocket-accepted.json) |"
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before": "| Actual baseline/current frontend proofs and fresh artifacts | Pending current-source qualification |",
+      "after": "| Actual baseline/current frontend proofs and fresh artifacts | Both frontend proofs and [initial wheel/npm capture PASS](evidence/release-artifact-identity-websocket.json); later documentation bytes still require final repack |"
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before": "| 17 installed checks, MCP41, exact wheel/npm dependency audits | Pending current-source qualification |",
+      "after": "| 17 installed checks, MCP41, exact wheel/npm dependency audits | [Installed17/MCP41 PASS](evidence/installed-npm-release-2.1.0-websocket.json); exact51 third-party packages in each wheel/npm audit, zero vulnerabilities, pip26.2.1 |"
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before": "| Fixed 263-file heldout and 1,001-row history | Pending current-source witnesses |",
+      "after": "| Fixed 263-file heldout and 1,001-row history | [Functional witnesses PASS](evidence/release-current-benchmark-independent-review-v13.json); no paired heldout investigation trigger; **history performance unresolved** |"
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before": "| Complete candidate rounds 16/17 | Pending, 0/2; unchanged workloads/deadlines and independent review required |",
+      "after": "| Complete candidate rounds 16/17 | [16 incomplete](evidence/release-execution-current-16.json): current repetition1 failed;17 unrun;0/2, no pass alias |"
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before": "| Baseline execution in rounds 8/10: WinError5 atomic replacement | Both rounds incomplete; [round8 review](evidence/release-baseline-execution-8-independent-disposition-v1.json), [round10 raw](evidence/release-execution-baseline-10.json) |",
+      "after": "| Current execution capture16: WinError5 replacing `task.yaml` | [Raw incomplete capture](evidence/release-execution-current-16.json): repetition1 failed despite the existing three attempts with20/40ms backoff; sample0 passed93.38s. Cause unproven;17 unrun |\n| Baseline execution in rounds 8/10: WinError5 atomic replacement | Both rounds incomplete; [round8 review](evidence/release-baseline-execution-8-independent-disposition-v1.json), [round10 raw](evidence/release-execution-baseline-10.json) |"
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_STATUS.md",
+      "before": "The original OS denial/full10 timing cause and full12 precise branch remain unproven.",
+      "after": "[History v13](evidence/release-history-websocket-1001-v1.json) covers1,001 IDs in three\ntraversals/33 pages with stable order and successful concurrent reservation. Its wall\nmedian is662.6858ms versus prior194.8125ms (**3.402x**); CPU median625ms versus187.5ms.\n[Independent review](evidence/release-current-benchmark-independent-review-v13.json) leaves\n`HISTORY_PERFORMANCE_REVIEW_UNRESOLVED`; functional PASS is not performance acceptance.\nThe paired263 heldout has no investigation trigger, but its cap is12,000 characters,\nnot UTF-8 bytes; zero/one-parse assertions are inherited, without fresh persisted counters.\nNo quiet-host claim or historical-source797 performance replica follows.\n\nThe original OS denial/full10 timing cause and full12 precise branch remain unproven."
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before": "This candidate is **uncommitted and unpublished**. Local release qualification is\nrunning; **0/2 complete accepted benchmark/audit iterations** and no final sign-off exist.",
+      "after": "This candidate is **uncommitted and unpublished**. The local pipeline closed with\nexit1 after current execution capture16 failed;17 is unrun. Preparation is **blocked**:\n**0/2 complete accepted benchmark/audit iterations** and no final sign-off exist."
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before": "| Current static/advisory/86-contract preflight | 11 static gates and86 frozen contracts PASS; three fresh audits clean; actual frontend/preflight acceptance pending | [Active worklist](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/NEXT_SESSION.md) |",
+      "after": "| Current static/advisory/86-contract preflight | 11 gates/86 contracts PASS, zero skips; three audits clean; both actual frontend proofs accepted | [Accepted preflight](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-source-freeze-websocket-accepted.json) |"
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before": "| Both actual frontend builds; fresh wheel/npm installation | Pending current-source qualification | Same worklist; historical captures do not transfer automatically |",
+      "after": "| Both actual frontend builds; fresh wheel/npm installation | Source-bound initial capture PASS; final documentation repack remains | [Artifact identity](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-artifact-identity-websocket.json) |"
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before": "| Installed integration, exact dependency inventories | Pending: 17 installed checks, 41 MCP tools, exact wheel/npm advisory audits | Same worklist |",
+      "after": "| Installed integration, exact dependency inventories | 17 checks/MCP41 PASS; exact51 third-party packages in each audit, zero vulnerabilities, pip26.2.1 | [Installed evidence](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/installed-npm-release-2.1.0-websocket.json) |"
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before": "| Fixed 263-file heldout corpus and 1,001-row history | Pending current-source witnesses | [Benchmark guide](../benchmarks/README.md#historical-source797-release-benchmarks) |",
+      "after": "| Fixed 263-file heldout corpus and 1,001-row history | Functional witnesses PASS; no paired heldout trigger; history performance unresolved | [Independent review](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-current-benchmark-independent-review-v13.json) |"
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before": "| Two complete candidate rounds 16/17 | Pending; **0/2**, each requiring fresh full Python regression and all comparative gates | Master acceptance criteria and independent reviews |",
+      "after": "| Two complete candidate rounds 16/17 | 16 incomplete at current execution repetition1;17 unrun; **0/2** | [Raw failure](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-execution-current-16.json) |"
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before": "## Retained failures and qualification limits\n\n",
+      "after": "## Retained failures and qualification limits\n\nCurrent capture16 retains WinError5 during atomic `task.yaml` replacement despite\nthe existing three attempts with20/40ms backoff. Sample0 passed93.38s; repetition1\nfailed and the three-repeat report is incomplete. The denying process/cause is unproven.\nHistory functional coverage passes, but median662.6858ms versus194.8125ms (**3.402x**)\nand CPU625ms versus187.5ms leave `HISTORY_PERFORMANCE_REVIEW_UNRESOLVED`. Neither\nfunctional PASS nor a slower reference is a performance waiver. The heldout context\ncap is12,000 characters, not UTF-8 bytes; fresh parser counters were not persisted.\n\n"
+    },
+    {
+      "path": "docs/NPM_RELEASE_READINESS.md",
+      "before": "is the **sole ordered worklist**. Finish its source-bound gates and independent reviews;\nstop on failure or input drift.",
+      "after": "is the **sole ordered worklist**. Resolve current execution/history blockers and retain\nall failed evidence; stop on failure or input drift. Any source change requires refreshed\nsource-bound qualification. Complete independent reviews before restarting full iterations."
+    },
+    {
+      "path": "docs/quality/NEXT_SESSION.md",
+      "before": "All previous passing reports remain bound to their actual older source; they do not\nqualify this repaired source automatically. All23 accepted P1 remain",
+      "after": "Earlier source797 passes remain historical. Current source-bound preflight and initial\nartifact/heldout/history outcomes below do not count as complete iterations. All23 accepted P1 remain"
+    },
+    {
+      "path": "docs/quality/NEXT_SESSION.md",
+      "before": "  Their sequential preflight pipeline is now running. Earlier14/15 design is unused.",
+      "after": "  Their sequential pipeline has closed exit1; earlier14/15 design remains unused."
+    },
+    {
+      "path": "docs/quality/NEXT_SESSION.md",
+      "before": "## Remaining work, in order\n",
+      "after": "## Current pipeline result\n\nThe [pipeline](evidence/release-websocket-pipeline-v1.json) closed with exit1. Its first\nsix stages exited0: fresh11 static/86 contracts/three audits, actual baseline frontend,\n[both frontend/preflight acceptance](evidence/release-source-freeze-websocket-accepted.json),\n[initial installed wheel/npm](evidence/release-artifact-identity-websocket.json), fixed263\nheldout and history1,001. Installed17 checks/MCP41 and exact51-package wheel/npm audits\npass, including pip26.2.1; these are initial local artifacts, not final-doc qualification.\n\n[Capture16](evidence/release-execution-current-16.json) is incomplete: sample0 passed\n93.38s, current repetition1 failed WinError5 replacing `task.yaml` despite existing\nthree attempts with20/40ms backoff. The denying process/cause is unproven;17 is unrun.\nPrivate raw log: `.tools/research/release-v16-execution-current-16.log`. No automatic rerun.\n\n[History](evidence/release-history-websocket-1001-v1.json) retains functional1,001-ID,\nthree-traversal/33-page, stable-order and concurrent-reservation PASS. Wall median\n662.6858ms versus prior194.8125ms (3.402x), CPU625ms versus187.5ms remain\n[HISTORY_PERFORMANCE_REVIEW_UNRESOLVED](evidence/release-current-benchmark-independent-review-v13.json).\nThe paired heldout has no investigation trigger; its context cap is12,000 characters,\nnot UTF-8 bytes, and fresh parser counters are absent. Host observations prove no quiet\nmachine. A fixed history diagnostic must receive independent design review before use;\nno historical797 replica, performance closure or retry-until-green follows.\n\n## Remaining work, in order\n"
+    },
+    {
+      "path": "docs/quality/NEXT_SESSION.md",
+      "before": "1. Preserve the completed full13 result and both explicitly unqualified probes.\n   Resolve any later failure concretely; retain every failed capture.\n2. Fresh11 static gates, three advisory audits and86 frozen current contracts pass\n   (zero skips), with stable recorded identities. Complete both actual frontend proofs\n   and preflight acceptance. Earlier baseline86 contracts are reused only under exact\n   original guards, supplying no new measurement.\n3. Build and install fresh source-bound wheel/npm artifacts; verify cold/cached bootstrap,\n   isolated CLI/graph behavior, all17 installed checks/MCP41 and exact dependency audits.\n   Rerun the fixed263-file heldout pair and1,001-row history witness for this source.\n4. Run two complete new candidate rounds16/17 sequentially with unchanged workloads and\n   deadlines. Stop on failure or input drift. Independently dispose every retained\n   performance observation and each accepted P1 criterion before counting convergence.\n5. Obtain final quality/security/acceptance reviews; update existing release/status/\n   decision documents and tables. Create the master-required `OSS_ENHANCEMENT_SIGNOFF.md`\n   only after actual closure; retain13 DEFER decisions.\n6. Repack final consolidated docs against byte-identical tested runtime, prove installed\n   snapshot equality, and audit repository/package Markdown, HTML, images and fragments.\n   Bind final artifact hashes after packing; do not edit packaged prose afterwards.\n",
+      "after": "1. Diagnose capture16's actual Windows atomic-replace denial without weakening durability,\n   timeout/retry assertions or losing failed evidence. Apply a bounded repair only if\n   a concrete cause/defect is established; current cause remains unproven.\n2. Review the exact unrun fixed-pair history diagnostic independently, then investigate\n   the observed wall/CPU degradation. Preserve v13 and all older tails/timings; diagnostic\n   results are not complete release iterations or historical-source797 certification.\n3. If production/input/helper/environment changes, freeze the successor and refresh affected\n   preflight/frontends/installed/heldout/history proof. Unchanged artifacts may be reused\n   only under exact guards; final revised documentation still needs repacking.\n4. After blockers are resolved, obtain two newly labeled complete candidate iterations\n   with original workloads/deadlines. Keep16 failed and17 unrun; independently dispose\n   every criterion, raw30 REVIEW loss and all baseline/current performance observations.\n5. Obtain final quality/security/acceptance reviews and update existing decision/status\n   documents. Create master-required `OSS_ENHANCEMENT_SIGNOFF.md` only after closure;\n   all23 P1 remain `IMPLEMENTED_PENDING_EVAL` and13 DEFER remain.\n6. Repack final docs against byte-identical tested runtime, verify installed snapshot,\n   and audit repository/package Markdown, HTML, images and fragments. Bind final hashes\n   after packing; do not edit packaged prose afterwards.\n"
+    },
+    {
+      "path": "docs/RELEASE_NOTES.md",
+      "before": "observed application runtime regression. Fresh package/contract/benchmark qualification\nand two accepted complete rounds remain required; earlier captures are historical.\nFailed crash and WebSocket full-suite captures remain preserved.",
+      "after": "observed application runtime regression. Fresh current preflight/frontends, installed17/MCP41\nand exact51-package audits pass, as do fixed263 heldout/history functional witnesses.\nThe pipeline stopped when capture16 current execution repetition1 failed WinError5\nreplacing `task.yaml`; sample0 passed93.38s,16 is incomplete and17 unrun. Cause remains\nunproven. History median662.6858ms versus194.8125ms (3.402x), CPU625ms versus187.5ms\nremain unresolved despite functional PASS. Two complete accepted rounds and final-doc\nrepacking remain required; convergence0/2. All historical failed captures stay retained."
+    },
+    {
+      "path": "docs/quality/capabilities.json",
+      "field": "qualification_state",
+      "before": "Candidate2.1.0 sourceb2aa: narrow independently reviewed WebSocket finalization repair with unchanged authorization/replay/native cancellation/deadlines; affected16PASS0skip. Direct AnyIO metadata preserves all audited dependency versions. Fresh39064fb freeze; source797 passing static11/contracts86/browser14/installed17/MCP41/51-package audits/263heldout/1001history remain historical and need repaired-source qualification. Full10 hard-crash immediatelease FAIL retained; reviewed test-only existing shared30s correction actual8targetPASS on797. Full12 WebSocket cleanup FAIL retained; deterministic transport red/nativepass, afterrepair bothpass. Full13 complete894total/892PASS/0FAILorERROR/2SKIP, stable recorded inputs/environment, bothformerblockersPASS; optional liveDocker/directskill-symlink probes explicitly unqualified, mandatoryfake sandbox/sharedjunctioncontainmentPASS. Independentfull13skipreview retained; one upstreamTestClient AnyIOalias deprecationwarning preserved/independentlydisposed, noobservedruntime regression/no suppression. New18helper labels16/17 independentlydesignapproved, sequentialpipelineRUNNING: freshstatic11/currentfrozen86(0skip)/threecleanauditsPASS withstableidentities; actualfrontendproof/acceptancepending, boundedhostcontextrecord/noperformancewaiver; old14/15 unused. Immutablebaseline failures8/10 retained, exact predeclared3-repeat reference permitted prospectively; all earlier faster/slower baseline/current timings require independent performance disposition.23acceptedP1 IMPLEMENTED_PENDING_EVAL;13DEFER;0of2. Freshfullrounds/installedartifacts/contracts/heldout/history/finalreviews/docsrepack/links remain. No commit/push/tag/publication.",
+      "after": "Candidate 2.1.0 source b2aa/input64fb remains uncommitted and unpublished. Source-bound pipeline CLOSED EXIT1: fresh11 static/86 frozen contracts (zero skips)/three clean audits, both actual frontend proofs and accepted preflight, initial installed wheel/npm17 checks/MCP41/exact51-package audits (pip26.2.1), fixed263 heldout and history1001 functional witnesses passed. Capture16 current execution sample0 passed93.38s, repetition1 failed WinError5 replacing task.yaml despite existing three attempts20/40ms; complete:false,17UNRUN; denying process/cause unproven, no automatic rerun. History three traversals/33pages exact coverage/order/reservation PASS, but median662.6858ms versus194.8125ms (3.402x), CPU625ms versus187.5ms remain HISTORY_PERFORMANCE_REVIEW_UNRESOLVED. Functional PASS is not performance acceptance; no quiet-host or historical797 replica claim. Full13 standalone894 total/892PASS/0FAIL-ERROR/2 explicit SKIP with stable recorded identities; liveDocker/directskill-symlink unqualified, mandatory fake sandbox/shared junction guards PASS. Upstream TestClient alias warning retained, no suppression or observed application runtime regression. Existing failures8/10/full10/full12 and all faster/slower immutable execution reference observations/raw30 REVIEW losses remain. All23 accepted P1 IMPLEMENTED_PENDING_EVAL;13DEFER;0of2 complete accepted iterations, no signoff. Exact unrun history diagnostic requires independent review before invocation; unresolved blockers precede fresh complete rounds/finalreviews/docs runtime-byte repack/installedsnapshot/linkaudit. No main-project commit/push/tag/publication; hostedplatform and ownerpublication gates remain separate."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs\\quality\\evidence\\release-websocket-pipeline-v1.json",
+      "sha256": "4963b61f1a7bb82999da892014fe982b0d8f58fc8b153c9f29358d247bd0d231"
+    },
+    {
+      "path": "docs\\quality\\evidence\\release-execution-current-16.json",
+      "sha256": "3c8294c8feb37bb806537aca60123386211303078fec1aa8901a9d14435e4fd3"
+    },
+    {
+      "path": "docs\\quality\\evidence\\release-source-freeze-websocket-accepted.json",
+      "sha256": "0c209ed9160cb146253942869b9dd44c345aa92fe4870ec09e549302a2bb88ef"
+    },
+    {
+      "path": "docs\\quality\\evidence\\release-artifact-identity-websocket.json",
+      "sha256": "c76bd3d56c40b6b82122ced4a853ebc3d597d1e91330ca293e665c32e677a7be"
+    },
+    {
+      "path": "docs\\quality\\evidence\\release-heldout-review-v13.json",
+      "sha256": "99728b1b5d614b5d23dbe35add515a7d212edf88648d05f13d58f945f2f6041b"
+    },
+    {
+      "path": "docs\\quality\\evidence\\release-history-websocket-1001-v1.json",
+      "sha256": "90d93c2952ba3735af3e913c39e28fb8616b54de4cbf14e4b8054205d5da8efe"
+    },
+    {
+      "path": "docs\\quality\\evidence\\release-current-benchmark-independent-review-v13.json",
+      "sha256": "47a7534e3837d45666915c429e95d2994e292531558514eb8b30267c13f84167"
+    }
+  ],
+  "registry_only_qualification_state_changed": true,
+  "qualification_state_remains_string": true,
+  "all23_pending_13DEFER_0of2_retained": true,
+  "documents_excluded_from_frozen390": true,
+  "metadata_correction_for_next_acceptance_successor": "Earlier pending checklist HELDOUT_263 wording bounded12000bytes was inaccurate: actual v13 context cap is12000characters; zero/one parser assertions inherited and no freshly persisted parser counters. Earlier snapshot preserved; final successor must use correct unit/evidence scope. No product or golden dataset change.",
+  "limits": "Actual stage passes remain initial source-bound observations.16 incomplete17unrun/historyperformance unresolved; source ofWinError5 unproven. No performance waiver/quietclaim, no native/paid/crossplatform certification, no signoff or newcompleteiteration. No source/test/frozenhelper change, workload, source/dependency scan or commit. Pending unrun historyv2 not reviewed/approved/launched by this reconciliation."
+}

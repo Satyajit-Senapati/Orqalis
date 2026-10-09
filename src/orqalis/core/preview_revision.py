@@ -2,11 +2,14 @@ from collections.abc import Callable
 from datetime import datetime
 from uuid import UUID
 
+from orqalis.core.approval_subjects import plan_subject
+from orqalis.core.approvals import prepare_approval_request
 from orqalis.core.planning import plan_identity
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, locked_run, require_key
 from orqalis.core.task_runtime import refresh_ready
 from orqalis.domain.agent import AgentRole
+from orqalis.domain.approval import ApprovalStage
 from orqalis.domain.errors import ConflictError, PolicyDeniedError
 from orqalis.domain.events import EventPayload, EventType
 from orqalis.domain.plan import TaskPlan
@@ -61,7 +64,7 @@ class PreviewRevisionService:
                 ):
                     raise ConflictError("Plan cannot be edited after execution begins")
                 current = uow.runtime.get_plan(run.id, expected_version)
-                goal = uow.runs.get_goal(plan.goal_version_id)
+                goal = uow.runs.get_goal(plan.goal_version_id, run_id=plan.run_id)
                 if current is None or goal is None:
                     raise ConflictError("Current plan or goal is missing")
                 if current.goal_version_id != run.current_goal_version_id:
@@ -135,6 +138,14 @@ class PreviewRevisionService:
                         task_id=task.id,
                     )
                 refresh_ready(uow, updated, f"preview-edit:{key}", at)
+                prepare_approval_request(
+                    uow,
+                    updated,
+                    ApprovalStage.PLAN,
+                    revised.version,
+                    plan_subject(revised),
+                    "Review the dependency plan before execution",
+                )
                 uow.commit()
                 return locked_run(uow, run.id)
 

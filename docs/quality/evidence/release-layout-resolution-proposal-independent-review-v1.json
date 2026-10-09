@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T11:55:32.644724+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "BOUNDED_EXACT_UNAPPLIED_LAYOUT_RESOLUTION_REVIEW_PASS_NORMAL_ROOT_INVARIANT",
+  "source_sha256": "a360ed56a5afecf0490fee3e8661894cab982e15e51ee8fd5e6d0744e7bc64e1",
+  "source_inputs": 196,
+  "scope": "Read-only exact proposal delta and path/alias/permission/race/injection analysis. No application/helpers/tests edits or workloads run.",
+  "original": {
+    "path": "src/orqalis/persistence/filesystem/layout.py",
+    "sha256": "c93b8b8b532e7c21a35782b0f20915f92c9eddc09886d501fa14d7f65023e52b"
+  },
+  "proposal": {
+    "path": ".tools/research/release_layout_resolution_proposal_v1.py",
+    "sha256": "870e670dd630815924b9701477886305a758af3af535f03f04701ec6a1213dfa"
+  },
+  "patch": {
+    "path": ".tools/research/release_layout_resolution_proposal_v1.patch",
+    "sha256": "b3b50f85d65f25198540d363b3856ac5c5b38c472c302dc5e3edc21222dc8f22"
+  },
+  "mechanical_proof": "Reversing only ordinary_descendant initialization and selected resolved_store expression/comments restores original entire layout source exactly. All other methods, guard, candidate resolve and containment unchanged.",
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "decision": "Eligible only within normal frozen ProjectLayout invariant: native path root is normalized absolute by __post_init__, fixed .orqalis child, exact base type and ordinary descendant. This is not arbitrary root mutation/custom Path behavior or error chronology equivalence.",
+  "conclusions": [
+    "Subclasses start ordinary_descendant=False, retain self.store dispatch and both original filesystem resolves. Atypical absolute escapes/relative parent traversal also retain original store.resolve.",
+    "For normal base descendants, root post-init already canonicalizes/anchors input; .orqalis is fixed child. Full fresh candidate lstat ancestry guard still rejects root/store/descendant symlink and junction before candidate.resolve and containment.",
+    "Candidate.resolve still observes actual filesystem path. If an ancestor changes to a link after guard, candidate resolving outside original lexical store is denied; omitting store.resolve does not permit that outside path simply because prefix and candidate both newly resolve outside.",
+    "Missing regular descendants still use strict=False candidate resolution and lexical containment. No root/path metadata cache, trusted caller snapshot or global atomicity added.",
+    "Approval/transaction/checkpoint/recovery/atomic write behavior unchanged."
+  ],
+  "explicit_limits": [
+    "Dataclass root is frozen, but deliberate object.__setattr__ bypass with relative root or absolute .. components breaks normal invariant: proposed lexical resolved_store can produce PolicyDenied false rejection where previous store.resolve normalized it. No security bypass identified; do not claim mutation compatibility.",
+    "Path subclasses/custom resolve implementations and monkeypatched prefix-specific resolve faults can observe omitted call. Exact-type ProjectLayout does not imply native Path type. Native-root eligibility guard plus absolute/no-parent lexical checks can retain fallback if these atypical behaviors must be supported.",
+    "Windows store casing is compared by platform Path semantics. Symlink/junction aliases denied by fresh guard; candidate resolve remains authoritative. Exotic remaining aliases can produce stronger rejection rather than broaden lexical containment. No exhaustive Windows alias equivalence proven without fixtures.",
+    "Metadata/permission error precedence and concurrent transient observations can differ because one resolution is omitted. Unexpected errors in retained ancestry guard/candidate resolution remain fail closed; no guarantee of identical every-injected-error behavior.",
+    "Existing guard/resolve/IO TOCTOU limits remain; no race-free storage claim.",
+    "Unapplied at inspection, targeted tests pending. Earlier single passive2.921s diagnostic is not original5s acceptance or speedup proof. No full14/full86/two-round/installed/release readiness claim."
+  ],
+  "recommended_validation": [
+    "Native absolute ordinary/empty/missing descendants and candidate escape denial",
+    "Real root/store/parent/target symlink and junction denied by full fresh guard",
+    "Controlled ancestor swap between guard and resolve fails outside-store containment",
+    "Subclasses and absolute/traversal fallback retain both resolves/custom store dispatch",
+    "Unexpected lstat/candidate resolve permission failures propagate before IO; prefix-specific injected fault omission explicitly characterized",
+    "Windows ordinary casing and any supported short/drive aliases; false-denial characterization if deliberately altered roots are tested"
+  ],
+  "optional_conservative_gate": "If atypical root compatibility is required, skip store.resolve only for native Path root with is_absolute and no .. components; otherwise retain old resolution. This is lexical eligibility, not a cache or new filesystem trust check."
+}

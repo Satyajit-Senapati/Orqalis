@@ -1,0 +1,12 @@
+ImportError while loading conftest 'S:\Orqalis\tests\conftest.py'.
+_pytest.pathlib.ImportPathMismatchError: ('tests.conftest', 'S:\\Orqalis\\.tools\\research\\contract-tests-v3\\tests\\conftest.py', WindowsPath('S:/Orqalis/tests/conftest.py'))
+Traceback (most recent call last):
+  File "S:\Orqalis\.tools\research\release_event_contention_diagnostic_v3.py", line 51, in <module>
+    report={'status':'PASS' if result==0 else 'FAIL','proposal_sha256':proposal_sha,'production_unchanged':True,'source_sha256':source['sha256'],'source_stable':source==H['source_fingerprint'](ROOT),'test_sha256':before,'test_stable':before==hashlib.sha256(case.read_bytes()).hexdigest(),'exit_code':result,'elapsed_s':time.monotonic()-start,'junit_suites':[dict(s.attrib) for s in ET.parse(BASE.with_suffix('.junit.xml')).getroot().iter('testsuite')],'spans_sha256':hashlib.sha256(BASE.with_suffix('.spans.json').read_bytes()).hexdigest(),'scope':'PRIVATE PROPOSAL ONLY: FIFO gate injected into the module globals before tests, including retained FileLock aliases; production is unchanged. Seven new gate behaviors plus original foundation cases and fixed predeclared ten fresh-fixture executions of the unchanged frozen concurrent-event case, established controlled environment and original ten-second lock timeout. Passive per-thread operation timing only; not full preflight and not a waiver of the retained 85-pass/one-failure capture.'}
+                                                                                                                                                                                                                                                                                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "S:\Orqalis\.tools\python\cpython-3.12-windows-x86_64-none\Lib\xml\etree\ElementTree.py", line 1204, in parse
+    tree.parse(source, parser)
+  File "S:\Orqalis\.tools\python\cpython-3.12-windows-x86_64-none\Lib\xml\etree\ElementTree.py", line 558, in parse
+    source = open(source, "rb")
+             ^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'S:\\Orqalis\\docs\\quality\\evidence\\release-event-contention-diagnostic-v3.junit.xml'

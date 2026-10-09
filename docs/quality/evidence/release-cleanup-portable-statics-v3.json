@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "source_inputs_stable": true,
+  "environment_stable": true,
+  "checks": [
+    {
+      "name": "Ruff all",
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+        "-I",
+        "-m",
+        "ruff",
+        "check",
+        "src",
+        "tests"
+      ],
+      "exit_code": 0,
+      "log": ".tools\\research\\release-cleanup-portable-statics-v3-Ruff-all.log",
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "output": "All checks passed!\n"
+    },
+    {
+      "name": "Format all",
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+        "-I",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "src",
+        "tests"
+      ],
+      "exit_code": 0,
+      "log": ".tools\\research\\release-cleanup-portable-statics-v3-Format-all.log",
+      "log_sha256": "3c1445d7d048f5113aab0d89b9f0a2b5160bea98859c08651eb369ed281ec976",
+      "output": "295 files already formatted\n"
+    },
+    {
+      "name": "win32",
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\mypy.exe",
+        "--platform",
+        "win32"
+      ],
+      "exit_code": 0,
+      "log": ".tools\\research\\release-cleanup-portable-statics-v3-win32.log",
+      "log_sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356",
+      "output": "Success: no issues found in 287 source files\n"
+    },
+    {
+      "name": "linux",
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\mypy.exe",
+        "--platform",
+        "linux"
+      ],
+      "exit_code": 0,
+      "log": ".tools\\research\\release-cleanup-portable-statics-v3-linux.log",
+      "log_sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356",
+      "output": "Success: no issues found in 287 source files\n"
+    },
+    {
+      "name": "darwin",
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\mypy.exe",
+        "--platform",
+        "darwin"
+      ],
+      "exit_code": 0,
+      "log": ".tools\\research\\release-cleanup-portable-statics-v3-darwin.log",
+      "log_sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356",
+      "output": "Success: no issues found in 287 source files\n"
+    }
+  ],
+  "scope": "Configured strict287src/tests platform selection on Windows, NOT native Linux/macOS runtime. FullRuff+format; affected81 separately."
+}

@@ -7,6 +7,7 @@ import importlib
 import os
 import threading
 import time
+from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import TracebackType
@@ -17,9 +18,76 @@ class LockTimeoutError(TimeoutError):
     """Raised when an advisory filesystem lock cannot be acquired in time."""
 
 
+class _ReentrantGate:
+    """Give queued threads FIFO handoff while retaining same-thread reentrancy."""
+
+    def __init__(self) -> None:
+        self._condition = threading.Condition()
+        self._owner: int | None = None
+        self._depth = 0
+        self._waiters: deque[object] = deque()
+
+    def acquire(self, *, timeout: float) -> bool:
+        owner = threading.get_ident()
+        deadline = time.monotonic() + timeout
+        # Retain RLock rejection before the owner fast path bypasses bookkeeping.
+        if timeout != timeout:
+            raise ValueError("Invalid timeout")
+        if timeout > threading.TIMEOUT_MAX:
+            raise OverflowError("Timeout exceeds threading.TIMEOUT_MAX")
+        # Only this owner can change depth while owned; waiters only inspect owner.
+        if self._owner == owner:
+            self._depth += 1
+            return True
+        if not self._condition.acquire(timeout=timeout):
+            return False
+        try:
+            if self._owner == owner:
+                self._depth += 1
+                return True
+            if self._owner is None and not self._waiters:
+                if timeout != 0 and time.monotonic() >= deadline:
+                    return False
+                self._owner, self._depth = owner, 1
+                return True
+            if timeout == 0:
+                return False
+            waiter = object()
+            self._waiters.append(waiter)
+            try:
+                while self._owner is not None or self._waiters[0] is not waiter:
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        return False
+                    self._condition.wait(remaining)
+                if time.monotonic() >= deadline:
+                    return False
+                self._owner, self._depth = owner, 1
+                return True
+            finally:
+                self._waiters.remove(waiter)
+                self._condition.notify_all()
+        finally:
+            self._condition.release()
+
+    def ensure_owned(self) -> None:
+        """Reject another thread before it can change the owner's lease state."""
+        if self._owner != threading.get_ident():
+            raise RuntimeError("Cannot release an unowned filesystem lock gate")
+
+    def release(self) -> None:
+        with self._condition:
+            if self._owner != threading.get_ident():
+                raise RuntimeError("Cannot release an unowned filesystem lock gate")
+            self._depth -= 1
+            if self._depth == 0:
+                self._owner = None
+                self._condition.notify_all()
+
+
 @dataclass(slots=True)
 class _LockState:
-    gate: threading.RLock = field(default_factory=threading.RLock)
+    gate: _ReentrantGate = field(default_factory=_ReentrantGate)
     handle: BinaryIO | None = None
     depth: int = 0
 
@@ -46,7 +114,11 @@ class _MsvcrtModule(Protocol):
 def _state_for(path: Path) -> _LockState:
     key = os.path.normcase(str(path.absolute()))
     with _REGISTRY_GUARD:
-        return _REGISTRY.setdefault(key, _LockState())
+        state = _REGISTRY.get(key)
+        if state is None:
+            state = _LockState()
+            _REGISTRY[key] = state
+        return state
 
 
 def _try_platform_lock(handle: BinaryIO) -> bool:
@@ -135,6 +207,7 @@ class FileLock:
     def release(self) -> None:
         if self._acquisitions <= 0 or self._state.depth <= 0:
             raise RuntimeError("Cannot release a lock that is not held by this instance")
+        self._state.gate.ensure_owned()
         self._acquisitions -= 1
         self._state.depth -= 1
         try:

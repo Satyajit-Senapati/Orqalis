@@ -15,6 +15,7 @@ from orqalis.domain.timing import TimingBreakdown
 from orqalis.observability.activity import skill_activity
 from orqalis.observability.analytics import statistics, timeline
 from orqalis.observability.timing import EventTimingProjection
+from orqalis.observability.trace import trace_hierarchy
 
 
 class ProjectionRepository(Protocol):
@@ -37,7 +38,7 @@ class SnapshotProjectionService:
                 now = max(now, events[-1].occurred_at)
             timer = EventTimingProjection()
             goal = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )
@@ -76,7 +77,7 @@ class SnapshotProjectionService:
             if goal:
                 for criterion in goal.criteria:
                     for ref in criterion.evidence_refs:
-                        item = uow.runs.get_evidence(ref)
+                        item = uow.runs.get_evidence(ref, run_id=run.id)
                         if item:
                             evidence.append(item)
             run_timing = timer.run(events, now)
@@ -88,6 +89,8 @@ class SnapshotProjectionService:
                 if event.event_type == EventType.PROVIDER_INVOCATION_STARTED
             }
             tools = uow.execution.tools(run_id)
+            actors = uow.runtime.actors(run_id)
+            phases = uow.runtime.phases(run_id)
             reviews = uow.execution.reviews(run_id)
             guardians = uow.delivery.guardians(run_id)
             findings = uow.delivery.findings(run_id)
@@ -111,11 +114,11 @@ class SnapshotProjectionService:
                 plan=plan,
                 actors=tuple(
                     ActorProjection(session=actor, timing=timer.actor(events, actor.id, now))
-                    for actor in uow.runtime.actors(run_id)
+                    for actor in actors
                 ),
                 phases=tuple(
                     PhaseProjection(execution=phase, timing=timer.phase(events, phase.id, now))
-                    for phase in uow.runtime.phases(run_id)
+                    for phase in phases
                 ),
                 attempts=attempts,
                 task_timing=task_timing,
@@ -124,6 +127,7 @@ class SnapshotProjectionService:
                 tasks=all_tasks,
                 preparation_tasks=preparation,
                 timeline=segments,
+                trace=trace_hierarchy(run, phases, attempts, actors, providers, tools, events),
                 statistics=statistics(
                     segments, plan, task_timing, run_timing, providers, len(tools), reviews
                 ),

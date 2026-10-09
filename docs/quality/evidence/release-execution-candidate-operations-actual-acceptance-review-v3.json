@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T23:13:08.052721+00:00",
+  "status": "VALID_ONE_C_OPERATION_OBSERVATION_HYPOTHESES_NOT_SUFFICIENT_MASTER53_PERFORMANCE_BLOCKER_OPEN",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "release-execution-candidate-operations-c-v3.json": "6d21b43de9a6553c4c66b7b8a9575a022cbfafd7e9c0a3ac12e9ee3541b0a1fc",
+    "release-execution-candidate-operations-result-v3.json": "af57efa6180634ee402741ea3fae8176e6d6f464510d0742663a8d5e88d01ca1",
+    "release-execution-candidate-operations-actual-v3.json": "7f4116448ff760a27c4999ce3c2fc8e76f0f442aa93d24599240c5dff4ab3fe2",
+    "release-execution-reference-policy-v7.json": "6742ae4731e1d8869c0d8b5f0d250147e6ba61c530df9e4eb08e91de07981496",
+    "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+    "tests/support/trace_fixture.py": "08f212d1ca71b23f24a42cc5ac6e6562345b058f77cef9a09b6ca17eea23ad6f",
+    "src/orqalis/observability/projections.py": "de100c5ed92628db9792531acd7d06c3d64c3f26d656205fcb8b1c5a9be8587f",
+    ".tools/research/baseline-b8506f7/src/orqalis/observability/projections.py": "f8682878cb5c20d0871ad5c763e0100e64ea344d3125bbc0eb12915b977a34ef"
+  },
+  "plan_sha256": "2c33f25eae7a751e9183adfc65cfba5fb9d4366749050b44afd1574311eae4cb",
+  "runner_sha256": "da2057e9235bdba1a9283b843b95a3ebf8f4d04248d13b5b30609477dbbfe550",
+  "actual_guard_functional_process_proof": {
+    "source_input_plan_runner_bindings_stable": true,
+    "checks": 26,
+    "stability_checks": 4,
+    "original_assertions_pass": true,
+    "observer_bookkeeping_restoration_errors": 0,
+    "launcher_native_exit_and_handle_closed": true,
+    "observations": 1,
+    "baseline_retry": false
+  },
+  "measured": {
+    "execution_elapsed_ms": 51286.746600002516,
+    "native_self_cpu_seconds": 12.375,
+    "native_self_io": {
+      "ReadOperationCount": 7457,
+      "WriteOperationCount": 2309,
+      "OtherOperationCount": 302516,
+      "ReadTransferCount": 61168209,
+      "WriteTransferCount": 12430051,
+      "OtherTransferCount": 12453679
+    },
+    "lease_count": 28,
+    "first_acquisition_count": 26,
+    "already_held_count": 2,
+    "lease_interval_union_ms": 83.4942,
+    "first_lease_union_ms": 83.4896,
+    "held_lease_union_ms": 0.0046,
+    "native_replace_interval_union_ms": 955.7452,
+    "atomic_operations": 2120,
+    "replace_calls": 2122,
+    "native_windows_denials": [
+      {
+        "target": "repository\\.orqalis\\tasks\\ORQ-20261003-0001\\execution\\phases\\implementation.yaml",
+        "winerror": 5,
+        "error_type": "PermissionError",
+        "native_call_wall_ns": 563100
+      },
+      {
+        "target": "repository\\.orqalis\\tasks\\ORQ-20261003-0001\\execution\\agents\\29208974-a4e9-5973-80cc-5990bdf17f71\\session.yaml",
+        "winerror": 5,
+        "error_type": "PermissionError",
+        "native_call_wall_ns": 300200
+      }
+    ],
+    "scheduled_backoff_inferred_total_ms": 40,
+    "direct_hook_bookkeeping_ms": 36.1614,
+    "observer_screen": {
+      "status": "DIRECT_QUERY_SCREEN_PASS",
+      "combined_fraction": 7.226038393318203e-06,
+      "each_fraction": [
+        2.9559293589504577e-06,
+        4.270109034367746e-06
+      ],
+      "hook_bookkeeping_fraction": 0.0007050827435405744,
+      "limit": 0.01,
+      "scope": "Two native bundles just outside original clocks; direct query screen is not full perturbation/host-idleness proof. Native self-process CPU/IO excludes Git/tool child processes."
+    }
+  },
+  "strict_disposition": {
+    "master53_met": false,
+    "performance_acceptance_blocker": true,
+    "convergence_credit": 0,
+    "capability_promotions": 0,
+    "confirmed_new_p0_p1_correctness_defect": false,
+    "reason": "Observedauxiliarylease83.49ms and40ms scheduledbackoff are farbelow retainedcurrent63/71s versus55.6/55.9s excess. Current51.287s sample is faster butinstrumentedC-only/no validmatchedB; it cannot replace sixfull captures or establishhostcause/no candidate degradation. Native replace~955.75ms inthisrun also cannotattribute historicaldelta withoutmatchedhistoricaloperationcounters."
+  },
+  "remaining_concrete_executed_path": {
+    "path": "src/orqalis/observability/projections.py SnapshotProjectionService.get_snapshot",
+    "current_addition": "trace=trace_hierarchy(run, phases, attempts, actors, providers, tools, events)",
+    "retained_baseline": "No trace_hierarchy import/call in corresponding immutablebaseline projection.",
+    "reachability": "SDK.snapshot delegatesprojections.get_snapshot; originalexecute_trace_fixture includesprepare/snapshots/executor/finalsnapshot insideits elapsedboundary. Atminimum finalsnapshotexecutesaddedtrace call.",
+    "bounded_hypothesis": "Extra trace projection CPU/allocation work is an actualcurrentexecuted addition and potentialinvestigationtarget, not proven13\u201327%cause or incorrectbehavior. Thisdiagnostic didnotmeasure tracecallcount/duration orbaselinecounterdifference; do not ascribe measuredelapsed totrace.",
+    "other_checked_differences": "Currentgoal/evidence lookups passknownrun_id. Actor/phase lists factoredonce ratherthan duplicatequeries; source diffdoesnot show extraactor/phase fetchcounts."
+  },
+  "limits": [
+    "Inclusiveintervalunion avoids naiveconcurrenttime sum; lease/native intervals canoverlap andcannotbeadded ascausalpartition.",
+    "Inferred40ms is nominalimmutable20+20ms backoff, not observedactualsleeptime.",
+    "Self nativecounters omitGit/toolchild CPU/IO andinclude boundaryqueries; direct<1% ispartialobserver screen nothostquiet/unperturbedtimingproof.",
+    "Historicalslowdowns remainunattributed; failedB nativeWin5/currentrecoveredWin5 demonstrate realdenials, not holder/causeproof.",
+    "No recommendation orauthorization foradditional timing/profilerlottery; retainonefiniteobservation andspecificstaticcandidatepathforprospectivebounded investigation."
+  ],
+  "review_scope": "OnlythreeactualJSON/policy/fournamedsourcecallsitefiles read; no imports/productworkloads/nativequeries/source/publicdocs changes.",
+  "no_commit_or_publication": true
+}

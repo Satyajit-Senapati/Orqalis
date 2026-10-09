@@ -1,0 +1,26 @@
+{
+  "status": "APPLIED_TEST_ONLY_AFTER_INITIAL_PIPELINE_AND_PLATFORM_RED_ACTUAL_EXIT",
+  "created_at": "2026-10-03T20:08:09.753466+00:00",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "prior_input_sha256": "9959a8de6a58b58d910ce1c9ebc55332ea38549c3985077d3038fb8a56e9bf9d",
+  "new_input_sha256": "753fef31a0f7f3016be0a2db7a825465222a9c4e8708f4138bf678d3d1f71cd4",
+  "old_test_sha256": "333d7bc6cd10c9d47b60522bedbff28039f1a72a79bce8aef78d2e599c751258",
+  "new_test_sha256": "0c36a0f7c7a2eef3d48b739dfa983d53b266afa5546181b7cbf5563e1de5d9dc",
+  "changes": [
+    {
+      "before": "assert after.st_file_attributes == before.st_file_attributes",
+      "after": "assert getattr(after, \"st_file_attributes\") == getattr(before, \"st_file_attributes\")"
+    },
+    {
+      "before": "assert after.st_file_attributes & stat.FILE_ATTRIBUTE_READONLY",
+      "after": "assert getattr(after, \"st_file_attributes\") & stat.FILE_ATTRIBUTE_READONLY"
+    },
+    {
+      "before": "cleanup_error.winerror = winerror",
+      "after": "vars(cleanup_error)[\"winerror\"] = winerror"
+    }
+  ],
+  "red_report_sha256": "4701690454794d6da876dea03448a0b685462646141a801a57a1610feba22844",
+  "initial_pipeline_sha256": "522e3f1f8026cc28d8b6c67bd63bfc60cc97c2a709b3cac6457e5053dc9ad38b",
+  "limits": "Dynamic Windows fields only. No typeignore/default weakening/runtime change or native Linux/macOS execution claim."
+}

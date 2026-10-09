@@ -1,0 +1,57 @@
+{
+  "review": "Independent correction of atomic release per-file metadata review",
+  "created_utc": "2026-10-02T13:20:24.953608+00:00",
+  "status": "PASS_CORRECTED390_PER_FILE_HASHES_ORIGINAL_MAP_INVALID_WORKLOAD_IDENTITY_UNCHANGED",
+  "source_sha256": "0d26e92999fe556b69f9695d792ab8bc60313f60740cf74743741f420a0c8a4b",
+  "aggregate_sha256": "68de4158978e4b720b70d9cc1d9f08d46a12105320a0db64499be59929cbd242",
+  "file_count": 390,
+  "original_inventory": {
+    "path": "docs/quality/evidence/release-input-freeze-atomic.json",
+    "sha256": "c725c534e3f4d8ba191077133480b38ea7bdcbff616fbc6780d8de08338d7a1c",
+    "status": "INVALID_PER_FILE_MAPPING_PRESERVED_UNMODIFIED",
+    "mismatches": {
+      "src/orqalis/core/approvals.py": {
+        "recorded": "d22c06cc3cc56739ee617eb50fba029edcb0d1a9e5e1e99f19eb70c9d7234ca4",
+        "actual": "2480231ce3f59d27b49dd2ea8ef4737f168a17c8e52ed3858fcc60c9673f7ba4"
+      },
+      "src/orqalis/core/orchestrator.py": {
+        "recorded": "20400a7a16452e24854099c5452af4d116308330fce2438460a130336f67d3f4",
+        "actual": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38"
+      },
+      "src/orqalis/core/preview_revision.py": {
+        "recorded": "2f5a307ac1244c2da3776280e28050d3ecb919bbabba5cc47398170ed70c3dd2",
+        "actual": "208d4839eceaad764bec9a75623776607455beb66777296028c50668e3fc5e4d"
+      },
+      "tests/integration/test_plan_preview.py": {
+        "recorded": "624a303698bdd2ec4e982981502a3d55d881ff56077d74a0a79a1136f655575f",
+        "actual": "ec2a147dd95a8b160812b74987346e1a5c405288d85285b7a9866309f4227376"
+      }
+    }
+  },
+  "corrected_inventory": {
+    "path": "docs/quality/evidence/release-input-freeze-atomic-v2.json",
+    "sha256": "a3084926d713f8e4a65bcde5cbe963b67b3d7b641f13d45e18cffabe352b4c03",
+    "all390_individual_hash_values_match_current_bytes": true,
+    "keys_identical_to_original": true,
+    "source_and_actual_byte_aggregate_unchanged": true
+  },
+  "correction_capture": {
+    "path": "docs/quality/evidence/release-input-freeze-atomic-correction.json",
+    "sha256": "0e7267d99bc83dc1304f06e43f5d6e9bd9900bebb1fa5463183d211a93161599",
+    "four_mismatches_independently_confirmed": true
+  },
+  "prior_review_distinction": {
+    "path": ".tools/research/release-atomic-freshness-security-review.json",
+    "sha256": "c86edab5cea2d4a6464a0ddf677588fa80c856cdafd0b22af68c0dfcc175e92d",
+    "valid_scope": "Prior review independently recomputed source inventory/digest and aggregate digest over actual bytes using frozen keys, checked all private helper hashes, and inspected unchanged guard semantics. Those statements remain supported.",
+    "unsupported_per_file_interpretation": "Prior review did not compare each original files mapping value. Any shorthand asserting all390 frozen inputs match cannot certify that invalid per-file map. This fresh review explicitly limits the earlier coverage and independently verifies every corrected value. Original review and original invalid capture are preserved."
+  },
+  "workload_effect": "No file key, source byte, workload byte, case, label or environment change is introduced by correcting four stored per-file hash values. Aggregate/source guards of running preflight hash actual bytes, so this metadata correction alone does not invalidate those executed workload identities. Its eventual outcome is not certified here.",
+  "acceptance_required": "Final source/input acceptance must reference corrected atomic-v2 inventory and this correction record. Upcoming fresh helper copies must bind v2 and validate each stored per-file value at launch/per-command before full8/9/artifact qualification. Those not-yet-reviewed helpers/results are not certified by this review.",
+  "open_production_findings": [],
+  "limits": [
+    "Read-only correction verification plus new ignored JSON review only; no source/docs/test prose edit, workload execution, audit, benchmark, commit or publication.",
+    "No claim that running preflight, pending full rounds, or installed artifacts have passed.",
+    "The original inherited per-file metadata defect is an evidence-quality issue, not a newly detected application regression."
+  ]
+}

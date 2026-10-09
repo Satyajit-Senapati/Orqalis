@@ -28,7 +28,7 @@ from orqalis.domain.provider import (
 )
 from orqalis.domain.run import RunState
 from orqalis.domain.task import TaskStatus
-from orqalis.observability.instrumentation import observed_async
+from orqalis.observability.instrumentation import annotate_operation, observed_async
 from orqalis.providers.errors import ProviderError
 from orqalis.providers.validation import validate_result
 
@@ -149,12 +149,19 @@ class AgentExecutionService:
                 None,
             )
             goal = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )
             if task is None or actor is None:
                 raise NotFoundError("Execution contract not found")
+            annotate_operation(
+                run_id=run.id,
+                task_id=task.id,
+                actor_session_id=actor.id,
+                task_execution_id=attempt.id,
+                provider_invocation_id=invocation_id,
+            )
             # Deterministic service roles cannot be invoked as provider workers even
             # through the low-level SDK entry point with a caller-supplied schema.
             provider_output_schema(task.preferred_role)
@@ -168,7 +175,7 @@ class AgentExecutionService:
                 e
                 for criterion in (goal.criteria if goal else ())
                 for ref in criterion.evidence_refs
-                if (e := uow.runs.get_evidence(ref)) is not None
+                if (e := uow.runs.get_evidence(ref, run_id=run.id)) is not None
             )
             workspace = uow.execution.workspace(run_id)
             constraints = (
@@ -220,7 +227,7 @@ class AgentExecutionService:
             )
             resolved_provider_id = provider.descriptor.id
             fingerprint = _fingerprint(request, resolved_provider_id, provider.descriptor.model)
-            existing = uow.providers.get(invocation_id)
+            existing = uow.providers.get(invocation_id, run_id=run_id)
             if existing:
                 if existing.request_hash != fingerprint:
                     raise ConflictError("Invocation key belongs to a different request")
@@ -322,7 +329,7 @@ class AgentExecutionService:
             error = ProviderErrorCode.INTERNAL
         with self.unit_of_work() as uow:
             run = locked_run(uow, run_id)
-            current = uow.providers.get(invocation_id)
+            current = uow.providers.get(invocation_id, run_id=run_id)
             assert current is not None
             if current.status != InvocationStatus.RUNNING:
                 raise ProviderError(current.error_code or ProviderErrorCode.INTERRUPTED)

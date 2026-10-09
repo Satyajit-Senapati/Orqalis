@@ -1,0 +1,2861 @@
+{
+  "schema_version": 1,
+  "case_id": "parallel-read-one-repair-reviewed-execution-v1",
+  "label": "release-current-31",
+  "mode": "capture",
+  "captured_at": "2026-10-07T09:50:35.568005+00:00",
+  "source_root": "S:\\Orqalis",
+  "source": {
+    "sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+    "files": [
+      {
+        "path": "pyproject.toml",
+        "sha256": "db46ccf2aaed13a1b53e428fc6425dbf4d3ceb847a48fc0f4554d5a042ba2d34",
+        "bytes": 1737
+      },
+      {
+        "path": "src/orqalis/__init__.py",
+        "sha256": "ddfa769ecf57c09e4a1e84ccfad4ccd540de58f4959eb7ab27df7ba119fd1907",
+        "bytes": 98
+      },
+      {
+        "path": "src/orqalis/__main__.py",
+        "sha256": "b307ee6c7bdd98833f54c40af95b318ba7f91caf9645601e0df6bdb02549318a",
+        "bytes": 70
+      },
+      {
+        "path": "src/orqalis/agents/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/agents/roles.py",
+        "sha256": "728d9989579c3149da23b66d313be3e74abb6bae394908c3d79cb9c339bc8aa3",
+        "bytes": 5496
+      },
+      {
+        "path": "src/orqalis/agents/routing.py",
+        "sha256": "773dc79b284ca185d23afabc2a559559630aed37a82c830c98a2067141a21091",
+        "bytes": 5576
+      },
+      {
+        "path": "src/orqalis/agents/service.py",
+        "sha256": "27798522a11b0e24bc20e2982b343c5fe0e3b00403723fb3b8afb2ee91cbd516",
+        "bytes": 15689
+      },
+      {
+        "path": "src/orqalis/api/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/api/app.py",
+        "sha256": "9fad01130aa77bfcde291ff870d1c89047d26c1e35bec47b0ae2af070da9c3f9",
+        "bytes": 18606
+      },
+      {
+        "path": "src/orqalis/api/contracts.py",
+        "sha256": "27a95a8c567c23fc39aa6f5c84b5bc971c25ed1a50ab44a64a71fe07440e0188",
+        "bytes": 552
+      },
+      {
+        "path": "src/orqalis/api/hosting.py",
+        "sha256": "f15bdcc0512416d4f0b15caf91625523331ab795fe6ea872b77dae2613318a4c",
+        "bytes": 7057
+      },
+      {
+        "path": "src/orqalis/api/scope.py",
+        "sha256": "33b52cef05d189e3d42fdc7d771d8c80625c2f3d49f147f27d11bae8c9bc614e",
+        "bytes": 533
+      },
+      {
+        "path": "src/orqalis/bootstrap.py",
+        "sha256": "3cf37c8c2fae065d869b6865bcf69742129a274435a1a66605be710539a1e54c",
+        "bytes": 10186
+      },
+      {
+        "path": "src/orqalis/cli/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/cli/app.py",
+        "sha256": "27ac888668e7210a6927efebf3dafb41207997cd2b1d54db90aec5737dac86e9",
+        "bytes": 14291
+      },
+      {
+        "path": "src/orqalis/cli/catalog.py",
+        "sha256": "c3e80586f0d6426ccf0feb24c7177b808b8a10566061f58be0f4c51f468d4703",
+        "bytes": 3441
+      },
+      {
+        "path": "src/orqalis/cli/control.py",
+        "sha256": "a6c315e43a27bb2301d6674fd443dfc78895c0e2f74a9cb1a911979c724594d9",
+        "bytes": 4767
+      },
+      {
+        "path": "src/orqalis/cli/dependencies.py",
+        "sha256": "c79cbfe496f74efbd96120b78f9f31ab3a5786441ad13302f496f77139ddcb9e",
+        "bytes": 1467
+      },
+      {
+        "path": "src/orqalis/cli/goals.py",
+        "sha256": "88a797b9122ee815557329fc9653bf334006cbb75c745cb60f0f7ce87d38bee0",
+        "bytes": 4140
+      },
+      {
+        "path": "src/orqalis/cli/memory.py",
+        "sha256": "1d32f1b79951fd9a09eff21909f92c9cd786f9097afd5670e22ea842caa21341",
+        "bytes": 8319
+      },
+      {
+        "path": "src/orqalis/cli/runs.py",
+        "sha256": "76a2cb7e12ea592ca8cde5c8cb6fa60510c3378619f85d6f04e423c47665e35d",
+        "bytes": 3254
+      },
+      {
+        "path": "src/orqalis/cli/tasks.py",
+        "sha256": "e62dd9f43fbbebcdc114aa74f70b88f9df34dafdde9d1edb87d9dfeb8077327d",
+        "bytes": 1692
+      },
+      {
+        "path": "src/orqalis/config/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/config/settings.py",
+        "sha256": "1d4371f7df5cc371130b4423f5c024fb5f5f6cdcde9530cb4ad52f13d32d0465",
+        "bytes": 1101
+      },
+      {
+        "path": "src/orqalis/context/__init__.py",
+        "sha256": "03e1c0fe4fe09bf0a5b9fe0dad187dc20a91d663ba9a48e8dedf875ecff2b0c8",
+        "bytes": 962
+      },
+      {
+        "path": "src/orqalis/context/agent.py",
+        "sha256": "be9c0df47ead7d61c7c101e0cebec3cab2d5c59536e5bad5cd8a65414620631a",
+        "bytes": 9940
+      },
+      {
+        "path": "src/orqalis/context/builder.py",
+        "sha256": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+        "bytes": 17671
+      },
+      {
+        "path": "src/orqalis/context/models.py",
+        "sha256": "0e072a4dbc1a4482df7cf59ea2e821ac88203669e4bdfe617f0b974a231d3b3a",
+        "bytes": 1577
+      },
+      {
+        "path": "src/orqalis/context/service.py",
+        "sha256": "0ab0bfc57af823dc39a9b8d39ec9f2024039dcf750d315b5b22f2ee210b81f26",
+        "bytes": 2939
+      },
+      {
+        "path": "src/orqalis/core/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/core/approval_guard.py",
+        "sha256": "9ecb24c74b20295f0938431dab89455ebda87f76bda59806d2545107dae0e363",
+        "bytes": 3428
+      },
+      {
+        "path": "src/orqalis/core/approval_subjects.py",
+        "sha256": "de370a5f494f6f1d2367c2c4b28b06d95e5ea557201f965a7f6b6fb1b2cb8edc",
+        "bytes": 2203
+      },
+      {
+        "path": "src/orqalis/core/approvals.py",
+        "sha256": "8769d96e5422739cb4ef27ed6fac149185c49422b6de75fef9d0894353136367",
+        "bytes": 13180
+      },
+      {
+        "path": "src/orqalis/core/delivery.py",
+        "sha256": "2f11d37644f619d0d0df57aa5d0c52021c6b3daa4e9eede4432e8fabeddca39e",
+        "bytes": 12623
+      },
+      {
+        "path": "src/orqalis/core/delivery_plan.py",
+        "sha256": "e54127c2f826817a532037db85bb6e8dd888b53ac95e6ac0d1c06a2b5661b8ba",
+        "bytes": 1763
+      },
+      {
+        "path": "src/orqalis/core/executor.py",
+        "sha256": "fd244bfcfa25cb990ba1f1e078dde911cf6358e109eca57bf4facc31a21b2886",
+        "bytes": 20021
+      },
+      {
+        "path": "src/orqalis/core/external.py",
+        "sha256": "68f852657a322df0b3aa0030eb160586792a78f1a8b306c132278bbeb65d7f7e",
+        "bytes": 15636
+      },
+      {
+        "path": "src/orqalis/core/goals.py",
+        "sha256": "57cdd235ac7f551c6ba03445e92d2111130b8839aec51056c706c94a3ed3a45d",
+        "bytes": 17603
+      },
+      {
+        "path": "src/orqalis/core/orchestrator.py",
+        "sha256": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+        "bytes": 19117
+      },
+      {
+        "path": "src/orqalis/core/phases.py",
+        "sha256": "253fcb7c34bd241b468c26c9f3ada18e9fbcd0b58ae4ad58bef1916b9c0828c8",
+        "bytes": 2686
+      },
+      {
+        "path": "src/orqalis/core/plan_draft.py",
+        "sha256": "6cf58cef38a255068eac82c106a5526333dba2a72a2c255e33199419eda43fa7",
+        "bytes": 1390
+      },
+      {
+        "path": "src/orqalis/core/plan_preview.py",
+        "sha256": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+        "bytes": 6680
+      },
+      {
+        "path": "src/orqalis/core/plan_revision.py",
+        "sha256": "7d053af6719c44681a24ff81b1019f655837b84d035a7a10c873d94cbb04e690",
+        "bytes": 7041
+      },
+      {
+        "path": "src/orqalis/core/planning.py",
+        "sha256": "ee7f6545926652e5018f203da8ad6b49b5ed2bf5bc826e97f5651f4796a49597",
+        "bytes": 696
+      },
+      {
+        "path": "src/orqalis/core/ports.py",
+        "sha256": "88a0cef99e9a08afb1fe47d8dc955af2ed5c2fdf91e53e2e94ee14f635fad2a5",
+        "bytes": 1570
+      },
+      {
+        "path": "src/orqalis/core/preview_revision.py",
+        "sha256": "208d4839eceaad764bec9a75623776607455beb66777296028c50668e3fc5e4d",
+        "bytes": 10362
+      },
+      {
+        "path": "src/orqalis/core/projects.py",
+        "sha256": "34372e0fb72a7b16ec686ef0ebee0162a22d4c3ba0cb819b7c106423f342c0e2",
+        "bytes": 2204
+      },
+      {
+        "path": "src/orqalis/core/recovery.py",
+        "sha256": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8",
+        "bytes": 8455
+      },
+      {
+        "path": "src/orqalis/core/repair.py",
+        "sha256": "b6a0ef1a7710a2618f686c48fa95546005933df8bf85723de56567f07bb140cf",
+        "bytes": 8778
+      },
+      {
+        "path": "src/orqalis/core/replanning.py",
+        "sha256": "a2a22ae5f55e38d38b9246b6ab41e25dd75ae847dcba0c15e737300bfddcc73c",
+        "bytes": 6910
+      },
+      {
+        "path": "src/orqalis/core/requirements.py",
+        "sha256": "bb4efbc6de3be97f89cd17648870538774fa1b1a1ad6ce20cf885d7c94196b1f",
+        "bytes": 3865
+      },
+      {
+        "path": "src/orqalis/core/runtime_support.py",
+        "sha256": "4d4bfd90d07318154ed12a1397a4a5be9982283f6d71cd190e61b3b93f8e4f11",
+        "bytes": 3028
+      },
+      {
+        "path": "src/orqalis/core/scheduler.py",
+        "sha256": "c7ab94d076e9b9f6101e8002085169b23824f488ea88eecd82f281e5723f1815",
+        "bytes": 2251
+      },
+      {
+        "path": "src/orqalis/core/state_machine.py",
+        "sha256": "47c4bbd4e790ed664ff494dd47b93120ed96107af1c2f94b564a1db717c9326c",
+        "bytes": 2602
+      },
+      {
+        "path": "src/orqalis/core/task_runtime.py",
+        "sha256": "662199c7ce7b9bf9133894a3edb5ae542125656222b932e8e599b1bc002d813a",
+        "bytes": 12974
+      },
+      {
+        "path": "src/orqalis/core/vertical_plan.py",
+        "sha256": "6077e9dad95907f6b18b6dfd705b65a246885fdd5233607ce385ca54958c1ff7",
+        "bytes": 5251
+      },
+      {
+        "path": "src/orqalis/delivery/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/delivery/commits.py",
+        "sha256": "7db3d5331b0d3366631688b61f749c37bdc9b33bb15ed4b8bd9d7d3b7392008c",
+        "bytes": 8902
+      },
+      {
+        "path": "src/orqalis/delivery/documentation.py",
+        "sha256": "973dbd867f4057a2aac79dcf818cd65810bf8caeb377b60bc3decf2402d44d85",
+        "bytes": 6248
+      },
+      {
+        "path": "src/orqalis/delivery/gates.py",
+        "sha256": "0664b2f0f42087bf6e5d42c8b9c1116b4705e66ee67830472791fef1eed33ad6",
+        "bytes": 3494
+      },
+      {
+        "path": "src/orqalis/delivery/guardian.py",
+        "sha256": "5929faaf4262353ef76a96be20c57637d83b450e9917ac97f279c6b1428f7918",
+        "bytes": 12209
+      },
+      {
+        "path": "src/orqalis/delivery/inspection.py",
+        "sha256": "d57ab4e142b1e9ecd3437d9ff7b422688da293ad78a078eb584291691ebe5dd1",
+        "bytes": 1898
+      },
+      {
+        "path": "src/orqalis/delivery/test_integrity.py",
+        "sha256": "7fc302d7333b495122867b0a5a7db9a0c28844481131cd56e7df671736553a90",
+        "bytes": 4203
+      },
+      {
+        "path": "src/orqalis/delivery/validation.py",
+        "sha256": "691db7c80e4c31e3d7b3fb10496c8d9d94ba08b23e9653fe994f3614c0d7bed5",
+        "bytes": 6591
+      },
+      {
+        "path": "src/orqalis/diagnostics.py",
+        "sha256": "e897d72981cb30ee972ce9ac9ff607784e8744ae585b5777e53d4978ead4c6fa",
+        "bytes": 10081
+      },
+      {
+        "path": "src/orqalis/domain/__init__.py",
+        "sha256": "4f2ba004336f97618340c3f2a69d5931a11b14a977a31629f2c1e905e8c89fd4",
+        "bytes": 52
+      },
+      {
+        "path": "src/orqalis/domain/acceptance.py",
+        "sha256": "b335d0289aad795cf4521ba1c24c2e2591ecb6ffd252b4c8b085b1ee561403e9",
+        "bytes": 4200
+      },
+      {
+        "path": "src/orqalis/domain/agent.py",
+        "sha256": "459320ae35d1987e8c4ee710807b24ae0d3caa714aba199c6492a0e4f95a59f9",
+        "bytes": 1644
+      },
+      {
+        "path": "src/orqalis/domain/approval.py",
+        "sha256": "f1f8f2621b8c8fcf529adecd0cfbf0b3cf8c4afab68def1968efa1f08e0ccae4",
+        "bytes": 1878
+      },
+      {
+        "path": "src/orqalis/domain/artifact.py",
+        "sha256": "2ce8ef65b218116bc8617907b2a5061304ec191e4bf0aba9c05975ba465a64f6",
+        "bytes": 1109
+      },
+      {
+        "path": "src/orqalis/domain/base.py",
+        "sha256": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+        "bytes": 409
+      },
+      {
+        "path": "src/orqalis/domain/capabilities.py",
+        "sha256": "ba16c3cf90b58f11842ca4342e66dbbc17c2efabb94c2dab82d15e0889f9bfe3",
+        "bytes": 1607
+      },
+      {
+        "path": "src/orqalis/domain/delivery.py",
+        "sha256": "bc315d1947954f5048b0ff4a4183f48611f82a387c00ca1fbd050d32c82b1610",
+        "bytes": 2839
+      },
+      {
+        "path": "src/orqalis/domain/errors.py",
+        "sha256": "7516c0972e9f1c2199aa7c94ec690731785c97e546aa1c53d8cfb332095c5723",
+        "bytes": 465
+      },
+      {
+        "path": "src/orqalis/domain/events.py",
+        "sha256": "6e0ba26b50c96ade002f093aefba5d8fbbcf0a69528b2bf1e0fd87c229a0a78c",
+        "bytes": 4607
+      },
+      {
+        "path": "src/orqalis/domain/execution.py",
+        "sha256": "ac31c9f95a83597765eea922c37f899590eb2a084a20c3ec106638f3bcea5de0",
+        "bytes": 3510
+      },
+      {
+        "path": "src/orqalis/domain/external.py",
+        "sha256": "5e2c46f240b7f6ce0d113f7e1ce15817bb0b2fd5e159672465a896e43c82e288",
+        "bytes": 1642
+      },
+      {
+        "path": "src/orqalis/domain/memory.py",
+        "sha256": "eb9a453e86985495bd2d6380ea29dcb7831a4eef4b9959fe23e792ec9e33caa8",
+        "bytes": 2985
+      },
+      {
+        "path": "src/orqalis/domain/plan.py",
+        "sha256": "ce2d76b03078469205a76737add8c357eaf7792cda55cd648d99fe527b0e2ca9",
+        "bytes": 1766
+      },
+      {
+        "path": "src/orqalis/domain/project.py",
+        "sha256": "00953231832d52acb6952161be07fbc96637c5194fe114da1e2bc40368256ed4",
+        "bytes": 1500
+      },
+      {
+        "path": "src/orqalis/domain/projections.py",
+        "sha256": "5d4b269b8ea87d9ed79e38978afc8b376eb20812aa38dc8539fbbbf5a8a01f47",
+        "bytes": 2223
+      },
+      {
+        "path": "src/orqalis/domain/provider.py",
+        "sha256": "880ac982716eb8378f4a19f699c242084b6c7336002960a3e0e02d42d3764f17",
+        "bytes": 5059
+      },
+      {
+        "path": "src/orqalis/domain/run.py",
+        "sha256": "0845feb4d17365c6a9d55fac62c497163b7acf786af5fa87a50b0870295d9dce",
+        "bytes": 1761
+      },
+      {
+        "path": "src/orqalis/domain/task.py",
+        "sha256": "b61914a487adde8444085cb867b39e75f30d230802e6109d48ea33152df2cbe3",
+        "bytes": 2024
+      },
+      {
+        "path": "src/orqalis/domain/telemetry.py",
+        "sha256": "b70ba84930291a397e24cc6c63f17bdd5e0283ad94bd27aeec7a75d563039590",
+        "bytes": 2803
+      },
+      {
+        "path": "src/orqalis/domain/timing.py",
+        "sha256": "3f2acde63b9e9170107662df2ee6cd95594f8b2630abd19e632fe4092accaa54",
+        "bytes": 859
+      },
+      {
+        "path": "src/orqalis/evaluation/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/evaluation/ports.py",
+        "sha256": "c2a83c537e867f74351ab26f0bf0d88ef9370448f479d1bb0ce3534a1e52d729",
+        "bytes": 418
+      },
+      {
+        "path": "src/orqalis/evaluation/validators.py",
+        "sha256": "4f68b5a21167112ba066a03052dea28435b7135a5796600733993dda67753cee",
+        "bytes": 4023
+      },
+      {
+        "path": "src/orqalis/execution/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/execution/artifacts.py",
+        "sha256": "39d643c87b8f1fa88ccba8492a35d07584c08efbd4d8056b35b1b41e3ae0792b",
+        "bytes": 1864
+      },
+      {
+        "path": "src/orqalis/execution/cancellation.py",
+        "sha256": "4b8e92e3b09b1a1d43ebabe19f3f001f79ce8d174fa67f5a11229cf286344816",
+        "bytes": 3671
+      },
+      {
+        "path": "src/orqalis/execution/commands.py",
+        "sha256": "1b42123323ac14322416cfb5f48e922830c4e7420440b552678577ed727a4c77",
+        "bytes": 8388
+      },
+      {
+        "path": "src/orqalis/execution/evaluator.py",
+        "sha256": "9a73144f8e0b1ffb2538e0882361a94fe8d63110280672215b6c129879c925ca",
+        "bytes": 1286
+      },
+      {
+        "path": "src/orqalis/execution/filesystem.py",
+        "sha256": "0c0e95486200fbd3c07f6afabd3a1d132b08d2f26222613ed7b660d9cb9b5e52",
+        "bytes": 3383
+      },
+      {
+        "path": "src/orqalis/execution/finding_review.py",
+        "sha256": "46541209f657415a7dbb27685b0e60a72a73a374fd2ff9c753b8be3982981cc4",
+        "bytes": 4550
+      },
+      {
+        "path": "src/orqalis/execution/review.py",
+        "sha256": "eb887680264ce96d86def6cc4bc8cdf04ff91007a2435737fcee64bf86a72cec",
+        "bytes": 11583
+      },
+      {
+        "path": "src/orqalis/execution/sandbox.py",
+        "sha256": "8f6111c2eea7ca789e91bee7ef7deb4d520c50b0cf7410629ca29b24eec590fe",
+        "bytes": 9054
+      },
+      {
+        "path": "src/orqalis/execution/tool_definitions.py",
+        "sha256": "e3cf543d19fbaaa0b06c10c959c110c924784e56ea2fee18338c8bf84be9e9e3",
+        "bytes": 1308
+      },
+      {
+        "path": "src/orqalis/execution/tools.py",
+        "sha256": "3a1fe6339463aa327d6752d6c82cbc15eb34b43dfdf54651228eae5530a6b4fc",
+        "bytes": 9073
+      },
+      {
+        "path": "src/orqalis/execution/windows_job.py",
+        "sha256": "c14c207596fcdebbecf2ba598d6f1336b0e0bdb3aa33a1438ad6848a1d4a36e0",
+        "bytes": 5519
+      },
+      {
+        "path": "src/orqalis/execution/worker.py",
+        "sha256": "f6842c0ff2ac82195d37dc9085dfe2d84c8d5726177d272b63f639ac65971e56",
+        "bytes": 3056
+      },
+      {
+        "path": "src/orqalis/execution/workspaces.py",
+        "sha256": "6388c129999deff7f693f3bd9497acaa26c62511c70878264a9be41107937e64",
+        "bytes": 2718
+      },
+      {
+        "path": "src/orqalis/git/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/git/contracts.py",
+        "sha256": "f4c53eb93505546351e31c6ef86fb378e611a053341cb000b7a34dc6573688c8",
+        "bytes": 1026
+      },
+      {
+        "path": "src/orqalis/git/delivery.py",
+        "sha256": "292ae4b6b4f00fa337679e266a9b0faa77426a732502056130cc48a436bbc321",
+        "bytes": 7293
+      },
+      {
+        "path": "src/orqalis/git/inspection.py",
+        "sha256": "823cc7a0aa3c94fe0a7a2d59fa765867f8172839ad1f112a525ae5ac159fc6ce",
+        "bytes": 1406
+      },
+      {
+        "path": "src/orqalis/git/service.py",
+        "sha256": "52aa961b5ebb93717e56636713eb7a4fc875dd0ebf794bee046cba44902e2409",
+        "bytes": 11517
+      },
+      {
+        "path": "src/orqalis/graph/__init__.py",
+        "sha256": "aa067e3ff2baf4056cbb5252e293f7b310cb1035ded4012541ebbd6bf94e27ec",
+        "bytes": 561
+      },
+      {
+        "path": "src/orqalis/graph/ecmascript.py",
+        "sha256": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+        "bytes": 17067
+      },
+      {
+        "path": "src/orqalis/graph/engine.py",
+        "sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+        "bytes": 54752
+      },
+      {
+        "path": "src/orqalis/graph/models.py",
+        "sha256": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+        "bytes": 3660
+      },
+      {
+        "path": "src/orqalis/graph/parsing.py",
+        "sha256": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+        "bytes": 1475
+      },
+      {
+        "path": "src/orqalis/graph/queries.py",
+        "sha256": "dafa778e9f2e7829fe576ff589d3b5d58f5543803fc19434fcc2567e97b7a5e7",
+        "bytes": 7007
+      },
+      {
+        "path": "src/orqalis/graph/symbols.py",
+        "sha256": "4c461b9e066c4744082fb149ac657c894f6b22bb4c9495440ff7608d5bc45db0",
+        "bytes": 12614
+      },
+      {
+        "path": "src/orqalis/indexing/__init__.py",
+        "sha256": "ebca4f1d186c9ff70d19b87b5b2c208b598b0f906319f8758d061d31fc2da833",
+        "bytes": 659
+      },
+      {
+        "path": "src/orqalis/indexing/models.py",
+        "sha256": "d57d4efb5041f13f39f27f990fe339040480921de3b785a1ca3129a3de426901",
+        "bytes": 2778
+      },
+      {
+        "path": "src/orqalis/indexing/service.py",
+        "sha256": "60631d58de2e8e872e9d2bdf2713013200d7ae9e7fe39c38f37f3c0b44f5f274",
+        "bytes": 19643
+      },
+      {
+        "path": "src/orqalis/mcp/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/mcp/policy.py",
+        "sha256": "fa4b4c039a399da4cbc5af1698781630c6931a91b417e0f56604b7c7c15ef544",
+        "bytes": 1800
+      },
+      {
+        "path": "src/orqalis/mcp/server.py",
+        "sha256": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+        "bytes": 24540
+      },
+      {
+        "path": "src/orqalis/memory/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/memory/brain.py",
+        "sha256": "94f3717c9a062e017fc529d4f2a100e2a3d0fde992b76da6b5fc7125f3b9f21a",
+        "bytes": 2447
+      },
+      {
+        "path": "src/orqalis/memory/curated.py",
+        "sha256": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+        "bytes": 34742
+      },
+      {
+        "path": "src/orqalis/memory/curation.py",
+        "sha256": "ef2500e50fbc96a118f4df4943e1bf3d42e82a519eec5c89a67dd9310b58492c",
+        "bytes": 5312
+      },
+      {
+        "path": "src/orqalis/memory/indexing.py",
+        "sha256": "be1fbfe332cd3c1d5e4420f89fe57c9b63a515c699b984657651064ba98514e0",
+        "bytes": 4978
+      },
+      {
+        "path": "src/orqalis/memory/navigation.py",
+        "sha256": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+        "bytes": 10773
+      },
+      {
+        "path": "src/orqalis/memory/ports.py",
+        "sha256": "316a90018c6c0710572d7acd565039b66bf2a188290d0188721acd6e0d0b7dc1",
+        "bytes": 2918
+      },
+      {
+        "path": "src/orqalis/memory/service.py",
+        "sha256": "b092886db1ab108ce6ce3fe7b34aa057886152d5a3bac81c67546ab9dd9bfcff",
+        "bytes": 15821
+      },
+      {
+        "path": "src/orqalis/observability/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/observability/activity.py",
+        "sha256": "d1d3de72120e320bb3bba7ef1d9a51b9bf079f6a5a64ffeafd1870ff76a96174",
+        "bytes": 930
+      },
+      {
+        "path": "src/orqalis/observability/analytics.py",
+        "sha256": "295c2eef16cf4cbdc40136b49d0eee44434968f54e71dcae870fe4890bdfaf12",
+        "bytes": 7990
+      },
+      {
+        "path": "src/orqalis/observability/event_bus.py",
+        "sha256": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+        "bytes": 4430
+      },
+      {
+        "path": "src/orqalis/observability/instrumentation.py",
+        "sha256": "26906bc88459247fa23aee694bfcafb281881461d8d1883d58cc0e929c42376a",
+        "bytes": 4130
+      },
+      {
+        "path": "src/orqalis/observability/logging.py",
+        "sha256": "8fa98e8f2050ed1e60587b34dc827581c0a973344e09d364b88e9acc5a65b7a0",
+        "bytes": 1773
+      },
+      {
+        "path": "src/orqalis/observability/projections.py",
+        "sha256": "de100c5ed92628db9792531acd7d06c3d64c3f26d656205fcb8b1c5a9be8587f",
+        "bytes": 8210
+      },
+      {
+        "path": "src/orqalis/observability/timing.py",
+        "sha256": "2992a225f4ce9cde12f4ae2b4e039036661117c0df7204cf3fce04b1565cc760",
+        "bytes": 4715
+      },
+      {
+        "path": "src/orqalis/observability/trace.py",
+        "sha256": "4fae4815b33e79864d629a2c2fbf18c2ca7cdefbb8d6ff9fa2e2ba4caaaea787",
+        "bytes": 6878
+      },
+      {
+        "path": "src/orqalis/persistence/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/persistence/approval_ports.py",
+        "sha256": "2e03d90d98326ae13bfe699eab8372fadd8bed196dbec74e4e80853bac84cdb0",
+        "bytes": 600
+      },
+      {
+        "path": "src/orqalis/persistence/contracts.py",
+        "sha256": "38a1aabfb392f230e1ba01f413911e05c6d6059a655747cab7b1b5de7989dc3e",
+        "bytes": 2368
+      },
+      {
+        "path": "src/orqalis/persistence/delivery_ports.py",
+        "sha256": "6cde929f74a9f18614f0e596388d2e8eee33415156a667c98dcc7d818f2d4572",
+        "bytes": 869
+      },
+      {
+        "path": "src/orqalis/persistence/event_ports.py",
+        "sha256": "98967cac3391371fc7f7a20d72ecb0f1b6729abbe343154f4eb10b261eeabcea",
+        "bytes": 383
+      },
+      {
+        "path": "src/orqalis/persistence/execution_ports.py",
+        "sha256": "99c46536f0c0bdcb72eace1060f2ab79a878b75908addd925c79e8bb8e3f4ba0",
+        "bytes": 722
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/__init__.py",
+        "sha256": "170258c4a382272c00a4c1a1a61aa51a8f1329203a3a40626078517650bf5557",
+        "bytes": 2459
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/_windows_io.py",
+        "sha256": "e4a7f68f08f3d1f0f1c19f264803feaa3505f7313846ebffcb430c5160563705",
+        "bytes": 5037
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+        "sha256": "8433e0f801cf77e9bac3d8c80a9d83131049929f5d221910175d8d8b49d71f50",
+        "bytes": 17968
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/io.py",
+        "sha256": "054d2f51e9406db2b71118c209d45f99643e7b42accda210c02815bb4d6cb4f9",
+        "bytes": 13829
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/layout.py",
+        "sha256": "8174b5c13223ae361012cae4ab568b67773fbe0bcb7c2c8c322ee7a102dfc0f8",
+        "bytes": 21762
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/locking.py",
+        "sha256": "d786e9cbbcab75783ee32ba7fbec3ef53013fba10c8d0696dadb1de003528dd9",
+        "bytes": 8202
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/memory_store.py",
+        "sha256": "dabfecd58bf01b89b8025e39f832cf08ae5bf8f9e7a269bf140152102c865539",
+        "bytes": 23700
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/task_store.py",
+        "sha256": "0867154bd96853d4a4666b7f5e4bbaac0c76868c784e791c17073721111864e4",
+        "bytes": 82522
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/unit_of_work.py",
+        "sha256": "45436869a92b142b2f0fa3fa98d11bc336085b13e8710d9bb8c3e28a942319d8",
+        "bytes": 4463
+      },
+      {
+        "path": "src/orqalis/persistence/ports.py",
+        "sha256": "0b7ae4b79946e213c51b3f9f3a9a5bf7cc34c7f87c01da4e4ec0d21778f10289",
+        "bytes": 391
+      },
+      {
+        "path": "src/orqalis/persistence/provider_ports.py",
+        "sha256": "45ff4732d5f8c08ac14428ec3db49c6b9a9f24ccb1aec762b0a0ba673f656cc1",
+        "bytes": 394
+      },
+      {
+        "path": "src/orqalis/persistence/run_ports.py",
+        "sha256": "2d68f282cd9ac258b0db240187a44749cc5b8d87cb8f7ac97d16593243699c2d",
+        "bytes": 990
+      },
+      {
+        "path": "src/orqalis/persistence/runtime_ports.py",
+        "sha256": "6b98778ba5c946bbe3d5d79f2a3ad453402e9dbf286b0ce74f6ca149edd5f70a",
+        "bytes": 980
+      },
+      {
+        "path": "src/orqalis/providers/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/providers/anthropic.py",
+        "sha256": "bafef3f1f22017a2b7a2c80d90dd718c6f6059ba6d2d2d2bfbfb4393d2300766",
+        "bytes": 6983
+      },
+      {
+        "path": "src/orqalis/providers/anthropic_schema.py",
+        "sha256": "6d9277a7372436df9f1b798097e3f670589a91d8a28ba0a810cbc6cb1b3164c9",
+        "bytes": 2196
+      },
+      {
+        "path": "src/orqalis/providers/configuration.py",
+        "sha256": "206e8bd27d12bc63ca9ff28421cd398763f3024dc3db59bb86a3d23546a9d557",
+        "bytes": 672
+      },
+      {
+        "path": "src/orqalis/providers/errors.py",
+        "sha256": "5f3894f891435b93ce59b07efde2ec021a9124b26a49863e5607602eeb069b97",
+        "bytes": 343
+      },
+      {
+        "path": "src/orqalis/providers/external_cli.py",
+        "sha256": "50efd675819cd4f63a888c2bab51229413d04fd7329537ae3825f862d08ef186",
+        "bytes": 2856
+      },
+      {
+        "path": "src/orqalis/providers/fake.py",
+        "sha256": "6d7bd130c1635d58a98dbba75e488482f1d2b914c21d62744efd5c5b7405e1d4",
+        "bytes": 980
+      },
+      {
+        "path": "src/orqalis/providers/openai.py",
+        "sha256": "81625f0cb236171f110c9945de8fd76d6be25a130d5b81e1aee330ad9f4c0d36",
+        "bytes": 7244
+      },
+      {
+        "path": "src/orqalis/providers/openai_schema.py",
+        "sha256": "c8f662f21fccefabd680b74ea72eaf0d306d52762c79ca9cd0d11599fbcddf85",
+        "bytes": 3121
+      },
+      {
+        "path": "src/orqalis/providers/ports.py",
+        "sha256": "49aa9d5db012563c23a34dc4cd1aba7e4ada5d0915bc03e1e5aaeeb63e694256",
+        "bytes": 346
+      },
+      {
+        "path": "src/orqalis/providers/validation.py",
+        "sha256": "7629b81b97deba5d3f3868e8db32609c0f6d02ca4fee8845ea1133281c1e6769",
+        "bytes": 3384
+      },
+      {
+        "path": "src/orqalis/py.typed",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/retrieval.py",
+        "sha256": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+        "bytes": 838
+      },
+      {
+        "path": "src/orqalis/sdk.py",
+        "sha256": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+        "bytes": 24328
+      },
+      {
+        "path": "src/orqalis/security/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/security/redaction.py",
+        "sha256": "68632a517f31692ec43686f2186a1474eb831811172bc98dd38058888f255e67",
+        "bytes": 2851
+      },
+      {
+        "path": "src/orqalis/skills/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/skills/bundled/database-edit/instructions.md",
+        "sha256": "aac7147809343737516f43f198be5656dd800ff3458c277992824c123723cb65",
+        "bytes": 844
+      },
+      {
+        "path": "src/orqalis/skills/bundled/database-edit/skill.toml",
+        "sha256": "4f52d0ceedd441c30e3757437311e01a228695346fe55ef9c00262661da7856b",
+        "bytes": 468
+      },
+      {
+        "path": "src/orqalis/skills/bundled/documentation-edit/instructions.md",
+        "sha256": "1b4a802113eb003f57d24ef3f828ac751af802a04f21084e19efbdf5cc4b533c",
+        "bytes": 776
+      },
+      {
+        "path": "src/orqalis/skills/bundled/documentation-edit/skill.toml",
+        "sha256": "31a7224a8f05a318eb5d40ac93eb44340b9cbb90bf7bd5cb0c195a2489414ca9",
+        "bytes": 448
+      },
+      {
+        "path": "src/orqalis/skills/bundled/evidence-review/instructions.md",
+        "sha256": "8cca5a1745b8e758e2128184bc166da64a28c28aaa654f87902e9511e88615e8",
+        "bytes": 216
+      },
+      {
+        "path": "src/orqalis/skills/bundled/evidence-review/skill.toml",
+        "sha256": "08838523ba5437bf02fadab603132b832da80fb0d92190f62a3f699172b4693d",
+        "bytes": 290
+      },
+      {
+        "path": "src/orqalis/skills/bundled/javascript-edit/instructions.md",
+        "sha256": "e2a5d353515697eb9ff4926acd591d283156eee747d839f3e3474fd77850be34",
+        "bytes": 611
+      },
+      {
+        "path": "src/orqalis/skills/bundled/javascript-edit/skill.toml",
+        "sha256": "6d7b7c43d640c2800dcc2e0f507038979667b7e40f18e97e2c9584ca23a079b2",
+        "bytes": 433
+      },
+      {
+        "path": "src/orqalis/skills/bundled/python-edit/instructions.md",
+        "sha256": "20a41a76207eac2287968296267189de29980c6a7d4fba76fe7fa78200dd9c50",
+        "bytes": 206
+      },
+      {
+        "path": "src/orqalis/skills/bundled/python-edit/skill.toml",
+        "sha256": "a9388454d8a75f22826cf72329bd0d811df48afe0f9e57905c7893c27d1cf256",
+        "bytes": 293
+      },
+      {
+        "path": "src/orqalis/skills/bundled/python-test/instructions.md",
+        "sha256": "9391166773f00282d2eea3f8c3c10d2b61a06ee1092669bff58ea357b1e52638",
+        "bytes": 173
+      },
+      {
+        "path": "src/orqalis/skills/bundled/python-test/skill.toml",
+        "sha256": "6500b919e182992de60b84ab982bb4c81368fcbb109081f20a9e84dfbab47d9b",
+        "bytes": 280
+      },
+      {
+        "path": "src/orqalis/skills/bundled/react-edit/instructions.md",
+        "sha256": "f1b91b033f8975e08e88b8cac3295bab32d992af964922556b1f6a5d85a4d666",
+        "bytes": 788
+      },
+      {
+        "path": "src/orqalis/skills/bundled/react-edit/skill.toml",
+        "sha256": "2b246ca83d2f2ae8c2643a8d674c53fe8030a7a563a13ac38add0f84141901e1",
+        "bytes": 429
+      },
+      {
+        "path": "src/orqalis/skills/bundled/typescript-edit/instructions.md",
+        "sha256": "e89ae7cd161a1c07d4cc2e810a327711c039d52cec5bee0bece97614b9da0159",
+        "bytes": 750
+      },
+      {
+        "path": "src/orqalis/skills/bundled/typescript-edit/skill.toml",
+        "sha256": "bfeecaa208131d41ff38e9bce4e5270ba8d427288046f01a729b20751438ec91",
+        "bytes": 431
+      },
+      {
+        "path": "src/orqalis/skills/markdown.py",
+        "sha256": "4270ea261dae1a6ac8fd610bbbec273ecbd85814ed387c7757be66e5b0e29f1b",
+        "bytes": 5823
+      },
+      {
+        "path": "src/orqalis/skills/registry.py",
+        "sha256": "e2836acb98b075844afc3fcc40a488f45ba7f6be96308c1e08e4a72cf58a3bf8",
+        "bytes": 7121
+      },
+      {
+        "path": "src/orqalis/tasks/__init__.py",
+        "sha256": "03ef63eb07904b72e16cde2658deb96bf29ad204c57a9748cbd6056a6e916e7a",
+        "bytes": 213
+      },
+      {
+        "path": "src/orqalis/tasks/history.py",
+        "sha256": "5378666302ab851cc47ffcde9a845cd5e9f0824681536e452a8081ac18d9c6e3",
+        "bytes": 14461
+      },
+      {
+        "path": "src/orqalis/workspace/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "src/orqalis/workspace/manager.py",
+        "sha256": "47e7ac86311a33675ac0635fe4b5ae94445a85cdba05d95e6a784d452fb56f51",
+        "bytes": 4470
+      },
+      {
+        "path": "uv.lock",
+        "sha256": "4b0f3dc2dfb5d86e4d40323200bfc8af495984e8dae1fca4627920be19a03bbc",
+        "bytes": 259291
+      }
+    ]
+  },
+  "helpers": {
+    "sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+    "files": [
+      {
+        "path": "tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/support/filesystem.py",
+        "sha256": "6d0234b723745f528dcd8e8f57e6a6b8e9e32b05cc5f8126f5436f234097ecad",
+        "bytes": 685
+      },
+      {
+        "path": "tests/support/trace_fixture.py",
+        "sha256": "08f212d1ca71b23f24a42cc5ac6e6562345b058f77cef9a09b6ca17eea23ad6f",
+        "bytes": 5686
+      }
+    ]
+  },
+  "script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+  "fixture_sha256": "3f78259b8e27900a2363572883e5d64028de19241067f4ddbf2df12537dbf6a0",
+  "environment": {
+    "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+    "executable_sha256": "ec43ef61c02663aa30b791e35cdcd75f882b114884665ae17ea79e725eed1769",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "cpu_count": 12,
+    "git_version": "git version 2.55.0.windows.5",
+    "isolated_python": true,
+    "dependencies": [
+      [
+        "annotated-doc",
+        "0.0.5"
+      ],
+      [
+        "annotated-types",
+        "0.8.0"
+      ],
+      [
+        "anyio",
+        "4.15.1"
+      ],
+      [
+        "attrs",
+        "26.1.0"
+      ],
+      [
+        "certifi",
+        "2026.7.22"
+      ],
+      [
+        "cffi",
+        "2.1.1"
+      ],
+      [
+        "click",
+        "8.5.0"
+      ],
+      [
+        "colorama",
+        "0.4.6"
+      ],
+      [
+        "coverage",
+        "7.16.0"
+      ],
+      [
+        "cryptography",
+        "50.0.1"
+      ],
+      [
+        "fastapi",
+        "0.141.1"
+      ],
+      [
+        "h11",
+        "0.16.0"
+      ],
+      [
+        "httpcore",
+        "1.0.9"
+      ],
+      [
+        "httpcore2",
+        "2.12.0"
+      ],
+      [
+        "httpx",
+        "0.28.1"
+      ],
+      [
+        "httpx2",
+        "2.12.0"
+      ],
+      [
+        "idna",
+        "3.19"
+      ],
+      [
+        "iniconfig",
+        "2.3.0"
+      ],
+      [
+        "jsonschema",
+        "4.26.0"
+      ],
+      [
+        "jsonschema-specifications",
+        "2025.9.1"
+      ],
+      [
+        "librt",
+        "0.15.0"
+      ],
+      [
+        "markdown-it-py",
+        "4.2.0"
+      ],
+      [
+        "mcp",
+        "2.2.0"
+      ],
+      [
+        "mcp-types",
+        "2.2.0"
+      ],
+      [
+        "mdurl",
+        "0.1.2"
+      ],
+      [
+        "mypy",
+        "1.20.2"
+      ],
+      [
+        "mypy_extensions",
+        "1.1.0"
+      ],
+      [
+        "opentelemetry-api",
+        "1.44.0"
+      ],
+      [
+        "opentelemetry-sdk",
+        "1.44.0"
+      ],
+      [
+        "opentelemetry-semantic-conventions",
+        "0.65b0"
+      ],
+      [
+        "orqalis",
+        "2.1.0"
+      ],
+      [
+        "packaging",
+        "26.3"
+      ],
+      [
+        "pathspec",
+        "1.1.1"
+      ],
+      [
+        "pluggy",
+        "1.6.0"
+      ],
+      [
+        "pycparser",
+        "3.0"
+      ],
+      [
+        "pydantic",
+        "2.13.5"
+      ],
+      [
+        "pydantic-settings",
+        "2.15.0"
+      ],
+      [
+        "pydantic_core",
+        "2.46.5"
+      ],
+      [
+        "pygments",
+        "2.21.0"
+      ],
+      [
+        "pyjwt",
+        "2.15.1"
+      ],
+      [
+        "pytest",
+        "9.1.1"
+      ],
+      [
+        "pytest-cov",
+        "7.1.0"
+      ],
+      [
+        "python-dotenv",
+        "1.2.3"
+      ],
+      [
+        "python-multipart",
+        "0.0.32"
+      ],
+      [
+        "pywin32",
+        "312"
+      ],
+      [
+        "pyyaml",
+        "6.0.3"
+      ],
+      [
+        "referencing",
+        "0.37.0"
+      ],
+      [
+        "rich",
+        "15.0.0"
+      ],
+      [
+        "rpds-py",
+        "2026.6.3"
+      ],
+      [
+        "ruff",
+        "0.16.6"
+      ],
+      [
+        "shellingham",
+        "1.5.4"
+      ],
+      [
+        "sse-starlette",
+        "3.4.11"
+      ],
+      [
+        "starlette",
+        "1.6.0"
+      ],
+      [
+        "tree-sitter",
+        "0.26.0"
+      ],
+      [
+        "tree-sitter-javascript",
+        "0.25.0"
+      ],
+      [
+        "tree-sitter-typescript",
+        "0.23.2"
+      ],
+      [
+        "truststore",
+        "0.10.4"
+      ],
+      [
+        "typer",
+        "0.27.2"
+      ],
+      [
+        "types-jsonschema",
+        "4.26.0.20260518"
+      ],
+      [
+        "types-pyyaml",
+        "6.0.12.20260906"
+      ],
+      [
+        "typing-inspection",
+        "0.4.4"
+      ],
+      [
+        "typing_extensions",
+        "4.16.0"
+      ],
+      [
+        "uvicorn",
+        "0.52.4"
+      ],
+      [
+        "websockets",
+        "16.1.1"
+      ]
+    ],
+    "policy": "execution-v1; isolated Python; scrub application overrides; isolated Git",
+    "sha256": "f899d7229da0991bcea54229abac4d37b7c5c3633e44266e46e6de9b86886c52"
+  },
+  "repetitions": 3,
+  "provider_mode": "injected deterministic fake; no live model calls",
+  "completion_boundary": "persisted passing review; no documentation, Git delivery or push",
+  "measurement_scope": "fresh repository; fixture initialization through passing review",
+  "limitations": [
+    "One deliberately repair-requiring fixture; not autonomous coding quality or general task success.",
+    "First-pass acceptance is expected false by fixture design, not a model accuracy score.",
+    "Event-projected active/waiting time is not CPU time; concurrent task times are not summed.",
+    "Fake provider reports no usage/cost; null fields remain unavailable, not zero or estimated.",
+    "Interpreter startup/Git fixture setup/reload checks are excluded from execution_elapsed_ms.",
+    "Smoke timings are unqualified; capture mode requires an externally coordinated quiet environment."
+  ],
+  "samples": [
+    {
+      "complete": true,
+      "passed": true,
+      "checks": {
+        "reviewed_execution_checkpoint": true,
+        "failed_first_review_then_pass": true,
+        "deliberate_first_acceptance_failure": true,
+        "final_acceptance_pass": true,
+        "exactly_one_repair": true,
+        "current_plan_complete": true,
+        "parallel_read_tasks_observed": true,
+        "all_model_calls_succeeded": true,
+        "exactly_two_successful_writes": true,
+        "no_blockers": true,
+        "provider_ids_unique": true,
+        "provider_projection_matches": true,
+        "provider_events_match": true,
+        "tool_ids_unique": true,
+        "tool_projection_matches": true,
+        "tool_events_match": true,
+        "actor_ids_unique": true,
+        "model_role_counts_match": true,
+        "tool_role_counts_match": true,
+        "tool_provider_links_match": true,
+        "persisted_reload_matches": true,
+        "contiguous_events": true,
+        "unique_event_keys": true,
+        "event_cursor_matches": true,
+        "worktree_answer_correct": true,
+        "original_source_unchanged": true
+      },
+      "input_stability": {
+        "source": true,
+        "helpers": true,
+        "script": true,
+        "environment": true
+      },
+      "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+      "helpers_sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+      "script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+      "environment_sha256": "f899d7229da0991bcea54229abac4d37b7c5c3633e44266e46e6de9b86886c52",
+      "isolated_python": true,
+      "loaded_modules": {
+        "orqalis": "orqalis/__init__.py",
+        "orqalis.agents": "orqalis/agents/__init__.py",
+        "orqalis.agents.roles": "orqalis/agents/roles.py",
+        "orqalis.agents.routing": "orqalis/agents/routing.py",
+        "orqalis.agents.service": "orqalis/agents/service.py",
+        "orqalis.bootstrap": "orqalis/bootstrap.py",
+        "orqalis.config": "orqalis/config/__init__.py",
+        "orqalis.config.settings": "orqalis/config/settings.py",
+        "orqalis.context": "orqalis/context/__init__.py",
+        "orqalis.context.agent": "orqalis/context/agent.py",
+        "orqalis.context.builder": "orqalis/context/builder.py",
+        "orqalis.context.models": "orqalis/context/models.py",
+        "orqalis.context.service": "orqalis/context/service.py",
+        "orqalis.core": "orqalis/core/__init__.py",
+        "orqalis.core.approval_guard": "orqalis/core/approval_guard.py",
+        "orqalis.core.approval_subjects": "orqalis/core/approval_subjects.py",
+        "orqalis.core.approvals": "orqalis/core/approvals.py",
+        "orqalis.core.delivery": "orqalis/core/delivery.py",
+        "orqalis.core.delivery_plan": "orqalis/core/delivery_plan.py",
+        "orqalis.core.executor": "orqalis/core/executor.py",
+        "orqalis.core.external": "orqalis/core/external.py",
+        "orqalis.core.goals": "orqalis/core/goals.py",
+        "orqalis.core.orchestrator": "orqalis/core/orchestrator.py",
+        "orqalis.core.phases": "orqalis/core/phases.py",
+        "orqalis.core.plan_preview": "orqalis/core/plan_preview.py",
+        "orqalis.core.plan_revision": "orqalis/core/plan_revision.py",
+        "orqalis.core.planning": "orqalis/core/planning.py",
+        "orqalis.core.ports": "orqalis/core/ports.py",
+        "orqalis.core.projects": "orqalis/core/projects.py",
+        "orqalis.core.repair": "orqalis/core/repair.py",
+        "orqalis.core.requirements": "orqalis/core/requirements.py",
+        "orqalis.core.runtime_support": "orqalis/core/runtime_support.py",
+        "orqalis.core.scheduler": "orqalis/core/scheduler.py",
+        "orqalis.core.state_machine": "orqalis/core/state_machine.py",
+        "orqalis.core.task_runtime": "orqalis/core/task_runtime.py",
+        "orqalis.core.vertical_plan": "orqalis/core/vertical_plan.py",
+        "orqalis.delivery": "orqalis/delivery/__init__.py",
+        "orqalis.delivery.commits": "orqalis/delivery/commits.py",
+        "orqalis.delivery.documentation": "orqalis/delivery/documentation.py",
+        "orqalis.delivery.gates": "orqalis/delivery/gates.py",
+        "orqalis.delivery.guardian": "orqalis/delivery/guardian.py",
+        "orqalis.delivery.inspection": "orqalis/delivery/inspection.py",
+        "orqalis.delivery.test_integrity": "orqalis/delivery/test_integrity.py",
+        "orqalis.delivery.validation": "orqalis/delivery/validation.py",
+        "orqalis.domain": "orqalis/domain/__init__.py",
+        "orqalis.domain.acceptance": "orqalis/domain/acceptance.py",
+        "orqalis.domain.agent": "orqalis/domain/agent.py",
+        "orqalis.domain.approval": "orqalis/domain/approval.py",
+        "orqalis.domain.artifact": "orqalis/domain/artifact.py",
+        "orqalis.domain.base": "orqalis/domain/base.py",
+        "orqalis.domain.capabilities": "orqalis/domain/capabilities.py",
+        "orqalis.domain.delivery": "orqalis/domain/delivery.py",
+        "orqalis.domain.errors": "orqalis/domain/errors.py",
+        "orqalis.domain.events": "orqalis/domain/events.py",
+        "orqalis.domain.execution": "orqalis/domain/execution.py",
+        "orqalis.domain.external": "orqalis/domain/external.py",
+        "orqalis.domain.memory": "orqalis/domain/memory.py",
+        "orqalis.domain.plan": "orqalis/domain/plan.py",
+        "orqalis.domain.project": "orqalis/domain/project.py",
+        "orqalis.domain.projections": "orqalis/domain/projections.py",
+        "orqalis.domain.provider": "orqalis/domain/provider.py",
+        "orqalis.domain.run": "orqalis/domain/run.py",
+        "orqalis.domain.task": "orqalis/domain/task.py",
+        "orqalis.domain.telemetry": "orqalis/domain/telemetry.py",
+        "orqalis.domain.timing": "orqalis/domain/timing.py",
+        "orqalis.evaluation": "orqalis/evaluation/__init__.py",
+        "orqalis.evaluation.ports": "orqalis/evaluation/ports.py",
+        "orqalis.evaluation.validators": "orqalis/evaluation/validators.py",
+        "orqalis.execution": "orqalis/execution/__init__.py",
+        "orqalis.execution.artifacts": "orqalis/execution/artifacts.py",
+        "orqalis.execution.cancellation": "orqalis/execution/cancellation.py",
+        "orqalis.execution.commands": "orqalis/execution/commands.py",
+        "orqalis.execution.evaluator": "orqalis/execution/evaluator.py",
+        "orqalis.execution.filesystem": "orqalis/execution/filesystem.py",
+        "orqalis.execution.finding_review": "orqalis/execution/finding_review.py",
+        "orqalis.execution.review": "orqalis/execution/review.py",
+        "orqalis.execution.sandbox": "orqalis/execution/sandbox.py",
+        "orqalis.execution.tool_definitions": "orqalis/execution/tool_definitions.py",
+        "orqalis.execution.tools": "orqalis/execution/tools.py",
+        "orqalis.execution.windows_job": "orqalis/execution/windows_job.py",
+        "orqalis.execution.worker": "orqalis/execution/worker.py",
+        "orqalis.execution.workspaces": "orqalis/execution/workspaces.py",
+        "orqalis.git": "orqalis/git/__init__.py",
+        "orqalis.git.contracts": "orqalis/git/contracts.py",
+        "orqalis.git.delivery": "orqalis/git/delivery.py",
+        "orqalis.git.inspection": "orqalis/git/inspection.py",
+        "orqalis.git.service": "orqalis/git/service.py",
+        "orqalis.graph": "orqalis/graph/__init__.py",
+        "orqalis.graph.ecmascript": "orqalis/graph/ecmascript.py",
+        "orqalis.graph.engine": "orqalis/graph/engine.py",
+        "orqalis.graph.models": "orqalis/graph/models.py",
+        "orqalis.graph.parsing": "orqalis/graph/parsing.py",
+        "orqalis.graph.queries": "orqalis/graph/queries.py",
+        "orqalis.graph.symbols": "orqalis/graph/symbols.py",
+        "orqalis.indexing": "orqalis/indexing/__init__.py",
+        "orqalis.indexing.models": "orqalis/indexing/models.py",
+        "orqalis.indexing.service": "orqalis/indexing/service.py",
+        "orqalis.memory": "orqalis/memory/__init__.py",
+        "orqalis.memory.brain": "orqalis/memory/brain.py",
+        "orqalis.memory.curated": "orqalis/memory/curated.py",
+        "orqalis.memory.curation": "orqalis/memory/curation.py",
+        "orqalis.memory.indexing": "orqalis/memory/indexing.py",
+        "orqalis.memory.navigation": "orqalis/memory/navigation.py",
+        "orqalis.memory.ports": "orqalis/memory/ports.py",
+        "orqalis.memory.service": "orqalis/memory/service.py",
+        "orqalis.observability": "orqalis/observability/__init__.py",
+        "orqalis.observability.activity": "orqalis/observability/activity.py",
+        "orqalis.observability.analytics": "orqalis/observability/analytics.py",
+        "orqalis.observability.event_bus": "orqalis/observability/event_bus.py",
+        "orqalis.observability.instrumentation": "orqalis/observability/instrumentation.py",
+        "orqalis.observability.projections": "orqalis/observability/projections.py",
+        "orqalis.observability.timing": "orqalis/observability/timing.py",
+        "orqalis.observability.trace": "orqalis/observability/trace.py",
+        "orqalis.persistence": "orqalis/persistence/__init__.py",
+        "orqalis.persistence.approval_ports": "orqalis/persistence/approval_ports.py",
+        "orqalis.persistence.delivery_ports": "orqalis/persistence/delivery_ports.py",
+        "orqalis.persistence.event_ports": "orqalis/persistence/event_ports.py",
+        "orqalis.persistence.execution_ports": "orqalis/persistence/execution_ports.py",
+        "orqalis.persistence.filesystem": "orqalis/persistence/filesystem/__init__.py",
+        "orqalis.persistence.filesystem._windows_io": "orqalis/persistence/filesystem/_windows_io.py",
+        "orqalis.persistence.filesystem.auxiliary_stores": "orqalis/persistence/filesystem/auxiliary_stores.py",
+        "orqalis.persistence.filesystem.io": "orqalis/persistence/filesystem/io.py",
+        "orqalis.persistence.filesystem.layout": "orqalis/persistence/filesystem/layout.py",
+        "orqalis.persistence.filesystem.locking": "orqalis/persistence/filesystem/locking.py",
+        "orqalis.persistence.filesystem.memory_store": "orqalis/persistence/filesystem/memory_store.py",
+        "orqalis.persistence.filesystem.task_store": "orqalis/persistence/filesystem/task_store.py",
+        "orqalis.persistence.filesystem.unit_of_work": "orqalis/persistence/filesystem/unit_of_work.py",
+        "orqalis.persistence.ports": "orqalis/persistence/ports.py",
+        "orqalis.persistence.provider_ports": "orqalis/persistence/provider_ports.py",
+        "orqalis.persistence.run_ports": "orqalis/persistence/run_ports.py",
+        "orqalis.persistence.runtime_ports": "orqalis/persistence/runtime_ports.py",
+        "orqalis.providers": "orqalis/providers/__init__.py",
+        "orqalis.providers.anthropic": "orqalis/providers/anthropic.py",
+        "orqalis.providers.anthropic_schema": "orqalis/providers/anthropic_schema.py",
+        "orqalis.providers.configuration": "orqalis/providers/configuration.py",
+        "orqalis.providers.errors": "orqalis/providers/errors.py",
+        "orqalis.providers.fake": "orqalis/providers/fake.py",
+        "orqalis.providers.openai": "orqalis/providers/openai.py",
+        "orqalis.providers.openai_schema": "orqalis/providers/openai_schema.py",
+        "orqalis.providers.ports": "orqalis/providers/ports.py",
+        "orqalis.providers.validation": "orqalis/providers/validation.py",
+        "orqalis.retrieval": "orqalis/retrieval.py",
+        "orqalis.sdk": "orqalis/sdk.py",
+        "orqalis.security": "orqalis/security/__init__.py",
+        "orqalis.security.redaction": "orqalis/security/redaction.py",
+        "orqalis.skills": "orqalis/skills/__init__.py",
+        "orqalis.skills.markdown": "orqalis/skills/markdown.py",
+        "orqalis.skills.registry": "orqalis/skills/registry.py",
+        "orqalis.tasks": "orqalis/tasks/__init__.py",
+        "orqalis.tasks.history": "orqalis/tasks/history.py",
+        "orqalis.workspace": "orqalis/workspace/__init__.py",
+        "orqalis.workspace.manager": "orqalis/workspace/manager.py",
+        "tests": "tests/__init__.py",
+        "tests.support.filesystem": "tests/support/filesystem.py",
+        "tests.support.trace_fixture": "tests/support/trace_fixture.py"
+      },
+      "fixture_commit": "ea26cd6cdf3df00b0f8e791dafcc19ad4d8d9043",
+      "outcome": {
+        "run_id": "2b4f9b75-fc81-4e54-9562-73e78a959299",
+        "state": "REVIEWING",
+        "review_outcomes": [
+          "FAIL",
+          "PASS"
+        ],
+        "acceptance_first_pass": false,
+        "review_first_pass": false,
+        "acceptance_final": [
+          "PASS"
+        ],
+        "repair_iterations": 1,
+        "plan_version": 2,
+        "plan_completion_percent": 100.0,
+        "model_calls": 9,
+        "model_statuses": {
+          "SUCCEEDED": 9
+        },
+        "tool_calls": 2,
+        "tool_statuses": {
+          "SUCCEEDED": 2
+        },
+        "max_parallel_tasks": 2,
+        "event_sequence": 174,
+        "blocker_count": 0
+      },
+      "persisted": {
+        "sha256": "b49ea167c4d113e84877ee801e01f08bc6e06809c833cff81cc31fdc0819c03e",
+        "files": [
+          {
+            "path": "execution/events.jsonl",
+            "sha256": "6eebfd365fcb272e9579f5e08171b97296dae8dd841b61110cf5516e06edfa7c",
+            "bytes": 192200
+          },
+          {
+            "path": "execution/state.yaml",
+            "sha256": "fb7e56874d8a0a70810ebc1b6b20e04f96e67897171f92e9bd762cc8a3b85e47",
+            "bytes": 64551
+          }
+        ]
+      },
+      "event_type_counts": {
+        "RUN_CREATED": 1,
+        "ACTOR_STARTED": 10,
+        "GOAL_VERSION_CREATED": 1,
+        "ACCEPTANCE_CREATED": 1,
+        "RUN_STARTED": 1,
+        "ACTOR_STATUS_CHANGED": 33,
+        "PHASE_STARTED": 10,
+        "MEMORY_SYNC_STARTED": 1,
+        "MEMORY_SYNC_COMPLETED": 1,
+        "CONTEXT_PACK_CREATED": 1,
+        "RUN_STATE_CHANGED": 12,
+        "PHASE_COMPLETED": 9,
+        "RUN_PAUSED": 1,
+        "PHASE_STATUS_CHANGED": 2,
+        "RUN_RESUMED": 1,
+        "PLAN_CREATED": 1,
+        "TASK_CREATED": 9,
+        "TASK_READY": 9,
+        "TASK_STARTED": 9,
+        "PROVIDER_INVOCATION_STARTED": 9,
+        "PROVIDER_INVOCATION_COMPLETED": 9,
+        "TASK_COMPLETED": 9,
+        "ACTOR_COMPLETED": 9,
+        "SKILL_LOADED": 6,
+        "TOOL_STARTED": 2,
+        "TOOL_COMPLETED": 2,
+        "TEST_STARTED": 2,
+        "EVIDENCE_RECORDED": 2,
+        "TEST_COMPLETED": 2,
+        "CRITERION_FAILED": 2,
+        "REVIEW_COMPLETED": 2,
+        "REPAIR_REQUESTED": 1,
+        "PLAN_REVISED": 1,
+        "REPAIR_STARTED": 1,
+        "CRITERION_PASSED": 1,
+        "REPAIR_COMPLETED": 1
+      },
+      "invocation_accounting": {
+        "checks": {
+          "actor_ids_unique": true,
+          "provider_ids_unique": true,
+          "provider_projection_matches": true,
+          "provider_events_match": true,
+          "tool_ids_unique": true,
+          "tool_projection_matches": true,
+          "tool_events_match": true,
+          "model_role_counts_match": true,
+          "tool_role_counts_match": true,
+          "tool_provider_links_match": true
+        },
+        "model_role_counts": {
+          "architect": 2,
+          "developer": 4,
+          "reviewer": 2,
+          "repair": 1
+        },
+        "expected_model_role_counts": {
+          "architect": 2,
+          "developer": 4,
+          "repair": 1,
+          "reviewer": 2
+        },
+        "tool_role_counts": {
+          "developer": 2
+        },
+        "provider": {
+          "records": [
+            {
+              "id": "4d10f33d-b0f5-57ba-92c4-f5fa39b56467",
+              "actor_session_id": "4993f158-033a-589c-83d4-b0c6793d0b9f",
+              "task_execution_id": "a6727bd3-ff08-5c36-b4c9-4effe5438ee8",
+              "role": "architect",
+              "status": "SUCCEEDED",
+              "start_sequence": 42,
+              "terminal_sequence": 51,
+              "record_and_events_match": true
+            },
+            {
+              "id": "eab2f3c8-ea8c-54b9-b7cd-d858ac2286f4",
+              "actor_session_id": "87c19415-8640-58a6-b0a1-7648ea096672",
+              "task_execution_id": "e5e45116-158c-5731-b3ee-57a6e9e1458d",
+              "role": "architect",
+              "status": "SUCCEEDED",
+              "start_sequence": 46,
+              "terminal_sequence": 47,
+              "record_and_events_match": true
+            },
+            {
+              "id": "9b2b0474-2c27-5121-a099-df45855ec7fa",
+              "actor_session_id": "d439d6c9-4fa4-5373-a61b-b4c61a7a5e4a",
+              "task_execution_id": "afaa55d6-27c4-5be4-85ef-74126a5c1ee3",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 60,
+              "terminal_sequence": 61,
+              "record_and_events_match": true
+            },
+            {
+              "id": "6a8bb314-44ae-554f-91ba-030c621d9fc0",
+              "actor_session_id": "d439d6c9-4fa4-5373-a61b-b4c61a7a5e4a",
+              "task_execution_id": "afaa55d6-27c4-5be4-85ef-74126a5c1ee3",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 65,
+              "terminal_sequence": 66,
+              "record_and_events_match": true
+            },
+            {
+              "id": "1c00b99b-d99f-52d0-9329-ffe490871e72",
+              "actor_session_id": "3c7acd32-f6b8-52d6-b461-4b329d6313aa",
+              "task_execution_id": "598045a4-a03a-512c-838c-32ba915dc77c",
+              "role": "reviewer",
+              "status": "SUCCEEDED",
+              "start_sequence": 96,
+              "terminal_sequence": 97,
+              "record_and_events_match": true
+            },
+            {
+              "id": "f3a192e5-e5f4-57a8-9476-ed1db8424773",
+              "actor_session_id": "219b410b-ea8e-5112-bd8f-8dc9c87395db",
+              "task_execution_id": "1cbf5090-002a-57cc-9e7e-865174f2b94c",
+              "role": "repair",
+              "status": "SUCCEEDED",
+              "start_sequence": 122,
+              "terminal_sequence": 123,
+              "record_and_events_match": true
+            },
+            {
+              "id": "05ae9c2c-fabb-569a-a985-e03206829a73",
+              "actor_session_id": "36b609ad-4df9-56e1-9b7e-90a8341bd249",
+              "task_execution_id": "174dd72b-637b-514c-b620-5aa4efe8dbd9",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 132,
+              "terminal_sequence": 133,
+              "record_and_events_match": true
+            },
+            {
+              "id": "5434de83-40b6-5951-a89d-0fe5f5f7c050",
+              "actor_session_id": "36b609ad-4df9-56e1-9b7e-90a8341bd249",
+              "task_execution_id": "174dd72b-637b-514c-b620-5aa4efe8dbd9",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 137,
+              "terminal_sequence": 138,
+              "record_and_events_match": true
+            },
+            {
+              "id": "028ef73a-0ad3-5b6a-afa3-7f5bf5f0d780",
+              "actor_session_id": "4a8e950d-80b9-5790-a428-f02c8081e93f",
+              "task_execution_id": "0972ae08-6de7-5651-866f-8f9f49341f4c",
+              "role": "reviewer",
+              "status": "SUCCEEDED",
+              "start_sequence": 168,
+              "terminal_sequence": 169,
+              "record_and_events_match": true
+            }
+          ],
+          "projection_ids": [
+            "4d10f33d-b0f5-57ba-92c4-f5fa39b56467",
+            "eab2f3c8-ea8c-54b9-b7cd-d858ac2286f4",
+            "9b2b0474-2c27-5121-a099-df45855ec7fa",
+            "6a8bb314-44ae-554f-91ba-030c621d9fc0",
+            "1c00b99b-d99f-52d0-9329-ffe490871e72",
+            "f3a192e5-e5f4-57a8-9476-ed1db8424773",
+            "05ae9c2c-fabb-569a-a985-e03206829a73",
+            "5434de83-40b6-5951-a89d-0fe5f5f7c050",
+            "028ef73a-0ad3-5b6a-afa3-7f5bf5f0d780"
+          ],
+          "start_event_ids": [
+            "4d10f33d-b0f5-57ba-92c4-f5fa39b56467",
+            "eab2f3c8-ea8c-54b9-b7cd-d858ac2286f4",
+            "9b2b0474-2c27-5121-a099-df45855ec7fa",
+            "6a8bb314-44ae-554f-91ba-030c621d9fc0",
+            "1c00b99b-d99f-52d0-9329-ffe490871e72",
+            "f3a192e5-e5f4-57a8-9476-ed1db8424773",
+            "05ae9c2c-fabb-569a-a985-e03206829a73",
+            "5434de83-40b6-5951-a89d-0fe5f5f7c050",
+            "028ef73a-0ad3-5b6a-afa3-7f5bf5f0d780"
+          ],
+          "terminal_event_ids": [
+            "eab2f3c8-ea8c-54b9-b7cd-d858ac2286f4",
+            "4d10f33d-b0f5-57ba-92c4-f5fa39b56467",
+            "9b2b0474-2c27-5121-a099-df45855ec7fa",
+            "6a8bb314-44ae-554f-91ba-030c621d9fc0",
+            "1c00b99b-d99f-52d0-9329-ffe490871e72",
+            "f3a192e5-e5f4-57a8-9476-ed1db8424773",
+            "05ae9c2c-fabb-569a-a985-e03206829a73",
+            "5434de83-40b6-5951-a89d-0fe5f5f7c050",
+            "028ef73a-0ad3-5b6a-afa3-7f5bf5f0d780"
+          ]
+        },
+        "tool": {
+          "records": [
+            {
+              "id": "5a649f7d-e8dc-510a-b5f9-5facaf305c6f",
+              "actor_session_id": "d439d6c9-4fa4-5373-a61b-b4c61a7a5e4a",
+              "task_execution_id": "afaa55d6-27c4-5be4-85ef-74126a5c1ee3",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 62,
+              "terminal_sequence": 63,
+              "record_and_events_match": true
+            },
+            {
+              "id": "5418d021-7237-58f4-b835-a547417d238c",
+              "actor_session_id": "36b609ad-4df9-56e1-9b7e-90a8341bd249",
+              "task_execution_id": "174dd72b-637b-514c-b620-5aa4efe8dbd9",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 134,
+              "terminal_sequence": 135,
+              "record_and_events_match": true
+            }
+          ],
+          "projection_ids": [
+            "5a649f7d-e8dc-510a-b5f9-5facaf305c6f",
+            "5418d021-7237-58f4-b835-a547417d238c"
+          ],
+          "start_event_ids": [
+            "5a649f7d-e8dc-510a-b5f9-5facaf305c6f",
+            "5418d021-7237-58f4-b835-a547417d238c"
+          ],
+          "terminal_event_ids": [
+            "5a649f7d-e8dc-510a-b5f9-5facaf305c6f",
+            "5418d021-7237-58f4-b835-a547417d238c"
+          ]
+        }
+      },
+      "model_invocation_ids": [
+        "4d10f33d-b0f5-57ba-92c4-f5fa39b56467",
+        "eab2f3c8-ea8c-54b9-b7cd-d858ac2286f4",
+        "9b2b0474-2c27-5121-a099-df45855ec7fa",
+        "6a8bb314-44ae-554f-91ba-030c621d9fc0",
+        "1c00b99b-d99f-52d0-9329-ffe490871e72",
+        "f3a192e5-e5f4-57a8-9476-ed1db8424773",
+        "05ae9c2c-fabb-569a-a985-e03206829a73",
+        "5434de83-40b6-5951-a89d-0fe5f5f7c050",
+        "028ef73a-0ad3-5b6a-afa3-7f5bf5f0d780"
+      ],
+      "tool_invocation_ids": [
+        "5a649f7d-e8dc-510a-b5f9-5facaf305c6f",
+        "5418d021-7237-58f4-b835-a547417d238c"
+      ],
+      "execution_elapsed_ms": 20944.905699929222,
+      "repository_setup_elapsed_ms": 293.07460004929453,
+      "persisted_run_timing_ms": {
+        "wall_ms": 18362,
+        "active_ms": 18212,
+        "waiting_ms": 150,
+        "blocked_ms": 0,
+        "idle_ms": 0,
+        "queue_ms": 0
+      },
+      "timing_observed_at": "2026-10-07T09:50:57.990393+00:00",
+      "reported_usage": {
+        "calls_with_usage": 0,
+        "calls_with_cost": 0,
+        "reported_input_tokens": null,
+        "reported_output_tokens": null,
+        "reported_cached_tokens": null,
+        "reported_cost_usd": null
+      },
+      "child_process_elapsed_ms": 22800.680099986494,
+      "repetition": 0,
+      "worker_returncode": 0
+    },
+    {
+      "complete": true,
+      "passed": true,
+      "checks": {
+        "reviewed_execution_checkpoint": true,
+        "failed_first_review_then_pass": true,
+        "deliberate_first_acceptance_failure": true,
+        "final_acceptance_pass": true,
+        "exactly_one_repair": true,
+        "current_plan_complete": true,
+        "parallel_read_tasks_observed": true,
+        "all_model_calls_succeeded": true,
+        "exactly_two_successful_writes": true,
+        "no_blockers": true,
+        "provider_ids_unique": true,
+        "provider_projection_matches": true,
+        "provider_events_match": true,
+        "tool_ids_unique": true,
+        "tool_projection_matches": true,
+        "tool_events_match": true,
+        "actor_ids_unique": true,
+        "model_role_counts_match": true,
+        "tool_role_counts_match": true,
+        "tool_provider_links_match": true,
+        "persisted_reload_matches": true,
+        "contiguous_events": true,
+        "unique_event_keys": true,
+        "event_cursor_matches": true,
+        "worktree_answer_correct": true,
+        "original_source_unchanged": true
+      },
+      "input_stability": {
+        "source": true,
+        "helpers": true,
+        "script": true,
+        "environment": true
+      },
+      "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+      "helpers_sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+      "script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+      "environment_sha256": "f899d7229da0991bcea54229abac4d37b7c5c3633e44266e46e6de9b86886c52",
+      "isolated_python": true,
+      "loaded_modules": {
+        "orqalis": "orqalis/__init__.py",
+        "orqalis.agents": "orqalis/agents/__init__.py",
+        "orqalis.agents.roles": "orqalis/agents/roles.py",
+        "orqalis.agents.routing": "orqalis/agents/routing.py",
+        "orqalis.agents.service": "orqalis/agents/service.py",
+        "orqalis.bootstrap": "orqalis/bootstrap.py",
+        "orqalis.config": "orqalis/config/__init__.py",
+        "orqalis.config.settings": "orqalis/config/settings.py",
+        "orqalis.context": "orqalis/context/__init__.py",
+        "orqalis.context.agent": "orqalis/context/agent.py",
+        "orqalis.context.builder": "orqalis/context/builder.py",
+        "orqalis.context.models": "orqalis/context/models.py",
+        "orqalis.context.service": "orqalis/context/service.py",
+        "orqalis.core": "orqalis/core/__init__.py",
+        "orqalis.core.approval_guard": "orqalis/core/approval_guard.py",
+        "orqalis.core.approval_subjects": "orqalis/core/approval_subjects.py",
+        "orqalis.core.approvals": "orqalis/core/approvals.py",
+        "orqalis.core.delivery": "orqalis/core/delivery.py",
+        "orqalis.core.delivery_plan": "orqalis/core/delivery_plan.py",
+        "orqalis.core.executor": "orqalis/core/executor.py",
+        "orqalis.core.external": "orqalis/core/external.py",
+        "orqalis.core.goals": "orqalis/core/goals.py",
+        "orqalis.core.orchestrator": "orqalis/core/orchestrator.py",
+        "orqalis.core.phases": "orqalis/core/phases.py",
+        "orqalis.core.plan_preview": "orqalis/core/plan_preview.py",
+        "orqalis.core.plan_revision": "orqalis/core/plan_revision.py",
+        "orqalis.core.planning": "orqalis/core/planning.py",
+        "orqalis.core.ports": "orqalis/core/ports.py",
+        "orqalis.core.projects": "orqalis/core/projects.py",
+        "orqalis.core.repair": "orqalis/core/repair.py",
+        "orqalis.core.requirements": "orqalis/core/requirements.py",
+        "orqalis.core.runtime_support": "orqalis/core/runtime_support.py",
+        "orqalis.core.scheduler": "orqalis/core/scheduler.py",
+        "orqalis.core.state_machine": "orqalis/core/state_machine.py",
+        "orqalis.core.task_runtime": "orqalis/core/task_runtime.py",
+        "orqalis.core.vertical_plan": "orqalis/core/vertical_plan.py",
+        "orqalis.delivery": "orqalis/delivery/__init__.py",
+        "orqalis.delivery.commits": "orqalis/delivery/commits.py",
+        "orqalis.delivery.documentation": "orqalis/delivery/documentation.py",
+        "orqalis.delivery.gates": "orqalis/delivery/gates.py",
+        "orqalis.delivery.guardian": "orqalis/delivery/guardian.py",
+        "orqalis.delivery.inspection": "orqalis/delivery/inspection.py",
+        "orqalis.delivery.test_integrity": "orqalis/delivery/test_integrity.py",
+        "orqalis.delivery.validation": "orqalis/delivery/validation.py",
+        "orqalis.domain": "orqalis/domain/__init__.py",
+        "orqalis.domain.acceptance": "orqalis/domain/acceptance.py",
+        "orqalis.domain.agent": "orqalis/domain/agent.py",
+        "orqalis.domain.approval": "orqalis/domain/approval.py",
+        "orqalis.domain.artifact": "orqalis/domain/artifact.py",
+        "orqalis.domain.base": "orqalis/domain/base.py",
+        "orqalis.domain.capabilities": "orqalis/domain/capabilities.py",
+        "orqalis.domain.delivery": "orqalis/domain/delivery.py",
+        "orqalis.domain.errors": "orqalis/domain/errors.py",
+        "orqalis.domain.events": "orqalis/domain/events.py",
+        "orqalis.domain.execution": "orqalis/domain/execution.py",
+        "orqalis.domain.external": "orqalis/domain/external.py",
+        "orqalis.domain.memory": "orqalis/domain/memory.py",
+        "orqalis.domain.plan": "orqalis/domain/plan.py",
+        "orqalis.domain.project": "orqalis/domain/project.py",
+        "orqalis.domain.projections": "orqalis/domain/projections.py",
+        "orqalis.domain.provider": "orqalis/domain/provider.py",
+        "orqalis.domain.run": "orqalis/domain/run.py",
+        "orqalis.domain.task": "orqalis/domain/task.py",
+        "orqalis.domain.telemetry": "orqalis/domain/telemetry.py",
+        "orqalis.domain.timing": "orqalis/domain/timing.py",
+        "orqalis.evaluation": "orqalis/evaluation/__init__.py",
+        "orqalis.evaluation.ports": "orqalis/evaluation/ports.py",
+        "orqalis.evaluation.validators": "orqalis/evaluation/validators.py",
+        "orqalis.execution": "orqalis/execution/__init__.py",
+        "orqalis.execution.artifacts": "orqalis/execution/artifacts.py",
+        "orqalis.execution.cancellation": "orqalis/execution/cancellation.py",
+        "orqalis.execution.commands": "orqalis/execution/commands.py",
+        "orqalis.execution.evaluator": "orqalis/execution/evaluator.py",
+        "orqalis.execution.filesystem": "orqalis/execution/filesystem.py",
+        "orqalis.execution.finding_review": "orqalis/execution/finding_review.py",
+        "orqalis.execution.review": "orqalis/execution/review.py",
+        "orqalis.execution.sandbox": "orqalis/execution/sandbox.py",
+        "orqalis.execution.tool_definitions": "orqalis/execution/tool_definitions.py",
+        "orqalis.execution.tools": "orqalis/execution/tools.py",
+        "orqalis.execution.windows_job": "orqalis/execution/windows_job.py",
+        "orqalis.execution.worker": "orqalis/execution/worker.py",
+        "orqalis.execution.workspaces": "orqalis/execution/workspaces.py",
+        "orqalis.git": "orqalis/git/__init__.py",
+        "orqalis.git.contracts": "orqalis/git/contracts.py",
+        "orqalis.git.delivery": "orqalis/git/delivery.py",
+        "orqalis.git.inspection": "orqalis/git/inspection.py",
+        "orqalis.git.service": "orqalis/git/service.py",
+        "orqalis.graph": "orqalis/graph/__init__.py",
+        "orqalis.graph.ecmascript": "orqalis/graph/ecmascript.py",
+        "orqalis.graph.engine": "orqalis/graph/engine.py",
+        "orqalis.graph.models": "orqalis/graph/models.py",
+        "orqalis.graph.parsing": "orqalis/graph/parsing.py",
+        "orqalis.graph.queries": "orqalis/graph/queries.py",
+        "orqalis.graph.symbols": "orqalis/graph/symbols.py",
+        "orqalis.indexing": "orqalis/indexing/__init__.py",
+        "orqalis.indexing.models": "orqalis/indexing/models.py",
+        "orqalis.indexing.service": "orqalis/indexing/service.py",
+        "orqalis.memory": "orqalis/memory/__init__.py",
+        "orqalis.memory.brain": "orqalis/memory/brain.py",
+        "orqalis.memory.curated": "orqalis/memory/curated.py",
+        "orqalis.memory.curation": "orqalis/memory/curation.py",
+        "orqalis.memory.indexing": "orqalis/memory/indexing.py",
+        "orqalis.memory.navigation": "orqalis/memory/navigation.py",
+        "orqalis.memory.ports": "orqalis/memory/ports.py",
+        "orqalis.memory.service": "orqalis/memory/service.py",
+        "orqalis.observability": "orqalis/observability/__init__.py",
+        "orqalis.observability.activity": "orqalis/observability/activity.py",
+        "orqalis.observability.analytics": "orqalis/observability/analytics.py",
+        "orqalis.observability.event_bus": "orqalis/observability/event_bus.py",
+        "orqalis.observability.instrumentation": "orqalis/observability/instrumentation.py",
+        "orqalis.observability.projections": "orqalis/observability/projections.py",
+        "orqalis.observability.timing": "orqalis/observability/timing.py",
+        "orqalis.observability.trace": "orqalis/observability/trace.py",
+        "orqalis.persistence": "orqalis/persistence/__init__.py",
+        "orqalis.persistence.approval_ports": "orqalis/persistence/approval_ports.py",
+        "orqalis.persistence.delivery_ports": "orqalis/persistence/delivery_ports.py",
+        "orqalis.persistence.event_ports": "orqalis/persistence/event_ports.py",
+        "orqalis.persistence.execution_ports": "orqalis/persistence/execution_ports.py",
+        "orqalis.persistence.filesystem": "orqalis/persistence/filesystem/__init__.py",
+        "orqalis.persistence.filesystem._windows_io": "orqalis/persistence/filesystem/_windows_io.py",
+        "orqalis.persistence.filesystem.auxiliary_stores": "orqalis/persistence/filesystem/auxiliary_stores.py",
+        "orqalis.persistence.filesystem.io": "orqalis/persistence/filesystem/io.py",
+        "orqalis.persistence.filesystem.layout": "orqalis/persistence/filesystem/layout.py",
+        "orqalis.persistence.filesystem.locking": "orqalis/persistence/filesystem/locking.py",
+        "orqalis.persistence.filesystem.memory_store": "orqalis/persistence/filesystem/memory_store.py",
+        "orqalis.persistence.filesystem.task_store": "orqalis/persistence/filesystem/task_store.py",
+        "orqalis.persistence.filesystem.unit_of_work": "orqalis/persistence/filesystem/unit_of_work.py",
+        "orqalis.persistence.ports": "orqalis/persistence/ports.py",
+        "orqalis.persistence.provider_ports": "orqalis/persistence/provider_ports.py",
+        "orqalis.persistence.run_ports": "orqalis/persistence/run_ports.py",
+        "orqalis.persistence.runtime_ports": "orqalis/persistence/runtime_ports.py",
+        "orqalis.providers": "orqalis/providers/__init__.py",
+        "orqalis.providers.anthropic": "orqalis/providers/anthropic.py",
+        "orqalis.providers.anthropic_schema": "orqalis/providers/anthropic_schema.py",
+        "orqalis.providers.configuration": "orqalis/providers/configuration.py",
+        "orqalis.providers.errors": "orqalis/providers/errors.py",
+        "orqalis.providers.fake": "orqalis/providers/fake.py",
+        "orqalis.providers.openai": "orqalis/providers/openai.py",
+        "orqalis.providers.openai_schema": "orqalis/providers/openai_schema.py",
+        "orqalis.providers.ports": "orqalis/providers/ports.py",
+        "orqalis.providers.validation": "orqalis/providers/validation.py",
+        "orqalis.retrieval": "orqalis/retrieval.py",
+        "orqalis.sdk": "orqalis/sdk.py",
+        "orqalis.security": "orqalis/security/__init__.py",
+        "orqalis.security.redaction": "orqalis/security/redaction.py",
+        "orqalis.skills": "orqalis/skills/__init__.py",
+        "orqalis.skills.markdown": "orqalis/skills/markdown.py",
+        "orqalis.skills.registry": "orqalis/skills/registry.py",
+        "orqalis.tasks": "orqalis/tasks/__init__.py",
+        "orqalis.tasks.history": "orqalis/tasks/history.py",
+        "orqalis.workspace": "orqalis/workspace/__init__.py",
+        "orqalis.workspace.manager": "orqalis/workspace/manager.py",
+        "tests": "tests/__init__.py",
+        "tests.support.filesystem": "tests/support/filesystem.py",
+        "tests.support.trace_fixture": "tests/support/trace_fixture.py"
+      },
+      "fixture_commit": "ea26cd6cdf3df00b0f8e791dafcc19ad4d8d9043",
+      "outcome": {
+        "run_id": "556bd213-ada1-49a7-b0f7-4918173f0117",
+        "state": "REVIEWING",
+        "review_outcomes": [
+          "FAIL",
+          "PASS"
+        ],
+        "acceptance_first_pass": false,
+        "review_first_pass": false,
+        "acceptance_final": [
+          "PASS"
+        ],
+        "repair_iterations": 1,
+        "plan_version": 2,
+        "plan_completion_percent": 100.0,
+        "model_calls": 9,
+        "model_statuses": {
+          "SUCCEEDED": 9
+        },
+        "tool_calls": 2,
+        "tool_statuses": {
+          "SUCCEEDED": 2
+        },
+        "max_parallel_tasks": 2,
+        "event_sequence": 174,
+        "blocker_count": 0
+      },
+      "persisted": {
+        "sha256": "2f3c5876b2cf1ec4e268f893e557124177322af45f39aeba74912cc13e1e38c9",
+        "files": [
+          {
+            "path": "execution/events.jsonl",
+            "sha256": "fbe412ccf6b39f48334926299fbfa9fb371a20b2569de5d3686fbfb095b41af6",
+            "bytes": 192200
+          },
+          {
+            "path": "execution/state.yaml",
+            "sha256": "5d9940365c9123ddb35e56f2389fb02401e2624fbe99c9da75c5115bed28d651",
+            "bytes": 64549
+          }
+        ]
+      },
+      "event_type_counts": {
+        "RUN_CREATED": 1,
+        "ACTOR_STARTED": 10,
+        "GOAL_VERSION_CREATED": 1,
+        "ACCEPTANCE_CREATED": 1,
+        "RUN_STARTED": 1,
+        "ACTOR_STATUS_CHANGED": 33,
+        "PHASE_STARTED": 10,
+        "MEMORY_SYNC_STARTED": 1,
+        "MEMORY_SYNC_COMPLETED": 1,
+        "CONTEXT_PACK_CREATED": 1,
+        "RUN_STATE_CHANGED": 12,
+        "PHASE_COMPLETED": 9,
+        "RUN_PAUSED": 1,
+        "PHASE_STATUS_CHANGED": 2,
+        "RUN_RESUMED": 1,
+        "PLAN_CREATED": 1,
+        "TASK_CREATED": 9,
+        "TASK_READY": 9,
+        "TASK_STARTED": 9,
+        "PROVIDER_INVOCATION_STARTED": 9,
+        "PROVIDER_INVOCATION_COMPLETED": 9,
+        "TASK_COMPLETED": 9,
+        "ACTOR_COMPLETED": 9,
+        "SKILL_LOADED": 6,
+        "TOOL_STARTED": 2,
+        "TOOL_COMPLETED": 2,
+        "TEST_STARTED": 2,
+        "EVIDENCE_RECORDED": 2,
+        "TEST_COMPLETED": 2,
+        "CRITERION_FAILED": 2,
+        "REVIEW_COMPLETED": 2,
+        "REPAIR_REQUESTED": 1,
+        "PLAN_REVISED": 1,
+        "REPAIR_STARTED": 1,
+        "CRITERION_PASSED": 1,
+        "REPAIR_COMPLETED": 1
+      },
+      "invocation_accounting": {
+        "checks": {
+          "actor_ids_unique": true,
+          "provider_ids_unique": true,
+          "provider_projection_matches": true,
+          "provider_events_match": true,
+          "tool_ids_unique": true,
+          "tool_projection_matches": true,
+          "tool_events_match": true,
+          "model_role_counts_match": true,
+          "tool_role_counts_match": true,
+          "tool_provider_links_match": true
+        },
+        "model_role_counts": {
+          "architect": 2,
+          "developer": 4,
+          "reviewer": 2,
+          "repair": 1
+        },
+        "expected_model_role_counts": {
+          "architect": 2,
+          "developer": 4,
+          "repair": 1,
+          "reviewer": 2
+        },
+        "tool_role_counts": {
+          "developer": 2
+        },
+        "provider": {
+          "records": [
+            {
+              "id": "2bda3b26-ab9c-54c0-a01b-533efce4e6da",
+              "actor_session_id": "8c9c68e2-9ab1-5b4a-bb35-987228d7b959",
+              "task_execution_id": "b5d2ca97-a51d-5693-bc61-e2f3a04155f8",
+              "role": "architect",
+              "status": "SUCCEEDED",
+              "start_sequence": 42,
+              "terminal_sequence": 51,
+              "record_and_events_match": true
+            },
+            {
+              "id": "53f8fa59-778a-561a-9568-7e4e280c75cf",
+              "actor_session_id": "2f5e4dc6-fef9-556d-a179-47a42202b5fa",
+              "task_execution_id": "3476b315-06b8-5c85-b463-544af147b733",
+              "role": "architect",
+              "status": "SUCCEEDED",
+              "start_sequence": 46,
+              "terminal_sequence": 47,
+              "record_and_events_match": true
+            },
+            {
+              "id": "99d31a60-ca1c-58be-b2b7-b492b7b05443",
+              "actor_session_id": "c9700fe7-a337-525f-b32c-cfbe95eaa054",
+              "task_execution_id": "ce0fdbaa-9977-54b1-9caa-22f33313ab1f",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 60,
+              "terminal_sequence": 61,
+              "record_and_events_match": true
+            },
+            {
+              "id": "c0e5890d-7484-5c7a-888c-418d19c363be",
+              "actor_session_id": "c9700fe7-a337-525f-b32c-cfbe95eaa054",
+              "task_execution_id": "ce0fdbaa-9977-54b1-9caa-22f33313ab1f",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 65,
+              "terminal_sequence": 66,
+              "record_and_events_match": true
+            },
+            {
+              "id": "9ced11b5-69d1-5d1d-bc4b-f19bff76d622",
+              "actor_session_id": "a10adf21-044d-5a04-abc8-9ea7dbe030b8",
+              "task_execution_id": "e6914c92-244f-5270-a81b-8b73f620c126",
+              "role": "reviewer",
+              "status": "SUCCEEDED",
+              "start_sequence": 96,
+              "terminal_sequence": 97,
+              "record_and_events_match": true
+            },
+            {
+              "id": "c8910edc-1291-5523-87ed-97a871a46320",
+              "actor_session_id": "7bbce504-8749-5dd0-b37e-0135a1493c74",
+              "task_execution_id": "e3e24683-0869-5f4e-a5e0-dbe6d44b0bbb",
+              "role": "repair",
+              "status": "SUCCEEDED",
+              "start_sequence": 122,
+              "terminal_sequence": 123,
+              "record_and_events_match": true
+            },
+            {
+              "id": "c4855879-e789-5900-8174-cc8e257bb68b",
+              "actor_session_id": "c7773396-2ea5-5319-a9ef-00a34e0f4163",
+              "task_execution_id": "c485da5a-8f40-54bf-a4a7-7e95132b8a1e",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 132,
+              "terminal_sequence": 133,
+              "record_and_events_match": true
+            },
+            {
+              "id": "199e3517-a154-5a3c-8f2b-9bb1c6e08a2b",
+              "actor_session_id": "c7773396-2ea5-5319-a9ef-00a34e0f4163",
+              "task_execution_id": "c485da5a-8f40-54bf-a4a7-7e95132b8a1e",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 137,
+              "terminal_sequence": 138,
+              "record_and_events_match": true
+            },
+            {
+              "id": "2aa85466-1eb0-53cd-bdcb-223909dc2abf",
+              "actor_session_id": "6abcadba-b826-56eb-9b79-9de70830064e",
+              "task_execution_id": "dba91feb-059b-5257-b0fc-7d2d6de2af62",
+              "role": "reviewer",
+              "status": "SUCCEEDED",
+              "start_sequence": 168,
+              "terminal_sequence": 169,
+              "record_and_events_match": true
+            }
+          ],
+          "projection_ids": [
+            "2bda3b26-ab9c-54c0-a01b-533efce4e6da",
+            "53f8fa59-778a-561a-9568-7e4e280c75cf",
+            "99d31a60-ca1c-58be-b2b7-b492b7b05443",
+            "c0e5890d-7484-5c7a-888c-418d19c363be",
+            "9ced11b5-69d1-5d1d-bc4b-f19bff76d622",
+            "c8910edc-1291-5523-87ed-97a871a46320",
+            "c4855879-e789-5900-8174-cc8e257bb68b",
+            "199e3517-a154-5a3c-8f2b-9bb1c6e08a2b",
+            "2aa85466-1eb0-53cd-bdcb-223909dc2abf"
+          ],
+          "start_event_ids": [
+            "2bda3b26-ab9c-54c0-a01b-533efce4e6da",
+            "53f8fa59-778a-561a-9568-7e4e280c75cf",
+            "99d31a60-ca1c-58be-b2b7-b492b7b05443",
+            "c0e5890d-7484-5c7a-888c-418d19c363be",
+            "9ced11b5-69d1-5d1d-bc4b-f19bff76d622",
+            "c8910edc-1291-5523-87ed-97a871a46320",
+            "c4855879-e789-5900-8174-cc8e257bb68b",
+            "199e3517-a154-5a3c-8f2b-9bb1c6e08a2b",
+            "2aa85466-1eb0-53cd-bdcb-223909dc2abf"
+          ],
+          "terminal_event_ids": [
+            "53f8fa59-778a-561a-9568-7e4e280c75cf",
+            "2bda3b26-ab9c-54c0-a01b-533efce4e6da",
+            "99d31a60-ca1c-58be-b2b7-b492b7b05443",
+            "c0e5890d-7484-5c7a-888c-418d19c363be",
+            "9ced11b5-69d1-5d1d-bc4b-f19bff76d622",
+            "c8910edc-1291-5523-87ed-97a871a46320",
+            "c4855879-e789-5900-8174-cc8e257bb68b",
+            "199e3517-a154-5a3c-8f2b-9bb1c6e08a2b",
+            "2aa85466-1eb0-53cd-bdcb-223909dc2abf"
+          ]
+        },
+        "tool": {
+          "records": [
+            {
+              "id": "b11f0f91-64f6-58ec-99e9-115423419096",
+              "actor_session_id": "c9700fe7-a337-525f-b32c-cfbe95eaa054",
+              "task_execution_id": "ce0fdbaa-9977-54b1-9caa-22f33313ab1f",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 62,
+              "terminal_sequence": 63,
+              "record_and_events_match": true
+            },
+            {
+              "id": "b8f6b468-562f-5b6f-a8fe-82ff5a2c7bfa",
+              "actor_session_id": "c7773396-2ea5-5319-a9ef-00a34e0f4163",
+              "task_execution_id": "c485da5a-8f40-54bf-a4a7-7e95132b8a1e",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 134,
+              "terminal_sequence": 135,
+              "record_and_events_match": true
+            }
+          ],
+          "projection_ids": [
+            "b11f0f91-64f6-58ec-99e9-115423419096",
+            "b8f6b468-562f-5b6f-a8fe-82ff5a2c7bfa"
+          ],
+          "start_event_ids": [
+            "b11f0f91-64f6-58ec-99e9-115423419096",
+            "b8f6b468-562f-5b6f-a8fe-82ff5a2c7bfa"
+          ],
+          "terminal_event_ids": [
+            "b11f0f91-64f6-58ec-99e9-115423419096",
+            "b8f6b468-562f-5b6f-a8fe-82ff5a2c7bfa"
+          ]
+        }
+      },
+      "model_invocation_ids": [
+        "2bda3b26-ab9c-54c0-a01b-533efce4e6da",
+        "53f8fa59-778a-561a-9568-7e4e280c75cf",
+        "99d31a60-ca1c-58be-b2b7-b492b7b05443",
+        "c0e5890d-7484-5c7a-888c-418d19c363be",
+        "9ced11b5-69d1-5d1d-bc4b-f19bff76d622",
+        "c8910edc-1291-5523-87ed-97a871a46320",
+        "c4855879-e789-5900-8174-cc8e257bb68b",
+        "199e3517-a154-5a3c-8f2b-9bb1c6e08a2b",
+        "2aa85466-1eb0-53cd-bdcb-223909dc2abf"
+      ],
+      "tool_invocation_ids": [
+        "b11f0f91-64f6-58ec-99e9-115423419096",
+        "b8f6b468-562f-5b6f-a8fe-82ff5a2c7bfa"
+      ],
+      "execution_elapsed_ms": 20296.14120000042,
+      "repository_setup_elapsed_ms": 195.81629999447614,
+      "persisted_run_timing_ms": {
+        "wall_ms": 18059,
+        "active_ms": 17859,
+        "waiting_ms": 200,
+        "blocked_ms": 0,
+        "idle_ms": 0,
+        "queue_ms": 0
+      },
+      "timing_observed_at": "2026-10-07T09:51:20.283464+00:00",
+      "reported_usage": {
+        "calls_with_usage": 0,
+        "calls_with_cost": 0,
+        "reported_input_tokens": null,
+        "reported_output_tokens": null,
+        "reported_cached_tokens": null,
+        "reported_cost_usd": null
+      },
+      "child_process_elapsed_ms": 22240.146500058472,
+      "repetition": 1,
+      "worker_returncode": 0
+    },
+    {
+      "complete": true,
+      "passed": true,
+      "checks": {
+        "reviewed_execution_checkpoint": true,
+        "failed_first_review_then_pass": true,
+        "deliberate_first_acceptance_failure": true,
+        "final_acceptance_pass": true,
+        "exactly_one_repair": true,
+        "current_plan_complete": true,
+        "parallel_read_tasks_observed": true,
+        "all_model_calls_succeeded": true,
+        "exactly_two_successful_writes": true,
+        "no_blockers": true,
+        "provider_ids_unique": true,
+        "provider_projection_matches": true,
+        "provider_events_match": true,
+        "tool_ids_unique": true,
+        "tool_projection_matches": true,
+        "tool_events_match": true,
+        "actor_ids_unique": true,
+        "model_role_counts_match": true,
+        "tool_role_counts_match": true,
+        "tool_provider_links_match": true,
+        "persisted_reload_matches": true,
+        "contiguous_events": true,
+        "unique_event_keys": true,
+        "event_cursor_matches": true,
+        "worktree_answer_correct": true,
+        "original_source_unchanged": true
+      },
+      "input_stability": {
+        "source": true,
+        "helpers": true,
+        "script": true,
+        "environment": true
+      },
+      "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+      "helpers_sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+      "script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+      "environment_sha256": "f899d7229da0991bcea54229abac4d37b7c5c3633e44266e46e6de9b86886c52",
+      "isolated_python": true,
+      "loaded_modules": {
+        "orqalis": "orqalis/__init__.py",
+        "orqalis.agents": "orqalis/agents/__init__.py",
+        "orqalis.agents.roles": "orqalis/agents/roles.py",
+        "orqalis.agents.routing": "orqalis/agents/routing.py",
+        "orqalis.agents.service": "orqalis/agents/service.py",
+        "orqalis.bootstrap": "orqalis/bootstrap.py",
+        "orqalis.config": "orqalis/config/__init__.py",
+        "orqalis.config.settings": "orqalis/config/settings.py",
+        "orqalis.context": "orqalis/context/__init__.py",
+        "orqalis.context.agent": "orqalis/context/agent.py",
+        "orqalis.context.builder": "orqalis/context/builder.py",
+        "orqalis.context.models": "orqalis/context/models.py",
+        "orqalis.context.service": "orqalis/context/service.py",
+        "orqalis.core": "orqalis/core/__init__.py",
+        "orqalis.core.approval_guard": "orqalis/core/approval_guard.py",
+        "orqalis.core.approval_subjects": "orqalis/core/approval_subjects.py",
+        "orqalis.core.approvals": "orqalis/core/approvals.py",
+        "orqalis.core.delivery": "orqalis/core/delivery.py",
+        "orqalis.core.delivery_plan": "orqalis/core/delivery_plan.py",
+        "orqalis.core.executor": "orqalis/core/executor.py",
+        "orqalis.core.external": "orqalis/core/external.py",
+        "orqalis.core.goals": "orqalis/core/goals.py",
+        "orqalis.core.orchestrator": "orqalis/core/orchestrator.py",
+        "orqalis.core.phases": "orqalis/core/phases.py",
+        "orqalis.core.plan_preview": "orqalis/core/plan_preview.py",
+        "orqalis.core.plan_revision": "orqalis/core/plan_revision.py",
+        "orqalis.core.planning": "orqalis/core/planning.py",
+        "orqalis.core.ports": "orqalis/core/ports.py",
+        "orqalis.core.projects": "orqalis/core/projects.py",
+        "orqalis.core.repair": "orqalis/core/repair.py",
+        "orqalis.core.requirements": "orqalis/core/requirements.py",
+        "orqalis.core.runtime_support": "orqalis/core/runtime_support.py",
+        "orqalis.core.scheduler": "orqalis/core/scheduler.py",
+        "orqalis.core.state_machine": "orqalis/core/state_machine.py",
+        "orqalis.core.task_runtime": "orqalis/core/task_runtime.py",
+        "orqalis.core.vertical_plan": "orqalis/core/vertical_plan.py",
+        "orqalis.delivery": "orqalis/delivery/__init__.py",
+        "orqalis.delivery.commits": "orqalis/delivery/commits.py",
+        "orqalis.delivery.documentation": "orqalis/delivery/documentation.py",
+        "orqalis.delivery.gates": "orqalis/delivery/gates.py",
+        "orqalis.delivery.guardian": "orqalis/delivery/guardian.py",
+        "orqalis.delivery.inspection": "orqalis/delivery/inspection.py",
+        "orqalis.delivery.test_integrity": "orqalis/delivery/test_integrity.py",
+        "orqalis.delivery.validation": "orqalis/delivery/validation.py",
+        "orqalis.domain": "orqalis/domain/__init__.py",
+        "orqalis.domain.acceptance": "orqalis/domain/acceptance.py",
+        "orqalis.domain.agent": "orqalis/domain/agent.py",
+        "orqalis.domain.approval": "orqalis/domain/approval.py",
+        "orqalis.domain.artifact": "orqalis/domain/artifact.py",
+        "orqalis.domain.base": "orqalis/domain/base.py",
+        "orqalis.domain.capabilities": "orqalis/domain/capabilities.py",
+        "orqalis.domain.delivery": "orqalis/domain/delivery.py",
+        "orqalis.domain.errors": "orqalis/domain/errors.py",
+        "orqalis.domain.events": "orqalis/domain/events.py",
+        "orqalis.domain.execution": "orqalis/domain/execution.py",
+        "orqalis.domain.external": "orqalis/domain/external.py",
+        "orqalis.domain.memory": "orqalis/domain/memory.py",
+        "orqalis.domain.plan": "orqalis/domain/plan.py",
+        "orqalis.domain.project": "orqalis/domain/project.py",
+        "orqalis.domain.projections": "orqalis/domain/projections.py",
+        "orqalis.domain.provider": "orqalis/domain/provider.py",
+        "orqalis.domain.run": "orqalis/domain/run.py",
+        "orqalis.domain.task": "orqalis/domain/task.py",
+        "orqalis.domain.telemetry": "orqalis/domain/telemetry.py",
+        "orqalis.domain.timing": "orqalis/domain/timing.py",
+        "orqalis.evaluation": "orqalis/evaluation/__init__.py",
+        "orqalis.evaluation.ports": "orqalis/evaluation/ports.py",
+        "orqalis.evaluation.validators": "orqalis/evaluation/validators.py",
+        "orqalis.execution": "orqalis/execution/__init__.py",
+        "orqalis.execution.artifacts": "orqalis/execution/artifacts.py",
+        "orqalis.execution.cancellation": "orqalis/execution/cancellation.py",
+        "orqalis.execution.commands": "orqalis/execution/commands.py",
+        "orqalis.execution.evaluator": "orqalis/execution/evaluator.py",
+        "orqalis.execution.filesystem": "orqalis/execution/filesystem.py",
+        "orqalis.execution.finding_review": "orqalis/execution/finding_review.py",
+        "orqalis.execution.review": "orqalis/execution/review.py",
+        "orqalis.execution.sandbox": "orqalis/execution/sandbox.py",
+        "orqalis.execution.tool_definitions": "orqalis/execution/tool_definitions.py",
+        "orqalis.execution.tools": "orqalis/execution/tools.py",
+        "orqalis.execution.windows_job": "orqalis/execution/windows_job.py",
+        "orqalis.execution.worker": "orqalis/execution/worker.py",
+        "orqalis.execution.workspaces": "orqalis/execution/workspaces.py",
+        "orqalis.git": "orqalis/git/__init__.py",
+        "orqalis.git.contracts": "orqalis/git/contracts.py",
+        "orqalis.git.delivery": "orqalis/git/delivery.py",
+        "orqalis.git.inspection": "orqalis/git/inspection.py",
+        "orqalis.git.service": "orqalis/git/service.py",
+        "orqalis.graph": "orqalis/graph/__init__.py",
+        "orqalis.graph.ecmascript": "orqalis/graph/ecmascript.py",
+        "orqalis.graph.engine": "orqalis/graph/engine.py",
+        "orqalis.graph.models": "orqalis/graph/models.py",
+        "orqalis.graph.parsing": "orqalis/graph/parsing.py",
+        "orqalis.graph.queries": "orqalis/graph/queries.py",
+        "orqalis.graph.symbols": "orqalis/graph/symbols.py",
+        "orqalis.indexing": "orqalis/indexing/__init__.py",
+        "orqalis.indexing.models": "orqalis/indexing/models.py",
+        "orqalis.indexing.service": "orqalis/indexing/service.py",
+        "orqalis.memory": "orqalis/memory/__init__.py",
+        "orqalis.memory.brain": "orqalis/memory/brain.py",
+        "orqalis.memory.curated": "orqalis/memory/curated.py",
+        "orqalis.memory.curation": "orqalis/memory/curation.py",
+        "orqalis.memory.indexing": "orqalis/memory/indexing.py",
+        "orqalis.memory.navigation": "orqalis/memory/navigation.py",
+        "orqalis.memory.ports": "orqalis/memory/ports.py",
+        "orqalis.memory.service": "orqalis/memory/service.py",
+        "orqalis.observability": "orqalis/observability/__init__.py",
+        "orqalis.observability.activity": "orqalis/observability/activity.py",
+        "orqalis.observability.analytics": "orqalis/observability/analytics.py",
+        "orqalis.observability.event_bus": "orqalis/observability/event_bus.py",
+        "orqalis.observability.instrumentation": "orqalis/observability/instrumentation.py",
+        "orqalis.observability.projections": "orqalis/observability/projections.py",
+        "orqalis.observability.timing": "orqalis/observability/timing.py",
+        "orqalis.observability.trace": "orqalis/observability/trace.py",
+        "orqalis.persistence": "orqalis/persistence/__init__.py",
+        "orqalis.persistence.approval_ports": "orqalis/persistence/approval_ports.py",
+        "orqalis.persistence.delivery_ports": "orqalis/persistence/delivery_ports.py",
+        "orqalis.persistence.event_ports": "orqalis/persistence/event_ports.py",
+        "orqalis.persistence.execution_ports": "orqalis/persistence/execution_ports.py",
+        "orqalis.persistence.filesystem": "orqalis/persistence/filesystem/__init__.py",
+        "orqalis.persistence.filesystem._windows_io": "orqalis/persistence/filesystem/_windows_io.py",
+        "orqalis.persistence.filesystem.auxiliary_stores": "orqalis/persistence/filesystem/auxiliary_stores.py",
+        "orqalis.persistence.filesystem.io": "orqalis/persistence/filesystem/io.py",
+        "orqalis.persistence.filesystem.layout": "orqalis/persistence/filesystem/layout.py",
+        "orqalis.persistence.filesystem.locking": "orqalis/persistence/filesystem/locking.py",
+        "orqalis.persistence.filesystem.memory_store": "orqalis/persistence/filesystem/memory_store.py",
+        "orqalis.persistence.filesystem.task_store": "orqalis/persistence/filesystem/task_store.py",
+        "orqalis.persistence.filesystem.unit_of_work": "orqalis/persistence/filesystem/unit_of_work.py",
+        "orqalis.persistence.ports": "orqalis/persistence/ports.py",
+        "orqalis.persistence.provider_ports": "orqalis/persistence/provider_ports.py",
+        "orqalis.persistence.run_ports": "orqalis/persistence/run_ports.py",
+        "orqalis.persistence.runtime_ports": "orqalis/persistence/runtime_ports.py",
+        "orqalis.providers": "orqalis/providers/__init__.py",
+        "orqalis.providers.anthropic": "orqalis/providers/anthropic.py",
+        "orqalis.providers.anthropic_schema": "orqalis/providers/anthropic_schema.py",
+        "orqalis.providers.configuration": "orqalis/providers/configuration.py",
+        "orqalis.providers.errors": "orqalis/providers/errors.py",
+        "orqalis.providers.fake": "orqalis/providers/fake.py",
+        "orqalis.providers.openai": "orqalis/providers/openai.py",
+        "orqalis.providers.openai_schema": "orqalis/providers/openai_schema.py",
+        "orqalis.providers.ports": "orqalis/providers/ports.py",
+        "orqalis.providers.validation": "orqalis/providers/validation.py",
+        "orqalis.retrieval": "orqalis/retrieval.py",
+        "orqalis.sdk": "orqalis/sdk.py",
+        "orqalis.security": "orqalis/security/__init__.py",
+        "orqalis.security.redaction": "orqalis/security/redaction.py",
+        "orqalis.skills": "orqalis/skills/__init__.py",
+        "orqalis.skills.markdown": "orqalis/skills/markdown.py",
+        "orqalis.skills.registry": "orqalis/skills/registry.py",
+        "orqalis.tasks": "orqalis/tasks/__init__.py",
+        "orqalis.tasks.history": "orqalis/tasks/history.py",
+        "orqalis.workspace": "orqalis/workspace/__init__.py",
+        "orqalis.workspace.manager": "orqalis/workspace/manager.py",
+        "tests": "tests/__init__.py",
+        "tests.support.filesystem": "tests/support/filesystem.py",
+        "tests.support.trace_fixture": "tests/support/trace_fixture.py"
+      },
+      "fixture_commit": "ea26cd6cdf3df00b0f8e791dafcc19ad4d8d9043",
+      "outcome": {
+        "run_id": "2959cc11-b383-469f-8f20-4270fd016cb8",
+        "state": "REVIEWING",
+        "review_outcomes": [
+          "FAIL",
+          "PASS"
+        ],
+        "acceptance_first_pass": false,
+        "review_first_pass": false,
+        "acceptance_final": [
+          "PASS"
+        ],
+        "repair_iterations": 1,
+        "plan_version": 2,
+        "plan_completion_percent": 100.0,
+        "model_calls": 9,
+        "model_statuses": {
+          "SUCCEEDED": 9
+        },
+        "tool_calls": 2,
+        "tool_statuses": {
+          "SUCCEEDED": 2
+        },
+        "max_parallel_tasks": 2,
+        "event_sequence": 174,
+        "blocker_count": 0
+      },
+      "persisted": {
+        "sha256": "8e54c3cfe44afe8a31c225c59fdf64ff633945d58bc31237bde273291bff701a",
+        "files": [
+          {
+            "path": "execution/events.jsonl",
+            "sha256": "c6ca06387e51f626400a6602fb158f245fb6e9b7513659df99cabb30d9717a38",
+            "bytes": 192200
+          },
+          {
+            "path": "execution/state.yaml",
+            "sha256": "0130b923e322d47d6be730e01d94d941b69dfb3bc7fa7d32c4317f28330c80a3",
+            "bytes": 64550
+          }
+        ]
+      },
+      "event_type_counts": {
+        "RUN_CREATED": 1,
+        "ACTOR_STARTED": 10,
+        "GOAL_VERSION_CREATED": 1,
+        "ACCEPTANCE_CREATED": 1,
+        "RUN_STARTED": 1,
+        "ACTOR_STATUS_CHANGED": 33,
+        "PHASE_STARTED": 10,
+        "MEMORY_SYNC_STARTED": 1,
+        "MEMORY_SYNC_COMPLETED": 1,
+        "CONTEXT_PACK_CREATED": 1,
+        "RUN_STATE_CHANGED": 12,
+        "PHASE_COMPLETED": 9,
+        "RUN_PAUSED": 1,
+        "PHASE_STATUS_CHANGED": 2,
+        "RUN_RESUMED": 1,
+        "PLAN_CREATED": 1,
+        "TASK_CREATED": 9,
+        "TASK_READY": 9,
+        "TASK_STARTED": 9,
+        "PROVIDER_INVOCATION_STARTED": 9,
+        "PROVIDER_INVOCATION_COMPLETED": 9,
+        "TASK_COMPLETED": 9,
+        "ACTOR_COMPLETED": 9,
+        "SKILL_LOADED": 6,
+        "TOOL_STARTED": 2,
+        "TOOL_COMPLETED": 2,
+        "TEST_STARTED": 2,
+        "EVIDENCE_RECORDED": 2,
+        "TEST_COMPLETED": 2,
+        "CRITERION_FAILED": 2,
+        "REVIEW_COMPLETED": 2,
+        "REPAIR_REQUESTED": 1,
+        "PLAN_REVISED": 1,
+        "REPAIR_STARTED": 1,
+        "CRITERION_PASSED": 1,
+        "REPAIR_COMPLETED": 1
+      },
+      "invocation_accounting": {
+        "checks": {
+          "actor_ids_unique": true,
+          "provider_ids_unique": true,
+          "provider_projection_matches": true,
+          "provider_events_match": true,
+          "tool_ids_unique": true,
+          "tool_projection_matches": true,
+          "tool_events_match": true,
+          "model_role_counts_match": true,
+          "tool_role_counts_match": true,
+          "tool_provider_links_match": true
+        },
+        "model_role_counts": {
+          "architect": 2,
+          "developer": 4,
+          "reviewer": 2,
+          "repair": 1
+        },
+        "expected_model_role_counts": {
+          "architect": 2,
+          "developer": 4,
+          "repair": 1,
+          "reviewer": 2
+        },
+        "tool_role_counts": {
+          "developer": 2
+        },
+        "provider": {
+          "records": [
+            {
+              "id": "6d1d68c3-d82e-5f1c-a5ec-5763b5276889",
+              "actor_session_id": "690fcedd-b761-5ec4-84d0-e1f791c51518",
+              "task_execution_id": "92d65daf-6427-5403-accf-6598b9b63a48",
+              "role": "architect",
+              "status": "SUCCEEDED",
+              "start_sequence": 42,
+              "terminal_sequence": 51,
+              "record_and_events_match": true
+            },
+            {
+              "id": "c5f79a0a-dc7a-5b5c-a3e4-a522aefabe3b",
+              "actor_session_id": "b677e2dd-7ee1-5e37-bbfc-c6f3813bbccf",
+              "task_execution_id": "e5f6115d-d71e-5009-aa23-b73da4374c50",
+              "role": "architect",
+              "status": "SUCCEEDED",
+              "start_sequence": 46,
+              "terminal_sequence": 47,
+              "record_and_events_match": true
+            },
+            {
+              "id": "76514c4d-6a37-5abf-854d-0f5eb3560c09",
+              "actor_session_id": "134f8292-63fa-57f7-b34a-fc209149df70",
+              "task_execution_id": "f2423ba4-5abb-5b92-83f9-9d55cdbcb088",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 60,
+              "terminal_sequence": 61,
+              "record_and_events_match": true
+            },
+            {
+              "id": "ccc14034-6f7b-5d77-af7a-0225ab9ab4d4",
+              "actor_session_id": "134f8292-63fa-57f7-b34a-fc209149df70",
+              "task_execution_id": "f2423ba4-5abb-5b92-83f9-9d55cdbcb088",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 65,
+              "terminal_sequence": 66,
+              "record_and_events_match": true
+            },
+            {
+              "id": "a8e503e4-4480-596c-8d75-989fdb26bea6",
+              "actor_session_id": "81b4a9f8-0ad7-5833-aac9-cb87862e4d5f",
+              "task_execution_id": "fd2db1c2-c2d2-5d03-976d-32e7dd68090e",
+              "role": "reviewer",
+              "status": "SUCCEEDED",
+              "start_sequence": 96,
+              "terminal_sequence": 97,
+              "record_and_events_match": true
+            },
+            {
+              "id": "cf99259a-e379-5ad3-b487-5ddc712a4a43",
+              "actor_session_id": "eb311437-07a5-573a-b91a-7a019b3f19fb",
+              "task_execution_id": "fd6eba8f-c844-5463-b10f-4746f16e2b29",
+              "role": "repair",
+              "status": "SUCCEEDED",
+              "start_sequence": 122,
+              "terminal_sequence": 123,
+              "record_and_events_match": true
+            },
+            {
+              "id": "647fa471-873f-537f-960a-6d1f94ca8211",
+              "actor_session_id": "ff558fc0-fb7a-576b-958f-ce9e1d8749ed",
+              "task_execution_id": "d60bf705-2bbb-5dda-a53f-637f7cf68fc9",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 132,
+              "terminal_sequence": 133,
+              "record_and_events_match": true
+            },
+            {
+              "id": "bc530011-6b5a-586f-9edb-90c87f742e25",
+              "actor_session_id": "ff558fc0-fb7a-576b-958f-ce9e1d8749ed",
+              "task_execution_id": "d60bf705-2bbb-5dda-a53f-637f7cf68fc9",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 137,
+              "terminal_sequence": 138,
+              "record_and_events_match": true
+            },
+            {
+              "id": "7f44a825-846b-5c91-a9d2-94e28eb36220",
+              "actor_session_id": "4191ae9e-908e-5ffc-8b0c-882dfcb30c7f",
+              "task_execution_id": "98fab7b9-561b-52cd-9472-bd3ce7dc9201",
+              "role": "reviewer",
+              "status": "SUCCEEDED",
+              "start_sequence": 168,
+              "terminal_sequence": 169,
+              "record_and_events_match": true
+            }
+          ],
+          "projection_ids": [
+            "6d1d68c3-d82e-5f1c-a5ec-5763b5276889",
+            "c5f79a0a-dc7a-5b5c-a3e4-a522aefabe3b",
+            "76514c4d-6a37-5abf-854d-0f5eb3560c09",
+            "ccc14034-6f7b-5d77-af7a-0225ab9ab4d4",
+            "a8e503e4-4480-596c-8d75-989fdb26bea6",
+            "cf99259a-e379-5ad3-b487-5ddc712a4a43",
+            "647fa471-873f-537f-960a-6d1f94ca8211",
+            "bc530011-6b5a-586f-9edb-90c87f742e25",
+            "7f44a825-846b-5c91-a9d2-94e28eb36220"
+          ],
+          "start_event_ids": [
+            "6d1d68c3-d82e-5f1c-a5ec-5763b5276889",
+            "c5f79a0a-dc7a-5b5c-a3e4-a522aefabe3b",
+            "76514c4d-6a37-5abf-854d-0f5eb3560c09",
+            "ccc14034-6f7b-5d77-af7a-0225ab9ab4d4",
+            "a8e503e4-4480-596c-8d75-989fdb26bea6",
+            "cf99259a-e379-5ad3-b487-5ddc712a4a43",
+            "647fa471-873f-537f-960a-6d1f94ca8211",
+            "bc530011-6b5a-586f-9edb-90c87f742e25",
+            "7f44a825-846b-5c91-a9d2-94e28eb36220"
+          ],
+          "terminal_event_ids": [
+            "c5f79a0a-dc7a-5b5c-a3e4-a522aefabe3b",
+            "6d1d68c3-d82e-5f1c-a5ec-5763b5276889",
+            "76514c4d-6a37-5abf-854d-0f5eb3560c09",
+            "ccc14034-6f7b-5d77-af7a-0225ab9ab4d4",
+            "a8e503e4-4480-596c-8d75-989fdb26bea6",
+            "cf99259a-e379-5ad3-b487-5ddc712a4a43",
+            "647fa471-873f-537f-960a-6d1f94ca8211",
+            "bc530011-6b5a-586f-9edb-90c87f742e25",
+            "7f44a825-846b-5c91-a9d2-94e28eb36220"
+          ]
+        },
+        "tool": {
+          "records": [
+            {
+              "id": "bf6c8246-7679-552a-9272-5efdff12da1f",
+              "actor_session_id": "134f8292-63fa-57f7-b34a-fc209149df70",
+              "task_execution_id": "f2423ba4-5abb-5b92-83f9-9d55cdbcb088",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 62,
+              "terminal_sequence": 63,
+              "record_and_events_match": true
+            },
+            {
+              "id": "d887b2f8-4478-5fb6-b069-89c46517daaa",
+              "actor_session_id": "ff558fc0-fb7a-576b-958f-ce9e1d8749ed",
+              "task_execution_id": "d60bf705-2bbb-5dda-a53f-637f7cf68fc9",
+              "role": "developer",
+              "status": "SUCCEEDED",
+              "start_sequence": 134,
+              "terminal_sequence": 135,
+              "record_and_events_match": true
+            }
+          ],
+          "projection_ids": [
+            "bf6c8246-7679-552a-9272-5efdff12da1f",
+            "d887b2f8-4478-5fb6-b069-89c46517daaa"
+          ],
+          "start_event_ids": [
+            "bf6c8246-7679-552a-9272-5efdff12da1f",
+            "d887b2f8-4478-5fb6-b069-89c46517daaa"
+          ],
+          "terminal_event_ids": [
+            "bf6c8246-7679-552a-9272-5efdff12da1f",
+            "d887b2f8-4478-5fb6-b069-89c46517daaa"
+          ]
+        }
+      },
+      "model_invocation_ids": [
+        "6d1d68c3-d82e-5f1c-a5ec-5763b5276889",
+        "c5f79a0a-dc7a-5b5c-a3e4-a522aefabe3b",
+        "76514c4d-6a37-5abf-854d-0f5eb3560c09",
+        "ccc14034-6f7b-5d77-af7a-0225ab9ab4d4",
+        "a8e503e4-4480-596c-8d75-989fdb26bea6",
+        "cf99259a-e379-5ad3-b487-5ddc712a4a43",
+        "647fa471-873f-537f-960a-6d1f94ca8211",
+        "bc530011-6b5a-586f-9edb-90c87f742e25",
+        "7f44a825-846b-5c91-a9d2-94e28eb36220"
+      ],
+      "tool_invocation_ids": [
+        "bf6c8246-7679-552a-9272-5efdff12da1f",
+        "d887b2f8-4478-5fb6-b069-89c46517daaa"
+      ],
+      "execution_elapsed_ms": 20452.009599888697,
+      "repository_setup_elapsed_ms": 193.30829998943955,
+      "persisted_run_timing_ms": {
+        "wall_ms": 17958,
+        "active_ms": 17850,
+        "waiting_ms": 108,
+        "blocked_ms": 0,
+        "idle_ms": 0,
+        "queue_ms": 0
+      },
+      "timing_observed_at": "2026-10-07T09:51:42.488686+00:00",
+      "reported_usage": {
+        "calls_with_usage": 0,
+        "calls_with_cost": 0,
+        "reported_input_tokens": null,
+        "reported_output_tokens": null,
+        "reported_cached_tokens": null,
+        "reported_cost_usd": null
+      },
+      "child_process_elapsed_ms": 22201.07980002649,
+      "repetition": 2,
+      "worker_returncode": 0
+    }
+  ],
+  "complete": true,
+  "input_stable": true,
+  "passed": true,
+  "summary": {
+    "deterministic_fixture_passes": 3,
+    "acceptance_first_pass_count": 0,
+    "timing_qualified": true,
+    "execution_elapsed": {
+      "samples_ms": [
+        20944.905699929222,
+        20296.14120000042,
+        20452.009599888697
+      ],
+      "median_ms": 20452.009599888697,
+      "p95_ms": 20944.905699929222,
+      "p95_method": "nearest-rank; small-sample maximum is not a tail-latency estimate"
+    },
+    "child_process_elapsed": {
+      "samples_ms": [
+        22800.680099986494,
+        22240.146500058472,
+        22201.07980002649
+      ],
+      "median_ms": 22240.146500058472,
+      "p95_ms": 22800.680099986494,
+      "p95_method": "nearest-rank; small-sample maximum is not a tail-latency estimate"
+    }
+  }
+}

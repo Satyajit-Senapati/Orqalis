@@ -1,0 +1,37 @@
+{
+  "kind": "unqualified-original-contract-junit-summary",
+  "qualified": false,
+  "contract_capture_schema": null,
+  "source_stable": false,
+  "runner_stable": false,
+  "qualification_reasons": [
+    "Production source changed during the original full run.",
+    "Runner changed during execution; its original end-of-run guard prevented contract JSON output.",
+    "Original frozen graph provenance assertion predates the explicit compatibility amendment.",
+    "Git fixture ran before process-scoped core.autocrlf=input correction."
+  ],
+  "evidence": "Raw JUnit results only; not a valid schema-2 contract capture or differential success claim.",
+  "junit_path": "docs/quality/evidence/current-contracts.junit.xml",
+  "junit_sha256": "2428c0555c43d140d0bc86eea2e66c1baf0475cff1b780839621192fc59ca0b9",
+  "test_count": 86,
+  "counts": {
+    "passed": 84,
+    "failure": 2
+  },
+  "failures": [
+    {
+      "classname": "tests.unit.test_git",
+      "name": "test_repository_detection_dirty_paths_and_committed_read",
+      "seconds": 2.258,
+      "outcome": "failure",
+      "message": "AssertionError: assert b'answer = 42\\r\\n' == b'answer = 42\\n'\n  \n  At index 11 diff: b'\\r' != b'\\n'\n  Use -v to get more diff"
+    },
+    {
+      "classname": "tests.unit.test_project_graph",
+      "name": "test_python_ast_graph_and_persisted_manifest",
+      "seconds": 4.634,
+      "outcome": "failure",
+      "message": "assert False\n +  where False = all(<generator object test_python_ast_graph_and_persisted_manifest.<locals>.<genexpr> at 0x0000011A0CD1E960>)"
+    }
+  ]
+}

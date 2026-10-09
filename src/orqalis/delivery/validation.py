@@ -17,6 +17,7 @@ from orqalis.execution.cancellation import at_checkpoint
 from orqalis.execution.evaluator import WorkspaceEvaluator
 from orqalis.execution.filesystem import ScopedFilesystem
 from orqalis.execution.review import workspace_digest
+from orqalis.execution.sandbox import SandboxOwner
 from orqalis.git.service import LocalGitService
 
 
@@ -29,6 +30,10 @@ class FinalValidationService:
     async def validate(self, run_id: UUID, attempt: TaskExecution) -> FinalValidation:
         with self.factory() as uow:
             run = locked_run(uow, run_id)
+            project = uow.projects.get(run.project_id)
+            if project is None:
+                raise NotFoundError("Final validation project missing")
+            owner = SandboxOwner(project.repo_root, run_id)
             workspace = uow.execution.workspace(run_id)
             if workspace is None:
                 raise NotFoundError("Final validation workspace missing")
@@ -67,7 +72,7 @@ class FinalValidationService:
                 self.goals.validate,
                 run_id,
                 criterion.key,
-                WorkspaceEvaluator(workspace.path, workspace.policy),
+                WorkspaceEvaluator(workspace.path, workspace.policy, sandbox_owner=owner),
                 f"final:{validation_id}:{criterion.id}",
                 attempt.id,
             )
@@ -75,7 +80,7 @@ class FinalValidationService:
         with self.factory() as uow:
             run = locked_run(uow, run_id)
             goal = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )
@@ -90,7 +95,7 @@ class FinalValidationService:
                 for verdict in review.result.finding_reviews
                 if verdict.resolved
                 for reference in verdict.evidence_refs
-                if (proof := uow.runs.get_evidence(reference)) is not None
+                if (proof := uow.runs.get_evidence(reference, run_id=run.id)) is not None
             }
             passed = before == after and all(
                 item.status == AcceptanceStatus.PASS

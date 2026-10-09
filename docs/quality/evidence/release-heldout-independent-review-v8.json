@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-02T15:33:38.389424+00:00",
+  "reviewer": "/root/release_quality_review",
+  "status": "V8_FUNCTIONAL_AND_FEATURE_COST_ACCEPTED_WARM_TIMING_INVESTIGATION_PENDING_FIXED_DIAGNOSTIC",
+  "scope": "Read-only fresh raw evidence, frozen input hashes, retained source subset and exact warm path comparison. No benchmarks/tests/workloads executed and no production edits.",
+  "source_sha256": "47ec43dd0beec7dff56ad064f78a1f1a46c4cc83172e8f55a20ef00617edac4e",
+  "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "corpus_sha256": "19bc76f87b5e95287204e8edbdee8c4c3be8b4b5c478a48e686166166034a0a9",
+  "files": 263,
+  "source_bytes": 1812392,
+  "raw_v8_status_preserved": "PASS means functional witnesses and zero/one incremental processing; it does not mean all timing budgets passed.",
+  "timing_investigation_rule": "Existing 2*baseline+250ms investigation trigger, not a universal SLO. No threshold adjustment or relabeling.",
+  "raw_timing_triggers": {
+    "cold_graph_ms": {
+      "baseline_ms": 5357.33519999485,
+      "current_ms": 6871.060599994962,
+      "investigation_threshold_ms": 10964.6703999897,
+      "current_minus_threshold_ms": -4093.609799994738,
+      "triggered": false,
+      "ratio": 1.2825519299224672
+    },
+    "warm_graph_median_ms": {
+      "baseline_ms": 1091.0277999937534,
+      "current_ms": 2680.0039000081597,
+      "investigation_threshold_ms": 2432.055599987507,
+      "current_minus_threshold_ms": 247.94830002065282,
+      "triggered": true,
+      "ratio": 2.4564029441078437
+    },
+    "one_file_graph_ms": {
+      "baseline_ms": 6679.597400012426,
+      "current_ms": 10991.536100002122,
+      "investigation_threshold_ms": 13609.194800024852,
+      "current_minus_threshold_ms": -2617.65870002273,
+      "triggered": false,
+      "ratio": 1.6455387116567346
+    },
+    "context_median_ms": {
+      "baseline_ms": 2122.0726000028662,
+      "current_ms": 4201.0222999961115,
+      "investigation_threshold_ms": 4494.1452000057325,
+      "current_minus_threshold_ms": -293.12290000962093,
+      "triggered": false,
+      "ratio": 1.9796788762035933
+    }
+  },
+  "functional_disposition": {
+    "accepted": true,
+    "evidence": "Both captures functional PASS; larger fixed263-file real-code corpus;3 shared definition/context witnesses;12,000-character cap;warm0 processed files and one changed-file processing asserted by helper. No failed hard invariant observed."
+  },
+  "feature_footprint_disposition": {
+    "accepted_with_real_cost": true,
+    "baseline_current": {
+      "graph_nodes": {
+        "baseline": 3533,
+        "current": 11505,
+        "ratio": 3.2564392867251626
+      },
+      "graph_edges": {
+        "baseline": 10003,
+        "current": 13575,
+        "ratio": 1.3570928721383584
+      },
+      "graph_bytes": {
+        "baseline": 4849687,
+        "current": 8253391,
+        "ratio": 1.7018399331750689
+      },
+      "index_bytes": {
+        "baseline": 9501363,
+        "current": 28852891,
+        "ratio": 3.03671073297589
+      },
+      "store_bytes": {
+        "baseline": 16293927,
+        "current": 39782368,
+        "ratio": 2.4415457366416335
+      },
+      "query_python_peak_allocated_bytes": {
+        "baseline": 30500569,
+        "current": 65662081,
+        "ratio": 2.152814952403019
+      }
+    },
+    "rationale": "Current graph11505 vs3533nodes and13575vs10003edges retain richer lexical references and native ECMAScript facts. Store39.78vs16.29MB and Python peak allocation65.66vs30.50MB are material costs, not negligible. Existing bounded feature acceptance applies to this measured263-file slice; tracemalloc excludes native memory/RSS.",
+    "no_material_new_representation_growth_from_v5": "Graph node/edge/graph-byte counts remain equal to prior source640 v5. Index/store differ by one byte, and Python allocation is slightly different, not evidence that recent capsule UoW/auxiliary changes expanded graph representation."
+  },
+  "source640_to_source47_mapping": {
+    "historical_source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+    "historical_frozen_input_sha256": "49af6bd8978badbb6fcf10e84d7d92a4b74133e40dae53e51d6de24c821dab1b",
+    "proof": "Each listed current file hash equals source640 frozen input file hash and the retained current-v5 corpus subset bytes. Entire graph engine file is identical, so the recorded method byte hashes are identical without rebound timing.",
+    "files": [
+      {
+        "path": "src/orqalis/graph/engine.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "59a4da2b1d76b4af85c8551bbec3096e8828c0aaeac313d56c521d6d197a081a"
+      },
+      {
+        "path": "src/orqalis/graph/models.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03"
+      },
+      {
+        "path": "src/orqalis/graph/parsing.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215"
+      },
+      {
+        "path": "src/orqalis/graph/ecmascript.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe"
+      },
+      {
+        "path": "src/orqalis/graph/symbols.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "4c461b9e066c4744082fb149ac657c894f6b22bb4c9495440ff7608d5bc45db0"
+      },
+      {
+        "path": "src/orqalis/indexing/service.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "60631d58de2e8e872e9d2bdf2713013200d7ae9e7fe39c38f37f3c0b44f5f274"
+      },
+      {
+        "path": "src/orqalis/context/builder.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "184902173540241b26e999781d4e97fdfc99aed4c3e3de2fbb95477c51c74466"
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/io.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "d7385088ac7d467241a44e99201185917a8831ef3538582095d2e66eb34e6dae"
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/layout.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "7fdc7abfa7ffbaa4d4d1181cc0f7578a01233acd03768bbcad2752bb82fcf660"
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/locking.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "0b6a097ea313ab219e08d95528476eb179f87f70dddee057f53eb500fb98ef53"
+      },
+      {
+        "path": "src/orqalis/git/service.py",
+        "source640_record_and_retained_subset_and_current47_sha256": "0a445c020dbaf6a3aa62f5c7862e415b653633e0ca5260600bf8f69159b42519"
+      }
+    ],
+    "warm_relevant_method_sha256": {
+      "__init__": "8f8002ff45a6360c604d191ffc0152c37e8c43f67db9badad47122dfca37590e",
+      "refresh": "a65f58f163359c5cef23fee649fa32e97c67801a5936170edce050bf2b879bfb",
+      "_refresh": "28457cb52ae988894e7022b00dece7e1c3ef26c2216eb09fe8539555a567a615",
+      "_load_state": "0e9336d6faa34fe0bdf8da5e069dbd7e55f1585baaaa39d54e6d158b6d9601ca",
+      "_write_manifest": "34ec40339dcf2e9920dff4e8aecfce224547bacca0327cf58b9e72e8ce7564fa",
+      "_discover": "91bbda2fa5687d8a4e2dfb2d1d0b1b74a0c8f9f8fe8ad8d0ef90461873bb3938",
+      "_read_source": "32db2cfa8a1138fed83d366de05c802b4ba1ec38a336ffffe4b999a65205b74a"
+    },
+    "call_path": "ProjectGraphEngine.refresh -> _refresh uses graph FileLock, full graph/manifest canonical read+model validation+canonical graph digest, Git/status/tracked source discovery and content hashes. Warm no-change exits without parser work. This direct graph engine path does not construct FilesystemProjectUnitOfWork/TaskCapsuleSession or use the new auxiliary lease.",
+    "bound": "The retained v5 fixture is a code subset, not a full source640 checkout. The frozen source640 input file hashes provide the exact file binding. Method identity does not prove environment/OS cache/timing equivalence or absence of external contention."
+  },
+  "warm_disposition": {
+    "status": "INVESTIGATION_REQUIRED_BEFORE_BOUNDED_TIMING_ACCEPTANCE",
+    "reason": "Current warm median2680.0039ms exceeds2432.0556ms threshold by247.9483ms. Prior v5 source640 warm737.6824ms was below its threshold, but cannot waive the fresh trigger. Warm load validates/hashes an8.25MB richer graph vs4.85MB baseline, so feature work is plausible; current code mapping alone cannot assign the fresh wall cost to that work or OS scheduling.",
+    "confirmed_new_p0_p1_algorithmic_defect": false,
+    "necessary_source_fix_established": false,
+    "required_minimal_action": "Run one predeclared bounded quiet paired warm-refresh diagnostic before full release rounds, preserving original v8 and all outcomes. Use the same existing owned baseline/current fixtures, source/env identities and canonical graph/fingerprint validation, no timeout/corpus/source changes.",
+    "diagnostic_records": [
+      "Fixed alternating baseline/current ordering and repetition count declared before execution; no rerun-until-green.",
+      "Wall time and process CPU per refresh; native warm processed/changed/cache metrics plus actual parse-call counter if lightweight.",
+      "Small native phase spans for _load_state and _discover sufficient to distinguish full rich-graph validation/digest work from discovery/Git/source-read work; record total against spans without adding nested times.",
+      "Capture exact source/env/fixture identity, no simultaneous benchmark workloads, and all raw samples/exit status."
+    ],
+    "decision_after_diagnostic": "If invariants/zero parse remain and evidence bounds richer validation CPU or unexplained off-process-CPU wall cost, explicitly accept the observed bounded feature/latency cost or retain unresolved performance risk even if still above trigger. If avoidable parser/rebuild/lock work or a concrete new algorithmic regression is shown, fix and refreeze before qualifying. Do not use a faster follow-up alone to erase v8.",
+    "attribution_caution": "Process CPU excludes child Git process CPU; wall-minus-process-CPU can include child execution, filesystem waits and scheduling. No specific OS/kernel/storage cause is established by this measurement."
+  },
+  "artifacts": [
+    {
+      "path": "docs/quality/evidence/release-heldout-baseline-v8.json",
+      "sha256": "44d2201bfc1f4eb431f1b527e2a93162719e5b020064be86bf252ca8327d982a"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-current-v8.json",
+      "sha256": "df2cc5eca433cd8be6d13ea4cdd667e6a61e51835197ca3f46831cc94b4031ed"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-review-v8.json",
+      "sha256": "50a0a698611895bcd0b63d985809d6673685526534593da5efb79934f302ac2b"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-current-v5.json",
+      "sha256": "70529a248d0f7970b6812fd1db2d1bc34acb52d039d0494bb6889bb3ee93da9f"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-final-source-review-v5.json",
+      "sha256": "c9f5d60964f731d7f111a13384abf610255d1b287e7008cfa7c29793dcff133b"
+    },
+    {
+      "path": "docs/quality/evidence/release-input-freeze-bootstrap.json",
+      "sha256": "7c6c987e78cce0808e6de45106171d0e9c4bd8e916a011e6925badabbe045251"
+    }
+  ],
+  "not_supported": [
+    "No full release convergence or completed iterations8/9 yet.",
+    "No graph/history tail cure, universalSLO, OS-causal proof, or RSS bound.",
+    "No new benchmark/test executed by independent reviewer."
+  ],
+  "existing_raw_reports_preserved": true
+}

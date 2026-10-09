@@ -1,0 +1,340 @@
+{
+  "schema_version": 1,
+  "reviewer": "release_acceptance_review",
+  "reviewed_at": "2026-10-04T13:19:12.877297+00:00",
+  "status": "ROUND24_TIMED_EVIDENCE_PROVISIONAL_FUNCTIONAL_SUPPORT_MASTER53_PERFORMANCE_BLOCKED",
+  "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "release_input_sha256": "56c454c8630d017a71802cccda1ef0d8d8521964babfa6ee4df8c1284a2c8750",
+  "scope": "Named completed measurement JSON, rawcurrent86XML, prior nine baseline observations and exact master clauses; bounded native replacement body read. No workload/import/native query/broad hash/source edits. Full24 running924collected and25 not measured at review time; this report accepts no complete iteration.",
+  "evidence_sha256": {
+    "release-execution-current-24.json": "8070991746949ea6e96918082b932304cd563e487442b80c9d23a544d2e18730",
+    "release-quality-comparison-24.json": "b50927aed707add973023e616d85325aff89255d5788d92c4d8880874c674b0d",
+    "release-quality-current-24.json": "62ddd9f4c7bd4bd41d5d4a83e0493d55b8af642def2f7a7ee8e3b908345965a3",
+    "release-quality-baseline-24.json": "b9084c7ae845d37a462d3bb54a62df2b8d28977baa073bf887b2b097c30e7bec",
+    "release-memory-24.json": "606fb2bf2a26cdc72e87745376734eeda9545f7dcf7791e8c43e41fbfa38baad",
+    "release-ui-current-24.json": "75aca71ae10855082b01cc87867c0a7f17387dfc66b4637530d623f78886e973",
+    "release-ui-baseline-24.json": "c0c5213a6fef0d89c51e2c43b2d4e40580e906285614dda7d15394640b08976e",
+    "release-constrained-current-24.json": "8f5a2f62e41a17d6d56590e76743f8342b8cc177f50b0bdaaae82bb546db9cbc",
+    "release-constrained-baseline-24.json": "a2e2267680de01625e56868e1152fc4da3227b09556827dead3ce3b8fe2e78f5",
+    "release-static-final-fixes.json": "1dbf117ad631ee9c98795b231df77ef70526272bd18e9eadfa071d38bc5307c5",
+    "release-contracts-current-final-fixes-v2.json": "4ee25d5165b21d1e7972a08fb5009c26f0605e0641ce1755827697003e983982",
+    "release-artifact-identity-final-fixes.json": "142f3fb9e6dfeee7d8728402f9ec8ece9180d282d39051ee1d15e0f89d5f0193",
+    "release-heldout-current-final-fixes-v1.json": "19260030b5a48e0db889004e75c5360bfd95337dcb0bbda941018a31a4180b8f",
+    "release-history-final-fixes-semantics-v1.json": "197a3c9429fa7a69d8eaf37e89119f479ffa79176114030dcc6d9c15771afeb7"
+  },
+  "execution": {
+    "all26_semantic_and4_stability_checks": true,
+    "source_helper_script_fixture_environment_completion_identities_match": true,
+    "current_samples_ms": [
+      60704.46059998358,
+      84352.4872000562,
+      89061.24530005036
+    ],
+    "median_ms": 84352.4872000562,
+    "baseline_captures": [
+      {
+        "path": "release-execution-baseline-diagnostic.json",
+        "sha256": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+        "samples_ms": [
+          55642.85999999265,
+          55686.493799992604,
+          55371.642699989025
+        ],
+        "median_ms": 55642.85999999265
+      },
+      {
+        "path": "release-execution-baseline-2.json",
+        "sha256": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+        "samples_ms": [
+          56502.89820000762,
+          55870.139499995275,
+          55730.52120000648
+        ],
+        "median_ms": 55870.139499995275
+      },
+      {
+        "path": "release-execution-baseline-8-fixed-diagnostic-v1.json",
+        "sha256": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+        "samples_ms": [
+          95421.07120002038,
+          95099.94379998534,
+          95016.15999999922
+        ],
+        "median_ms": 95099.94379998534
+      }
+    ],
+    "all9_pooled_median_ms": 55870.139499995275,
+    "candidate_minus_pooled_percent": 50.97955357720798,
+    "candidate_minus_each_capture_percent": [
+      {
+        "reference": "release-execution-baseline-diagnostic.json",
+        "percent": 51.596246490686035
+      },
+      {
+        "reference": "release-execution-baseline-2.json",
+        "percent": 50.97955357720798
+      },
+      {
+        "reference": "release-execution-baseline-8-fixed-diagnostic-v1.json",
+        "percent": -11.301222871943272
+      }
+    ],
+    "outcome": "Same174events/9successful model calls/2successful tool calls/one repair/planv2complete; events192200B and state64570-64573B. Extra event/checkpoint volume does not explain the slower median.",
+    "disposition": "PERFORMANCE_ACCEPTANCE_BLOCKER: materially higher than bothfast reference captures and poolednine median; beinglower than95sreference or passing300sdeadline cannotclose strictMaster53. Causeunknown, no confirmed correctnessP1. Eventprojectedactive57/77/81s is wallclassification, notCPUpathattribution."
+  },
+  "host_context": {
+    "path": ".tools/research/release-final-fixes-execution-current-24.host-context.json",
+    "sha256": "f68757342857d8fd07dd060d9ca566f6bcbd3b07f969f0714b7acc607709a57e",
+    "busy_fraction": 0.5841870156109419,
+    "physical_load_percent": [
+      72,
+      82
+    ],
+    "disposition": "Observationonly/includescandidateCPU; notidlehostproof/pagingcause/benchmarkwaiver. No selecting references by hostload."
+  },
+  "quality": {
+    "raw_status": "REVIEW",
+    "exact30_loss_values_and_paths_match_preserved_dispositions": true,
+    "failed_invariants": [],
+    "resource_changes": {
+      "graph_bytes": {
+        "baseline": 1125777,
+        "current": 1641247,
+        "ratio": 1.4578793135763122
+      },
+      "index_bytes": {
+        "baseline": 2354319,
+        "current": 5680851,
+        "ratio": 2.412948712557644
+      },
+      "project_store_bytes": {
+        "baseline": 3872336,
+        "current": 7847467,
+        "ratio": 2.026545991876738
+      },
+      "python_peak_allocated_bytes": {
+        "baseline": 7053723,
+        "current": 11229856,
+        "ratio": 1.5920466397673967
+      }
+    },
+    "scope": "All30 losses retained and boundedrationales; richerprovenance/symbol/indexstorage/allocation costs explicit. No aggregatePASSalias/universalspeedclaim."
+  },
+  "memory": {
+    "summary": {
+      "cases": 3,
+      "workflow_samples": 45,
+      "all_exact_answer_witnesses_pass": true,
+      "all_response_caps_pass": true,
+      "all_history_retained": true,
+      "direct_reuse_graph_refreshes": 0
+    },
+    "method": "Correct canonicalopen+Path.open accounting, exact9c773script/eede4fixture; included observercost. PriorPath.open-only reports retain narrowercoverage and are not directly identical-method totals.",
+    "per_case": [
+      {
+        "case": "webhook-retention",
+        "history_retained": true,
+        "workflows": {
+          "full_rediscovery": {
+            "all_required_witnesses_median_ms": 946.166199981235,
+            "response_chars_median": 11028,
+            "memory_read_operations_median": 10,
+            "metadata_read_operations_median": 10,
+            "graph_refresh_calls": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "progressive_memory_then_symbol": {
+            "all_required_witnesses_median_ms": 1506.5055000013672,
+            "response_chars_median": 8122,
+            "memory_read_operations_median": 9,
+            "metadata_read_operations_median": 13,
+            "graph_refresh_calls": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "restart_direct_memory": {
+            "all_required_witnesses_median_ms": 295.65240000374615,
+            "response_chars_median": 5400,
+            "memory_read_operations_median": 3,
+            "metadata_read_operations_median": 4,
+            "graph_refresh_calls": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "case": "scheduler-dst",
+        "history_retained": true,
+        "workflows": {
+          "full_rediscovery": {
+            "all_required_witnesses_median_ms": 603.0081000062637,
+            "response_chars_median": 11443,
+            "memory_read_operations_median": 10,
+            "metadata_read_operations_median": 10,
+            "graph_refresh_calls": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "progressive_memory_then_symbol": {
+            "all_required_witnesses_median_ms": 1227.0175999728963,
+            "response_chars_median": 8085,
+            "memory_read_operations_median": 9,
+            "metadata_read_operations_median": 13,
+            "graph_refresh_calls": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "restart_direct_memory": {
+            "all_required_witnesses_median_ms": 293.45529997954145,
+            "response_chars_median": 5400,
+            "memory_read_operations_median": 3,
+            "metadata_read_operations_median": 4,
+            "graph_refresh_calls": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "case": "tenant-cache",
+        "history_retained": true,
+        "workflows": {
+          "full_rediscovery": {
+            "all_required_witnesses_median_ms": 580.8896999806166,
+            "response_chars_median": 11502,
+            "memory_read_operations_median": 10,
+            "metadata_read_operations_median": 10,
+            "graph_refresh_calls": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "progressive_memory_then_symbol": {
+            "all_required_witnesses_median_ms": 1284.111299959477,
+            "response_chars_median": 8043,
+            "memory_read_operations_median": 9,
+            "metadata_read_operations_median": 13,
+            "graph_refresh_calls": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "restart_direct_memory": {
+            "all_required_witnesses_median_ms": 171.14019999280572,
+            "response_chars_median": 5400,
+            "memory_read_operations_median": 3,
+            "metadata_read_operations_median": 4,
+            "graph_refresh_calls": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    ],
+    "disposition": "All45exactwitness/cap/historysamplesPASS. Complete progressive answers slowerthanfullrediscovery withsmallerresponses and2refreshcalls; direct stableID has narrower durablefactwitness, zero source/graphrefresh but3body/4metadatareads. Memory discovery stillscansexistingbodyrecords; no no-read oruniversaloptimizationclaim."
+  },
+  "ui": {
+    "current": {
+      "status": "PASS",
+      "samples": 6,
+      "request_to_dom": {
+        "samples_ms": [
+          666.1000000238419,
+          815.8999999761581,
+          633.2000000476837,
+          658,
+          541.5,
+          525.5
+        ],
+        "median_ms": 645.6000000238419,
+        "p95_ms": 815.8999999761581
+      },
+      "page_errors": []
+    },
+    "baseline": {
+      "status": "PASS",
+      "samples": 6,
+      "request_to_dom": {
+        "samples_ms": [
+          957.1999999880791,
+          1193.4000000357628,
+          1521.5,
+          1666.2000000476837,
+          1461.6000000238419,
+          1530.199999988079
+        ],
+        "median_ms": 1491.550000011921,
+        "p95_ms": 1666.2000000476837
+      },
+      "page_errors": []
+    }
+  },
+  "constrained": {
+    "current": {
+      "status": "PASS",
+      "peak_process_commit_bytes": 49541120,
+      "elapsed_ms": 16108.782599971164,
+      "cap": 268435456,
+      "cpu_count_allowed": 1
+    },
+    "baseline": {
+      "status": "PASS",
+      "peak_process_commit_bytes": 46407680,
+      "elapsed_ms": 22967.590100015514,
+      "cap": 268435456,
+      "cpu_count_allowed": 1
+    }
+  },
+  "prerequisites": {
+    "static13": "ActualPASS currentbinding",
+    "current86": "Complete86PASS0failure/error/skip, all5stabilityflags and rawJUnit5e448hashverified",
+    "package_heldout_history": "Namedrootreports currentboundPASS;17/MCP41/exactaudit details are reported byroot and require finaldetailedartifactreview.1001/33history functionalpass, nothistorytimeequivalence."
+  },
+  "concrete_next_investigation": {
+    "hypothesis": "Newexecuted native rename helper encodes/allocates infoandperwrite CreateFileW\u2192SetFileInformationByHandle\u2192CloseHandle; newsharedread openeralsodiffers. Prioros.replace-only diagnostic predatesanddoesnotmeasure thispath. No claimthiscausesobservedslowdown.",
+    "finite_option": "Afterbothownedcapturesfinish and exactprospective approval, ONEfixedsamefixture operation attribution withactualcurrent _replace_file/shared-read/fsync durations/counts and success/recognizeddenial/fallback outcomes. Original26+4/deadlines/backoff/API/serialization unchanged; observerfailureINVALID andboundedoverhead. No historicalmedianreplacement, baseline retry, warmerselection oraggregateacceptancefromfasterdiagnostic. Existingdatafirst; noautomaticinvocation."
+  },
+  "master_completion": {
+    "section52": "Research/decisionregistry retained; usefulmemory/retrieval shownboundedly. All23acceptedevaluationsremainpendingfinalcurrentwholeevidence/performance, no no-gapfinalclaim.",
+    "section53": "NOTMET:full24incomplete/full25unrun and unexplainedexecutiondegradation persists. Acceptedconvergence0. Functionalpasses donotwaiveperformanceclause.",
+    "section54": "Finalsignoffwithprojects/capabilities/adoptions/rejections/licenses/performance/evals/security/regressions/opportunities/architecture mustwaittrueclosure; finaldocs/archive/linkchecksremain. Do notcreatecompletedOSS_ENHANCEMENT_SIGNOFFnow."
+  },
+  "new_confirmed_correctness_P0_P1": [],
+  "no_commit_publication": true
+}

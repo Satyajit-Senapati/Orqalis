@@ -1,0 +1,1044 @@
+{
+  "schema_version": 1,
+  "status": "ACCEPT_FRESH_ROUND1_BOUNDED_RETRIEVAL_TRADEOFFS_FULL_AUDIT_PENDING",
+  "reviewer": "Independent release quality reviewer",
+  "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "release_input_sha256": "49af6bd8978badbb6fcf10e84d7d92a4b74133e40dae53e51d6de24c821dab1b",
+  "release_input_file_count": 390,
+  "dataset_sha256": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+  "corpus_sha256": "ed8ea0f3fb05b6d0c3e16ffad737ddba98ebcc528e6ba8c07715e5b0ed8c22e9",
+  "environment_dependency_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+  "method": "Read-only witness/source-binding review; recomputed comparator from storedcaptures without benchmark or reportmutation. Exact lossvalues and baseline/current returnedpaths match original30dispositions after memoryrecorddate normalizationonly. No metriclabel/status rewrites.",
+  "inputs": [
+    {
+      "path": "docs/quality/evidence/release-quality-baseline-1.json",
+      "sha256": "6f549a139993d7e4a3b32ae3de5a336ad3131ffda1596b1d7ad89e771d5d5e96"
+    },
+    {
+      "path": "docs/quality/evidence/release-quality-current-1.json",
+      "sha256": "9aa31a7ae05f4bc42986505594d9fb9767e6f434e648081547e5edf194433379"
+    },
+    {
+      "path": "docs/quality/evidence/release-quality-comparison-1.json",
+      "sha256": "50459a435ab492083b59194a113416ac8be794e553490cf5728062963d2b89b6"
+    },
+    {
+      "path": ".tools/research/release-quality-review.json",
+      "sha256": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e"
+    },
+    {
+      "path": ".tools/research/release-heldout-final-source-review-v5.json",
+      "sha256": "c9f5d60964f731d7f111a13384abf610255d1b287e7008cfa7c29793dcff133b"
+    },
+    {
+      "path": "docs/quality/evidence/release-input-freeze-bootstrap.json",
+      "sha256": "7c6c987e78cce0808e6de45106171d0e9c4bd8e916a011e6925badabbe045251"
+    },
+    {
+      "path": "scripts/compare_quality.py",
+      "sha256": "3fe4e7f00a06281a39660b86fb44124c91f44eb141eba955cb67d136f5bd6993"
+    },
+    {
+      "path": "scripts/benchmark_quality.py",
+      "sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c"
+    },
+    {
+      "path": "scripts/run_quality_contracts.py",
+      "sha256": "99df98f055d8b9d980b8b0d011034b439273c2fd6c3a678596f2cbed01d33e3c"
+    },
+    {
+      "path": "benchmarks/engineering_cases.json",
+      "sha256": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263"
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_BACKLOG.md",
+      "sha256": "5c425719898b0dfe88c525553e31b0468e918c088fe0ecb80df9221f33291734"
+    },
+    {
+      "path": "docs/quality/MASTER_ENHANCEMENT_PLAN.md",
+      "sha256": "8e6dc4ceecca327770e974959a12aa5d945377a3ed7b6e53be818c216326c260"
+    }
+  ],
+  "raw_comparator_status": "REVIEW",
+  "raw_requires_review": [
+    "Per-case recall/ranking regressions need explicit analysis"
+  ],
+  "failed_hard_invariants": [],
+  "exact_saved_comparison_recomputed": true,
+  "reviewed_metric_loss_count": 30,
+  "additional_metric_loss_count": 0,
+  "fresh_contract_binding": {
+    "baseline": {
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "runner_sha256": "99df98f055d8b9d980b8b0d011034b439273c2fd6c3a678596f2cbed01d33e3c",
+      "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+      "child_source_policy": "rewrite-known-orqalis-cli-and-python-module-v2",
+      "test_count": 86,
+      "passed": true,
+      "complete": true,
+      "stable_input_flags": {
+        "source_stable": true,
+        "tests_stable": true,
+        "helper_stable": true,
+        "runner_stable": true,
+        "dataset_stable": true
+      }
+    },
+    "current": {
+      "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+      "runner_sha256": "99df98f055d8b9d980b8b0d011034b439273c2fd6c3a678596f2cbed01d33e3c",
+      "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+      "child_source_policy": "rewrite-known-orqalis-cli-and-python-module-v2",
+      "test_count": 86,
+      "passed": true,
+      "complete": true,
+      "stable_input_flags": {
+        "source_stable": true,
+        "tests_stable": true,
+        "helper_stable": true,
+        "runner_stable": true,
+        "dataset_stable": true
+      }
+    }
+  },
+  "fresh_summary": {
+    "baseline": {
+      "mean_index_recall_at_k": 0.7222222222222222,
+      "mean_context_recall_at_k": 0.8518518518518519,
+      "mean_context_bytes": 5764.068965517241,
+      "context_budget_pass": true,
+      "routing_false_positives": 0,
+      "routing_false_negatives": 0,
+      "unchanged_parse_count": 0,
+      "one_file_parse_count": 1,
+      "memory_lookup_passes": 4
+    },
+    "current": {
+      "mean_index_recall_at_k": 0.8703703703703703,
+      "mean_context_recall_at_k": 0.8703703703703703,
+      "mean_context_bytes": 5688.620689655172,
+      "context_budget_pass": true,
+      "routing_false_positives": 0,
+      "routing_false_negatives": 0,
+      "unchanged_parse_count": 0,
+      "one_file_parse_count": 1,
+      "memory_lookup_passes": 4
+    }
+  },
+  "fresh_changes": {
+    "mean_index_recall_at_k": {
+      "baseline": 0.7222222222222222,
+      "current": 0.8703703703703703,
+      "delta": 0.14814814814814814
+    },
+    "mean_context_recall_at_k": {
+      "baseline": 0.8518518518518519,
+      "current": 0.8703703703703703,
+      "delta": 0.01851851851851849
+    },
+    "mean_context_bytes": {
+      "baseline": 5764.068965517241,
+      "current": 5688.620689655172,
+      "delta": -75.44827586206884
+    },
+    "cli_startup": {
+      "baseline_ms": 1244.9309999938123,
+      "current_ms": 946.0274999873945,
+      "ratio": 0.7599035609138953
+    },
+    "mcp_startup_to_project_response": {
+      "baseline_ms": 2427.1458000002895,
+      "current_ms": 2064.8757000017213,
+      "ratio": 0.8507423410663978
+    },
+    "graph_cold": {
+      "baseline_ms": 1002.3733999987599,
+      "current_ms": 1349.2232999997213,
+      "ratio": 1.3460286356375684
+    },
+    "graph_unchanged": {
+      "baseline_ms": 180.5681999976514,
+      "current_ms": 220.3395999968052,
+      "ratio": 1.2202569444656983
+    },
+    "graph_one_file_changed": {
+      "baseline_ms": 492.33349999121856,
+      "current_ms": 732.6793999964138,
+      "ratio": 1.4881770182396326
+    },
+    "graph_bytes": {
+      "baseline": 1125777,
+      "current": 1641247,
+      "ratio": 1.4578793135763122
+    },
+    "index_bytes": {
+      "baseline": 2354318,
+      "current": 5680851,
+      "ratio": 2.412949737461125
+    },
+    "project_store_bytes": {
+      "baseline": 3872335,
+      "current": 7847467,
+      "ratio": 2.026546515216271
+    },
+    "python_peak_allocated_bytes": {
+      "baseline": 7054348,
+      "current": 13628863,
+      "ratio": 1.9319805317231302
+    }
+  },
+  "per_metric_dispositions": [
+    {
+      "case": "bug-fix",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.25,
+      "current": 0.2,
+      "baseline_paths": [
+        "docs/03-project-memory.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/indexing/service.py",
+        ".orqalis/memory/records/MEM-20261002-0002.md"
+      ],
+      "current_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md",
+        "web/src/types.ts",
+        "src/orqalis/context/builder.py"
+      ],
+      "id": "bug-fix/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Index primary target rises from rank 3 to 1; context primary target remains first. Added consumer/documentation paths plus weak frontend vocabulary reduce sparse target-only precision without a target recall loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "bug-fix",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.3333333333333333,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md"
+      ],
+      "current_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md",
+        "web/src/types.ts"
+      ],
+      "id": "bug-fix/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Index primary target rises from rank 3 to 1; context primary target remains first. Added consumer/documentation paths plus weak frontend vocabulary reduce sparse target-only precision without a target recall loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "refactor",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "mrr",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/execution/evaluator.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py"
+      ],
+      "id": "refactor/index/mrr",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Request/response schema domain/provider.py is directly relevant and now first; worker stays second and agents/service.py newly enters third. Target-only MRR falls but index coverage improves; missing agents context was already present in baseline.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "frontend",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "web/src/MetricsView.tsx",
+        "src/orqalis/observability/analytics.py"
+      ],
+      "current_paths": [
+        "web/src/MetricsView.tsx",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/observability/analytics.py"
+      ],
+      "id": "frontend/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "MetricsView remains first; added indexing/graph paths are weak partial metric vocabulary, analytics is useful. types.ts target is missing in both revisions, so this is precision noise plus existing incomplete recall.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "architecture",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20261002-0001.md",
+        "src/orqalis/persistence/filesystem/io.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20261002-0001.md",
+        "src/orqalis/persistence/filesystem/io.py",
+        "web/src/types.ts",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/memory/curated.py"
+      ],
+      "id": "architecture/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Canonical filesystem IO target is preserved behind a relevant durability fact. Added snapshot/atomic component matches lower precision; Markdown section target is missing in both revisions and remains an explicit limitation.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "test-failure",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/execution/evaluator.py",
+        ".orqalis/memory/records/MEM-20261002-0003.md"
+      ],
+      "current_paths": [
+        "src/orqalis/execution/evaluator.py",
+        "web/src/types.ts",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/execution/worker.py"
+      ],
+      "id": "test-failure/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "WorkspaceEvaluator definition remains first; execution contracts and actual worker consumer provide useful adjacent evidence while graph/type tail is weaker. No target loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "git-conflict",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/git/service.py"
+      ],
+      "current_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/git/service.py",
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "id": "git-conflict/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Git service is retained in context and newly found in index; context adds delivery orchestrator, a relevant consumer. Target-only precision falls without a target loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "documentation",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "mrr",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20261002-0002.md",
+        "docs/02-agent-and-skill-model.md",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20261002-0002.md",
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/domain/capabilities.py",
+        "docs/02-agent-and-skill-model.md"
+      ],
+      "id": "documentation/index/mrr",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Skill-model documentation falls from index rank 2 to 5, lowering MRR/nDCG, while still present in top five and context rank 2. Registry, MCP and capability implementations are relevant to the unqualified query; no docs-only hint is supplied to search.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "documentation",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "ndcg_at_k",
+      "baseline": 0.6309297535714575,
+      "current": 0.38685280723454163,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20261002-0002.md",
+        "docs/02-agent-and-skill-model.md",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20261002-0002.md",
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/domain/capabilities.py",
+        "docs/02-agent-and-skill-model.md"
+      ],
+      "id": "documentation/index/ndcg_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Skill-model documentation falls from index rank 2 to 5, lowering MRR/nDCG, while still present in top five and context rank 2. Registry, MCP and capability implementations are relevant to the unqualified query; no docs-only hint is supplied to search.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "recall_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20261002-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20261002-0004.md",
+        ".orqalis/memory/records/MEM-20261002-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20261002-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "memory/index/recall_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Memory documentation genuinely drops from index top five, reducing labeled recall and nDCG. Curated-memory implementation stays second after a directly relevant freshness fact; new ahead paths implement freshness/indexing/proposal APIs. Context newly retains both fixed gold paths. This is an accepted channel tradeoff, not a claim of unchanged recall or full documentation coverage.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.4,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20261002-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20261002-0004.md",
+        ".orqalis/memory/records/MEM-20261002-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20261002-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "memory/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Memory documentation genuinely drops from index top five, reducing labeled recall and nDCG. Curated-memory implementation stays second after a directly relevant freshness fact; new ahead paths implement freshness/indexing/proposal APIs. Context newly retains both fixed gold paths. This is an accepted channel tradeoff, not a claim of unchanged recall or full documentation coverage.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "ndcg_at_k",
+      "baseline": 0.6934264036172708,
+      "current": 0.38685280723454163,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20261002-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20261002-0004.md",
+        ".orqalis/memory/records/MEM-20261002-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20261002-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "memory/index/ndcg_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Memory documentation genuinely drops from index top five, reducing labeled recall and nDCG. Curated-memory implementation stays second after a directly relevant freshness fact; new ahead paths implement freshness/indexing/proposal APIs. Context newly retains both fixed gold paths. This is an accepted channel tradeoff, not a claim of unchanged recall or full documentation coverage.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "multi-agent",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/scheduler.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/scheduler.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/indexing/service.py"
+      ],
+      "id": "multi-agent/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Scheduler exact definition remains first; extra task/context/MCP consumers and weaker history matches add tail noise without primary target loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "repair",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/repair.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/repair.py",
+        "web/src/types.ts",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/persistence/filesystem/io.py"
+      ],
+      "id": "repair/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "RepairPlanner definition remains first; actual orchestration/planning and criterion contracts are useful adjacent evidence, with generic failure/limit tail noise. Target loss is absent.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "repair",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.25,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/repair.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/persistence/filesystem/io.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/repair.py",
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/execution.py",
+        "web/src/types.ts",
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "id": "repair/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "RepairPlanner definition remains first; actual orchestration/planning and criterion contracts are useful adjacent evidence, with generic failure/limit tail noise. Target loss is absent.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "security",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/delivery/guardian.py"
+      ],
+      "current_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/core/vertical_plan.py",
+        "web/src/types.ts"
+      ],
+      "id": "security/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ChangeGuardian definition remains first in index and rises to first in context. Secret screening/planning adjacency and weaker scope vocabulary add index tail noise; no authorization or scope correctness loss is demonstrated.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-camel",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/context/builder.py"
+      ],
+      "current_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "probe-camel/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ProjectContextBuilder definition remains first; MCP direct consumer and context documentation add useful usage evidence, lowering single-target precision.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-camel",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "current_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md"
+      ],
+      "id": "probe-camel/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ProjectContextBuilder definition remains first; MCP direct consumer and context documentation add useful usage evidence, lowering single-target precision.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-snake",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/mcp/server.py",
+        ".orqalis/memory/records/MEM-20261002-0003.md",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py"
+      ],
+      "id": "probe-snake/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "source_hashes exact declaration remains first after occurrence-category correction; direct caller plus weaker source/hash component matches broaden tail. Separate strict symbol access exists; no declaration displacement in this corpus.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-snake",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/git/service.py"
+      ],
+      "id": "probe-snake/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "source_hashes exact declaration remains first after occurrence-category correction; direct caller plus weaker source/hash component matches broaden tail. Separate strict symbol access exists; no declaration displacement in this corpus.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-natural-snake",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/git/service.py"
+      ],
+      "id": "probe-natural-snake/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Natural source hashes now retrieves the declaration first in index (baseline missed it); unchanged context primary definition is retained with broadened source/hash tail.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-routing",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "probe-routing/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "implementation_capabilities definition remains first; capability vocabulary and MCP planning surface add component matches, without definition displacement.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-routing",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "probe-routing/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "implementation_capabilities definition remains first; capability vocabulary and MCP planning surface add component matches, without definition displacement.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-events",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/events.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/events.py",
+        "web/src/types.ts",
+        "web/src/MetricsView.tsx",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/delivery/guardian.py"
+      ],
+      "id": "probe-events/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Event definition remains first; actual event-type UI and emitter paths provide some useful usages, while generic type/id graph/memory context tail is weak. Sparse target-only precision loss is real, no target loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-events",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/domain/events.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/events.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "web/src/types.ts"
+      ],
+      "id": "probe-events/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Event definition remains first; actual event-type UI and emitter paths provide some useful usages, while generic type/id graph/memory context tail is weak. Sparse target-only precision loss is real, no target loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-test-command",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/observability/analytics.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/evaluator.py"
+      ],
+      "id": "probe-test-command/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ValidationCommand definition remains first; commands consumer and evaluator/agent/analytics terms broaden index tail. Context adds direct commands consumer; no target loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-test-command",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py"
+      ],
+      "id": "probe-test-command/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ValidationCommand definition remains first; commands consumer and evaluator/agent/analytics terms broaden index tail. Context adds direct commands consumer; no target loss.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-usage",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/provider.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/agents/service.py",
+        "web/src/types.ts",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/context/builder.py"
+      ],
+      "id": "probe-usage/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ProviderUsage definition remains first; agent usage consumer, UI contract and weaker index/context vocabulary broaden index tail. Context still contains only the target.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-permissions",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/domain/capabilities.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "web/src/MetricsView.tsx",
+        ".orqalis/memory/records/MEM-20261002-0002.md",
+        "src/orqalis/execution/worker.py"
+      ],
+      "id": "probe-permissions/index/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "PermissionProfile declaration remains first, with actual UI display and worker/registry permission enforcement usages. Prior occurrence-before-definition bug is corrected; no permissions authority regression follows from lower sparse-label precision.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    },
+    {
+      "case": "probe-permissions",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/graph/engine.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "id": "probe-permissions/context/precision_at_k",
+      "decision": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "PermissionProfile declaration remains first, with actual UI display and worker/registry permission enforcement usages. Prior occurrence-before-definition bug is corrected; no permissions authority regression follows from lower sparse-label precision.",
+      "raw_metric_loss_preserved": true,
+      "same_numeric_and_normalized_path_witness_as_prior": true
+    }
+  ],
+  "acceptance_basis": {
+    "R01": "Sharedwhole/snake/camel retrieval and versioninvalidation preserve measuredbenefit with explicit25precisionlossdispositions.",
+    "R02": "Unchanged29queries include15heldout/2negatives, hardserializedbudget, explicitorientationdistinction and no unexplainedrecallloss: memoryindexdocumentloss is preserved/explained with stronger separatecontextcoverage. Meanindex72.22->87.04%,context85.19->87.04%.",
+    "E01": "Currentcomparatorvalidated everyfixedlabel/metric, source/helper/runner/environment/contract witness; frozenlabels and rawREVIEWretained.",
+    "E04": "Freshlargerheldoutv5 separately accepts actualfootprint/contextcost and below-investigation graph capture while retaining historicaloutliers; no universalcost/tailclaim."
+  },
+  "confirmed_open_p0_p1_correctness_findings_in_this_review": [],
+  "necessary_source_fix": null,
+  "retained_limits": [
+    "Sparse primarytargetlabels are not exhaustive relevance annotations",
+    "Memorydocumentation indextopfive omission and documentationrankdrop remain real",
+    "Tailnoise, Markdownsectionsearch, frontendtypecontract/paraphrase/broadhub misses remain boundedknownlimits",
+    "Aggregate recallgains never erase per-caseregressions",
+    "Providerfree deterministic retrieval/routing/contracts are not autonomouscoding quality or modeltoken savings",
+    "Largerheldout footprint/nativeRSS/tail/platformlimits remain as separately declared"
+  ],
+  "iteration_status": "Only round1quality reviewed; executionround1running at assignment, otherfull-loop gates andround2pending. Notconverged; this report is not completeiteration or releasesignoff.",
+  "release_conditions": [
+    "Finish full round1execution/memory/UI/constrained/static/artifact/audits",
+    "Repeat complete fresh sequential round2, independentlycheck newfailures/signals/identities",
+    "Reconcile everyacceptedP1criterion and final canonicaldocs/artifactsourceidentity",
+    "Keep failedsource-guardv1baselinecapture and allhistoricalREVIEW/outliers; do not rebindorhide"
+  ]
+}

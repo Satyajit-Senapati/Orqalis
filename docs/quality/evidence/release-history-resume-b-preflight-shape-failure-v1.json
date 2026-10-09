@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:42:27.116976+00:00",
+  "status": "PRELAUNCH_DIAGNOSTIC_GUARD_FAILURE",
+  "command": "python -I .tools/research/release_history_resume_b_v1.py",
+  "actual_exit_code": 1,
+  "observed_traceback": "AssertionError at release_history_resume_b_v1.py main line125 retained_pair[fixture_before] == seed_before",
+  "no_B_child_or_profile_workload_launched": true,
+  "source_unchanged": true,
+  "reason": "content_shapes constructed with list(k) retains inner tuples; saved JSON yields inner lists. Other same-seed/source values not changed.",
+  "plan_sha256": "bdc1d81aa670ca5cdb035f323bc3912b6d476bdb4d2f725402bb3c36e1fea303",
+  "limits": "Observed tool stdout traceback recorded, no nonexistent worker/raw/log claimed. OriginalvalidA and originalfailedpair unchanged."
+}

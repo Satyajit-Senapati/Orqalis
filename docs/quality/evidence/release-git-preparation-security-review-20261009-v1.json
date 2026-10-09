@@ -1,0 +1,35 @@
+{
+  "recorded_at": "2026-10-09T06:48:41.442178+00:00",
+  "reviewer": "release_security_review",
+  "recorded_by": "/root",
+  "provenance": "Actual reviewer messages and final answer delivered to parent in this session; reviewer wrote no file.",
+  "status": "PASS_BOUNDED_PREPARATION_REVIEW_WITH_PENDING_EXTERNAL_GATES",
+  "production_p0_p1_confirmed_in_review_scope": 0,
+  "review_scope": [
+    "Evidence-only Git byte preservation and whitespace/display attributes",
+    "Raw versus indexed LF representation bridge metadata; not independently rescanned all blobs",
+    "Independent parse of 14 named JUnit captures: 27 PEM markers only in synthetic testcase-name attributes; no markers in element text",
+    "Unapplied single-owner environment-review proposal",
+    "Existing publication workflow gates"
+  ],
+  "limitations": [
+    "Not a universal secret audit",
+    "No new source qualification or identical LF wheel claim",
+    "Single-owner review permits self-review; not independent two-person approval",
+    "No commit, push, tag, publication or external settings changes performed"
+  ],
+  "required_before_publication": [
+    "Fresh ci.yml quality success for the exact committed LF revision must be checked explicitly: npm-package.yml publish needs smoke and installed-integration only, not separate quality CI",
+    "Successful package/platform smoke and installed integration for the exact tagged artifact",
+    "Required release-owner review configured on npm-release environment and deployment approved",
+    "Owner verifies npm Trusted Publisher binding for orqalis, Satyajit-Senapati/Orqalis, npm-package.yml, npm-release and publish permission; E401 means UNKNOWN configuration"
+  ],
+  "reviewer_sha256_pins": {
+    ".gitattributes": "cbfeaf65fce399671f4b9236a9a6baa95adbb3ddb7758c19bf78abae78de780d",
+    "docs/quality/evidence/release-git-lf-representation-bridge-20261009-v1.json": "7672c05f85a501154bab41f756493543d809c5c886168d7d36cfba684c812a93",
+    "docs/quality/evidence/release-git-secret-shape-disposition-20261009-v1.json": "b130006310352921b106a8ada35de80f64808fce1490edf14520c9410ebd6d49",
+    ".tools/research/npm-release-environment-owner-review-v1.json": "dd8755903693c2b615fb0e390a67d39b4266b1b81f1b88d42cdafa8d36470d2d",
+    ".github/workflows/npm-package.yml": "40dec31d21b19a14ca2fe9705c9e72bd5af7e3dcd007f70a91c6721bf76ec8ae",
+    ".github/workflows/ci.yml": "4ba716046e44ad672f16773b83882f038ac05fd68fbe0050c616719e8f1843ca"
+  }
+}

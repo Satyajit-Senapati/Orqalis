@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T21:54:28.199925+00:00",
+  "status": "ROUND20_COMPLETE_OBSERVED_INDEPENDENT_PAIR_ACCEPTANCE_PENDING",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "full-regression-release-20.json": "2627e1a3ee9c05571ff07fee3e8dfbd773166121fc9db46e3652ac1ddb920675",
+    "release-iteration-20.json": "773d3877daae66a3d9ae8a8eca9502b3f89e670f0de5e80bbc755722d45b761c",
+    "full-regression-release-20.xml": "531780983c39caad23490a5b290a3fbb6716b17849656e59acfdc11b8e92d5bd",
+    "release-round20-measurements-acceptance-interim-v1.json": "1cc935bbae111cbbaa9a214c8a0fa89ba284a9cede62618d34dca06084c8efc2",
+    "release-history-page-path-acceptance-addendum-v1.json": "549a0889a818fd111b77d12e979800933f8c7a93cc208f56c345e0d8e354d3a3"
+  },
+  "whole20_report_status_retained": "COMPLETE_PENDING_INDEPENDENT_REVIEW",
+  "full_current_tests": {
+    "total": 908,
+    "PASS": 906,
+    "FAIL": 0,
+    "ERROR": 0,
+    "SKIP": 2,
+    "all5_stability_flags": true,
+    "exit_code": 0,
+    "elapsed_seconds": 2273.9379999999946,
+    "critical_criterion_suites": {
+      "tests.integration.test_hard_crash_matrix": {
+        "PASS": 8,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.unit.test_cancellation_polling": {
+        "PASS": 6,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.unit.test_sandbox_lifecycle": {
+        "PASS": 13,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.integration.test_sandbox_recovery": {
+        "PASS": 1,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.unit.test_guardian_integrity": {
+        "PASS": 19,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.unit.test_portable_skills": {
+        "PASS": 21,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 1
+      },
+      "tests.unit.test_filesystem_foundation": {
+        "PASS": 81,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.integration.test_mcp": {
+        "PASS": 2,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.integration.test_mcp_lifecycle": {
+        "PASS": 3,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.unit.test_trace_hierarchy": {
+        "PASS": 1,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      "tests.integration.test_trace_projection": {
+        "PASS": 1,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      }
+    },
+    "skips": [
+      {
+        "classname": "tests.integration.test_sandbox",
+        "test": "test_docker_workspace_network_and_readonly_root",
+        "reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image"
+      },
+      {
+        "classname": "tests.unit.test_portable_skills",
+        "test": "test_skill_symlink_parent_is_rejected",
+        "reason": "Creating symlinks requires local OS permissions"
+      }
+    ]
+  },
+  "complete_capture_evidence": [
+    "quality-both",
+    "execution-current-only",
+    "memory",
+    "UI",
+    "constrained",
+    "full-browser",
+    "full-Python-regression",
+    "advisories"
+  ],
+  "raw_quality_status": "REVIEW",
+  "metric_tradeoffs": 30,
+  "hard_invariant_failures": [],
+  "acceptance_scope": "Round20 genuinely reached complete measurements plus fresh current full suite. This is an observed completion, not accepted two-round convergence or capability promotion. Remaining paired21 and independent final evidence/cost/security/defer/docs reviews mandatory.",
+  "historical_boundary": "Current source24/input97 full906 passes do not rewrite historical75/b2aa results or old failedpartial iterations. Both explicit skips remain unqualified and notpasses.",
+  "history_boundary": "Static page-path proof accounts for candidate-specific executed source/work concern; rawMIXED and all both-reference timings/unknown historical causes remain. No timingequivalence.",
+  "pending": [
+    "Round21 completion with same frozen inputs and mandatoryfresh fullsuite/browser/advisories/measurements",
+    "Independent all23criteria/security/all30tradeoffs/13DEFER/performance and resource costs disposition",
+    "Final docs repack/package installed inventory/link/assets/fragment verification/master54 signoff",
+    "Owner hosted platform/publishing gates under no-commit/publication boundary"
+  ],
+  "review_scope": "Only two current round/full JSON reports, current908case JUnit, and named prior static/interim reviews. No source inventory hash scan, dependency scan, app imports or workload."
+}

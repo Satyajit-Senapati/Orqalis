@@ -71,7 +71,7 @@ class CommitService:
                 report = [r for r in uow.delivery.guardians(run_id) if r.checkpoint == "final"][-1]
                 tree = self.operations.stage(workspace, report, project.settings.protected_branches)
                 goal = (
-                    uow.runs.get_goal(run.current_goal_version_id)
+                    uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                     if run.current_goal_version_id
                     else None
                 )

@@ -1,0 +1,449 @@
+{
+  "schema_version": 1,
+  "status": "READ_ONLY_FAIR_PREPARATION_REVIEW_PASS_NOT_EXECUTED",
+  "reviewed_at_utc": "2026-10-03T08:07:39.560406+00:00",
+  "source_sha256": "645f15aaf168a4db976c376330478366872835c1085b068e961c62fdd3b3a367",
+  "source_recomputed": true,
+  "helper": ".tools/research/prepare_release_fair_v1.py",
+  "helper_sha256": "52c1d251721c81b083eff0a2bc6098fbc11d8b5e9cf821cb1eb4bb6d1c6cc15d",
+  "scope": "Only extracted read-only transformation loop evaluated in memory; preparation module, application workloads and copied helpers not executed.",
+  "transform_review": {
+    "copied_helpers": 9,
+    "total_qualification_helpers": 15,
+    "all_scripts_parse": true,
+    "numeric_literals_identical": true,
+    "constant_changes_strings_only": true,
+    "allowlist": [
+      "631 candidate source hash to645",
+      "Mapped stable helpers to fair/v12",
+      "Evidence/runtime/artifact/pin/log stable labels to fair",
+      "Command logs v11 to v12",
+      "Held-out outputs v11 to v12"
+    ],
+    "prior_helpers_match_stable_inventory": true,
+    "copy_proofs": {
+      "release_artifacts_fair.py": {
+        "prior_helper": "release_artifacts_stable.py",
+        "prior_sha256": "7d315413cbb2f003b06e3e0f509301f2a9cf61a8290c9a95a49f104fda8d929e",
+        "new_sha256": "22d57372e73bf16719ddd6609b3c39a4789e34e446e00304059f06287ce7318a"
+      },
+      "verify_installed_release_fair.py": {
+        "prior_helper": "verify_installed_release_stable.py",
+        "prior_sha256": "154ae2bf8043bf87fd6e84838e57bf25d7b2ab43f03ab4431ed762f729a0c347",
+        "new_sha256": "9ce5b61a7eb93e07415837017539fa5a3cad2052e1949d6128d6cbb3dbc9fa0b"
+      },
+      "release_repack_docs_fair.py": {
+        "prior_helper": "release_repack_docs_stable.py",
+        "prior_sha256": "4abe7f9950b95faa942574359026627fb28401360ce23e0352626d4c277aacc8",
+        "new_sha256": "c0def975c9c08816a96c991283b3907634d32faab1d007675c237c11b4bee0f5"
+      },
+      "release_preflight_fair.py": {
+        "prior_helper": "release_preflight_stable.py",
+        "prior_sha256": "02758c7ba94ca92eb9ede757a78d764f86e60edd94e9a9903a06893f6ba27e2a",
+        "new_sha256": "91ef3f10e6205209a42050af746bf3a3a66d29e76751d5872a233124d9179088"
+      },
+      "verify_frontend_reuse_fair.py": {
+        "prior_helper": "verify_frontend_reuse_stable.py",
+        "prior_sha256": "9167a20d359a5e6258fc9868b4c6e430fcc15ab33b71a326fbe147af71e43e47",
+        "new_sha256": "d3da8f31c3f31c58a2e4ce0b8071e68120cf3404c44ea4e3d3a6bb87f162d605"
+      },
+      "accept_release_preflight_fair.py": {
+        "prior_helper": "accept_release_preflight_stable.py",
+        "prior_sha256": "7bcde58e3d3dba9ca5153848140dca32ffa7c700c6f60f92423e7bf49b4be69c",
+        "new_sha256": "88608588ee3b7de463705bc3d62b5e268471ec33660ba0b15c1e5609a8b9e096"
+      },
+      "release_qualification_v12.py": {
+        "prior_helper": "release_qualification_v11.py",
+        "prior_sha256": "b507e7c8971ebcc8b7890bb5fcc4d2c9e1df68ceada8908525720c11b7e36cd7",
+        "new_sha256": "7e8d2376e65998d8932e5bed749995683ac827a311147d714438de75a9370c91"
+      },
+      "release_complete_rounds_v12.py": {
+        "prior_helper": "release_complete_rounds_v11.py",
+        "prior_sha256": "a640e3dfd8e89bd6dc2fea9ae3b0ff06e275918cdea8f16f8cdd6b10995a228e",
+        "new_sha256": "286e53b82e2277b066dc5406a57ec463eef42e9bf2cc3f7cbb65353cde290114"
+      },
+      "release_heldout_probe_v12.py": {
+        "prior_helper": "release_heldout_probe_v11.py",
+        "prior_sha256": "4341aff202ebab91768bcdde409e77894f5e29360bac8f5f37895a4990ea0205",
+        "new_sha256": "424db692bd5ff0bb230dc1817b253f9d3b8bbac15c5ef820a887f71417492197"
+      }
+    },
+    "changed_string_constants": {
+      "release_artifacts_fair.py": [
+        {
+          "before": ".tools/research/artifacts-release-2.1.0-stable",
+          "after": ".tools/research/artifacts-release-2.1.0-fair"
+        },
+        {
+          "before": ".tools/research/package-runtime-release-2.1.0-stable",
+          "after": ".tools/research/package-runtime-release-2.1.0-fair"
+        },
+        {
+          "before": ".tools/research/npm-prefix-release-2.1.0-stable",
+          "after": ".tools/research/npm-prefix-release-2.1.0-fair"
+        },
+        {
+          "before": ".tools/research/npm-runtime-release-2.1.0-stable",
+          "after": ".tools/research/npm-runtime-release-2.1.0-fair"
+        },
+        {
+          "before": ".tools/research/installed-npm-release-2.1.0-stable.json",
+          "after": ".tools/research/installed-npm-release-2.1.0-fair.json"
+        },
+        {
+          "before": "docs/quality/evidence/installed-npm-release-2.1.0-stable.json",
+          "after": "docs/quality/evidence/installed-npm-release-2.1.0-fair.json"
+        },
+        {
+          "before": ".tools/research/verify_installed_release_stable.py",
+          "after": ".tools/research/verify_installed_release_fair.py"
+        },
+        {
+          "before": ".tools/research/installed-npm-release-2.1.0-stable.json",
+          "after": ".tools/research/installed-npm-release-2.1.0-fair.json"
+        },
+        {
+          "before": "-pins-stable.txt",
+          "after": "-pins-fair.txt"
+        },
+        {
+          "before": "-advisories-stable.json",
+          "after": "-advisories-fair.json"
+        },
+        {
+          "before": "docs/quality/evidence/release-artifact-identity-stable.json",
+          "after": "docs/quality/evidence/release-artifact-identity-fair.json"
+        },
+        {
+          "before": "docs/quality/evidence/release-input-freeze-stable.json",
+          "after": "docs/quality/evidence/release-input-freeze-fair.json"
+        },
+        {
+          "before": "-inventory-stable.json",
+          "after": "-inventory-fair.json"
+        }
+      ],
+      "verify_installed_release_fair.py": [
+        {
+          "before": "package-runtime-release-2.1.0-stable",
+          "after": "package-runtime-release-2.1.0-fair"
+        },
+        {
+          "before": "artifacts-release-2.1.0-stable/orqalis-2.1.0-py3-none-any.whl",
+          "after": "artifacts-release-2.1.0-fair/orqalis-2.1.0-py3-none-any.whl"
+        },
+        {
+          "before": "docs/quality/evidence/installed-wheel-release-2.1.0-stable.json",
+          "after": "docs/quality/evidence/installed-wheel-release-2.1.0-fair.json"
+        }
+      ],
+      "release_repack_docs_fair.py": [
+        {
+          "before": ".tools/research/artifacts-release-2.1.0-stable",
+          "after": ".tools/research/artifacts-release-2.1.0-fair"
+        },
+        {
+          "before": ".tools/research/npm-prefix-release-2.1.0-stable",
+          "after": ".tools/research/npm-prefix-release-2.1.0-fair"
+        },
+        {
+          "before": "installed-npm-release-2.1.0-stable.json",
+          "after": "installed-npm-release-2.1.0-fair.json"
+        },
+        {
+          "before": "docs/quality/evidence/release-final-artifact-identity-stable.json",
+          "after": "docs/quality/evidence/release-final-artifact-identity-fair.json"
+        },
+        {
+          "before": ".tools/research/npm-pack-release-final-stable.json",
+          "after": ".tools/research/npm-pack-release-final-fair.json"
+        }
+      ],
+      "release_preflight_fair.py": [
+        {
+          "before": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+          "after": "645f15aaf168a4db976c376330478366872835c1085b068e961c62fdd3b3a367"
+        },
+        {
+          "before": "stable",
+          "after": "fair"
+        },
+        {
+          "before": "release-baseline-contract-reuse-stable.json",
+          "after": "release-baseline-contract-reuse-fair.json"
+        },
+        {
+          "before": "release-input-freeze-stable.json",
+          "after": "release-input-freeze-fair.json"
+        },
+        {
+          "before": "release-private-helper-inventory-stable.json",
+          "after": "release-private-helper-inventory-fair.json"
+        },
+        {
+          "before": "release-stable-preflight-",
+          "after": "release-fair-preflight-"
+        },
+        {
+          "before": "release-static-stable.json",
+          "after": "release-static-fair.json"
+        },
+        {
+          "before": "release-source-freeze-stable.json",
+          "after": "release-source-freeze-fair.json"
+        },
+        {
+          "before": "release-stable-",
+          "after": "release-fair-"
+        },
+        {
+          "before": "release-static-stable.json",
+          "after": "release-static-fair.json"
+        },
+        {
+          "before": "release-static-stable.json",
+          "after": "release-static-fair.json"
+        },
+        {
+          "before": "release-source-freeze-stable.json",
+          "after": "release-source-freeze-fair.json"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.json",
+          "after": "release-contracts-current-fair-v2.json"
+        },
+        {
+          "before": "release-contracts-baseline-stable-v2.json",
+          "after": "release-contracts-baseline-fair-v2.json"
+        },
+        {
+          "before": "-stable-v2.json",
+          "after": "-fair-v2.json"
+        }
+      ],
+      "verify_frontend_reuse_fair.py": [
+        {
+          "before": "release-baseline-frontend-reuse-stable.json",
+          "after": "release-baseline-frontend-reuse-fair.json"
+        },
+        {
+          "before": "release-input-freeze-stable.json",
+          "after": "release-input-freeze-fair.json"
+        }
+      ],
+      "accept_release_preflight_fair.py": [
+        {
+          "before": "release-input-freeze-stable.json",
+          "after": "release-input-freeze-fair.json"
+        },
+        {
+          "before": "release-private-helper-inventory-stable.json",
+          "after": "release-private-helper-inventory-fair.json"
+        },
+        {
+          "before": "release-source-freeze-stable.json",
+          "after": "release-source-freeze-fair.json"
+        },
+        {
+          "before": "release-baseline-frontend-reuse-stable.json",
+          "after": "release-baseline-frontend-reuse-fair.json"
+        },
+        {
+          "before": "release-static-stable.json",
+          "after": "release-static-fair.json"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.json",
+          "after": "release-contracts-current-fair-v2.json"
+        },
+        {
+          "before": "release-baseline-contract-reuse-stable.json",
+          "after": "release-baseline-contract-reuse-fair.json"
+        },
+        {
+          "before": "release-source-freeze-stable.json",
+          "after": "release-source-freeze-fair.json"
+        },
+        {
+          "before": "release-static-stable.json",
+          "after": "release-static-fair.json"
+        },
+        {
+          "before": "release-baseline-frontend-reuse-stable.json",
+          "after": "release-baseline-frontend-reuse-fair.json"
+        },
+        {
+          "before": "release-baseline-contract-reuse-stable.json",
+          "after": "release-baseline-contract-reuse-fair.json"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.json",
+          "after": "release-contracts-current-fair-v2.json"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.junit.xml",
+          "after": "release-contracts-current-fair-v2.junit.xml"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.children.jsonl",
+          "after": "release-contracts-current-fair-v2.children.jsonl"
+        },
+        {
+          "before": "release-source-freeze-stable-accepted.json",
+          "after": "release-source-freeze-fair-accepted.json"
+        },
+        {
+          "before": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+          "after": "645f15aaf168a4db976c376330478366872835c1085b068e961c62fdd3b3a367"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.junit.xml",
+          "after": "release-contracts-current-fair-v2.junit.xml"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.json",
+          "after": "release-contracts-current-fair-v2.json"
+        },
+        {
+          "before": "release-private-helper-inventory-stable.json",
+          "after": "release-private-helper-inventory-fair.json"
+        },
+        {
+          "before": ".tools/research/verify_frontend_reuse_stable.py",
+          "after": ".tools/research/verify_frontend_reuse_fair.py"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.children.jsonl",
+          "after": "release-contracts-current-fair-v2.children.jsonl"
+        }
+      ],
+      "release_qualification_v12.py": [
+        {
+          "before": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+          "after": "645f15aaf168a4db976c376330478366872835c1085b068e961c62fdd3b3a367"
+        },
+        {
+          "before": "release-input-freeze-stable.json",
+          "after": "release-input-freeze-fair.json"
+        },
+        {
+          "before": "release-private-helper-inventory-stable.json",
+          "after": "release-private-helper-inventory-fair.json"
+        },
+        {
+          "before": "release-v11-",
+          "after": "release-v12-"
+        },
+        {
+          "before": "release-contracts-current-stable-v2.json",
+          "after": "release-contracts-current-fair-v2.json"
+        }
+      ],
+      "release_complete_rounds_v12.py": [
+        {
+          "before": ".tools/research/accept_release_preflight_stable.py",
+          "after": ".tools/research/accept_release_preflight_fair.py"
+        },
+        {
+          "before": ".tools/research/release_qualification_v11.py",
+          "after": ".tools/research/release_qualification_v12.py"
+        },
+        {
+          "before": ".tools/research/accept_release_preflight_stable.py",
+          "after": ".tools/research/accept_release_preflight_fair.py"
+        },
+        {
+          "before": "release-input-freeze-stable.json",
+          "after": "release-input-freeze-fair.json"
+        }
+      ],
+      "release_heldout_probe_v12.py": [
+        {
+          "before": "-v11.json",
+          "after": "-v12.json"
+        },
+        {
+          "before": "docs/quality/evidence/release-heldout-review-v11.json",
+          "after": "docs/quality/evidence/release-heldout-review-v12.json"
+        },
+        {
+          "before": "-v11.json",
+          "after": "-v12.json"
+        }
+      ]
+    },
+    "no_stale_stable_paths_or_source631_literals": true,
+    "installed_runtime_wheel_output_fair_paths_match": true
+  },
+  "input_review": {
+    "existing_paths": 390,
+    "all_files_exist": true,
+    "specified_runtime_test_web_package_areas_fully_covered": true,
+    "area_file_counts": {
+      "src/orqalis": 194,
+      "tests": 110,
+      "scripts": 13,
+      "web/src": 35,
+      "web/e2e": 5,
+      "web/scripts": 3,
+      "packages/npm/lib": 3,
+      "packages/npm/bin": 1,
+      "packages/npm/test": 2
+    },
+    "prior_freeze_sha256": "1fc0a3e099dd4c5d2d18e7cb664d42deab726546756b11d29267d37528139604",
+    "prior_inventory_sha256": "ed5ce5ade4f177d1f7599f30dc535f59725f0fde569f80606f25d56b4c0844b0",
+    "prospective_current_input_digest_sha256": "421cac632ffc4e97790f0aa180f261ac73a60b61096da7f9387830bf8d907c96",
+    "prospective_digest_is_not_created_or_accepted_freeze": true,
+    "fixed6_helper_hashes": {
+      ".tools/research/run_full_regression_release_v6.py": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+      ".tools/research/release_browser_qualification_v4.py": "983543bb06566de830f4cd805b6eb0dd01a01d57a00e37ebd12f42cbeaef3829",
+      ".tools/research/release_governance_diagnostic_v2.py": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275",
+      ".tools/research/release_governance_diagnostic_v4.py": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53",
+      ".tools/research/release-quality-review.json": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e",
+      ".tools/research/release_history_quiet.py": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683"
+    },
+    "fixed6_helpers_byte_identical_to_stable_inventory": true,
+    "benchmark_helper_and_comparator_unchanged_from_stable": true,
+    "separate_evaluation_freeze_sha256": "b210c0b37f1d413cbe85afeefa888c4a8d561c0baad1b1b9f88e743390ce9dda",
+    "separate_evaluation_inputs_exactly_unchanged": {
+      "benchmarks/engineering_cases.json": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+      "benchmarks/memory_workflows.json": "eede4e76fb4a0b6b3949cef8de6e969dce41f9ed583669de2bc9bd41ddfd7d27",
+      "benchmarks/browser_events.mjs": "db10d7b163269a98f9e2ab1e40525c2aacf309cef2d7f0bf40950c26d60be33f"
+    },
+    "fixed30_dispositions_unchanged": true
+  },
+  "guard_review": {
+    "required_browser": "release-browser-fifo-screen.json",
+    "source_stable_and_owned_host_closed_required": true,
+    "matching_json_xml_suite_attributes_required": true,
+    "exact_browser_case_count": 14,
+    "required_browser_failures_errors_skips": 0,
+    "prevalidated_unused_fair_helpers_freeze_inventory": true,
+    "exclusive_output_creation": true,
+    "preparation_browser_json_xml_copy_hash_provenance": true,
+    "source_and_per_file_inputs_checked_before_and_after_writes": true,
+    "original_round_labels": [
+      "8",
+      "9"
+    ],
+    "round_labels_verified_unused": true,
+    "heldout_investigation_rule": "Unchanged2*baseline+250ms; no relabeling of functional PASS as performance qualification.",
+    "original_browser_helper_and_deadlines_unchanged": true
+  },
+  "limits": {
+    "preparation_module_executed": false,
+    "fair_helpers_written_by_reviewer": false,
+    "browser_pass_claimed": false,
+    "browser_scope": "Original14 FIFO screen running at request; preparation must fail closed until complete original14PASS at source645.",
+    "prior631_status": "Prior631 frozen86 failure85PASS/1state-gate timeout was reported by parent and remains preserved; its freeze was never accepted. Not reused as passing current evidence.",
+    "full_release_rounds_completed": 0,
+    "full_release_rounds_required": 2,
+    "p1_closure_claimed": false,
+    "release_certified": false,
+    "application_helper_test_mutation": false,
+    "tests_builds_benchmarks_executed": false,
+    "main_commits_publication": false,
+    "next_validation": "After required original14PASS, fresh preparation/preflight/contracts/artifacts and two complete unchanged-source rounds remain required."
+  },
+  "findings": "No concrete helper binding bug found within the scoped review."
+}

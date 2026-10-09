@@ -1,0 +1,12 @@
+{
+  "status": "INCOMPLETE_DIAGNOSTIC_HOST_TERMINATION",
+  "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "observed": "GOAL preview403 and approval200 succeeded, then API host terminated and subsequentPLAN fetches reported ERR_CONNECTION_REFUSED. Python process exited before report/host cleanup; native repeated faulthandler stackfile ends mid-frame. Exact native/process termination cause unproven.",
+  "diagnostic_assertion_failure": "Existing PLAN visibility assertion; not usable as evidence of plan latency after API termination.",
+  "raw_log": ".tools\\research\\release-governance-diagnostic-current-1.log",
+  "raw_stack": ".tools\\research\\release-governance-diagnostic-current-1.stacks.log",
+  "junit": "release-governance-diagnostic-current-1.xml",
+  "method_correction": "Remove native periodic faulthandler entirely; use passive browser network observation and Python traceback snapshots only after a failure. Existingassertions/defaulttimeouts unchanged.",
+  "release_iteration_counted": false,
+  "created_at": "2026-10-02T12:16:59.362655+00:00"
+}

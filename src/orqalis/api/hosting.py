@@ -1,6 +1,8 @@
 """Terminal-owned hosting for the optional local control center."""
 
+import asyncio
 import socket
+import sys
 import threading
 import time
 import webbrowser
@@ -21,6 +23,20 @@ from orqalis.persistence.filesystem import resolve_project_root
 _LOCAL_HOSTS = {"127.0.0.1", "localhost", "::1"}
 _STARTUP_TIMEOUT = 15.0
 _SHUTDOWN_TIMEOUT = 10.0
+
+
+def _windows_ui_loop_factory() -> asyncio.AbstractEventLoop:
+    """Use socket-based selectors for the single-process local UI host.
+
+    SDK/harness subprocess execution runs in separate worker loops. This factory
+    does not change the process-wide policy or other asyncio runners.
+    """
+    return asyncio.SelectorEventLoop()
+
+
+def local_loop() -> str:
+    """Select the loop for the local, socket-only API/UI host."""
+    return "orqalis.api.hosting:_windows_ui_loop_factory" if sys.platform == "win32" else "auto"
 
 
 def local_url(settings: Settings) -> str:
@@ -135,6 +151,7 @@ def ui_session(settings: Settings, open_path: str | None = None) -> Iterator[UIS
                         host=settings.host,
                         port=settings.port,
                         log_level=settings.log_level.lower(),
+                        loop=local_loop(),
                     )
                 )
                 failure: list[Exception] = []

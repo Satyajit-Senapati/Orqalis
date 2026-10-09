@@ -5,6 +5,7 @@ from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import locked_run
 from orqalis.domain.errors import ConflictError, NotFoundError, PolicyDeniedError
 from orqalis.domain.execution import ExecutionPolicy, RunWorkspace
+from orqalis.execution.sandbox import SandboxOwner, reconcile_sandboxes
 from orqalis.git.service import LocalGitService
 from orqalis.workspace.manager import WorktreeManager
 
@@ -44,6 +45,7 @@ class ExecutionWorkspaces:
             if existing is None:
                 uow.execution.save_workspace(binding)
                 uow.commit()
+            reconcile_sandboxes(SandboxOwner(project.repo_root, run_id), binding.path)
             return binding
 
 

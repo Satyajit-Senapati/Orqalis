@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T10:57:45.096265+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "BOUNDED_PRIVATE_BRAIN_PROPOSAL_AND_APPLIED_LAYOUT_REVIEW_PASS",
+  "source_sha256": "e536c8f8ce6caf175993a750bfd2396727d0d8912bd0663279424710bc4535b6",
+  "source_inputs": 196,
+  "scope": "Read-only AST/hash/path authority review of three unapplied private Brain graph-sharing files, plus applied layout evidence. No workload or application/helper/test mutation by reviewer.",
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "private_brain_proposals": [
+    {
+      "production": "src/orqalis/context/builder.py",
+      "production_sha256": "0a28af97935402832a1362a61b1551388b3a0d7a1ff0e0ac3ae963f3b98f52c1",
+      "proposal": ".tools/research/release_brain_shared_graph_builder_proposal_v1.py",
+      "proposal_sha256": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f"
+    },
+    {
+      "production": "src/orqalis/memory/service.py",
+      "production_sha256": "6dd804b608689a48c30b23390a2dff2accd9464882244cc274d4359bac871ac7",
+      "proposal": ".tools/research/release_brain_shared_graph_memory_proposal_v1.py",
+      "proposal_sha256": "b1d186020312157d2f923a07937ddb3bc5473f0e30fc3056dae01f962050142c"
+    },
+    {
+      "production": "src/orqalis/memory/brain.py",
+      "production_sha256": "e301d5ac4b2a41ba5d1f7d2a94174e15920ecfd45b2367c62011fbb275ea57dc",
+      "proposal": ".tools/research/release_brain_shared_graph_brain_proposal_v1.py",
+      "proposal_sha256": "bc3f21d69a19422667c2fcf431fa33b352296acfd81f8e7e0a220e4237dad2ea"
+    }
+  ],
+  "private_proposal_report": {
+    "path": "docs/quality/evidence/release-brain-shared-graph-proposal-v1.json",
+    "sha256": "984e4a6474947b1b03c21e53b594b31dc6d08b243ffa7cd586e82ada7726aab7"
+  },
+  "ast_proofs_independently_verified": {
+    "existing_MemoryService_context_unchanged": true,
+    "entity_relation_projection_body_matches_old_graph_after_refresh": true,
+    "builder_full_build_body_matches_old_build_except_final_graph_tuple_return": true,
+    "Brain_project_run_workspace_lookup_and_output_return_unchanged": true
+  },
+  "brain_authority_conclusions": [
+    "Reuse requires exact built-in MemoryService with no instance graph/context replacement, matching initial/inspected project IDs and exact roots, and a newly fetched canonical project whose root still matches. Missing/changed canonical authority falls back to existing graph then context calls.",
+    "Different inspected worktrees retain separate canonical entity graph and inspected-context paths. Existing run existence/project-ID/workspace lookup is unchanged; normal builder/engine common-directory, root/storage and graph validation remain authoritative.",
+    "Same-root fast path uses the existing injected UOW and Git service, normal owned ProjectContextBuilder, fresh refresh_with_status, manifest ID validation through agent_context, full ranking/dirty paths/history/memory and hard budget validation. No caller graph/status object accepted and no cross-request cache.",
+    "Graph projection is derived from the fresh graph actually used for context ranking, with exact existing IDs/types/references/filtering. Same-request graph/context can now share one observation instead of two; no stronger global atomic filesystem snapshot promised.",
+    "Subclass and instance graph/context overrides use original public calls. Context observed operation name/outcome retained, but canonical lookup occurs outside the new context span, an explicit instrumentation timing change."
+  ],
+  "brain_proposal_limits": [
+    "Private proposals remain unapplied/unqualified. No new tests/types/native/browser/performance run or pass claimed for proposal.",
+    "External class-level monkeypatches of MemoryService methods or builder class/build method are not covered by exact-type/instance override checks. New helper invokes normally owned builder.build_with_graph; arbitrary external monkeypatch equivalence is not claimed.",
+    "Graph-first versus context-first derived refresh/validation error timing changes on fast path; fail-closed guards remain. Stateful injected service call counts can differ.",
+    "No browser5s cure, current high-priority regression closure, full release qualification or convergence claim."
+  ],
+  "applied_layout": {
+    "path": "src/orqalis/persistence/filesystem/layout.py",
+    "sha256": "c93b8b8b532e7c21a35782b0f20915f92c9eddc09886d501fa14d7f65023e52b",
+    "proposal_sha256": "c93b8b8b532e7c21a35782b0f20915f92c9eddc09886d501fa14d7f65023e52b",
+    "exact_bytes": true,
+    "inverse_previous_source_sha256": "635e1fec1b39c5998e8294ba376ee2a641546f4c632b5973a775b7a26cff6957",
+    "inverse_proves_only_layout_delta": true,
+    "guard_bounds": "Ordinary base descendants use one full fresh candidate+ancestor guard; absolute/traversal paths retain original store prefix guard, subclasses original lookup order, both resolves/containment unchanged, recovery/atomic writer independent guards retained. Existing TOCTOU/error precedence limits remain.",
+    "focused_captures": [
+      {
+        "path": "docs/quality/evidence/release-layout-prefix-guard-focused-v2.json",
+        "sha256": "e6d4367deade47b71bf0982e6300d062f9fe5cfcdb94469d227855503ab847ed",
+        "cases": 127,
+        "runner_sha256": "b29a713f234a79dd457d7b00eb7eabb9de28447b3dcf7d4404b300256c92436c",
+        "actual_log_sha256": "a367a463c37c3f9ba608c11832370e33e8620e15e4415fc09a4045eebb4dbed3",
+        "actual_junit_sha256": "35e205691ae36ebfc83ae21461f445e8eaff2cd530e987cd7dd971bcb55ae5ac",
+        "failures_errors_skips": 0
+      },
+      {
+        "path": "docs/quality/evidence/release-layout-prefix-guard-focused-v3.json",
+        "sha256": "42792a6194e83b65b847621e4d394cf1a26e235808da526dfd8194520275379d",
+        "cases": 63,
+        "runner_sha256": "4c7507d1256edc088184692b4115ef6e8777b90872514e07e12d3773342af310",
+        "actual_log_sha256": "a0f671f9c8a9f496f4280a9e5523b95193e6bc1ef19d4c469bcb39403f6bf226",
+        "actual_junit_sha256": "8d0ece0b919a866151160141b24a263f68be9444c451c165872764ef5006ea16",
+        "failures_errors_skips": 0
+      }
+    ],
+    "corrected_foundation_bridge": {
+      "current_sha256": "524f08244ebd457e93b6fef1b40a2503f44b8b92d3680e03a72d60d88b6aaf8c",
+      "inverse_only_two_explicit_import_references_sha256": "3ad89cdc06078d3303369f434edec302a82b068229ce353aba90fdff13f14115",
+      "other_four_v2_files_match_current": true,
+      "assertions_monkeypatch_targets_unchanged": true
+    },
+    "evidence_interpretation": "Historical127 retains old foundation bytes; fresh63 complete foundation rerun covers corrected current bytes, not one current127-run or190 unique cases.",
+    "coverage": "15 cases: ordinary/empty/missing paths with one fresh guard each; real store/parent/target symlink+junction denial; arbitrary parts fallback; linked-store absolute escape denial; subclass denial-before-root/parts and alternate store; two unexpected metadata faults.",
+    "statics": {
+      "path": "docs/quality/evidence/release-layout-prefix-guard-static-v2.json",
+      "sha256": "6cb0a596aa8f7790327653b81bb898caf354e107fde83ae06f74baa7e2d3df56",
+      "checks": [
+        {
+          "name": "typing",
+          "exit_code": 0,
+          "log": ".tools\\research\\release-layout-prefix-guard-typing-v2.log",
+          "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+        },
+        {
+          "name": "lint",
+          "exit_code": 0,
+          "log": ".tools\\research\\release-layout-prefix-guard-lint-v2.log",
+          "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+        },
+        {
+          "name": "format",
+          "exit_code": 0,
+          "log": ".tools\\research\\release-layout-prefix-guard-format-v2.log",
+          "sha256": "0b82d5f0ddee3cd7c567e296e3fa87dceeffd23a0571e1e8f662a061c2e29a12"
+        }
+      ],
+      "actual_logs_verified": true,
+      "strict_source_files": 287,
+      "scope": "Three focused checks only"
+    }
+  },
+  "preserved_historical_dispositions": [
+    {
+      "path": "docs/quality/evidence/release-layout-prefix-guard-runner-error-v1.json",
+      "sha256": "29388dd725e4ab6bbacac84b149a13669afa7fd459e80ac2bfa3db5bb0d7e2bb"
+    },
+    {
+      "path": "docs/quality/evidence/release-layout-prefix-guard-typing-disposition-v1.json",
+      "sha256": "d9f5010f8b417e051e740b54f38921e36b3b06f754b30e9e9984df7e2059e524"
+    }
+  ],
+  "required_private_brain_validation": [
+    "Same-root exactly one refresh, public graph/context parity and full output IDs/ranks/budget",
+    "Two separate requests after HEAD/branch/dirty source changes stay fresh",
+    "Linked worktree differing HEAD/dirty context retains canonical entity graph and separate calls",
+    "Unrelated workspace/root/storage-link/corrupt manifest/graph denial",
+    "Missing and changed canonical project plus run/project mismatch fallback",
+    "Injected UOW/Git denial, MemoryService subclass and instance graph/context overrides",
+    "Query/budget validation and observed error operation preserved"
+  ],
+  "global_limit": "No browser/full86/all11preflight/installed artifact/two full rounds/current broad input freeze certification claimed."
+}

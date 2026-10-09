@@ -1,0 +1,602 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:54:27.145456+00:00",
+  "status": "FUNCTIONAL_PASS_OBSERVER_CREDIBILITY_FAIL_HISTORY_PERFORMANCE_REVIEW_UNRESOLVED",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "review_scope": "Bounded JSON/statistics/provenance and exactly50 reported application file hashes compared to recorded historical/current freezes. No tests/profiles/Git/page/reservation/fixture/dependency/full-source scan; no guarded edits.",
+  "actual_evidence_sha256": {
+    "release-history-resume-b-diagnostic-plan-v2.json": "4d06d0cbca9d5f3f6517e3c802caba36ca40e5ab6732e59511cbdad373f061a5",
+    "release-history-resume-b-diagnostic-result-v2.json": "f8f87e70a88e45a1785e80dbdc7c59f1ea445eb9d73fbf21bb22a106f738de97",
+    "release-history-resume-b-current-work-raw-v2.json": "5c1c0b7ae0c9e228bd47616766640d6c978d5e7474469317778f858468bba061",
+    "release-history-resume-b-current-work-v2.json": "4f5f1757a9ce3bcae6548397f413cf5b47a8d14056c8da75117e0a51ed7ddf3a",
+    "release-history-resume-b-host-work-v2.json": "8fd015d1103d0ff3254a6212865f0dd81d5652ca8de2c9cb717142f9dc580930",
+    "release-history-resume-b-setup-v2.json": "c5a14ce4bf3c75f2d0928b78b1876dc5ffbfff45d772662ade25e0b056e07907",
+    "release-history-resume-b-launch-ack-v2.json": "1a5ef6d1a808a9cd67c21b1ba065bc4997f324857cf9341c2f40c2b280f80a57",
+    "release-history-fixed-pair-current-light-v2.json": "8ee89f00fa6cffd252a8565a540eb700b7525b8996c21a999e9441d528092b84",
+    "release-history-fixed-pair-current-light-semantics-v2.json": "dc8860953ffd441b9973240ddca84b0d41b4473323335f42c5f4004dc7572ae8",
+    "release-history-fixed-pair-host-light-v2.json": "a14b80b97eea26b2f1fe6fb544ae8662b378928c8b4bfa2a1c37f7750d2153b7",
+    "release-history-fixed-pair-diagnostic-result-v2.json": "280c52ae40df14fcc090f1aade8a12c6cd3f6f5f39009b5a30d90a90e3b2b30c",
+    "release-history-websocket-1001-v1.json": "90d93c2952ba3735af3e913c39e28fb8616b54de4cbf14e4b8054205d5da8efe",
+    "release-history-readpath-1001-v1.json": "ac51a07ec713effcda1e9e7ee698ce155be79c38a28aa796e458ce11bbb90d53",
+    "release-input-freeze-readpath.json": "1fb60b6d87b2fd289b84e9c26fcf315089422578b092a9da132cbf541ae154a9",
+    "release-input-freeze-websocket-v1.json": "9f5025dc54032eb28756fb8618c087acfaa6a9cdaa8ff1d8d07b353f28e32e0f"
+  },
+  "bindings": {
+    "reported_source_files": 196,
+    "reported_release_inputs": 390,
+    "reported_protected_helpers": 18,
+    "full196_390_18_freshly_rehashed_by_this_reviewer": false,
+    "capture_runtime_guards_pass_recorded": true,
+    "plan_runner_retained_records_and_capture_provenance_rehashed": true,
+    "old_A_never_rebound": true,
+    "current_B_one_valid_workload": true,
+    "raw_A_sha256": "8ee89f00fa6cffd252a8565a540eb700b7525b8996c21a999e9441d528092b84",
+    "raw_B_sha256": "5c1c0b7ae0c9e228bd47616766640d6c978d5e7474469317778f858468bba061",
+    "plan_B_sha256": "4d06d0cbca9d5f3f6517e3c802caba36ca40e5ab6732e59511cbdad373f061a5"
+  },
+  "functional": {
+    "both_complete": true,
+    "rows": 1001,
+    "traversals_each": 3,
+    "page_size_declared_and_guarded": 100,
+    "pages_each": 33,
+    "canonical_sha256": "2f2688cf4aa2ceab4b74484df0ffd4df1c399a33f7491c94a471ca6fb264045f",
+    "exact_same_ordered_ids": true,
+    "valid_directories": 1001,
+    "orphan_valid_directories": 0,
+    "canonical_bytes": 569569,
+    "canonical_row_bytes_min_max": [
+      569,
+      569
+    ],
+    "seed_content_shape_exact_matched": true,
+    "both_unique_reservation_and_real_directory": true,
+    "seed_selected_counts": {
+      "seed:page|io.ensure_no_filesystem_links": {
+        "calls": 33330
+      },
+      "seed:page|io.read_json_object:manifest.yaml": {
+        "calls": 33
+      },
+      "seed:page|TaskCapsuleStore._capsule_directories": {
+        "calls": 33
+      },
+      "seed:page|io.read_json_object:task.yaml": {
+        "calls": 33033
+      },
+      "seed:page|TaskCapsuleStore._task_document": {
+        "calls": 33033
+      },
+      "seed:page|TaskCapsuleStore._index_entry": {
+        "calls": 33033
+      },
+      "seed:page|_ReentrantGate.acquire": {
+        "calls": 33
+      },
+      "seed:page|native_lock.try": {
+        "calls": 33
+      },
+      "seed:page|FileLock.acquire": {
+        "calls": 33
+      },
+      "seed:page|io.read_json_object:index.json": {
+        "calls": 33
+      },
+      "seed:page|_ReentrantGate.release": {
+        "calls": 33
+      },
+      "seed:page|FileLock.release": {
+        "calls": 33
+      },
+      "seed:page|TaskCapsuleStore.read_index": {
+        "calls": 33
+      },
+      "seed:page|TaskHistoryService.page": {
+        "calls": 33
+      }
+    },
+    "seed_page_git_calls_observed": 0,
+    "seed_page_atomic_write_json_calls_observed": 0,
+    "native_lock_false_returns_seed_page_observed": 0,
+    "counter_limit": "Selected profiler boundaries/real workload scope only, not exhaustive syscall counts or proof no hidden IO. Return event counters alone do not establish success; raw semantics do."
+  },
+  "statistics_all_anchors": {
+    "A_retained_original_light": {
+      "median_wall_ms": 334.3029000097886,
+      "p95_sorted_penultimate_wall_ms": 392.82639999873936,
+      "max_wall_ms": 485.7733999961056,
+      "median_process_cpu_ms": 312.5,
+      "sum_process_cpu_ms": 10453.125,
+      "sum_wall_ms": 11302.966100018239,
+      "max_lock_acquire_ms": 0.2373000024817884,
+      "reservation_ms": 35.22379999049008
+    },
+    "B_resumed_profile": {
+      "median_wall_ms": 2251.64840000798,
+      "p95_sorted_penultimate_wall_ms": 2700.773799995659,
+      "max_wall_ms": 2706.484399997862,
+      "median_process_cpu_ms": 2062.5,
+      "sum_process_cpu_ms": 69078.125,
+      "sum_wall_ms": 76007.70580008975,
+      "max_lock_acquire_ms": 0.922699982766062,
+      "reservation_ms": 291.35600000154227
+    },
+    "historical797_fast": {
+      "median_wall_ms": 194.8125000053551,
+      "p95_sorted_penultimate_wall_ms": 278.0429000267759,
+      "max_wall_ms": 360.77579998527654,
+      "median_process_cpu_ms": 187.5,
+      "sum_process_cpu_ms": 6562.5,
+      "sum_wall_ms": 6935.271199909039,
+      "max_lock_acquire_ms": 0.27459999546408653,
+      "reservation_ms": 29.97269999468699
+    },
+    "current_b2aa_v13": {
+      "median_wall_ms": 662.6857999945059,
+      "p95_sorted_penultimate_wall_ms": 1104.7178999870084,
+      "max_wall_ms": 1139.1978999890853,
+      "median_process_cpu_ms": 625.0,
+      "sum_process_cpu_ms": 21296.875,
+      "sum_wall_ms": 23348.03090011701,
+      "max_lock_acquire_ms": 0.8635999984107912,
+      "reservation_ms": 70.4805999994278
+    }
+  },
+  "observer_screen": {
+    "predeclared_rule": "B/A median wall OR median processCPU>1.2 invalidates quantitative B attribution. Diagnostic credibility screen, not product performance tolerance.",
+    "median_wall_ratio": 6.735354075426957,
+    "median_cpu_ratio": 6.6,
+    "both_exceed_20_percent": true,
+    "decision": "QUANTITATIVE_ATTRIBUTION_INVALID",
+    "no_subtraction_or_correction": "No per-function CPU/wall ranking, duration percentages, observer-overhead subtraction, B latency baseline, or claim profile explains v13 slowdown. Retain structural counts and raw durations only.",
+    "profile_or_A_repeat_recommended": false
+  },
+  "historical_loaded_code_equality": {
+    "old_source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+    "current_source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+    "modules": [
+      {
+        "module": "orqalis",
+        "file": "src/orqalis/__init__.py",
+        "actual_sha256": "ddfa769ecf57c09e4a1e84ccfad4ccd540de58f4959eb7ab27df7ba119fd1907",
+        "historical797_frozen_sha256": "ddfa769ecf57c09e4a1e84ccfad4ccd540de58f4959eb7ab27df7ba119fd1907",
+        "current_b2aa_frozen_sha256": "ddfa769ecf57c09e4a1e84ccfad4ccd540de58f4959eb7ab27df7ba119fd1907",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.context",
+        "file": "src/orqalis/context/__init__.py",
+        "actual_sha256": "03e1c0fe4fe09bf0a5b9fe0dad187dc20a91d663ba9a48e8dedf875ecff2b0c8",
+        "historical797_frozen_sha256": "03e1c0fe4fe09bf0a5b9fe0dad187dc20a91d663ba9a48e8dedf875ecff2b0c8",
+        "current_b2aa_frozen_sha256": "03e1c0fe4fe09bf0a5b9fe0dad187dc20a91d663ba9a48e8dedf875ecff2b0c8",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.context.models",
+        "file": "src/orqalis/context/models.py",
+        "actual_sha256": "0e072a4dbc1a4482df7cf59ea2e821ac88203669e4bdfe617f0b974a231d3b3a",
+        "historical797_frozen_sha256": "0e072a4dbc1a4482df7cf59ea2e821ac88203669e4bdfe617f0b974a231d3b3a",
+        "current_b2aa_frozen_sha256": "0e072a4dbc1a4482df7cf59ea2e821ac88203669e4bdfe617f0b974a231d3b3a",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.core",
+        "file": "src/orqalis/core/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "historical797_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "current_b2aa_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.core.state_machine",
+        "file": "src/orqalis/core/state_machine.py",
+        "actual_sha256": "47c4bbd4e790ed664ff494dd47b93120ed96107af1c2f94b564a1db717c9326c",
+        "historical797_frozen_sha256": "47c4bbd4e790ed664ff494dd47b93120ed96107af1c2f94b564a1db717c9326c",
+        "current_b2aa_frozen_sha256": "47c4bbd4e790ed664ff494dd47b93120ed96107af1c2f94b564a1db717c9326c",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain",
+        "file": "src/orqalis/domain/__init__.py",
+        "actual_sha256": "4f2ba004336f97618340c3f2a69d5931a11b14a977a31629f2c1e905e8c89fd4",
+        "historical797_frozen_sha256": "4f2ba004336f97618340c3f2a69d5931a11b14a977a31629f2c1e905e8c89fd4",
+        "current_b2aa_frozen_sha256": "4f2ba004336f97618340c3f2a69d5931a11b14a977a31629f2c1e905e8c89fd4",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.acceptance",
+        "file": "src/orqalis/domain/acceptance.py",
+        "actual_sha256": "b335d0289aad795cf4521ba1c24c2e2591ecb6ffd252b4c8b085b1ee561403e9",
+        "historical797_frozen_sha256": "b335d0289aad795cf4521ba1c24c2e2591ecb6ffd252b4c8b085b1ee561403e9",
+        "current_b2aa_frozen_sha256": "b335d0289aad795cf4521ba1c24c2e2591ecb6ffd252b4c8b085b1ee561403e9",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.agent",
+        "file": "src/orqalis/domain/agent.py",
+        "actual_sha256": "459320ae35d1987e8c4ee710807b24ae0d3caa714aba199c6492a0e4f95a59f9",
+        "historical797_frozen_sha256": "459320ae35d1987e8c4ee710807b24ae0d3caa714aba199c6492a0e4f95a59f9",
+        "current_b2aa_frozen_sha256": "459320ae35d1987e8c4ee710807b24ae0d3caa714aba199c6492a0e4f95a59f9",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.approval",
+        "file": "src/orqalis/domain/approval.py",
+        "actual_sha256": "f1f8f2621b8c8fcf529adecd0cfbf0b3cf8c4afab68def1968efa1f08e0ccae4",
+        "historical797_frozen_sha256": "f1f8f2621b8c8fcf529adecd0cfbf0b3cf8c4afab68def1968efa1f08e0ccae4",
+        "current_b2aa_frozen_sha256": "f1f8f2621b8c8fcf529adecd0cfbf0b3cf8c4afab68def1968efa1f08e0ccae4",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.artifact",
+        "file": "src/orqalis/domain/artifact.py",
+        "actual_sha256": "2ce8ef65b218116bc8617907b2a5061304ec191e4bf0aba9c05975ba465a64f6",
+        "historical797_frozen_sha256": "2ce8ef65b218116bc8617907b2a5061304ec191e4bf0aba9c05975ba465a64f6",
+        "current_b2aa_frozen_sha256": "2ce8ef65b218116bc8617907b2a5061304ec191e4bf0aba9c05975ba465a64f6",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.base",
+        "file": "src/orqalis/domain/base.py",
+        "actual_sha256": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+        "historical797_frozen_sha256": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+        "current_b2aa_frozen_sha256": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.capabilities",
+        "file": "src/orqalis/domain/capabilities.py",
+        "actual_sha256": "ba16c3cf90b58f11842ca4342e66dbbc17c2efabb94c2dab82d15e0889f9bfe3",
+        "historical797_frozen_sha256": "ba16c3cf90b58f11842ca4342e66dbbc17c2efabb94c2dab82d15e0889f9bfe3",
+        "current_b2aa_frozen_sha256": "ba16c3cf90b58f11842ca4342e66dbbc17c2efabb94c2dab82d15e0889f9bfe3",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.delivery",
+        "file": "src/orqalis/domain/delivery.py",
+        "actual_sha256": "bc315d1947954f5048b0ff4a4183f48611f82a387c00ca1fbd050d32c82b1610",
+        "historical797_frozen_sha256": "bc315d1947954f5048b0ff4a4183f48611f82a387c00ca1fbd050d32c82b1610",
+        "current_b2aa_frozen_sha256": "bc315d1947954f5048b0ff4a4183f48611f82a387c00ca1fbd050d32c82b1610",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.errors",
+        "file": "src/orqalis/domain/errors.py",
+        "actual_sha256": "7516c0972e9f1c2199aa7c94ec690731785c97e546aa1c53d8cfb332095c5723",
+        "historical797_frozen_sha256": "7516c0972e9f1c2199aa7c94ec690731785c97e546aa1c53d8cfb332095c5723",
+        "current_b2aa_frozen_sha256": "7516c0972e9f1c2199aa7c94ec690731785c97e546aa1c53d8cfb332095c5723",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.events",
+        "file": "src/orqalis/domain/events.py",
+        "actual_sha256": "6e0ba26b50c96ade002f093aefba5d8fbbcf0a69528b2bf1e0fd87c229a0a78c",
+        "historical797_frozen_sha256": "6e0ba26b50c96ade002f093aefba5d8fbbcf0a69528b2bf1e0fd87c229a0a78c",
+        "current_b2aa_frozen_sha256": "6e0ba26b50c96ade002f093aefba5d8fbbcf0a69528b2bf1e0fd87c229a0a78c",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.execution",
+        "file": "src/orqalis/domain/execution.py",
+        "actual_sha256": "ac31c9f95a83597765eea922c37f899590eb2a084a20c3ec106638f3bcea5de0",
+        "historical797_frozen_sha256": "ac31c9f95a83597765eea922c37f899590eb2a084a20c3ec106638f3bcea5de0",
+        "current_b2aa_frozen_sha256": "ac31c9f95a83597765eea922c37f899590eb2a084a20c3ec106638f3bcea5de0",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.memory",
+        "file": "src/orqalis/domain/memory.py",
+        "actual_sha256": "eb9a453e86985495bd2d6380ea29dcb7831a4eef4b9959fe23e792ec9e33caa8",
+        "historical797_frozen_sha256": "eb9a453e86985495bd2d6380ea29dcb7831a4eef4b9959fe23e792ec9e33caa8",
+        "current_b2aa_frozen_sha256": "eb9a453e86985495bd2d6380ea29dcb7831a4eef4b9959fe23e792ec9e33caa8",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.plan",
+        "file": "src/orqalis/domain/plan.py",
+        "actual_sha256": "ce2d76b03078469205a76737add8c357eaf7792cda55cd648d99fe527b0e2ca9",
+        "historical797_frozen_sha256": "ce2d76b03078469205a76737add8c357eaf7792cda55cd648d99fe527b0e2ca9",
+        "current_b2aa_frozen_sha256": "ce2d76b03078469205a76737add8c357eaf7792cda55cd648d99fe527b0e2ca9",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.project",
+        "file": "src/orqalis/domain/project.py",
+        "actual_sha256": "00953231832d52acb6952161be07fbc96637c5194fe114da1e2bc40368256ed4",
+        "historical797_frozen_sha256": "00953231832d52acb6952161be07fbc96637c5194fe114da1e2bc40368256ed4",
+        "current_b2aa_frozen_sha256": "00953231832d52acb6952161be07fbc96637c5194fe114da1e2bc40368256ed4",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.provider",
+        "file": "src/orqalis/domain/provider.py",
+        "actual_sha256": "880ac982716eb8378f4a19f699c242084b6c7336002960a3e0e02d42d3764f17",
+        "historical797_frozen_sha256": "880ac982716eb8378f4a19f699c242084b6c7336002960a3e0e02d42d3764f17",
+        "current_b2aa_frozen_sha256": "880ac982716eb8378f4a19f699c242084b6c7336002960a3e0e02d42d3764f17",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.run",
+        "file": "src/orqalis/domain/run.py",
+        "actual_sha256": "0845feb4d17365c6a9d55fac62c497163b7acf786af5fa87a50b0870295d9dce",
+        "historical797_frozen_sha256": "0845feb4d17365c6a9d55fac62c497163b7acf786af5fa87a50b0870295d9dce",
+        "current_b2aa_frozen_sha256": "0845feb4d17365c6a9d55fac62c497163b7acf786af5fa87a50b0870295d9dce",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.task",
+        "file": "src/orqalis/domain/task.py",
+        "actual_sha256": "b61914a487adde8444085cb867b39e75f30d230802e6109d48ea33152df2cbe3",
+        "historical797_frozen_sha256": "b61914a487adde8444085cb867b39e75f30d230802e6109d48ea33152df2cbe3",
+        "current_b2aa_frozen_sha256": "b61914a487adde8444085cb867b39e75f30d230802e6109d48ea33152df2cbe3",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.domain.timing",
+        "file": "src/orqalis/domain/timing.py",
+        "actual_sha256": "3f2acde63b9e9170107662df2ee6cd95594f8b2630abd19e632fe4092accaa54",
+        "historical797_frozen_sha256": "3f2acde63b9e9170107662df2ee6cd95594f8b2630abd19e632fe4092accaa54",
+        "current_b2aa_frozen_sha256": "3f2acde63b9e9170107662df2ee6cd95594f8b2630abd19e632fe4092accaa54",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.git",
+        "file": "src/orqalis/git/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "historical797_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "current_b2aa_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.git.contracts",
+        "file": "src/orqalis/git/contracts.py",
+        "actual_sha256": "f4c53eb93505546351e31c6ef86fb378e611a053341cb000b7a34dc6573688c8",
+        "historical797_frozen_sha256": "f4c53eb93505546351e31c6ef86fb378e611a053341cb000b7a34dc6573688c8",
+        "current_b2aa_frozen_sha256": "f4c53eb93505546351e31c6ef86fb378e611a053341cb000b7a34dc6573688c8",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.git.service",
+        "file": "src/orqalis/git/service.py",
+        "actual_sha256": "52aa961b5ebb93717e56636713eb7a4fc875dd0ebf794bee046cba44902e2409",
+        "historical797_frozen_sha256": "52aa961b5ebb93717e56636713eb7a4fc875dd0ebf794bee046cba44902e2409",
+        "current_b2aa_frozen_sha256": "52aa961b5ebb93717e56636713eb7a4fc875dd0ebf794bee046cba44902e2409",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.graph",
+        "file": "src/orqalis/graph/__init__.py",
+        "actual_sha256": "aa067e3ff2baf4056cbb5252e293f7b310cb1035ded4012541ebbd6bf94e27ec",
+        "historical797_frozen_sha256": "aa067e3ff2baf4056cbb5252e293f7b310cb1035ded4012541ebbd6bf94e27ec",
+        "current_b2aa_frozen_sha256": "aa067e3ff2baf4056cbb5252e293f7b310cb1035ded4012541ebbd6bf94e27ec",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.graph.ecmascript",
+        "file": "src/orqalis/graph/ecmascript.py",
+        "actual_sha256": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+        "historical797_frozen_sha256": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+        "current_b2aa_frozen_sha256": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.graph.engine",
+        "file": "src/orqalis/graph/engine.py",
+        "actual_sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+        "historical797_frozen_sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+        "current_b2aa_frozen_sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.graph.models",
+        "file": "src/orqalis/graph/models.py",
+        "actual_sha256": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+        "historical797_frozen_sha256": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+        "current_b2aa_frozen_sha256": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.graph.parsing",
+        "file": "src/orqalis/graph/parsing.py",
+        "actual_sha256": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+        "historical797_frozen_sha256": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+        "current_b2aa_frozen_sha256": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.memory",
+        "file": "src/orqalis/memory/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "historical797_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "current_b2aa_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.memory.curated",
+        "file": "src/orqalis/memory/curated.py",
+        "actual_sha256": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+        "historical797_frozen_sha256": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+        "current_b2aa_frozen_sha256": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.memory.navigation",
+        "file": "src/orqalis/memory/navigation.py",
+        "actual_sha256": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+        "historical797_frozen_sha256": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+        "current_b2aa_frozen_sha256": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.observability",
+        "file": "src/orqalis/observability/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "historical797_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "current_b2aa_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.observability.event_bus",
+        "file": "src/orqalis/observability/event_bus.py",
+        "actual_sha256": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+        "historical797_frozen_sha256": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+        "current_b2aa_frozen_sha256": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence",
+        "file": "src/orqalis/persistence/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "historical797_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "current_b2aa_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem",
+        "file": "src/orqalis/persistence/filesystem/__init__.py",
+        "actual_sha256": "170258c4a382272c00a4c1a1a61aa51a8f1329203a3a40626078517650bf5557",
+        "historical797_frozen_sha256": "170258c4a382272c00a4c1a1a61aa51a8f1329203a3a40626078517650bf5557",
+        "current_b2aa_frozen_sha256": "170258c4a382272c00a4c1a1a61aa51a8f1329203a3a40626078517650bf5557",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.auxiliary_stores",
+        "file": "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+        "actual_sha256": "8433e0f801cf77e9bac3d8c80a9d83131049929f5d221910175d8d8b49d71f50",
+        "historical797_frozen_sha256": "8433e0f801cf77e9bac3d8c80a9d83131049929f5d221910175d8d8b49d71f50",
+        "current_b2aa_frozen_sha256": "8433e0f801cf77e9bac3d8c80a9d83131049929f5d221910175d8d8b49d71f50",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.io",
+        "file": "src/orqalis/persistence/filesystem/io.py",
+        "actual_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+        "historical797_frozen_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+        "current_b2aa_frozen_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.layout",
+        "file": "src/orqalis/persistence/filesystem/layout.py",
+        "actual_sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+        "historical797_frozen_sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+        "current_b2aa_frozen_sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.locking",
+        "file": "src/orqalis/persistence/filesystem/locking.py",
+        "actual_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+        "historical797_frozen_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+        "current_b2aa_frozen_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.memory_store",
+        "file": "src/orqalis/persistence/filesystem/memory_store.py",
+        "actual_sha256": "420b0fc8ce46592a176131c8af66648a9271f8283a833ea3b22245a4bba8004c",
+        "historical797_frozen_sha256": "420b0fc8ce46592a176131c8af66648a9271f8283a833ea3b22245a4bba8004c",
+        "current_b2aa_frozen_sha256": "420b0fc8ce46592a176131c8af66648a9271f8283a833ea3b22245a4bba8004c",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.task_store",
+        "file": "src/orqalis/persistence/filesystem/task_store.py",
+        "actual_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+        "historical797_frozen_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+        "current_b2aa_frozen_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.unit_of_work",
+        "file": "src/orqalis/persistence/filesystem/unit_of_work.py",
+        "actual_sha256": "45436869a92b142b2f0fa3fa98d11bc336085b13e8710d9bb8c3e28a942319d8",
+        "historical797_frozen_sha256": "45436869a92b142b2f0fa3fa98d11bc336085b13e8710d9bb8c3e28a942319d8",
+        "current_b2aa_frozen_sha256": "45436869a92b142b2f0fa3fa98d11bc336085b13e8710d9bb8c3e28a942319d8",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.retrieval",
+        "file": "src/orqalis/retrieval.py",
+        "actual_sha256": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+        "historical797_frozen_sha256": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+        "current_b2aa_frozen_sha256": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.security",
+        "file": "src/orqalis/security/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "historical797_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "current_b2aa_frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.security.redaction",
+        "file": "src/orqalis/security/redaction.py",
+        "actual_sha256": "f0f3324097898199e0f48819ce58d174e477f4b3ac2956d5f9518b6e35a335f4",
+        "historical797_frozen_sha256": "f0f3324097898199e0f48819ce58d174e477f4b3ac2956d5f9518b6e35a335f4",
+        "current_b2aa_frozen_sha256": "f0f3324097898199e0f48819ce58d174e477f4b3ac2956d5f9518b6e35a335f4",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.tasks",
+        "file": "src/orqalis/tasks/__init__.py",
+        "actual_sha256": "03ef63eb07904b72e16cde2658deb96bf29ad204c57a9748cbd6056a6e916e7a",
+        "historical797_frozen_sha256": "03ef63eb07904b72e16cde2658deb96bf29ad204c57a9748cbd6056a6e916e7a",
+        "current_b2aa_frozen_sha256": "03ef63eb07904b72e16cde2658deb96bf29ad204c57a9748cbd6056a6e916e7a",
+        "exact_equal": true
+      },
+      {
+        "module": "orqalis.tasks.history",
+        "file": "src/orqalis/tasks/history.py",
+        "actual_sha256": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "historical797_frozen_sha256": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "current_b2aa_frozen_sha256": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "exact_equal": true
+      }
+    ],
+    "reported_module_count": 50,
+    "unique_files": 50,
+    "all_actual_bytes_equal_both_freeze_records": true,
+    "api_app_loaded": false,
+    "meaning": "Strengthens proof that these actually reported loaded application modules were byte-identical to recorded797 modules. Does not reconstruct historical full environment/source, prove every unreported native/lazy code path equal, establish host quietness, or explain CPU variation."
+  },
+  "host": {
+    "A_busy_fraction": 0.4185255825524504,
+    "B_busy_fraction": 0.33083370092633435,
+    "A_memory_load_start_end": [
+      91,
+      92
+    ],
+    "B_memory_load_start_end": [
+      83,
+      84
+    ],
+    "gap_A_end_to_B_start_seconds": 664.242702,
+    "interpretation": "Intervening setup failures and elapsed gap; fixed order/cache/host context differs. Boundary CPU includes our process and memory is host availability, not RSS/peak. No external IO/AV/paging/scheduler or denial causation proven."
+  },
+  "retained_failures": {
+    "original_pair": "B AttributeError common_dir before profile/workload; failed pair/logs unchanged.",
+    "resume_v1": "Tuple-versus-persisted-list fixture shape mismatch before setup/child/profile; failed disposition unchanged.",
+    "execution16": "Original fatal replacement denial still unresolved; separate two observed session/artifact Win5 denials not attributed.",
+    "historical_tails": "Original17.46s and prior23.4s tails preserved; lower A does not waive them."
+  },
+  "supported_use_cost_disposition": {
+    "functional_scaling": "Confirmed exact1001-row/page100/3-traversal functionality and concurrent reservation for this fixed569-byte canonical row shape. Each page intentionally performs1001 canonical validations:33,033 across33 pages; existing algorithm loaded files match historical797. This is supported-use work structure, not page-size-only complexity or an optimized-index bypass.",
+    "unprofiled_costs": "Retain historical194.8125ms, current v13 662.6858ms and later A334.3029ms medians with all maxima/CPU/reservation costs; do not select A as replacement or only compare historical worst tails.",
+    "variation": {
+      "A_vs_fast_median_ratio": 1.7160238691079837,
+      "current_v13_vs_fast_median_ratio": 3.401659544312042
+    },
+    "separate_bounded_acceptance_possible": "A separate explicit product cost disposition may describe this exact functional scope and observed unprofiled costs with no universal SLO/RSS/tail claim. It cannot be inferred from source equality or profiling data and would not explain/close the retained material CPU/latency variation. No such performance acceptance is granted by this review.",
+    "remaining": "HISTORY_PERFORMANCE_REVIEW_UNRESOLVED remains. No concrete new source regression or safe necessary source optimization proven by this observer-sensitive diagnostic; do not repeat profiler until cheaper. Execution release blocker and required full qualification remain independent."
+  },
+  "release_credit": {
+    "iterations_completed_by_diagnostic": 0,
+    "convergence_or_P1_closure": false,
+    "release_ready": false,
+    "publication_or_main_commit": false
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "status": "DIAGNOSTIC_PASSED_CAUSE_UNPROVEN_PROSPECTIVE_TEST_CONTRACT_CORRECTION_JUSTIFIED",
+  "reviewed_at_utc": "2026-10-03T14:24:07.357941+00:00",
+  "reviewer": "independent_release_quality_review",
+  "scope": "Read-only actual diagnostic/provenance review and prospective test-only design. No workload, source/test/helper/dependency edit or prior capture rewrite. One new review written.",
+  "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "release_input_sha256": "a6aab317af7c9cb41f8eb2742c58752a732299ce814e3d88520f1d734a2aca4a",
+  "artifact_sha256": {
+    "docs/quality/evidence/release-hard-crash-branch-diagnostic-v1.json": "a16af5ad2104e4c70a4b88f2a60a204a8fbf8d42602167c8f1f52e48071bc5cc",
+    "docs/quality/evidence/release-hard-crash-branch-diagnostic-v1.xml": "0f82128b05c89faa6ef3c21bb6645d145f3568e991ec202560f40760d449fe25",
+    "docs/quality/evidence/release-hard-crash-branch-diagnostic-plan-v1.json": "f77ce41829f3e11e53b62da1efc843bae02e98368f2f3b2edc3fdde3cc2ef13c",
+    ".tools/research/diagnose_hard_crash_release_v1.py": "fbcc1820ca111cfe1b1df9744d61afe473875b4b263baf362e250edfcda272a9",
+    "tests/integration/test_hard_crash_matrix.py": "60a052b0394f7dffb0595fbf706fefda3d74545f80c03611779fd1abd1a1a348",
+    "docs/quality/evidence/full-regression-release-10.json": "398519ca48661fb36522a7150e35c4ae970cbf0262c66a665b9388f418bae963",
+    "docs/quality/evidence/full-regression-release-10.xml": "a49936539fff1f3daecbcc763f5962a8693a333a023b5b158622dec6e4e468ec",
+    ".tools/research/full-regression-release-10.log": "a291f0bb9c71120c9a3e54cacc406b4e5e80e803d71ea7ccbedccdbfe36b16a0",
+    "src/orqalis/persistence/filesystem/locking.py": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+    "src/orqalis/persistence/filesystem/task_store.py": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+    "tests/support/crash_worker.py": "c5220b29f130c006a9885febbf53d638b97c4f5f37747d6274573d794c270607",
+    "docs/quality/evidence/release-input-freeze-readpath.json": "1fb60b6d87b2fd289b84e9c26fcf315089422578b092a9da132cbf541ae154a9",
+    ".tools/research/release-hard-crash-branch-diagnostic-v1.log": "786ea9d3f982bc0ece50b7cde46c782d4399f380c22de24b731cb3007290ac7f"
+  },
+  "actual_diagnostic": {
+    "tests": 1,
+    "passed": 1,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "pytest_exit_code": 0,
+    "suite_seconds": 100.536,
+    "observations": 62,
+    "observation_counts": {
+      "file_acquire_before": 9,
+      "gate_result": 9,
+      "native_result": 9,
+      "file_acquire_after": 9,
+      "try_run_lock": 9,
+      "child_kill": 8,
+      "child_wait": 9
+    },
+    "native_errors": 0,
+    "failed_immediate_controller_probes": 0,
+    "post_failure_probe_executed": false,
+    "source_test_wrapper_environment_stable": true,
+    "limit": "Instrumentation did not reproduce the original false lease probe; it can perturb race timing. Successful attempts include local/preparatory ownership calls, not nine independent crash-release trials. No full-suite equivalence, denial cause or product immunity is established."
+  },
+  "original_failure": {
+    "capture": "full-regression-release-10.json",
+    "tests_executed": 38,
+    "passes": 37,
+    "failures": 1,
+    "skips": 0,
+    "total_collected_reported_by_parent": 885,
+    "assertion": "Dead controller retained its lease after repair barrier",
+    "preserved": true,
+    "reclassified_or_waived": false,
+    "cause": "Unproven: original evidence does not distinguish parent owner registry, FIFO gate or native lock denial. No product leak confirmed and no external/antivirus cause proven."
+  },
+  "authoritative_contract": {
+    "source": "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfileex",
+    "source_kind": "Primary Microsoft documentation, independently read",
+    "claim": "The OS unlocks byte ranges on process termination/handle close; completion delay depends on available resources and access may remain denied until release.",
+    "implication": "Immediate nonblocking acquisition following process.wait is a stronger test assumption than documented native eventual release.",
+    "limit": "Documentation justifies reviewing the assertion contract independently; it does not diagnose this failed candidate capture or map its unrecorded rejection branch."
+  },
+  "prospective_design": {
+    "legitimate_test_contract_correction": true,
+    "conditional_scope": "Only hard-crash integration test/helper assertions; no application locking/API behavior, frozen86/gold evaluator, worker workload or timeout widening.",
+    "exact_steps": [
+      "At every noncomplete persisted crash barrier, confirm child remains alive and prove another fresh UoW cannot acquire its controller lease; check child is still alive before terminating.",
+      "Record absolute termination_deadline=time.monotonic()+30 immediately before first process.kill. Do not reset it on cleanup kill.",
+      "Use process.wait(timeout=remaining_positive_time) against the same deadline; no independent new30s wait allowance.",
+      "After process exit, attempt fresh UoW timeout0 controller acquisition only while original remaining budget is positive. On false, close failed UoW normally and sleep at most min(original20ms polling interval,remaining); retry only as a bounded test observation of eventual OS release.",
+      "Accept acquisition only if the call and context cleanup complete before the same deadline. Record elapsed postkill observation; never accept a late result merely because probe started before deadline.",
+      "Fail persistent contention, wait expiry, ownership/exclusion failure or unexpected exception. Keep all subsequent exact state/event-prefix/effect-deduplication/delivery/recovery assertions unchanged.",
+      "Complete phase retains original successful process exit behavior; no extra controller polling needed."
+    ],
+    "test_helpers": "Prefer a small test-only callback/helper using the existing factory/run_id with fresh UoW per probe, so the exact original long controller lease API remains the subject. No registry clearing, lockfile deletion, native-only bypass or success from a different run/path.",
+    "budget": "Original180s child barrier budget remains untouched. Postkill wait and release observation share original30s budget; borrowing180s or adding30s release wait is rejected.",
+    "counterexamples_required": [
+      "A live controller incorrectly allowing another owner makes the test fail before kill.",
+      "A native release delayed after exit succeeds only inside remaining original deadline and still uses real controller API.",
+      "A controller lock never released fails at deadline, not pass after repeated label/rerun.",
+      "Process wait consuming nearly/all30s leaves only remaining/zero probe allowance; overall release observation cannot become wait30s+poll30s.",
+      "A successful lock attempt completing after deadline fails and releases the acquired lease; original state/effect/history assertions cannot be skipped.",
+      "Unexpected acquire/release errors remain visible; no swallowed ownership or corruption errors."
+    ],
+    "description_required": "Call this a prospective platform-aware test contract correction, not proof the original failure was OS delay or a repaired product regression."
+  },
+  "validation_required_after_change": {
+    "new_390_input_freeze": true,
+    "production_source_hash_scope": "Hard-crash test belongs to390 release input paths, not196 production source fingerprint; production source may correctly remain797 while input/test aggregate changes. Preserve priorfreeze and create fresh source/input/helper linkage.",
+    "targeted_checks": "Validate unchanged runtime locking/exclusion plus new helper deadline/live-owner/persistent-contention counterexamples and original full hard-crash matrix.",
+    "static": "Appropriate lint/format/types checks for changed test/helper scope and binding verification.",
+    "full_regression": "Fresh complete current Python suite, not partial38tests or this isolated PASS. Require two genuinely complete consecutive candidate audit/regression rounds with current test/input freeze and all other release gates.",
+    "frozen_contract_and_baseline_scope": "Baseline, golden evaluator and frozen86 source/test/helper/environment identities remain unchanged; any reuse must retain exact original identity proof and honest execution provenance, not rewrite raw reports.",
+    "artifact_docs": "Final docs/artifact revalidation/repack remains required where prose or packaged contents change."
+  },
+  "release_limits": {
+    "complete_accepted_full_rounds": 0,
+    "required": 2,
+    "new12_13_unrun_suspended": true,
+    "original_full10_failure_fixed_claimed": false,
+    "candidate_source_certified": false,
+    "p1_closure_claimed": false,
+    "release_certified": false,
+    "main_commit_or_publication": false
+  }
+}

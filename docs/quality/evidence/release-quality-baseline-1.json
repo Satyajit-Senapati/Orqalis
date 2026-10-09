@@ -1,0 +1,4589 @@
+{
+  "schema_version": 2,
+  "label": "release-baseline-1",
+  "observed_at": "2026-10-02T11:15:09Z",
+  "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "source_inventory": [
+    "pyproject.toml",
+    "src/orqalis/__init__.py",
+    "src/orqalis/__main__.py",
+    "src/orqalis/agents/__init__.py",
+    "src/orqalis/agents/roles.py",
+    "src/orqalis/agents/routing.py",
+    "src/orqalis/agents/service.py",
+    "src/orqalis/api/__init__.py",
+    "src/orqalis/api/app.py",
+    "src/orqalis/api/contracts.py",
+    "src/orqalis/api/hosting.py",
+    "src/orqalis/api/scope.py",
+    "src/orqalis/bootstrap.py",
+    "src/orqalis/cli/__init__.py",
+    "src/orqalis/cli/app.py",
+    "src/orqalis/cli/catalog.py",
+    "src/orqalis/cli/control.py",
+    "src/orqalis/cli/dependencies.py",
+    "src/orqalis/cli/goals.py",
+    "src/orqalis/cli/memory.py",
+    "src/orqalis/cli/runs.py",
+    "src/orqalis/cli/tasks.py",
+    "src/orqalis/config/__init__.py",
+    "src/orqalis/config/settings.py",
+    "src/orqalis/context/__init__.py",
+    "src/orqalis/context/agent.py",
+    "src/orqalis/context/builder.py",
+    "src/orqalis/context/models.py",
+    "src/orqalis/context/service.py",
+    "src/orqalis/core/__init__.py",
+    "src/orqalis/core/approval_guard.py",
+    "src/orqalis/core/approval_subjects.py",
+    "src/orqalis/core/approvals.py",
+    "src/orqalis/core/delivery.py",
+    "src/orqalis/core/delivery_plan.py",
+    "src/orqalis/core/executor.py",
+    "src/orqalis/core/external.py",
+    "src/orqalis/core/goals.py",
+    "src/orqalis/core/orchestrator.py",
+    "src/orqalis/core/phases.py",
+    "src/orqalis/core/plan_draft.py",
+    "src/orqalis/core/plan_preview.py",
+    "src/orqalis/core/plan_revision.py",
+    "src/orqalis/core/planning.py",
+    "src/orqalis/core/ports.py",
+    "src/orqalis/core/preview_revision.py",
+    "src/orqalis/core/projects.py",
+    "src/orqalis/core/recovery.py",
+    "src/orqalis/core/repair.py",
+    "src/orqalis/core/replanning.py",
+    "src/orqalis/core/requirements.py",
+    "src/orqalis/core/runtime_support.py",
+    "src/orqalis/core/scheduler.py",
+    "src/orqalis/core/state_machine.py",
+    "src/orqalis/core/task_runtime.py",
+    "src/orqalis/core/vertical_plan.py",
+    "src/orqalis/delivery/__init__.py",
+    "src/orqalis/delivery/commits.py",
+    "src/orqalis/delivery/documentation.py",
+    "src/orqalis/delivery/gates.py",
+    "src/orqalis/delivery/guardian.py",
+    "src/orqalis/delivery/inspection.py",
+    "src/orqalis/delivery/validation.py",
+    "src/orqalis/diagnostics.py",
+    "src/orqalis/domain/__init__.py",
+    "src/orqalis/domain/acceptance.py",
+    "src/orqalis/domain/agent.py",
+    "src/orqalis/domain/approval.py",
+    "src/orqalis/domain/artifact.py",
+    "src/orqalis/domain/base.py",
+    "src/orqalis/domain/capabilities.py",
+    "src/orqalis/domain/delivery.py",
+    "src/orqalis/domain/errors.py",
+    "src/orqalis/domain/events.py",
+    "src/orqalis/domain/execution.py",
+    "src/orqalis/domain/external.py",
+    "src/orqalis/domain/memory.py",
+    "src/orqalis/domain/plan.py",
+    "src/orqalis/domain/project.py",
+    "src/orqalis/domain/projections.py",
+    "src/orqalis/domain/provider.py",
+    "src/orqalis/domain/run.py",
+    "src/orqalis/domain/task.py",
+    "src/orqalis/domain/telemetry.py",
+    "src/orqalis/domain/timing.py",
+    "src/orqalis/evaluation/__init__.py",
+    "src/orqalis/evaluation/ports.py",
+    "src/orqalis/evaluation/validators.py",
+    "src/orqalis/execution/__init__.py",
+    "src/orqalis/execution/artifacts.py",
+    "src/orqalis/execution/cancellation.py",
+    "src/orqalis/execution/commands.py",
+    "src/orqalis/execution/evaluator.py",
+    "src/orqalis/execution/filesystem.py",
+    "src/orqalis/execution/finding_review.py",
+    "src/orqalis/execution/review.py",
+    "src/orqalis/execution/tool_definitions.py",
+    "src/orqalis/execution/tools.py",
+    "src/orqalis/execution/windows_job.py",
+    "src/orqalis/execution/worker.py",
+    "src/orqalis/execution/workspaces.py",
+    "src/orqalis/git/__init__.py",
+    "src/orqalis/git/contracts.py",
+    "src/orqalis/git/delivery.py",
+    "src/orqalis/git/inspection.py",
+    "src/orqalis/git/service.py",
+    "src/orqalis/graph/__init__.py",
+    "src/orqalis/graph/engine.py",
+    "src/orqalis/graph/models.py",
+    "src/orqalis/indexing/__init__.py",
+    "src/orqalis/indexing/models.py",
+    "src/orqalis/indexing/service.py",
+    "src/orqalis/mcp/__init__.py",
+    "src/orqalis/mcp/policy.py",
+    "src/orqalis/mcp/server.py",
+    "src/orqalis/memory/__init__.py",
+    "src/orqalis/memory/brain.py",
+    "src/orqalis/memory/curated.py",
+    "src/orqalis/memory/curation.py",
+    "src/orqalis/memory/indexing.py",
+    "src/orqalis/memory/ports.py",
+    "src/orqalis/memory/service.py",
+    "src/orqalis/observability/__init__.py",
+    "src/orqalis/observability/activity.py",
+    "src/orqalis/observability/analytics.py",
+    "src/orqalis/observability/event_bus.py",
+    "src/orqalis/observability/instrumentation.py",
+    "src/orqalis/observability/logging.py",
+    "src/orqalis/observability/projections.py",
+    "src/orqalis/observability/timing.py",
+    "src/orqalis/persistence/__init__.py",
+    "src/orqalis/persistence/approval_ports.py",
+    "src/orqalis/persistence/contracts.py",
+    "src/orqalis/persistence/delivery_ports.py",
+    "src/orqalis/persistence/event_ports.py",
+    "src/orqalis/persistence/execution_ports.py",
+    "src/orqalis/persistence/filesystem/__init__.py",
+    "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+    "src/orqalis/persistence/filesystem/io.py",
+    "src/orqalis/persistence/filesystem/layout.py",
+    "src/orqalis/persistence/filesystem/locking.py",
+    "src/orqalis/persistence/filesystem/memory_store.py",
+    "src/orqalis/persistence/filesystem/task_store.py",
+    "src/orqalis/persistence/filesystem/unit_of_work.py",
+    "src/orqalis/persistence/ports.py",
+    "src/orqalis/persistence/provider_ports.py",
+    "src/orqalis/persistence/run_ports.py",
+    "src/orqalis/persistence/runtime_ports.py",
+    "src/orqalis/providers/__init__.py",
+    "src/orqalis/providers/anthropic.py",
+    "src/orqalis/providers/anthropic_schema.py",
+    "src/orqalis/providers/configuration.py",
+    "src/orqalis/providers/errors.py",
+    "src/orqalis/providers/external_cli.py",
+    "src/orqalis/providers/fake.py",
+    "src/orqalis/providers/openai.py",
+    "src/orqalis/providers/openai_schema.py",
+    "src/orqalis/providers/ports.py",
+    "src/orqalis/providers/validation.py",
+    "src/orqalis/py.typed",
+    "src/orqalis/sdk.py",
+    "src/orqalis/security/__init__.py",
+    "src/orqalis/security/redaction.py",
+    "src/orqalis/skills/__init__.py",
+    "src/orqalis/skills/bundled/database-edit/instructions.md",
+    "src/orqalis/skills/bundled/database-edit/skill.toml",
+    "src/orqalis/skills/bundled/documentation-edit/instructions.md",
+    "src/orqalis/skills/bundled/documentation-edit/skill.toml",
+    "src/orqalis/skills/bundled/evidence-review/instructions.md",
+    "src/orqalis/skills/bundled/evidence-review/skill.toml",
+    "src/orqalis/skills/bundled/javascript-edit/instructions.md",
+    "src/orqalis/skills/bundled/javascript-edit/skill.toml",
+    "src/orqalis/skills/bundled/python-edit/instructions.md",
+    "src/orqalis/skills/bundled/python-edit/skill.toml",
+    "src/orqalis/skills/bundled/python-test/instructions.md",
+    "src/orqalis/skills/bundled/python-test/skill.toml",
+    "src/orqalis/skills/bundled/react-edit/instructions.md",
+    "src/orqalis/skills/bundled/react-edit/skill.toml",
+    "src/orqalis/skills/bundled/typescript-edit/instructions.md",
+    "src/orqalis/skills/bundled/typescript-edit/skill.toml",
+    "src/orqalis/skills/registry.py",
+    "src/orqalis/tasks/__init__.py",
+    "src/orqalis/tasks/history.py",
+    "src/orqalis/workspace/__init__.py",
+    "src/orqalis/workspace/manager.py",
+    "uv.lock"
+  ],
+  "benchmark_script_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+  "source_module": "S:\\Orqalis\\.tools\\research\\baseline-b8506f7\\src\\orqalis\\__init__.py",
+  "fixture_revision": "b8506f7d9c471516fe4b21c9caa735a7a7909af6",
+  "dataset_sha256": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+  "dataset_manifest": {
+    "schema_version": 1,
+    "fixture_revision": "b8506f7d9c471516fe4b21c9caa735a7a7909af6",
+    "context_budget_chars": 6000,
+    "retrieval_k": 5,
+    "fixture_paths": [
+      "README.md",
+      "docs/01-system-architecture.md",
+      "docs/02-agent-and-skill-model.md",
+      "docs/03-project-memory.md",
+      "docs/07-data-model-and-observability.md",
+      "src/orqalis/execution/evaluator.py",
+      "src/orqalis/context/builder.py",
+      "src/orqalis/core/orchestrator.py",
+      "src/orqalis/core/repair.py",
+      "src/orqalis/core/scheduler.py",
+      "src/orqalis/core/vertical_plan.py",
+      "src/orqalis/domain/capabilities.py",
+      "src/orqalis/domain/events.py",
+      "src/orqalis/domain/execution.py",
+      "src/orqalis/domain/provider.py",
+      "src/orqalis/domain/task.py",
+      "src/orqalis/execution/commands.py",
+      "src/orqalis/execution/worker.py",
+      "src/orqalis/git/service.py",
+      "src/orqalis/graph/engine.py",
+      "src/orqalis/indexing/service.py",
+      "src/orqalis/mcp/server.py",
+      "src/orqalis/memory/curated.py",
+      "src/orqalis/observability/analytics.py",
+      "src/orqalis/persistence/filesystem/io.py",
+      "src/orqalis/agents/service.py",
+      "src/orqalis/delivery/guardian.py",
+      "src/orqalis/skills/registry.py",
+      "web/src/MetricsView.tsx",
+      "web/src/types.ts"
+    ],
+    "cases": [
+      {
+        "id": "bug-fix",
+        "category": "small bug fix",
+        "query": "tokenize project index search identifiers",
+        "relevant_paths": [
+          "src/orqalis/indexing/service.py"
+        ],
+        "scope": [
+          "src/orqalis/indexing/service.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/unit/test_project_index.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "refactor",
+        "category": "cross-module refactor",
+        "query": "provider request response execution worker",
+        "relevant_paths": [
+          "src/orqalis/agents/service.py",
+          "src/orqalis/execution/worker.py"
+        ],
+        "scope": [
+          "src/orqalis/agents/service.py",
+          "src/orqalis/execution/worker.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/integration/test_executor.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "frontend",
+        "category": "frontend change",
+        "query": "MetricsView duration statistics telemetry",
+        "relevant_paths": [
+          "web/src/MetricsView.tsx",
+          "web/src/types.ts"
+        ],
+        "scope": [
+          "web/src/MetricsView.tsx",
+          "web/src/types.ts"
+        ],
+        "expected_capabilities": [
+          "typescript",
+          "react"
+        ],
+        "contract_tests": [
+          "tests/integration/test_stack_fixtures.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "backend",
+        "category": "backend change",
+        "query": "MCP create task project root policy",
+        "relevant_paths": [
+          "src/orqalis/mcp/server.py"
+        ],
+        "scope": [
+          "src/orqalis/mcp/server.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/integration/test_mcp.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "architecture",
+        "category": "architecture change",
+        "query": "atomic snapshot filesystem transaction recovery",
+        "relevant_paths": [
+          "src/orqalis/persistence/filesystem/io.py",
+          "docs/07-data-model-and-observability.md"
+        ],
+        "scope": [
+          "src/orqalis/persistence/filesystem/io.py",
+          "docs/07-data-model-and-observability.md"
+        ],
+        "expected_capabilities": [
+          "python",
+          "database",
+          "documentation"
+        ],
+        "contract_tests": [
+          "tests/integration/test_runtime.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "test-failure",
+        "category": "test failure",
+        "query": "WorkspaceEvaluator validation evidence criterion",
+        "relevant_paths": [
+          "src/orqalis/execution/evaluator.py"
+        ],
+        "scope": [
+          "src/orqalis/execution/evaluator.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/integration/test_external_findings.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "git-conflict",
+        "category": "Git conflict",
+        "query": "worktree delivery commit base conflict",
+        "relevant_paths": [
+          "src/orqalis/git/service.py"
+        ],
+        "scope": [
+          "src/orqalis/git/service.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/unit/test_git.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "documentation",
+        "category": "documentation-only task",
+        "query": "Skill Registry capabilities permissions provider",
+        "relevant_paths": [
+          "docs/02-agent-and-skill-model.md"
+        ],
+        "scope": [
+          "docs/02-agent-and-skill-model.md"
+        ],
+        "expected_capabilities": [
+          "documentation"
+        ],
+        "contract_tests": [
+          "tests/integration/test_external_skill_selection.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "memory",
+        "category": "project-memory lookup",
+        "query": "curated memory proposal provenance freshness",
+        "relevant_paths": [
+          "src/orqalis/memory/curated.py",
+          "docs/03-project-memory.md"
+        ],
+        "scope": [
+          "src/orqalis/memory/curated.py",
+          "docs/03-project-memory.md"
+        ],
+        "expected_capabilities": [
+          "python",
+          "documentation"
+        ],
+        "contract_tests": [
+          "tests/integration/test_memory_release.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "unfamiliar",
+        "category": "unfamiliar module",
+        "query": "ProjectGraphEngine resolve symbol imports cache",
+        "relevant_paths": [
+          "src/orqalis/graph/engine.py"
+        ],
+        "scope": [
+          "src/orqalis/graph/engine.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/unit/test_project_graph.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "multi-agent",
+        "category": "multi-agent task",
+        "query": "scheduler ready tasks parallel dependencies",
+        "relevant_paths": [
+          "src/orqalis/core/scheduler.py"
+        ],
+        "scope": [
+          "src/orqalis/core/scheduler.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/integration/test_parallel.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "repair",
+        "category": "repair-loop task",
+        "query": "RepairPlanner failed criterion repair limit",
+        "relevant_paths": [
+          "src/orqalis/core/repair.py"
+        ],
+        "scope": [
+          "src/orqalis/core/repair.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/integration/test_repair.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "security",
+        "category": "security-sensitive change",
+        "query": "ChangeGuardian test modification secret scope",
+        "relevant_paths": [
+          "src/orqalis/delivery/guardian.py"
+        ],
+        "scope": [
+          "src/orqalis/delivery/guardian.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/unit/test_security.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "resume",
+        "category": "interrupted/resumed task",
+        "query": "recover interrupted tool invocation task attempt",
+        "relevant_paths": [
+          "src/orqalis/core/orchestrator.py"
+        ],
+        "scope": [
+          "src/orqalis/core/orchestrator.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": [
+          "tests/integration/test_recovery.py"
+        ],
+        "partition": "engineering"
+      },
+      {
+        "id": "probe-tokenize",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "_tokenize",
+        "relevant_paths": [
+          "src/orqalis/indexing/service.py"
+        ],
+        "scope": [
+          "src/orqalis/indexing/service.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-camel",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "ProjectContextBuilder",
+        "relevant_paths": [
+          "src/orqalis/context/builder.py"
+        ],
+        "scope": [
+          "src/orqalis/context/builder.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-natural-symbol",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "project context builder",
+        "relevant_paths": [
+          "src/orqalis/context/builder.py"
+        ],
+        "scope": [
+          "src/orqalis/context/builder.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-snake",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "source_hashes",
+        "relevant_paths": [
+          "src/orqalis/memory/curated.py"
+        ],
+        "scope": [
+          "src/orqalis/memory/curated.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-natural-snake",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "source hashes",
+        "relevant_paths": [
+          "src/orqalis/memory/curated.py"
+        ],
+        "scope": [
+          "src/orqalis/memory/curated.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-routing",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "implementation_capabilities",
+        "relevant_paths": [
+          "src/orqalis/core/vertical_plan.py"
+        ],
+        "scope": [
+          "src/orqalis/core/vertical_plan.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-scoped-routing",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "implementation capabilities",
+        "relevant_paths": [
+          "src/orqalis/core/vertical_plan.py"
+        ],
+        "scope": [
+          "src/orqalis/core/vertical_plan.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-events",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "Event event_type correlation_id",
+        "relevant_paths": [
+          "src/orqalis/domain/events.py"
+        ],
+        "scope": [
+          "src/orqalis/domain/events.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-test-command",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "ApprovedCommand timeout_seconds",
+        "relevant_paths": [
+          "src/orqalis/domain/execution.py"
+        ],
+        "scope": [
+          "src/orqalis/domain/execution.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-usage",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "ProviderUsage input_tokens output_tokens",
+        "relevant_paths": [
+          "src/orqalis/domain/provider.py"
+        ],
+        "scope": [
+          "src/orqalis/domain/provider.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-permissions",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "PermissionProfile allowed_tools",
+        "relevant_paths": [
+          "src/orqalis/domain/capabilities.py"
+        ],
+        "scope": [
+          "src/orqalis/domain/capabilities.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-restore",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "restore interrupted changes safely",
+        "relevant_paths": [
+          "src/orqalis/core/orchestrator.py"
+        ],
+        "scope": [
+          "src/orqalis/core/orchestrator.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-hub",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "run project context task",
+        "relevant_paths": [
+          "src/orqalis/core/orchestrator.py"
+        ],
+        "scope": [
+          "src/orqalis/core/orchestrator.py"
+        ],
+        "expected_capabilities": [
+          "python"
+        ],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-no-match",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "zebracat astrophotography glacier",
+        "relevant_paths": [],
+        "scope": [
+          "unrelated/"
+        ],
+        "expected_capabilities": [],
+        "contract_tests": []
+      },
+      {
+        "id": "probe-substring-negative",
+        "category": "held-out retrieval probe",
+        "partition": "held-out",
+        "query": "tification",
+        "relevant_paths": [],
+        "scope": [
+          "unrelated/"
+        ],
+        "expected_capabilities": [],
+        "contract_tests": []
+      }
+    ],
+    "memories": [
+      {
+        "title": "Filesystem durability",
+        "content": "Atomic snapshots and transaction markers recover interrupted writes. Replay never blindly reruns an uncertain external tool action.",
+        "paths": [
+          "src/orqalis/persistence/filesystem/io.py"
+        ]
+      },
+      {
+        "title": "Skill permissions",
+        "content": "Skill requirements describe necessary tools. The role and project permission intersection remains authoritative. Skills cannot grant shell access.",
+        "paths": [
+          "src/orqalis/skills/registry.py"
+        ]
+      },
+      {
+        "title": "Curated memory freshness",
+        "content": "Curated memory proposals require evidence and review. Source hashes detect changes; stale records are discounted during context ranking.",
+        "paths": [
+          "src/orqalis/memory/curated.py"
+        ]
+      },
+      {
+        "title": "Delivery conflict policy",
+        "content": "Git delivery uses an isolated worktree and an exact base. Preserve the canonical source branch when it has advanced.",
+        "paths": [
+          "src/orqalis/git/service.py"
+        ]
+      }
+    ],
+    "label_scope": "Primary target paths, not exhaustive relevance judgments; precision is labeled-target precision. Negative cases have no expected relevant path."
+  },
+  "environment": {
+    "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "cpu_count": 12,
+    "repetitions": 3,
+    "isolated_python": true,
+    "dependencies": [
+      [
+        "annotated-doc",
+        "0.0.5"
+      ],
+      [
+        "annotated-types",
+        "0.8.0"
+      ],
+      [
+        "anyio",
+        "4.15.1"
+      ],
+      [
+        "attrs",
+        "26.1.0"
+      ],
+      [
+        "certifi",
+        "2026.7.22"
+      ],
+      [
+        "cffi",
+        "2.1.1"
+      ],
+      [
+        "click",
+        "8.5.0"
+      ],
+      [
+        "colorama",
+        "0.4.6"
+      ],
+      [
+        "coverage",
+        "7.16.0"
+      ],
+      [
+        "cryptography",
+        "50.0.1"
+      ],
+      [
+        "fastapi",
+        "0.141.1"
+      ],
+      [
+        "h11",
+        "0.16.0"
+      ],
+      [
+        "httpcore",
+        "1.0.9"
+      ],
+      [
+        "httpcore2",
+        "2.12.0"
+      ],
+      [
+        "httpx",
+        "0.28.1"
+      ],
+      [
+        "httpx2",
+        "2.12.0"
+      ],
+      [
+        "idna",
+        "3.19"
+      ],
+      [
+        "iniconfig",
+        "2.3.0"
+      ],
+      [
+        "jsonschema",
+        "4.26.0"
+      ],
+      [
+        "jsonschema-specifications",
+        "2025.9.1"
+      ],
+      [
+        "librt",
+        "0.15.0"
+      ],
+      [
+        "markdown-it-py",
+        "4.2.0"
+      ],
+      [
+        "mcp",
+        "2.2.0"
+      ],
+      [
+        "mcp-types",
+        "2.2.0"
+      ],
+      [
+        "mdurl",
+        "0.1.2"
+      ],
+      [
+        "mypy",
+        "1.20.2"
+      ],
+      [
+        "mypy_extensions",
+        "1.1.0"
+      ],
+      [
+        "opentelemetry-api",
+        "1.44.0"
+      ],
+      [
+        "opentelemetry-sdk",
+        "1.44.0"
+      ],
+      [
+        "opentelemetry-semantic-conventions",
+        "0.65b0"
+      ],
+      [
+        "orqalis",
+        "2.1.0"
+      ],
+      [
+        "packaging",
+        "26.3"
+      ],
+      [
+        "pathspec",
+        "1.1.1"
+      ],
+      [
+        "pluggy",
+        "1.6.0"
+      ],
+      [
+        "pycparser",
+        "3.0"
+      ],
+      [
+        "pydantic",
+        "2.13.5"
+      ],
+      [
+        "pydantic-settings",
+        "2.15.0"
+      ],
+      [
+        "pydantic_core",
+        "2.46.5"
+      ],
+      [
+        "pygments",
+        "2.21.0"
+      ],
+      [
+        "pyjwt",
+        "2.15.1"
+      ],
+      [
+        "pytest",
+        "9.1.1"
+      ],
+      [
+        "pytest-cov",
+        "7.1.0"
+      ],
+      [
+        "python-dotenv",
+        "1.2.3"
+      ],
+      [
+        "python-multipart",
+        "0.0.32"
+      ],
+      [
+        "pywin32",
+        "312"
+      ],
+      [
+        "pyyaml",
+        "6.0.3"
+      ],
+      [
+        "referencing",
+        "0.37.0"
+      ],
+      [
+        "rich",
+        "15.0.0"
+      ],
+      [
+        "rpds-py",
+        "2026.6.3"
+      ],
+      [
+        "ruff",
+        "0.16.6"
+      ],
+      [
+        "shellingham",
+        "1.5.4"
+      ],
+      [
+        "sse-starlette",
+        "3.4.11"
+      ],
+      [
+        "starlette",
+        "1.6.0"
+      ],
+      [
+        "tree-sitter",
+        "0.26.0"
+      ],
+      [
+        "tree-sitter-javascript",
+        "0.25.0"
+      ],
+      [
+        "tree-sitter-typescript",
+        "0.23.2"
+      ],
+      [
+        "truststore",
+        "0.10.4"
+      ],
+      [
+        "typer",
+        "0.27.2"
+      ],
+      [
+        "types-jsonschema",
+        "4.26.0.20260518"
+      ],
+      [
+        "types-pyyaml",
+        "6.0.12.20260906"
+      ],
+      [
+        "typing-inspection",
+        "0.4.4"
+      ],
+      [
+        "typing_extensions",
+        "4.16.0"
+      ],
+      [
+        "uvicorn",
+        "0.52.4"
+      ],
+      [
+        "websockets",
+        "16.1.1"
+      ]
+    ],
+    "dependency_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+    "environment_policy": "isolated-source-v3; no inherited ORQALIS/PYTHON/PYTEST/GIT overrides; no user/system Git config; process-scoped core.autocrlf=input"
+  },
+  "limits": [
+    "Reconstructed baseline, not a historical timing capture.",
+    "One frozen Orqalis corpus; not representative of every language or repository.",
+    "Read counts are Python open events, excluding Git/subprocess/kernel cache activity.",
+    "No real provider calls; token usage, autonomous task success, and model quality are unmeasured.",
+    "Latency is local warm-process wall time; no hardware resource cap is imposed.",
+    "Graph cold means parser-cache-cold rebuild after initialization, not cold OS/interpreter cache.",
+    "Context relevance counts matched graph/full-record paths; orientation and memory discovery are separately identified."
+  ],
+  "corpus_sha256": "ed8ea0f3fb05b6d0c3e16ffad737ddba98ebcc528e6ba8c07715e5b0ed8c22e9",
+  "full_source_context_bytes": 287455,
+  "corpus_files": 30,
+  "graph": {
+    "cold": {
+      "metrics": {
+        "processed_files": 30,
+        "cache_hits": 0,
+        "cache_misses": 30,
+        "deleted_files": 0,
+        "total_files": 30,
+        "duration_ms": 1000.718,
+        "changed_paths": [
+          "README.md",
+          "docs/01-system-architecture.md",
+          "docs/02-agent-and-skill-model.md",
+          "docs/03-project-memory.md",
+          "docs/07-data-model-and-observability.md",
+          "src/orqalis/agents/service.py",
+          "src/orqalis/context/builder.py",
+          "src/orqalis/core/orchestrator.py",
+          "src/orqalis/core/repair.py",
+          "src/orqalis/core/scheduler.py",
+          "src/orqalis/core/vertical_plan.py",
+          "src/orqalis/delivery/guardian.py",
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/domain/events.py",
+          "src/orqalis/domain/execution.py",
+          "src/orqalis/domain/provider.py",
+          "src/orqalis/domain/task.py",
+          "src/orqalis/execution/commands.py",
+          "src/orqalis/execution/evaluator.py",
+          "src/orqalis/execution/worker.py",
+          "src/orqalis/git/service.py",
+          "src/orqalis/graph/engine.py",
+          "src/orqalis/indexing/service.py",
+          "src/orqalis/mcp/server.py",
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/observability/analytics.py",
+          "src/orqalis/persistence/filesystem/io.py",
+          "src/orqalis/skills/registry.py",
+          "web/src/MetricsView.tsx",
+          "web/src/types.ts"
+        ]
+      },
+      "time": {
+        "samples_ms": [
+          1002.3733999987599
+        ],
+        "median_ms": 1002.3733999987599,
+        "p95_ms": 1002.3733999987599
+      }
+    },
+    "unchanged": {
+      "metrics": {
+        "processed_files": 0,
+        "cache_hits": 0,
+        "cache_misses": 0,
+        "deleted_files": 0,
+        "total_files": 30,
+        "duration_ms": 165.263,
+        "changed_paths": []
+      },
+      "time": {
+        "samples_ms": [
+          180.5681999976514,
+          205.56020000367425,
+          165.9637999982806
+        ],
+        "median_ms": 180.5681999976514,
+        "p95_ms": 205.56020000367425
+      }
+    },
+    "one_file_changed": {
+      "metrics": {
+        "processed_files": 1,
+        "cache_hits": 29,
+        "cache_misses": 1,
+        "deleted_files": 0,
+        "total_files": 30,
+        "duration_ms": 490.53,
+        "changed_paths": [
+          "src/orqalis/indexing/service.py"
+        ]
+      },
+      "time": {
+        "samples_ms": [
+          492.33349999121856
+        ],
+        "median_ms": 492.33349999121856,
+        "p95_ms": 492.33349999121856
+      }
+    },
+    "nodes": 966,
+    "edges": 2215
+  },
+  "index": {
+    "metrics": {
+      "duration_ms": 681.184,
+      "documents_indexed": 970,
+      "terms_indexed": 2227,
+      "file_records": 30,
+      "symbol_records": 936,
+      "relation_records": 2215,
+      "memory_records": 4,
+      "task_records": 0,
+      "graph_processed_files": 30,
+      "graph_cache_hits": 30,
+      "graph_cache_misses": 0
+    },
+    "time": {
+      "samples_ms": [
+        698.4625000040978
+      ],
+      "median_ms": 698.4625000040978,
+      "p95_ms": 698.4625000040978
+    }
+  },
+  "cases": [
+    {
+      "id": "bug-fix",
+      "category": "small bug fix",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/indexing/service.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "docs/03-project-memory.md",
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/indexing/service.py",
+          ".orqalis/memory/records/MEM-20261002-0002.md"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.25,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_k": 0.5,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/indexing/service.py",
+          "src/orqalis/mcp/server.py",
+          "docs/03-project-memory.md"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.3333333333333333,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5948,
+      "context_chars": 5948,
+      "source_files_opened": 1,
+      "source_read_operations": 1,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          17.556599996169098,
+          19.76690000446979,
+          19.440299991401844
+        ],
+        "median_ms": 19.440299991401844,
+        "p95_ms": 19.76690000446979
+      },
+      "context_time": {
+        "samples_ms": [
+          322.3285000131,
+          332.37269999517594,
+          374.62719999894034
+        ],
+        "median_ms": 332.37269999517594,
+        "p95_ms": 374.62719999894034
+      }
+    },
+    {
+      "id": "refactor",
+      "category": "cross-module refactor",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/worker.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/execution/worker.py",
+          "src/orqalis/domain/execution.py",
+          "src/orqalis/domain/provider.py",
+          "src/orqalis/execution/commands.py",
+          "src/orqalis/execution/evaluator.py"
+        ],
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.2,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/domain/provider.py",
+          "src/orqalis/execution/worker.py",
+          "src/orqalis/execution/evaluator.py",
+          "src/orqalis/domain/execution.py",
+          "src/orqalis/execution/commands.py"
+        ],
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.2,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.38685280723454163,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5581,
+      "context_chars": 5581,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          20.61890000186395,
+          20.329999999376014,
+          19.91930000076536
+        ],
+        "median_ms": 20.329999999376014,
+        "p95_ms": 20.61890000186395
+      },
+      "context_time": {
+        "samples_ms": [
+          317.8756999986945,
+          391.4801999926567,
+          366.3570000062464
+        ],
+        "median_ms": 366.3570000062464,
+        "p95_ms": 391.4801999926567
+      }
+    },
+    {
+      "id": "frontend",
+      "category": "frontend change",
+      "partition": "engineering",
+      "expected_paths": [
+        "web/src/MetricsView.tsx",
+        "web/src/types.ts"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "web/src/MetricsView.tsx",
+          "src/orqalis/observability/analytics.py"
+        ],
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "web/src/MetricsView.tsx",
+          "src/orqalis/observability/analytics.py",
+          "src/orqalis/graph/engine.py",
+          "src/orqalis/indexing/service.py",
+          "src/orqalis/memory/curated.py"
+        ],
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.2,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5766,
+      "context_chars": 5766,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          19.006300004548393,
+          22.11350000288803,
+          21.529899997403845
+        ],
+        "median_ms": 21.529899997403845,
+        "p95_ms": 22.11350000288803
+      },
+      "context_time": {
+        "samples_ms": [
+          325.11269999668,
+          334.9675999925239,
+          379.54849998641293
+        ],
+        "median_ms": 334.9675999925239,
+        "p95_ms": 379.54849998641293
+      }
+    },
+    {
+      "id": "backend",
+      "category": "backend change",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/mcp/server.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "docs/03-project-memory.md",
+          "src/orqalis/domain/task.py",
+          "src/orqalis/mcp/server.py",
+          ".orqalis/memory/records/MEM-20261002-0004.md",
+          "src/orqalis/git/service.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_k": 0.5,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/mcp/server.py",
+          "docs/03-project-memory.md",
+          "src/orqalis/domain/task.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.3333333333333333,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5967,
+      "context_chars": 5967,
+      "source_files_opened": 2,
+      "source_read_operations": 2,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          19.805199990514666,
+          18.272299988893792,
+          21.320199986803345
+        ],
+        "median_ms": 19.805199990514666,
+        "p95_ms": 21.320199986803345
+      },
+      "context_time": {
+        "samples_ms": [
+          367.27829999290407,
+          509.05920000514016,
+          380.30379998963326
+        ],
+        "median_ms": 380.30379998963326,
+        "p95_ms": 509.05920000514016
+      }
+    },
+    {
+      "id": "architecture",
+      "category": "architecture change",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/persistence/filesystem/io.py",
+        "docs/07-data-model-and-observability.md"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          ".orqalis/memory/records/MEM-20261002-0001.md",
+          "src/orqalis/persistence/filesystem/io.py"
+        ],
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.5,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.38685280723454163,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/persistence/filesystem/io.py"
+        ],
+        "recall_at_k": 0.5,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5696,
+      "context_chars": 5696,
+      "source_files_opened": 1,
+      "source_read_operations": 1,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          19.717899995157495,
+          20.510300004389137,
+          19.260200002463534
+        ],
+        "median_ms": 19.717899995157495,
+        "p95_ms": 20.510300004389137
+      },
+      "context_time": {
+        "samples_ms": [
+          346.2844000023324,
+          425.4808000114281,
+          351.23049998946954
+        ],
+        "median_ms": 351.23049998946954,
+        "p95_ms": 425.4808000114281
+      }
+    },
+    {
+      "id": "test-failure",
+      "category": "test failure",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/execution/evaluator.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/execution/evaluator.py",
+          ".orqalis/memory/records/MEM-20261002-0003.md"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/execution/evaluator.py",
+          "src/orqalis/domain/execution.py",
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/execution/commands.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.25,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5779,
+      "context_chars": 5779,
+      "source_files_opened": 1,
+      "source_read_operations": 1,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 1,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          20.792299997992814,
+          22.219199992832728,
+          21.27430000109598
+        ],
+        "median_ms": 21.27430000109598,
+        "p95_ms": 22.219199992832728
+      },
+      "context_time": {
+        "samples_ms": [
+          336.71719999983907,
+          363.13880000670906,
+          338.2418000110192
+        ],
+        "median_ms": 338.2418000110192,
+        "p95_ms": 363.13880000670906
+      }
+    },
+    {
+      "id": "git-conflict",
+      "category": "Git conflict",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/git/service.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          ".orqalis/memory/records/MEM-20261002-0004.md",
+          "src/orqalis/delivery/guardian.py"
+        ],
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/delivery/guardian.py",
+          "src/orqalis/git/service.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.5,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5733,
+      "context_chars": 5733,
+      "source_files_opened": 1,
+      "source_read_operations": 1,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          19.838599997456186,
+          22.401499998522922,
+          23.696700009168126
+        ],
+        "median_ms": 22.401499998522922,
+        "p95_ms": 23.696700009168126
+      },
+      "context_time": {
+        "samples_ms": [
+          340.2479000069434,
+          376.527200001874,
+          339.21900000132155
+        ],
+        "median_ms": 340.2479000069434,
+        "p95_ms": 376.527200001874
+      }
+    },
+    {
+      "id": "documentation",
+      "category": "documentation-only task",
+      "partition": "engineering",
+      "expected_paths": [
+        "docs/02-agent-and-skill-model.md"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          ".orqalis/memory/records/MEM-20261002-0002.md",
+          "docs/02-agent-and-skill-model.md",
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/domain/provider.py",
+          "src/orqalis/skills/registry.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/skills/registry.py",
+          "docs/02-agent-and-skill-model.md",
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/domain/provider.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.25,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5942,
+      "context_chars": 5942,
+      "source_files_opened": 1,
+      "source_read_operations": 1,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          19.117899995762855,
+          21.765799989225343,
+          19.364399995538406
+        ],
+        "median_ms": 19.364399995538406,
+        "p95_ms": 21.765799989225343
+      },
+      "context_time": {
+        "samples_ms": [
+          323.52439999522176,
+          428.37300000246614,
+          325.1090999983717
+        ],
+        "median_ms": 325.1090999983717,
+        "p95_ms": 428.37300000246614
+      }
+    },
+    {
+      "id": "memory",
+      "category": "project-memory lookup",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          ".orqalis/memory/records/MEM-20261002-0003.md",
+          "src/orqalis/memory/curated.py",
+          "docs/03-project-memory.md",
+          ".orqalis/memory/records/MEM-20261002-0004.md",
+          ".orqalis/memory/records/MEM-20261002-0001.md"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6934264036172708,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/memory/curated.py"
+        ],
+        "recall_at_k": 0.5,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5976,
+      "context_chars": 5976,
+      "source_files_opened": 1,
+      "source_read_operations": 1,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          20.801799997570924,
+          20.827200001804158,
+          20.508500005234964
+        ],
+        "median_ms": 20.801799997570924,
+        "p95_ms": 20.827200001804158
+      },
+      "context_time": {
+        "samples_ms": [
+          317.6516000094125,
+          361.48099999991246,
+          316.45250000292435
+        ],
+        "median_ms": 317.6516000094125,
+        "p95_ms": 361.48099999991246
+      }
+    },
+    {
+      "id": "unfamiliar",
+      "category": "unfamiliar module",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/graph/engine.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/graph/engine.py",
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/delivery/guardian.py",
+          "src/orqalis/context/builder.py",
+          "src/orqalis/core/orchestrator.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/graph/engine.py",
+          "src/orqalis/git/service.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5965,
+      "context_chars": 5965,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          22.50829999684356,
+          25.26529999158811,
+          26.34609999950044
+        ],
+        "median_ms": 25.26529999158811,
+        "p95_ms": 26.34609999950044
+      },
+      "context_time": {
+        "samples_ms": [
+          333.0156000010902,
+          353.3437000005506,
+          320.8738999965135
+        ],
+        "median_ms": 333.0156000010902,
+        "p95_ms": 353.3437000005506
+      }
+    },
+    {
+      "id": "multi-agent",
+      "category": "multi-agent task",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/core/scheduler.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/core/scheduler.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/core/scheduler.py",
+          "src/orqalis/context/builder.py",
+          "src/orqalis/domain/task.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.3333333333333333,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5784,
+      "context_chars": 5784,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          21.0640000004787,
+          21.580400003585964,
+          20.483900007093325
+        ],
+        "median_ms": 21.0640000004787,
+        "p95_ms": 21.580400003585964
+      },
+      "context_time": {
+        "samples_ms": [
+          357.4771999992663,
+          415.4245000099763,
+          327.1297000028426
+        ],
+        "median_ms": 357.4771999992663,
+        "p95_ms": 415.4245000099763
+      }
+    },
+    {
+      "id": "repair",
+      "category": "repair-loop task",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/core/repair.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/core/repair.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/core/repair.py",
+          "src/orqalis/core/orchestrator.py",
+          "src/orqalis/domain/execution.py",
+          "src/orqalis/persistence/filesystem/io.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.25,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5886,
+      "context_chars": 5886,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          19.232299993745983,
+          20.395300001837313,
+          19.162900003721006
+        ],
+        "median_ms": 19.232299993745983,
+        "p95_ms": 20.395300001837313
+      },
+      "context_time": {
+        "samples_ms": [
+          435.1487999956589,
+          331.19310000620317,
+          322.9910999943968
+        ],
+        "median_ms": 331.19310000620317,
+        "p95_ms": 435.1487999956589
+      }
+    },
+    {
+      "id": "security",
+      "category": "security-sensitive change",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/delivery/guardian.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/delivery/guardian.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/mcp/server.py",
+          "src/orqalis/graph/engine.py",
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/core/vertical_plan.py",
+          "src/orqalis/delivery/guardian.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "mrr": 0.2,
+        "ndcg_at_k": 0.38685280723454163,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5680,
+      "context_chars": 5680,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          25.913000004948117,
+          19.39249999122694,
+          19.07879998907447
+        ],
+        "median_ms": 19.39249999122694,
+        "p95_ms": 25.913000004948117
+      },
+      "context_time": {
+        "samples_ms": [
+          423.5732000088319,
+          508.3243999979459,
+          345.9561999916332
+        ],
+        "median_ms": 423.5732000088319,
+        "p95_ms": 508.3243999979459
+      }
+    },
+    {
+      "id": "resume",
+      "category": "interrupted/resumed task",
+      "partition": "engineering",
+      "expected_paths": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          ".orqalis/memory/records/MEM-20261002-0001.md",
+          "src/orqalis/domain/task.py"
+        ],
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/domain/execution.py",
+          "src/orqalis/core/orchestrator.py",
+          "src/orqalis/domain/task.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.3333333333333333,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5669,
+      "context_chars": 5669,
+      "source_files_opened": 2,
+      "source_read_operations": 2,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          22.326599995722063,
+          25.649800008977763,
+          19.880599997122772
+        ],
+        "median_ms": 22.326599995722063,
+        "p95_ms": 25.649800008977763
+      },
+      "context_time": {
+        "samples_ms": [
+          468.9245000045048,
+          396.9439000065904,
+          365.5354999937117
+        ],
+        "median_ms": 396.9439000065904,
+        "p95_ms": 468.9245000045048
+      }
+    },
+    {
+      "id": "probe-tokenize",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/indexing/service.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/indexing/service.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/indexing/service.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5673,
+      "context_chars": 5673,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          22.868499989272095,
+          27.588400000240654,
+          20.965100004104897
+        ],
+        "median_ms": 22.868499989272095,
+        "p95_ms": 27.588400000240654
+      },
+      "context_time": {
+        "samples_ms": [
+          354.75339999538846,
+          350.25480001058895,
+          375.74689999746624
+        ],
+        "median_ms": 354.75339999538846,
+        "p95_ms": 375.74689999746624
+      }
+    },
+    {
+      "id": "probe-camel",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/context/builder.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/context/builder.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/context/builder.py",
+          "src/orqalis/mcp/server.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5430,
+      "context_chars": 5430,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          20.10629999858793,
+          22.439399996073917,
+          52.40990000311285
+        ],
+        "median_ms": 22.439399996073917,
+        "p95_ms": 52.40990000311285
+      },
+      "context_time": {
+        "samples_ms": [
+          355.9238000016194,
+          413.91640000802,
+          316.1368000000948
+        ],
+        "median_ms": 355.9238000016194,
+        "p95_ms": 413.91640000802
+      }
+    },
+    {
+      "id": "probe-natural-symbol",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/context/builder.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/context/builder.py",
+          "docs/03-project-memory.md",
+          ".orqalis/memory/records/MEM-20261002-0003.md",
+          ".orqalis/memory/records/MEM-20261002-0002.md"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.25,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/context/builder.py",
+          "src/orqalis/mcp/server.py",
+          "docs/03-project-memory.md"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.3333333333333333,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5850,
+      "context_chars": 5850,
+      "source_files_opened": 2,
+      "source_read_operations": 2,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          71.32330001331866,
+          23.662500010686927,
+          26.373100001364946
+        ],
+        "median_ms": 26.373100001364946,
+        "p95_ms": 71.32330001331866
+      },
+      "context_time": {
+        "samples_ms": [
+          347.96430000278633,
+          358.7439000111772,
+          337.0480999874417
+        ],
+        "median_ms": 347.96430000278633,
+        "p95_ms": 358.7439000111772
+      }
+    },
+    {
+      "id": "probe-snake",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/memory/curated.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/mcp/server.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5809,
+      "context_chars": 5809,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          21.374300005845726,
+          22.039600007701665,
+          19.569700001738966
+        ],
+        "median_ms": 21.374300005845726,
+        "p95_ms": 22.039600007701665
+      },
+      "context_time": {
+        "samples_ms": [
+          349.6493999991799,
+          463.89169999747537,
+          444.39729998703115
+        ],
+        "median_ms": 444.39729998703115,
+        "p95_ms": 463.89169999747537
+      }
+    },
+    {
+      "id": "probe-natural-snake",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          ".orqalis/memory/records/MEM-20261002-0003.md",
+          "src/orqalis/observability/analytics.py",
+          "src/orqalis/context/builder.py",
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/execution/commands.py"
+        ],
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/graph/engine.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5954,
+      "context_chars": 5954,
+      "source_files_opened": 2,
+      "source_read_operations": 2,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          21.807299999636598,
+          23.364499997114763,
+          22.617700000409968
+        ],
+        "median_ms": 22.617700000409968,
+        "p95_ms": 23.364499997114763
+      },
+      "context_time": {
+        "samples_ms": [
+          399.4232999975793,
+          753.0289999995148,
+          385.68920000398066
+        ],
+        "median_ms": 399.4232999975793,
+        "p95_ms": 753.0289999995148
+      }
+    },
+    {
+      "id": "probe-routing",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/core/vertical_plan.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/core/vertical_plan.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5736,
+      "context_chars": 5736,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          21.206599994911812,
+          20.824800012633204,
+          21.2485999945784
+        ],
+        "median_ms": 21.206599994911812,
+        "p95_ms": 21.2485999945784
+      },
+      "context_time": {
+        "samples_ms": [
+          356.953299997258,
+          408.08699998888187,
+          338.8726000121096
+        ],
+        "median_ms": 356.953299997258,
+        "p95_ms": 408.08699998888187
+      }
+    },
+    {
+      "id": "probe-scoped-routing",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/mcp/server.py"
+        ],
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/core/vertical_plan.py",
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/mcp/server.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.3333333333333333,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5877,
+      "context_chars": 5877,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          22.44359999895096,
+          24.782499996945262,
+          19.89039999898523
+        ],
+        "median_ms": 22.44359999895096,
+        "p95_ms": 24.782499996945262
+      },
+      "context_time": {
+        "samples_ms": [
+          352.64620000089053,
+          351.08379999292083,
+          330.1658000127645
+        ],
+        "median_ms": 351.08379999292083,
+        "p95_ms": 352.64620000089053
+      }
+    },
+    {
+      "id": "probe-events",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/domain/events.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/domain/events.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/domain/events.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5631,
+      "context_chars": 5631,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          19.927899993490428,
+          20.14769999368582,
+          21.61000001069624
+        ],
+        "median_ms": 20.14769999368582,
+        "p95_ms": 21.61000001069624
+      },
+      "context_time": {
+        "samples_ms": [
+          360.0961000047391,
+          417.68229998706374,
+          368.0367000051774
+        ],
+        "median_ms": 368.0367000051774,
+        "p95_ms": 417.68229998706374
+      }
+    },
+    {
+      "id": "probe-test-command",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/domain/execution.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/domain/execution.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5509,
+      "context_chars": 5509,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          20.943499999702908,
+          20.61209999374114,
+          30.52049998950679
+        ],
+        "median_ms": 20.943499999702908,
+        "p95_ms": 30.52049998950679
+      },
+      "context_time": {
+        "samples_ms": [
+          347.68150000309106,
+          404.58510001190007,
+          414.9882999918191
+        ],
+        "median_ms": 404.58510001190007,
+        "p95_ms": 414.9882999918191
+      }
+    },
+    {
+      "id": "probe-usage",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/domain/provider.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/domain/provider.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/domain/provider.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5981,
+      "context_chars": 5981,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          23.834899999201298,
+          22.58879999862984,
+          26.04369999608025
+        ],
+        "median_ms": 23.834899999201298,
+        "p95_ms": 26.04369999608025
+      },
+      "context_time": {
+        "samples_ms": [
+          723.8527000008617,
+          578.4939999866765,
+          397.413200000301
+        ],
+        "median_ms": 578.4939999866765,
+        "p95_ms": 723.8527000008617
+      }
+    },
+    {
+      "id": "probe-permissions",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/domain/capabilities.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "src/orqalis/domain/capabilities.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/graph/engine.py"
+        ],
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5540,
+      "context_chars": 5540,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          25.777399991056882,
+          28.134600011981092,
+          28.495100006693974
+        ],
+        "median_ms": 28.134600011981092,
+        "p95_ms": 28.495100006693974
+      },
+      "context_time": {
+        "samples_ms": [
+          387.0817999995779,
+          344.47609999915585,
+          374.68940000690054
+        ],
+        "median_ms": 374.68940000690054,
+        "p95_ms": 387.0817999995779
+      }
+    },
+    {
+      "id": "probe-restore",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          ".orqalis/memory/records/MEM-20261002-0003.md",
+          ".orqalis/memory/records/MEM-20261002-0001.md"
+        ],
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/delivery/guardian.py",
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/persistence/filesystem/io.py"
+        ],
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5761,
+      "context_chars": 5761,
+      "source_files_opened": 2,
+      "source_read_operations": 2,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 2,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          19.750200008274987,
+          24.399399990215898,
+          25.652999989688396
+        ],
+        "median_ms": 24.399399990215898,
+        "p95_ms": 25.652999989688396
+      },
+      "context_time": {
+        "samples_ms": [
+          429.6200999961002,
+          394.7451000130968,
+          371.8706999934511
+        ],
+        "median_ms": 394.7451000130968,
+        "p95_ms": 429.6200999961002
+      }
+    },
+    {
+      "id": "probe-hub",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [
+          "docs/03-project-memory.md",
+          "src/orqalis/context/builder.py",
+          "src/orqalis/domain/task.py",
+          "src/orqalis/execution/commands.py",
+          ".orqalis/memory/records/MEM-20261002-0003.md"
+        ],
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "negative_returned_paths": null
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/context/builder.py",
+          "src/orqalis/mcp/server.py",
+          "docs/03-project-memory.md",
+          "src/orqalis/domain/task.py"
+        ],
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "negative_returned_paths": null
+      },
+      "context_bytes": 5240,
+      "context_chars": 5240,
+      "source_files_opened": 3,
+      "source_read_operations": 3,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          24.043400000664406,
+          21.033500001067296,
+          21.421400000690483
+        ],
+        "median_ms": 21.421400000690483,
+        "p95_ms": 24.043400000664406
+      },
+      "context_time": {
+        "samples_ms": [
+          362.0924999995623,
+          365.1438999950187,
+          416.55870000249706
+        ],
+        "median_ms": 365.1438999950187,
+        "p95_ms": 416.55870000249706
+      }
+    },
+    {
+      "id": "probe-no-match",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [],
+        "recall_at_k": null,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": null,
+        "negative_returned_paths": 0
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/mcp/server.py"
+        ],
+        "recall_at_k": null,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": null,
+        "negative_returned_paths": 1
+      },
+      "context_bytes": 5909,
+      "context_chars": 5909,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          24.989500001538545,
+          21.73949999269098,
+          22.809000001871027
+        ],
+        "median_ms": 22.809000001871027,
+        "p95_ms": 24.989500001538545
+      },
+      "context_time": {
+        "samples_ms": [
+          348.8275999989128,
+          474.66419999545906,
+          347.9947000014363
+        ],
+        "median_ms": 348.8275999989128,
+        "p95_ms": 474.66419999545906
+      }
+    },
+    {
+      "id": "probe-substring-negative",
+      "category": "held-out retrieval probe",
+      "partition": "held-out",
+      "expected_paths": [],
+      "orientation_paths": [],
+      "memory_discovery_ids": [],
+      "index": {
+        "top_paths": [],
+        "recall_at_k": null,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": null,
+        "negative_returned_paths": 0
+      },
+      "context": {
+        "top_paths": [
+          "src/orqalis/mcp/server.py"
+        ],
+        "recall_at_k": null,
+        "precision_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": null,
+        "negative_returned_paths": 1
+      },
+      "context_bytes": 5886,
+      "context_chars": 5886,
+      "source_files_opened": 0,
+      "source_read_operations": 0,
+      "memory_files_opened": 4,
+      "memory_read_operations": 4,
+      "memories_in_context": 0,
+      "memory_previews_in_context": 0,
+      "orientation_only_nodes": 0,
+      "index_time": {
+        "samples_ms": [
+          23.187999991932884,
+          24.1636999999173,
+          22.046800004318357
+        ],
+        "median_ms": 23.187999991932884,
+        "p95_ms": 24.1636999999173
+      },
+      "context_time": {
+        "samples_ms": [
+          365.01480000151787,
+          378.6846000002697,
+          335.5979999905685
+        ],
+        "median_ms": 365.01480000151787,
+        "p95_ms": 378.6846000002697
+      }
+    }
+  ],
+  "context_python_peak_allocated_bytes": 7054348,
+  "memory": [
+    {
+      "query": "curated memory freshness",
+      "expected_title": "Curated memory freshness",
+      "titles": [
+        "Curated memory freshness"
+      ],
+      "expected_found": true,
+      "time": {
+        "samples_ms": [
+          4.2492999928072095,
+          3.3506000036140904,
+          6.287800002610311
+        ],
+        "median_ms": 4.2492999928072095,
+        "p95_ms": 6.287800002610311
+      }
+    },
+    {
+      "query": "skill permissions",
+      "expected_title": "Skill permissions",
+      "titles": [
+        "Skill permissions"
+      ],
+      "expected_found": true,
+      "time": {
+        "samples_ms": [
+          4.778799993800931,
+          5.1811000012094155,
+          5.663999996613711
+        ],
+        "median_ms": 5.1811000012094155,
+        "p95_ms": 5.663999996613711
+      }
+    },
+    {
+      "query": "filesystem durability",
+      "expected_title": "Filesystem durability",
+      "titles": [
+        "Filesystem durability"
+      ],
+      "expected_found": true,
+      "time": {
+        "samples_ms": [
+          11.199000000488013,
+          16.310499995597638,
+          6.40199999907054
+        ],
+        "median_ms": 11.199000000488013,
+        "p95_ms": 16.310499995597638
+      }
+    },
+    {
+      "query": "delivery conflict policy",
+      "expected_title": "Delivery conflict policy",
+      "titles": [
+        "Delivery conflict policy"
+      ],
+      "expected_found": true,
+      "time": {
+        "samples_ms": [
+          5.074800006696023,
+          4.474900008062832,
+          7.00650000362657
+        ],
+        "median_ms": 5.074800006696023,
+        "p95_ms": 7.00650000362657
+      }
+    }
+  ],
+  "skills": {
+    "metadata_context_bytes": 3024,
+    "eager_all_skills_context_bytes": 8307,
+    "routing": [
+      {
+        "id": "bug-fix",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.415000002249144,
+            0.3004000027431175,
+            0.2565000031609088
+          ],
+          "median_ms": 0.3004000027431175,
+          "p95_ms": 0.415000002249144
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.24440001288894564,
+            0.05610000516753644,
+            0.04610000178217888
+          ],
+          "median_ms": 0.05610000516753644,
+          "p95_ms": 0.24440001288894564
+        }
+      },
+      {
+        "id": "refactor",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.3694000042742118,
+            0.29350000841077417,
+            0.30029998742975295
+          ],
+          "median_ms": 0.30029998742975295,
+          "p95_ms": 0.3694000042742118
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.342100000125356,
+            0.07739999273326248,
+            0.09479999425821006
+          ],
+          "median_ms": 0.09479999425821006,
+          "p95_ms": 0.342100000125356
+        }
+      },
+      {
+        "id": "frontend",
+        "expected": [
+          "typescript",
+          "react"
+        ],
+        "actual": [
+          "typescript",
+          "react"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "react-edit",
+          "typescript-edit"
+        ],
+        "expected_skills": [
+          "react-edit",
+          "typescript-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.942300001042895,
+            1.330200000666082,
+            1.2983000051463023
+          ],
+          "median_ms": 1.2983000051463023,
+          "p95_ms": 1.330200000666082
+        },
+        "selected_context_bytes": 2622,
+        "time": {
+          "samples_ms": [
+            0.31659999513067305,
+            0.07609999738633633,
+            0.06779999239370227
+          ],
+          "median_ms": 0.07609999738633633,
+          "p95_ms": 0.31659999513067305
+        }
+      },
+      {
+        "id": "backend",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.4420000041136518,
+            0.3819999983534217,
+            0.3159000043524429
+          ],
+          "median_ms": 0.3819999983534217,
+          "p95_ms": 0.4420000041136518
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.23770000552758574,
+            0.05129999772179872,
+            0.045200009481050074
+          ],
+          "median_ms": 0.05129999772179872,
+          "p95_ms": 0.23770000552758574
+        }
+      },
+      {
+        "id": "architecture",
+        "expected": [
+          "python",
+          "database",
+          "documentation"
+        ],
+        "actual": [
+          "python",
+          "database",
+          "documentation"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "database-edit",
+          "documentation-edit",
+          "python-edit"
+        ],
+        "expected_skills": [
+          "database-edit",
+          "documentation-edit",
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            1.401900008204393,
+            1.2305999989621341,
+            1.348999998299405
+          ],
+          "median_ms": 1.348999998299405,
+          "p95_ms": 1.401900008204393
+        },
+        "selected_context_bytes": 3359,
+        "time": {
+          "samples_ms": [
+            0.37629999860655516,
+            0.07340000593103468,
+            0.06739998934790492
+          ],
+          "median_ms": 0.07340000593103468,
+          "p95_ms": 0.37629999860655516
+        }
+      },
+      {
+        "id": "test-failure",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.3935999993700534,
+            0.3625999961514026,
+            0.31939998734742403
+          ],
+          "median_ms": 0.3625999961514026,
+          "p95_ms": 0.3935999993700534
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.24880000273697078,
+            0.05369998689275235,
+            0.04610000178217888
+          ],
+          "median_ms": 0.05369998689275235,
+          "p95_ms": 0.24880000273697078
+        }
+      },
+      {
+        "id": "git-conflict",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.36499999987427145,
+            0.34389999927952886,
+            0.3161000058753416
+          ],
+          "median_ms": 0.34389999927952886,
+          "p95_ms": 0.36499999987427145
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.23400000645779073,
+            0.06010000652167946,
+            0.046599991037510335
+          ],
+          "median_ms": 0.06010000652167946,
+          "p95_ms": 0.23400000645779073
+        }
+      },
+      {
+        "id": "documentation",
+        "expected": [
+          "documentation"
+        ],
+        "actual": [
+          "documentation"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "documentation-edit"
+        ],
+        "expected_skills": [
+          "documentation-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.5399999936344102,
+            0.4574000049615279,
+            0.4385000065667555
+          ],
+          "median_ms": 0.4574000049615279,
+          "p95_ms": 0.5399999936344102
+        },
+        "selected_context_bytes": 1335,
+        "time": {
+          "samples_ms": [
+            0.215300009585917,
+            0.051700000767596066,
+            0.058600009651854634
+          ],
+          "median_ms": 0.058600009651854634,
+          "p95_ms": 0.215300009585917
+        }
+      },
+      {
+        "id": "memory",
+        "expected": [
+          "python",
+          "documentation"
+        ],
+        "actual": [
+          "python",
+          "documentation"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "documentation-edit",
+          "python-edit"
+        ],
+        "expected_skills": [
+          "documentation-edit",
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.9265999979106709,
+            0.7921000069472939,
+            2.4384000134887174
+          ],
+          "median_ms": 0.9265999979106709,
+          "p95_ms": 2.4384000134887174
+        },
+        "selected_context_bytes": 1939,
+        "time": {
+          "samples_ms": [
+            0.34479999158065766,
+            0.08329999400302768,
+            0.07410001126118004
+          ],
+          "median_ms": 0.08329999400302768,
+          "p95_ms": 0.34479999158065766
+        }
+      },
+      {
+        "id": "unfamiliar",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.7336999988183379,
+            0.5130999925313517,
+            0.3846000035991892
+          ],
+          "median_ms": 0.5130999925313517,
+          "p95_ms": 0.7336999988183379
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            1.0609999881125987,
+            0.11910000466741621,
+            0.057600002037361264
+          ],
+          "median_ms": 0.11910000466741621,
+          "p95_ms": 1.0609999881125987
+        }
+      },
+      {
+        "id": "multi-agent",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.4415000003064051,
+            0.3767000016523525,
+            0.375300005543977
+          ],
+          "median_ms": 0.3767000016523525,
+          "p95_ms": 0.4415000003064051
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.24680000205989927,
+            0.05910001345910132,
+            0.08150000940077007
+          ],
+          "median_ms": 0.08150000940077007,
+          "p95_ms": 0.24680000205989927
+        }
+      },
+      {
+        "id": "repair",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.4668000037781894,
+            0.420899988966994,
+            0.4651000053854659
+          ],
+          "median_ms": 0.4651000053854659,
+          "p95_ms": 0.4668000037781894
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.22819999139755964,
+            0.055800002883188426,
+            0.05160000000614673
+          ],
+          "median_ms": 0.055800002883188426,
+          "p95_ms": 0.22819999139755964
+        }
+      },
+      {
+        "id": "security",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.5882999976165593,
+            0.41390000842511654,
+            0.37570000858977437
+          ],
+          "median_ms": 0.41390000842511654,
+          "p95_ms": 0.5882999976165593
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.24979999579954892,
+            0.059600002714432776,
+            0.05129999772179872
+          ],
+          "median_ms": 0.059600002714432776,
+          "p95_ms": 0.24979999579954892
+        }
+      },
+      {
+        "id": "resume",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.46470000233966857,
+            0.3730999887920916,
+            0.33819999953266233
+          ],
+          "median_ms": 0.3730999887920916,
+          "p95_ms": 0.46470000233966857
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.26309999520890415,
+            0.0577000027988106,
+            0.05259999306872487
+          ],
+          "median_ms": 0.0577000027988106,
+          "p95_ms": 0.26309999520890415
+        }
+      },
+      {
+        "id": "probe-tokenize",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.3991999983554706,
+            0.3499000013107434,
+            0.35790000401902944
+          ],
+          "median_ms": 0.35790000401902944,
+          "p95_ms": 0.3991999983554706
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.08460000390186906,
+            0.05780000356025994,
+            0.05230000533629209
+          ],
+          "median_ms": 0.05780000356025994,
+          "p95_ms": 0.08460000390186906
+        }
+      },
+      {
+        "id": "probe-camel",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.46940000902395695,
+            0.3772000054595992,
+            0.33399999665562063
+          ],
+          "median_ms": 0.3772000054595992,
+          "p95_ms": 0.46940000902395695
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.23689999943599105,
+            0.05810000584460795,
+            0.05140001303516328
+          ],
+          "median_ms": 0.05810000584460795,
+          "p95_ms": 0.23689999943599105
+        }
+      },
+      {
+        "id": "probe-natural-symbol",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.4394999996293336,
+            0.5357000045478344,
+            2.04459999804385
+          ],
+          "median_ms": 0.5357000045478344,
+          "p95_ms": 2.04459999804385
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.0805000017862767,
+            0.05400000372901559,
+            0.06909998774062842
+          ],
+          "median_ms": 0.06909998774062842,
+          "p95_ms": 0.0805000017862767
+        }
+      },
+      {
+        "id": "probe-snake",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.897999998414889,
+            0.7898000039858744,
+            0.7728000055067241
+          ],
+          "median_ms": 0.7898000039858744,
+          "p95_ms": 0.897999998414889
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.16039999900385737,
+            0.09840000711847097,
+            0.08959999831859022
+          ],
+          "median_ms": 0.09840000711847097,
+          "p95_ms": 0.16039999900385737
+        }
+      },
+      {
+        "id": "probe-natural-snake",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.8082999993348494,
+            0.7821000035619363,
+            0.8478999952785671
+          ],
+          "median_ms": 0.8082999993348494,
+          "p95_ms": 0.8478999952785671
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.13859999307896942,
+            0.09139999747276306,
+            0.09349999891128391
+          ],
+          "median_ms": 0.09349999891128391,
+          "p95_ms": 0.13859999307896942
+        }
+      },
+      {
+        "id": "probe-routing",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.8935999940149486,
+            0.9088000078918412,
+            0.8960999984992668
+          ],
+          "median_ms": 0.8960999984992668,
+          "p95_ms": 0.9088000078918412
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.4091000009793788,
+            0.09919999865815043,
+            0.08870000601746142
+          ],
+          "median_ms": 0.09919999865815043,
+          "p95_ms": 0.4091000009793788
+        }
+      },
+      {
+        "id": "probe-scoped-routing",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.8164000028045848,
+            0.7449999975506216,
+            0.7342000026255846
+          ],
+          "median_ms": 0.7449999975506216,
+          "p95_ms": 0.8164000028045848
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.12959999730810523,
+            0.0923999905353412,
+            0.08510000770911574
+          ],
+          "median_ms": 0.0923999905353412,
+          "p95_ms": 0.12959999730810523
+        }
+      },
+      {
+        "id": "probe-events",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.9174000006169081,
+            0.7645000005140901,
+            0.6221000076038763
+          ],
+          "median_ms": 0.7645000005140901,
+          "p95_ms": 0.9174000006169081
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.35280000884085894,
+            0.24560000747442245,
+            0.12289998994674534
+          ],
+          "median_ms": 0.24560000747442245,
+          "p95_ms": 0.35280000884085894
+        }
+      },
+      {
+        "id": "probe-test-command",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.8264000061899424,
+            0.8757999894442037,
+            0.800199995865114
+          ],
+          "median_ms": 0.8264000061899424,
+          "p95_ms": 0.8757999894442037
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.45419999514706433,
+            0.0557999883312732,
+            0.04650000482797623
+          ],
+          "median_ms": 0.0557999883312732,
+          "p95_ms": 0.45419999514706433
+        }
+      },
+      {
+        "id": "probe-usage",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.7902999932412058,
+            0.6653000018559396,
+            0.36950000503566116
+          ],
+          "median_ms": 0.6653000018559396,
+          "p95_ms": 0.7902999932412058
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.36669999826699495,
+            0.27299999783281237,
+            0.09140001202467829
+          ],
+          "median_ms": 0.27299999783281237,
+          "p95_ms": 0.36669999826699495
+        }
+      },
+      {
+        "id": "probe-permissions",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.36639999598264694,
+            0.3215999895473942,
+            0.3053999971598387
+          ],
+          "median_ms": 0.3215999895473942,
+          "p95_ms": 0.36639999598264694
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.2091000060318038,
+            0.05119999696034938,
+            0.04449998959898949
+          ],
+          "median_ms": 0.05119999696034938,
+          "p95_ms": 0.2091000060318038
+        }
+      },
+      {
+        "id": "probe-restore",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.38050000148359686,
+            0.30759999935980886,
+            0.2931000053649768
+          ],
+          "median_ms": 0.30759999935980886,
+          "p95_ms": 0.38050000148359686
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.09040000441018492,
+            0.051399998483248055,
+            0.04640000406652689
+          ],
+          "median_ms": 0.051399998483248055,
+          "p95_ms": 0.09040000441018492
+        }
+      },
+      {
+        "id": "probe-hub",
+        "expected": [
+          "python"
+        ],
+        "actual": [
+          "python"
+        ],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selection_time": {
+          "samples_ms": [
+            0.3716999926837161,
+            0.3257999924244359,
+            0.3156000020680949
+          ],
+          "median_ms": 0.3257999924244359,
+          "p95_ms": 0.3716999926837161
+        },
+        "selected_context_bytes": 604,
+        "time": {
+          "samples_ms": [
+            0.06809999467805028,
+            0.04910001007374376,
+            0.04569999873638153
+          ],
+          "median_ms": 0.04910001007374376,
+          "p95_ms": 0.06809999467805028
+        }
+      },
+      {
+        "id": "probe-no-match",
+        "expected": [],
+        "actual": [],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [],
+        "expected_skills": [],
+        "selection_time": {
+          "samples_ms": [
+            0.015000012353993952,
+            0.009399998816661537,
+            0.008300004992634058
+          ],
+          "median_ms": 0.009399998816661537,
+          "p95_ms": 0.015000012353993952
+        },
+        "selected_context_bytes": 0,
+        "time": {
+          "samples_ms": [
+            0.15580000763293356,
+            0.04939999780617654,
+            0.04300000728107989
+          ],
+          "median_ms": 0.04939999780617654,
+          "p95_ms": 0.15580000763293356
+        }
+      },
+      {
+        "id": "probe-substring-negative",
+        "expected": [],
+        "actual": [],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [],
+        "expected_skills": [],
+        "selection_time": {
+          "samples_ms": [
+            0.011299998732283711,
+            0.008999995770864189,
+            0.008300004992634058
+          ],
+          "median_ms": 0.008999995770864189,
+          "p95_ms": 0.011299998732283711
+        },
+        "selected_context_bytes": 0,
+        "time": {
+          "samples_ms": [
+            0.04980000085197389,
+            0.04369999805931002,
+            0.04369999805931002
+          ],
+          "median_ms": 0.04369999805931002,
+          "p95_ms": 0.04980000085197389
+        }
+      },
+      {
+        "id": "negative-prose",
+        "expected": [],
+        "actual": [],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [],
+        "expected_skills": [],
+        "selection_time": {
+          "samples_ms": [
+            0.011800002539530396,
+            0.009100011084228754,
+            0.008600007276982069
+          ],
+          "median_ms": 0.009100011084228754,
+          "p95_ms": 0.011800002539530396
+        },
+        "selected_context_bytes": 0,
+        "time": {
+          "samples_ms": [
+            0.16710000636521727,
+            0.03750000905711204,
+            0.03579999611247331
+          ],
+          "median_ms": 0.03750000905711204,
+          "p95_ms": 0.16710000636521727
+        }
+      },
+      {
+        "id": "negative-missing",
+        "expected": [],
+        "actual": [],
+        "false_positives": [],
+        "false_negatives": [],
+        "selected_skills": [],
+        "expected_skills": [],
+        "selection_time": {
+          "samples_ms": [
+            0.0109999964479357,
+            0.008499991963617504,
+            0.008799994247965515
+          ],
+          "median_ms": 0.008799994247965515,
+          "p95_ms": 0.0109999964479357
+        },
+        "selected_context_bytes": 0,
+        "time": {
+          "samples_ms": [
+            0.050700007705017924,
+            0.043199994252063334,
+            0.042400002712383866
+          ],
+          "median_ms": 0.043199994252063334,
+          "p95_ms": 0.050700007705017924
+        }
+      }
+    ],
+    "selection_contracts": [
+      {
+        "id": "read-only-role",
+        "expected_denial": true,
+        "denied": true,
+        "expected_skills": [],
+        "selected_skills": [],
+        "typed_contract_roundtrip": true
+      },
+      {
+        "id": "exact-pin",
+        "expected_denial": false,
+        "denied": false,
+        "expected_skills": [
+          "python-edit"
+        ],
+        "selected_skills": [
+          "python-edit"
+        ],
+        "typed_contract_roundtrip": true
+      },
+      {
+        "id": "wrong-pin",
+        "expected_denial": true,
+        "denied": true,
+        "expected_skills": [],
+        "selected_skills": [],
+        "typed_contract_roundtrip": true
+      },
+      {
+        "id": "no-capabilities",
+        "expected_denial": false,
+        "denied": false,
+        "expected_skills": [],
+        "selected_skills": [],
+        "typed_contract_roundtrip": true
+      }
+    ],
+    "fixture_sha256": "fb77ec966bd938f388a31912d02396af2568ff83b416a900d714ef0fbf19b85b",
+    "model_instruction_adherence": null,
+    "model_task_quality": null,
+    "tokens": null,
+    "note": "Serialized input bytes, not disk reads or tokenizer estimates. Routing is deterministic."
+  },
+  "portable_skills": {
+    "supported": false
+  },
+  "disk": {
+    "project_store_bytes": 3872335,
+    "graph_bytes": 1125777,
+    "index_bytes": 2354318
+  },
+  "cli_startup": {
+    "version": "2.0.0",
+    "samples_ms": [
+      1696.4243999973405,
+      1244.9309999938123,
+      1132.1426999929827
+    ],
+    "median_ms": 1244.9309999938123,
+    "p95_ms": 1696.4243999973405
+  },
+  "mcp_startup_to_project_response": {
+    "samples_ms": [
+      2427.1458000002895,
+      2492.8488999867113,
+      2126.826199993957
+    ],
+    "median_ms": 2427.1458000002895,
+    "p95_ms": 2492.8488999867113
+  },
+  "partitions": {
+    "engineering": {
+      "case_count": 14,
+      "mean_context_bytes": 5812.285714285715,
+      "index": {
+        "recall_at_k": 0.75,
+        "precision_at_k": 0.425,
+        "mrr": 0.6547619047619048,
+        "ndcg_at_k": 0.6383930964252991,
+        "positive_cases": 14,
+        "negative_cases": 0,
+        "negative_returned_paths": 0
+      },
+      "context": {
+        "recall_at_k": 0.8571428571428571,
+        "precision_at_k": 0.40595238095238095,
+        "mrr": 0.8,
+        "ndcg_at_k": 0.7504240323914165,
+        "positive_cases": 14,
+        "negative_cases": 0,
+        "negative_returned_paths": 0
+      }
+    },
+    "held-out": {
+      "case_count": 15,
+      "mean_context_bytes": 5719.066666666667,
+      "index": {
+        "recall_at_k": 0.6923076923076923,
+        "precision_at_k": 0.6346153846153846,
+        "mrr": 0.6923076923076923,
+        "ndcg_at_k": 0.6923076923076923,
+        "positive_cases": 13,
+        "negative_cases": 2,
+        "negative_returned_paths": 0
+      },
+      "context": {
+        "recall_at_k": 0.8461538461538461,
+        "precision_at_k": 0.5897435897435898,
+        "mrr": 0.8461538461538461,
+        "ndcg_at_k": 0.8461538461538461,
+        "positive_cases": 13,
+        "negative_cases": 2,
+        "negative_returned_paths": 2
+      }
+    }
+  },
+  "summary": {
+    "mean_index_recall_at_k": 0.7222222222222222,
+    "mean_context_recall_at_k": 0.8518518518518519,
+    "mean_context_bytes": 5764.068965517241,
+    "context_budget_pass": true,
+    "routing_false_positives": 0,
+    "routing_false_negatives": 0,
+    "unchanged_parse_count": 0,
+    "one_file_parse_count": 1,
+    "memory_lookup_passes": 4
+  },
+  "source_stable": true,
+  "contract_evidence": {
+    "schema_version": 2,
+    "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+    "source_stable": true,
+    "tests_sha256": "5f1b309977374911e4554edcaed5c360d46adec9fcabceac8d923401f17c70a6",
+    "tests_stable": true,
+    "dataset_sha256": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+    "runner_sha256": "99df98f055d8b9d980b8b0d011034b439273c2fd6c3a678596f2cbed01d33e3c",
+    "runner_stable": true,
+    "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+    "helper_stable": true,
+    "dataset_stable": true,
+    "environment": {
+      "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "machine": "AMD64",
+      "cpu_count": 12,
+      "repetitions": 1,
+      "isolated_python": true,
+      "dependencies": [
+        [
+          "annotated-doc",
+          "0.0.5"
+        ],
+        [
+          "annotated-types",
+          "0.8.0"
+        ],
+        [
+          "anyio",
+          "4.15.1"
+        ],
+        [
+          "attrs",
+          "26.1.0"
+        ],
+        [
+          "certifi",
+          "2026.7.22"
+        ],
+        [
+          "cffi",
+          "2.1.1"
+        ],
+        [
+          "click",
+          "8.5.0"
+        ],
+        [
+          "colorama",
+          "0.4.6"
+        ],
+        [
+          "coverage",
+          "7.16.0"
+        ],
+        [
+          "cryptography",
+          "50.0.1"
+        ],
+        [
+          "fastapi",
+          "0.141.1"
+        ],
+        [
+          "h11",
+          "0.16.0"
+        ],
+        [
+          "httpcore",
+          "1.0.9"
+        ],
+        [
+          "httpcore2",
+          "2.12.0"
+        ],
+        [
+          "httpx",
+          "0.28.1"
+        ],
+        [
+          "httpx2",
+          "2.12.0"
+        ],
+        [
+          "idna",
+          "3.19"
+        ],
+        [
+          "iniconfig",
+          "2.3.0"
+        ],
+        [
+          "jsonschema",
+          "4.26.0"
+        ],
+        [
+          "jsonschema-specifications",
+          "2025.9.1"
+        ],
+        [
+          "librt",
+          "0.15.0"
+        ],
+        [
+          "markdown-it-py",
+          "4.2.0"
+        ],
+        [
+          "mcp",
+          "2.2.0"
+        ],
+        [
+          "mcp-types",
+          "2.2.0"
+        ],
+        [
+          "mdurl",
+          "0.1.2"
+        ],
+        [
+          "mypy",
+          "1.20.2"
+        ],
+        [
+          "mypy_extensions",
+          "1.1.0"
+        ],
+        [
+          "opentelemetry-api",
+          "1.44.0"
+        ],
+        [
+          "opentelemetry-sdk",
+          "1.44.0"
+        ],
+        [
+          "opentelemetry-semantic-conventions",
+          "0.65b0"
+        ],
+        [
+          "orqalis",
+          "2.1.0"
+        ],
+        [
+          "packaging",
+          "26.3"
+        ],
+        [
+          "pathspec",
+          "1.1.1"
+        ],
+        [
+          "pluggy",
+          "1.6.0"
+        ],
+        [
+          "pycparser",
+          "3.0"
+        ],
+        [
+          "pydantic",
+          "2.13.5"
+        ],
+        [
+          "pydantic-settings",
+          "2.15.0"
+        ],
+        [
+          "pydantic_core",
+          "2.46.5"
+        ],
+        [
+          "pygments",
+          "2.21.0"
+        ],
+        [
+          "pyjwt",
+          "2.15.1"
+        ],
+        [
+          "pytest",
+          "9.1.1"
+        ],
+        [
+          "pytest-cov",
+          "7.1.0"
+        ],
+        [
+          "python-dotenv",
+          "1.2.3"
+        ],
+        [
+          "python-multipart",
+          "0.0.32"
+        ],
+        [
+          "pywin32",
+          "312"
+        ],
+        [
+          "pyyaml",
+          "6.0.3"
+        ],
+        [
+          "referencing",
+          "0.37.0"
+        ],
+        [
+          "rich",
+          "15.0.0"
+        ],
+        [
+          "rpds-py",
+          "2026.6.3"
+        ],
+        [
+          "ruff",
+          "0.16.6"
+        ],
+        [
+          "shellingham",
+          "1.5.4"
+        ],
+        [
+          "sse-starlette",
+          "3.4.11"
+        ],
+        [
+          "starlette",
+          "1.6.0"
+        ],
+        [
+          "tree-sitter",
+          "0.26.0"
+        ],
+        [
+          "tree-sitter-javascript",
+          "0.25.0"
+        ],
+        [
+          "tree-sitter-typescript",
+          "0.23.2"
+        ],
+        [
+          "truststore",
+          "0.10.4"
+        ],
+        [
+          "typer",
+          "0.27.2"
+        ],
+        [
+          "types-jsonschema",
+          "4.26.0.20260518"
+        ],
+        [
+          "types-pyyaml",
+          "6.0.12.20260906"
+        ],
+        [
+          "typing-inspection",
+          "0.4.4"
+        ],
+        [
+          "typing_extensions",
+          "4.16.0"
+        ],
+        [
+          "uvicorn",
+          "0.52.4"
+        ],
+        [
+          "websockets",
+          "16.1.1"
+        ]
+      ],
+      "dependency_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+      "environment_policy": "isolated-source-v3; no inherited ORQALIS/PYTHON/PYTEST/GIT overrides; no user/system Git config; process-scoped core.autocrlf=input"
+    },
+    "exit_code": 0,
+    "child_source_policy": "rewrite-known-orqalis-cli-and-python-module-v2",
+    "child_launches": [
+      {
+        "launcher": "orqalis.exe",
+        "selected_source": "S:\\Orqalis\\.tools\\research\\baseline-b8506f7"
+      }
+    ],
+    "launcher_scope": "Contract CLI children use selected source; installed entrypoint/package itself is not qualified by this runner.",
+    "junit": {
+      "kind": "deterministic-pytest-contracts",
+      "junit_sha256": "a2b4f55ad32f364cbe3477f4b116a38c6df87c95ae98c7db5b56b2dfb48a8ae0",
+      "files": {
+        "tests/integration/test_executor.py": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_external_findings.py": {
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_external_skill_selection.py": {
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_mcp.py": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_memory_release.py": {
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_parallel.py": {
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_recovery.py": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_repair.py": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_runtime.py": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/integration/test_stack_fixtures.py": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/unit/test_git.py": {
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/unit/test_project_graph.py": {
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/unit/test_project_index.py": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        },
+        "tests/unit/test_security.py": {
+          "passed": 23,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        }
+      },
+      "test_count": 86,
+      "unmatched_cases": [],
+      "suite_errors": 0,
+      "complete": true,
+      "passed": true,
+      "live_engineering_task_success": null
+    },
+    "live_engineering_task_success": null
+  },
+  "complete": true
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-02T16:46:42.175519+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "UNAPPLIED_PROPOSAL_DEFAULT_AUTHORIZATION_SAFE_CUSTOM_SERVICE_COMPATIBILITY_NEEDS_RESOLUTION",
+  "actual_source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "reviewed_file_sha256": {
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    ".tools/research/release_preview_read_reuse_proposed.py": "62006a78f66cda55605f0dd8408d7229300cb900a81bb82f961d7b59cddb4bf1",
+    ".tools/research/release_preview_read_reuse_proposal.patch": "4f86932aa537b2d4cfd4749bb7e2eb9b265c7710d826f164dd355e17c1d43306",
+    "src/orqalis/core/goals.py": "57cdd235ac7f551c6ba03445e92d2111130b8839aec51056c706c94a3ed3a45d",
+    "src/orqalis/core/approvals.py": "2480231ce3f59d27b49dd2ea8ef4737f168a17c8e52ed3858fcc60c9673f7ba4",
+    "src/orqalis/core/approval_guard.py": "9ecb24c74b20295f0938431dab89455ebda87f76bda59806d2545107dae0e363",
+    "src/orqalis/core/approval_subjects.py": "de370a5f494f6f1d2367c2c4b28b06d95e5ea557201f965a7f6b6fb1b2cb8edc",
+    "src/orqalis/core/orchestrator.py": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+    "src/orqalis/domain/base.py": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+    "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+    "tests/integration/test_plan_preview.py": "ec2a147dd95a8b160812b74987346e1a5c405288d85285b7a9866309f4227376",
+    "tests/integration/test_authoritative_approval_gates.py": "ab80d8d39c01005f97b50c6ed77a0de76bf6a5c75e486791e5176af9ded30beb"
+  },
+  "proposal_applied": false,
+  "measured_workloads_or_tests_run": false,
+  "authorization_conclusion": {
+    "confirmed_new_P0_P1_authorization_findings": 0,
+    "scope": "Default SDK GoalService using the same unit-of-work factory; static review of unapplied proposal only.",
+    "proof": [
+      "Original and proposed preview preserve seven critical call ASTs exactly: factory/ensure/_request_plan/install_plan/advance; both with-context expressions remain identical. No commit added, removed or moved.",
+      "Direct snapshot read is scoped to current_goal_version_id and run.id under the existing first locked_run transaction. Default GoalService.get uses the same scoped repository lookup, but in its own read UOW (goals.py:239-247). SDK injects the same UOW into GoalService and PlanPreviewService (sdk.py:105-110).",
+      "GoalContract inherits frozen Contract; snapshot is local to one preview invocation, not a persistent/global cache (domain/base.py:12).",
+      "When GOAL approval is enabled, prepare_approval_request rechecks current goal version under its own locked run before looking up/staging a request (approvals.py:188-202,294-313). A revision between snapshot and ensure fails with ConflictError.",
+      "When GOAL approval is disabled, ensure intentionally returns None without a version check. install_plan nevertheless rejects a stale goal ID before plan persistence and re-reads current canonical contract; enabled authoritative GOAL approval is recomputed from that contract (orchestrator.py:80-116).",
+      "GoalService.revise writes a new goal ID and incremented version under the run lock (goals.py:249-292). A revision after ensure and before install cannot install a stale initial plan.",
+      "Mutable acceptance validation fields are intentionally excluded from goal_subject (approval_subjects.py:17-29); status updates do not invalidate operator approval. Goal scope/criteria contents and version remain in the digest.",
+      "Existing recovery-plan current-goal check and later advance current-goal binding remain; all PLAN request calls/checkpoint UOWs are retained unchanged."
+    ]
+  },
+  "compatibility_finding": {
+    "severity": "Compatibility issue; no demonstrated in-repo P0/P1",
+    "evidence": [
+      "plan_preview.py:28-35 constructor explicitly injects and retains GoalService",
+      "plan_preview.py:78 and101 currently dispatch self.goals.get",
+      "release_preview_read_reuse_proposed.py:74-81 replaces dispatch with direct repository access"
+    ],
+    "detail": "The proposal bypasses any injected GoalService.get override or differently configured service factory completely. No in-repo subclass/override was found in targeted source/tests search, but full custom-service equivalence cannot be claimed.",
+    "recommendation": "Retain the first existing self.goals.get(run_id) outside the initial UOW and reuse its local result for supervised planning. Autonomous planning retains its original single service read. This preserves service dispatch, avoids nested service UOW under the first lock, and still removes the duplicate default read. Review and test the resulting exact patch before execution."
+  },
+  "existing_test_evidence_read_not_run": [
+    "test_plan_preview.py:120 exact GOAL gate",
+    "test_plan_preview.py:143 installed-plan recovery",
+    "test_plan_preview.py:158 PLAN checkpoint matching approval notifications",
+    "test_plan_preview.py:224 rollback of PLAN checkpoint and its approval",
+    "test_authoritative_approval_gates.py:15 direct orchestrator cannot skip authoritative approvals"
+  ],
+  "recommended_lightweight_regressions_not_executed": [
+    "Injected goal-service read remains dispatched exactly once during supervised planning.",
+    "Goal revision between the reused read and enabled ensure fails closed; revision after ensure and before install fails closed; disabled GOAL gate still rejects stale plan goal ID.",
+    "Retain existing checkpoint notification and rollback tests."
+  ],
+  "automatic_approval_review_boundary": {
+    "prior_rejected_change": "Moving GOAL approval into initial UOW and removing tail PLAN checkpoint; rejected before execution for authorization/rollback risk.",
+    "this_review_is_not_approval_bypass": true,
+    "conclusion": "The read-local service-preserving alternative is within the existing user-authorized reversible optimization scope and does not require an invented approval flow merely because a different transaction-boundary proposal was rejected. It must be submitted as its distinct concrete action to normal automatic review; this independent review does not waive or override any rejection. A further rejection must be reported and resolved through a safer action or explicit user approval."
+  },
+  "limitations": [
+    "No proposal applied and no concurrent-revision test executed.",
+    "No claim that duplicate goal reads explain the observed 5-second PLAN failure; approval.ensure cost is retained unchanged.",
+    "No native-browser, benchmark, performance, installed-artifact or release-convergence qualification on this proposed candidate.",
+    "Only actual 196 source files plus pyproject/uv.lock source fingerprint and reviewed file bytes were checked; no new 390-input release freeze asserted."
+  ]
+}

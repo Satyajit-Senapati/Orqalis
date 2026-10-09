@@ -63,8 +63,9 @@ def redact(text: str) -> str:
 
 
 def safe_diagnostic(text: str) -> str:
+    lowered = text.lower()
     if re.search(r"(?i)-----BEGIN (?:[A-Z]+ )*PRIVATE KEY", text) or any(
-        marker in text.lower()
+        marker in lowered
         for marker in (
             "chain_of_thought",
             "<thinking>",

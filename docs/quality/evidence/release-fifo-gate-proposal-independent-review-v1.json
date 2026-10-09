@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T07:53:43.221182+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "UNAPPLIED_PROPOSAL_REENTRANT_ZERO_TIMEOUT_CORRECTION_REQUIRED",
+  "production_locking_sha256": "0b6a097ea313ab219e08d95528476eb179f87f70dddee057f53eb500fb98ef53",
+  "private_proposal_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+  "source_helper_test_edits": false,
+  "workloads_run": false,
+  "confirmed_proposal_compatibility_findings": [
+    {
+      "severity": "Must resolve before application; no demonstrated production P0/P1 reachability",
+      "finding": "An owning thread can fail a nested acquire(timeout=0) if another waiter temporarily holds the Condition bookkeeping mutex. Original same-owner RLock succeeds immediately in this case. Timed Condition entry happens before the owner branch, so the reentrant exception does not apply.",
+      "evidence": "release_fair_lock_proposal.py _ReentrantGate.acquire initial Condition.acquire precedes _owner == owner. FileLock promises reentrancy per path/thread; task_store.py includes timeout=0 use.",
+      "recommendation": "Retain same-owner immediate reentrancy independently of competing bookkeeping lock entry, while preserving invalid-timeout validation. Add a deterministic public FileLock nested zero-timeout case with a competing thread held at bookkeeping entry."
+    }
+  ],
+  "earlier_findings_corrected_in_reviewed_bytes": [
+    "Queued handoff now rechecks deadline before assigning ownership.",
+    "Initial bookkeeping mutex uses timed acquire and finally release.",
+    "Underlying RLock timed entry again validates NaN/infinity/>TIMEOUT_MAX rather than allowing NaN busy-spin or silent uncontended infinity.",
+    "Free nonzero acquisition rechecks elapsed deadline; zero-timeout free acquisition remains immediate."
+  ],
+  "sound_parts": [
+    "FIFO ordering is by enrollment in the explicit deque, not absolute thread start time; an unrelated arriving thread cannot bypass existing tokens.",
+    "Queue token exists throughout wait and is removed with notify_all in finally on timeout or wait exception; no empty-deque head access during own waiting lifetime.",
+    "Nested depth tracks same-thread recursive entry; only the owner can release the gate.",
+    "FileLock class, registry lookup, platform lock/unlock, filesystem handle initialization/fsync and cleanup ASTs are unchanged from actual production.",
+    "OS advisory exclusion and cross-process behavior remain unchanged; FIFO fairness applies only within the process."
+  ],
+  "ownership_limitations": [
+    "Direct gate release rejects a non-owner before changing gate depth.",
+    "Existing FileLock.release mutates instance/state depths and may unlock the file before gate owner validation for a wrong-thread release. This pre-existing unsupported-use behavior is unchanged; the proposal does not make cross-thread release safe.",
+    "Thread identity reuse after a thread exits while owning a lock remains an inherited RLock-like boundary."
+  ],
+  "deadline_limitations": [
+    "Condition.wait must reacquire its bookkeeping mutex before returning/cleaning up. Python thread scheduling can delay physical method completion beyond a timeout, as with standard synchronization primitives; no hard real-time wall deadline is claimed.",
+    "Reentrancy intentionally bypasses queued contenders while the same owner retains the outer lock; long critical sections or nested work can still cause honest 10-second timeouts.",
+    "FIFO does not establish the root cause of the observed original concurrency failure; barging remains a hypothesis."
+  ],
+  "memory_and_cost": [
+    "Permanent registry path retention is unchanged. Each gate adds a Condition/RLock and deque; each live waiter adds an explicit token in addition to Condition waiter state. Tokens are removed on completion/timeout/exception.",
+    "notify_all on release and token removal can create a thundering herd. deque.remove is linear in current queue size. Throughput/latency effects require existing focused tests and measured qualification.",
+    "_state_for retains eager setdefault construction, so a new discarded gate is allocated even for existing keys; this pre-existing pattern now constructs more objects. No registry/cache redesign is recommended in this proposal."
+  ],
+  "qualification": "No proposal applied or test workload executed by reviewer; production source remains unchanged. Do not apply until zero-timeout reentrancy is resolved and public fairness/timeout/interruption/ownership regressions plus unchanged frozen event-concurrency test pass. No performance, convergence or release-ready claim."
+}

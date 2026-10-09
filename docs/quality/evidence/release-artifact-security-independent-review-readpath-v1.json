@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T12:48:05.255122+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "BOUNDED_LOCAL_WINDOWS_CAPTURE_ARTIFACT_SECURITY_REVIEW_PASS",
+  "scope": "Read-only existing source-bound archive/installed/audit capture validation. No new audit, install, test, benchmark or native workload; no publication or final release signoff.",
+  "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "source_inputs": 196,
+  "release_input_sha256": "a6aab317af7c9cb41f8eb2742c58752a732299ce814e3d88520f1d734a2aca4a",
+  "all390_frozen_file_hashes_and_aggregate_verified": true,
+  "all15_private_helper_hashes_verified": true,
+  "accepted_capture_source_input_and_helper_inventory_binding_verified": true,
+  "artifacts": [
+    {
+      "path": ".tools/research/artifacts-release-2.1.0-readpath/orqalis-2.1.0-py3-none-any.whl",
+      "sha256": "f96ed0cc2aedc92070443687d999dfba96bc5f553a703c463f6480396952b802",
+      "bytes": 520972,
+      "members": 208
+    },
+    {
+      "path": ".tools/research/artifacts-release-2.1.0-readpath/orqalis-2.1.0.tgz",
+      "sha256": "bf9913f75591e36f065ea69dd113bc77579b4ce3009b9dee7d5bff0091adcc9a",
+      "bytes": 3375392,
+      "members": 71
+    }
+  ],
+  "reports": [
+    {
+      "path": "docs/quality/evidence/release-artifact-identity-readpath.json",
+      "sha256": "f9da9683f2e9c25c5a80e0a54bfc09d45648bd9c776041a60d619ad5efe93309"
+    },
+    {
+      "path": "docs/quality/evidence/installed-wheel-release-2.1.0-readpath.json",
+      "sha256": "4bf6ccb42dc6764af46507155c8612e3beb8c0258c871203953662f8bf254397"
+    },
+    {
+      "path": "docs/quality/evidence/installed-npm-release-2.1.0-readpath.json",
+      "sha256": "053f24b7f559bf38d35651764af2cacd618fe80bde99c16095e22c4d8f20a9b9"
+    },
+    {
+      "path": "docs/quality/evidence/release-installed-wheel-inventory-readpath.json",
+      "sha256": "1d3bce5dbffc3072a46c98e073aed0e7cdd873a2ed929532bbd4024dd5aa37f8"
+    },
+    {
+      "path": "docs/quality/evidence/release-installed-wheel-advisories-readpath.json",
+      "sha256": "d934a1768eeaa380afa70c34999915a15471f0335f3755e6f969fae3aba0e6ed"
+    },
+    {
+      "path": "docs/quality/evidence/release-installed-npm-inventory-readpath.json",
+      "sha256": "1d3bce5dbffc3072a46c98e073aed0e7cdd873a2ed929532bbd4024dd5aa37f8"
+    },
+    {
+      "path": "docs/quality/evidence/release-installed-npm-advisories-readpath.json",
+      "sha256": "d934a1768eeaa380afa70c34999915a15471f0335f3755e6f969fae3aba0e6ed"
+    },
+    {
+      "path": "docs/quality/evidence/release-input-freeze-readpath.json",
+      "sha256": "1fb60b6d87b2fd289b84e9c26fcf315089422578b092a9da132cbf541ae154a9"
+    },
+    {
+      "path": "docs/quality/evidence/release-private-helper-inventory-readpath.json",
+      "sha256": "df8c70ca3f247e636cfb8d5419adb1a9c84795ee765c729731b3e6e79827b80f"
+    },
+    {
+      "path": "docs/quality/evidence/release-source-freeze-readpath-accepted.json",
+      "sha256": "050a51b797aa7210852f674d147358401dab8e043ed712ca51ef43b63c397bed"
+    }
+  ],
+  "archive_checks": {
+    "embedded_wheel_byte_equal": true,
+    "wheel_RECORD_hashes_and_sizes_verified": true,
+    "tar_members_regular_no_links_duplicate_names_or_path_traversal": true,
+    "vendor_manifest_sha256": "12dcca4477a4d56bc11b6644b6c449ecdb6e38c729dc455f0f6787d34961781b",
+    "manifest_source_members": 194,
+    "source_bytes_equal_frozen_checkout": true,
+    "web_members": 9,
+    "web_hashes_equal_manifest": true,
+    "all203_application_web_members_byte_equal_in_both_installed_runtimes": true,
+    "launcher4_js_and_package_json_equal_frozen_checkout_tar_and_install": true,
+    "ready_marker_sha256": "5ef9d4cea8bfc3d711800b7f9f2db4f3a85088ffa01684c0e27bbed325eca6c6",
+    "ready_fingerprint_equals_exact_vendor_manifest_sha256": true,
+    "no_cache_tools_quality_project_state_env_private_key_or_database_files_in_archives": true,
+    "hashed_export_excludes_sqlalchemy_alembic_pgvector_psycopg_runtime": true
+  },
+  "bootstrap": {
+    "version": "26.2.1",
+    "wheel_sha256": "71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e",
+    "metadata_license_and_export_hash_verified": true,
+    "boundary": "Exact vendor manifest file hashes verified before bundled no-index/no-deps pip upgrade; installer PIP_CONFIG_FILE platform nul/devnull, isolated hash-required binary dependency install, isolated own-wheel no-index/no-deps and pipcheck. Frozen packaged JS matches reviewed source; bootstrap pip included in both final exact inventories."
+  },
+  "dependency_audits": [
+    {
+      "environment": "wheel",
+      "exact_third_party_pins": 51,
+      "reported_vulnerabilities": 0,
+      "skips": 0,
+      "exclusions": 0,
+      "pip": "26.2.1",
+      "pyjwt": "2.15.1",
+      "audit_pin_set_matches_inventory_hashed_export_uv_lock": true,
+      "pins_sha256": "cff4cd72f7f4e5ad0be260acd148942d84a5835fb48e98a8d093e57d2ca637ac"
+    },
+    {
+      "environment": "npm",
+      "exact_third_party_pins": 51,
+      "reported_vulnerabilities": 0,
+      "skips": 0,
+      "exclusions": 0,
+      "pip": "26.2.1",
+      "pyjwt": "2.15.1",
+      "audit_pin_set_matches_inventory_hashed_export_uv_lock": true,
+      "pins_sha256": "cff4cd72f7f4e5ad0be260acd148942d84a5835fb48e98a8d093e57d2ca637ac"
+    }
+  ],
+  "audit_command_provenance": "Frozen release_artifacts_readpath.py writes all exact installed pins and runs pip-audit --no-deps --disable-pip --strict, requires full matching result set and zero vulnerabilities/skips. No ignore-vuln/exclusion flags. This review did not rerun advisory lookup.",
+  "installed_evidence": {
+    "wheel_status": "PASS",
+    "source_isolated_database_runtime_absent_graph_py_tsx_native_coordinates_incremental_and_cli_checks_captured": true,
+    "npm_checks": {
+      "version_help": "PASS",
+      "filesystem_doctor_no_database": "PASS",
+      "fresh_project_idempotent_init": "PASS",
+      "status_memory_context": "PASS",
+      "agent_skill_catalog": "PASS",
+      "explicit_goal_run": "PASS",
+      "mcp_stdio_version_context": "PASS",
+      "packaged_ui_host": "PASS",
+      "ui_cold_start_hostile_cwd": "PASS",
+      "ui_command_reuse": "PASS",
+      "ui_foreground_session": "PASS",
+      "static_assets": "PASS",
+      "direct_route_refresh": "PASS",
+      "api_schema": "PASS",
+      "websocket_order_reconnect": "PASS",
+      "owned_process_shutdown": "PASS",
+      "cwd_import_isolation": "PASS"
+    },
+    "npm_check_count": 17,
+    "mcp_tools": 41,
+    "npm_raw_capture_equals_canonical_copy": true,
+    "cold_cached": "Frozen capture invokes smoke_npm.py with exit checking; smoke asserts initial version launch then cached launch without preparation stderr. No separate hash-bound raw smoke JSON/log located, so no independently reviewed cold/cache timings claim. Ready marker/current installed bytes verified;17checks include hostile-cwd cold UI, command reuse and shutdown."
+  },
+  "documentation": {
+    "initial_tar_and_install_snapshot_files": 43,
+    "digest": "6bb6056c71024015dd582dce34a12c9d2b7100bf5e3f1b98a86c75c5ae4b1166",
+    "actual_tar_digest_and_all_initial_installed_docs_verified": true,
+    "root_README_exact_current_tar_and_installed_bytes": true,
+    "current_two_editorial_doc_changes_exempt_from_initial_snapshot_match": true,
+    "final_doc_repack_runtime_byte_proof_pending": true
+  },
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "verification_disposition": "All archive/source/install/record/requirements-lock/audit/doc assertions completed before first save attempt; save alone failed on reviewer st_size() formatting bug, no file written. Corrected save rechecks current file/helper/artifact identities; no artifact/report mutation.",
+  "limitations": [
+    "Local Windows unpublished installed artifacts; no Linux/macOS/Docker/paid-provider/global-host claim.",
+    "Zero reported advisories describes captured audit scope/date, not absence of undisclosed vulnerabilities.",
+    "Archive entry names and source-bound allowlisted payloads inspected, not a general secret-content scanner. Intentional database-edit skill remains; no legacy database runtime/bootstrap claimed shipped.",
+    "One early path-discovery rg inadvertently enumerated dependency filenames; no third-party content scan/runtime audit executed. Subsequent inspection used fixed known members/bounded top-level paths.",
+    "Final documentation repack and measured rounds8/9 still pending; no final release signoff or convergence."
+  ]
+}

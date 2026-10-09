@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:24:43.457061+00:00",
+  "status": "APPROVED_ONE_FIXED_DIAGNOSTIC_ONLY",
+  "independent_reviewer": "root; author release_security_review",
+  "plan_sha256": "971ff87e7c7b882cd0ef2efcdc35b253e185ba790e85dce68b3f89bfca6e6723",
+  "runner_sha256": "ced049f18466cd85b2da164185fedb5468538217b1a74f1b38217106317d516a",
+  "review": "Read actual complete runner and plan, AST parsed, directly invoked guards only (no workload), full source196/input390/gold3/fixture/script/environment/originalfailedreport/log bindings passed. Original benchmark worker called once, native delegates retain retry and error propagation. Read-handle proxy affects stream identity/timing; records observed handles rather than asserting absence of external conflicts. GetFileAttributesW only on permission denial; no external process scans, forced delays, ACL/security/OS changes or new retries. Exclusive fixture retained, before/after guards and raw exceptions preserved.",
+  "limits": [
+    "Original failed fixture was automatically cleaned up and cannot be reconstructed or claimed retained.",
+    "One unmodified worker scenario with original300s deadline; no qualification or performance credit and no retry after outcome.",
+    "Open observation begins after actual open returns; close record follows actual closure. Positive observed overlap is useful but instrumentation gaps and unobserved handles preclude proof of absence or original failure cause.",
+    "Timeout preserves fixture but can lose buffered observations; owned descendant cleanup may require a separate bounded inspection.",
+    "No production/test/frozen helper changes approved by this diagnostic design."
+  ],
+  "main_commit_or_publication": false
+}

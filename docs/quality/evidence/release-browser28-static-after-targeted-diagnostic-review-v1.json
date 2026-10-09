@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T07:55:06.920433+00:00",
+  "status": "ORIGINAL_BROWSER28_FAILURE_UNRESOLVED_TARGETED_DIAGNOSTIC_NARROWS_HYPOTHESES",
+  "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "release_input_sha256": "e80768abc2cbf40e0234918808c2b39dcb26be4bb2363d3e60dd0ccfbc482348",
+  "scope": "Bounded selected preceding browser specs, API host/event lifecycle, browser runtime cleanup and actual171-row diagnostic trace read only; no workload, import, test, source/dependency scan or mutation.",
+  "diagnostic_sha256": "90d9835c8f88b7d6f85987e25a7f4480ef96fcf9d911c0529e716a92b50810a4",
+  "observed": {
+    "recorded_calls": 171,
+    "source_input_stable": true,
+    "observer_errors": [],
+    "preview_calls": [
+      {
+        "stage": "PlanPreviewService.preview",
+        "thread_id": 16276,
+        "preview_thread": true,
+        "started": 531989.7812448,
+        "finished": 531990.1649092,
+        "elapsed_seconds": 0.3836644000839442,
+        "error_type": "PolicyDeniedError"
+      },
+      {
+        "stage": "PlanPreviewService.preview",
+        "thread_id": 16276,
+        "preview_thread": true,
+        "started": 531991.368399,
+        "finished": 531993.2082044,
+        "elapsed_seconds": 1.8398053999990225,
+        "error_type": null
+      }
+    ],
+    "largest_inclusive_call_by_stage": {
+      "TaskCapsuleSession._recover": 0.5549575000768527,
+      "TaskCapsuleSession.load_capsule": 0.7019175000023097,
+      "GoalService.get": 0.015312499948777258,
+      "TaskCapsuleSession.commit": 0.6240259000333026,
+      "FilesystemProjectUnitOfWork.commit": 0.6244197998894379,
+      "ApprovalService.ensure": 0.3397790000308305,
+      "PlanPreviewService.preview": 1.8398053999990225,
+      "ProjectGraphEngine.refresh_with_status": 0.11618080001790076,
+      "ProjectContextBuilder.build_with_graph": 0.1224812000291422,
+      "MemoryService.context": 0.3155377999646589,
+      "Orchestrator.install_plan": 0.6182802999392152,
+      "Orchestrator.advance": 0.7207446999382228
+    },
+    "limits": "One targeted unchanged governance test with existing5000ms assertions. Pass-through method clocks/delegates original exactlyonce; nested wall rows nonadditive and perturbed. Background calls are included only when a preview is active at call entry; earlier-starting overlapping calls are omitted. Does not reproduce prior13-test browsing history, change deadlines/gold/source, establish host idleness or grant acceptance. Ephemeral operator token omitted from trace; private Playwright context may contain it."
+  },
+  "comparison": {
+    "preceding_browser_interactions": "Before governance, inspected12 tests perform GET/navigation/reload and browser-local route/socket interceptions. No persistent plan/run mutation or canonical fake-history/project insertion found.",
+    "page_cleanup": "Tests use normal Playwright page fixtures. useRun aborts fetch, clears reconnect retry and closes its owned socket during effect cleanup. No concrete client socket leak identified.",
+    "API_cleanup": "Stream subscribes before replay, polls snapshot/events every1s or notification, races sender vs receive_disconnect, cancels/gathers both under shield. Already-running to_thread snapshot/events I/O remains allowed to finish.",
+    "supported_difference": "Fresh targeted flow lacks preceding full-suite socket/read history. Overlapping trailing read work can compete for capsule state lock. Passing trace already records0.702/0.559s concurrent waits; this supports a contention hypothesis, not a proven original28 cause.",
+    "state_inflation": "No preceding persisted data expansion found. Browser mock data is not canonical store state.",
+    "UI_race": "Original secondPOST has no completion in retained log and Creating busy state remains; stale DOM-only race not demonstrated."
+  },
+  "fix_disposition": "No evidence-based production fix identified from targetedPASS alone. Duplicate goal lookups/final approval ensure remain concrete small-work candidates, but their measured passing cost is not a cause explanation for the unreproduced5s failure. Preserve version/approval/recovery guarantees and do not bypass context/recovery or extend assertion/fetch deadlines.",
+  "finite_next_evidence": [
+    "ONE predeclared unchanged full14 browser flow with same original5s assertions, capturing passive preview subcall/commit/state-lock read-recovery entry-exit durations across preceding tests. It is a diagnostic, not a blind qualification retry.",
+    "Capture owned WebSocket subscription/open/close counters and earlier-starting overlapping calls to test residual work hypothesis; current171-row trace includes background only when preview was active at call entry, so earlieroverlap is omitted.",
+    "Preserve new owned fixture and any failure state. If a slow boundary appears, bounded safe Python-frame snapshots may localize wait; no nativefaulthandler or process/system scans.",
+    "Select only a localized, semantics-preserving fix from actual evidence; successful diagnostic alone cannot erase failed28 or close Master53."
+  ],
+  "blocked_acceptance": "Round28 remains13PASS1FAIL and incomplete;29unrun. No benchmarks/convergence credit, capability promotion, speed equivalence or final signoff.",
+  "workloads_invoked_by_reviewer": 0,
+  "accepted_convergence_iterations": 0
+}

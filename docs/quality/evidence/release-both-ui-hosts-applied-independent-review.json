@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T09:29:55.331684+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "BOUNDED_APPLIED_SHARED_SELECTOR_REVIEW_PASS",
+  "scope": "Read-only source reconstruction and inspection of captured actual-source focused/static evidence. No workload run by reviewer.",
+  "source_sha256": "f30ef25cfab6a64a83f1e9603a01f121d3c1130a9067738a9f2ff62096532705",
+  "source_inputs": 196,
+  "inverse_previous_source_sha256": "c3439180020ec483f902b61b757e1f7bb50756f4e7d59f6de16adb87d0ae0111",
+  "inverse_reconstruction_proves_only_two_production_deltas": true,
+  "exact_proposals": [
+    {
+      "production": "src/orqalis/api/hosting.py",
+      "production_sha256": "f15bdcc0512416d4f0b15caf91625523331ab795fe6ea872b77dae2613318a4c",
+      "proposal": ".tools/research/release_both_ui_hosts_proposal_v1.py",
+      "proposal_sha256": "f15bdcc0512416d4f0b15caf91625523331ab795fe6ea872b77dae2613318a4c",
+      "byte_identical": true
+    },
+    {
+      "production": "src/orqalis/cli/app.py",
+      "production_sha256": "27ac888668e7210a6927efebf3dafb41207997cd2b1d54db90aec5737dac86e9",
+      "proposal": ".tools/research/release_serve_loop_proposal_v1.py",
+      "proposal_sha256": "27ac888668e7210a6927efebf3dafb41207997cd2b1d54db90aec5737dac86e9",
+      "byte_identical": true
+    }
+  ],
+  "prior_proposal_review": {
+    "path": "docs/quality/evidence/release-both-ui-hosts-proposal-independent-review.json",
+    "sha256": "3de34d4e59bcab5cb49b6054bb201d7f9107133efa7e399c62419293fcdefea9"
+  },
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "boundaries": [
+    "Shared local_loop evaluates identical existing platform selection and returns the same imported factory string on Windows, auto elsewhere. The actual SelectorEventLoop instance factory body is unchanged.",
+    "Standalone serve passes only the new loop argument. Existing root/app creation, loopback validation, host/port, Uvicorn defaults, optional imports and other commands remain unchanged.",
+    "API authorization/operator-token, origin/loopback/TrustedHost/WebSocket behavior and owned-session port/scope checks, shutdown deadline and teardown unchanged.",
+    "No process-global asyncio policy change or SDK/harness worker/subprocess loop change. Windows Selector socket/noasyncsubprocess limitations remain scoped to the local socket-only ASGI host.",
+    "Installed Uvicorn0.52.4 supports factory import protocol; configured minimum>=0.36 retained. Existing app-instance serving is single-process: WEB_CONCURRENCY>1 remains rejected before serving, not a newly supported worker mode."
+  ],
+  "focused_evidence": {
+    "path": "docs/quality/evidence/release-both-hosts-focused-v1.json",
+    "sha256": "6a3d5ccc797b24f90b24344c7b6fb9956c567cfd63ceafb2a90588a36a386c56",
+    "cases": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "actual_runner_sha256": "ef8a4d0a5ada959cb2c9f5bef8d3bc0df30d874bf390d800dfe27c182995cd14",
+    "actual_test_file_sha256": {
+      "tests/unit/test_interface_release.py": "443bd483ab54a5e52d0fe4185a7c64ab6d2f310040c78ac3082125331f43004d",
+      "tests/unit/test_cli_release.py": "2f4d9529b0edd7eda92a2538029467e5aa8035ba7e1694baad70f95a809c7198"
+    },
+    "actual_junit_sha256": "273dbf68aeb93126d6eee8bcdc0c447287de25d37b0836810829bec5a32c0600",
+    "actual_log_sha256": "782165c45b0307dbe2ccb75321c9f43d9a170c83fccfcb765502b06210a0744c",
+    "windows_nonwindows_serve_seams": [
+      {
+        "classname": "tests.unit.test_cli_release",
+        "name": "test_cli_serve_selects_same_local_loop_without_changing_binding[win32-orqalis.api.hosting:_windows_ui_loop_factory]",
+        "time": "0.045"
+      },
+      {
+        "classname": "tests.unit.test_cli_release",
+        "name": "test_cli_serve_selects_same_local_loop_without_changing_binding[linux-auto]",
+        "time": "0.106"
+      }
+    ],
+    "outputs_and_current_test_hashes_verified": true,
+    "runner_guard_inspected": "Isolated Python current-source import guard, complete two test files, controlled environment, source/test stability and write-once outputs."
+  },
+  "static_evidence": {
+    "path": "docs/quality/evidence/release-both-hosts-static-focused-v1.json",
+    "sha256": "be5de0bc5f8227575761b898f115dc4104ab24aa249beea3e181f3e56c4b22e5",
+    "checks": [
+      {
+        "name": "strict-types",
+        "exit_code": 0,
+        "log": ".tools/research/release-both-hosts-static-strict-types-v1.log",
+        "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+      },
+      {
+        "name": "ruff-lint",
+        "exit_code": 0,
+        "log": ".tools/research/release-both-hosts-static-ruff-lint-v1.log",
+        "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+      },
+      {
+        "name": "ruff-format",
+        "exit_code": 0,
+        "log": ".tools/research/release-both-hosts-static-ruff-format-v1.log",
+        "sha256": "f82b031f997f0909d82c00a03c55289a3924bafda955b7cb56163183055129c3"
+      }
+    ],
+    "actual_logs_verified": true,
+    "strict_source_files": 287,
+    "scope": "Three focused static checks; not all eleven release gates"
+  },
+  "limitations": [
+    "Two new standalone serve cases mock uvicorn.run and assert identical application, loopback host, port and platform-specific loop argument. They are seam coverage, not native standalone-server reset/shutdown tests.",
+    "Earlier private20-reset owned-session probe remains historical; instance factory unchanged, but no new standalone native reset evidence claimed.",
+    "Current browser/full86 contracts/full eleven static preflight/installed artifacts/full qualification rounds/performance/release readiness remain separate and pending; no convergence or browser pass inferred."
+  ]
+}

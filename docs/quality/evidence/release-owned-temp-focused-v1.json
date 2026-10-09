@@ -1,0 +1,45 @@
+{
+  "command": [
+    "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+    "-I",
+    "-B",
+    "-c",
+    "import sys;sys.path[:0]=[sys.argv.pop(1),sys.argv.pop(1)];import pytest;raise SystemExit(pytest.main(sys.argv[1:]))",
+    "S:\\Orqalis\\src",
+    "S:\\Orqalis",
+    "-q",
+    "-x",
+    "tests/unit/test_atomic_temporary_verification.py",
+    "tests/unit/test_filesystem_foundation.py",
+    "tests/unit/test_filesystem_shared_reads.py",
+    "tests/unit/test_memory_benchmark.py",
+    "--junitxml",
+    "S:\\Orqalis\\docs\\quality\\evidence\\release-owned-temp-focused-v1.junit.xml"
+  ],
+  "cleanup_errors": [],
+  "owned_launcher_pid": 19540,
+  "assigned_before_resume": true,
+  "exit_code": 0,
+  "child_reaped": true,
+  "job_before_cleanup": {
+    "total_processes": 72,
+    "active_processes": 1,
+    "terminated_processes": 0
+  },
+  "job_after_normal_exit_grace": {
+    "total_processes": 72,
+    "active_processes": 0,
+    "terminated_processes": 0
+  },
+  "unexpected_live_descendants_after_normal_exit": false,
+  "job_after_cleanup": {
+    "total_processes": 72,
+    "active_processes": 0,
+    "terminated_processes": 0
+  },
+  "job_handle_closed": true,
+  "log_sha256": "148d179e241c64a9873b9c36eb28d5818e5136dabdc2b0ef757aa72db0c7213e",
+  "source_sha256": "940bb856d0874bc58510b6d7e92ca4ed8c283c204dab5b090545d27a8e439f08",
+  "source_stable": true,
+  "scope": "Current source focused atomic persistence and read-observer regression tests; no benchmark credit"
+}

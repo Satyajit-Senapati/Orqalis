@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-10-07T06:50:40.423204+00:00",
+  "controller_sha256": "2bc35bb6f2a4ebf515a0ca433f1832b7ef5ebdd35dd65cf13b06aec582818833",
+  "cases": [
+    {
+      "case": "success",
+      "status": "PASS",
+      "observed_primary": null,
+      "entry": {
+        "command": [
+          "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+          "-I",
+          "-B",
+          "-c",
+          "print(\"owned lifecycle success\",flush=True)"
+        ],
+        "cleanup_errors": [],
+        "owned_launcher_pid": 12812,
+        "assigned_before_resume": true,
+        "exit_code": 0,
+        "child_reaped": true,
+        "job_before_cleanup": {
+          "total_processes": 3,
+          "active_processes": 1,
+          "terminated_processes": 0
+        },
+        "owned_job_termination_requested": true,
+        "job_after_cleanup": {
+          "total_processes": 3,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "job_handle_closed": true,
+        "log_sha256": "6c1f23e4351db95747119269c2ed36e88b28c78dc8a8f9f442ecfa80dfe8d5a1"
+      }
+    },
+    {
+      "case": "timeout_descendant",
+      "status": "PASS",
+      "observed_primary": "TimeoutExpired",
+      "entry": {
+        "command": [
+          "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+          "-I",
+          "-B",
+          "-c",
+          "import subprocess,sys,time; subprocess.Popen([sys.executable,\"-I\",\"-B\",\"-c\",\"import time; time.sleep(120)\"]); print(\"owned descendant started\",flush=True); time.sleep(120)"
+        ],
+        "cleanup_errors": [],
+        "owned_launcher_pid": 26688,
+        "assigned_before_resume": true,
+        "primary_error_type": "TimeoutExpired",
+        "job_before_cleanup": {
+          "total_processes": 5,
+          "active_processes": 5,
+          "terminated_processes": 0
+        },
+        "owned_job_termination_requested": true,
+        "job_after_cleanup": {
+          "total_processes": 5,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "job_handle_closed": true,
+        "exit_code": 4294967295,
+        "child_reaped": true,
+        "log_sha256": "b7b7d13e43824fe2c692287c8e437af594feb198c3ec13e3c88217cbc81ce7ce"
+      }
+    },
+    {
+      "case": "assignment_failure",
+      "status": "PASS",
+      "observed_primary": "RuntimeError",
+      "entry": {
+        "command": [
+          "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+          "-I",
+          "-B",
+          "-c",
+          "import subprocess,sys,time; subprocess.Popen([sys.executable,\"-I\",\"-B\",\"-c\",\"import time; time.sleep(120)\"]); print(\"owned descendant started\",flush=True); time.sleep(120)"
+        ],
+        "cleanup_errors": [],
+        "owned_launcher_pid": 4988,
+        "primary_error_type": "RuntimeError",
+        "owned_unassigned_launcher_termination_requested": true,
+        "job_before_cleanup": {
+          "total_processes": 0,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "job_after_cleanup": {
+          "total_processes": 0,
+          "active_processes": 0,
+          "terminated_processes": 0
+        },
+        "job_handle_closed": true,
+        "exit_code": 1,
+        "child_reaped": true,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "scope": "Tiny owned-process lifecycle only; no application tests, benchmark samples, or global process termination."
+}

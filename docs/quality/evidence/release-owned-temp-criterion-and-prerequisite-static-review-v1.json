@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T08:47:33.556587+00:00",
+  "status": "SOURCE_METHOD_STATICALLY_SUPPORTED_QUALIFICATION_ADMISSION_BINDINGS_NEED_SUCCESSORS",
+  "scope": "Targeted temporary writer, ReadProbe, new tests, prerequisite and draft qualifier source plus named delta/freeze/static metadata only. No imports/workloads/native query or broad hashes.",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "input_count": 394,
+  "named_reviewed_bytes": {
+    "src/orqalis/persistence/filesystem/io.py": "054d2f51e9406db2b71118c209d45f99643e7b42accda210c02815bb4d6cb4f9",
+    "scripts/benchmark_memory.py": "5e895103ad3ae16e06797df832b1d4974ba1fe7778742865714bdfe19580befe",
+    "tests/unit/test_atomic_temporary_verification.py": "cfc4ae7d0dd14d060b913fb518dce2abe978d50779f6fd3513db27627f42f931",
+    ".tools/research/release_owned_temp_prerequisites_v1.py": "6d4527692e5f36c0029ef1fe4b0e2ac835c4f276e9f304e4566eca711e74b3ed",
+    ".tools/research/release_qualification_owned_temp_v1.py": "1dcd4f81528fe56280f97d39aa4ac50a7da9c6c18548ac11cdc02e522aea0c33",
+    "docs/quality/evidence/release-owned-temp-exact-delta-staging-v1.json": "6483ae7f0955d55c54edea342fd56661c344b07d76ac77a968aa1337c8a52866",
+    "docs/quality/evidence/release-input-freeze-owned-temp-v4.json": "aa5d2b13d0760a6ef9553fb3b06ed853ee62ad99a98614cbf35abd030f614728",
+    "docs/quality/evidence/release-static-owned-temp-release.json": "7d02033c69d41aed8a5f84db52f82e2351b59c2d1f7c59567f1a170d1faa7fa1"
+  },
+  "source_disposition": {
+    "motivation": "Finite current nativecost temporary2120 reopens31.764s inclusive is an observed current-path hotspot, not proof of historical63/71 cause.",
+    "algorithm": "Write_all, flush andfsync retained. Owned w+b descriptor seek/read compares exact bytes once; fstat captures identity, then fresh ancestry/path regular/reparse+samestat identity guards before descriptor close, after close beforechmod, and before each rename/backoff retry. Unknown ownership failure leaves identity_lost so cleanup avoids foreignpathname mutation.",
+    "bounded_fallback": "When stable inode identity is unavailable, retained pathname-content verification remains; it is a parity fallback, not proof of adversarial ownership equivalence. Snapshot guard windows do not establish atomicTOCTOU immunity.",
+    "unchanged_guarantees": "Original retries5/recognizedWin5/32/33/20-40-80-160ms sleeps, old target and mode/security/durability policy preserved; no recovery-write skip, golden or deadline changes.",
+    "tests_reviewed": "Corrupt/shortwrite, same-content pathname substitution, guard metadata failure exact primary and no cleanupmutation tests cover meaningful branches. Actual133focus and fresh13statics are recorded by parent/source-bound metadata; reviewer did not execute them.",
+    "no_supported_new_source_P0_P1_from_static_review": true
+  },
+  "memory_method": "Only ReadProbe observes natural _verify_temporary by wrapping same existing descriptor, finalizes binary decoder without closing caller-owned stream. This preserves the logical verification read across old reopened/currentownedfd paths; open_operations is a logical readable-observation counter and must not be described as native file opens/physicalI/O. Worker/witness/gold/budget methods remain unchanged by recorded ASTproof. No currenttest inverse-AST claim after later typing fixes.",
+  "exact_draft_gaps": [
+    {
+      "file": ".tools/research/release_qualification_owned_temp_v1.py",
+      "finding": "Current quality --contract-evidence points historicalb897 release-contracts-current-final-fixes-v2.json; replace with actual source01 freshownedtemp86 path before launching."
+    },
+    {
+      "file": ".tools/research/release_qualification_owned_temp_v1.py",
+      "finding": "Both execution verification invocations and report policy remain final-fixes b897; stage source01/inputa0 reference verifier/policy preserving all9 baseline observations and original26+4/fixtures/deadlines, then exactreview."
+    },
+    {
+      "file": ".tools/research/release_owned_temp_prerequisites_v1.py",
+      "finding": "Restore originalcontract.environment==normalized actualenvironment_metadata(1) and child_launches==parsed named childrenJSONL admission gates. Merely hashing childfile/currentenvironment afterwards does not establish that the contract run matches those identities."
+    }
+  ],
+  "required_next_evidence": [
+    "Freshcurrent86 actual completion with exact source/tests/runner/helper/dataset/environment/childaudit/XML binding before prerequisite launch.",
+    "Fresh source01 artifacts/installed17-MCP41/exactaudits, heldout and1001history rather than relabeling b897 application evidence. Existingfrontend bytes may be explicitly bridged asunchanged.",
+    "Final bridge/plan/helperinventory and source01policy successors must actually exist/freeze and receive exactprelaunch reviews; draft qualifier is not launchapproved.",
+    "Two fresh full30/31 iterations with original benchmarks/fullsuite, all9 baseline observations/raw30tradeoffs and independent criteria/performance/finalprose review."
+  ],
+  "remaining_limits": "Original28 failure remains unreproduced; traced14PASS does not erase it. Source hotspot optimization is causal only to current reopen work, not retrospective timingattribution or demonstratedrelease speedup. No Master53 closure,23status promotion or convergencecredit.",
+  "workloads_invoked_by_reviewer": 0,
+  "accepted_convergence_iterations": 0
+}

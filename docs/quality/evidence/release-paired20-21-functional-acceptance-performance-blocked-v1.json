@@ -1,0 +1,1134 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T23:00:22.425188+00:00",
+  "status": "TWO_CURRENT_FULL_CAPTURES_FUNCTIONAL_COVERAGE_SUPPORTED_MASTER53_EXECUTION_PERFORMANCE_BLOCKER_OPEN",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "release-paired20-21-acceptance-conditional-draft-v1.json": "85952065b5c4ee03c8fda3b4c6f30ddd35ccd1d2da4b7bbc7ebcdffb3f2922aa",
+    "release-execution-performance-nonclosure-independent-v1.json": "25844e5678356810dee39b2e621c8f5f922c1c81788ee70fa353401e0fad4621",
+    "release-complete-portable-20-21-actual-v1.json": "a8b448594e49149a9be8c422456337a72af47e2f7290930eb94f577007d45320",
+    "release-execution-attribution-result-v3.json": "b4b06e8f0f2a3da591b5c3809579f5a7e20db6eaa4c58b34fe51d04938edb733",
+    "release-execution-attribution-failed-fixture-inspection-v1.json": "c22c2fb73be163d2c87a7412372c465d0b9a56b56ee0565359afe632da7683ba",
+    "full-regression-release-20.json": "2627e1a3ee9c05571ff07fee3e8dfbd773166121fc9db46e3652ac1ddb920675",
+    "release-iteration-20.json": "773d3877daae66a3d9ae8a8eca9502b3f89e670f0de5e80bbc755722d45b761c",
+    "full-regression-release-20.xml": "531780983c39caad23490a5b290a3fbb6716b17849656e59acfdc11b8e92d5bd",
+    "full-regression-release-21.json": "ffe0583adb9270f29ef5b453fdc763f057bf46bb556a7d07c05ceadc2d03abcf",
+    "release-iteration-21.json": "ddd7d5ce8b1acdde926e9b6d906116ef7f34da26f6496f1f4902c86449bfaa58",
+    "full-regression-release-21.xml": "a0efbcd6c9502ddc3ae36bf2ff93b287243a88cf8f238e5e76c081d13194ddac"
+  },
+  "actual_complete_capture_count": 2,
+  "accepted_convergence_count": 0,
+  "criteria_count": 23,
+  "deferred_count_retained": 13,
+  "criteria": [
+    {
+      "id": "O04",
+      "subsystem": "Recovery",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Add deterministic child-process death/restart barriers across all phases",
+      "specific_acceptance_check": "One real matrix covers planning/tool/agent/review/repair/documentation/git_prepare/git_attach. Eight class PASS include that one matrix plus seven live/dead/shared30s-deadline helper scenarios. Event continuity/idempotency/effect once, owned cancellation drain and persistentlease failure remain required.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/integration/test_hard_crash_matrix.py",
+        "tests/unit/test_cancellation_polling.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/integration/test_hard_crash_matrix.py": {
+            "PASS": 8,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_cancellation_polling.py": {
+            "PASS": 6,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/integration/test_hard_crash_matrix.py": {
+            "PASS": 8,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_cancellation_polling.py": {
+            "PASS": 6,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "X01",
+      "subsystem": "Execution",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Persist exact ownership, inspect labels, reconcile before reuse/recovery; fail closed",
+      "specific_acceptance_check": "All command entry points preserve durable daemon/full-ID/label receipts, uncertain create/remove crash windows, mismatch/denial and fail-closed cleanup. LiveDocker is explicitly optional, not inferred.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_sandbox_lifecycle.py",
+        "tests/integration/test_sandbox_recovery.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_sandbox_lifecycle.py": {
+            "PASS": 13,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_sandbox_recovery.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_sandbox_lifecycle.py": {
+            "PASS": 13,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_sandbox_recovery.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "S01",
+      "subsystem": "Change Guardian",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Detect conservative AST/diff signals; exact reviewed hash-bound exception",
+      "specific_acceptance_check": "Exact digest/version review exceptions deny stale approval; assertion/helper removal, skip/xfail/module collection/syntax/AST complexity signals fail closed. Conservative false positives remain described.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_guardian_integrity.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_guardian_integrity.py": {
+            "PASS": 19,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_guardian_integrity.py": {
+            "PASS": 19,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "S02",
+      "subsystem": "Change Guardian",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Stat and bounded reads before secret/diff analysis",
+      "specific_acceptance_check": "Sparse/oversized and growing-file races enforce bounds before whole-content allocation; ordinary permitted file still works.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_guardian_integrity.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_guardian_integrity.py": {
+            "PASS": 19,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_guardian_integrity.py": {
+            "PASS": 19,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "G01",
+      "subsystem": "Graph",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Separate extracted occurrences from inferred target bindings; invalidate cache",
+      "specific_acceptance_check": "Occurrences EXTRACTED and target candidates INFERRED remain distinct; unknown receivers, imports/shadowing/inheritance and partial/rebuild fixture labels show no false extracted binding.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_graph_provenance.py",
+        "tests/unit/test_project_graph.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_graph_provenance.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_project_graph.py": {
+            "PASS": 30,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_graph_provenance.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_project_graph.py": {
+            "PASS": 30,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {
+        "tests/unit/test_project_graph.py": {
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        }
+      },
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "G02",
+      "subsystem": "Graph",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Add native abstraction for pinned JS/TS/TSX grammars with declared limits",
+      "specific_acceptance_check": "Pinned native grammars capture TSX/generics/multiline/partial syntax and exact Unicode byte spans; Python parity/cache invalidation/one-file parse and installed portability match. Syntax is not runtime/LSP certainty.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_ecmascript_graph.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_ecmascript_graph.py": {
+            "PASS": 33,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_ecmascript_graph.py": {
+            "PASS": 33,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "G04",
+      "subsystem": "Graph navigation",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Retain Orqalis-owned bounded traversal in SDK/CLI/MCP",
+      "specific_acceptance_check": "Traversal direction, cycles, ambiguity, incomplete bounds and edge witnesses remain deterministic at SDK/CLI/MCP; bytes are actual serialized selective results.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_graph_queries.py",
+        "tests/integration/test_mcp.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_graph_queries.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_mcp.py": {
+            "PASS": 2,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_graph_queries.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_mcp.py": {
+            "PASS": 2,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {
+        "tests/integration/test_mcp.py": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        }
+      },
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "G05",
+      "subsystem": "Source tools",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Add bounded native outline/body/reference reads with source-hash checks",
+      "specific_acceptance_check": "Exact symbol bodies include decorators/nesting/Unicode; stale hash, missing/span corruption/path escape/budget failure deny reads. Bytes avoided is logical source selection, not physical storage I/O.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_symbol_reads.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_symbol_reads.py": {
+            "PASS": 9,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_symbol_reads.py": {
+            "PASS": 9,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "R01",
+      "subsystem": "Retrieval",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Use shared whole-word/snake/camel terms; invalidate lexical index version",
+      "specific_acceptance_check": "Shared whole/snake/camel/acronym terms and lexical-v3 invalidation retain definition-first tie separation; all fixed ranking losses require unchanged independent30-disposition proof.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_identifier_retrieval.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_identifier_retrieval.py": {
+            "PASS": 9,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_identifier_retrieval.py": {
+            "PASS": 9,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "R02",
+      "subsystem": "Retrieval",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Measure held-out gold and negative context; change only on demonstrated benefit",
+      "specific_acceptance_check": "At least24 varied frozen queries, current/baseline and held-out evidence retain hard serialized budget, negative/orientation labels, exact target paths and no unexplained recall/ranking loss.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_project_context_builder.py",
+        "tests/unit/test_quality_comparison.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_project_context_builder.py": {
+            "PASS": 8,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_quality_comparison.py": {
+            "PASS": 40,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_project_context_builder.py": {
+            "PASS": 8,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_quality_comparison.py": {
+            "PASS": 40,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "M02",
+      "subsystem": "Project Memory",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Reviewed digest-bound supersession with atomic lifecycle metadata",
+      "specific_acceptance_check": "Reviewed digest-bound successor publication is atomic/idempotent, pending/rejected no-op, competing/stale/crash approvals fail safe; default retrieval includes only active fact while old fact remains readable.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_memory_lifecycle.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_memory_lifecycle.py": {
+            "PASS": 9,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_memory_lifecycle.py": {
+            "PASS": 9,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "M03",
+      "subsystem": "Project Memory",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Bounded excerpts/discovery and explicit ID references; fetch detail on demand",
+      "specific_acceptance_check": "Long relevant record discovery, exact progressive bodies and explicit references remain visible under bounded context; self/cycle/cross-root/dangling references deny or report precisely. Character limits are not equal UTF8-byte limits; no automatic unbounded traversal.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_memory_navigation.py",
+        "tests/unit/test_memory_interfaces.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_memory_navigation.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_memory_interfaces.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_memory_navigation.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_memory_interfaces.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "M04",
+      "subsystem": "Project Memory",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Shared integrity report and CLI/MCP projection",
+      "specific_acceptance_check": "CLI/SDK/MCP use one deterministic integrity projection; corrupt schema/frontmatter, links, dangling predecessor/successor and cycles are visible, valid corpus clean. Full integrity scan is not constant work.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_memory_navigation.py",
+        "tests/unit/test_memory_lifecycle.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_memory_navigation.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_memory_lifecycle.py": {
+            "PASS": 9,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_memory_navigation.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_memory_lifecycle.py": {
+            "PASS": 9,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "H01",
+      "subsystem": "Skills",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Retain explicit trusted roots, hashes and tool requirements as constraints",
+      "specific_acceptance_check": "Trusted-root YAML/resources cannot escape via symlink/alias/unsupported metadata; content pin, rediscovery/stale activation, role/tool/binary/resource bounds remain enforced; bytes compare selected/eager disclosure.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_portable_skills.py",
+        "tests/unit/test_filesystem_foundation.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_portable_skills.py": {
+            "PASS": 21,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 1
+          },
+          "tests/unit/test_filesystem_foundation.py": {
+            "PASS": 81,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_portable_skills.py": {
+            "PASS": 21,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 1
+          },
+          "tests/unit/test_filesystem_foundation.py": {
+            "PASS": 81,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "H02",
+      "subsystem": "Skills",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Versioned routing/portability evaluation; model quality explicitly unknown without paid runs",
+      "specific_acceptance_check": "Positive/negative routing scopes, directory exclusions, mandatory role/tools and explicit pins plus typed provider serialization prove portability. No paid model quality, token or cost claim.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_planner_skills.py",
+        "tests/integration/test_external_skill_selection.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_planner_skills.py": {
+            "PASS": 39,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_external_skill_selection.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_planner_skills.py": {
+            "PASS": 39,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_external_skill_selection.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {
+        "tests/integration/test_external_skill_selection.py": {
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        }
+      },
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "I01",
+      "subsystem": "Assistant integrations",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Document and evaluate supported config/root/discovery/continuation/error contract",
+      "specific_acceptance_check": "Generic fresh/replacement stdio clients and immutable root/work policy show discovery/continuation/error denial. Six config/policy syntax/type examples are static witnesses only; require exact unchanged example hashes or fresh proof, current package docs/root-policy descriptions and runtime contracts. No native-host certification.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/integration/test_mcp.py",
+        "tests/integration/test_mcp_lifecycle.py",
+        "tests/unit/test_mcp_project_scope.py",
+        "tests/unit/test_mcp_control_policy.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/integration/test_mcp.py": {
+            "PASS": 2,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_mcp_lifecycle.py": {
+            "PASS": 3,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_mcp_project_scope.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_mcp_control_policy.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/integration/test_mcp.py": {
+            "PASS": 2,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_mcp_lifecycle.py": {
+            "PASS": 3,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_mcp_project_scope.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_mcp_control_policy.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {
+        "tests/integration/test_mcp.py": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0,
+          "errors": 0
+        }
+      },
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "I02",
+      "subsystem": "MCP",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Expose existing services behind server work policy and root binding",
+      "specific_acceptance_check": "Readonly/scope/legal transition/repeat/recovery uncertainty and matching receipt/lease cases delegate to Core; atomic PLAN checkpoint, strict lookup and auxiliary lock repairs require complete workflow qualification.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/integration/test_mcp_lifecycle.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/integration/test_mcp_lifecycle.py": {
+            "PASS": 3,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/integration/test_mcp_lifecycle.py": {
+            "PASS": 3,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "I03",
+      "subsystem": "MCP",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Add root/revision-bound pagination and bounded graph discovery while preserving old tools",
+      "specific_acceptance_check": "Pages cover all1001 IDs without duplicates/omissions; equal timestamps, tampered/cross-root/stale cursor, canonical mutations/index recovery and bounded graph discovery pass. Older scans cannot overwrite freshness; concurrent allocation progress and variable O(history) tails reported.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_task_history_pages.py",
+        "tests/unit/test_graph_queries.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_task_history_pages.py": {
+            "PASS": 11,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_graph_queries.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_task_history_pages.py": {
+            "PASS": 11,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_graph_queries.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "T01",
+      "subsystem": "Telemetry",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Project existing parent IDs into local trace hierarchy and allowlisted spans",
+      "specific_acceptance_check": "Actual persisted parallel/repair fixture correlates run/task/actor/model/tool ancestry and restart; historical missing fields do not invent timing/parents, allowlist excludes secrets/prompts. Overhead from actual telemetry captures.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_trace_hierarchy.py",
+        "tests/integration/test_trace_projection.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_trace_hierarchy.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_trace_projection.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_trace_hierarchy.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/integration/test_trace_projection.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "T02",
+      "subsystem": "Control Center",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Consume backend projections; test actual multi-agent/repair snapshots",
+      "specific_acceptance_check": "API-derived persisted parallel/blocked/repair/historical views, keyboard/mobile access, timeline first actual socket/direct-close and changed duration within original shared15s budget, plus live browser measurement and actual bundle deltas. Earlier browser failures remain retained.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "web/e2e/trace.spec.ts",
+        "web/e2e/enhancements.spec.ts",
+        "tests/integration/test_trace_projection.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/integration/test_trace_projection.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/integration/test_trace_projection.py": {
+            "PASS": 1,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "T03",
+      "subsystem": "Telemetry",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Keep nearest-rank p50/p95 and coverage counts sourced from invocations",
+      "specific_acceptance_check": "API/UI provider/model coverage and nearest-rank p50/p95 preserve completed/running/cancelled/error distinctions and unknown vs zero, SSR/live table matches; no fabricated cost.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_provider_metrics.py",
+        "web/src/ProviderMetrics.test.tsx",
+        "web/e2e/control-center.spec.ts"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_provider_metrics.py": {
+            "PASS": 2,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_provider_metrics.py": {
+            "PASS": 2,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "E01",
+      "subsystem": "Evaluation",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Source-isolated 14-category corpus plus held-out retrieval/routing/contract suite",
+      "specific_acceptance_check": "Dataset/helper/source/runner/actual JUnit/environment/child isolation and strict comparator incomplete/duplicate/skipped/mismatched denial remain. Complete immutable baselines, frozen gold, exact30 raw losses and two fresh full rounds are needed.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_quality_comparison.py",
+        "tests/unit/test_contract_compatibility.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_quality_comparison.py": {
+            "PASS": 40,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_contract_compatibility.py": {
+            "PASS": 20,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_quality_comparison.py": {
+            "PASS": 40,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          },
+          "tests/unit/test_contract_compatibility.py": {
+            "PASS": 20,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    },
+    {
+      "id": "E04",
+      "subsystem": "Distribution/performance",
+      "registry_status_retained": "IMPLEMENTED_PENDING_EVAL",
+      "closed": false,
+      "disposition": "NONPERFORMANCE_CRITERIA_SUPPORTED_TWO_CURRENT_FULL_SUITES_MASTER53_AND_FINAL_PROOFS_PENDING",
+      "accepted_behavior": "Verify licenses, wheel availability, startup/bundle/disk and offline contracts",
+      "specific_acceptance_check": "Version2.1.0 source/wheel/npm/frontend/manifest/vendor/notices/lock hashes and offline launcher bootstrap match. Actual third-party inventory incl pip audits zero; startup/store/allocation/bundle costs compared and independently dispositioned; final package links/docs exact.",
+      "source_test_mapping": "release-acceptance-portable-current-pending-matrix-v1.json",
+      "test_paths": [
+        "tests/unit/test_npm_release.py"
+      ],
+      "current_full_python_outcomes": {
+        "20": {
+          "tests/unit/test_npm_release.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        },
+        "21": {
+          "tests/unit/test_npm_release.py": {
+            "PASS": 10,
+            "FAIL": 0,
+            "ERROR": 0,
+            "SKIP": 0
+          }
+        }
+      },
+      "retained_frozen86_outcomes": {},
+      "missing_nonperformance_code_criterion_identified": null,
+      "pending": "Performance aggregate must legitimately satisfyMaster53; finalsecurity/23ledger/13DEFER/finaldocs/archive/runtime/frontend/link evidence must bind; no promotion from functionalpass alone."
+    }
+  ],
+  "full_suites": {
+    "20": {
+      "total": 908,
+      "outcomes": {
+        "PASS": 906,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 2
+      },
+      "skips": [
+        {
+          "classname": "tests.integration.test_sandbox",
+          "name": "test_docker_workspace_network_and_readonly_root",
+          "reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image"
+        },
+        {
+          "classname": "tests.unit.test_portable_skills",
+          "name": "test_skill_symlink_parent_is_rejected",
+          "reason": "Creating symlinks requires local OS permissions"
+        }
+      ],
+      "elapsed_seconds": 2273.9379999999946,
+      "all5_stability_flags": true,
+      "exit_code": 0
+    },
+    "21": {
+      "total": 908,
+      "outcomes": {
+        "PASS": 906,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 2
+      },
+      "skips": [
+        {
+          "classname": "tests.integration.test_sandbox",
+          "name": "test_docker_workspace_network_and_readonly_root",
+          "reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image"
+        },
+        {
+          "classname": "tests.unit.test_portable_skills",
+          "name": "test_skill_symlink_parent_is_rejected",
+          "reason": "Creating symlinks requires local OS permissions"
+        }
+      ],
+      "elapsed_seconds": 2431.0469999999914,
+      "all5_stability_flags": true,
+      "exit_code": 0
+    }
+  },
+  "iterations": {
+    "20": {
+      "status": "COMPLETE_PENDING_INDEPENDENT_REVIEW",
+      "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+      "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f"
+    },
+    "21": {
+      "status": "COMPLETE_PENDING_INDEPENDENT_REVIEW",
+      "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+      "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f"
+    }
+  },
+  "pair_actual_exit": {
+    "status": "COMPLETE_PENDING_INDEPENDENT_ACCEPTANCE",
+    "exit_code": 0,
+    "started_at": "2026-10-03T20:55:39.093339+00:00",
+    "finished_at": "2026-10-03T22:55:33.172632+00:00",
+    "bindings_stable": true,
+    "launch_record_sha256": "06ce23f0406bc6e15725098aff43d9ab56ee76f9ab722b65e3631ac7b3448e28",
+    "log_sha256": "aae9f123857c0bcaa23c4c8c64d28a13d67f60f81bde0857f201339e230c36e3",
+    "launcher_pid": 31840,
+    "scope": "Actual complete pair exit only; no automatic history/performance/master53 acceptance"
+  },
+  "performance_disposition": "Supersede the earlier conditional disclosure-only acceptance recommendation exactly as nonclosureaddendum25844. Unknown13\u201327%executiondelta versusfastreferences/pooledbaseline remainsPERFORMANCE_ACCEPTANCE_BLOCKER, not confirmedP1 correctness. Sixcurrent functional measurements, all30case losses/rawREVIEW, memory90 costs/UI/constrained/resourcefootprints and boundedhistoryrawMIXED remain retained evidence, not erased or relabeled.",
+  "attribution_attempt": {
+    "status": "INVALID_OR_INCOMPLETE",
+    "baseline_failed": "ActualnativeWinError5 from baseline atomic_write_bytes os.replace to owned execution/state.yaml during task start/recovery commit; originalstderrlog retained. No qualified Bsample persisted, noCworkload executed.",
+    "cleanup": "Launcher/native normalexitconfirmed andhandleclosed, no cleanup errors, source/inputbindingsstable.",
+    "post_exit_metadata": "Target exists0666/attrs32/nonREADONLY20298B; tempabsent. This cannot prove atfailureattributes, holderidentity or reason fordenial.",
+    "no_baseline_retry": true,
+    "no_performance_credit": true
+  },
+  "bounded_next_diagnostic_advice": {
+    "not_an_invocation_approval": true,
+    "minimal_scope": "If root stages ONE C-only originalfixture diagnostic, a transparent pass-through os.replace observer may record real denial winerror/callcounts and monotonic before/afterelapsed for exact owned temporary/target writes, leaving all native errors/backoffs/API/checks/fixture/deadlines unchanged. Require separate exactreview andownedcleanup/source/inputguards first.",
+    "usefulness": "Observed deniedreplacement counts plus actual guard/backoff events could establish that recognized native denials and bounded recovery waits occur in that particular candidate fixture; whole native CPU/IO and scalarphase intervals may localize added work.",
+    "limits": "Zero denials cannot prove earlier captures hadnone. C-only cannot produce matchedB/C performance evidence or substitute oldbaseline; observed recovereddenials explain only measured waits, not all13\u201327%elapsed without phase/counter support. Instrumentedelapsed diagnostic is not qualification speed or retry-until-green. No productOSsettings/source change authorized by this review."
+  },
+  "remaining_acceptance_conditions": [
+    "Legitimate explanation/repair of executionperformance acceptanceblocker; no disclosure-only waiver or selected95s baseline pass.",
+    "Final independent security/accepted23criterionledger/all30individualtradeoff/13DEFER reasons.",
+    "Finalconsolidated docs/signoff/currentexclusivewheel/npm/runtimefrontendvendorlicensehashes andpackagedlink/fragment/assetschecks.",
+    "Retain optionalDocker/directsymlinkskips, fakeprovider/genericMCP/nativeplatformownerCI limits, warnings and historicalfailedcaptures.",
+    "Ownercommit/publish remains forbidden in this session."
+  ],
+  "confirmed_new_p0_p1_correctness_defects_identified": [],
+  "public_registry_promotion": false,
+  "no_commit_or_publication": true,
+  "review_scope": "Bounded namedactualJSON/JUnit +retainedmapping; no new sourcewalk/hashinventory/import/nativequery/test/benchmark or publicdoc/helper/source changes."
+}

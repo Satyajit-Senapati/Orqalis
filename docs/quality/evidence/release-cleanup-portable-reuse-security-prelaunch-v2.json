@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T20:22:04.793787+00:00",
+  "reviewer": "release_security_review",
+  "decision": "APPROVE_EXACT_PORTABLE_REUSE_V2_IDENTITY_VALIDATION_FIRST_INVOCATION_PENDING_ROOT_LAUNCH_BINDING",
+  "scope": "Pre-invocation independent static exact helper/plan/record hash and guarded-boundary design review. No acceptor/helper invoked, no tests/audits/native queries/copies/benchmarks/source mutations. Approval does not assert actual accepted report exists or measured qualification outcomes.",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "new_input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "old_input_sha256": "9959a8de6a58b58d910ce1c9ebc55332ea38549c3985077d3038fb8a56e9bf9d",
+  "identities": {
+    "acceptor": {
+      "path": ".tools/research/accept_release_portable_reuse_v2.py",
+      "sha256": "5215624482ac2c0389b47408a0018c7bfd649f7a6bb6216c4db3f5efba02c6ed"
+    },
+    "plan": {
+      "path": "docs/quality/evidence/release-cleanup-portable-reuse-plan-v2.json",
+      "sha256": "935c91c8570a9eb1313c147f62d92f2123cbf204040f358cf1437cfc23e52b8f"
+    },
+    "inventory": {
+      "path": "docs/quality/evidence/release-private-helper-inventory-portable-reuse-v2.json",
+      "sha256": "16ec6da5116041c86253d0c4b5f74a8fad65b442367a4f02e7e97c37ece99016"
+    },
+    "staging": {
+      "path": "docs/quality/evidence/release-cleanup-portable-reuse-staging-v2.json",
+      "sha256": "5cc14a4abcbb4d0dd1fe470dc07b3e0e7df406770ffef61492c14f71635cadd2"
+    },
+    "policy_v7": {
+      "path": "docs/quality/evidence/release-execution-reference-policy-v7.json",
+      "sha256": "6742ae4731e1d8869c0d8b5f0d250147e6ba61c530df9e4eb08e91de07981496"
+    },
+    "original19_inventory": {
+      "path": "docs/quality/evidence/release-private-helper-inventory-windows-cleanup-typed-v2.json",
+      "sha256": "06423ac37d140ff08bb9d45d2e84d1559e2fd8d446a7f3d99c758ca390bb3c9b"
+    }
+  },
+  "actual_static_proof": {
+    "all58_plan_evidence_pins_actual_match": true,
+    "all_new19_helper_pins_actual_match": true,
+    "all_original19_helper_pins_actual_match": true,
+    "new_roles": 4,
+    "retained_exact_roles": 15,
+    "copies": [
+      {
+        "current": {
+          "path": ".tools/research/release_qualification_v20_portable_reuse_v2.py",
+          "sha256": "e01b2a99434cc87cd1368cde99becead2a3a03ce2ac38bb81cc09174a83adb0a"
+        },
+        "prior": {
+          "path": ".tools/research/release_qualification_v20_cleanup_v2_typed_v2.py",
+          "sha256": "fc7a0d0963689f3d965a1259aa78cd6d92229673685ed9d6a59f37992ca7d55b"
+        },
+        "nonstring_AST_exact": true,
+        "reviewed_string_delta": "Freeze/inventory/acceptor/verifier paths or policyv7 path/hash only; no labels/repetitions/assertions/workloads/deadline change."
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_complete_rounds_v20_portable_reuse_v2.py",
+          "sha256": "c5b6a000a09e92163b5b2499fbd8e76a6ad80054e0800316c1633befff592a19"
+        },
+        "prior": {
+          "path": ".tools/research/release_complete_rounds_v20_cleanup_v2_typed_v2.py",
+          "sha256": "b9b909455335e1593360b92ef02e83e2a086c5e601606b8140dece1e782c7a24"
+        },
+        "nonstring_AST_exact": true,
+        "reviewed_string_delta": "Freeze/inventory/acceptor/verifier paths or policyv7 path/hash only; no labels/repetitions/assertions/workloads/deadline change."
+      },
+      {
+        "current": {
+          "path": ".tools/research/verify_execution_reference_v7_portable_reuse_v1.py",
+          "sha256": "92c066249b69be21a857ef4012dda06b389a7cf1dbe7677fc1d29eee7662c045"
+        },
+        "prior": {
+          "path": ".tools/research/verify_execution_reference_v5_cleanup_v1_typed_v1.py",
+          "sha256": "542224efa21b45a99ed2b40d77d670394d96cbd2a8a0747f4c42d5c3c88e22ec"
+        },
+        "nonstring_AST_exact": true,
+        "reviewed_string_delta": "Freeze/inventory/acceptor/verifier paths or policyv7 path/hash only; no labels/repetitions/assertions/workloads/deadline change."
+      }
+    ],
+    "canonical_separator_actual_NUL_literal_in_AST": true,
+    "new_accepted_output_absent_at_review": true,
+    "previous_source_and_input_independent_proof": "release-cleanup-portable-v3-security-independent-review.json already independently verified actual196/390 and exact single-test delta; original raw995 retained unchanged."
+  },
+  "guard_review": {
+    "test_bridge": "390 exact same roles; ONLY foundation file differs, all current actual hashes plus aggregate/source196 required. Fresh focused81 XML/log and five static logs exit0 exactly bound.",
+    "original_static": "Original11 dated gates stay retained; changed Python lint/format/types covered by fresh full five checks; other8 exact gate logs/names required.",
+    "contracts": "Both selected source86 status/stability exact external test fingerprint, runner/helper/dataset hashes, JSON-normalized environment, child policy+actual audit/JUnit bytes retained. No current checkout substituted for retained baseline execution.",
+    "frontends": "Both baseline/current full B.validate_build plus sourceweb/deps/artifact/tool/lock and proof-record bytes required.",
+    "artifacts": "Actual wheel/tar hashes match original capture. Each wheel Orqalis source member equals canonical src or generated actual frontenddist as appropriate, then both installed runtimes. Tar file members compare original installed prefix snapshot, preserving dated docs rather than pretending current edited docs are packed.",
+    "dependency_advisories": "Current exact metadata inventory equals original Python inventory and audit; exact installed wheel/npm metadata equals original audit inventories incl pip26.2.1; zero-vuln/no-skip, web/launcher zero total. Dated query reuse explicitly not fresh audit; no exclusions/suppression introduced.",
+    "heldout_history": "Original263 corpus bytes/3witnesses/context12000/githead and source/environment guard retained; history1001/33/3/orderdigest via actualNUL, reservation witness, native66 exact raw/plan/ACK/source/stability/1percent. Performance unresolved, no new samples/automaticacceptance.",
+    "policy_workloads": "Three wrappers copied with exact nonstring AST, original labels20/21 and all full suites/paired workloads/advisories/30 raw retrievalloss review/executioncheck keys/deadlines/repeats retained. Policyv7 was separately independently reviewed, all older pins/performance/reference unchanged.",
+    "output": "Exclusive new accepted report on first call; --verify rebuilds entire exact accepted report. Immutable evidence/helper/source/input guards before/after; no old capture overwrite/rebind."
+  },
+  "findings": [],
+  "confirmed_P0_P1_in_scoped_delta": 0,
+  "conditions": [
+    "Root bind exact plan/helper/inventory/staging bytes before and after first acceptor invocation; point-boundary checks do not certify interval immutability against external hostile mutation.",
+    "Observe actual acceptor exit/report before treating portable97 reuse as accepted.",
+    "Later matched finite history and future measured qualification launch approvals are separate; this identity-validator invocation creates no performance or iteration credit.",
+    "Both whole20/21 full qualification and final docs-only repack/runtime byte proof/installed snapshot/link audit remain mandatory."
+  ],
+  "limitations": [
+    "Actual original archives/installed dependency trees are validation work performed only when root invokes acceptor. This static design review rehashes bounded records/code, not a fresh full payload/nativehost/advisory certification.",
+    "Plan is loaded in memory; internal code validates58 evidence pins/self-helper but does not lock/recheck loaded-plan bytes throughout interval. Root launch binding plus final report planSHA gives point-boundary provenance; do not overclaim stronger protection.",
+    "No crossplatform runtime, Docker/paid provider/nativeassistant/globalhost/release convergence/publication claim.",
+    "V1 staging alias/generatedweb/NUL corrections remain preserved UNRUN; new validator retains original fatal/incomplete/invalid observations."
+  ]
+}

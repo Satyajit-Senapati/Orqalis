@@ -1,0 +1,4027 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-02T08:32:45.020568+00:00",
+  "reviewer": "Independent release specification and acceptance reviewer",
+  "status": "NO_NEW_CONFIRMED_P0_P1_PENDING_ROOT_RELEASE_QUALIFICATION",
+  "source_sha256": "75539c7b992b59b7c418427cfd0fb89472224ec4099e8519e72197de949de9fe",
+  "source_inventory": [
+    "pyproject.toml",
+    "src/orqalis/__init__.py",
+    "src/orqalis/__main__.py",
+    "src/orqalis/agents/__init__.py",
+    "src/orqalis/agents/roles.py",
+    "src/orqalis/agents/routing.py",
+    "src/orqalis/agents/service.py",
+    "src/orqalis/api/__init__.py",
+    "src/orqalis/api/app.py",
+    "src/orqalis/api/contracts.py",
+    "src/orqalis/api/hosting.py",
+    "src/orqalis/api/scope.py",
+    "src/orqalis/bootstrap.py",
+    "src/orqalis/cli/__init__.py",
+    "src/orqalis/cli/app.py",
+    "src/orqalis/cli/catalog.py",
+    "src/orqalis/cli/control.py",
+    "src/orqalis/cli/dependencies.py",
+    "src/orqalis/cli/goals.py",
+    "src/orqalis/cli/memory.py",
+    "src/orqalis/cli/runs.py",
+    "src/orqalis/cli/tasks.py",
+    "src/orqalis/config/__init__.py",
+    "src/orqalis/config/settings.py",
+    "src/orqalis/context/__init__.py",
+    "src/orqalis/context/agent.py",
+    "src/orqalis/context/builder.py",
+    "src/orqalis/context/models.py",
+    "src/orqalis/context/service.py",
+    "src/orqalis/core/__init__.py",
+    "src/orqalis/core/approval_guard.py",
+    "src/orqalis/core/approval_subjects.py",
+    "src/orqalis/core/approvals.py",
+    "src/orqalis/core/delivery.py",
+    "src/orqalis/core/delivery_plan.py",
+    "src/orqalis/core/executor.py",
+    "src/orqalis/core/external.py",
+    "src/orqalis/core/goals.py",
+    "src/orqalis/core/orchestrator.py",
+    "src/orqalis/core/phases.py",
+    "src/orqalis/core/plan_draft.py",
+    "src/orqalis/core/plan_preview.py",
+    "src/orqalis/core/plan_revision.py",
+    "src/orqalis/core/planning.py",
+    "src/orqalis/core/ports.py",
+    "src/orqalis/core/preview_revision.py",
+    "src/orqalis/core/projects.py",
+    "src/orqalis/core/recovery.py",
+    "src/orqalis/core/repair.py",
+    "src/orqalis/core/replanning.py",
+    "src/orqalis/core/requirements.py",
+    "src/orqalis/core/runtime_support.py",
+    "src/orqalis/core/scheduler.py",
+    "src/orqalis/core/state_machine.py",
+    "src/orqalis/core/task_runtime.py",
+    "src/orqalis/core/vertical_plan.py",
+    "src/orqalis/delivery/__init__.py",
+    "src/orqalis/delivery/commits.py",
+    "src/orqalis/delivery/documentation.py",
+    "src/orqalis/delivery/gates.py",
+    "src/orqalis/delivery/guardian.py",
+    "src/orqalis/delivery/inspection.py",
+    "src/orqalis/delivery/test_integrity.py",
+    "src/orqalis/delivery/validation.py",
+    "src/orqalis/diagnostics.py",
+    "src/orqalis/domain/__init__.py",
+    "src/orqalis/domain/acceptance.py",
+    "src/orqalis/domain/agent.py",
+    "src/orqalis/domain/approval.py",
+    "src/orqalis/domain/artifact.py",
+    "src/orqalis/domain/base.py",
+    "src/orqalis/domain/capabilities.py",
+    "src/orqalis/domain/delivery.py",
+    "src/orqalis/domain/errors.py",
+    "src/orqalis/domain/events.py",
+    "src/orqalis/domain/execution.py",
+    "src/orqalis/domain/external.py",
+    "src/orqalis/domain/memory.py",
+    "src/orqalis/domain/plan.py",
+    "src/orqalis/domain/project.py",
+    "src/orqalis/domain/projections.py",
+    "src/orqalis/domain/provider.py",
+    "src/orqalis/domain/run.py",
+    "src/orqalis/domain/task.py",
+    "src/orqalis/domain/telemetry.py",
+    "src/orqalis/domain/timing.py",
+    "src/orqalis/evaluation/__init__.py",
+    "src/orqalis/evaluation/ports.py",
+    "src/orqalis/evaluation/validators.py",
+    "src/orqalis/execution/__init__.py",
+    "src/orqalis/execution/artifacts.py",
+    "src/orqalis/execution/cancellation.py",
+    "src/orqalis/execution/commands.py",
+    "src/orqalis/execution/evaluator.py",
+    "src/orqalis/execution/filesystem.py",
+    "src/orqalis/execution/finding_review.py",
+    "src/orqalis/execution/review.py",
+    "src/orqalis/execution/sandbox.py",
+    "src/orqalis/execution/tool_definitions.py",
+    "src/orqalis/execution/tools.py",
+    "src/orqalis/execution/windows_job.py",
+    "src/orqalis/execution/worker.py",
+    "src/orqalis/execution/workspaces.py",
+    "src/orqalis/git/__init__.py",
+    "src/orqalis/git/contracts.py",
+    "src/orqalis/git/delivery.py",
+    "src/orqalis/git/inspection.py",
+    "src/orqalis/git/service.py",
+    "src/orqalis/graph/__init__.py",
+    "src/orqalis/graph/ecmascript.py",
+    "src/orqalis/graph/engine.py",
+    "src/orqalis/graph/models.py",
+    "src/orqalis/graph/parsing.py",
+    "src/orqalis/graph/queries.py",
+    "src/orqalis/graph/symbols.py",
+    "src/orqalis/indexing/__init__.py",
+    "src/orqalis/indexing/models.py",
+    "src/orqalis/indexing/service.py",
+    "src/orqalis/mcp/__init__.py",
+    "src/orqalis/mcp/policy.py",
+    "src/orqalis/mcp/server.py",
+    "src/orqalis/memory/__init__.py",
+    "src/orqalis/memory/brain.py",
+    "src/orqalis/memory/curated.py",
+    "src/orqalis/memory/curation.py",
+    "src/orqalis/memory/indexing.py",
+    "src/orqalis/memory/navigation.py",
+    "src/orqalis/memory/ports.py",
+    "src/orqalis/memory/service.py",
+    "src/orqalis/observability/__init__.py",
+    "src/orqalis/observability/activity.py",
+    "src/orqalis/observability/analytics.py",
+    "src/orqalis/observability/event_bus.py",
+    "src/orqalis/observability/instrumentation.py",
+    "src/orqalis/observability/logging.py",
+    "src/orqalis/observability/projections.py",
+    "src/orqalis/observability/timing.py",
+    "src/orqalis/observability/trace.py",
+    "src/orqalis/persistence/__init__.py",
+    "src/orqalis/persistence/approval_ports.py",
+    "src/orqalis/persistence/contracts.py",
+    "src/orqalis/persistence/delivery_ports.py",
+    "src/orqalis/persistence/event_ports.py",
+    "src/orqalis/persistence/execution_ports.py",
+    "src/orqalis/persistence/filesystem/__init__.py",
+    "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+    "src/orqalis/persistence/filesystem/io.py",
+    "src/orqalis/persistence/filesystem/layout.py",
+    "src/orqalis/persistence/filesystem/locking.py",
+    "src/orqalis/persistence/filesystem/memory_store.py",
+    "src/orqalis/persistence/filesystem/task_store.py",
+    "src/orqalis/persistence/filesystem/unit_of_work.py",
+    "src/orqalis/persistence/ports.py",
+    "src/orqalis/persistence/provider_ports.py",
+    "src/orqalis/persistence/run_ports.py",
+    "src/orqalis/persistence/runtime_ports.py",
+    "src/orqalis/providers/__init__.py",
+    "src/orqalis/providers/anthropic.py",
+    "src/orqalis/providers/anthropic_schema.py",
+    "src/orqalis/providers/configuration.py",
+    "src/orqalis/providers/errors.py",
+    "src/orqalis/providers/external_cli.py",
+    "src/orqalis/providers/fake.py",
+    "src/orqalis/providers/openai.py",
+    "src/orqalis/providers/openai_schema.py",
+    "src/orqalis/providers/ports.py",
+    "src/orqalis/providers/validation.py",
+    "src/orqalis/py.typed",
+    "src/orqalis/retrieval.py",
+    "src/orqalis/sdk.py",
+    "src/orqalis/security/__init__.py",
+    "src/orqalis/security/redaction.py",
+    "src/orqalis/skills/__init__.py",
+    "src/orqalis/skills/bundled/database-edit/instructions.md",
+    "src/orqalis/skills/bundled/database-edit/skill.toml",
+    "src/orqalis/skills/bundled/documentation-edit/instructions.md",
+    "src/orqalis/skills/bundled/documentation-edit/skill.toml",
+    "src/orqalis/skills/bundled/evidence-review/instructions.md",
+    "src/orqalis/skills/bundled/evidence-review/skill.toml",
+    "src/orqalis/skills/bundled/javascript-edit/instructions.md",
+    "src/orqalis/skills/bundled/javascript-edit/skill.toml",
+    "src/orqalis/skills/bundled/python-edit/instructions.md",
+    "src/orqalis/skills/bundled/python-edit/skill.toml",
+    "src/orqalis/skills/bundled/python-test/instructions.md",
+    "src/orqalis/skills/bundled/python-test/skill.toml",
+    "src/orqalis/skills/bundled/react-edit/instructions.md",
+    "src/orqalis/skills/bundled/react-edit/skill.toml",
+    "src/orqalis/skills/bundled/typescript-edit/instructions.md",
+    "src/orqalis/skills/bundled/typescript-edit/skill.toml",
+    "src/orqalis/skills/markdown.py",
+    "src/orqalis/skills/registry.py",
+    "src/orqalis/tasks/__init__.py",
+    "src/orqalis/tasks/history.py",
+    "src/orqalis/workspace/__init__.py",
+    "src/orqalis/workspace/manager.py",
+    "uv.lock"
+  ],
+  "source_stable": true,
+  "candidate_version": "2.1.0",
+  "confirmed_new_p0_defects": 0,
+  "confirmed_new_p1_defects": 0,
+  "confirmed_history_allocation_defect": {
+    "origin": "Frozen pre-optimization source; pre-existing defect",
+    "status": "IMPLEMENTATION_FIX_AND_FOCUSED_REGRESSION_ACCEPTED",
+    "failure_evidence": "docs/quality/evidence/release-history-lock-preflight.xml",
+    "proof": "Bounded allocation shared tasks-index lock with long canonical scan; now the scan is outside that lock. Both new allocation-progress and concurrent-canonical-commit/cursor tests pass.",
+    "remaining": "Fresh full final-source capture and release performance disposition required."
+  },
+  "prior_review": "release-acceptance-review.json",
+  "prior_source_sha256": "1a7dcc70b98a0cef2ce8a2fca1f80539d3f858f72cd78cfe549aef926b5c271e",
+  "changed_prior_inspected_files": [
+    "src/orqalis/persistence/filesystem/task_store.py",
+    "scripts/prepare_npm.py"
+  ],
+  "review_method": "Read-only inspection of current code, tests, guards, canonical criteria and retained raw evidence. Other prior-reviewed files were SHA-identical; changed lock/staging code and Node guard were reread. No tests or benchmarks executed by this reviewer and no source/docs edited. Structured ignored JSON evidence only.",
+  "inspected_path_sha256": {
+    "src/orqalis/core/orchestrator.py": "19ddea68b6fcd70a334896a251cbb34c9790bc665192fa3620ae14fe92cd7cce",
+    "src/orqalis/core/recovery.py": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8",
+    "src/orqalis/execution/cancellation.py": "4b8e92e3b09b1a1d43ebabe19f3f001f79ce8d174fa67f5a11229cf286344816",
+    "src/orqalis/execution/sandbox.py": "8f6111c2eea7ca789e91bee7ef7deb4d520c50b0cf7410629ca29b24eec590fe",
+    "src/orqalis/execution/commands.py": "1b42123323ac14322416cfb5f48e922830c4e7420440b552678577ed727a4c77",
+    "src/orqalis/delivery/guardian.py": "fd18acf8975013bb3eff017e860477c2c759edd409d1d85ea82d17bb663bcc6c",
+    "src/orqalis/delivery/test_integrity.py": "7fc302d7333b495122867b0a5a7db9a0c28844481131cd56e7df671736553a90",
+    "src/orqalis/execution/review.py": "0f9cc4f96086ea920ea30ba31faf58a29596b81862d8a1c8696f096440b2231d",
+    "src/orqalis/graph/parsing.py": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+    "src/orqalis/graph/engine.py": "59a4da2b1d76b4af85c8551bbec3096e8828c0aaeac313d56c521d6d197a081a",
+    "src/orqalis/graph/models.py": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+    "src/orqalis/graph/ecmascript.py": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+    "pyproject.toml": "86bce3348683ec1440b1214bbd595fbbdd57f8b625f45f3701b9e715dae0a9e9",
+    "uv.lock": "215a677678e679d870f523c73b8f389a58a669d77835dd1cb5cd03f6cb3bf89b",
+    "src/orqalis/graph/queries.py": "dafa778e9f2e7829fe576ff589d3b5d58f5543803fc19434fcc2567e97b7a5e7",
+    "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+    "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+    "src/orqalis/cli/catalog.py": "c3e80586f0d6426ccf0feb24c7177b808b8a10566061f58be0f4c51f468d4703",
+    "src/orqalis/graph/symbols.py": "4c461b9e066c4744082fb149ac657c894f6b22bb4c9495440ff7608d5bc45db0",
+    "src/orqalis/retrieval.py": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+    "src/orqalis/indexing/service.py": "60631d58de2e8e872e9d2bdf2713013200d7ae9e7fe39c38f37f3c0b44f5f274",
+    "src/orqalis/context/builder.py": "184902173540241b26e999781d4e97fdfc99aed4c3e3de2fbb95477c51c74466",
+    "src/orqalis/memory/curated.py": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+    "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+    "scripts/compare_quality.py": "12a1f12fca5acfe5c5e9eb236909ce40de599aab2ee3eddaba910919eca28640",
+    "benchmarks/engineering_cases.json": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+    "src/orqalis/memory/curation.py": "619dc73b19651c4838e8e3c7970c6cda049fd3a0526886ab387e52ecd5d6a7ec",
+    "src/orqalis/memory/navigation.py": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+    "src/orqalis/cli/memory.py": "1d32f1b79951fd9a09eff21909f92c9cd786f9097afd5670e22ea842caa21341",
+    "src/orqalis/skills/markdown.py": "4270ea261dae1a6ac8fd610bbbec273ecbd85814ed387c7757be66e5b0e29f1b",
+    "src/orqalis/skills/registry.py": "e2836acb98b075844afc3fcc40a488f45ba7f6be96308c1e08e4a72cf58a3bf8",
+    "src/orqalis/core/vertical_plan.py": "6077e9dad95907f6b18b6dfd705b65a246885fdd5233607ce385ca54958c1ff7",
+    "src/orqalis/mcp/policy.py": "fa4b4c039a399da4cbc5af1698781630c6931a91b417e0f56604b7c7c15ef544",
+    "docs/examples/codex-mcp.toml": "0c5687b9b626f4944dde5e9fc5564a15976b57d82afd7ca83e0e5a33dfaeeb17",
+    "docs/examples/claude-mcp.json": "a52a69b4e879051babcdeaf4a822c005c7197b7c36290dffd53ea92a93595532",
+    "docs/examples/vscode-mcp.json": "fd2bf321dbf07ad6806abb99f57f8398f9368b0958f5fe02cdc0740a60c5dcd5",
+    "docs/MCP.md": "37577df8fe6aeca903b440f07c2f67ffee3c3beb38748347d7337cb1cc3f9ff9",
+    "src/orqalis/tasks/history.py": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+    "src/orqalis/persistence/filesystem/task_store.py": "9a2d6fb161479aabfcab7619216d4547c1c23cf8ebcfcb1c314f347098a38984",
+    "src/orqalis/observability/trace.py": "4fae4815b33e79864d629a2c2fbf18c2ca7cdefbb8d6ff9fa2e2ba4caaaea787",
+    "src/orqalis/agents/service.py": "8631debbb01dbe625497532a1db91b18e259a8342d3faeab7d130d588384a99b",
+    "src/orqalis/execution/worker.py": "f6842c0ff2ac82195d37dc9085dfe2d84c8d5726177d272b63f639ac65971e56",
+    "src/orqalis/domain/telemetry.py": "b70ba84930291a397e24cc6c63f17bdd5e0283ad94bd27aeec7a75d563039590",
+    "web/src/TraceView.tsx": "bc3ce5c8c70f697fad9f2dcc337e8170a39148014000f44b71a0c374c1d7cf25",
+    "web/src/Timeline.tsx": "ef06b867b6eadcd8c4248bcc589ef8f17a99e8256315344bb4881f56ddd1cbed",
+    "src/orqalis/observability/analytics.py": "295c2eef16cf4cbdc40136b49d0eee44434968f54e71dcae870fe4890bdfaf12",
+    "web/e2e/trace.spec.ts": "90414338f1624f89ac3047053d3713efa3c5dadeef15babd5360a9793d341ac6",
+    "web/e2e/enhancements.spec.ts": "6e06afd88aac8f3f98d0bd3c109afaa109d14352b5b0095b72d5b5c1a5a230c8",
+    "web/src/ProviderMetrics.tsx": "d38dddd3bda81558af8cf58ee78c5ff986211d60f36a18fa821a20cb7435307d",
+    "web/src/ProviderMetrics.test.tsx": "79620961a6c9ac974726738e85b11f0e29a58da879408bf7db961fe0e2169970",
+    "web/e2e/control-center.spec.ts": "f4e9ae9b2cd318d45cafaa5504763cf00a12ae5c259257826547eb8dfdf449c6",
+    "scripts/run_quality_contracts.py": "c28aee534cf63cbe6928f4394ff865c717485ab5c4370384be912e14617f61c2",
+    "scripts/freeze_contract_tests.py": "d944ac40f4e6f0a5d4432a83fde60fe74727a844817413b97a64fd2edcbe0980",
+    "scripts/prepare_npm.py": "632e345250aeaab006717d5f04f65c21d54336f6761abf8e5f031796436d35b1",
+    "scripts/verify_installed.py": "e758242edc9e42c3ca460afe03882f686e9be608ed7b3d46e6751fa1e2ffe169",
+    "packages/npm/package.json": "0bb0d3e09849ea178272a94606d0bd998e8037b1a707b0618aa32b20e0f9d27f",
+    "docs/quality/OSS_LICENSE_AUDIT.md": "015fb4e0fad2688691cb5c03fbd20bba61c15e6a6e9e9495da54ac862505c514",
+    "src/orqalis/providers/validation.py": "7629b81b97deba5d3f3868e8db32609c0f6d02ca4fee8845ea1133281c1e6769",
+    "src/orqalis/providers/openai.py": "81625f0cb236171f110c9945de8fd76d6be25a130d5b81e1aee330ad9f4c0d36",
+    "src/orqalis/providers/anthropic.py": "bafef3f1f22017a2b7a2c80d90dd718c6f6059ba6d2d2d2bfbfb4393d2300766",
+    "tests/unit/test_task_history_pages.py": "8824046180285bdf48f1c0d4c852e8d30722560b95e1fc618d0b8d9a1e776a40",
+    "tests/unit/test_npm_release.py": "f60f5684689ed1bcc145b0828ac91effbc9076e9d4a8a34588301d5c882f7c07",
+    "packages/npm/lib/bundle.js": "c5f5d34c20704c98f976a4eb3d762412ad220ac07e7417f73f5b23c89137a949",
+    "web/package.json": "0eba935cca6750f0188efeef55513632a7df8982b7aa06226ebff04550cae787",
+    "docs/PUBLISHING.md": "e3a7eca3a591aba75ade65f605241578d7b35ee5b8349676767d5d97e6df9848",
+    "README.md": "c2c148e3769180883b6087b6938e1cbd9aa11a7bce1b6bdf376bd183768a0263",
+    "docs/05-interfaces-and-integrations.md": "861c2cfe6d1881935deffcfbc4abf171613f9c60958ee1066ffd3fed34bf3755",
+    ".tools/research/release_examples_preflight.py": "b083c35f3e4d59ec77d4fb8d3bd3b6db0e22cbdb411f8fd15906065e13ae1de5",
+    ".tools/research/release_history_quiet.py": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683"
+  },
+  "accepted_p1_dispositions": [
+    {
+      "id": "O04",
+      "subsystem": "Recovery",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Add deterministic child-process death/restart barriers across all phases",
+      "test_criteria": "Owned-child kill/restart at planning, execution, tool, review, repair, docs and Git boundaries; no duplicate effect; real-lock polling starvation, prompt cancellation and repeated-cancel ownership drain",
+      "benchmark_criteria": "Restart outcome, event continuity, side-effect count; live Docker tier separate",
+      "source_paths": [
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/core/recovery.py",
+        "src/orqalis/execution/cancellation.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Eight real process-kill barriers cover planning, tool, agent, review, repair, documentation and two Git boundaries; receipts/event sequence survive, completed provider calls and Git commits are not duplicated. Owned cancellation poll threads drain before lease release.",
+      "qualification_boundary_or_remaining_gap": "Live Docker remains a separate tier; not an exactly-once guarantee.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.integration.test_cancellation::test_persisted_cancel_interrupts_provider_without_reclassifying_terminal_run",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_hard_crash_matrix::test_hard_kill_matrix_preserves_history_and_deduplicates_effects",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation::test_parent_exit_closes_descendant_pipes_and_lifetime",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation::test_cancel_waits_for_command_cleanup_before_returning",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation::test_trusted_local_cannot_claim_readonly_isolation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation_polling::test_contended_cancellation_poll_does_not_block_event_loop",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation_polling::test_transient_poll_lock_contention_does_not_abort_operation_or_lose_cancel",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation_polling::test_caller_cancel_drains_inflight_poll_and_operation_before_return",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation_polling::test_non_lock_read_errors_remain_visible_and_drain_operation[error0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation_polling::test_non_lock_read_errors_remain_visible_and_drain_operation[error1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_cancellation_polling::test_operation_lock_error_is_not_hidden_by_poll_contention",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-execution-smoke.json",
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "X01",
+      "subsystem": "Execution",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Persist exact ownership, inspect labels, reconcile before reuse/recovery; fail closed",
+      "test_criteria": "Create/start/inspect/remove fake transport; crash windows; mismatch/daemon denial; all application command paths",
+      "benchmark_criteria": "Zero unrelated deletion or unsafe concurrent writer; deterministic cleanup outcomes",
+      "source_paths": [
+        "src/orqalis/execution/sandbox.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/core/recovery.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Receipt written before create, outside writable mount; daemon/name/full-ID/labels bound; mismatches, unavailable daemon, nonzero removal and ineffective removal fail closed. Real child deaths at prepared/created/started reconcile via independent fake transport.",
+      "qualification_boundary_or_remaining_gap": "Docker integration test skipped without configured image; no live daemon isolation claim.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.integration.test_sandbox_recovery::test_tool_failure_recovery_reconciles_host_owned_receipt_before_new_attempt",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_receipt_before_create_and_reconcile_by_verified_full_id",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_recovery_fails_closed_and_retains_receipt[labels]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_recovery_fails_closed_and_retains_receipt[daemon]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_recovery_fails_closed_and_retains_receipt[changed_daemon]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_recovery_fails_closed_and_retains_receipt[remove]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_recovery_fails_closed_and_retains_receipt[receipt]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_receipts_cannot_be_inside_mount",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_command_success_cannot_hide_cleanup_failure",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_process_death_preserves_receipt_for_independent_reconciliation[prepared]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_process_death_preserves_receipt_for_independent_reconciliation[created]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_process_death_preserves_receipt_for_independent_reconciliation[started]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_transport_nonzero_is_not_a_cleanup_success",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_sandbox_lifecycle::test_successful_remove_must_verify_container_absence",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json",
+        "docs/quality/evidence/current-execution-final-source-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "S01",
+      "subsystem": "Change Guardian",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Detect conservative AST/diff signals; exact reviewed hash-bound exception",
+      "test_criteria": "Assertion removal, skip/xfail, legitimate refactor, exact-hash approvals and stale approval denial",
+      "benchmark_criteria": "Zero known weakening fixture misses; documented false positives",
+      "source_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/delivery/test_integrity.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Assertion/helper removals, skip/xfail and assigned module markers, invalid/overcomplex tests require exact old/new hash-bound review; stale exception cannot authorize another tree. Legitimate added assertions pass.",
+      "qualification_boundary_or_remaining_gap": "Conservative Python signals are intentionally not full semantic equivalence; helper refactors may require review. JS test integrity retains declaration/diff checks only.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_guardian::test_guardian_independently_checks_scope_and_current_tree",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian::test_guardian_blocks_secret_governance_test_reduction_and_binary_changes[main.py-api_key=unsafe-value\\n-secret]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian::test_guardian_blocks_secret_governance_test_reduction_and_binary_changes[pyproject.toml-[project]\\nname='changed'\\n-sensitive_configuration]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian::test_guardian_blocks_secret_governance_test_reduction_and_binary_changes[tests/test_main.py-# test removed\\n-test_reduction]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian::test_guardian_blocks_secret_governance_test_reduction_and_binary_changes[dist/output.txt-generated\\n-generated]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian::test_guardian_blocks_secret_governance_test_reduction_and_binary_changes[main.py-\\x00binary-binary]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian::test_explicit_goal_scope_blocks_broader_execution_policy",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian::test_goal_directory_scope_and_prose_contract_remain_compatible",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian::test_documentation_path_does_not_waive_explicit_goal_scope",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[def test_answer():\\n    pass\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[import pytest\\npytestmark = pytest.mark.skip\\ndef test_answer():\\n    assert 42 == 42\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[def check():\\n    assert 42 == 42\\ndef test_answer():\\n    check()\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[import pytest\\n@pytest.mark.skip\\ndef test_answer():\\n    assert 42 == 42\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[import pytest\\ndef test_answer():\\n    pytest.xfail(\"temporary\")\\n    assert 42 == 42\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertions_can_be_added_without_test_exception",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_oversized_change_is_rejected_before_content_allocation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_default_delivery_policy_keeps_legacy_fingerprints",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_integrity_handles_unittest_and_changed_skip_conditions",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_uninspectable_ast_complexity_fails_closed[500]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_uninspectable_ast_complexity_fails_closed[5000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_syntax_disabled_tests_require_review_but_baseline_repairs_do_not",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_module_skip_collections_and_scope_changes_require_review",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertion_helper_removal_requires_review[with pytest.raises(ValueError):\\n        parse('invalid')]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertion_helper_removal_requires_review[with pytest.warns(UserWarning):\\n        warn()]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertion_helper_removal_requires_review[pytest.fail('required failure')]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertion_helper_removal_requires_review[with raises(ValueError):\\n        parse('invalid')]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_growing_changed_file_is_bounded_after_size_check[guardian]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_growing_changed_file_is_bounded_after_size_check[workspace_digest]",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "S02",
+      "subsystem": "Change Guardian",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Stat and bounded reads before secret/diff analysis",
+      "test_criteria": "Sparse/oversized file, growth race, ordinary allowed file",
+      "benchmark_criteria": "Read bound and explicit denied outcome",
+      "source_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/execution/review.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Stat-before-allocation and 10000001-byte bounded read enforce 10000000-byte cap, including growth race; oversized inspection cannot certify delivery.",
+      "qualification_boundary_or_remaining_gap": "Read cap is per-file; no claim of an aggregate controller RAM cap for arbitrary diffs.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[def test_answer():\\n    pass\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[import pytest\\npytestmark = pytest.mark.skip\\ndef test_answer():\\n    assert 42 == 42\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[def check():\\n    assert 42 == 42\\ndef test_answer():\\n    check()\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[import pytest\\n@pytest.mark.skip\\ndef test_answer():\\n    assert 42 == 42\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_guardian_blocks_weakened_test_and_requires_exact_review[import pytest\\ndef test_answer():\\n    pytest.xfail(\"temporary\")\\n    assert 42 == 42\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertions_can_be_added_without_test_exception",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_oversized_change_is_rejected_before_content_allocation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_default_delivery_policy_keeps_legacy_fingerprints",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_integrity_handles_unittest_and_changed_skip_conditions",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_uninspectable_ast_complexity_fails_closed[500]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_uninspectable_ast_complexity_fails_closed[5000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_syntax_disabled_tests_require_review_but_baseline_repairs_do_not",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_module_skip_collections_and_scope_changes_require_review",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertion_helper_removal_requires_review[with pytest.raises(ValueError):\\n        parse('invalid')]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertion_helper_removal_requires_review[with pytest.warns(UserWarning):\\n        warn()]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertion_helper_removal_requires_review[pytest.fail('required failure')]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_assertion_helper_removal_requires_review[with raises(ValueError):\\n        parse('invalid')]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_growing_changed_file_is_bounded_after_size_check[guardian]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_guardian_integrity::test_growing_changed_file_is_bounded_after_size_check[workspace_digest]",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "G01",
+      "subsystem": "Graph",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Separate extracted occurrences from inferred target bindings; invalidate cache",
+      "test_criteria": "Unknown receiver, aliases, shadowing, duplicate names, inheritance and rebuild equality",
+      "benchmark_criteria": "Zero false extracted target bindings on labeled fixtures",
+      "source_paths": [
+        "src/orqalis/graph/parsing.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/graph/models.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Unknown receivers do not become unique-name targets; alias/shadowing/duplicate/inheritance cases preserve occurrence evidence separately from inferred candidate bindings; changed incremental cache equals full rebuild.",
+      "qualification_boundary_or_remaining_gap": "Python candidates are static; no runtime dispatch certainty. Incomplete extraction disables inference.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_tsx_syntax_and_exact_locations_cover_real_language_constructs",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[javascript-export function caf\\xe9(x) { return x; }-caf\\xe9]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[javascript-const run = function named() { return 1; };-run]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[typescript-export function map<T>(x: T): T { return x; }-map]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[tsx-export const App = () => <div>ready</div>;-App]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_partial_syntax_is_reported_without_losing_intact_declarations",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_dynamic_receiver_literals_are_never_stored_in_graph_names",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_deeply_nested_source_uses_bounded_expression_walk",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_graph_integration_cache_dialects_and_dirty_rebuild",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_source_change_during_parse_cannot_poison_content_cache",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_default_export_and_object_methods_do_not_create_false_global_bindings",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_symbol_span_includes_decorators",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_credential_import_and_quoted_method_names_are_not_persisted",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_escaped_import_and_string_alias_cannot_create_false_or_private_facts",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_javascript_heritage_and_class_expression_use_visible_binding",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_nested_symbols_have_bounded_output_and_visible_truncation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_same_line_unicode_byte_spans_exclude_adjacent_declarations",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_parenthesized_decorator_and_unicode_exact_byte_spans",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_extraction_limits_are_visible_and_do_not_infer_partial_bindings",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_javascript_block_shadowing_cannot_infer_global_inheritance",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_large_coordinates_do_not_corrupt_native_parser_process",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_unrelated_global_names_never_become_call_targets[client.helper()]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_unrelated_global_names_never_become_call_targets[helper()]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_unrelated_global_names_never_become_call_targets[factory().helper()]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_supported_import_aliases_are_candidates_with_original_expressions",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_shadowed_import_does_not_bind_to_imported_symbol[def run(helper):\\n    helper()\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_shadowed_import_does_not_bind_to_imported_symbol[def run():\\n    helper = lambda: 1\\n    helper()\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_lexical_and_class_candidates_do_not_claim_runtime_certainty",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_unresolved_occurrences_are_scoped_and_inheritance_is_not_suffix_bound",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_candidate_graph_is_deterministic_for_input_order",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_provenance::test_changed_binding_matches_full_rebuild_and_invalidates_old_cache",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-contracts-final.json",
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "G02",
+      "subsystem": "Graph",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Add native abstraction for pinned JS/TS/TSX grammars with declared limits",
+      "test_criteria": "Multiline/generics/JSX/imports/classes/interfaces/partial syntax; Python parity; package portability",
+      "benchmark_criteria": "Symbol/location accuracy, indexing time/size and parser cache reuse",
+      "source_paths": [
+        "src/orqalis/graph/ecmascript.py",
+        "src/orqalis/graph/parsing.py",
+        "src/orqalis/graph/engine.py",
+        "pyproject.toml",
+        "uv.lock"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Pinned Tree-sitter JS/TS/TSX handles multiline/generics/JSX/imports/classes/interfaces/partial syntax with physical UTF-8 spans, bounded diagnostics and versioned content cache; coordinate crash/deep extraction regressions covered.",
+      "qualification_boundary_or_remaining_gap": "Syntax facts, not semantic LSP binding; installed wheel covered Windows, portable wheel availability is not installed Linux/macOS certification.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_tsx_syntax_and_exact_locations_cover_real_language_constructs",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[javascript-export function caf\\xe9(x) { return x; }-caf\\xe9]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[javascript-const run = function named() { return 1; };-run]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[typescript-export function map<T>(x: T): T { return x; }-map]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[tsx-export const App = () => <div>ready</div>;-App]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_partial_syntax_is_reported_without_losing_intact_declarations",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_dynamic_receiver_literals_are_never_stored_in_graph_names",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_deeply_nested_source_uses_bounded_expression_walk",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_graph_integration_cache_dialects_and_dirty_rebuild",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_source_change_during_parse_cannot_poison_content_cache",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_default_export_and_object_methods_do_not_create_false_global_bindings",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_symbol_span_includes_decorators",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_credential_import_and_quoted_method_names_are_not_persisted",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_escaped_import_and_string_alias_cannot_create_false_or_private_facts",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_javascript_heritage_and_class_expression_use_visible_binding",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_nested_symbols_have_bounded_output_and_visible_truncation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_same_line_unicode_byte_spans_exclude_adjacent_declarations",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_parenthesized_decorator_and_unicode_exact_byte_spans",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_extraction_limits_are_visible_and_do_not_infer_partial_bindings",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_javascript_block_shadowing_cannot_infer_global_inheritance",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_large_coordinates_do_not_corrupt_native_parser_process",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_models_support_typed_and_extension_relations",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_python_ast_graph_and_persisted_manifest",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_dirty_incremental_refresh_cache_hit_rename_and_delete",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_schema_valid_graph_tampering_forces_deterministic_rebuild",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_synchronizes_top_level_manifest_cursor",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_untracked_files_and_full_rebuild_after_cache_deletion",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_engine_isolates_repository_roots",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_git_branch_switch_refreshes_graph_and_memory_freshness",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_rejects_nonfinite_metadata_before_persisting[nan]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_rejects_nonfinite_metadata_before_persisting[inf]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_rejects_nonfinite_metadata_before_persisting[-inf]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_recovers_overflowing_number_in_derived_cache",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-quality-after-final.json",
+        "docs/quality/evidence/installed-wheel-optimization.json",
+        "docs/quality/evidence/optimization-format-compatibility-final.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "G04",
+      "subsystem": "Graph navigation",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Retain Orqalis-owned bounded traversal in SDK/CLI/MCP",
+      "test_criteria": "Cycles, direction, ambiguity, provenance, bounds, SDK/CLI/MCP contract",
+      "benchmark_criteria": "Returned nodes/bytes vs whole graph; deterministic witness validity",
+      "source_paths": [
+        "src/orqalis/graph/queries.py",
+        "src/orqalis/sdk.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/cli/catalog.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Directed impact and shortest-path preserve edge provenance/confidence/witnesses, control cycles, reject invalid limits and unknown targets, explicitly mark truncation. 1201-node scale shape returns 25 nodes/8722 bytes vs 408266 bytes.",
+      "qualification_boundary_or_remaining_gap": "Node/depth bounds and typed discovery; no graph-wide cursor API or constant backend-work claim.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.integration.test_mcp::test_mcp_workflow_continues_across_clients_and_enforces_server_policy",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp::test_mcp_stdio_lifecycle_and_project_isolation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_lifecycle_is_durable_idempotent_and_visible_to_replacement_client",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_lifecycle_enforces_readonly_and_bound_project_before_mutation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_recovery_requires_inspection_lease_and_matching_receipt_across_clients",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_impact_walks_incoming_dependencies_with_evidence_and_cycle_control",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_limits_report_incomplete_results",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_paths_respect_direction_and_provenance",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[0-100-0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[21-100-0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[3-0-0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[3-1001-0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[3-100--0.1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[3-100-nan]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_unknown_nodes_are_not_interpreted_as_filesystem_reads",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_mcp_control_policy::test_operator_owned_mcp_policy_selects_supervised_gates",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_mcp_project_scope::test_direct_factory_denies_other_project_memory_and_configured_skills",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/history-graph-scale-final-source-1.json",
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "G05",
+      "subsystem": "Source tools",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Add bounded native outline/body/reference reads with source-hash checks",
+      "test_criteria": "Duplicate/nested/decorated/Unicode symbols, stale source, path escape, byte limits",
+      "benchmark_criteria": "Exact source selection and bytes avoided versus full-file read",
+      "source_paths": [
+        "src/orqalis/graph/symbols.py",
+        "src/orqalis/sdk.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Exact stable IDs and required 64-hex source hashes disambiguate symbols; decorators/nesting/Unicode/body boundaries and stale/missing/source escape/budget denial covered. Read APIs preserve static reference confidence and incomplete-parser diagnostics.",
+      "qualification_boundary_or_remaining_gap": "Full selected file may be read within source-read cap to verify hash; saved context bytes are not physical IO savings.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_tsx_syntax_and_exact_locations_cover_real_language_constructs",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[javascript-export function caf\\xe9(x) { return x; }-caf\\xe9]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[javascript-const run = function named() { return 1; };-run]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[typescript-export function map<T>(x: T): T { return x; }-map]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_grammar_dialects_and_unicode[tsx-export const App = () => <div>ready</div>;-App]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_partial_syntax_is_reported_without_losing_intact_declarations",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_dynamic_receiver_literals_are_never_stored_in_graph_names",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_deeply_nested_source_uses_bounded_expression_walk",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_graph_integration_cache_dialects_and_dirty_rebuild",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_source_change_during_parse_cannot_poison_content_cache",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_default_export_and_object_methods_do_not_create_false_global_bindings",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_symbol_span_includes_decorators",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_credential_import_and_quoted_method_names_are_not_persisted",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_escaped_import_and_string_alias_cannot_create_false_or_private_facts",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_javascript_heritage_and_class_expression_use_visible_binding",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_nested_symbols_have_bounded_output_and_visible_truncation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_same_line_unicode_byte_spans_exclude_adjacent_declarations",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_parenthesized_decorator_and_unicode_exact_byte_spans",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_extraction_limits_are_visible_and_do_not_infer_partial_bindings",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\n-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r\\n-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\u2028]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x85]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x0b]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_python_span_uses_physical_newlines[\\r-\\x0c]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_javascript_block_shadowing_cannot_infer_global_inheritance",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_ecmascript_graph::test_large_coordinates_do_not_corrupt_native_parser_process",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_duplicate_names_and_python_decorators_have_exact_bodies",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_same_line_javascript_and_unicode_offsets_are_separate",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_nested_typescript_body_does_not_include_neighbor",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_hash_guard_rejects_changed_and_removed_source",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_budget_and_invalid_requests_fail_without_partial_body",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_missing_or_invalid_byte_span_fails_closed",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_reference_candidates_keep_evidence_and_explicit_coverage",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_sdk_and_mcp_symbol_reads_require_source_identity",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_symbol_reads::test_parser_incompleteness_is_visible_and_diagnostics_are_bounded",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json",
+        "docs/quality/evidence/installed-npm-optimization.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "R01",
+      "subsystem": "Retrieval",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_WITH_RECORDED_TRADEOFF",
+      "acceptance": "Use shared whole-word/snake/camel terms; invalidate lexical index version",
+      "test_criteria": "Identifier/acronym/noise cases, index invalidation, memory/context parity",
+      "benchmark_criteria": "Fixed labels, recall/precision/MRR/nDCG, negative queries and size",
+      "source_paths": [
+        "src/orqalis/retrieval.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/memory/curated.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Shared whole/snake/camel/acronym terms and lexical-v3 invalidation; definitions precede equal-score references; prose/Unicode/token order retained. 29 fixed queries show 87.04% mean index/context recall and zero negative matches.",
+      "qualification_boundary_or_remaining_gap": "Original released-baseline comparison retains 25 target-only precision losses and 5 other metric losses; do not turn raw REVIEW into raw PASS. Current optimization has no new loss versus preoptimization.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_identifier_terms_match_natural_language_without_substring_noise",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_index_and_context_find_identifier_parts_and_rebuild_old_indexes",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_memory_uses_the_same_identifier_terms",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_definitions_win_reference_ties_without_hiding_external_calls",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_lexical_terms_preserve_prose_and_identifier_order[Retry offline, retry! caf? na?ve-expected0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_lexical_terms_preserve_prose_and_identifier_order[x 12 a 3-expected1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_lexical_terms_preserve_prose_and_identifier_order[already_lower already_lower-expected2]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_lexical_terms_preserve_prose_and_identifier_order[HTTPRequestParser-expected3]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_identifier_retrieval::test_lexical_terms_preserve_prose_and_identifier_order[-expected4]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_models_support_typed_and_extension_relations",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_python_ast_graph_and_persisted_manifest",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_dirty_incremental_refresh_cache_hit_rename_and_delete",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_schema_valid_graph_tampering_forces_deterministic_rebuild",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_synchronizes_top_level_manifest_cursor",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_untracked_files_and_full_rebuild_after_cache_deletion",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_engine_isolates_repository_roots",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_git_branch_switch_refreshes_graph_and_memory_freshness",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_rejects_nonfinite_metadata_before_persisting[nan]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_rejects_nonfinite_metadata_before_persisting[inf]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_rejects_nonfinite_metadata_before_persisting[-inf]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_project_graph::test_graph_refresh_recovers_overflowing_number_in_derived_cache",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-quality-after-final.json",
+        "docs/quality/evidence/quality-comparison-final-source-1.json",
+        "docs/quality/evidence/quality-comparison-final-source-2.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "R02",
+      "subsystem": "Retrieval",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_WITH_RECORDED_TRADEOFF",
+      "acceptance": "Measure held-out gold and negative context; change only on demonstrated benefit",
+      "test_criteria": "Hard serialized budget, negatives clearly marked or omitted, held-out recall",
+      "benchmark_criteria": "At least 24 varied queries; bytes per relevant target; no unexplained recall loss",
+      "source_paths": [
+        "src/orqalis/context/builder.py",
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "benchmarks/engineering_cases.json"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "29 varied frozen queries include 15 held-out cases and 2 negatives, exact serialized context caps, explicitly orientation-only fallback and bytes/relevant-target measures. Remaining documentation/provider rank and memory-document top-five loss have concrete source-based explanations.",
+      "qualification_boundary_or_remaining_gap": "This is bounded lexical retrieval, not autonomous coding success. Release ledger must explicitly accept each of the 30 historic losses without relabeling frozen gold.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_memory_navigation::test_discovery_has_small_explainable_metadata_and_get_pages_exact_body",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_explicit_references_validate_and_integrity_reports_manual_corruption",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[1000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[4000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[12000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_irrelevant_graph_fallback_is_explicit_orientation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[[]]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[null]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[\"text\"]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[12]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_valid_comparison_allows_unsupported_baseline_and_explicit_orientation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_negative_paths_cannot_pass_even_when_positive_recall_is_unchanged",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_same_recall_with_worse_ranking_requires_review",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-case]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[duplicate-case]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-routing]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[invented-score]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[nan]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[false-summary]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-partition]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-timing-sample]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[python]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[platform]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[repetitions]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[dependencies]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[empty-selection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[role-grant]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[wrong-pin]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[roundtrip]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[unsupported]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-body]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-resource]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-portable-selection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[not-progressive]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_skips_missing_evidence_and_lying_flags_cannot_pass",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_added_source_files_and_non_python_resources_change_fingerprint",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_junit_counts_real_outcomes_and_rejects_missing_or_duplicate_cases",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_benchmark_environment_drops_application_credentials_and_git_overrides",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_controlled_git_commits_crlf_fixture_as_lf_without_local_config",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_timed_preserves_results_and_rejects_empty_measurements",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_child_cli_is_bound_to_selected_source",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_runner_consumes_actual_junit_under_source_isolation[False]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_runner_consumes_actual_junit_under_source_isolation[True]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[old_schema]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[missing_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[changed_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_runner]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_dataset]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[different_runner]",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-quality-after-final.json",
+        "docs/quality/evidence/quality-comparison-final-source-1.json",
+        "docs/quality/evidence/quality-comparison-final-source-2.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "M02",
+      "subsystem": "Project Memory",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Reviewed digest-bound supersession with atomic lifecycle metadata",
+      "test_criteria": "Pending/rejected no-op; approval idempotency; concurrent stale approvals; crash windows; history preserved",
+      "benchmark_criteria": "Only current active fact in default retrieval; old fact still inspectable",
+      "source_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/memory/curation.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Pending/rejected proposals do not suppress active predecessor; predecessor digest catches manual change; concurrent approval admits one successor; before/after transition and review crash retries remain atomic/idempotent; historical record readable.",
+      "qualification_boundary_or_remaining_gap": "Filesystem review authority retained; injected atomic-write failures are not every OS power-loss scenario.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_memory_interfaces::test_operator_review_cli_and_progressive_mcp_keep_review_boundary",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_only_approved_successor_is_active_and_history_remains_readable",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_rejected_and_conflicting_proposals_do_not_hide_predecessor",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_crash_boundaries_have_one_active_record_and_retry_is_idempotent[before_transition]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_crash_boundaries_have_one_active_record_and_retry_is_idempotent[after_transition]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_crash_boundaries_have_one_active_record_and_retry_is_idempotent[after_review]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_concurrent_reviews_cannot_publish_competing_successors",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_lifecycle_cycles_and_missing_records_fail_closed",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_self_supersession_and_secret_review_reason_are_denied",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_status_batch_shares_lifecycle_and_source_reads_without_hiding_changes",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json",
+        "docs/quality/evidence/optimization-memory-smoke.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "M03",
+      "subsystem": "Project Memory",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Bounded excerpts/discovery and explicit ID references; fetch detail on demand",
+      "test_criteria": "Broken/self/cyclic/cross-project refs; depth/node/byte caps; exact ID access",
+      "benchmark_criteria": "Metadata/detail context bytes, reference accuracy, long-record visibility",
+      "source_paths": [
+        "src/orqalis/memory/navigation.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Long memory remains discoverable via bounded previews; explicit single-record pages reconstruct exact content, validate ID/root, cap 32 references and 100 discovery results, enforce serialized response budget. No automatic reference traversal, so read depth is one. Broken/self/cyclic refs inspected.",
+      "qualification_boundary_or_remaining_gap": "max_chars is serialized characters, not guaranteed UTF-8 byte cap; reports measure bytes separately. All-record integrity scan is not constant backend work.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_mcp_project_scope::test_direct_factory_denies_other_project_memory_and_configured_skills",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_interfaces::test_operator_review_cli_and_progressive_mcp_keep_review_boundary",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_discovery_has_small_explainable_metadata_and_get_pages_exact_body",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_explicit_references_validate_and_integrity_reports_manual_corruption",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[1000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[4000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[12000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_irrelevant_graph_fallback_is_explicit_orientation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[[]]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[null]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[\"text\"]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[12]",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-memory-smoke.json",
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "M04",
+      "subsystem": "Project Memory",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Shared integrity report and CLI/MCP projection",
+      "test_criteria": "Corrupt schema, dangling predecessor/successor, cycles, unsafe paths; no silent omission",
+      "benchmark_criteria": "Deterministic issue count; valid corpus clean",
+      "source_paths": [
+        "src/orqalis/memory/navigation.py",
+        "src/orqalis/cli/memory.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Shared integrity checker reports malformed schema/identity, dangling reference/lifecycle, iterative cycle detection and unsafe linked paths; deterministic issue limits/truncated flag, valid corpus clean. CLI/MCP expose same projection.",
+      "qualification_boundary_or_remaining_gap": "Issue response capped, scan examines all canonical records; corrupt records fail visibly rather than being trusted.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_memory_interfaces::test_operator_review_cli_and_progressive_mcp_keep_review_boundary",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_only_approved_successor_is_active_and_history_remains_readable",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_rejected_and_conflicting_proposals_do_not_hide_predecessor",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_crash_boundaries_have_one_active_record_and_retry_is_idempotent[before_transition]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_crash_boundaries_have_one_active_record_and_retry_is_idempotent[after_transition]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_crash_boundaries_have_one_active_record_and_retry_is_idempotent[after_review]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_concurrent_reviews_cannot_publish_competing_successors",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_lifecycle_cycles_and_missing_records_fail_closed",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_self_supersession_and_secret_review_reason_are_denied",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_lifecycle::test_status_batch_shares_lifecycle_and_source_reads_without_hiding_changes",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_discovery_has_small_explainable_metadata_and_get_pages_exact_body",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_explicit_references_validate_and_integrity_reports_manual_corruption",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[1000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[4000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_long_relevant_memory_is_discoverable_inside_automatic_context[12000]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_irrelevant_graph_fallback_is_explicit_orientation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[[]]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[null]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[\"text\"]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_navigation::test_integrity_reports_non_object_frontmatter[12]",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json",
+        "docs/quality/evidence/optimization-memory-smoke.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "H01",
+      "subsystem": "Skills",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Retain explicit trusted roots, hashes and tool requirements as constraints",
+      "test_criteria": "Malformed YAML, aliases, links, path escape, changed hash, role/tool requirements",
+      "benchmark_criteria": "Portable discovery/activation/resources bytes and correct routing",
+      "source_paths": [
+        "src/orqalis/skills/markdown.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Strict portable YAML/frontmatter, no aliases/duplicate/executable metadata; trusted roots, no parent/path escape; discovery/body/resource stages with changed hash and version pin rejection; tool requirements constrain rather than grant authority.",
+      "qualification_boundary_or_remaining_gap": "One Windows symlink test explicitly skipped; independent Windows junction root/resource checks passed historically. Script execution unsupported by design.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope0-expected0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope1-expected1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope2-expected2]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope3-expected3]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope4-expected4]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope5-expected5]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_targeted_repair_retains_original_required_skills",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope0-expected0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope1-expected1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope2-expected2]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope3-expected3]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope4-expected4]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope5-expected5]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope6-expected6]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope7-expected7]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope8-expected8]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope9-expected9]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope10-expected10]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope11-expected11]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope12-expected12]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope13-expected13]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope14-expected14]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope15-expected15]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope16-expected16]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope17-expected17]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope18-expected18]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope19-expected19]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope20-expected20]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope21-expected21]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope22-expected22]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_exclusions_and_directory_boundaries_prevent_skill_leakage",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_known_scoped_filename_with_spaces_is_supported",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_skill_discovery_is_lazy_and_frontend_skills_remain_separate",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[python-python-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[typescript-typescript-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[javascript-javascript-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[react-react-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[database-database-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[documentation-documentation-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_standard_skill_selection_and_resources_preserve_policy",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_body_is_not_exposed_during_discovery_and_changes_are_detected",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[name: other\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[unknown-field: value\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[allowed-tools: Bash(git:*)\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[allowed-tools: unknown.tool\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata: {version: 1.0}\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata: {a: one, a: two}\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata: {a: &anchor value, b: *anchor}\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata: {a: {b: {c: value}}}\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[license: !!python/object/apply:os.system []\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata:\\n  orqalis-version: invalid\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata:\\n  orqalis-capabilities: ' , '\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_resources_cannot_escape_root[../outside.md]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_resources_cannot_escape_root[/outside.md]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_resources_cannot_escape_root[C:/outside.md]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_resources_cannot_escape_root[references/../SKILL.md]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_symlink_parent_is_rejected",
+          "outcome": "skipped"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_native_and_legacy_formats_cannot_silently_override_each_other",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_legacy_instruction_changes_require_rediscovery",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_frontmatter_without_body_or_final_newline_is_valid",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_missing_binary_and_oversized_resources_are_rejected",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json",
+        "docs/quality/evidence/final-audit-1-harness-junctions.json",
+        "docs/quality/evidence/optimization-quality-after-final.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "H02",
+      "subsystem": "Skills",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Versioned routing/portability evaluation; model quality explicitly unknown without paid runs",
+      "test_criteria": "Positive/negative scope, role restrictions, explicit pins, schema-compatible provider serialization",
+      "benchmark_criteria": "FP/FN counts, selected vs eager bytes, latency; never fabricate tokens",
+      "source_paths": [
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/core/vertical_plan.py",
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "src/orqalis/providers/validation.py",
+        "src/orqalis/providers/openai.py",
+        "src/orqalis/providers/anthropic.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Frozen routing/selection fixtures cover positive/negative scope, role denial, exact/wrong pins and typed portable contract roundtrip; zero FP/FN. Per-case routing/selection timing and actual selected/eager serialized bytes retained; portable staged 1967/2557/9066 bytes vs eager59742.",
+      "qualification_boundary_or_remaining_gap": "Provider/model instruction adherence, actual token use and paid-model quality explicitly unknown; no native-host certification.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope0-expected0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope1-expected1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope2-expected2]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope3-expected3]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope4-expected4]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_task_scope_selects_only_applicable_developer_skills[scope5-expected5]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_targeted_repair_retains_original_required_skills",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope0-expected0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope1-expected1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope2-expected2]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope3-expected3]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope4-expected4]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope5-expected5]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope6-expected6]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope7-expected7]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope8-expected8]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope9-expected9]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope10-expected10]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope11-expected11]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope12-expected12]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope13-expected13]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope14-expected14]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope15-expected15]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope16-expected16]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope17-expected17]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope18-expected18]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope19-expected19]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope20-expected20]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope21-expected21]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_infers_capabilities_without_unrelated_memory_languages[scope22-expected22]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_scope_exclusions_and_directory_boundaries_prevent_skill_leakage",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_known_scoped_filename_with_spaces_is_supported",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_skill_discovery_is_lazy_and_frontend_skills_remain_separate",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[python-python-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[typescript-typescript-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[javascript-javascript-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[react-react-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[database-database-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_planner_skills::test_bundled_edit_skills_require_scoped_write_tools[documentation-documentation-edit]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_standard_skill_selection_and_resources_preserve_policy",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_body_is_not_exposed_during_discovery_and_changes_are_detected",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[name: other\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[unknown-field: value\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[allowed-tools: Bash(git:*)\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[allowed-tools: unknown.tool\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata: {version: 1.0}\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata: {a: one, a: two}\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata: {a: &anchor value, b: *anchor}\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata: {a: {b: {c: value}}}\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[license: !!python/object/apply:os.system []\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata:\\n  orqalis-version: invalid\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_unsupported_ambiguous_and_executable_metadata_are_rejected[metadata:\\n  orqalis-capabilities: ' , '\\n]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_resources_cannot_escape_root[../outside.md]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_resources_cannot_escape_root[/outside.md]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_resources_cannot_escape_root[C:/outside.md]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_resources_cannot_escape_root[references/../SKILL.md]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_skill_symlink_parent_is_rejected",
+          "outcome": "skipped"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_native_and_legacy_formats_cannot_silently_override_each_other",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_legacy_instruction_changes_require_rediscovery",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_frontmatter_without_body_or_final_newline_is_valid",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_portable_skills::test_missing_binary_and_oversized_resources_are_rejected",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_valid_comparison_allows_unsupported_baseline_and_explicit_orientation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_negative_paths_cannot_pass_even_when_positive_recall_is_unchanged",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_same_recall_with_worse_ranking_requires_review",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-case]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[duplicate-case]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-routing]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[invented-score]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[nan]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[false-summary]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-partition]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-timing-sample]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[python]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[platform]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[repetitions]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[dependencies]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[empty-selection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[role-grant]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[wrong-pin]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[roundtrip]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[unsupported]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-body]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-resource]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-portable-selection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[not-progressive]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_skips_missing_evidence_and_lying_flags_cannot_pass",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_added_source_files_and_non_python_resources_change_fingerprint",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_junit_counts_real_outcomes_and_rejects_missing_or_duplicate_cases",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_benchmark_environment_drops_application_credentials_and_git_overrides",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_controlled_git_commits_crlf_fixture_as_lf_without_local_config",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_timed_preserves_results_and_rejects_empty_measurements",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_child_cli_is_bound_to_selected_source",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_runner_consumes_actual_junit_under_source_isolation[False]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_runner_consumes_actual_junit_under_source_isolation[True]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[old_schema]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[missing_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[changed_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_runner]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_dataset]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[different_runner]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_providers::test_provider_durable_outcomes_idempotency_failure_and_cancellation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_openai_normalizes_only_public_output_and_usage",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_openai_rejects_incomplete_private_or_unauthorized_outputs[payload0-invalid_output]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_openai_rejects_incomplete_private_or_unauthorized_outputs[payload1-refused]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_openai_rejects_incomplete_private_or_unauthorized_outputs[payload2-invalid_output]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_openai_rejects_incomplete_private_or_unauthorized_outputs[payload3-invalid_output]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_openai_error_and_tool_normalization",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_skill_selection_capabilities_permissions_versions_and_change_detection",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_router_reviewer_cannot_gain_write_access_from_skill",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_auto_provider_routing_respects_allowlist_order_and_capabilities",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_providers::test_auto_provider_routing_uses_context_budget_and_never_selects_fixture",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-quality-after-final.json",
+        "docs/quality/evidence/optimization-quality-comparison-final.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "I01",
+      "subsystem": "Assistant integrations",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "EVIDENCE_PENDING",
+      "acceptance": "Document and evaluate supported config/root/discovery/continuation/error contract",
+      "test_criteria": "Fresh stdio clients, two-client continuation, root isolation, permission failure and configuration syntax",
+      "benchmark_criteria": "Initialize/discovery latency and deterministic contract passes; native-host limits explicit",
+      "source_paths": [
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/mcp/policy.py",
+        "docs/examples/codex-mcp.toml",
+        "docs/examples/claude-mcp.json",
+        "docs/examples/vscode-mcp.json",
+        "docs/MCP.md"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Fresh generic stdio discovery, project-root isolation, readonly policy/typed failures and replacement-client continuation are covered by passing integrations and installed17 smoke; supported examples explicitly use node launcher, --policy and --root.",
+      "qualification_boundary_or_remaining_gap": "Typed TOML/JSON example preflight helper now exists and was inspected; recorded execution report remains pending. Its committed placeholder paths are never run as native host certification. Generic MCP support remains separate from native Codex/Claude/VSCode/OpenCode/Goose launch evidence.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.integration.test_mcp::test_mcp_workflow_continues_across_clients_and_enforces_server_policy",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp::test_mcp_stdio_lifecycle_and_project_isolation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_lifecycle_is_durable_idempotent_and_visible_to_replacement_client",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_lifecycle_enforces_readonly_and_bound_project_before_mutation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_recovery_requires_inspection_lease_and_matching_receipt_across_clients",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_mcp_control_policy::test_operator_owned_mcp_policy_selects_supervised_gates",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_mcp_project_scope::test_direct_factory_denies_other_project_memory_and_configured_skills",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-contracts-final.json",
+        "docs/quality/evidence/installed-npm-optimization.json",
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "I02",
+      "subsystem": "MCP",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Expose existing services behind server work policy and root binding",
+      "test_criteria": "Readonly denied, scoped run, legal transitions, explicit uncertainty, repeated calls",
+      "benchmark_criteria": "Lifecycle contract pass/fail; no duplicated effects",
+      "source_paths": [
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/core/recovery.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Pause/resume/cancel/recovery call Core under readonly/work policy and bound project; legal states/repeated keys remain idempotent, conflicting keys/root mismatch denied; uncertainty acknowledgement, active lease and matching sandbox receipt enforced.",
+      "qualification_boundary_or_remaining_gap": "Transport cancellation is not durable run control; host owns its worker process descendants.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_lifecycle_is_durable_idempotent_and_visible_to_replacement_client",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_lifecycle_enforces_readonly_and_bound_project_before_mutation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_recovery_requires_inspection_lease_and_matching_receipt_across_clients",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_mcp_control_policy::test_operator_owned_mcp_policy_selects_supervised_gates",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json",
+        "docs/quality/evidence/installed-npm-optimization.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "I03",
+      "subsystem": "MCP",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_FUNCTIONAL_AND_ALLOCATION_RELIABILITY_PENDING_FULL_PERFORMANCE_DISPOSITION",
+      "acceptance": "Add root/revision-bound pagination and bounded graph discovery while preserving old tools",
+      "test_criteria": "Multiple pages, no duplicate/omission, stale/tampered/cross-root cursors, payload limits",
+      "benchmark_criteria": "1000+ history rows and graph node pages; bytes and latency",
+      "source_paths": [
+        "src/orqalis/tasks/history.py",
+        "src/orqalis/persistence/filesystem/task_store.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/graph/queries.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Canonical task summaries are scanned outside the allocation lock; derived compare/write remains serialized. Two competing allocations make progress during a deliberately blocked scan and receive unique IDs. A stale older scan may overwrite derived index, but the next canonical scan repairs it and rejects the old cursor. Every returned page revision comes from that request canonical summaries, not trust in persistent index. 1001-row exact traversal retained in sequential ABBA probes.",
+      "qualification_boundary_or_remaining_gap": "Confirmed pre-existing allocation lock timeout is corrected without larger timeouts or cached freshness. Current quiet reservations completed 104.55 and44.11ms; one frozen-source allocation timed out and another took5131.50ms. Read latency still varies: current max17464.87/571.92ms and frozen max11112.48/466.24ms, so no history p95/tail improvement is established. Per-page work remains O(capsule count) and scan is best effort under concurrent commits, as before.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.integration.test_mcp::test_mcp_workflow_continues_across_clients_and_enforces_server_policy",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp::test_mcp_stdio_lifecycle_and_project_isolation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_lifecycle_is_durable_idempotent_and_visible_to_replacement_client",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_lifecycle_enforces_readonly_and_bound_project_before_mutation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.integration.test_mcp_lifecycle::test_recovery_requires_inspection_lease_and_matching_receipt_across_clients",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_impact_walks_incoming_dependencies_with_evidence_and_cycle_control",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_limits_report_incomplete_results",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_paths_respect_direction_and_provenance",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[0-100-0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[21-100-0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[3-0-0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[3-1001-0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[3-100--0.1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_graph_invalid_budgets_are_rejected[3-100-nan]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_graph_queries::test_unknown_nodes_are_not_interpreted_as_filesystem_reads",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_mcp_control_policy::test_operator_owned_mcp_policy_selects_supervised_gates",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_mcp_project_scope::test_direct_factory_denies_other_project_memory_and_configured_skills",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_pages_cover_equal_timestamp_history_without_duplicates_after_reopen",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_cursor_rejects_copied_project_root_and_stale_revision",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_page_rejects_invalid_cursor_and_bounds_without_unbounded_stage_reads",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_empty_page_returns_no_continuation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_unchanged_pages_do_not_replace_the_derived_index",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_same_size_same_timestamp_edit_invalidates_cursor",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_pages_repair_missing_or_corrupt_index_from_canonical_tasks[None]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_pages_repair_missing_or_corrupt_index_from_canonical_tasks[{broken]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_task_history_pages::test_pages_repair_missing_or_corrupt_index_from_canonical_tasks[{\"tasks\": []}]",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-history-review.json",
+        "docs/quality/evidence/optimization-history-diagnostic-review.json",
+        "docs/quality/evidence/history-graph-scale-final-source-1.json",
+        "docs/quality/evidence/release-history-quiet-review-v2.json",
+        "docs/quality/evidence/release-history-quiet-v2-2.json",
+        "docs/quality/evidence/release-history-quiet-v2-3.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_focused_evidence": [
+        {
+          "path": "docs/quality/evidence/release-history-lock-preflight.xml",
+          "sha256": "949549618943ccc90ca0f8590fcb15fccde601dc0f2db0453e8f1768055811ee",
+          "suites": [
+            {
+              "name": "pytest",
+              "errors": "0",
+              "failures": "1",
+              "skipped": "0",
+              "tests": "1",
+              "time": "5.239",
+              "timestamp": "2026-10-02T13:39:03.419807+05:30",
+              "hostname": "THOR-GALAXY"
+            }
+          ],
+          "new_relevant_cases": [
+            {
+              "name": "tests.unit.test_task_history_pages::test_slow_canonical_scan_does_not_block_task_allocation",
+              "outcome": "failed"
+            }
+          ]
+        },
+        {
+          "path": "docs/quality/evidence/release-history-lock-focused.xml",
+          "sha256": "fd51644181717ba236142fc7302890cd351d7e00ef6e9bf2ccd93e50c3341bea",
+          "suites": [
+            {
+              "name": "pytest",
+              "errors": "0",
+              "failures": "0",
+              "skipped": "0",
+              "tests": "44",
+              "time": "49.471",
+              "timestamp": "2026-10-02T13:40:34.782424+05:30",
+              "hostname": "THOR-GALAXY"
+            }
+          ],
+          "new_relevant_cases": [
+            {
+              "name": "tests.unit.test_task_history_pages::test_slow_canonical_scan_does_not_block_task_allocation",
+              "outcome": "passed"
+            },
+            {
+              "name": "tests.unit.test_task_history_pages::test_concurrent_canonical_commit_repairs_a_stale_scan_on_next_page",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ],
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "T01",
+      "subsystem": "Telemetry",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Project existing parent IDs into local trace hierarchy and allowlisted spans",
+      "test_criteria": "Run/task/actor/model/tool correlation; historic missing fields; no secrets/prompts",
+      "benchmark_criteria": "Actual persisted fixture hierarchy and overhead",
+      "source_paths": [
+        "src/orqalis/observability/trace.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/domain/telemetry.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Actual parallel/repair run persisted causal run/phase/task/actor/model/tool hierarchy; snapshot restart equality, shared-session/historic fallback, UUID-only in-memory span IDs and private-output sentinel exclusion covered.",
+      "qualification_boundary_or_remaining_gap": "Total execution/UI overhead is measured by comparative fixtures; isolated exporter-on/off attribution is not separately evidenced. No network export or native-host trace propagation claim.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.integration.test_trace_projection::test_actual_parallel_repair_trace_survives_restart_and_correlates_spans",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_trace_hierarchy::test_historical_missing_phase_and_shared_session_do_not_invent_parents_or_timing",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json",
+        "docs/quality/evidence/current-execution-final-source-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "T02",
+      "subsystem": "Control Center",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "EVIDENCE_PENDING",
+      "acceptance": "Consume backend projections; test actual multi-agent/repair snapshots",
+      "test_criteria": "API-derived intervals, parallel/blocked/repair state, empty/historical data, mobile layout",
+      "benchmark_criteria": "Browser update latency, event/payload sizes, bundle deltas",
+      "source_paths": [
+        "web/src/TraceView.tsx",
+        "web/src/Timeline.tsx",
+        "src/orqalis/observability/analytics.py",
+        "web/e2e/trace.spec.ts",
+        "web/e2e/enhancements.spec.ts"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "API-derived timeline and critical-path projections covered by actual parallel/blocked/repair fixture; frontend tests handle empty/historic state; saved actual snapshot browser test includes ancestry keyboard and390px view. Old live benchmark had6 correlated API/WebSocket/DOM transitions.",
+      "qualification_boundary_or_remaining_gap": "Refresh live comparative UI capture at new2.1.0 fingerprint and record frontend units/browser trace/mobile evidence in release preflight. Old fece capture cannot certify new source by name alone.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.integration.test_trace_projection::test_actual_parallel_repair_trace_survives_restart_and_correlates_spans",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_analytics::test_parallel_and_waiting_intervals_are_reconstructed_without_double_counting",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/current-ui-final-source-1.json",
+        "docs/quality/evidence/frontend-bundles.json",
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "T03",
+      "subsystem": "Telemetry",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_SCOPED_CONTRACT",
+      "acceptance": "Keep nearest-rank p50/p95 and coverage counts sourced from invocations",
+      "test_criteria": "Completed/running/cancelled/error outcomes, unknown vs zero, SSR and live API table",
+      "benchmark_criteria": "Reported coverage, API/UI equality; no fabricated cost",
+      "source_paths": [
+        "src/orqalis/observability/analytics.py",
+        "web/src/ProviderMetrics.tsx",
+        "web/src/ProviderMetrics.test.tsx",
+        "web/e2e/control-center.spec.ts"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Outcome grouping includes success/fail/running/cancelled/interrupted; nearest-rank p50/p95 excludes running/negative duration, unknown stays distinct from reported0, coverage denominators retained. SSR tests and existing actualAPI browser table compare provider/model/outcome/latency coverage.",
+      "qualification_boundary_or_remaining_gap": "Refresh frontend/browser release evidence; coverage subset tested, not all possible live paid-provider pricing/usage.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_analytics::test_parallel_and_waiting_intervals_are_reconstructed_without_double_counting",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_provider_metrics::test_provider_metrics_preserve_missing_usage_and_count_all_outcomes",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_provider_metrics::test_percentiles_use_nearest_rank_and_exclude_running_or_invalid_durations",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/full-regression-optimization-1.json",
+        "docs/quality/evidence/current-ui-final-source-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "E01",
+      "subsystem": "Evaluation",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "ACCEPT_IMPLEMENTATION_PENDING_CONVERGENCE",
+      "acceptance": "Source-isolated 14-category corpus plus held-out retrieval/routing/contract suite",
+      "test_criteria": "Dataset/source hash isolation; reject incomplete/mismatched reports; existing integration contracts",
+      "benchmark_criteria": "Before/after context, recall, startup, graph/memory/disk; unknown model metrics explicit",
+      "source_paths": [
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "scripts/run_quality_contracts.py",
+        "scripts/freeze_contract_tests.py",
+        "benchmarks/engineering_cases.json"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Versioned14engineering-category +15held-out retrieval/routing suite binds dataset/source/resources/helper/environment/JUnit; rejects missing/changed/contaminated/incomplete witness reports. Corrected frozen86 contracts and full748pass/2skip regression source stable.",
+      "qualification_boundary_or_remaining_gap": "Two consecutive full clean release audits still required; qualityPASS versus preoptimization is not released-baseline signoff. Timing reports collected under concurrent load are diagnostics only.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_contract_compatibility::test_exact_declared_semantics_pass[False]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_exact_declared_semantics_pass[True]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[unknown_profile]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[manifest_mismatch]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[extracted_candidate]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[certain_candidate]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[missing_basis]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[unknown_basis]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[missing_expression]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[invalid_evidence]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[empty_bindings]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[missing_target_witness]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[inferred_occurrence]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[legacy_inferred]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_amendment_changes_only_declared_block_and_preserves_selection",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_frozen_tree_is_idempotent_and_refuses_mutation_or_escape",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_profile_versions_and_lf_fixture_are_exact_and_reproducible",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_source_inventory_hashes_resources_and_ignores_bytecode",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_helper_bundle_is_frozen_and_content_addressed",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_import_audit_rejects_mixed_checkout_modules",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_isolated_process_uses_selected_source_despite_pythonpath",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_failed_execution_facts_never_become_success[review_outcomes-value0]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_failed_execution_facts_never_become_success[tool_calls-1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_failed_execution_facts_never_become_success[model_statuses-value2]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_failed_execution_facts_never_become_success[model_calls-1]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_failed_execution_facts_never_become_success[acceptance_first_pass-True]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_persisted_state_and_original_source_are_required",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_environment_scrubs_application_git_and_exporter_overrides",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_distribution_requires_measured_values",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_failed_worker_sample_remains_in_written_evidence",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_canonical_model_and_tool_records_have_exact_event_and_role_witnesses",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[missing_provider_record]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[duplicate_provider_record]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[missing_provider_projection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[duplicate_provider_projection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[missing_provider_start]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[duplicate_provider_terminal]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[foreign_provider_event]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[wrong_provider_actor]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[wrong_role_counts]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[missing_tool_record]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[duplicate_tool_record]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[missing_tool_projection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[missing_tool_terminal]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[duplicate_tool_start]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[wrong_tool_status]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[tool_terminal_before_start]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[broken_tool_parent]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_invocation_accounting_rejects_lost_or_duplicate_or_misbound_calls[duplicate_actor]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_execution_benchmark::test_missing_accounting_check_and_single_model_record_cannot_pass",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_read_probe_counts_actual_utf8_and_preserves_stage_snapshots",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_workflow_requires_typed_content_witness_and_checks_budget",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_untyped_payload_cannot_supply_gold_strings",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[predecessor]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[wrong_id]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[superseded]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[stale]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[wrong_content]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[wrong_offset]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[wrong_next_offset]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[wrong_source]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[obsolete_metadata]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_memory_gold_text_does_not_override_identity_or_content_failure[predecessor_metadata]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_source_gold_text_requires_exact_symbol_path_hash_and_span[id]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_source_gold_text_requires_exact_symbol_path_hash_and_span[path]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_source_gold_text_requires_exact_symbol_path_hash_and_span[name]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_source_gold_text_requires_exact_symbol_path_hash_and_span[hash]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_source_gold_text_requires_exact_symbol_path_hash_and_span[outer_hash]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_source_gold_text_requires_exact_symbol_path_hash_and_span[span]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_source_gold_text_requires_exact_symbol_path_hash_and_span[body]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_metadata_gold_is_not_a_content_witness_and_page_digest_is_honest",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_context_and_full_memory_allow_only_canonical_successor_provenance",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_full_memory_rejects_extra_predecessor_and_duplicate_records",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_required_witness_timing_ignores_later_unrequired_source",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_partial_binary_utf8_reads_preserve_bytes_and_account_incrementally",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_binary_invalid_bytes_readinto_and_seek_are_transparent",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_memory_benchmark::test_binary_readinto_counts_bytes_for_nonbyte_buffers",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_valid_comparison_allows_unsupported_baseline_and_explicit_orientation",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_negative_paths_cannot_pass_even_when_positive_recall_is_unchanged",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_same_recall_with_worse_ranking_requires_review",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-case]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[duplicate-case]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-routing]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[invented-score]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[nan]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[false-summary]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-partition]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_invalid_or_incomplete_witnesses_are_rejected[missing-timing-sample]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[python]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[platform]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[repetitions]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_different_environments_cannot_be_compared[dependencies]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[empty-selection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[role-grant]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[wrong-pin]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[roundtrip]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[unsupported]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-body]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-resource]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[changed-portable-selection]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_skill_and_portability_regressions_cannot_pass[not-progressive]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_skips_missing_evidence_and_lying_flags_cannot_pass",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_added_source_files_and_non_python_resources_change_fingerprint",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_junit_counts_real_outcomes_and_rejects_missing_or_duplicate_cases",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_benchmark_environment_drops_application_credentials_and_git_overrides",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_controlled_git_commits_crlf_fixture_as_lf_without_local_config",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_timed_preserves_results_and_rejects_empty_measurements",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_child_cli_is_bound_to_selected_source",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_runner_consumes_actual_junit_under_source_isolation[False]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_contract_runner_consumes_actual_junit_under_source_isolation[True]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[old_schema]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[missing_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[changed_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_helper]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_runner]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[unstable_dataset]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_quality_comparison::test_helperless_or_changed_contracts_cannot_be_compared[different_runner]",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/optimization-quality-comparison-final.json",
+        "docs/quality/evidence/optimization-contracts-final.json",
+        "docs/quality/evidence/full-regression-optimization-1.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    },
+    {
+      "id": "E04",
+      "subsystem": "Distribution/performance",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "review_disposition": "EVIDENCE_PENDING",
+      "acceptance": "Verify licenses, wheel availability, startup/bundle/disk and offline contracts",
+      "test_criteria": "Wheel build, npm launcher, manifest linkcheck, no baseline tag change",
+      "benchmark_criteria": "Cold/warm startup, memory/disk/bundle vs baseline; optional Docker not required",
+      "source_paths": [
+        "pyproject.toml",
+        "uv.lock",
+        "scripts/prepare_npm.py",
+        "scripts/verify_installed.py",
+        "packages/npm/package.json",
+        "docs/quality/OSS_LICENSE_AUDIT.md",
+        "packages/npm/lib/bundle.js",
+        "tests/unit/test_npm_release.py"
+      ],
+      "missing_mapping_paths": [],
+      "observed_witness": "Pinned parser/PyYAML notices and availability audited; prior correctedsource wheel+17installednpm checks and exactruntime/docbyteproof passed. Optimization reduces CLI29%/26% and store15% versuspreoptimization. Immutable2.0.0tag retained. Final Python staging excludes exact maintainer directory quality; Node prepack independently excludes docs/quality/ while still byte-checking every retained user guide, source, wheel, frontend and skills. New focused test preserves quality-guide.md and user/verification files while excluding nested quality evidence.",
+      "qualification_boundary_or_remaining_gap": "Fresh 2.1.0 actual wheel/npm installed smoke, source/frontend/docs identity, dependency audits and final user-guide link audit remain pending root qualification. Removing maintainer evidence is packaging scope correction, not source deletion or removal of runtime/license notices. No historical 2.0.0 artifact is promoted to 2.1.0 evidence.",
+      "prior_source_regression_cases": [
+        {
+          "case": "tests.unit.test_contract_compatibility::test_exact_declared_semantics_pass[False]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_exact_declared_semantics_pass[True]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[unknown_profile]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[manifest_mismatch]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[extracted_candidate]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[certain_candidate]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[missing_basis]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[unknown_basis]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[missing_expression]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[invalid_evidence]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[empty_bindings]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[missing_target_witness]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[inferred_occurrence]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_semantic_or_structural_regression_never_passes[legacy_inferred]",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_amendment_changes_only_declared_block_and_preserves_selection",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_frozen_tree_is_idempotent_and_refuses_mutation_or_escape",
+          "outcome": "passed"
+        },
+        {
+          "case": "tests.unit.test_contract_compatibility::test_profile_versions_and_lf_fixture_are_exact_and_reproducible",
+          "outcome": "passed"
+        }
+      ],
+      "evidence_paths": [
+        "docs/quality/evidence/installed-wheel-optimization.json",
+        "docs/quality/evidence/installed-npm-optimization.json",
+        "docs/quality/evidence/optimization-final-artifact-identity.json",
+        "docs/quality/evidence/python-dependency-audit-final-source-1.json",
+        "docs/quality/evidence/optimization-startup-final.json"
+      ],
+      "new_release_source_capture_required": true,
+      "fresh_focused_evidence": [
+        {
+          "path": "docs/quality/evidence/release-package-history-focused.xml",
+          "sha256": "3603b93ef6857d4b5593e9a631cbf1ced2b2babfd408004f0a2ea7c86667b954",
+          "suites": [
+            {
+              "name": "pytest",
+              "errors": "0",
+              "failures": "0",
+              "skipped": "0",
+              "tests": "20",
+              "time": "12.536",
+              "timestamp": "2026-10-02T13:50:01.384127+05:30",
+              "hostname": "THOR-GALAXY"
+            }
+          ],
+          "new_relevant_cases": [
+            {
+              "name": "tests.unit.test_npm_release::test_release_docs_exclude_maintainer_audits_and_keep_user_docs",
+              "outcome": "passed"
+            },
+            {
+              "name": "tests.unit.test_task_history_pages::test_slow_canonical_scan_does_not_block_task_allocation",
+              "outcome": "passed"
+            },
+            {
+              "name": "tests.unit.test_task_history_pages::test_concurrent_canonical_commit_repairs_a_stale_scan_on_next_page",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ],
+      "fresh_source_acceptance_requires_final_root_report_binding": true
+    }
+  ],
+  "all_50_decisions_reconsidered": true,
+  "non_p1_reconsideration": [
+    {
+      "id": "O01",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Retain filesystem authority",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "O02",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Keep bounded explicit recovery and completed-observation reuse",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "O03",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Retain deterministic ownership and scoped result handoffs",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "O05",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer parallel writers and general mailbox until conflict/throughput evaluation",
+      "fresh_reconsideration": "No release workload or reviewed authority contract now justifies this optional runtime/dependency surface.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "O06",
+      "decision": "REJECT_RETAINED",
+      "existing_reason": "Reject wholesale framework/database replacement",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "X02",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Retain typed tools, workspace scope and optional isolation",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "X03",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer remote adapters and snapshots; Daytona core is no longer maintained",
+      "fresh_reconsideration": "Hosted sinks, paid judges, external writes and remote sandboxes remain optional and add network/credential/cost contracts not required for this local release.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "S03",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer optional evidence-only scanner adapters until native reliability closes",
+      "fresh_reconsideration": "Native guardian/reliability fixes and fresh dependency audit are the accepted gate; optional third-party scanner adapters are not required to deliver the documented supported scope.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "G03",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Keep file-granularity cache and report reads separately from parsing",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "G06",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer LSP/SCIP and symbol writes; preserve read-only abstraction",
+      "fresh_reconsideration": "Remaining lexical/document/paraphrase limitations are transparently scoped; no new labeled workload or reliable semantic-authority design justifies additional retrieval/LSP/model/temporal layers in this release.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "G07",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer clustering/multimodal/model extraction",
+      "fresh_reconsideration": "Remaining lexical/document/paraphrase limitations are transparently scoped; no new labeled workload or reliable semantic-authority design justifies additional retrieval/LSP/model/temporal layers in this release.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "G08",
+      "decision": "REJECT_RETAINED",
+      "existing_reason": "Reject mandatory graph/model service",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "R03",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer new retrieval dependency and fusion pending labeled evidence",
+      "fresh_reconsideration": "Remaining lexical/document/paraphrase limitations are transparently scoped; no new labeled workload or reliable semantic-authority design justifies additional retrieval/LSP/model/temporal layers in this release.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "M01",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Keep distinct graph/memory/history authorities and scoped proposals",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "M05",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer extra taxonomy/protection modes/bitemporal inference",
+      "fresh_reconsideration": "Remaining lexical/document/paraphrase limitations are transparently scoped; no new labeled workload or reliable semantic-authority design justifies additional retrieval/LSP/model/temporal layers in this release.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "M06",
+      "decision": "REJECT_RETAINED",
+      "existing_reason": "Reject replacement SDK/store, silent deletion and fuzzy rewrite as authority",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "H03",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer richer provenance/environment validation and provider-worker resource execution",
+      "fresh_reconsideration": "Portable text resources, explicit tool requirements and project-bound MCP satisfy the accepted scope; native execution/hook authority and host process lifecycle still need separate qualification.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "H04",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Keep explicit installation boundary",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "H05",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer arbitrary external hooks until one concrete supported host use case",
+      "fresh_reconsideration": "Portable text resources, explicit tool requirements and project-bound MCP satisfy the accepted scope; native execution/hook authority and host process lifecycle still need separate qualification.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "H06",
+      "decision": "REJECT_RETAINED",
+      "existing_reason": "Reject bulk skill/plugin installation and implicit execution of bundled scripts",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "I04",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer native subprocess workers; supported MCP pathway closes current interoperability need",
+      "fresh_reconsideration": "Portable text resources, explicit tool requirements and project-bound MCP satisfy the accepted scope; native execution/hook authority and host process lifecycle still need separate qualification.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "I05",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer connector ingestion/PR delivery until scoped token/idempotency contract",
+      "fresh_reconsideration": "Hosted sinks, paid judges, external writes and remote sandboxes remain optional and add network/credential/cost contracts not required for this local release.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "T04",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Keep backend-derived state and avoid visual workflow authoring engine",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "T05",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer OTLP/hosted exporters",
+      "fresh_reconsideration": "Hosted sinks, paid judges, external writes and remote sandboxes remain optional and add network/credential/cost contracts not required for this local release.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "T06",
+      "decision": "REJECT_RETAINED",
+      "existing_reason": "Reject mandatory hosted service or private reasoning storage",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "E02",
+      "decision": "KEEP_RETAINED",
+      "existing_reason": "Keep independent review and repair; add weakening/crash fixtures",
+      "fresh_reconsideration": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_p0_p1_trigger_found": false
+    },
+    {
+      "id": "E03",
+      "decision": "DEFER_RETAINED",
+      "existing_reason": "Defer paid live model quality study; keep a provider-neutral optional future layer",
+      "fresh_reconsideration": "Hosted sinks, paid judges, external writes and remote sandboxes remain optional and add network/credential/cost contracts not required for this local release.",
+      "new_p0_p1_trigger_found": false
+    }
+  ],
+  "decision_counts": {
+    "KEEP": 9,
+    "ADD": 8,
+    "DEFER": 13,
+    "REJECT": 5,
+    "ADAPT": 15
+  },
+  "fresh_focused_evidence": [
+    {
+      "path": "docs/quality/evidence/release-history-lock-preflight.xml",
+      "sha256": "949549618943ccc90ca0f8590fcb15fccde601dc0f2db0453e8f1768055811ee",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "1",
+          "skipped": "0",
+          "tests": "1",
+          "time": "5.239",
+          "timestamp": "2026-10-02T13:39:03.419807+05:30",
+          "hostname": "THOR-GALAXY"
+        }
+      ],
+      "new_relevant_cases": [
+        {
+          "name": "tests.unit.test_task_history_pages::test_slow_canonical_scan_does_not_block_task_allocation",
+          "outcome": "failed"
+        }
+      ]
+    },
+    {
+      "path": "docs/quality/evidence/release-history-lock-focused.xml",
+      "sha256": "fd51644181717ba236142fc7302890cd351d7e00ef6e9bf2ccd93e50c3341bea",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "44",
+          "time": "49.471",
+          "timestamp": "2026-10-02T13:40:34.782424+05:30",
+          "hostname": "THOR-GALAXY"
+        }
+      ],
+      "new_relevant_cases": [
+        {
+          "name": "tests.unit.test_task_history_pages::test_slow_canonical_scan_does_not_block_task_allocation",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.unit.test_task_history_pages::test_concurrent_canonical_commit_repairs_a_stale_scan_on_next_page",
+          "outcome": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/quality/evidence/release-package-history-focused.xml",
+      "sha256": "3603b93ef6857d4b5593e9a631cbf1ced2b2babfd408004f0a2ea7c86667b954",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "20",
+          "time": "12.536",
+          "timestamp": "2026-10-02T13:50:01.384127+05:30",
+          "hostname": "THOR-GALAXY"
+        }
+      ],
+      "new_relevant_cases": [
+        {
+          "name": "tests.unit.test_npm_release::test_release_docs_exclude_maintainer_audits_and_keep_user_docs",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.unit.test_task_history_pages::test_slow_canonical_scan_does_not_block_task_allocation",
+          "outcome": "passed"
+        },
+        {
+          "name": "tests.unit.test_task_history_pages::test_concurrent_canonical_commit_repairs_a_stale_scan_on_next_page",
+          "outcome": "passed"
+        }
+      ]
+    }
+  ],
+  "fresh_report_evidence": {
+    "release-history-quiet-review-v2.json": "3cda860d7c5cac65f566d5352345fe06af2765f860bf81f0f5f4f09b1b1b6085",
+    "release-history-quiet-v2-1.json": "103fd7ce039406c41d98f60a9d23f99646e55106ca462254b10896ab6a937eed",
+    "release-history-quiet-v2-2.json": "1ae1213aea11dfa26ff6dd9fb2101630c303d26f6dda3c2329f4b75ac91c6b9c",
+    "release-history-quiet-v2-3.json": "e4e9ff98540ebf9169afc6f872554aabd957ff248163e0597818d14cf157381a",
+    "release-history-quiet-v2-4.json": "8cdc8084e2d5a89a81e687faa50e13b9540a23d6619cca57195a5f9bfa4c0e28",
+    "release-preflight-corrections.json": "f63a3e9cd84d56943ae7c8864571eaa270f0a69901d1081a7db474f50dc66262",
+    "release-candidate-registry-20261002.json": "0180c83ad92f0d2a94ed5bae3012d1c4de343ede95f5d792bd63427a2f784e7a",
+    "release-quality-review.json": {
+      "sha256": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e",
+      "scope": "Prior version-synchronized source review; root must bind its unchanged inspected files or refresh final-source review."
+    },
+    "release-security-review.json": {
+      "sha256": "9d3b4792c8b4f65df11b80ed6ce8758ed074e1ed7c436517f52e8b4ea4f111df",
+      "scope": "Prior version-synchronized source review; root must bind its unchanged inspected files or refresh final-source review."
+    }
+  },
+  "material_remaining_gates": [
+    "Two complete sequential release audits at final 2.1.0 fingerprint, with each source/dataset/helper/environment/installed artifact bound and stable.",
+    "Retain raw comparator REVIEW and all 30 historical retrieval losses; bind independent explicit bounded acceptance to fresh results without label/comparator manipulation.",
+    "Retain large history read outliers; accept allocation reliability correction separately from any latency improvement claim and investigate each new unacceptable benchmark degradation.",
+    "Run and record typed host-example proof, actual frontend/mobile/browser checks, final installed 2.1.0 wheel/npm/source/docs identity and dependency/security audits."
+  ],
+  "no_new_material_implementation_gap_identified": true,
+  "release_converged": false,
+  "no_automatic_status_promotion": true,
+  "unsupported_limits": [
+    "Live Docker daemon tier and Windows symlink privilege remain explicit skips where unconfigured.",
+    "Linux/macOS installed runtime, paid model coding success/token usage/adherence and native assistant process launch are not certified.",
+    "No universal RAM/startup/history-tail speed claim, constant-time backend pagination, full Markdown search or semantic runtime symbol resolution is claimed."
+  ]
+}

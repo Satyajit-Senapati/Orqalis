@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T09:08:08.464546+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "PASS_CORRECTED_UNAPPLIED_RECOVERY_TARGET_GUARD_STATIC_REVIEW",
+  "production_source_sha256": "f7ca46771370685dc149bf226ceb49220387ba486effe43cd0308cb949e7fa27",
+  "production_task_store_sha256": "8a5e4c64711eace7e3ea7f611c98674b1d60d6a4cda77bd0fbdd2725921c22a5",
+  "corrected_private_proposal_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+  "proposal_applied": false,
+  "reviewer_workloads_or_application_helper_test_edits": false,
+  "confirmed_new_P0_P1_findings": 0,
+  "initial_proposal_issue_fixed": {
+    "initial_sha256": "16fcdc5da09a721a966014a4a6106643e9c9c958bb4ed23f6ff9787c914cf9ed",
+    "issue": "Initial proposal discarded the guard-normalized absolute path then expanded/absolutized raw capsule again, allowing relative/tilde capsule selection to change with concurrent cwd/home change. Normal production capsule paths are absolute, so no demonstrated internal P0/P1, but arbitrary-path equivalence was incomplete.",
+    "fix": "Corrected proposal anchors capsule_path = capsule.expanduser().absolute() once before target guard, then resolves that same anchored capsule_path strictly."
+  },
+  "exact_scope_proof": "Entire task_store module AST excluding _relative_target is unchanged. Only duplicate capsule/target ancestor check is consolidated; validation, strict capsule resolution, target resolution, containment and returned target remain. Atomic write guard in io.py is unchanged and revalidates independently.",
+  "guard_assessment": [
+    "validate_relative_path retains rejection of absolute paths, backslashes, dot/dotdot/empty components, drive/colon/control/reserved-name escapes. Clean path parts cannot make joinpath discard the capsule root.",
+    "Fresh ensure_no_filesystem_links on full anchored target examines candidate and all parents, including capsule and every capsule ancestor, before capsule resolution. No parent component is omitted.",
+    "Missing/not-directory target descendants are skipped by the guard while parent validation continues. Strict capsule resolution still fails when required capsule root or an intermediate component is missing/not-directory.",
+    "Unexpected metadata/permission failures still propagate before recovery writes. Error ordering can differ because full target ancestry is checked before strict root resolution; both fail closed.",
+    "Actual capsule path that is itself a regular file is not newly rejected by this helper: strict resolve validates existence, not directory type, as before; downstream atomic write fails on invalid parent directory. No new directory-type guarantee asserted.",
+    "Symlink/junction capsule/ancestor/target checks remain; real linked target and missing descendant fixtures should be tested. Target resolve(strict=False) plus is_relative_to(capsule_root) continues to reject resolved escapes.",
+    "Recovery checks remain fresh per document. No cache, approval mutation, run-lock scope change, transaction ordering, state-last replacement change, checksum/data-format change or durability/fsync alteration."
+  ],
+  "race_boundary": "Path validation followed by resolution/write is not race-free inode-handle traversal. A malicious root/link swap after checks remains a pre-existing accepted check-to-use boundary. Removing a duplicate check changes timing/count, so exact race-window or universally identical adversarial interleaving behavior is not claimed. The independent atomic-write guard remains fresh; target resolution/containment continues to reject ordinary descendant escapes.",
+  "required_focused_checks": [
+    "Relative capsule with injected cwd change after target guard remains anchored to initially selected capsule.",
+    "Missing capsule/intermediate root fails strict resolution; ordinary missing descendant remains eligible.",
+    "Permission/unexpected metadata fault fails before any existing document bytes change.",
+    "Real target/ancestor symlink or Windows junction is denied, including missing descendants.",
+    "Retain Windows-separator traversal rejection and interrupted transaction roll-forward/event integrity tests."
+  ],
+  "reviewed_support_sha256": {
+    "src/orqalis/persistence/filesystem/io.py": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+    "src/orqalis/git/service.py": "0a445c020dbaf6a3aa62f5c7862e415b653633e0ca5260600bf8f69159b42519",
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "tests/unit/test_filesystem_task_store.py": "272fab1f5c63d4229c687bbc4cef513f53ae33a1977ed1e9544c959d52717fe0"
+  },
+  "qualification": "Eligible bounded reversible metadata reduction after focused behavior checks and normal automatic review. Production sourcef7 remains unchanged. No tests/native fixtures/benchmarks or browser workloads run by reviewer; no latency improvement, browser pass, installed artifact, complete release rounds or release-ready certification."
+}

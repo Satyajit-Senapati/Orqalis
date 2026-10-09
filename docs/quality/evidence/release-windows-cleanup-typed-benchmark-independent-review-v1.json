@@ -1,0 +1,563 @@
+{
+  "status": "FUNCTIONAL_PASS_NATIVE_OBSERVER_SCREEN_PASS_HISTORY_PERFORMANCE_REVIEW_UNRESOLVED",
+  "created_at": "2026-10-03T20:08:56.950491+00:00",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "source_files": 196,
+  "input_sha256": "9959a8de6a58b58d910ce1c9ebc55332ea38549c3985077d3038fb8a56e9bf9d",
+  "input_files": 390,
+  "evidence_sha256": {
+    "release-heldout-baseline-v15.json": "526aa065ae32cc8bcb70671cc2742f25bd1f5c4dcd4ac035b90e98c4c6e90089",
+    "release-heldout-current-v15.json": "c8316b91794ee940d57f97c0979708bb3ea058eb1b9afa2bfa164aefc603e9d6",
+    "release-heldout-review-v15.json": "eb3cf98fd177b930759fa36acd0c762bd37d08da86f2b50fa6ebdddc0ee11426",
+    "release-history-windows-cleanup-typed-native-v1.json": "d0c8f33295aea9a2b2425fc3997e7a241c025f480efb20c83bb34e3d9ae78210",
+    "release-history-windows-cleanup-typed-native-counters-v1.json": "fe2ca80fc659287de2b8c7473ae79185d2865537dc6f9246fa713a1fe542ba69",
+    "release-history-native-counters-cleanup-typed-plan-v1.json": "887df0a743ef9203f136d261d1a451f7ca9161604d8e35d9f91a81c6e5cd117a",
+    "release-history-native-counters-cleanup-typed-launch-ack-v2.json": "217a0e5478e19ea9eb56fba7b59e84dbf43088dd07a9f610701f83c3cb421b15",
+    "release-history-native-counters-cleanup-typed-setup-v2.json": "0993e7b603c95c0a7d8afe4b181a3e805b66a00767ef26f48199ab44f09bfa87",
+    "release-input-freeze-windows-cleanup-typed-v1.json": "a6d05db76705971740d28783da6b822d4da79cc4f0bd6d277168197e784aa272",
+    "release-windows-cleanup-typed-pipeline-v1.json": "522e3f1f8026cc28d8b6c67bd63bfc60cc97c2a709b3cac6457e5053dc9ad38b",
+    "release-history-retained-reference-availability-v1.json": "ea45238cdbc7fa303c656565ee905f817699ca5c22c8fc457678c81dc051053c"
+  },
+  "helper_sha256": {
+    ".tools/research/release_history_native_counters_cleanup_v2_typed_v1.py": "81cea03c8abdeb350a44c8ec9cad7b4e5483d73703e748e8a72236e302204d08",
+    ".tools/research/release_history_quiet.py": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683",
+    ".tools/research/release-history-matched-reference-method-v1.json": "d3b88e4d38ef9eee4e5e567e96694c821b96fe20bd5e104638612ab8df253309"
+  },
+  "verification_scope": "Small exact evidence/runner/plan/loaded50 source file reads and SHA/AST/arithmetic only; no runtime query, product import, workload/test/build/profile, whole repository or dependency scan. Full196/390/18 stability is recorded capture guard evidence; independently rehashed only50 loaded source files and assigned small artifacts.",
+  "history_functional": {
+    "rows": 1001,
+    "traversals": 3,
+    "pages": 33,
+    "page_size": 100,
+    "ordered_unique_ids_exact": true,
+    "canonical_sha256": "2f2688cf4aa2ceab4b74484df0ffd4df1c399a33f7491c94a471ca6fb264045f",
+    "source_stable_reported": true,
+    "reservation": {
+      "elapsed_ms": 42.84690000349656,
+      "reserved_unique_id": true,
+      "directory_created": true
+    },
+    "max_lock_acquire_ms": 0.45449999743141234,
+    "slow_canonical_reads": []
+  },
+  "native_observer": {
+    "bundles": 66,
+    "query_wall_ns": 12336400,
+    "query_to_page_wall_ratio": 0.0011441470913804382,
+    "predeclared_max_ratio": 0.01,
+    "screen_pass": true,
+    "raw_counter_nonnegative": true,
+    "logical_io_sums": {
+      "ReadOperationCount": 66198,
+      "WriteOperationCount": 0,
+      "OtherOperationCount": 636306,
+      "ReadTransferCount": 30141078,
+      "WriteTransferCount": 0,
+      "OtherTransferCount": 15075912
+    },
+    "kernel_ms": 5000.0,
+    "user_ms": 5203.125,
+    "cycles": 25495330836,
+    "page_fault_count_delta": 1528,
+    "api_app_loaded": false,
+    "limits": "Direct query screen is not full perturbation proof. Deltas include native boundary overhead; logical all-process IO is not physical disk/path attribution, faults not proven hard paging, cycles not elapsed time, boundary working set not RSS/complete peak."
+  },
+  "history_timings": {
+    "median_wall_ms": 301.63400000310503,
+    "p95_wall_ms": 464.8719999822788,
+    "max_wall_ms": 492.19259998062626,
+    "median_process_cpu_ms": 265.625,
+    "whole33_wall_ms": 10782.18009986449,
+    "whole33_process_cpu_ms": 10156.25,
+    "traversals": [
+      {
+        "traversal": 1,
+        "pages": 11,
+        "median_wall_ms": 257.50069998321123,
+        "max_wall_ms": 285.47369997249916,
+        "median_cpu_ms": 250.0,
+        "native_kernel_ms": 1546.875,
+        "native_user_ms": 1218.75,
+        "logical_read_operations": 22066,
+        "logical_read_transfer_bytes": 10047026,
+        "page_fault_count_delta": 1207
+      },
+      {
+        "traversal": 2,
+        "pages": 11,
+        "median_wall_ms": 361.02750001009554,
+        "max_wall_ms": 451.61170000210404,
+        "median_cpu_ms": 343.75,
+        "native_kernel_ms": 1734.375,
+        "native_user_ms": 1906.25,
+        "logical_read_operations": 22066,
+        "logical_read_transfer_bytes": 10047026,
+        "page_fault_count_delta": 85
+      },
+      {
+        "traversal": 3,
+        "pages": 11,
+        "median_wall_ms": 378.48280000616796,
+        "max_wall_ms": 492.19259998062626,
+        "median_cpu_ms": 328.125,
+        "native_kernel_ms": 1718.75,
+        "native_user_ms": 2078.125,
+        "logical_read_operations": 22066,
+        "logical_read_transfer_bytes": 10047026,
+        "page_fault_count_delta": 236
+      }
+    ],
+    "historical_medians_ms": {
+      "reference797": 194.8125000053551,
+      "current_b2aa_v13": 662.6857999945059,
+      "current_b2aa_light_A": 334.3029000097886
+    },
+    "ratio_vs_reference797_wall": 1.5483298042723828,
+    "ratio_vs_reference797_cpu": 1.4166666666666667
+  },
+  "loaded_source_proof": {
+    "actual_loaded_files": 50,
+    "all_match_current_frozen_files": true,
+    "equal_reference797_count": 49,
+    "only_changed_file": "src/orqalis/persistence/filesystem/io.py",
+    "io_AST_delta_vs_actual_retained_wheel": "Only atomic_write_bytes changed; no added existing top-level function/class definitions. All read functions equal; zero page-boundary writes observed.",
+    "files": [
+      {
+        "module": "orqalis",
+        "path": "src/orqalis/__init__.py",
+        "actual_sha256": "ddfa769ecf57c09e4a1e84ccfad4ccd540de58f4959eb7ab27df7ba119fd1907",
+        "reference797_sha256": "ddfa769ecf57c09e4a1e84ccfad4ccd540de58f4959eb7ab27df7ba119fd1907",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain",
+        "path": "src/orqalis/domain/__init__.py",
+        "actual_sha256": "4f2ba004336f97618340c3f2a69d5931a11b14a977a31629f2c1e905e8c89fd4",
+        "reference797_sha256": "4f2ba004336f97618340c3f2a69d5931a11b14a977a31629f2c1e905e8c89fd4",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.base",
+        "path": "src/orqalis/domain/base.py",
+        "actual_sha256": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+        "reference797_sha256": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.errors",
+        "path": "src/orqalis/domain/errors.py",
+        "actual_sha256": "7516c0972e9f1c2199aa7c94ec690731785c97e546aa1c53d8cfb332095c5723",
+        "reference797_sha256": "7516c0972e9f1c2199aa7c94ec690731785c97e546aa1c53d8cfb332095c5723",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.git",
+        "path": "src/orqalis/git/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reference797_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.git.contracts",
+        "path": "src/orqalis/git/contracts.py",
+        "actual_sha256": "f4c53eb93505546351e31c6ef86fb378e611a053341cb000b7a34dc6573688c8",
+        "reference797_sha256": "f4c53eb93505546351e31c6ef86fb378e611a053341cb000b7a34dc6573688c8",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.git.service",
+        "path": "src/orqalis/git/service.py",
+        "actual_sha256": "52aa961b5ebb93717e56636713eb7a4fc875dd0ebf794bee046cba44902e2409",
+        "reference797_sha256": "52aa961b5ebb93717e56636713eb7a4fc875dd0ebf794bee046cba44902e2409",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.graph.models",
+        "path": "src/orqalis/graph/models.py",
+        "actual_sha256": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+        "reference797_sha256": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.graph.parsing",
+        "path": "src/orqalis/graph/parsing.py",
+        "actual_sha256": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+        "reference797_sha256": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.security",
+        "path": "src/orqalis/security/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reference797_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.security.redaction",
+        "path": "src/orqalis/security/redaction.py",
+        "actual_sha256": "f0f3324097898199e0f48819ce58d174e477f4b3ac2956d5f9518b6e35a335f4",
+        "reference797_sha256": "f0f3324097898199e0f48819ce58d174e477f4b3ac2956d5f9518b6e35a335f4",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.graph.ecmascript",
+        "path": "src/orqalis/graph/ecmascript.py",
+        "actual_sha256": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+        "reference797_sha256": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.persistence",
+        "path": "src/orqalis/persistence/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reference797_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.artifact",
+        "path": "src/orqalis/domain/artifact.py",
+        "actual_sha256": "2ce8ef65b218116bc8617907b2a5061304ec191e4bf0aba9c05975ba465a64f6",
+        "reference797_sha256": "2ce8ef65b218116bc8617907b2a5061304ec191e4bf0aba9c05975ba465a64f6",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.delivery",
+        "path": "src/orqalis/domain/delivery.py",
+        "actual_sha256": "bc315d1947954f5048b0ff4a4183f48611f82a387c00ca1fbd050d32c82b1610",
+        "reference797_sha256": "bc315d1947954f5048b0ff4a4183f48611f82a387c00ca1fbd050d32c82b1610",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.agent",
+        "path": "src/orqalis/domain/agent.py",
+        "actual_sha256": "459320ae35d1987e8c4ee710807b24ae0d3caa714aba199c6492a0e4f95a59f9",
+        "reference797_sha256": "459320ae35d1987e8c4ee710807b24ae0d3caa714aba199c6492a0e4f95a59f9",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.capabilities",
+        "path": "src/orqalis/domain/capabilities.py",
+        "actual_sha256": "ba16c3cf90b58f11842ca4342e66dbbc17c2efabb94c2dab82d15e0889f9bfe3",
+        "reference797_sha256": "ba16c3cf90b58f11842ca4342e66dbbc17c2efabb94c2dab82d15e0889f9bfe3",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.acceptance",
+        "path": "src/orqalis/domain/acceptance.py",
+        "actual_sha256": "b335d0289aad795cf4521ba1c24c2e2591ecb6ffd252b4c8b085b1ee561403e9",
+        "reference797_sha256": "b335d0289aad795cf4521ba1c24c2e2591ecb6ffd252b4c8b085b1ee561403e9",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.memory",
+        "path": "src/orqalis/domain/memory.py",
+        "actual_sha256": "eb9a453e86985495bd2d6380ea29dcb7831a4eef4b9959fe23e792ec9e33caa8",
+        "reference797_sha256": "eb9a453e86985495bd2d6380ea29dcb7831a4eef4b9959fe23e792ec9e33caa8",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.task",
+        "path": "src/orqalis/domain/task.py",
+        "actual_sha256": "b61914a487adde8444085cb867b39e75f30d230802e6109d48ea33152df2cbe3",
+        "reference797_sha256": "b61914a487adde8444085cb867b39e75f30d230802e6109d48ea33152df2cbe3",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.provider",
+        "path": "src/orqalis/domain/provider.py",
+        "actual_sha256": "880ac982716eb8378f4a19f699c242084b6c7336002960a3e0e02d42d3764f17",
+        "reference797_sha256": "880ac982716eb8378f4a19f699c242084b6c7336002960a3e0e02d42d3764f17",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.execution",
+        "path": "src/orqalis/domain/execution.py",
+        "actual_sha256": "ac31c9f95a83597765eea922c37f899590eb2a084a20c3ec106638f3bcea5de0",
+        "reference797_sha256": "ac31c9f95a83597765eea922c37f899590eb2a084a20c3ec106638f3bcea5de0",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.core",
+        "path": "src/orqalis/core/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reference797_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.run",
+        "path": "src/orqalis/domain/run.py",
+        "actual_sha256": "0845feb4d17365c6a9d55fac62c497163b7acf786af5fa87a50b0870295d9dce",
+        "reference797_sha256": "0845feb4d17365c6a9d55fac62c497163b7acf786af5fa87a50b0870295d9dce",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.core.state_machine",
+        "path": "src/orqalis/core/state_machine.py",
+        "actual_sha256": "47c4bbd4e790ed664ff494dd47b93120ed96107af1c2f94b564a1db717c9326c",
+        "reference797_sha256": "47c4bbd4e790ed664ff494dd47b93120ed96107af1c2f94b564a1db717c9326c",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.approval",
+        "path": "src/orqalis/domain/approval.py",
+        "actual_sha256": "f1f8f2621b8c8fcf529adecd0cfbf0b3cf8c4afab68def1968efa1f08e0ccae4",
+        "reference797_sha256": "f1f8f2621b8c8fcf529adecd0cfbf0b3cf8c4afab68def1968efa1f08e0ccae4",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.events",
+        "path": "src/orqalis/domain/events.py",
+        "actual_sha256": "6e0ba26b50c96ade002f093aefba5d8fbbcf0a69528b2bf1e0fd87c229a0a78c",
+        "reference797_sha256": "6e0ba26b50c96ade002f093aefba5d8fbbcf0a69528b2bf1e0fd87c229a0a78c",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.plan",
+        "path": "src/orqalis/domain/plan.py",
+        "actual_sha256": "ce2d76b03078469205a76737add8c357eaf7792cda55cd648d99fe527b0e2ca9",
+        "reference797_sha256": "ce2d76b03078469205a76737add8c357eaf7792cda55cd648d99fe527b0e2ca9",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.project",
+        "path": "src/orqalis/domain/project.py",
+        "actual_sha256": "00953231832d52acb6952161be07fbc96637c5194fe114da1e2bc40368256ed4",
+        "reference797_sha256": "00953231832d52acb6952161be07fbc96637c5194fe114da1e2bc40368256ed4",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.domain.timing",
+        "path": "src/orqalis/domain/timing.py",
+        "actual_sha256": "3f2acde63b9e9170107662df2ee6cd95594f8b2630abd19e632fe4092accaa54",
+        "reference797_sha256": "3f2acde63b9e9170107662df2ee6cd95594f8b2630abd19e632fe4092accaa54",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.locking",
+        "path": "src/orqalis/persistence/filesystem/locking.py",
+        "actual_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+        "reference797_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.io",
+        "path": "src/orqalis/persistence/filesystem/io.py",
+        "actual_sha256": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+        "reference797_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+        "equal_reference797": false
+      },
+      {
+        "module": "orqalis.persistence.filesystem.layout",
+        "path": "src/orqalis/persistence/filesystem/layout.py",
+        "actual_sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+        "reference797_sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.task_store",
+        "path": "src/orqalis/persistence/filesystem/task_store.py",
+        "actual_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+        "reference797_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.auxiliary_stores",
+        "path": "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+        "actual_sha256": "8433e0f801cf77e9bac3d8c80a9d83131049929f5d221910175d8d8b49d71f50",
+        "reference797_sha256": "8433e0f801cf77e9bac3d8c80a9d83131049929f5d221910175d8d8b49d71f50",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.memory_store",
+        "path": "src/orqalis/persistence/filesystem/memory_store.py",
+        "actual_sha256": "420b0fc8ce46592a176131c8af66648a9271f8283a833ea3b22245a4bba8004c",
+        "reference797_sha256": "420b0fc8ce46592a176131c8af66648a9271f8283a833ea3b22245a4bba8004c",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.observability",
+        "path": "src/orqalis/observability/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reference797_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.observability.event_bus",
+        "path": "src/orqalis/observability/event_bus.py",
+        "actual_sha256": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+        "reference797_sha256": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem.unit_of_work",
+        "path": "src/orqalis/persistence/filesystem/unit_of_work.py",
+        "actual_sha256": "45436869a92b142b2f0fa3fa98d11bc336085b13e8710d9bb8c3e28a942319d8",
+        "reference797_sha256": "45436869a92b142b2f0fa3fa98d11bc336085b13e8710d9bb8c3e28a942319d8",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.persistence.filesystem",
+        "path": "src/orqalis/persistence/filesystem/__init__.py",
+        "actual_sha256": "170258c4a382272c00a4c1a1a61aa51a8f1329203a3a40626078517650bf5557",
+        "reference797_sha256": "170258c4a382272c00a4c1a1a61aa51a8f1329203a3a40626078517650bf5557",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.graph.engine",
+        "path": "src/orqalis/graph/engine.py",
+        "actual_sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+        "reference797_sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.graph",
+        "path": "src/orqalis/graph/__init__.py",
+        "actual_sha256": "aa067e3ff2baf4056cbb5252e293f7b310cb1035ded4012541ebbd6bf94e27ec",
+        "reference797_sha256": "aa067e3ff2baf4056cbb5252e293f7b310cb1035ded4012541ebbd6bf94e27ec",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.memory",
+        "path": "src/orqalis/memory/__init__.py",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reference797_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.retrieval",
+        "path": "src/orqalis/retrieval.py",
+        "actual_sha256": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+        "reference797_sha256": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.memory.curated",
+        "path": "src/orqalis/memory/curated.py",
+        "actual_sha256": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+        "reference797_sha256": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.memory.navigation",
+        "path": "src/orqalis/memory/navigation.py",
+        "actual_sha256": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+        "reference797_sha256": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.context.models",
+        "path": "src/orqalis/context/models.py",
+        "actual_sha256": "0e072a4dbc1a4482df7cf59ea2e821ac88203669e4bdfe617f0b974a231d3b3a",
+        "reference797_sha256": "0e072a4dbc1a4482df7cf59ea2e821ac88203669e4bdfe617f0b974a231d3b3a",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.context",
+        "path": "src/orqalis/context/__init__.py",
+        "actual_sha256": "03e1c0fe4fe09bf0a5b9fe0dad187dc20a91d663ba9a48e8dedf875ecff2b0c8",
+        "reference797_sha256": "03e1c0fe4fe09bf0a5b9fe0dad187dc20a91d663ba9a48e8dedf875ecff2b0c8",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.tasks.history",
+        "path": "src/orqalis/tasks/history.py",
+        "actual_sha256": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "reference797_sha256": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "equal_reference797": true
+      },
+      {
+        "module": "orqalis.tasks",
+        "path": "src/orqalis/tasks/__init__.py",
+        "actual_sha256": "03ef63eb07904b72e16cde2658deb96bf29ad204c57a9748cbd6056a6e916e7a",
+        "reference797_sha256": "03ef63eb07904b72e16cde2658deb96bf29ad204c57a9748cbd6056a6e916e7a",
+        "equal_reference797": true
+      }
+    ]
+  },
+  "heldout": {
+    "functional_pass_both": true,
+    "corpus_files": 263,
+    "corpus_source_bytes": 1812392,
+    "corpus_sha256": "19bc76f87b5e95287204e8edbdee8c4c3be8b4b5c478a48e686166166034a0a9",
+    "retained_git_head": "be00c39a5a86bb737404fdca9f6e19ebf1f66bdf",
+    "copied_existing_metadata_no_new_commits_reported": true,
+    "witnesses": 3,
+    "context_cap": 12000,
+    "investigation_rule": "current>2*baseline+250ms; investigation only, not automatic qualification PASS or history SLO",
+    "timing_checks": {
+      "cold_graph_ms": {
+        "baseline_ms": 3127.665700012585,
+        "current_ms": 3295.531800016761,
+        "investigation_threshold_ms": 6505.33140002517,
+        "triggered": false
+      },
+      "warm_graph_median_ms": {
+        "baseline_ms": 695.4633000132162,
+        "current_ms": 554.1328999970574,
+        "investigation_threshold_ms": 1640.9266000264324,
+        "triggered": false
+      },
+      "one_file_graph_ms": {
+        "baseline_ms": 2927.4301000114065,
+        "current_ms": 3323.4217999852262,
+        "investigation_threshold_ms": 6104.860200022813,
+        "triggered": false
+      },
+      "context_median_ms": {
+        "baseline_ms": 1343.7202000059187,
+        "current_ms": 1206.5867000201251,
+        "investigation_threshold_ms": 2937.4404000118375,
+        "triggered": false
+      }
+    },
+    "metrics": {
+      "graph_nodes": {
+        "baseline": 3533,
+        "current": 11505
+      },
+      "graph_edges": {
+        "baseline": 10003,
+        "current": 13575
+      },
+      "graph_bytes": {
+        "baseline": 4849687,
+        "current": 8253391
+      },
+      "index_bytes": {
+        "baseline": 9501365,
+        "current": 28852891
+      },
+      "store_bytes": {
+        "baseline": 16293933,
+        "current": 39782372
+      },
+      "query_python_peak_allocated_bytes": {
+        "baseline": 30500989,
+        "current": 56666531
+      },
+      "cold_graph_ms": {
+        "baseline": 3127.665700012585,
+        "current": 3295.531800016761
+      },
+      "warm_graph_median_ms": {
+        "baseline": 695.4633000132162,
+        "current": 554.1328999970574
+      },
+      "one_file_graph_ms": {
+        "baseline": 2927.4301000114065,
+        "current": 3323.4217999852262
+      },
+      "context_median_ms": {
+        "baseline": 1343.7202000059187,
+        "current": 1206.5867000201251
+      }
+    },
+    "cost_disposition": "Richer11505nodes/13575edges vs3533/10003; store39.782MB vs16.294MB and Pythontracemalloc56.667MB vs30.501MB remain material declared costs, not negligible/RSS/universal memory limits. Functional witnesses and fresh timing triggers clear in this bounded corpus only."
+  },
+  "disposition": {
+    "history_supported_cost": "Fresh live O(totalrows) canonical validation remains a documented functional/cost limitation. Native capture confirms substantial CPU-associated work and stable logical reads, not historical degradation cause.",
+    "history_master53_gate": "UNRESOLVED. Faster than334/663 captures does not explain higher median than195. CPU variation within current capture despite exactly2006reads/913366bytes perpage further prevents solely off-CPU attribution.",
+    "next_observation": "Finite predeclared matched retained797/current comparison remains causally useful before claiming no unexplained candidate degradation. Use existing d3b88 method after binding current24/995 and actualpackage manifests; do not repeat initial capture or Python profiler. No engineering fix indicated solely by these counters.",
+    "limits": "Do not attribute originalfatal/unmatched denial, host/AV/cache/OS effects; preserve195/663/334,17.46s/23.4s tails and invalid profiled B. No whole20/21 iteration/convergence/release certification or universal SLO granted."
+  }
+}

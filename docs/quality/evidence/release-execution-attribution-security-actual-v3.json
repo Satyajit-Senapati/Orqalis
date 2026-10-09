@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T22:59:52.210887+00:00",
+  "decision": "ACTUAL_BASELINE_REPLACE_FAILURE_PAIR_INVALID_NORMAL_WORKER_EXIT_CONFIRMED_NO_RETRY_APPROVED",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "reviewed_sha256": {
+    "docs\\quality\\evidence\\release-execution-attribution-actual-v3.json": "fe7e6b16a0d107042f515f38febf8488d6e4b4159b1f7e2060ed70fd9c71cf5a",
+    "docs\\quality\\evidence\\release-execution-attribution-result-v3.json": "b4b06e8f0f2a3da591b5c3809579f5a7e20db6eaa4c58b34fe51d04938edb733",
+    ".tools\\research\\release-execution-attribution-plan-v3.json": "0db89c741e094e587e1416144a1ccde65956d895bab7d9a91b7652f29afeb862",
+    ".tools/research/release_execution_attribution_v3.py": "cab09af697dff1a4537925fc807e6a35a321faeb10a70aee3ce6c2f5058408c5",
+    "docs/quality/evidence/release-execution-attribution-root-ack-v3.json": "5081035c100d1c962c3f340bde6517231c5be72a8ae88ed580819402104634b6",
+    ".tools\\research\\release-execution-attribution-actual-v3.log": "e26770cb5c04c3710301537954c500b5eb1ad68b23add1cf42248265b5a166e6",
+    ".tools/research/release-execution-attribution-b-identity-v3.json": "e328665289857df0f9c76ab78b1ffed3f89fb65de0e7e6ba76f3805e42727b70",
+    ".tools/research/release-execution-attribution-b-grant-v3.json": "ef48ffe469fca243b000c5e9e457da6fa27245095edaa806055b614f92a4b583",
+    ".tools/research/release-execution-attribution-b-v3.log": "a7ce35efb13210b11e54fbd037ff70e214b586b42758df5255e5a572d4a70373"
+  },
+  "actual_failure": {
+    "outer_exit_code": 1,
+    "captured_bindings_stable": true,
+    "outer_guard_error": null,
+    "final_guard_provenance_stable": true,
+    "selected_worker": "B immutable baseline",
+    "native_failure": "PermissionError WinError5 at baseline filesystem/io.py atomic os.replace during task_store._recover",
+    "target_relative_to_owned_repository": ".orqalis/tasks/ORQ-20261003-0001/execution/state.yaml",
+    "raw_worker_result_exists": false,
+    "candidate_worker_launched": false,
+    "candidate_setup_note": "Candidate helper/workspace directories were prospectively initialized before B launch; candidate log/identity/raw absent, so setup existence is not evidence of C invocation."
+  },
+  "lifecycle": {
+    "launcher_pid": 24168,
+    "native_pid": 22444,
+    "native_ppid": 24168,
+    "identity_and_grant_bindings_match": true,
+    "original_native_handle_opened_before_workload": true,
+    "launcher_reaped": true,
+    "held_original_native_object_exit_confirmed": true,
+    "native_handle_closed": true,
+    "cleanup_errors": [],
+    "scope": "Observed normal failed-worker exit; no timeout, taskkill or generic process-tree termination certification."
+  },
+  "disposition": [
+    "Fixed attribution pair INVALID/incomplete. Baseline failed inside original workload before completed clock/native delta/scalar-attribution result; no direct-query observer credibility or baseline/current cost comparison exists.",
+    "Do not retry baseline, launch candidate alone, patch baseline, change retries/ACL/OSpolicy or substitute historical benchmark samples based on this attempt.",
+    "Actor/root cause remains unknown from traceback. No holder/readonly/ACL/reparse observation exists in these logs; no candidate application defect inferred from immutable baseline failure.",
+    "Root may separately inspect only preserved owned failed target/temp metadata under reviewed containment for a new bounded hypothesis; reviewer invokes no metadata query/workload or source modification.",
+    "Full20/21 completion is separate evidence; this failure review is not final source/archive/performance acceptance."
+  ],
+  "limits": [
+    "No source/helper/inventory tree rehash or native process/host query by reviewer; exact small plan/runner/ACK/identity/log records read only.",
+    "All failed log/fixture evidence retained; raw worker result was not produced. Unknown original Execution16 holder and unresolved Master53 cost remain explicit."
+  ]
+}

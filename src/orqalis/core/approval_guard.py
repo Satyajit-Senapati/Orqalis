@@ -30,7 +30,7 @@ def require_approval(
     ApprovalService._safe_fields(subject_digest, reason)
     ApprovalService._validate_subject(run, uow, stage, subject_version)
     request_id = uuid5(run.id, f"approval:{stage}:{subject_version}:{subject_digest}")
-    request = uow.approvals.get(request_id)
+    request = uow.approvals.get(request_id, run_id=run.id)
     if request is None:
         request = ApprovalRequest(
             id=request_id,
@@ -70,7 +70,7 @@ def require_delivery_binding(uow: ProjectUnitOfWork, run: Run) -> None:
     if not control.requires(ApprovalStage.DELIVERY):
         return
     request_id = binding.payload.approval_request_id
-    request = uow.approvals.get(request_id) if request_id else None
+    request = uow.approvals.get(request_id, run_id=run.id) if request_id else None
     reviews = uow.execution.reviews(run.id)
     reviewed_version = reviews[-1].plan_version if reviews else None
     if (

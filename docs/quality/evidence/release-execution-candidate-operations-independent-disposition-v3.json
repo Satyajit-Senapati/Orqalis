@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T23:13:22.103371+00:00",
+  "status": "NARROW_MECHANISMS_SMALL_IN_OBSERVED_C_RUN_MASTER53_REMAINS_BLOCKED",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_bindings_separately_rehashed": {
+    "docs/quality/evidence/release-execution-candidate-operations-actual-v3.json": "7f4116448ff760a27c4999ce3c2fc8e76f0f442aa93d24599240c5dff4ab3fe2",
+    "docs/quality/evidence/release-execution-candidate-operations-result-v3.json": "af57efa6180634ee402741ea3fae8176e6d6f464510d0742663a8d5e88d01ca1",
+    "docs/quality/evidence/release-execution-candidate-operations-c-v3.json": "6d21b43de9a6553c4c66b7b8a9575a022cbfafd7e9c0a3ac12e9ee3541b0a1fc",
+    ".tools/research/release_execution_candidate_operations_v3.py": "da2057e9235bdba1a9283b843b95a3ebf8f4d04248d13b5b30609477dbbfe550",
+    ".tools/research/release-execution-candidate-operations-plan-v3.json": "2c33f25eae7a751e9183adfc65cfba5fb9d4366749050b44afd1574311eae4cb",
+    "docs/quality/evidence/release-execution-attribution-actual-v3.json": "fe7e6b16a0d107042f515f38febf8488d6e4b4159b1f7e2060ed70fd9c71cf5a",
+    "docs/quality/evidence/release-execution-attribution-result-v3.json": "b4b06e8f0f2a3da591b5c3809579f5a7e20db6eaa4c58b34fe51d04938edb733",
+    "docs/quality/evidence/release-master53-performance-blocker-addendum-v1.json": "7ceaf8a3ea826ee1f203fdcdd2987d12437e500641e16c0578e212eb849e9808",
+    "docs/quality/evidence/release-execution-current-20.json": "9439139e7f90a7c9d8d47d6f3ccb2853feba51afae660045438a5da57cf2eed8",
+    "docs/quality/evidence/release-execution-current-21.json": "d028c67bebdee5540bbc74b3eb81ed914b96cdd335719319250789fc1ccc9a04"
+  },
+  "actual_functional_and_lifetime": {
+    "exit_code": 0,
+    "original_semantic_checks_passed": 26,
+    "original_stability_checks_passed": 4,
+    "root_provenance_stable": true,
+    "owned_native_and_launcher_stopped_and_handle_closed": true,
+    "cleanup_errors": [],
+    "raw_worker_inverse_AST_equal_asserted_by_capture": true
+  },
+  "measured_scope": {
+    "one_candidate_observation_only": true,
+    "execution_elapsed_ms": 51286.746600002516,
+    "lease_total_calls": 28,
+    "lease_first_acquisitions": 26,
+    "lease_interval_union_ms": 83.4942,
+    "lease_first_duration_median_ms": 2.6125,
+    "lease_duration_max_ms": 9.3081,
+    "atomic_operations": 2120,
+    "replacement_calls": 2122,
+    "known_windows_denials": 2,
+    "replacement_interval_union_ms": 955.7452,
+    "scheduled_backoff_inferred_ms": 40,
+    "atomic_unique_targets": 88,
+    "atomic_operations_on_repeated_targets": 2079,
+    "self_process_CPU_ms": 12375.0,
+    "native_io_delta": {
+      "ReadOperationCount": 7457,
+      "WriteOperationCount": 2309,
+      "OtherOperationCount": 302516,
+      "ReadTransferCount": 61168209,
+      "WriteTransferCount": 12430051,
+      "OtherTransferCount": 12453679
+    },
+    "observer": {
+      "status": "DIRECT_QUERY_SCREEN_PASS",
+      "combined_fraction": 7.226038393318203e-06,
+      "each_fraction": [
+        2.9559293589504577e-06,
+        4.270109034367746e-06
+      ],
+      "hook_bookkeeping_fraction": 0.0007050827435405744,
+      "limit": 0.01,
+      "scope": "Two native bundles just outside original clocks; direct query screen is not full perturbation/host-idleness proof. Native self-process CPU/IO excludes Git/tool child processes."
+    }
+  },
+  "interpretation": [
+    "New first auxiliary lease cost is small in this observation; retain correctness repair, do not remove generation/identity/memory-order guards.",
+    "Two genuine WinError5 denials recovered under unchanged five attempts; inferred40ms nominal sleep cannot explain retained7.49/15.28sec median excess. Actual sleep and historical denial counts were not observed.",
+    "All replacement call interval union under1sec in this observation; inclusive/native intervals overlap lease/concurrent work. No additive historical cost reconstruction.",
+    "51.2867sec present result demonstrates candidate timing variation but must not replace63.1338/70.9235sec qualification medians, choose slower95.1sec baseline, or certify nonregression.",
+    "Native self CPU12.375sec and logical IO counters do not identify the remaining wall-time cause; Git/tool children excluded, no host-idleness/AV/physical-IO attribution.",
+    "Failed baseline B pair preserved; C was unrun there. This new C scope does not complete or retry that pair.",
+    "The same fixture has unchanged174 event count and persisted aggregate sizes in retained qualification evidence; no richer trace-volume explanation."
+  ],
+  "static_named_source_proof": {
+    "src/orqalis/persistence/filesystem/task_store.py": {
+      "current_file_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+      "named_function_ast_sha256": {
+        "_recover": "17d2b3374e77180b80032f2165110c07b84b012bdec5066e194b24bd477d378f",
+        "_commit_capsule": "c638bfabae794898263e1806377550dbfd35a006b516597accff5da5c1cc951b"
+      }
+    },
+    "src/orqalis/core/executor.py": {
+      "current_file_sha256": "fd244bfcfa25cb990ba1f1e078dde911cf6358e109eca57bf4facc31a21b2886",
+      "named_function_ast_sha256": {
+        "_context_wave": "6727a1e08a31c06d895cdb0f1f5ba8ca149a34ccfe959ab8e14b7ee0a37ee21e"
+      }
+    },
+    "src/orqalis/context/builder.py": {
+      "current_file_sha256": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+      "named_function_ast_sha256": {
+        "build_with_graph": "f863c4a81f527ab6db74352d8059d7b2c5c40226513f751011aee148b97d6716"
+      }
+    },
+    "src/orqalis/graph/engine.py": {
+      "current_file_sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+      "named_function_ast_sha256": {
+        "_refresh_locked": "776210e4a42550c6e64bcd42514b9975d1cc4ffe24a41510c7f5a676dfb4dcfe",
+        "_load_state": "1f96aca9880e39b84b8215828f2b41edfe0e62c880871beee9d2a2a3895a5d3f"
+      }
+    }
+  },
+  "remaining_path_findings": [
+    "Current _context_wave AST equals immutable baseline; task runtime is reported unchanged by parent.",
+    "Context builder adds bounded memory discovery previews and richer graph facts/ranking, while shared graph/status and read_index remove duplicate work. These are real feature costs but not measured attribution of old63/71sec execution.",
+    "_commit_capsule and _recover AST are unchanged baseline/current: every dirty aggregate stages all canonical projection documents and recovery atomically rewrites every staged document.2120 current atomic operations evidence substantial shared write amplification, not a new candidate regression.",
+    "No concrete altered executed source path now quantitatively explains the retained execution degradation. Do not invent a defect/cause or release waiver."
+  ],
+  "prospective_minimal_engineering_recommendation": {
+    "kind": "STATIC_DESIGN_REVIEW_FIRST_NO_WORKLOAD_OR_IMPLEMENTATION",
+    "proposal": "Consider recovery avoiding an atomic replacement when freshly guarded existing regular-file bytes exactly equal validated journal payload. Retain whole journal/document hash validation, all relative-target/link/containment checks, generation/state-last publication, event-tail recovery and marker lifecycle.",
+    "required_before_implementation": [
+      "Prove same crash durability for skipped bytes: existing identical bytes alone do not prove fsync durability; preserve equivalent file/directory synchronization or restrict to demonstrably durable immutable projections.",
+      "Define external-edit/read-to-write race and malformed/reparse/nonregular/missing target fallback; no stat/mtime shortcut or validation bypass.",
+      "Use actual repeated-target inventory plus immutable-projection semantics to select one narrow scope rather than general transaction batching.",
+      "Meaningful deterministic crash-replay/idempotence/guard/changed-byte tests and independent security review before changing production."
+    ],
+    "limits": "This could reduce inherent shared transaction work; it does not explain old timings and is not approved safe implementation. No new timing/profiler repetition proposed."
+  },
+  "performance_acceptance": "BLOCKED_UNEXPLAINED_EXECUTION_DEGRADATION_MASTER53",
+  "confirmed_new_candidate_P0_P1_correctness_defects": 0,
+  "release_acceptance_credit": 0,
+  "workloads_invoked_by_reviewer": 0
+}

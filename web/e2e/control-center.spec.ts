@@ -119,3 +119,29 @@ test("Operational views reconstruct a delivered run with keyboard and dark-theme
   await expect(page.getByRole("button", { name: "Cancel run" })).toHaveCount(0);
   expect(errors).toEqual([]);
 });
+
+test("Provider performance matches persisted measurements on desktop and mobile", async ({ page, request }, info) => {
+  const response = await request.get(`/api/runs/${runId}`);
+  expect(response.ok()).toBeTruthy();
+  const snapshot = await response.json() as {
+    statistics: { providers: { provider: string; model: string; calls: number; succeeded: number; calls_with_latency: number }[] };
+  };
+  expect(snapshot.statistics.providers.length).toBeGreaterThan(0);
+  await page.goto(`/runs/${runId}`);
+  await page.getByRole("tab", { name: "Metrics", exact: true }).click();
+  const panel = page.getByRole("region", { name: "Provider performance", exact: true });
+  await expect(panel).toBeVisible();
+  const rows = panel.locator("tbody tr");
+  await expect(rows).toHaveCount(snapshot.statistics.providers.length);
+  for (const [index, provider] of snapshot.statistics.providers.entries()) {
+    await expect(rows.nth(index)).toContainText(provider.provider);
+    await expect(rows.nth(index)).toContainText(provider.model);
+    await expect(rows.nth(index)).toContainText(`${provider.succeeded} succeeded / ${provider.calls} calls`);
+    await expect(rows.nth(index)).toContainText(`${provider.calls_with_latency}/${provider.calls} measured`);
+  }
+  await panel.screenshot({ path: info.outputPath("provider-metrics-desktop.png") });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await panel.scrollIntoViewIfNeeded();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+  await panel.screenshot({ path: info.outputPath("provider-metrics-mobile.png") });
+});

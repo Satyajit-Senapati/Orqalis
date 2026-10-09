@@ -46,6 +46,9 @@ temporary Git repositories and must cover root isolation, atomic writes, locks, 
 schema errors, cache/index deletion, dirty state, branch changes, rename/delete and secret
 rejection. Tests must not inspect or mutate the developer's real `.orqalis/` directory.
 
+For source-isolated before/after measurements and frozen contract evidence, follow the
+[quality benchmark workflow](https://github.com/Satyajit-Senapati/Orqalis/blob/main/benchmarks/README.md).
+
 ## Store and schema development
 
 The domain and application layers depend on storage-neutral protocols. Standard adapters
@@ -115,3 +118,10 @@ The capture command stages and validates all nine images before atomically repla
 - New CLI/MCP/API surfaces are documented only after they exist.
 - Shipped npm documentation is regenerated or patched with the canonical source.
 - Standard checks pass without database or Docker services.
+
+## Ecosystem interoperability
+
+See [ecosystem integrations](05-interfaces-and-integrations.md) for the portable skill profile,
+graph query contracts, lexical index version, and provider metrics. Research and
+follow-up acceptance criteria are in [the open-source review](OPEN_SOURCE_REVIEW.md).
+Component test files may use `.test.ts` or `.test.tsx`; both are included by Vitest.

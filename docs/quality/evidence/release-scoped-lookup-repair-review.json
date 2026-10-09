@@ -1,0 +1,42 @@
+{
+  "reviewed_at": "2026-10-02T12:13:22.566260+00:00",
+  "scope": "Read-only independent implementation and existing raw evidence review; no test workload executed.",
+  "source_sha256_at_review": "4cfa539fee70b8cd6a580d5c2f81bb3412b2102ad83578f32fe089366db7bf53",
+  "files": {
+    "src/orqalis/core/approval_guard.py": "9ecb24c74b20295f0938431dab89455ebda87f76bda59806d2545107dae0e363",
+    "src/orqalis/core/approvals.py": "d22c06cc3cc56739ee617eb50fba029edcb0d1a9e5e1e99f19eb70c9d7234ca4",
+    "src/orqalis/observability/projections.py": "de100c5ed92628db9792531acd7d06c3d64c3f26d656205fcb8b1c5a9be8587f",
+    "src/orqalis/persistence/approval_ports.py": "2e03d90d98326ae13bfe699eab8372fadd8bed196dbec74e4e80853bac84cdb0",
+    "src/orqalis/persistence/run_ports.py": "2d68f282cd9ac258b0db240187a44749cc5b8d87cb8f7ac97d16593243699c2d",
+    "src/orqalis/persistence/filesystem/task_store.py": "a8c2df70fe2c35a981ddee45cb7a938ccbeb0cdd5e15e9bb2c0c286fb5110561",
+    "tests/unit/test_filesystem_task_store.py": "28e86d3157fa34ecacdba39a066861cc97e79e1c82e6af34269c80745bd9454c"
+  },
+  "status": "CORE_REPAIR_ACCEPTED_WITH_REMAINING_KNOWN_RUN_CALL_SITES_TO_SCOPE",
+  "confirmed_defect": "Real two-thread opposing run state locks and each own cached goal lookup caused LockTimeoutError with unchanged default timeout before repair.",
+  "raw_before": {
+    "report": "docs/quality/evidence/release-lookup-lock-before.json",
+    "status": "FAIL",
+    "seconds": 10.046999999991385,
+    "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769"
+  },
+  "raw_after": {
+    "report": "docs/quality/evidence/release-lookup-lock-after.json",
+    "status": "PASS",
+    "seconds": 0.014999999999417923,
+    "source_sha256": "4cfa539fee70b8cd6a580d5c2f81bb3412b2102ad83578f32fe089366db7bf53"
+  },
+  "accepted_behavior": [
+    "iter_capsules is lazy with cached aggregates yielded first; known cached hit avoids unrelated reads and lock acquisition.",
+    "Optional keyword run_id scope limits goal, evidence and approval reads to one owning capsule; missing or foreign ID returns None without global fallback.",
+    "Snapshot, approval validation, ensure, decision and approval guards pass the known owning run.",
+    "Unscoped default cold discovery remains compatible; auxiliary duplicate detection loops still exhaust the generator.",
+    "Tests cover two real threads, cached own hits, scoped foreign/missing misses, cold generic fallback and missing owner."
+  ],
+  "material_remaining_gap": [
+    "GoalService.validate currently holds owning run state lock and then unscoped get_evidence of a new normally missing ID; this still scans unrelated capsules.",
+    "Externally supplied evidence references in execution/finding_review and execution/review can similarly be missing under a run lock.",
+    "Apply existing optional run scope consistently to internal known-owner goal/evidence call sites, including delivery validation and agent proofs; retain unscoped generic compatibility only for genuinely unknown owner."
+  ],
+  "browser_causation": "Attempt 6 cause remains unproven. The independently reproduced P1 is real; focused instrumentation-host termination does not establish plan latency.",
+  "release_disposition": "Await mechanical call-site scope completion, focused API/browser diagnostics and new source/input freeze before two fresh complete rounds. No timeout or assertion waiver."
+}

@@ -29,7 +29,7 @@ class DocumentationService:
             actor = next((item for item in uow.runtime.actors(run_id) if item.id == actor_id), None)
             workspace = uow.execution.workspace(run_id)
             goal = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )

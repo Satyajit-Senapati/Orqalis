@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "project_head_unchanged": true,
+  "group": "launcher",
+  "helper_sha256": "66d6f247912f72017ecd20cdd34be0d5897ec350e352cb825f2f4da909c640ef",
+  "commands": [
+    {
+      "name": "Launcher syntax",
+      "command": [
+        "npm.cmd",
+        "run",
+        "check",
+        "--prefix",
+        "packages/npm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.625,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-launcher-0.log",
+      "log_sha256": "bf90d2f7d0cde7314fa2eb2705d9a2884085a801245b76d95ae80490eddd4e93"
+    },
+    {
+      "name": "Launcher lint",
+      "command": [
+        "npm.cmd",
+        "run",
+        "lint",
+        "--prefix",
+        "packages/npm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 12.797000000020489,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-launcher-1.log",
+      "log_sha256": "ec6d33ac93d462af0da5b9f881edf017195ebd88a855d2a5895deed6f908f4c1"
+    },
+    {
+      "name": "Launcher format",
+      "command": [
+        "npm.cmd",
+        "run",
+        "format:check",
+        "--prefix",
+        "packages/npm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.625,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-launcher-2.log",
+      "log_sha256": "ed7e9c30a986f10876c739d3cf5ffef2f2497640ad60f96670ab919dd5a6bca5"
+    },
+    {
+      "name": "Launcher units",
+      "command": [
+        "npm.cmd",
+        "test",
+        "--prefix",
+        "packages/npm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.26500000001397,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-launcher-3.log",
+      "log_sha256": "8972c75cc7771a04e262a8d857623261813cb4bc03e2cd29c7284d58160105d6"
+    }
+  ],
+  "scope": "Current actual-source no-commit checks only; not a frozen preflight, full regression, installed validation or complete qualification round.",
+  "commit_creating_foundation_cases_deselected": []
+}

@@ -127,6 +127,46 @@ def agent_context(project: Project, pack: ProjectContextPack) -> ContextPack:
             )
         )
 
+    for preview in pack.memory_discovery:
+        identity = f"memory-preview:{preview.id}"
+        content = (
+            f"Memory preview only (body not loaded): {preview.preview} "
+            f"Read get_project_memory('{preview.id}') for the full record "
+            f"({preview.content_chars} characters); "
+            f"references: {', '.join(preview.references) or 'none'}."
+        )
+        item = MemoryItem(
+            id=uuid5(project.id, f"context-item:{identity}"),
+            project_id=project.id,
+            type=_CATEGORY_TYPES[preview.category],
+            title=f"Preview: {preview.title}",
+            content=content,
+            confidence=0.5,
+            status=MemoryStatus.STALE
+            if preview.freshness == MemoryFreshness.STALE
+            else MemoryStatus.ACTIVE,
+            source_commit=pack.head_commit,
+        )
+        candidates.append(
+            _Candidate(
+                preview.score + 0.5,
+                MemoryMatch(
+                    item=item,
+                    sources=(
+                        _source(
+                            project,
+                            identity,
+                            "memory_preview",
+                            preview.id,
+                            _digest(content),
+                            pack.head_commit,
+                        ),
+                    ),
+                    score=_score(preview.score),
+                ),
+            )
+        )
+
     for graph_value in pack.graph:
         node = graph_value.node
         identity = f"graph:{node.id}"
@@ -135,6 +175,10 @@ def agent_context(project: Project, pack: ProjectContextPack) -> ContextPack:
             location = f"{location}:{node.line_start}-{node.line_end}"
         neighbors = ", ".join(graph_value.neighbors) if graph_value.neighbors else "none selected"
         content = f"{node.kind} {node.name} at {location}. Ranked graph neighbors: {neighbors}."
+        if graph_value.orientation_only:
+            content += " Orientation fallback only; no task-specific match was established."
+        if graph_value.match_reasons:
+            content += f" Ranking signals: {', '.join(graph_value.match_reasons)}."
         item = MemoryItem(
             id=uuid5(project.id, f"context-item:{identity}"),
             project_id=project.id,
@@ -216,7 +260,11 @@ def agent_context(project: Project, pack: ProjectContextPack) -> ContextPack:
         (match.score * match.item.confidence for match in selected),
         default=0.0,
     )
-    fresh = not stale_paths and not pack.dirty_paths
+    fresh = (
+        not stale_paths
+        and not pack.dirty_paths
+        and not any(item.freshness == MemoryFreshness.STALE for item in pack.memory_discovery)
+    )
     requires_inspection = pack.truncated or not fresh or confidence < 0.7
     return ContextPack(
         project_id=project.id,

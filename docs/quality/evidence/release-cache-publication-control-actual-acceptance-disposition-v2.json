@@ -1,0 +1,87 @@
+{
+  "status": "VALID_PUBLICATION_CONTROL_NO_EXPLANATORY_PUBLISHER_FIX_SUPPORTED_MASTER53_BLOCKED",
+  "reviewed_at": "2026-10-07T11:38:01.737635+00:00",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "evidence_sha256": {
+    "release-cache-publication-control-observation-v2.json": "2b0b125a016d8e823dc8749e7e64c5e362a6bd954f108ab849b9a09fc0c2e324",
+    "release-cache-publication-control-outer-v2.json": "a098287c85f664f589c5277e900ef94bc38bf783744822962232ae328082a388",
+    "release-cache-publication-control-plan-v2.json": "6cb2a0cb79b0c162441752335a904ea3011267f07df1e8b76bfd9b3eeab84267",
+    "release-heldout-matched-study-actual-v2.json": "457b515e57f3ffec759c914541d0322b23fb15f7fcdfc3e1640b332afa72c301"
+  },
+  "validation": {
+    "all526_pairs_exact_orders_and1052_native_reads_expected_bytes_hash": true,
+    "all1052_fresh_hash_entries_match_expected_source_bytes": true,
+    "fresh_hashes_validated_by_original_worker_outer_not_reread_by_reviewer": true,
+    "all1052_opener_calls_once_error_free": true,
+    "publication_aliases_and_hooks_restored_before_after_guards_stable": true,
+    "owned_exit0_reaped_job0_closed_error_free_log_hash_matches": true
+  },
+  "actual": [
+    {
+      "pass": 1,
+      "publishers": {
+        "native": {
+          "calls": 263,
+          "read_wall_ms": 2995.3656,
+          "read_thread_cpu_ms": 296.875,
+          "publication_wall_ms": 1187.9246,
+          "publication_thread_cpu_ms": 531.25,
+          "bytes": 2097910
+        },
+        "classic": {
+          "calls": 263,
+          "read_wall_ms": 2680.6249,
+          "read_thread_cpu_ms": 296.875,
+          "publication_wall_ms": 1269.16,
+          "publication_thread_cpu_ms": 500.0,
+          "bytes": 2097910
+        }
+      },
+      "native_minus_classic_read_ms": 314.7407000000003,
+      "native_minus_classic_publication_ms": -81.23540000000003
+    },
+    {
+      "pass": 2,
+      "publishers": {
+        "native": {
+          "calls": 263,
+          "read_wall_ms": 2578.2704,
+          "read_thread_cpu_ms": 218.75,
+          "publication_wall_ms": 1489.5029,
+          "publication_thread_cpu_ms": 531.25,
+          "bytes": 2097910
+        },
+        "classic": {
+          "calls": 263,
+          "read_wall_ms": 2553.3173,
+          "read_thread_cpu_ms": 171.875,
+          "publication_wall_ms": 1518.0085,
+          "publication_thread_cpu_ms": 531.25,
+          "bytes": 2097910
+        }
+      },
+      "native_minus_classic_read_ms": 24.953099999999722,
+      "native_minus_classic_publication_ms": -28.50559999999996
+    }
+  ],
+  "interpretation": [
+    "Both native and classic publication controls have multi-second first native-read totals. Native publication read excess is314.7407ms in the first order and24.9531ms in the reversed order, not a demonstrated explanation of the3.075-6.967s current-minus-matched-baseline full cold gap.",
+    "Publication itself is measured outside read clocks; native total publication time is lower in both controlled orders. It cannot be added to the full cold rebuild to fabricate causal attribution.",
+    "The control does not support a publisher-only production fallback as an evidence-led solution to the release cold regression. It does not prove equivalence across all filesystems, shared-reader races or full SDK lifecycle.",
+    "Shared current writer/verification/guards/native reader and current host state remain common to both cohorts. Specific host/filesystem/security-agent cause, full cold-path attribution or original historical causal explanation remains unproven.",
+    "All finite aged-reader/fresh-lifecycle/publication controls and four matched protected full workload captures are retained separately; no timing is selected or replaced."
+  ],
+  "criterion": {
+    "supported_regression": "Four matched cold comparisons trigger original2*baseline+250; warm/delta/context12do not.",
+    "master53": "BLOCKED_SUPPORTED_CURRENT_COMPARATIVE_COLD_DEGRADATION_NOT_RESOLVED_BY_THIS_CONTROL",
+    "confirmed_correctness_defect_from_diagnostic": false,
+    "supported_production_fix": false,
+    "accepted_convergence_iterations": 0,
+    "registry_promotion": false
+  },
+  "next_action": "End blind mechanism trials and unchanged timing retries. Finish final documentation/archive/package review for the tested local blocked candidate, explicitly preserving the cold acceptance blocker. Any later investigation or optimization must start from a concrete new executed-path hypothesis with separate review; no code change, shipping fallback or final signoff is justified by this result.",
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false,
+  "release_ready": false
+}

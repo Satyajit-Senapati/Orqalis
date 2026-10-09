@@ -1,0 +1,66 @@
+{
+  "status": "APPROVED_FINITE_NEW_SOURCE_PERFORMANCE_SCREEN_CONDITIONAL_ROOT_ACK",
+  "reviewed_at": "2026-10-07T11:55:39.770950+00:00",
+  "source_sha256": "35a12e8ad05ad2fc1d63c623ff7c3bd27c574872f51b1f5cfa8f7a4953e7ab81",
+  "release_input_sha256": "670e3b6ef3c4f49c396e2162a097d95190aa375cbe28dcb2d386a7829ec34d0e",
+  "reviewed_sha256": {
+    ".tools\\research\\release_heldout_matched_study_v4.py": "8f2244a580b0d73c3a2760308a35c26378e8703033d54aa41b237398ba812076",
+    "docs\\quality\\evidence\\release-heldout-matched-study-plan-v4.json": "cc13d4caa5d30063665fac32bd75c72491d23e0235a597a093dbe18462889b61",
+    "release-graph-cache-read-ahead-focused-v2.json": "a426ba62774a6a7efa98fc17e3bfb6f0a4d28ef57976a62ee79e9cb4d369d2e3",
+    "release-graph-cache-read-ahead-focused-v2.junit.xml": "e827d6ab847bb5d01a8cfb65b24d353c8743f413672de96c80c6ec34631018cf",
+    "release-input-freeze-cache-read-ahead-v1.json": "d158cd37031859a0852f5bec9485484911f211d8f6e660bc20d8b3e52edb7b6d"
+  },
+  "scope": "Named JSON/XML/helper/engine/test reads and small delta/log/pin hashes only; no imports, tests, SDK/workloads or full source/dependency/corpus scans.",
+  "actual_focused_validation": {
+    "cases": 123,
+    "passes": 123,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "lint_types_tests_exit0_clean_owned_jobs": true,
+    "all4_source_test_helper_environment_stability_flags_true": true,
+    "three_stage_logs_match": true,
+    "freeze_entries": 395,
+    "mapping_delta": [
+      "Changed src/orqalis/graph/engine.py",
+      "Added tests/unit/test_graph_cache_read_ahead.py"
+    ],
+    "unchanged_previous_entries": 393,
+    "actual_delta_bytes_match": true,
+    "full_aggregate_not_recaptured_by_reviewer": true,
+    "focused_v1_failure_retained": true
+  },
+  "implementation_read_review": [
+    "Windows-only >=64items, exact ProjectGraphEngine with no listed instance overrides; small/nonWindows/subclass/instance overrides retain serial path.",
+    "<=4entries and submissions per chunk; all reads drain before main-thread parse/write. Per-chunk duplicate keys serially see earlier writes with one original_read_cache per source.",
+    "Original cache model/hash/parser kind/version/path/native snapshot guards unchanged. Deterministic main-thread metrics/parse/write/assembly preserved; executor joined before graph publication and refresh-lock exit, including worker errors.",
+    "Eight new parametrized cases cover duplicate corrupt/missing parity and read count, actual4worker overlap/main-thread order, policy error drainage/no publication, override serial dispatch and worker ReadProbe bytes. This is bounded focused evidence; full successor qualification/resource/security closure remains pending."
+  ],
+  "successor_checks": {
+    "v3_stale_historical_acceptance_wording_corrected": true,
+    "v4_controller_inverse_text_and_AST_equal_after_namespace_only": true,
+    "v4_plan_only_private_bindings_and_interpretation_changed": true,
+    "named_helper_evidence_pins_match": true,
+    "fresh_outputs_logs_fixtures_unused": true,
+    "current_source_admission_separate_from_historical01_a0_rounds30_31": true
+  },
+  "performance_method": [
+    "Originalfd24 B/C/C/B263SDK/cold1/warm3/delta1/index/context gold/allocation capture,600s cap, environment and all16current2xbaseline2x4metric original2B+250comparisons unchanged.",
+    "Immutable baseline map/corpus/retainedmetadata/membership, current source/input/environment/mainHEAD and all-outcome helper/evidence/ACK guards retained. No instrumented worker or sample selection.",
+    "Any capture failure/invalid or comparative trigger blocks candidate and ends this finite check without replacement; preserve actual failed candidate evidence and follow the explicitly planned revert disposition rather than blind retry."
+  ],
+  "launch_conditions": [
+    "Actual v4 acceptance/quality review hashes and root fixed-study ACK must pin exact controller/plan; no other role approval invented.",
+    "Owned QA idle/serial, no external quiet-host claim; all protected bytes and original helper unchanged."
+  ],
+  "acceptance_boundary": [
+    "This is new source35/input670e performance-screen evidence only. Old source01/a0 whole30/31 remain historical and cannot be promoted/rebound to new source.",
+    "Even successful finite comparison requires fresh full statics/contracts/current artifacts/heldout/history/measurement accounting and two complete new source-bound whole qualification iterations before release acceptance.",
+    "Cold regression source01, all earlier diagnostic/negative observations and unsupported publisher/reader hypotheses remain preserved. No past-cause or universal speedup claim."
+  ],
+  "master53": "PENDING_NEW_SOURCE_FINITE_SCREEN_AND_TWO_FRESH_COMPLETE_QUALIFICATIONS",
+  "blocking_findings": [],
+  "release_acceptance_credit": 0,
+  "registry_promotion": false,
+  "release_ready": false
+}

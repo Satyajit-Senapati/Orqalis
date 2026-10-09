@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "status": "FIXED_DIAGNOSTIC_REVIEWED_ORIGINAL_FATAL_FAILURE_UNRESOLVED",
+  "reviewed_at": "2026-10-03T17:30:48.170249+00:00",
+  "evidence": [
+    {
+      "path": ".tools/research/release-execution16-owned-io-diagnostic-v1/result.json",
+      "actual_sha256": "d05e08c2ea7d15cf4154f9a51195578de5722cd7c6ce2b45fd307c6fb8f89557"
+    },
+    {
+      "path": ".tools/research/release-execution16-owned-io-diagnostic-v1/observations.json",
+      "actual_sha256": "6e9e818de0ca95f4280a8b0bd26be99544bfc3135a6d2a37e321bb6dcd6016da"
+    },
+    {
+      "path": ".tools/research/release-execution16-owned-io-diagnostic-v1/worker.json",
+      "actual_sha256": "92e92ebd676ca70edab52e3ecc0463658865724f73d9bf1a1764a691a960d1e4"
+    },
+    {
+      "path": ".tools/research/release-execution16-owned-io-diagnostic-v1/worker.log",
+      "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".tools/research/release-execution16-owned-io-diagnostic-v1/running.json",
+      "actual_sha256": "e7bcc41f705dbaf3b32547e3b05bc3f1a704c36081ed86d760474e3ab051d58d"
+    },
+    {
+      "path": "docs/quality/evidence/release-execution16-owned-io-diagnostic-plan-v1.json",
+      "actual_sha256": "971ff87e7c7b882cd0ef2efcdc35b253e185ba790e85dce68b3f89bfca6e6723"
+    },
+    {
+      "path": ".tools/research/release_execution16_owned_io_diagnostic_v1.py",
+      "actual_sha256": "ced049f18466cd85b2da164185fedb5468538217b1a74f1b38217106317d516a"
+    },
+    {
+      "path": "docs/quality/evidence/release-native-read-handle-diagnostic-v1.json",
+      "actual_sha256": "a0d6b71b0161485194ce11a6f713d2998c6afc06170c7bf4473ec12028ec757f"
+    }
+  ],
+  "source_context": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "recorded_before_after_guards": {
+    "environment": "f899d7229da0991bcea54229abac4d37b7c5c3633e44266e46e6de9b86886c52",
+    "helpers": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+    "input": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+    "passed": true,
+    "source": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44"
+  },
+  "all26_original_checks_pass": true,
+  "actual_exit": 0,
+  "observations": {
+    "events": 11372,
+    "counts": {
+      "open_returned": 3564,
+      "closed": 3564,
+      "replace_enter": 2122,
+      "replace_return": 2120,
+      "replace_error": 2
+    },
+    "all2122_replace_entries_matching_owned_reads": 0,
+    "ordered3564_read_open_close_pairs_validated": true,
+    "event_drops": 0,
+    "active_read_drops": 0,
+    "active_reads_final": 0,
+    "native_denials_and_successful_next_attempts": [
+      {
+        "failure": {
+          "errno": 13,
+          "failed_ns": 220803390000000,
+          "kind": "replace_error",
+          "matching_count": 0,
+          "matching_owned_reads": [],
+          "native_source": {
+            "attributes": 32,
+            "path": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\execution\\agents\\a6381682-e3d3-5205-9785-40c25414d7f9\\.session.yaml.9daf8mtd.tmp",
+            "readonly": false,
+            "reparse": false,
+            "winerror": 0
+          },
+          "native_target": {
+            "attributes": 32,
+            "path": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\execution\\agents\\a6381682-e3d3-5205-9785-40c25414d7f9\\session.yaml",
+            "readonly": false,
+            "reparse": false,
+            "winerror": 0
+          },
+          "source": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\execution\\agents\\a6381682-e3d3-5205-9785-40c25414d7f9\\.session.yaml.9daf8mtd.tmp",
+          "started_ns": 220803390000000,
+          "target": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\execution\\agents\\a6381682-e3d3-5205-9785-40c25414d7f9\\session.yaml",
+          "thread": 6336,
+          "type": "PermissionError",
+          "winerror": 5
+        },
+        "next_same_target_success": {
+          "at_ns": 220803406000000,
+          "kind": "replace_return",
+          "target": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\execution\\agents\\a6381682-e3d3-5205-9785-40c25414d7f9\\session.yaml",
+          "thread": 6336
+        },
+        "sampled_recovery_delta_ms": 16.0
+      },
+      {
+        "failure": {
+          "errno": 13,
+          "failed_ns": 220865609000000,
+          "kind": "replace_error",
+          "matching_count": 0,
+          "matching_owned_reads": [],
+          "native_source": {
+            "attributes": 32,
+            "path": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\artifacts\\.index.yaml.vat4ovtq.tmp",
+            "readonly": false,
+            "reparse": false,
+            "winerror": 0
+          },
+          "native_target": {
+            "attributes": 32,
+            "path": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\artifacts\\index.yaml",
+            "readonly": false,
+            "reparse": false,
+            "winerror": 0
+          },
+          "source": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\artifacts\\.index.yaml.vat4ovtq.tmp",
+          "started_ns": 220865609000000,
+          "target": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\artifacts\\index.yaml",
+          "thread": 6336,
+          "type": "PermissionError",
+          "winerror": 5
+        },
+        "next_same_target_success": {
+          "at_ns": 220865625000000,
+          "kind": "replace_return",
+          "target": "S:\\Orqalis\\.tools\\research\\release-execution16-owned-io-diagnostic-v1\\work\\repository\\.orqalis\\tasks\\ORQ-20261003-0001\\artifacts\\index.yaml",
+          "thread": 6336
+        },
+        "sampled_recovery_delta_ms": 16.0
+      }
+    ]
+  },
+  "diagnostic_timing_ms_unqualified": 89324.08540000324,
+  "fixture_retained": true,
+  "original_branch_reproduced": false,
+  "original_task_yaml_fatal_failure_closed": false,
+  "plan_guard_limit": "Plan hash was checked at parent/child entry but not inside before/after check(). Parent independently reported rehash after exit, and reviewer now rehashes the same bytes. These are point-boundary checks, not continuous interval immutability proof; do not invent an after-plan guard in the executed runner.",
+  "conclusions": [
+    "Two actual WinError5 denials occurred on session.yaml and artifacts/index.yaml and recovered on the next existing replacement attempt. Both source/target native snapshots show archive32, not readonly/reparse.",
+    "No matching observed owned read at either denial, and none at any of2122 observed replace entries. This does not exclude unobserved native/builtin/external handles or transient access policy; no AV/external-owner attribution is supported.",
+    "Both temporary validation reader handles are recorded closed before the corresponding denied replacement. The specific owned metadata-read theory did not explain these observed denials.",
+    "Ordered open-close records and no drops support the declared observer coverage, but observer changes stream identity/timing and samples open after return/close after completion. All observed monotonic timestamps are multiples of1ms and many are identical; sampled16ms recovery gaps are not exact syscall latency or proof that20ms sleep changed.",
+    "Actual exit0 and all26 checks with before/after source/input/helper/environment stability do not replace the incomplete Execution16 capture or count as a qualification/performance sample.",
+    "The separate controlled held-native-reader probe establishes that an ordinary Windows reader can prevent original atomic replacement; closing the reader permits one explicit recovery write. This independently justifies studying replacement-compatible readers for supported concurrency, not naming that mechanism as the cause of the original or unmatched two denials."
+  ],
+  "most_useful_next_causal_action": {
+    "action": "One bounded read-only native metadata pass on the already retained diagnostic paths and matching time window before proposing any external-denial or retry fix.",
+    "time_window": "Use running.json creation through observations.json/result.json completion UTC, expanded only by a predeclared2seconds; recorded worker spans approximately17:25\u201317:26:41 UTC on2026-10-03. Do not derive exact wall-clock denial times from unanchored monotonic stamps.",
+    "ACL_scope": "Read current DACL/owner/inheritance and attributes for the two exact denied destination files and their capsule/containing directories only; no SACL escalation, ACL changes, recursive enumeration or source overwrite. Current metadata cannot prove past transient ACL state.",
+    "Defender_scope": "If already accessible, read Microsoft-Windows-Windows Defender/Operational events within that fixed window with a bounded cap (200) and retain provider/event/time plus exact workspace/path/PID31336 matches. No enabling logs, Defender configuration/exclusions, services, diagnostic mode or OS policy change. No relevant event is absence of logged evidence, not AV exoneration or blame.",
+    "holder_scope": "Do not scan all processes/handles or claim a current post-exit holder explains a gone transient handle. Only an already available exact-path/PID-specific record is useful; otherwise record unavailable.",
+    "if_no_causal_witness": "Keep the release blocker unresolved. A separately reviewed persistent-denial journal recovery/failure-atomicity proof is useful for durability, but is not causal/performance closure; neither new Windows share-delete readers nor longer retry loops may be presented as a cure for the unmatched unknown denials."
+  },
+  "scope": "Read existing reports/events and evidence hashes only; no new workload/source/test edits/native log queries or fixture mutation performed in this review. Minimal read-compatibility proposal remains separately prospective, uninvoked and unapplied."
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T08:04:35.964690+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "PASS_EXACT_APPLIED_DELTA_AND_FOCUSED_CAPTURE_REVIEW_BOUNDED",
+  "source_sha256": "645f15aaf168a4db976c376330478366872835c1085b068e961c62fdd3b3a367",
+  "prior_source_sha256": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+  "locking_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+  "exact_reviewed_proposal_bytes_applied": true,
+  "reviewer_source_helper_test_edits": false,
+  "reviewer_workloads_run": false,
+  "confirmed_new_supported_path_P0_P1_findings": 0,
+  "delta_proof": "Removing only new gate class/deque import and restoring the prior gate field in memory reproduces original locking SHA0b6a and the entire prior source6318563c. Current source645f has no other production-input difference.",
+  "unchanged_existing_definition_ASTs": [
+    "LockTimeoutError",
+    "_FcntlModule",
+    "_MsvcrtModule",
+    "_state_for",
+    "_try_platform_lock",
+    "_platform_unlock",
+    "FileLock"
+  ],
+  "unchanged_approval_transaction_source_sha256": {
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "src/orqalis/core/goals.py": "57cdd235ac7f551c6ba03445e92d2111130b8839aec51056c706c94a3ed3a45d",
+    "src/orqalis/core/approvals.py": "2480231ce3f59d27b49dd2ea8ef4737f168a17c8e52ed3858fcc60c9673f7ba4",
+    "src/orqalis/core/approval_guard.py": "9ecb24c74b20295f0938431dab89455ebda87f76bda59806d2545107dae0e363",
+    "src/orqalis/core/approval_subjects.py": "de370a5f494f6f1d2367c2c4b28b06d95e5ea557201f965a7f6b6fb1b2cb8edc",
+    "src/orqalis/core/orchestrator.py": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+    "src/orqalis/domain/base.py": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+    "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9"
+  },
+  "behavior_conclusion": "Reviewed final gate retains timed bookkeeping entry, invalid timeout rejection, free/queued deadline checks, owner fast reentrancy, FIFO enrollment among outsiders, token removal on timeout/interruption and owner validation. Original FileLock/OS-platform/fsync/handle cleanup/registry operations remain AST-identical. No transaction or approval changes.",
+  "private_v5": {
+    "report": "docs/quality/evidence/release-event-contention-diagnostic-v5.json",
+    "report_sha256": "484019b778e5e980addf8825cae76f1ec39fd14f01a36e05bb4252252e477e11",
+    "status": "PASS",
+    "tests": 58,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "fixed_ten_original_event_trials": [
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-00]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-01]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-02]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-03]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-04]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-05]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-06]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-07]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-08]",
+      "test_event_sequence_concurrency_idempotency_and_corruption_detection[trial-09]"
+    ],
+    "source_at_capture": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+    "proposal_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+    "runtime_test_sha256": "ca64d8d46f23a2c7b8b1e9a095eef4a81a9e2e0b948ce05c69f535496939bdca",
+    "junit_sha256": "df9feadc2e72a44e8563459b83d628df2b08a89e3493d0b85752b91674fab9bd",
+    "spans_sha256": "265624262c2133bb9ed14dea4239b415069158154e91e01346579580cb2f0b69",
+    "log_sha256": "9e266a51cfee26fe66ae84b071ccd0ee613a963d7f367a1ccb9741648e870c8c",
+    "helper_current_sha256": "940932fb8fab608111f724a2624224d59375bab826ee9d3e5c93c4d5ea6de8e7",
+    "private_tests_current_sha256": "9d68c7944994ac01c89e26f3263b1ed614dd1823521c1af28ecc20a90e589a4a",
+    "injection_identity": "Helper retains original LockTimeoutError object after exec injection. Existing imported FileLock aliases resolve the updated gate registry through original module globals. Fixed collection plugin executes ten original unchanged runtime event cases under controlled environment without changing their ten-second timeout.",
+    "provenance_limit": "Report binds proposal/runtime/spans and records prior source stability; it does not hash foundation/private test/helper before/after. Their current bytes were inspected, not claimed as historically complete input binding. Fresh actual capture below binds both current test files."
+  },
+  "actual_focused_capture": {
+    "report": "docs/quality/evidence/release-fifo-actual-focused-v1.json",
+    "report_sha256": "45fca418c034c29d6486d09cfdb3d7bcf1057636056d63d68ad38af73982e9c9",
+    "status": "PASS",
+    "tests": 50,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source_stable": true,
+    "tests_stable": true,
+    "test_file_sha256": {
+      "tests/unit/test_filesystem_foundation.py": "496559b2d721e136fe544834a61892b5bf34317b325622ee37890021173e5b33",
+      "tests/integration/test_runtime.py": "ca64d8d46f23a2c7b8b1e9a095eef4a81a9e2e0b948ce05c69f535496939bdca"
+    },
+    "junit_sha256": "d4c5c831620ff3cd61eb98e74ead1d973c850f8923d0a905bf89768acab1b912",
+    "log_sha256": "b1deab03e6907da8f77fb5d2a88c1adf9402a0cf50c45e09098d4a3dd27d19c9",
+    "eight_merged_behavior_cases": [
+      "test_queued_waiter_prevents_owner_barging_and_preserves_reentry",
+      "test_expired_head_waiter_does_not_block_its_successor",
+      "test_bookkeeping_mutex_obeys_acquisition_timeout",
+      "test_interrupted_wait_removes_its_queue_entry",
+      "test_invalid_timeout_retains_rlock_rejection[nan-ValueError]",
+      "test_invalid_timeout_retains_rlock_rejection[inf-OverflowError]",
+      "test_invalid_timeout_retains_rlock_rejection[8589934.0-OverflowError]",
+      "test_zero_timeout_owner_reentry_ignores_waiter_bookkeeping_mutex"
+    ],
+    "scope": "Actual production foundation/runtime suites; original event case assertions unchanged. Focused pass only."
+  },
+  "memory_and_boundary_limitations": [
+    "Condition/deque and active waiter token overhead remain; tokens are removed after completion/timeout/exception. Permanent per-path registry growth and eager setdefault allocations are unchanged.",
+    "notify_all and linear deque removal may trade throughput/scheduler work for FIFO enrollment. No measured performance benefit asserted.",
+    "Fairness is in-process only and reentrant owner may continue nesting; legitimate long work or OS/scheduling delays can still expire the unchanged timeout.",
+    "Existing unsupported wrong-thread FileLock release mutation-before-gate-check and owner thread identity reuse boundaries remain unchanged.",
+    "Condition wait must reacquire bookkeeping before cleanup; no hard real-time completion promise."
+  ],
+  "prior_static_review": {
+    "path": "docs/quality/evidence/release-fifo-gate-proposal-independent-review-final.json",
+    "sha256": "11fda4ead18f2ba916dbfc3fb93b701c3c060ed2f3c78693d371c126bd5bebe5"
+  },
+  "qualification_limits": [
+    "Original85PASS/1FAIL frozen full86 capture remains retained and unclosed until fresh full capture passes.",
+    "Private v3 collection/v4 exception identity failures remain historical; v5 successful injection does not overwrite them.",
+    "Typing/lint reported by parent; no independent capture claim made here.",
+    "No full browser, installed artifacts, performance benchmark, full rounds or release-ready certification.",
+    "No root cause proof that barging caused the original failure; no universal timeout cure claimed."
+  ],
+  "project_head_observed": "b8506f7d9c471516fe4b21c9caa735a7a7909af6"
+}

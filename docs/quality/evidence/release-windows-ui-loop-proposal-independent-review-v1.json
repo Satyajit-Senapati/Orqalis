@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T08:38:11.330502+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "UNAPPLIED_PROPOSAL_FACTORY_FIXED_DEPENDENCY_MINIMUM_REPAIR_REQUIRED",
+  "source_sha256": "645f15aaf168a4db976c376330478366872835c1085b068e961c62fdd3b3a367",
+  "production_hosting_sha256": "db71565f7d7b04fef18af03b7b021712c98fba5492cc017bef6a5d400fc9fd35",
+  "current_private_proposal_sha256": "475b2f51d7b62b26795191ba4e76261771ba9fb21e3d0e08d9eabba06c23571a",
+  "advertised_uvicorn_requirement": "uvicorn>=0.34,<1",
+  "installed_uvicorn_version": "0.52.4",
+  "reviewer_workloads_run": false,
+  "reviewer_application_helper_test_edits": false,
+  "proposal_applied": false,
+  "confirmed_new_production_P0_P1_findings": 0,
+  "open_proposal_release_compatibility_findings": 1,
+  "finding": {
+    "severity": "Release-blocking supported-dependency compatibility",
+    "detail": "Uvicorn0.34 accepts only LOOP_SETUPS keys in setup_event_loop; the new custom dotted loop string would raise KeyError on Windows, despite0.34 being advertised as supported. Uvicorn0.36 introduces get_loop_factory and custom imported callable support.",
+    "remediation": "Raise minimum to uvicorn>=0.36,<1 or explicitly retain an older-version compatibility path. The installed locked0.52.4 already satisfies0.36; no broad dependency upgrade is needed."
+  },
+  "resolved_initial_proposal_defect": {
+    "initial_proposal_sha256": "d2fcd180bfa37f8a9c5072a4afdd2196cdb2272615f97dcaffa743fcd45b4765",
+    "problem": "Factory returned SelectorEventLoop class rather than loop instance. Uvicorn custom-string branch returns the imported callable directly to asyncio.run; it does not invoke built-in setup-factory protocol.",
+    "current_fix": "Zero-argument callable returns asyncio.SelectorEventLoop(), typed as AbstractEventLoop. Correct for installed0.52.4 and0.36 custom-loop factory protocol."
+  },
+  "scope_security_equivalence": [
+    "Private proposal changes only owned server Config.loop on Windows, retaining non-Windows auto. Reused healthy listener branch creates no loop or server.",
+    "local_url, UISession, _port_open and _healthy ASTs are byte-semantically unchanged. Host whitelist, foreign-port detection, exact version/project scope reuse,15-second startup and10+2 shutdown deadlines remain intact.",
+    "Existing SDK/operator/approval/Origin/WebSocket peer checks and subscription cancellation code remain untouched.",
+    "UI async operations are HTTP/WebSocket sockets, middleware/lifespan, task scheduling/sleep and to_thread. Current SDK API endpoints are synchronous and run in workers. No create_subprocess/pipe transport usage was found in actual API asyncio loop.",
+    "Execution CommandRunner uses synchronous Popen; CLI asyncio.run/SDK provider work runs independently. No set_event_loop_policy/process-wide loop modification is introduced.",
+    "Direct uvicorn.Server.run creates one owned server thread/process; no uvicorn.run multiprocessing/reload supervisor is introduced."
+  ],
+  "accepted_scope_limits": [
+    "Windows Selector uses SelectSelector limited to512 total sockets, including server/wakeup/client descriptors; do not describe this as512 concurrent clients. High local connection loads exceed this bound.",
+    "Windows Selector does not implement async subprocesses or pipe transports. Future async provider/harness execution directly on UI ASGI loop would require reevaluation.",
+    "No global host/multiprocess/general ASGI guarantee; proposal targets current local socket-only owned UI host."
+  ],
+  "reset_interpretation": "Actual CPython proactor connection-lost callback invokes socket.shutdown before socket.close and server._detach, so WinError10054 can skip subsequent detach in that callback. This supports the hypothesis; observed raw thread stacks do not prove the exact server await chain or causality. Controlled native reset evidence and unchanged full14 browser/deadline qualification are required.",
+  "reviewed_file_sha256": {
+    "src/orqalis/api/app.py": "874600f19e3c8d46a27a5f4a20ef5dd1da49569075be4f090a6c71ca887fc811",
+    "src/orqalis/api/scope.py": "33b52cef05d189e3d42fdc7d771d8c80625c2f3d49f147f27d11bae8c9bc614e",
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "src/orqalis/execution/commands.py": "1b42123323ac14322416cfb5f48e922830c4e7420440b552678577ed727a4c77",
+    "pyproject.toml": "559cf80ce6089f7e53e4b9470f7966370d5f1077aaf9c53f969f520c927d8e6d",
+    ".venv/Lib/site-packages/uvicorn/config.py": "296d63cd46a6c7f547eaf1aa7ef2f2f988accd0c82060e7ea132d4cf6b403811",
+    ".venv/Lib/site-packages/uvicorn/server.py": "7c1dbd656835c9cdd6f92078ffc80bcc6007824ab322aff15435bd89c068e0be",
+    ".venv/Lib/site-packages/uvicorn/_compat.py": "e97e3d73da2fce63078abd92decca29ce40ccd23c1729f0c36e23d650adb6225",
+    ".venv/Lib/site-packages/uvicorn/loops/asyncio.py": "6bcc0ee1f078a4293e44b202abb0a71abfdcc5023b3012c98fe1a8e14425743f"
+  },
+  "primary_sources": [
+    {
+      "url": "https://github.com/encode/uvicorn/blob/0.34.0/uvicorn/config.py",
+      "support": "setup_event_loop indexes fixed LOOP_SETUPS, no custom string support."
+    },
+    {
+      "url": "https://github.com/encode/uvicorn/blob/0.36.0/uvicorn/config.py",
+      "support": "Custom callable get_loop_factory introduced; custom function must return loop instance."
+    },
+    {
+      "url": "https://docs.python.org/3.12/library/asyncio-platforms.html#windows",
+      "support": "Windows selector socket-count/no-pipe/no-async-subprocess limits."
+    }
+  ],
+  "qualification_limits": [
+    "No native reset/private proposal test executed by reviewer.",
+    "Minimum-version contract remains open in actual metadata at report capture.",
+    "Original source645 full14 browser/shutdown failures are retained; no claim proposal resolves them.",
+    "No full browser pass, installed artifact, complete rounds, performance or release certification."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "status": "STATIC_COORDINATOR_REVIEW_PASS_CONDITIONED_ON_CONFIRMED_FULL13_EXIT",
+  "reviewed_at": "2026-10-03T15:14:26.617769+00:00",
+  "reviewer": "release_acceptance_review",
+  "coordinator_sha256": "5289d31c0beeec7596d9a2684671f52dfcf7c25a98558dfae3660ef152c8a504",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "freeze_record_sha256": "9f5025dc54032eb28756fb8618c087acfaa6a9cdaa8ff1d8d07b353f28e32e0f",
+  "protected_inventory_sha256": "8e4c4071cff393f4117edf58897e6756269f3f563ab4f00c7ba5b887b308e923",
+  "protected_helper_count": 18,
+  "all_actual_protected_helper_bytes_match": true,
+  "prior_helper_design_review": {
+    "name": "release-websocket-host-context-design-independent-v1.json",
+    "sha256": "bef8fca75a2c8fa5f452a2cea5294618e3454a24a7bb4100acdcd64e342bd34c"
+  },
+  "corrected_findings": [
+    {
+      "finding": "exists()+one-shot parse races non-atomic full13 JSON publication and missing report can wait forever.",
+      "disposition": "CLOSED_BY_REMOVING_INDEPENDENT_WAIT",
+      "actual_guard": "Coordinator requires exact --full-regression-process-confirmed-exited attestation, completed report presence, passed report and frozen source identity before any stage. Parent must actually observe owned session3941 exit first.",
+      "limit": "Flag itself is caller attestation, not OS process-exit proof. Parent observation of actual exit and full13 PASS remains a prerequisite; reviewer has not observed it."
+    },
+    {
+      "finding": "New process.wait branch could leave owned direct child alive on interruption.",
+      "disposition": "CLOSED_IN_STAGED_CODE",
+      "actual_guard": "withPopen plus try wait/except BaseException kill+rethrow; context exit reaps/closes direct child. No exception swallowed or workload timeout added."
+    },
+    {
+      "finding": "Existing boundary/history captures could be overwritten or rejected only after expensive stage ran.",
+      "disposition": "CLOSED_IN_STAGED_CODE",
+      "actual_guard": "Unique host context path and explicit history output checked absent before workload. Existing pipeline status prevents automatic same-label rerun."
+    }
+  ],
+  "stage_order": [
+    "Fresh11statics/current86/advisories",
+    "Actual immutable baseline frontend proof",
+    "Both actual frontend/current86 accepted binding",
+    "Fresh wheel/npm/17checks/MCP41/exact audits",
+    "Fixed263 paired heldout",
+    "Fresh1001 canonical/concurrent history",
+    "Two full candidate captures16/17"
+  ],
+  "guard_semantics": "Exact frozen production source and390 per-file release inputs plus18 protected helper bytes checked before and after successful stage. Nonzero child result records FAILED and exits before next stage; uncaught failure records FAILED through hook. Native observation failure also stops rather than granting credit. Final status remains COMPLETE_PENDING_INDEPENDENT_REVIEW_AND_FINAL_DOCS.",
+  "coordination_scope": "Private outer parent orchestration helper intentionally outside protected18 workload-helper family; this review binds exact coordinator bytes. No source/tests/cases/budgets/threshold modifications or automatic retry, commit, tag, push, publication. Interruption cleanup covers owned direct child; parent must manage any surviving owned descendants using established owned-tree stop procedure.",
+  "actual_state": {
+    "coordinator": "UNINVOKED",
+    "full13": "Parent reports running; actual exit/PASS not independently observed here",
+    "qualified_iterations": 0,
+    "required_iterations": 2,
+    "accepted_P1": 23,
+    "accepted_P1_status": "IMPLEMENTED_PENDING_EVAL",
+    "release_ready": false
+  },
+  "limitations": "Static review only; does not run preflight/frontends/installers/heldout/history/rounds, prove quiet host or accept unexplained performance. Parent must not launch coordinator before actual standalone full13 exit and PASS. Failure means retain all captures and diagnose, not automatic rerun or waive. Independent performance/spec/security/metric criteria closure and final docs/runtime artifact proof remain required.",
+  "reviewer_workloads_executed": false,
+  "heavy_scans_executed": false,
+  "production_test_docs_or_helper_edits_by_reviewer": false,
+  "commits_or_publication": false
+}

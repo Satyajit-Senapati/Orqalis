@@ -99,7 +99,7 @@ This ordering is intentional: events/timing are built before the thin UI; the th
 
 ## 6. Implementation authority
 
-`docs/` and this `SIGNOFF.md` are the architecture source of truth. `docs/09-implementation-plan.md` is the authoritative phase/PR sequence. `CODEX_HANDOFF.md` tells Codex how to execute the plan. `docs/10-local-control-center.md` is the authoritative browser UX/runtime-visualization contract. `docs/07-data-model-and-observability.md` is the authoritative runtime entity/event/timing contract.
+`docs/` and this `SIGNOFF.md` are the architecture source of truth. `docs/IMPLEMENTATION_STATUS.md` records the completed phase sequence; `docs/SOURCE_OF_TRUTH.md` defines authority and continuation rules. Current release work belongs in `docs/quality/NEXT_SESSION.md`. `docs/10-local-control-center.md` is the authoritative browser UX/runtime-visualization contract. `docs/07-data-model-and-observability.md` is the authoritative runtime entity/event/timing contract.
 
 For persistence, the 2026-09-16 amendment above, ADR 0003 and the revised documents take
 precedence over older baseline or release text.

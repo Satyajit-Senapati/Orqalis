@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "reviewer": "release_acceptance_review",
+  "reviewed_at": "2026-10-04T12:10:05.123036+00:00",
+  "status": "PROSPECTIVE_FINAL_FIXES_METHOD_ACCEPTABLE_AFTER_ACTUAL_FINAL_PREFLIGHT_NO_ACCEPTANCE_CREDIT",
+  "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "release_input_sha256": "56c454c8630d017a71802cccda1ef0d8d8521964babfa6ee4df8c1284a2c8750",
+  "scope": "Bounded named helper/source/test/metadata text and AST reads only. No application imports, workloads, native queries, full source/inventory scans, runtime/tests/public docs edits or commit. Full aggregate390/393 recomputation remains root gate.",
+  "bindings": {
+    "docs/quality/evidence/release-private-helper-inventory-final-fixes-v2.json": "f8ae69501097dd9c32d6460e4fcd7f1b2c2672f0398b726e04fdd554971cb1aa",
+    "docs/quality/evidence/release-input-freeze-final-fixes-v1.json": "cb348d5cce76e2b7f36635085f897f8fbb55f9aaf7455ea9e379b7e191326ca6",
+    "docs/quality/evidence/release-execution-reference-policy-final-fixes-v1.json": "97caa6fdaaa14549d0e543315f378a2ed765f794e8f200dd6c37ba773a5720f3",
+    "docs/quality/evidence/release-final-memory-counter-integrity-v1.json": "6850ed0d45c660f194d1d94f2e8ef7db6f9464ba2359b845d3934a0fe3a06346",
+    "docs/quality/evidence/release-final-fixes-focused-v3.xml": "5d38081ed2b4cc68894cc2e61f5b822930ccbb6fa60af18e173f643ffc7913c9",
+    "scripts/benchmark_memory.py": "9c773dbcb5b8dbdfcdfd1d1d818eb1eb45793b2aa9862cc952764b502025d36a",
+    "src/orqalis/persistence/filesystem/locking.py": "d786e9cbbcab75783ee32ba7fbec3ef53013fba10c8d0696dadb1de003528dd9",
+    "tests/unit/test_file_lock_ownership.py": "1de8cf10716988e025be3e3e415fc44526e52848510b0d73a61c350c2b8e9f98",
+    ".tools/research/release_qualification_final_fixes_v1.py": "8a52b51d902cd3d6e73af6f247e329c8cf500c09d513801bc81de4df596909a1",
+    ".tools/research/verify_execution_reference_final_fixes_v1.py": "b0e759bf7b3def0525660c768621f36a9d7defedab553c0e5538a2816da2c19d",
+    ".tools/research/release_preflight_final_fixes_v1.py": "171e2d86cad7c65cf99b773fd602fdea68316123867f11050e98ba2735ec0901",
+    ".tools/research/run_full_regression_release_v14.py": "c44463eaa1a479a4dffa7618c756ee6bf887319d90ef06b4f05e6c6916af7ddd",
+    ".tools/research/release-shared-io-before-v1/scripts/benchmark_memory.py": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a"
+  },
+  "freeze_bridge": {
+    "paths": 393,
+    "prior_paths": 392,
+    "changed_or_added": {
+      "scripts/benchmark_memory.py": {
+        "old": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a",
+        "current": "9c773dbcb5b8dbdfcdfd1d1d818eb1eb45793b2aa9862cc952764b502025d36a"
+      },
+      "src/orqalis/persistence/filesystem/locking.py": {
+        "old": "20937f14ce49a257a0ed84f569502c2e37f733d7e660b36ea8d9405c24e04eac",
+        "current": "d786e9cbbcab75783ee32ba7fbec3ef53013fba10c8d0696dadb1de003528dd9"
+      },
+      "tests/unit/test_file_lock_ownership.py": {
+        "old": null,
+        "current": "1de8cf10716988e025be3e3e415fc44526e52848510b0d73a61c350c2b8e9f98"
+      },
+      "tests/unit/test_memory_benchmark.py": {
+        "old": "60edf22c4152059e72dfc37e4621ee1d5a6feed18f3880bf942cbc1a0a200770",
+        "current": "dc9587a40850ac14f684764cf6d54e18ba3fc081657c2a4b02f9776ec5313a53"
+      }
+    },
+    "removed": [],
+    "all_prior_helper_bindings_preserved": true,
+    "current_helper_count": 43
+  },
+  "findings": [],
+  "method_disposition": [
+    "Final qualifier differs from previously reviewed shared-io qualifier only current bindings/log/report-policy and canonical memory script path. Labels24/25 remain same prospectively UNRUN;25 requires24complete-pending/same source/freeze. Quality3, execution3, memory5, UI3, constrained/browser/fullPython/advisories/raw30exacttradeoff checks unchanged.",
+    "Execution verifier differs only policy path/hash. All26+4 sample checks, actual source/helper/script/fixture/fullenv/completion identities and all9 reference samples retained. Successor policy adds prior policy hash and currentsource/input context without changing comparisons/performance rules. Inherited older policy prose is historical, not authority for currentqualification.",
+    "Canonical benchmark memory adoption: independent allfunction/class AST comparison to reviewedprivate ReadProbe successor exact, including ReadProbe/CountedReader/workflows/worker. Only correct REPO parent location, lifecycle comment/noqa and string formatting differ. Original13494script archive byte hash preserved and helper-bound; current9c773script is frozen separately. Broader accounting label retained; prior narrow Path.open-only totals remain dated and cannot be treated equal-method comparisons.",
+    "FileLock.release rejects wrong-thread ownership before acquisitions/depth/nativehandle mutations. ensure_owned compares unchanged gate owner to currentthread; valid-owner native unlock/cleanup path unchanged. Newdepth1/2 regression tests assert originalstate/nativelease preservation, stranger exclusion, validownerrelease and successornativelease. Actual124focusedXMLPASS0skip is checked; reviewer did not rerun.",
+    "Final preflight declares original11 gates plus fullconfigured Linux/darwin type checks (13total). These static platform checks are not native Linux/macOS runtime certification. Source2489 actual86 PASS remains historical and is not fresh b897 evidence."
+  ],
+  "prelaunch_requirements": [
+    "Root finalcontroller must require observed finalpreflight process exit0, actualstatic13PASS plus fresh current86PASS/0failure/error/skip and all stability/binding flags to sourceb897/input56 before24 starts. No preflight completion claimed by this report.",
+    "Root must guard exact source393/protectedhelper/gold/environment/frontend identity before/after and preserve exclusive24/25outputs. This qualifier inherits externalcontroller preflight admission rather than parsing finalacceptedpreflight itself.",
+    "One owned measured workload at a time; prior22terminaldenial/originalholderunknown and all olderfailed/incompletecaptures remain retained without automaticretry/passalias."
+  ],
+  "final_acceptance_required": [
+    "Two complete fresh24/25 allgates/fullcurrentPython and finalsource/input/helper/env guards; original20/21 or retired2489passes cannot replace them.",
+    "Fresh current wheel/npm/installed17/MCP41, exactdependency audits, heldout/history proof or explicit independently reviewed identity bridge; finaldocs/repack/archive/link scope reviewed separately.",
+    "Independent23P1/all30losses/resource/performance disposition; strictMaster53 still requires no unexplaineddegradation. No originalholdercause, timingimprovement, acceptedconvergence or capabilitypromotion established prospectively."
+  ],
+  "acceptance_state": "23IMPLEMENTED_PENDING_EVAL/13DEFER/zeroacceptedconvergence; no finalrelease/signoff/commit/push/tag/publication."
+}

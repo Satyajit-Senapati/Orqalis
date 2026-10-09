@@ -1,7 +1,34 @@
 # Implementation status
 
-Canonical baseline: v1.2. This tracks delivery evidence; `09-implementation-plan.md`
-remains the authoritative plan. Initial inspection: 2026-09-10.
+## Current 2.1.0 release candidate - 2026-10-09
+
+The candidate adds portable skills, conservative graph and symbol navigation, reviewed
+memory lifecycle, MCP lifecycle/history tools, traces/provider metrics and durable
+execution ownership. Project filesystem data remains authoritative.
+
+Both bounded local qualification rounds passed: each collected 935 Python tests with
+933 passes, two explicit optional skips and no failures/errors. Both original browser
+suites passed all 14 checks. Focused 133, immutable 86, 13 static gates, dependency
+audits, installed wheel/npm 17/MCP 41, fixed 263-file graph checks and 1,001-row/33-page
+history correctness also passed. [Current engineering status](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/ENHANCEMENT_STATUS.md)
+owns the exact evidence, historical failed attempts and scope limitations.
+
+The user accepted the measured cold graph-rebuild cost for 2.1.0; PERF-COLD-01 remains
+for the next release. This is bounded local acceptance with an exception, not complete
+OSS convergence: 23 capability evaluations remain pending and 13 decisions remain
+DEFER. Current large-history timing attribution is still open; correctness is proven.
+
+Commit and push were authorized on 2026-10-09. Publication remains pending fresh hosted
+quality CI for the exact committed revision, package/platform/installed gates, required
+release-owner environment review and verification of npm Trusted Publishing. See
+[release readiness](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/NPM_RELEASE_READINESS.md) and [publishing](PUBLISHING.md).
+The immutable v2.0.0 tag and released npm package do not include these enhancements.
+
+## Historical implementation record
+
+The dated records below preserve the original phases, migration order, checks and
+limitations. Their test counts and registry observations are not current release gates.
+The completed local-first migration sequence is recorded under Phase A-M below.
 
 > **Current architecture notice - 2026-09-16:** The dated Phase 0-14 and 1.0.x sections
 > below record the database-backed implementation that was tested and released at that
@@ -25,7 +52,7 @@ user branch or implementation was changed. Node 24 is available. Python 3.12.14 
 | 3 Goal/acceptance | Complete | Immutable goal versions, explicit revisions, typed validators, persisted evidence and CLI | 50 tests passed; Ruff/format/strict mypy and PostgreSQL migration round-trip passed |
 | 4 DAG/telemetry | Complete | DAG/scheduler, Orchestrator, durable attempts/actors/phases/events, idempotency, pause/resume/cancel, timing/snapshot projections, CLI | 55 tests passed; concurrent sequence and append-only tests; migration round-trip and strict checks passed |
 | 5 Thin Mission Control | Complete | Shared SDK, loopback REST/WebSocket host, React Mission Control, durable reconnect, CLI launch, packaged frontend | 57 backend tests, 3 frontend tests, browser desktop/mobile check, Ruff/mypy/build passed |
-| 6 Agents/skills/providers | Complete | — | Role/project permission intersection, versioned capability-selected skills, typed provider protocol, OpenAI transport, fixture and Anthropic skeleton, durable usage/outcomes; 66 tests plus interrupted-call regression passed |
+| 6 Agents/skills/providers | Complete | - | Role/project permission intersection, versioned capability-selected skills, typed provider protocol, OpenAI transport, fixture and Anthropic skeleton, durable usage/outcomes; 66 tests plus interrupted-call regression passed |
 | 7 Vertical execution | Complete | Isolated developer/test/reviewer execution, tool permissions and durable recovery receipts | 71 tests passed; PostgreSQL and Docker sandbox included |
 | 8 Repair | Complete | Targeted additive repair DAG, stable task IDs, bounded escalation | 74 tests passed including convergence and zero/exhausted repair budgets |
 | 9 Guardian/delivery | Complete | Independent scope checks, docs, final validation, gated Git commit/push | 81 tests passed; crash recovery and disposable local-remote push |
@@ -162,7 +189,7 @@ https://github.com/Satyajit-Senapati/Orqalis.git.
 ## Mission Control and README enhancement
 
 Brownfield enhancement of the completed V1, audited from main at 2451063. The detailed
-[gap analysis and dashboard tour](DASHBOARD.md) records what was reused and exposed.
+[gap analysis and dashboard tour](10-local-control-center.md) records what was reused and exposed.
 The attachment supplies the UX brief; no separate accompanying design document was available.
 
 | Enhancement phase | Status | Delivered capability |
@@ -210,7 +237,7 @@ scales with persisted history; large-run server profiling/caching is follow-up w
 The production JS bundle is approximately 512 kB minified / 162 kB gzip and emits Vite's
 500 kB advisory. One upstream Starlette/AnyIO deprecation warning remains. Live provider
 and hosted cross-platform CI checks still require the corresponding external environment.
-The signed-off numbered documents, SIGNOFF and CODEX_HANDOFF are unchanged.
+The signed-off numbered documents, SIGNOFF and the then-current architecture handoff were unchanged.
 
 Release checks: rebuilt wheel/source/npm tarball include current UI and all screenshot
 assets, with no local caches. All 11 launcher tests and package lint/format/hash checks
@@ -409,7 +436,7 @@ Status: complete.
 The frozen extraction `MANIFEST.json` and generated all-in-one design export were removed.
 Every recorded extraction hash had become stale after approved implementation and npm
 distribution amendments, while the combined export duplicated the maintained modular
-specifications. At that date, `SIGNOFF.md`, `CODEX_HANDOFF.md`,
+specifications. At that date, `SIGNOFF.md`, the former architecture handoff,
 `CONSOLIDATION_NOTES.md` and the numbered documents formed the canonical source set. The
 2026-09-16 local-first cleanup later retired `CONSOLIDATION_NOTES.md`; current authority is
 defined by `docs/SOURCE_OF_TRUTH.md`. `SIGNOFF.md` remains part of the npm package's release
@@ -636,7 +663,7 @@ Windows service, scheduled task or autostart entry was created by these checks.
 
 Status: filesystem-first implementation and the repository-controlled Phase M release gates
 are complete. Exact candidate hashes and command-by-command evidence are maintained in the
-maintainer-only `REPOSITORY_CLEANUP_AUDIT.md`, which is intentionally excluded from the
+maintainer-only the consolidated historical cleanup record in `NPM_RELEASE_READINESS.md`, which is intentionally excluded from the
 runtime package so recording final hashes cannot make the verified artifact stale.
 Phase L is closed by an explicit no-exporter decision: legacy SQL support is not shipped.
 Orchestrator, acceptance, repair, security, Git delivery, provider, MCP and Control Center
@@ -712,7 +739,7 @@ exists and no database is a parallel authority.
   the exact 2.0.0 wheel/tarball is checked through an isolated no-database install covering
   CLI, doctor, idempotent initialization, Task Capsules, memory/context, MCP, API,
   WebSocket history and the packaged Control Center. The classification, commands, counts
-  and artifact hashes are recorded in `REPOSITORY_CLEANUP_AUDIT.md`.
+  and artifact hashes are recorded in the consolidated historical cleanup record in `NPM_RELEASE_READINESS.md`.
 
 ## Orqalis 2.0.0 release preparation - 2026-09-17
 
@@ -734,5 +761,16 @@ Repository verification and artifact construction are complete; npm publication 
 post-publication registry smoke remain separate release-owner actions. Public npm `latest`
 continues to identify immutable `1.0.1` until that explicit publication succeeds. Exact
 artifact hashes, test totals, Git state, external publisher checks and publication status
-remain in `REPOSITORY_CLEANUP_AUDIT.md` and `NPM_RELEASE_READINESS.md` so release evidence can
+remain in the consolidated historical cleanup record in `NPM_RELEASE_READINESS.md` and `NPM_RELEASE_READINESS.md` so release evidence can
 be updated without changing the packaged artifact.
+
+
+### Historical sourcee536 attempt (superseded)
+
+Sourcee536 applied the independently reviewed ordinary-descendant layout guard consolidation.
+The final full ancestry check, both resolves, containment and independent atomic-write
+guards remain fresh. Arbitrary paths and subclasses retain the original branch. All15
+private security/dispatch/path checks pass. Actual five affected files pass127; two test-only
+explicit-export fixes retain all assertions and fresh completefoundation passes63. Other
+four files are unchanged. Fresh strict287-file typing, lint and formatting all pass.
+At that sourcee536 checkpoint, no browser, accepted freeze or complete round had passed (0/2). The current 2.1.0 disposition is recorded above.

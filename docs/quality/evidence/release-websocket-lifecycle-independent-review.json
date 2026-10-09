@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-02T16:27:06.644806+00:00",
+  "reviewer": "/root/release_quality_review",
+  "status": "WEBSOCKET_DISCONNECT_LIFECYCLE_REPAIR_ACCEPTED_FOCUSED4PASS_PENDING_QUIET_BROWSER_AND_FINAL_QUALIFICATION",
+  "scope": "Read-only exact code delta, native ASGI/eventbus diagnostic, new integration assertions and completed private focusXML. No reviewer workloads or production/test/dependency edits.",
+  "source_sha256": "44a6d1cfa65199f247d8669fc979ce7844d86b6f870b364612ee00bd43add213",
+  "previous_source_sha256": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+  "exact_production_delta_proof": {
+    "only_changed_production_input": "src/orqalis/api/app.py",
+    "method": "Substitute source1e-frozen-hash-identical retained app.py bytes in memory, then hash all other actual current inventory bytes. Reconstructs complete source1e fingerprint. Eventbus/digest proof/dependencies unchanged."
+  },
+  "read_file_sha256": {
+    "src/orqalis/api/app.py": "874600f19e3c8d46a27a5f4a20ef5dd1da49569075be4f090a6c71ca887fc811",
+    "src/orqalis/observability/event_bus.py": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+    "tests/integration/test_api.py": "0732594b2cddb69f0ed44990d5dcd83d8a399a92fac76e57cfd53a55d2afb5ee",
+    ".tools/research/release_websocket_disconnect_diagnostic.py": "91e55970f6853c6e7f352848c60461a8caf809fc72b865c4f003f08dd2f0164a",
+    ".tools/research/release_websocket_disconnect_diagnostic_v2.py": "afc7136643292a5c35f439e1bd6d6c19cd53a208facdde1fa6e7d48d3f5cab39"
+  },
+  "narrow_review_counts": {
+    "confirmed_p0": 0,
+    "confirmed_p1_integrity_or_lifecycle_defects_after_repair": 0
+  },
+  "dispositions": [
+    {
+      "topic": "Independent disconnect observation",
+      "status": "ACCEPTED",
+      "evidence": "receive_disconnect is the sole inbound reader after accept and loops until ASGI websocket.disconnect. It runs independently of send_updates blocked on snapshot/events to_thread or subscription.receive."
+    },
+    {
+      "topic": "Task lifetime/cancellation cleanup",
+      "status": "ACCEPTED",
+      "evidence": "asyncio.wait(FIRST_COMPLETED) awaits completed child result/errors. finally cancels both tasks and gathers(return_exceptions=True), so sender unwinds the eventbus asynccontextmanager and unregisters its subscriber. Route parent cancellation also executes cleanup. Already-running synchronous I/O is not killed and retains existing filesystem behavior until completion."
+    },
+    {
+      "topic": "Errors and close",
+      "status": "ACCEPTED_WITH_EXISTING_SEND_ERROR_BOUND",
+      "evidence": "Existing WebSocketDisconnect return and OrqalisError close1008 remain. Generic sender/receiver errors are surfaced by awaiting completed tasks, with cleanup guaranteed. Cleanup gather consumes cancelled/late child exceptions. Simultaneous peer close/send/unknown transport failures can still propagate/log under Starlette/ASGI transport behavior; this change does not claim all transport errors are suppressed or host shutdown cured."
+    },
+    {
+      "topic": "Authorization/cursor/replay",
+      "status": "UNCHANGED_ACCEPTED",
+      "evidence": "Loopback, allowedorigin, nonnegativecursor and invalidaheadcursor close policy unchanged. Subscription still starts before durable replay. Snapshot-bounded event filtering, events-before-snapshot sending, committed sequence advancement, duplicate-notification skip and1secondperiodic fallback all retain their prior bodies. Receiver discards clientdata and grants no new mutation authority."
+    },
+    {
+      "topic": "Native eventbus authority",
+      "status": "UNCHANGED_ACCEPTED",
+      "evidence": "Eventbus source is identical to source1e freeze and retained corpus. Notifications remain bounded processlocal wakeups; canonical durable events/snapshot remain authoritative. subscribe finally uses existing thread lock to remove subscriber synchronously."
+    },
+    {
+      "topic": "API compatibility",
+      "status": "ACCEPTED_FOCUSED_RECONNECT_PASS",
+      "evidence": "Completed existing test_api_contract_and_websocket_reconnect plus three new disconnect cases allPASS. Full original authorization/API/browser suites remain separate required final validation."
+    }
+  ],
+  "diagnostic_evidence": [
+    {
+      "path": "docs/quality/evidence/release-websocket-disconnect-before.json",
+      "sha256": "d70a73b4ae8b0bdbb077a2332ad069e5e6dfc425595be13d92a4e1a6f44bbbb9",
+      "source_sha256": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+      "status": "DIAGNOSTIC_CAPTURE",
+      "result": {
+        "disconnect_received_before_worker_release": false,
+        "stream_finished_before_worker_release": false,
+        "subscribers_before_worker_release": 1,
+        "calls_before_worker_release": [
+          "snapshot"
+        ],
+        "subscribers_after_cleanup": 0
+      }
+    },
+    {
+      "path": "docs/quality/evidence/release-websocket-disconnect-after.json",
+      "sha256": "9ecbc7fc88945893e1ee92c176891db17d27e37749999430cf54f79b72c2f534",
+      "source_sha256": "44a6d1cfa65199f247d8669fc979ce7844d86b6f870b364612ee00bd43add213",
+      "status": "DIAGNOSTIC_CAPTURE",
+      "result": {
+        "disconnect_received_before_worker_release": true,
+        "stream_finished_before_worker_release": false,
+        "subscribers_before_worker_release": 1,
+        "calls_before_worker_release": [
+          "snapshot"
+        ],
+        "subscribers_after_cleanup": 0
+      }
+    },
+    {
+      "path": "docs/quality/evidence/release-websocket-disconnect-after-v2.json",
+      "sha256": "edf812bb130c591ea9c4dc32600fa0d49bff0ef726e4063b373c9d398f307515",
+      "source_sha256": "44a6d1cfa65199f247d8669fc979ce7844d86b6f870b364612ee00bd43add213",
+      "status": "DIAGNOSTIC_CAPTURE",
+      "result": {
+        "disconnect_received_before_worker_release": true,
+        "stream_finished_before_worker_release": true,
+        "subscribers_before_worker_release": 0,
+        "calls_before_worker_release": [
+          "snapshot"
+        ],
+        "subscribers_after_cleanup": 0
+      }
+    },
+    {
+      "path": "docs/quality/evidence/release-browser-digest-screen-interruption.json",
+      "sha256": "aa4e819160990b0e13da2484525c1a878a5f6d66c936af34af0c9427e230a8bb",
+      "source_sha256": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+      "status": "FAIL",
+      "passed": 12,
+      "failed": 2,
+      "skipped": 0,
+      "shutdown_exception": "ConflictError: The local UI host did not stop cleanly",
+      "limits": "Prequalification screen, not a complete release round. Concurrent read-only baseline frontend identity hashing was active during this screen; no clean-host timing attribution. Original5s assertions and native10+2s shutdown limits unchanged. Native process exited, no task-owned listener remains; transient fixture traces remain private."
+    }
+  ],
+  "diagnostic_interpretation": {
+    "proved": "Old actualASGI route source1e did not consume queued disconnect while the synchronous snapshot gate remained closed; subscriptioncount1 persisted. Repaired source44 after-v2 consumes disconnect, completes route and removes subscriptioncount0 before worker gate release; only snapshot was invoked.",
+    "helper_method_change": "after-v2 helper adds a bounded0.5second shielded wait for route completion instead of one sleep(0) tick in the earlier helper. It preserves the same queueddisconnect/gatedsnapshot and0.5seconddisconnect-observation deadline. Preserve earlier after.json; different helperSHA means stream-completion fields are diagnostic observations, not identical timing benchmark repetitions.",
+    "not_proved": "No causal attribution of mission/governance5secondbrowserfailures or Proactor/nativehostclose failure to this defect. The failed source1e14testscreen remains12PASS2FAIL with host ConflictError, and concurrent static identity hashing limits clean timing attribution."
+  },
+  "focused_evidence": {
+    "path": ".tools/research/release-websocket-focused-v1.junit.xml",
+    "sha256": "1837ae16f875c4d505e309ccf27ff52ac041f4fc97b314311090697e8479d308",
+    "suite": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "4",
+      "time": "34.238",
+      "timestamp": "2026-10-02T21:52:58.602483+05:30",
+      "hostname": "THOR-GALAXY"
+    },
+    "case_names": [
+      "test_api_contract_and_websocket_reconnect",
+      "test_websocket_disconnect_releases_subscription_during_pending_work[snapshot]",
+      "test_websocket_disconnect_releases_subscription_during_pending_work[events]",
+      "test_websocket_disconnect_releases_subscription_during_pending_work[notification]"
+    ],
+    "binding_limit": "Private completed XML read independently; no canonical source field inXML. Current source44 verified unchanged during review; parent owns execution/source freeze proof."
+  },
+  "new_test_assertions": "Actual stream endpoint/native eventbus exercised with pending snapshot, pendingevents or notificationwait. Queue disconnect, demand route completion/subscriber removal within0.5seconds before releasing worker gate; blocked snapshot must not proceed to events. Cleanup opensgate and awaits stream normally; asyncio.run drains remaining thread work before SDKclose.",
+  "declared_limits": [
+    "Cancellation of asyncio.to_thread coroutine does not stop running worker/thread or remove its filesystem lock immediately. Sender/subscriber/route lifetime can end promptly while legitimate I/O finishes.",
+    "Task creation stays peracceptedconnection; no new globalqueue/database, changed route payload/auth policy, arbitrary deadlines, retryuntilgreen or SDK engine lifetime change.",
+    "Quiet unchanged full browser/native host shutdown validation and fresh source/input/artifact freezes are required; focusedASGIbehavior is not full release convergence.",
+    "Source1e digest-proof review remains historical/source-bound. Exact one-file delta leaves that implementation intact but does not rebind its raw captures to source44."
+  ],
+  "remaining_work": "Complete quiet full browser verification with normal shutdown and unchanged assertions, applicable fullAPI/contract checks, fresh finalsource artifacts/heldout and required sequential release rounds. Preserve all source1e browser/interruption and diagnostic records.",
+  "release_converged": false
+}

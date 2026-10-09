@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "status": "EXECUTION16_QUALIFICATION_FAILURE_RETAINED_CAUSAL_GAP_UNRESOLVED",
+  "reviewed_at": "2026-10-03T17:23:11.235504+00:00",
+  "source_from_capture": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "failed_report": {
+    "path": "docs/quality/evidence/release-execution-current-16.json",
+    "sha256": "3c8294c8feb37bb806537aca60123386211303078fec1aa8901a9d14435e4fd3"
+  },
+  "raw_log": {
+    "path": ".tools/research/release-v16-execution-current-16.log",
+    "sha256": "c6f68bc4ee227b79ef2129101e31370d1d55fadc1151f45c6dcc8228383ac56d"
+  },
+  "observed_capture": {
+    "complete": false,
+    "failure": {
+      "repetition": 1,
+      "worker_returncode": 1
+    },
+    "completed_samples": [
+      {
+        "repetition": 0,
+        "passed": true,
+        "execution_elapsed_ms": 93379.75749999168
+      }
+    ]
+  },
+  "actual_exception": "PermissionError WinError5 replacing same-directory .task.yaml.mbk5x80y.tmp to task.yaml in TaskCapsuleSession._recover during start_task UoW commit. Existing Windows3-attempt branch reaches final denial.",
+  "original_fixture_status": "Exact logged fixture path does not exist (FileNotFoundError WinError3). TemporaryDirectory in benchmark_execution.capture lines538-540 scopes this workspace and cleans up on propagated failure; parent independently confirmed absence. No actual original attrs/ACL/handles/journal contents can be inspected.",
+  "static_findings": [
+    {
+      "path": "src/orqalis/persistence/filesystem/io.py:133",
+      "finding": "Write descriptor context is exited before validation read/chmod/os.replace; Path.read_bytes validation also closes before replace. No retained writer/temp handle identified in this function."
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/io.py:139",
+      "finding": "Existing mode is copied to temporary file, preserving read-only mode if target was read-only. Actual original target flags are unavailable, so read-only/ACL denial remains possible, unproved; no automatic chmod/unlink workaround is justified."
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py:358",
+      "finding": "Canonical task metadata read has no per-capsule state lock. capsule_id validates even matching derived-index entries via this read; read_index/global fallback scans use the same path."
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py:767",
+      "finding": "load_capsule resolves capsule_id before _state_lock at771. The cancellation polling thread runs this identity read before serialization; controller ownership alone does not prevent this read/replace overlap."
+    },
+    {
+      "path": "src/orqalis/execution/cancellation.py:49",
+      "finding": "250ms watcher reads persisted run through an owned thread; exact metadata handle ownership/time relative to failure was not captured."
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py:617",
+      "finding": "Recovery applies documents with state snapshot last, then checks/appends event tail, unlinks transaction marker only after successful completion. task.yaml failure occurs before state/events/unlink; commit does not update aggregate generation/dirty flags until recovery returns. Static path remains fail-closed/recoverable, but vanished fixture prevents journal integrity proof for this incident."
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py:1424",
+      "finding": "Commit retains owned state locks while rebuild_index scans all capsules. Blindly acquiring every scanned capsule state lock would introduce opposing A\u2192B/B\u2192A ordering risk; do not apply this fix."
+    }
+  ],
+  "existing_tests": "Foundation179/197/220 cover generic replace failure, mocked bounded Win32 denials1/2, persistent Win5 failure3 preserving original/temp cleanup. They do not reproduce an actual held native reader conflicting with replacement. Original full13 PASS892/2SKIP does not close this independent observed capture failure.",
+  "primary_sharing_reference_supplied_and_checked_by_parent": "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew",
+  "diagnosis": "Current release qualification is blocked by an actual repeated replacement denial. Static source establishes a plausible owned metadata-reader overlap before run-state serialization, but neither this overlap nor AV/host/read-only/ACL root cause is established for the original incident. No new data-corruption/security defect proven; preserve the unresolved reliability failure and do not report convergence.",
+  "prospective_diagnostic_plan": {
+    "path": "docs/quality/evidence/release-execution16-owned-io-diagnostic-plan-v1.json",
+    "sha256": "971ff87e7c7b882cd0ef2efcdc35b253e185ba790e85dce68b3f89bfca6e6723",
+    "runner_sha256": "ced049f18466cd85b2da164185fedb5468538217b1a74f1b38217106317d516a",
+    "invoked": false
+  },
+  "scope": "Read-only source/log/report triage plus explicit authorized staging of one private uninvoked runner and JSON plan. No tests, workloads, recovery, original fixture mutation, baseline patch, retry expansion, check weakening, source/gold/protected helper/public docs edits or commit/publication."
+}

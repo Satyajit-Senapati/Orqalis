@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T11:49:44.401244+00:00",
+  "status": "PASS_BOUNDED_STATIC_READ_AHEAD_DESIGN_FRESH_VALIDATION_PENDING",
+  "source_sha256": "35a12e8ad05ad2fc1d63c623ff7c3bd27c574872f51b1f5cfa8f7a4953e7ab81",
+  "source_identity_basis": "Current named owned focused-v2 report source field; no broad source fingerprint was executed by this reviewer.",
+  "reviewed_file_sha256": {
+    "src/orqalis/graph/engine.py": "b5c2b851814e1e423f24917fec4385465ccaa7a70c2db638284a5eee5ea63db8",
+    "tests/unit/test_graph_cache_read_ahead.py": "5cf6baadc1a33c63d14e917618bf44443aac842b96c43bdb6fab4cce6763ae43",
+    "scripts/benchmark_memory.py": "5e895103ad3ae16e06797df832b1d4974ba1fe7778742865714bdfe19580befe",
+    "docs\\quality\\evidence\\release-graph-cache-read-ahead-focused-v1.json": "85f5d6e6895d532a17856f455f89c4f94be554afa58ed511f885b4a890910e09",
+    "docs\\quality\\evidence\\release-graph-cache-read-ahead-focused-v1.junit.xml": "a19f0d15a2e7c3c5af21506f505b655ff5ebbdc5b9865dcb6b653675d63a8921"
+  },
+  "focused_v2_status_at_read": "PASS_FOCUSED_PENDING_INDEPENDENT_REVIEW",
+  "runtime_validation_credit": 0,
+  "release_acceptance_credit": 0,
+  "implementation_review": {
+    "activation": "Windows only,>=64 sorted source entries, exact ProjectGraphEngine type, no instance overrides of _read_cache/_cache_path/_storage_target/_parser_kind.",
+    "bounded_work": "Four-thread executor inside original graph-lock call scope; four-entry batches with at most four Future slots including completed unconsumed results. Duplicate (parser-kind,content-hash) keys within batch only submit first read.",
+    "order_and_integrity": "ALL submitted batch reads must complete before any main-thread parse/write. Unique results consumed in sorted source order; duplicate slots read strictly on caller after preceding miss write. Exactly one cache-read per source, original hit/miss/processed logic and strict _read_cache path/object/parser/hash validation retained. Parse/cache writes/assembly/manifest/graph publication stay caller-thread. No persistent cache, timestamp/generation shortcut, reader/publication fallback, new error swallowing, deadline or lease change.",
+    "lifetime": "ExitStack ThreadPoolExecutor shutdown waits on every worker on successful loop and exception. Assembly/publication occur only after scope closes; original outer graph lease outlives pool. A slow native read may delay failure propagation until shutdown completes; no cancellability guarantee."
+  },
+  "retained_v1_failure": {
+    "source_sha256": "8a389984688ebdf9ab30452f1ca13961418cb5b0157a20513440a9d5270d270f",
+    "reported_counts": "120PASS/1FAIL supplied by parent; retained XML failure inspected.",
+    "actual_failure_boundary": "The test intentionally injected denial and verified cleanup, then after undo on successor rebuild a real future.result\u2192_read_cache\u2192_cache_path\u2192_storage_target raised containment denial.",
+    "correction_scope": "V1 could parse/write an early result while other same-batch guards/readers still ran. V2 requires every worker result before any writes, eliminating that own-publication overlap. Exact Windows path-resolution cause is not established and no broad OS explanation asserted. Fresh v2 tests must validate correction."
+  },
+  "read_probe_review": "Unique submitted keys yield distinct canonical path counter rows. Duplicates read caller-side; source discovery before pool, writer temporary reads after batch barrier, graph refresh counters caller-side. Snapshot after engine.rebuild joins pool. This avoids same-row concurrent increments in the supported single-workflow probe. No counter modification required statically; new actual logical-byte tests remain pending execution.",
+  "meaningful_new_tests": [
+    "Cold/corrupt duplicate payloads compare full graph nodes/edges and hit/miss/processed metrics against serial subclass; count exactly one cache call per source.",
+    "Event barrier proves four simultaneous readers, caller-only sorted parse, active readers zero during parse, and no worker survives return.",
+    "Injected denial joins all four and prevents graph publication; successor default engine can subsequently rebuild.",
+    "Instance override retains caller dispatch at small/large sizes.",
+    "Two warm unique/duplicate ReadProbe cases derive actual per-cache reference counts and payload bytes, then assert exact observed open/read/byte/char/invalid-byte counts."
+  ],
+  "compatibility_limit": "Exact-type and instance overrides fall back to serial. Class-level private monkeypatches are intentionally not excluded (tests use them to exercise overlap) and may execute on workers. Do not claim thread-affinity preservation for those private class hooks. Public/custom service/subclass dispatch remains unaffected by exact-type fallback.",
+  "remaining_gates": [
+    "Actual focused-v2 static/types/tests success with stable source/tests/helpers/environment, then fresh full-source/input freeze.",
+    "Fresh original contracts/artifacts/heldout matched cold comparison/history/full required whole validations on corrected source; older01 whole30/31 are historical functional proofs.",
+    "Demonstrate timing change with original workload and strict existing comparisons; no speed guarantee or closing matched regression on static reasoning."
+  ],
+  "findings": [],
+  "production_changes_by_reviewer": false,
+  "workload_invoked_by_reviewer": false,
+  "final_release_acceptance": "NOT_GRANTED"
+}

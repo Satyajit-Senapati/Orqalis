@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T07:56:29.045861+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "PASS_FINAL_UNAPPLIED_FIFO_GATE_STATIC_REVIEW_VALIDATION_PENDING",
+  "actual_production_source_sha256": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+  "production_locking_sha256": "0b6a097ea313ab219e08d95528476eb179f87f70dddee057f53eb500fb98ef53",
+  "private_proposal_sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+  "unchanged_existing_definition_ASTs": [
+    "LockTimeoutError",
+    "_FcntlModule",
+    "_MsvcrtModule",
+    "_state_for",
+    "_try_platform_lock",
+    "_platform_unlock",
+    "FileLock"
+  ],
+  "changed_existing_definition": "_LockState gate field type/default only",
+  "new_definition": "_ReentrantGate",
+  "application_helper_test_edits": false,
+  "workloads_run": false,
+  "proposal_applied": false,
+  "confirmed_new_supported_path_P0_P1_findings": 0,
+  "fixed_review_findings": [
+    "Initial Condition entry is timed and released in finally.",
+    "Free nonzero and queued handoff paths check monotonic deadline before granting ownership.",
+    "NaN/>TIMEOUT_MAX rejected before owner fast path; original timeout error types preserved. Other public negative values remain rejected by unchanged FileLock constructor.",
+    "Same-owner reentrancy now precedes Condition entry, including timeout0 while a contender temporarily holds bookkeeping mutex. Only owner modifies depth while held; contenders inspect ownership under condition."
+  ],
+  "ownership_fifo_exception_assessment": [
+    "FIFO applies to enrollment order among waiting threads. Reentrant owner intentionally remains able to nest; outsiders cannot bypass existing queued tokens.",
+    "Wait tokens remain until acquired/expired/interrupted and are removed with notify_all in finally; each live waiter keeps the deque nonempty while it tests its head.",
+    "Gate release checks owner before decrementing gate depth; final owner release wakes queued contenders.",
+    "All original FileLock/OS advisory locking, handle cleanup, initial lock-file byte/fsync, file retention, registry keying and timeout/polling operations remain AST-identical.",
+    "Condition.wait standard reacquisition of bookkeeping can delay cleanup until scheduling permits; this is not a hard real-time guarantee. No protected filesystem I/O occurs under Condition bookkeeping mutex."
+  ],
+  "inherited_or_bounded_limitations": [
+    "Wrong-thread FileLock.release changes state before underlying gate validates ownership, as in original RLock-backed class. This unsupported-use behavior is unchanged and not claimed repaired.",
+    "Thread identity reuse after an owner thread exits without releasing remains an inherited RLock-like boundary.",
+    "FIFO applies only in-process; OS lock scheduling across processes remains unchanged.",
+    "Long legitimate critical sections, nested owner work, scheduling stalls or OS blocking can still produce 10-second timeouts. The observed 85PASS/1FAIL event-concurrency capture does not prove barging or OS cause."
+  ],
+  "memory_cost_assessment": [
+    "Persistent per-path registry retention remains unchanged; no cache/weak-reference/identity redesign introduced.",
+    "Each state now adds a Condition/RLock and deque; each active waiter adds a token plus Condition waiting state. Outer tokens are removed on normal handoff, timeout or wait exception.",
+    "notify_all and deque.remove cause contention/scheduling and linear queue-removal cost; fairness may trade throughput for bounded enrollment order. No measured benefit asserted.",
+    "Unchanged _state_for eager setdefault allocates a discarded state on existing keys, now with more bookkeeping objects; no expansion of scope is recommended solely from this observation."
+  ],
+  "coverage_read_not_run": {
+    "private_test_path": ".tools/research/test_release_fair_gate.py",
+    "sha256": "9d68c7944994ac01c89e26f3263b1ed614dd1823521c1af28ecc20a90e589a4a",
+    "observed_cases": [
+      "queued contender prevents owner barging while preserving nested ownership",
+      "expired head removes token and successor proceeds",
+      "bookkeeping acquisition respects timeout",
+      "controlled Condition wait interruption cleans token",
+      "NaN/infinity/overmaximum retain RLock error types"
+    ],
+    "recommended_additional_narrow_case": "Nested public FileLock timeout0 when another queued thread is paused while holding bookkeeping mutex, proving the exact corrected edge.",
+    "existing_public_tests": "Foundation same-path nested reentrancy and other-thread timeout/specific LockTimeoutError must remain unchanged and pass."
+  },
+  "prior_review": {
+    "path": "docs/quality/evidence/release-fifo-gate-proposal-independent-review-v1.json",
+    "sha256": "a0109f273a8f680a33aa22204c15701edf87cb95689e415c07ff14f29c5598ef",
+    "scope": "Prior proposal identified zero-timeout owner edge; historical report retained unchanged. Final bytes close that issue."
+  },
+  "qualification_and_authorization": "Eligible narrow runtime candidate after exact frozen/private-input validation and public lock regressions pass. Normal automatic review remains authoritative. Private one-root v4 validation was reported running at review time; no completed capture inspected here. Preserve earlier collection failure and frozen original concurrency failure as historical evidence. No tests/benchmarks/audits run by reviewer, no performance/convergence/release certification."
+}

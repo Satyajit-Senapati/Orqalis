@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T11:41:05.920875+00:00",
+  "status": "PUBLICATION_REPLACEMENT_OPTIMIZATION_NOT_SUPPORTED_COLD_REGRESSION_RETAINED",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "reviewed_evidence_sha256": {
+    "docs\\quality\\evidence\\release-cache-publication-control-plan-v2.json": "6cb2a0cb79b0c162441752335a904ea3011267f07df1e8b76bfd9b3eeab84267",
+    "docs\\quality\\evidence\\release-cache-publication-control-quality-review-v2.json": "c3caf19281914c283829f4549e9a1043efc67c5c4ffd786046fcbeaab6e718b1",
+    "docs\\quality\\evidence\\release-cache-publication-control-observation-v2.json": "2b0b125a016d8e823dc8749e7e64c5e362a6bd954f108ab849b9a09fc0c2e324",
+    "docs\\quality\\evidence\\release-cache-publication-control-outer-v2.json": "a098287c85f664f589c5277e900ef94bc38bf783744822962232ae328082a388",
+    "docs\\quality\\evidence\\release-heldout-matched-study-actual-quality-disposition-v2.json": "5107091cad4ebf54d4e3ff9d051d5fbc669bcd55bba29848cc427afefc50c9b1"
+  },
+  "actual_fixed_trial_complete_clean": true,
+  "all1052_returned_lengths_digests_and_target_map_verified_against_plan": true,
+  "post_target_sha_proof": "Actual outer verifies1052 on-disk final hashes; this reviewer verified map and all returned records, not re-read1052 copies.",
+  "opposed_order_results": [
+    {
+      "pass": 1,
+      "native_read_ms": 2995.3656,
+      "classic_publication_read_ms": 2680.6249,
+      "native_minus_classic_read_ms": 314.7407,
+      "native_publication_ms": 1187.9246,
+      "classic_publication_ms": 1269.16,
+      "native_minus_classic_publication_plus_read_ms": 233.5053
+    },
+    {
+      "pass": 2,
+      "native_read_ms": 2578.2704,
+      "classic_publication_read_ms": 2553.3173,
+      "native_minus_classic_read_ms": 24.9531,
+      "native_publication_ms": 1489.5029,
+      "classic_publication_ms": 1518.0085,
+      "native_minus_classic_publication_plus_read_ms": -3.552500000000002
+    }
+  ],
+  "publication_to_read_start_ms": {
+    "min": 0.051,
+    "max": 9.1522
+  },
+  "direct_bookkeeping_ns_lower_bound": 16027600,
+  "conclusion": "Classic publication still produces2.55\u20132.68s first-read totals versus native2.58\u20133.00s. Native read excess314.741/24.953ms is inconsistent in magnitude, while total disjoint publication+read excess233.505/\u22123.553ms changes sign. The controlled result does not establish a material publisher-specific cause or useful safe os.replace fallback for the4.67\u20138.47s versus1.50\u20131.60s matched cold regression. Neither reader nor publisher safeguard weakening is justified.",
+  "limits": [
+    "Native opener interval is nested in read; do not add it again. Publication and read are disjoint measured intervals and their combined comparison remains diagnostic-only.",
+    "Original native publisher can preserve unsupported-platform fallback; labels name the actual captured implementation, not independently traced kernel calls.",
+    "No historical full cold timing replacement, OS/AV attribution, physical IO claim or universal latency inference.",
+    "Both opposed orders, all failures/guards/history/negative matched results remain immutable."
+  ],
+  "criterion": {
+    "strict_section53": "BLOCKED_SUPPORTED_COMPARATIVE_COLD_REGRESSION",
+    "matched_cold_trigger_pairs": 4,
+    "complete_functional_whole_captures": 2,
+    "accepted_convergence_iterations": 0,
+    "release_acceptance_credit": 0
+  },
+  "evidence_led_implementation_candidate": {
+    "status": "BOUNDED_CACHE_READ_AHEAD_WARRANTS_SEPARATE_DESIGN_NOT_APPROVED_SOURCE",
+    "basis": "Current _refresh_locked:569\u2013580 serially performs263 guarded cache reads; prior natural measurements show cache wall6.458s with0.625s caller-thread CPU. Bounded read-ahead targets observed waiting without changing publication, snapshot reading, cache freshness or validation.",
+    "bounds": "Only default unmodified engine/cache dispatch and >=64 files; four workers and at most four pending reads. Deterministic sorted main-thread consumption; original _read_cache guards/models in workers, original parse/cache writes/metrics/assemble and graph FileLock remain on main thread. No persistent cache, generation shortcut or new timeout.",
+    "integrity_requirements": [
+      "Serial fallback for subclass or instance/private-method overrides that may require caller-thread affinity.",
+      "When a prefetched miss corresponds to a content/parser key already written by an earlier main-thread miss, reread before parsing/counting to preserve duplicate-key hit/miss behavior.",
+      "Drain/join all owned workers on failure before graph lease release; slow in-flight native reads may delay error propagation and are not cancellable by promise.",
+      "Preserve PolicyDenied/cache corruption recovery and exceptions; no worker cache writes."
+    ],
+    "meaningful_tests": [
+      "Event-gated overlap>1 and never>4 pending/active reads; deterministic graph/parse/write order under out-of-order completion.",
+      "Duplicate cold key parses once then records later hit; corrupt-cache miss and link denial remain fail-closed.",
+      "Injected cache failure drains workers before successor can acquire graph lease; no background reader survives return.",
+      "<64 files and custom method/subclass dispatch remain serial."
+    ],
+    "performance_claim": "Potential waiting overlap only; no speed guarantee or acceptance claim before implementation review and fresh qualification."
+  },
+  "product_changes_by_reviewer": false,
+  "workload_invoked_by_reviewer": false,
+  "final_release_acceptance": "NOT_GRANTED"
+}

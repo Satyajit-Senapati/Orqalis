@@ -1,0 +1,299 @@
+{
+  "status": "REJECTED_READ_AHEAD_PERFORMANCE_CHECK_EXACT_ROLLBACK_VERIFIED_RELEASE_BLOCKED",
+  "reviewed_at": "2026-10-07T12:12:48.612353+00:00",
+  "reviewer": "release_quality_review",
+  "rejected_source_sha256": "35a12e8ad05ad2fc1d63c623ff7c3bd27c574872f51b1f5cfa8f7a4953e7ab81",
+  "rejected_release_input_sha256": "670e3b6ef3c4f49c396e2162a097d95190aa375cbe28dcb2d386a7829ec34d0e",
+  "restored_source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "restored_release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "bindings": {
+    "docs/quality/evidence/release-heldout-matched-1-baseline-v4.json": "c62d5d889af9ebe5964064a0b394a4cbfccf56bb91a1eab3d4d92771bb112973",
+    ".tools/research/release-heldout-matched-1-baseline-v4.log": "e64119b5e13ffcc8773bd1ea9fff45065131f29dfe5f0b25985eacc270a7faea",
+    "docs/quality/evidence/release-heldout-matched-2-current-v4.json": "83ba124fa7e12f46b4309939b7412126a034e85ef9786dac031c87bf6b3b55f3",
+    ".tools/research/release-heldout-matched-2-current-v4.log": "5e7b46b0826d17bb1ca9cafdb1e28837a769070dbbb59084dc24d823c967b9b0",
+    "docs/quality/evidence/release-heldout-matched-3-current-v4.json": "ede584c81866629286ba3d22f3b906ddce860b775ed4971b6c4081b33fa6f2e6",
+    ".tools/research/release-heldout-matched-3-current-v4.log": "c4bf1b9cbbc05841fcc11c42d4f67c19e7c60d6bfa3dd422ee01c010336af59b",
+    "docs/quality/evidence/release-heldout-matched-4-baseline-v4.json": "4565b8eee7e950f4df31a157aa87009cbfb7168a432cee443c69e6a4d8efd713",
+    ".tools/research/release-heldout-matched-4-baseline-v4.log": "8d1c01bb33841bc1d9936bf53a59c63b507a5a55bb86df75d4c39b88cbca08bc",
+    ".tools/research/graph-engine-read-ahead-unaccepted-v2.py": "b5c2b851814e1e423f24917fec4385465ccaa7a70c2db638284a5eee5ea63db8",
+    ".tools/research/test-graph-cache-read-ahead-unaccepted-v2.py": "5cf6baadc1a33c63d14e917618bf44443aac842b96c43bdb6fab4cce6763ae43",
+    ".tools/research/release_heldout_probe_v15_cleanup_v1_typed_v1.py": "fd24c526ef237bb933a68a84fab9a73db19826ebcbffa3d1f877efb968d964ec",
+    ".tools/research/release_heldout_matched_study_v4.py": "8f2244a580b0d73c3a2760308a35c26378e8703033d54aa41b237398ba812076",
+    ".tools/research/release_resume_20261007_finish_v2.py": "1c476805dad1f4ec28c2f03862ba1ea957d19c942aecc8169f702ab381c65519",
+    "docs/quality/evidence/release-heldout-matched-study-actual-v4.json": "a9121e0a067122778e0fad3d060ebd32bce724bb46611d30ed34e8b9b996aa37",
+    "docs/quality/evidence/release-heldout-matched-study-plan-v4.json": "cc13d4caa5d30063665fac32bd75c72491d23e0235a597a093dbe18462889b61",
+    "docs/quality/evidence/release-graph-cache-read-ahead-exact-rollback-v1.json": "41b94a4b107ab2104007fd562d9ffd1892b7486368a80276fd331d845cad3b7c",
+    "docs/quality/evidence/release-input-freeze-owned-temp-v4.json": "aa5d2b13d0760a6ef9553fb3b06ed853ee62ad99a98614cbf35abd030f614728"
+  },
+  "method": {
+    "order": [
+      "baseline",
+      "current",
+      "current",
+      "baseline"
+    ],
+    "protected_original_sdk_worker": ".tools/research/release_heldout_probe_v15_cleanup_v1_typed_v1.py",
+    "comparison_rule": "Investigate current_ms > 2*baseline_ms+250; raw PASS is functional only.",
+    "all_16_comparisons_recomputed": true,
+    "selection_or_budget_change": false,
+    "new_review_workloads_executed": 0
+  },
+  "functional": {
+    "all_four_raw_reports_pass": true,
+    "three_definition_first_and_bounded_context_witnesses_each": true,
+    "same_reported_environment": true,
+    "dependency_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+    "retained_git_head": "be00c39a5a86bb737404fdca9f6e19ebf1f66bdf",
+    "source_and_corpus_guard_proof_scope": "Raw reports independently hashed; all-outcome corpus/baseline/source/fixture guards are retained controller attestations, not a new broad fixture rehash.",
+    "owned_stages": [
+      {
+        "ordinal": 1,
+        "source_label": "baseline",
+        "exit_code": 0,
+        "assigned_before_resume": true,
+        "child_reaped": true,
+        "job_active_after_cleanup": 0,
+        "job_handle_closed": true,
+        "cleanup_errors": []
+      },
+      {
+        "ordinal": 2,
+        "source_label": "current",
+        "exit_code": 0,
+        "assigned_before_resume": true,
+        "child_reaped": true,
+        "job_active_after_cleanup": 0,
+        "job_handle_closed": true,
+        "cleanup_errors": []
+      },
+      {
+        "ordinal": 3,
+        "source_label": "current",
+        "exit_code": 0,
+        "assigned_before_resume": true,
+        "child_reaped": true,
+        "job_active_after_cleanup": 0,
+        "job_handle_closed": true,
+        "cleanup_errors": []
+      },
+      {
+        "ordinal": 4,
+        "source_label": "baseline",
+        "exit_code": 0,
+        "assigned_before_resume": true,
+        "child_reaped": true,
+        "job_active_after_cleanup": 0,
+        "job_handle_closed": true,
+        "cleanup_errors": []
+      }
+    ]
+  },
+  "performance": {
+    "investigation_triggers": 6,
+    "comparisons": [
+      {
+        "current_ordinal": 2,
+        "baseline_ordinal": 1,
+        "metric": "cold_graph_ms",
+        "current_ms": 3232.236100011505,
+        "baseline_ms": 1894.2852999316528,
+        "investigation_threshold_ms": 4038.5705998633057,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -806.3344998518005
+      },
+      {
+        "current_ordinal": 2,
+        "baseline_ordinal": 1,
+        "metric": "warm_graph_median_ms",
+        "current_ms": 382.20889994408935,
+        "baseline_ms": 345.15720000490546,
+        "investigation_threshold_ms": 940.3144000098109,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -558.1055000657216
+      },
+      {
+        "current_ordinal": 2,
+        "baseline_ordinal": 1,
+        "metric": "one_file_graph_ms",
+        "current_ms": 1950.3520999569446,
+        "baseline_ms": 1607.0765999611467,
+        "investigation_threshold_ms": 3464.1531999222934,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -1513.8010999653488
+      },
+      {
+        "current_ordinal": 2,
+        "baseline_ordinal": 1,
+        "metric": "context_median_ms",
+        "current_ms": 771.1963000474498,
+        "baseline_ms": 793.9401000039652,
+        "investigation_threshold_ms": 1837.8802000079304,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -1066.6838999604806
+      },
+      {
+        "current_ordinal": 2,
+        "baseline_ordinal": 4,
+        "metric": "cold_graph_ms",
+        "current_ms": 3232.236100011505,
+        "baseline_ms": 2800.8413000497967,
+        "investigation_threshold_ms": 5851.682600099593,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -2619.446500088088
+      },
+      {
+        "current_ordinal": 2,
+        "baseline_ordinal": 4,
+        "metric": "warm_graph_median_ms",
+        "current_ms": 382.20889994408935,
+        "baseline_ms": 583.5603999439627,
+        "investigation_threshold_ms": 1417.1207998879254,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -1034.911899943836
+      },
+      {
+        "current_ordinal": 2,
+        "baseline_ordinal": 4,
+        "metric": "one_file_graph_ms",
+        "current_ms": 1950.3520999569446,
+        "baseline_ms": 2451.4620000263676,
+        "investigation_threshold_ms": 5152.924000052735,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -3202.5719000957906
+      },
+      {
+        "current_ordinal": 2,
+        "baseline_ordinal": 4,
+        "metric": "context_median_ms",
+        "current_ms": 771.1963000474498,
+        "baseline_ms": 1405.5215999251232,
+        "investigation_threshold_ms": 3061.0431998502463,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -2289.8468998027965
+      },
+      {
+        "current_ordinal": 3,
+        "baseline_ordinal": 1,
+        "metric": "cold_graph_ms",
+        "current_ms": 6822.727199993096,
+        "baseline_ms": 1894.2852999316528,
+        "investigation_threshold_ms": 4038.5705998633057,
+        "trigger": true,
+        "excess_over_investigation_threshold_ms": 2784.1566001297906
+      },
+      {
+        "current_ordinal": 3,
+        "baseline_ordinal": 1,
+        "metric": "warm_graph_median_ms",
+        "current_ms": 1046.8521000584587,
+        "baseline_ms": 345.15720000490546,
+        "investigation_threshold_ms": 940.3144000098109,
+        "trigger": true,
+        "excess_over_investigation_threshold_ms": 106.53770004864782
+      },
+      {
+        "current_ordinal": 3,
+        "baseline_ordinal": 1,
+        "metric": "one_file_graph_ms",
+        "current_ms": 5165.810800041072,
+        "baseline_ms": 1607.0765999611467,
+        "investigation_threshold_ms": 3464.1531999222934,
+        "trigger": true,
+        "excess_over_investigation_threshold_ms": 1701.6576001187786
+      },
+      {
+        "current_ordinal": 3,
+        "baseline_ordinal": 1,
+        "metric": "context_median_ms",
+        "current_ms": 2429.70060009975,
+        "baseline_ms": 793.9401000039652,
+        "investigation_threshold_ms": 1837.8802000079304,
+        "trigger": true,
+        "excess_over_investigation_threshold_ms": 591.8204000918195
+      },
+      {
+        "current_ordinal": 3,
+        "baseline_ordinal": 4,
+        "metric": "cold_graph_ms",
+        "current_ms": 6822.727199993096,
+        "baseline_ms": 2800.8413000497967,
+        "investigation_threshold_ms": 5851.682600099593,
+        "trigger": true,
+        "excess_over_investigation_threshold_ms": 971.0445998935029
+      },
+      {
+        "current_ordinal": 3,
+        "baseline_ordinal": 4,
+        "metric": "warm_graph_median_ms",
+        "current_ms": 1046.8521000584587,
+        "baseline_ms": 583.5603999439627,
+        "investigation_threshold_ms": 1417.1207998879254,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -370.26869982946664
+      },
+      {
+        "current_ordinal": 3,
+        "baseline_ordinal": 4,
+        "metric": "one_file_graph_ms",
+        "current_ms": 5165.810800041072,
+        "baseline_ms": 2451.4620000263676,
+        "investigation_threshold_ms": 5152.924000052735,
+        "trigger": true,
+        "excess_over_investigation_threshold_ms": 12.886799988336861
+      },
+      {
+        "current_ordinal": 3,
+        "baseline_ordinal": 4,
+        "metric": "context_median_ms",
+        "current_ms": 2429.70060009975,
+        "baseline_ms": 1405.5215999251232,
+        "investigation_threshold_ms": 3061.0431998502463,
+        "trigger": false,
+        "excess_over_investigation_threshold_ms": -631.3425997504964
+      }
+    ],
+    "current2_trigger_count": 0,
+    "current3_trigger_count": 6,
+    "disposition": "The fixed candidate check fails the predeclared criterion. Selecting current2 or a slower baseline, pooling away current3, raising thresholds, or repeating unchanged timings would not justify acceptance.",
+    "cause_limit": "These measurements do not establish that read-ahead caused every excess, an external host cause, or a correctness P1 severity. They do establish that this candidate did not meet its prospective performance condition."
+  },
+  "representation_costs": {
+    "baseline_nodes": 3533,
+    "current_nodes": 11505,
+    "baseline_edges": 10003,
+    "current_edges": 13575,
+    "baseline_store_bytes": 16293978,
+    "current_store_bytes": [
+      39782417,
+      39782418
+    ],
+    "baseline_python_peak_allocated_bytes": [
+      30500918,
+      30501018
+    ],
+    "current_python_peak_allocated_bytes": 56666568,
+    "limit": "Richer representation costs remain explicit; Python tracemalloc allocation is not RSS and cannot alone explain observed latency."
+  },
+  "rollback": {
+    "independently_rehashed_original_inputs": 394,
+    "all_original_input_bytes_match": true,
+    "restored_engine_sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+    "experimental_test_absent_active_suite": true,
+    "experimental_engine_and_eight_tests_preserved_byte_exact": true,
+    "main_head_unchanged_record": "b8506f7d9c471516fe4b21c9caa735a7a7909af6",
+    "main_head_scope": "Retained rollback/controller record; this review did not invoke Git.",
+    "restored_identity_does_not_create_new_test_execution": true
+  },
+  "release_disposition": {
+    "accepted_convergence_iterations": 0,
+    "section53": "Original source01 cold investigation and supported prior matched-v2 cold regression remain unresolved. Exact restoration allows source01-bound rounds30/31 to retain their original historical functional scope, not performance signoff.",
+    "unaccepted_experiment_source": "All 35a12 focused123 and matched-v4 reports remain preserved historical candidate evidence; no experimental read-ahead ships.",
+    "recommendation": "Complete final blocked-candidate documentation/archive and installed-link verification under restored source01/inputa0. Preserve performance blocker and all raw evidence; do not launch another unchanged trial or full qualification solely to obtain a green timing.",
+    "no_commit_or_publication": true
+  },
+  "limits": [
+    "No release certification or timing guarantee.",
+    "No inference of historical OS/antivirus/denier cause.",
+    "No benchmark/report rewrite; no new test, native query or timed workload executed by reviewer."
+  ]
+}

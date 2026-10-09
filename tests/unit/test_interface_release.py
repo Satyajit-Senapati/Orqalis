@@ -1,9 +1,12 @@
+import asyncio
 import subprocess
+import sys
 import threading
 import time
 import webbrowser
 from collections.abc import Callable
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import Mock
 
 import httpx
@@ -268,3 +271,35 @@ def test_api_context_task_matches_memory_query_limit() -> None:
     assert len(ContextRequest(task="x" * 10000).task) == 10000
     with pytest.raises(ValidationError):
         ContextRequest(task="x" * 10001)
+
+
+@pytest.mark.parametrize(
+    ("platform", "expected"),
+    [("win32", "orqalis.api.hosting:_windows_ui_loop_factory"), ("linux", "auto")],
+)
+def test_owned_ui_selects_only_its_platform_loop(
+    monkeypatch: pytest.MonkeyPatch, platform: str, expected: str
+) -> None:
+    _, stopped = _mock_owned_server(monkeypatch)
+    config = Mock(return_value=object())
+    monkeypatch.setattr(uvicorn, "Config", config)
+    monkeypatch.setattr(hosting, "sys", SimpleNamespace(platform=platform))
+    with ui_session(Settings()):
+        assert config.call_args.kwargs["loop"] == expected
+    assert stopped.wait(timeout=1)
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows owned UI loop")
+def test_windows_ui_factory_returns_loop_without_changing_policy() -> None:
+    policy = asyncio.get_event_loop_policy()
+    config = uvicorn.Config(
+        "orqalis.api.app:app", loop="orqalis.api.hosting:_windows_ui_loop_factory"
+    )
+    factory = config.get_loop_factory()
+    assert factory is not None
+    loop = factory()
+    try:
+        assert isinstance(loop, asyncio.SelectorEventLoop)
+        assert asyncio.get_event_loop_policy() is policy
+    finally:
+        loop.close()

@@ -1,27 +1,66 @@
-# Orqalis
+<p align="center">
+  <img src="docs/assets/orqalis.svg" alt="Orqalis logo" width="112" height="112">
+</p>
 
-Orqalis is a provider-neutral engineering orchestrator with durable project memory,
-evidence-based review, repair loops, safe Git delivery, MCP integration, and a local
-Control Center.
+<h1 align="center">Orqalis</h1>
 
-> Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project
-> owns its project intelligence and execution history through a structured `.orqalis/`
-> directory located in the repository root. External database infrastructure is not
-> required for standard operation.
+<p align="center">
+  A local-first engineering orchestrator for durable project memory, evidence-based review,<br>
+  and controlled Git delivery across AI providers and assistants.
+</p>
 
-## Install and start
+<p align="center">
+  <a href="docs/RELEASE_NOTES.md"><img src="https://img.shields.io/badge/candidate-2.1.0-8b5cf6?style=flat-square" alt="Release candidate: 2.1.0 (unpublished)"></a>
+  <a href="#architecture"><img src="https://img.shields.io/badge/local--first-repo--native-0f766e?style=flat-square" alt="Local-first, repo-native"></a>
+  <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat-square&amp;logo=python&amp;logoColor=white" alt="Python 3.12 or newer">
+  <img src="https://img.shields.io/badge/Node.js-22%2B-417e38?style=flat-square&amp;logo=nodedotjs&amp;logoColor=white" alt="Node.js 22 or newer">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-64748b?style=flat-square" alt="MIT License"></a>
+</p>
 
-Standard use requires Node.js 22+, Python 3.12+ with `venv` and `pip`, and Git. The npm
-launcher creates a hash-verified per-user Python runtime on first use. Docker is optional:
-it is used only when an execution policy selects container-isolated commands, never for
-Orqalis persistence.
+<p align="center">
+  <a href="#overview">Overview</a> &middot;
+  <a href="#quick-start">Quick start</a> &middot;
+  <a href="#control-center">Control Center</a> &middot;
+  <a href="#architecture">Architecture</a> &middot;
+  <a href="#development">Development</a> &middot;
+  <a href="#documentation">Documentation</a>
+</p>
 
-This checkout targets the local-first `2.0.0` release. Use the installation path that
-matches the release state. To validate a reviewed, unpublished candidate, install its
-exact local tarball:
+---
+
+## Overview
+
+Orqalis keeps engineering work connected to the repository it belongs to. Project
+knowledge, task progress, review evidence, and delivery history live in a structured
+`.orqalis/` directory, so another assistant can pick up the work without the previous
+conversation. Standard operation requires no external database.
+
+| Capability | What it gives you |
+| --- | --- |
+| **Durable project memory** | Curated decisions, conventions, and pitfalls with provenance, reviewed supersession, bounded discovery, and stale-record detection. |
+| **Repository-aware context** | Python and JS/TS/TSX syntax graphs, exact symbol reads, and local lexical retrieval. |
+| **Recoverable tasks** | Task Capsules that preserve requests, execution snapshots, events, evidence, and outcomes. |
+| **Evidence-based review** | Acceptance checks, bounded repair loops, and explicit execution and delivery policies. |
+| **Provider-neutral workflows** | Shared application services through the CLI, Python SDK, MCP, API, and browser UI. |
+| **Local Control Center** | Run and agent traces, critical paths, provider metrics, verification, and delivery. |
+
+## Quick start
+
+**Requirements:** Node.js **22+**, Python **3.12+** with `venv` and `pip`, and Git.
+The npm launcher creates a hash-verified, isolated Python runtime for your user on first
+use. Docker is optional and only needed for container-isolated command execution.
+
+### 1. Install and initialize
+
+Install the released local-first version from npm:
+
+This checkout prepares **2.1.0** with the enhancements described here. It is not yet
+published; the released registry version remains 2.0.0. Use the
+[development setup](#development) to try those changes; the registry package contains
+only the released version.
 
 ```sh
-npm install -g ./dist/orqalis-2.0.0.tgz
+npm install -g orqalis@2.0.0
 orqalis --version
 
 cd /path/to/your/repository
@@ -30,37 +69,55 @@ orqalis doctor
 orqalis status
 ```
 
-After a release owner publishes 2.0.0, install the immutable registry version with
-`npm install -g orqalis@2.0.0`. As of the 2026-09-16 candidate audit, public npm `latest`
-still resolves to the historical database-backed 1.0.1 release. This repository task does
-not publish 2.0.0.
+For a reviewed local build, follow the [packaging guide](docs/PUBLISHING.md#prepare-the-artifact).
+Historical 1.0.x releases use a different, database-backed architecture; their setup
+instructions do not apply to this checkout.
 
-On Windows, `orqalis.cmd` is available when PowerShell blocks the generated `.ps1` shim.
-`orqalis init --repo PATH` selects an explicit repository root.
+On Windows, use `orqalis.cmd` if PowerShell blocks the generated `.ps1` shim.
+Use `orqalis init --repo PATH` to select an explicit repository root.
 
-Configure a provider only when a workflow needs one:
+### 2. Configure a provider when needed
+
+Initialization, local memory, and repository inspection do not need provider credentials.
+For provider-backed workflows, set the model and credentials in your shell:
+
+<details>
+<summary>Bash / Zsh</summary>
 
 ```sh
 export ORQALIS_OPENAI_MODEL="your-model"
-export ORQALIS_OPENAI_API_KEY="..."
-# or ORQALIS_ANTHROPIC_MODEL / ORQALIS_ANTHROPIC_API_KEY
+export ORQALIS_OPENAI_API_KEY="your-api-key"
+# Or use ORQALIS_ANTHROPIC_MODEL and ORQALIS_ANTHROPIC_API_KEY.
 ```
 
-Credentials stay in environment variables, an OS keychain, or assistant/provider
-configuration. They must never be written to `.orqalis/`.
+</details>
 
-Prepare a run:
+<details>
+<summary>PowerShell</summary>
+
+```powershell
+$env:ORQALIS_OPENAI_MODEL = "your-model"
+$env:ORQALIS_OPENAI_API_KEY = "your-api-key"
+# Or use ORQALIS_ANTHROPIC_MODEL and ORQALIS_ANTHROPIC_API_KEY.
+```
+
+</details>
+
+Keep credentials in environment variables, an OS keychain, or assistant/provider
+configuration. Never write them to `.orqalis/`.
+
+### 3. Prepare and inspect a run
 
 ```sh
 orqalis run "Add feature X" --repo .
 orqalis runs
 orqalis tasks
-orqalis task show ORQ-YYYYMMDD-NNNN
 orqalis ui --open
 ```
 
 `run` persists the request and context before provider execution. Execution and delivery
-remain governed by explicit policy documents:
+use explicit policy documents. Replace `RUN_ID` with the run UUID listed by
+`orqalis runs`, and supply policies appropriate to your repository:
 
 ```sh
 orqalis execute RUN_ID --policy execution-policy.json --provider openai
@@ -68,9 +125,52 @@ orqalis finalize RUN_ID --policy delivery-policy.json
 ```
 
 Use `orqalis run --help` for supervised gates, explicit goal contracts, branches, and
-combined prepare/execute options.
+combined prepare/execute options. See [security and governance](docs/06-security-git-and-governance.md)
+for execution and delivery boundaries.
 
-## The project-local store
+## Control Center
+
+Inspect the project from a local browser: follow run progress, explore task and actor
+graphs, inspect memory, and review evidence and delivery state.
+
+![Orqalis Control Center showing a mission overview](docs/assets/mission-control.jpg)
+
+<p align="center">
+  <a href="docs/assets/orchestration-graph.jpg">Task graph</a> &middot;
+  <a href="docs/assets/project-memory.jpg">Project memory</a> &middot;
+  <a href="docs/assets/verification-repair.jpg">Verification and repair</a> &middot;
+  <a href="docs/assets/repository-delivery.jpg">Git delivery</a>
+</p>
+
+```sh
+orqalis ui --open
+# Or start the host without opening a browser:
+orqalis serve
+```
+
+The host belongs to the terminal: **Ctrl+C** stops it; closing the browser tab does not.
+No service or autostart entry is installed. The UI loads persisted snapshots and event
+history through the API, then receives live events over WebSocket.
+
+See the [dashboard guide](docs/10-local-control-center.md) for the complete interface and screenshot gallery.
+
+## Architecture
+
+Every interface shares the same application services and repository-local store.
+Repository structure, curated knowledge, and task history have separate responsibilities:
+
+| Layer | Responsibility |
+| --- | --- |
+| **Repository graph** | Observable files, symbols, and relationships, with extracted and inferred facts distinguished. |
+| **Curated memory** | Decisions, conventions, terminology, constraints, and their provenance. |
+| **Task Capsules** | What was requested, how execution progressed, and the evidence behind the outcome. |
+
+Expand the implementation details below, or read the
+[system architecture](docs/01-system-architecture.md) and
+[source-of-truth rules](docs/SOURCE_OF_TRUTH.md).
+
+<details>
+<summary><strong>The project-local store</strong></summary>
 
 Initialization creates only useful files and directories. A populated store resembles:
 
@@ -98,6 +198,7 @@ Initialization creates only useful files and directories. A populated store rese
 |   |-- records/
 |   |-- staging/
 |   |-- history/
+|   |-- lifecycle.json
 |   `-- graph/
 |-- tasks/
 |   |-- index.json
@@ -108,7 +209,7 @@ Initialization creates only useful files and directories. A populated store rese
 ```
 
 The layout is schema-versioned. Files named `.yaml` currently contain formatted JSON,
-which is valid YAML 1.2 and avoids a required YAML runtime dependency. Mutable structured
+which is valid YAML 1.2. PyYAML is used separately for strict portable skill frontmatter. Mutable structured
 documents are written to temporary files, flushed, validated, and atomically replaced.
 Project and task locks live under `.orqalis/runtime/locks/`.
 
@@ -117,7 +218,7 @@ Project and task locks live under `.orqalis/runtime/locks/`.
 Canonical data is the source of project continuity:
 
 - `manifest.yaml`, `config.yaml`, and `project/` identity and durable project documents;
-- curated memory records, decisions, provenance, and reviewed proposals;
+- curated memory records, decisions, provenance, reviewed proposals, and `memory/lifecycle.json`;
 - Task Capsules, including requests, goals, acceptance, execution snapshots, events,
   evidence, reviews, delivery state, and final summaries.
 
@@ -153,7 +254,10 @@ policy in `.orqalis/config.yaml`:
 
 All data stays physically under the repository even when ignored by Git.
 
-## Project root isolation
+</details>
+
+<details>
+<summary><strong>Project root isolation</strong></summary>
 
 Every operation binds to one resolved root. Resolution order is:
 
@@ -173,11 +277,18 @@ orqalis mcp --root /path/to/repo-a --policy /absolute/path/to/mcp-policy.json
 Another assistant can simultaneously use repo B with its own `--root`; neither process can
 retrieve or write the other's `.orqalis/` state.
 
-## Repository graph and local retrieval
+</details>
+
+<details>
+<summary><strong>Repository graph and local retrieval</strong></summary>
 
 `orqalis init` performs a deterministic repository scan. Python source uses AST extraction
 for files, modules, classes, functions, methods, tests, imports, calls, and inheritance.
-Configuration, documentation, and other supported source files receive typed file nodes.
+JavaScript, TypeScript, and TSX use pinned Tree-sitter grammars. Exact symbol reads verify
+source hashes and UTF-8 byte spans. Dynamic relationships remain source occurrences;
+syntax extraction does not claim type-checker or language-server completeness. File nodes
+report incomplete extraction and its limits. Other source/configuration/document formats
+receive typed file nodes.
 Edges distinguish `EXTRACTED` facts from `INFERRED` relationships and carry confidence and
 evidence.
 
@@ -191,7 +302,10 @@ The derived project index writes `files.jsonl`, `symbols.jsonl`, `relations.json
 matches, graph relationships, memory, Git state, and related Task Capsule summaries. No
 embedding provider or vector database is required.
 
-## Curated project memory
+</details>
+
+<details>
+<summary><strong>Curated project memory</strong></summary>
 
 Repository graph facts, curated knowledge, and task history are separate:
 
@@ -204,7 +318,9 @@ Durable memory records carry source paths and hashes, verified commit, originati
 confidence, and verification time. A record becomes `STALE` when its provenance no longer
 matches the repository. Durable updates support `auto`, `review`, and `manual` policy;
 reviewed proposals live under `memory/staging/` before promotion. Candidate memory is
-scanned for credentials and private diagnostic material before persistence.
+scanned for credentials and private diagnostic material before persistence. Reviewed
+supersession preserves historical records while default retrieval selects the active
+successor. Discovery previews and explicit body/reference reads keep context bounded.
 
 Current memory commands are:
 
@@ -213,6 +329,9 @@ orqalis memory status --repo .
 orqalis memory refresh --repo .
 orqalis memory search "retry policy" --repo .
 orqalis memory graph --repo .
+orqalis memory discover "retry policy" --repo .
+orqalis memory check --repo .
+orqalis memory proposals --repo .
 orqalis context "change offline retry" --repo .
 orqalis rebuild-index --repo .
 ```
@@ -220,7 +339,10 @@ orqalis rebuild-index --repo .
 `memory refresh` explicitly revalidates approved stale records against the current Git
 commit; use repeated `--record MEM-...` options to limit revalidation to selected records.
 
-## Task Capsules and recovery
+</details>
+
+<details>
+<summary><strong>Task Capsules and recovery</strong></summary>
 
 Each request immediately receives `.orqalis/tasks/ORQ-YYYYMMDD-NNNN/`. Its
 `execution/state.yaml` is the authoritative current snapshot and
@@ -257,26 +379,29 @@ orqalis runs recover RUN_ID EXECUTION_ID --reason "..." --acknowledge-uncertaint
 orqalis doctor --repo .
 ```
 
-## Interfaces
+</details>
 
-CLI, Python SDK, MCP, FastAPI, WebSocket, and the React Control Center share the same
-application services and filesystem-backed unit of work. The frontend never reads
-`.orqalis/` directly. On connection, the API supplies a persisted snapshot and historical
-events, then the EventBus broadcasts live events.
+## Assistant integration
 
-The loopback UI is terminal-owned:
+Connect an MCP client to an initialized repository using an explicit root and policy:
 
 ```sh
-orqalis ui --open
-# or
-orqalis serve
+orqalis mcp --root /path/to/repository --policy /absolute/path/to/mcp-policy.json
 ```
 
-Closing a browser tab does not stop the host; `Ctrl+C` does. No service or autostart entry is
-installed. See [MCP setup](docs/MCP.md), [operations](docs/OPERATIONS.md), and the
-[Control Center contract](docs/10-local-control-center.md).
+Run one MCP process per repository. CLI, Python SDK, MCP, FastAPI, WebSocket, and the
+React Control Center share the same application services and filesystem-backed unit of
+work; the frontend never reads `.orqalis/` directly.
 
-## Security and execution isolation
+See [MCP setup](docs/MCP.md) for policies, available tools, and assistant-host examples.
+
+## Operations
+
+Back up durable project memory and Task Capsules with your repository. Execution uses
+explicit permissions, while derived indexes and caches can be rebuilt.
+
+<details>
+<summary><strong>Security and execution isolation</strong></summary>
 
 Orqalis never stores hidden model chain-of-thought. Persisted events are structured
 operational records. Requests, context, memory, event payloads, and Task Capsule state are
@@ -286,9 +411,14 @@ Execution permissions are explicit: repository-relative write paths, exact comma
 timeouts, tool limits, and delivery policy. `trusted_local` runs approved commands on the
 host. `docker` provides an optional stronger command sandbox with no network, a read-only
 root, dropped capabilities, and resource limits; its image must already exist locally.
+Application-owned containers have durable ownership receipts. Recovery verifies daemon,
+labels, and exact container identity, and blocks uncertain cleanup before further work.
 Docker is not required for initialization, memory, graph, task persistence, MCP, API, or UI.
 
-## Backup, migration, and upgrades
+</details>
+
+<details>
+<summary><strong>Backup, migration, and upgrades</strong></summary>
 
 Back up or commit the durable portions of `.orqalis/` with the repository. Never rely on
 `cache/`, `index/`, or `runtime/` as the only copy of important information. Filesystem
@@ -301,13 +431,48 @@ or package. The former SQL adapters and `orqalis migrate` command have been remo
 PostgreSQL-to-filesystem exporter is not implemented; preserve legacy data separately and
 use the matching historical Orqalis release if a bespoke export is required.
 
-## Development and release
+</details>
 
-Source contributors should read [DEVELOPMENT.md](docs/DEVELOPMENT.md). Architecture and
-ownership rules are in [SOURCE_OF_TRUTH.md](docs/SOURCE_OF_TRUTH.md),
-[SIGNOFF.md](SIGNOFF.md), and [ADR 0001](docs/adr/0001-runtime-implementation.md).
-Publishing instructions are in [PUBLISHING.md](docs/PUBLISHING.md). Dated verification
-records describe the architecture tested at that date and are historical evidence, not
-current setup instructions.
+See [local operation and recovery](docs/OPERATIONS.md) for troubleshooting.
+
+## Development
+
+Source development also requires [uv](https://docs.astral.sh/uv/). From the repository root:
+
+```sh
+uv sync --group dev
+npm ci --prefix web
+npm ci --prefix packages/npm
+uv run orqalis --help
+```
+
+Follow [the development guide](docs/DEVELOPMENT.md) for quality checks, isolated test
+fixtures, frontend development, and screenshot capture. Read the
+[publishing guide](docs/PUBLISHING.md) for artifact preparation and release gates.
+
+## Documentation
+
+| Guide | Contents |
+| --- | --- |
+| [Interfaces and integrations](docs/05-interfaces-and-integrations.md) | CLI, SDK, MCP, portable skills, graphs, memory, and traces. |
+| [Open-source review](docs/OPEN_SOURCE_REVIEW.md) | Compared projects, adoption decisions, evidence, and limits. |
+| [Enhancement audit](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/ENHANCEMENT_STATUS.md) | Accepted capabilities, validation evidence, and convergence status. |
+| [Operations](docs/OPERATIONS.md) | Initialization, backup, recovery, and troubleshooting. |
+| [MCP integration](docs/MCP.md) | Assistant setup, policies, tools, and cross-assistant continuity. |
+| [Dashboard](docs/10-local-control-center.md) | Navigation, operator controls, and product screenshots. |
+| [Product design and roadmap](docs/00-product-design.md) | Product scope, principles, journeys, and dated roadmap. |
+| [System architecture](docs/01-system-architecture.md) | Runtime components and application boundaries. |
+| [Project memory](docs/03-project-memory.md) | Repository graph, curated knowledge, and retrieval. |
+| [Workflow and acceptance](docs/04-workflow-and-acceptance.md) | Goals, planning, evidence, review, and repair. |
+| [Development](docs/DEVELOPMENT.md) | Local setup, validation, and contribution checklist. |
+| [Benchmark methods](https://github.com/Satyajit-Senapati/Orqalis/blob/main/benchmarks/README.md) | Quality, execution, memory, UI, and constrained workloads. |
+| [Publishing](docs/PUBLISHING.md) | Packaging, release gates, and updates. |
+| [Release notes](docs/RELEASE_NOTES.md) | Unreleased enhancements and historical releases. |
+
+Architecture and ownership rules are recorded in [SOURCE_OF_TRUTH.md](docs/SOURCE_OF_TRUTH.md),
+[SIGNOFF.md](SIGNOFF.md), and the [architecture decisions](docs/adr/).
+Dated verification records describe the architecture tested at that date.
+
+## License
 
 Orqalis is licensed under the [MIT License](LICENSE).

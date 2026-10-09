@@ -1,0 +1,77 @@
+<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="23.896604">
+<testsuite name="observed.spec.mjs" timestamp="2026-10-02T12:23:36.695Z" hostname="" tests="1" failures="1" skipped="0" time="22.101" errors="0">
+<testcase name="supervised run decisions and plan edits stay bound to persisted versions" classname="observed.spec.mjs" time="22.101">
+<system-out>
+<![CDATA[{"event":"request","method":"GET","path":"/runs/f040bc1a-eaad-4493-b632-3074f1a06188"}
+{"event":"response","method":"GET","path":"/runs/f040bc1a-eaad-4493-b632-3074f1a06188","status":200,"elapsed_ms":714.5108999999993}
+{"event":"request","method":"GET","path":"/assets/index-e7vMSYOm.js"}
+{"event":"request","method":"GET","path":"/assets/react-vendor-U1vTuZxe.js"}
+{"event":"request","method":"GET","path":"/assets/vendor-BAvqjBdR.js"}
+{"event":"request","method":"GET","path":"/assets/graph-vendor-CKzJ-StU.js"}
+{"event":"request","method":"GET","path":"/assets/graph-vendor-BnuhLJ6X.css"}
+{"event":"request","method":"GET","path":"/assets/index-B0agwWJs.css"}
+{"event":"response","method":"GET","path":"/assets/graph-vendor-BnuhLJ6X.css","status":200,"elapsed_ms":45.32920000000013}
+{"event":"response","method":"GET","path":"/assets/index-B0agwWJs.css","status":200,"elapsed_ms":49.11830000000009}
+{"event":"response","method":"GET","path":"/assets/vendor-BAvqjBdR.js","status":200,"elapsed_ms":176.63720000000103}
+{"event":"response","method":"GET","path":"/assets/graph-vendor-CKzJ-StU.js","status":200,"elapsed_ms":183.59349999999904}
+{"event":"response","method":"GET","path":"/assets/index-e7vMSYOm.js","status":200,"elapsed_ms":231.8908999999985}
+{"event":"response","method":"GET","path":"/assets/react-vendor-U1vTuZxe.js","status":200,"elapsed_ms":248.1293999999998}
+{"event":"request","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188"}
+{"event":"request","method":"GET","path":"/api/projects"}
+{"event":"request","method":"GET","path":"/api/runs"}
+{"event":"request","method":"GET","path":"/assets/orqalis.svg"}
+{"event":"response","method":"GET","path":"/assets/orqalis.svg","status":200,"elapsed_ms":120.72280000000137}
+{"event":"response","method":"GET","path":"/api/projects","status":200,"elapsed_ms":141.1921000000002}
+{"event":"response","method":"GET","path":"/api/runs","status":200,"elapsed_ms":233.47270000000026}
+{"event":"response","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188","status":200,"elapsed_ms":299.47279999999955}
+{"event":"request","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/events"}
+{"event":"request","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls"}
+{"event":"response","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/events","status":200,"elapsed_ms":212.50600000000122}
+{"event":"response","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls","status":200,"elapsed_ms":648.1701000000012}
+{"event":"request","method":"POST","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/plan/preview"}
+{"event":"response","method":"POST","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/plan/preview","status":403,"elapsed_ms":1873.9779999999992}
+{"event":"request","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls"}
+{"event":"request","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls"}
+{"event":"response","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls","status":200,"elapsed_ms":394.4811000000009}
+{"event":"response","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls","status":200,"elapsed_ms":407.65289999999914}
+{"event":"request","method":"POST","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/approvals/1a263a06-128e-52e8-b552-93ca45873498/decision"}
+{"event":"response","method":"POST","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/approvals/1a263a06-128e-52e8-b552-93ca45873498/decision","status":200,"elapsed_ms":914.2975999999999}
+{"event":"request","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls"}
+{"event":"request","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls"}
+{"event":"response","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls","status":200,"elapsed_ms":1721.748300000001}
+{"event":"request","method":"POST","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/plan/preview"}
+{"event":"response","method":"GET","path":"/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/controls","status":200,"elapsed_ms":2104.379899999998}
+
+[[ATTACHMENT|..\..\..\.tools\research\governance-browser-diagnostic\results-baseline-2\observed-supervised-run-de-7dc77-bound-to-persisted-versions\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(locator).toBeVisible() failed" type="expect.toBeVisible">
+<![CDATA[  ..\..\..\web\e2e\run-governance.spec.ts:14:1 › supervised run decisions and plan edits stay bound to persisted versions 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('region', { name: 'Run governance' }).getByText('PLAN · version 1')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('region', { name: 'Run governance' }).getByText('PLAN · version 1') with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Run governance' }).getByText('PLAN · version 1')
+
+
+      70 |
+      71 |   await governance.getByRole("button", { name: "Preview plan" }).click();
+    > 72 |   await expect(governance.getByText("PLAN \u00b7 version 1")).toBeVisible();
+         |                                                               ^
+      73 |   await expect(governance.getByText("Plan v1")).toBeVisible();
+      74 |   await governance.getByRole("button", { name: "Edit plan" }).click();
+      75 |   const planEditor = governance.getByLabel("Plan draft JSON");
+        at S:\Orqalis\web\e2e\run-governance.spec.ts:72:63
+
+    Error Context: results-baseline-2\observed-supervised-run-de-7dc77-bound-to-persisted-versions\error-context.md
+]]>
+</failure>
+</testcase>
+</testsuite>
+</testsuites>

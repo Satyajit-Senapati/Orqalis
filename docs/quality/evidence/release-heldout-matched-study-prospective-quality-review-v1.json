@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T11:10:37.820694+00:00",
+  "status": "PASS_SCOPED_PROSPECTIVE_MATCHED_STUDY_PENDING_ROOT_ACK",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "reviewed_file_sha256": {
+    "docs/quality/evidence/release-heldout-matched-study-plan-v1.json": "8629984b3e6272fcdaef8b732532a918feb0bbfbd7788d315f58fa3634745f11",
+    ".tools/research/release_heldout_probe_v15_cleanup_v1_typed_v1.py": "fd24c526ef237bb933a68a84fab9a73db19826ebcbffa3d1f877efb968d964ec",
+    ".tools/research/release_resume_20261007_finish_v2.py": "1c476805dad1f4ec28c2f03862ba1ea957d19c942aecc8169f702ab381c65519",
+    ".tools/research/release_heldout_matched_study_v1.py": "3776e04e773dcb837270e5aca2712a2a7f75c581361d103b22f1a58a4b167a8a",
+    "docs/quality/evidence/release-input-freeze-owned-temp-v4.json": "aa5d2b13d0760a6ef9553fb3b06ed853ee62ad99a98614cbf35abd030f614728",
+    "docs/quality/evidence/release-owned-temp-finish-actual-v1.json": "82638a3fe2925e9ea84502515a9e74709953c467a7fce9a98ae47662b372ddf1",
+    "docs/quality/evidence/full-regression-release-30.json": "b67c458e3c044cd474aad7c82cb29436b5a71e16623c6975ec0ad194e0064ea4",
+    "docs/quality/evidence/full-regression-release-31.json": "3812272c986c509b8e4b1f1594d4360333ff64aefed28594c974de11cbb0130d",
+    "docs/quality/evidence/release-heldout-baseline-v15.json": "526aa065ae32cc8bcb70671cc2742f25bd1f5c4dcd4ac035b90e98c4c6e90089",
+    "docs/quality/evidence/release-heldout-current-owned-temp-release-v1.json": "a4ba759d7a91dcf8679ae8641267cc30003a85342bdf02d24ac6d09779a5223b",
+    "docs/quality/evidence/release-heldout-paired-study-prospective-criterion-opinion-v1.json": "7fdb985b6a74aaa17d5edcf12616ea4fde8c7d81a9e462cce3fb989a481ba1fc",
+    "docs/quality/evidence/release-fresh-cache-reader-actual-quality-disposition-v2.json": "8840adcb33df88f918b1c7fa1066920c05fe1df4cc5410667fc22bfb9bb6d454",
+    "docs/quality/evidence/release-fresh-cache-reader-actual-acceptance-disposition-v2.json": "da808d0a8c808111b629069a59cd6032d714af7600b9d5fe58bcb7e01893a195",
+    "docs/quality/evidence/release-heldout-corpus.json": "edab35fa66ff52e427184d8d7a542c280493f15fb956f1229b9c5b362ee1fed1"
+  },
+  "invoked": false,
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false,
+  "fixed_schedule": [
+    {
+      "ordinal": 1,
+      "source_label": "baseline",
+      "source": "S:\\Orqalis\\.tools\\research\\baseline-b8506f7",
+      "output": "release-heldout-matched-1-baseline-v1.json",
+      "log": "release-heldout-matched-1-baseline-v1.log",
+      "cap_seconds": 600
+    },
+    {
+      "ordinal": 2,
+      "source_label": "current",
+      "source": "S:\\Orqalis",
+      "output": "release-heldout-matched-2-current-v1.json",
+      "log": "release-heldout-matched-2-current-v1.log",
+      "cap_seconds": 600
+    },
+    {
+      "ordinal": 3,
+      "source_label": "current",
+      "source": "S:\\Orqalis",
+      "output": "release-heldout-matched-3-current-v1.json",
+      "log": "release-heldout-matched-3-current-v1.log",
+      "cap_seconds": 600
+    },
+    {
+      "ordinal": 4,
+      "source_label": "baseline",
+      "source": "S:\\Orqalis\\.tools\\research\\baseline-b8506f7",
+      "output": "release-heldout-matched-4-baseline-v1.json",
+      "log": "release-heldout-matched-4-baseline-v1.log",
+      "cap_seconds": 600
+    }
+  ],
+  "workload_review": "Every worker directly invokes byte-exact protected fd24c526 heldout helper with isolated -I -B and selected source root. No instrumented reader/graph method, profile, extra SDK/Git command, source/gold/configuration change, within-helper repetition or assertion deadline change. Exact original263 corpus is freshly copied; existing retained Git metadata is copied without init/add/commit. Original SDK initialization, one cached rebuild, warm3, one-file delta, index definition-first targets, gold9 contexts/12000-char caps and tracemalloc scope remain. Each worker asserts its source import root, source/env stability and fixture HEAD unchanged.",
+  "comparative_rule": {
+    "current_observations": 2,
+    "baseline_observations": 2,
+    "metric_count": 4,
+    "retained_pair_checks": 16,
+    "threshold": "current_ms >2*baseline_ms+250 triggers investigation",
+    "comparison": "Each current against BOTH fresh baselines for each metric. All four observations/chronology/costs retained; no current minimum, slower baseline choice, pooled hiding, new tolerance or automatic PASS.",
+    "any_trigger": "Strict performance blocker remains after this one fixed study; no adaptive repeat/replacement.",
+    "no_triggers": "May support scoped independent current-performance adjudication with unchanged complete30/31 proofs and all final gates. It does not establish historical8011 cause, erase its threshold crossing or award new whole-iteration credit."
+  },
+  "ownership_failure_review": "Each worker launched serially by exact pinned1c476 helper with original suspended-process/job assignment before resume,600-second external cap, owned descendant termination/drain/reap/close checks and primary-error preservation. First failure stops schedule; all accumulated data preserved and after-guards still run. Parent root ACK must pin this review and prospective acceptance review and truthfully assert owned QA idle; external host idle is not asserted.",
+  "guard_review": {
+    "current_inputs": 394,
+    "baseline_source_per_file_pins": 186,
+    "fixture_per_file_pins": 841,
+    "fixture_membership_roots": [
+      ".tools/research/release-heldout-corpus",
+      ".tools/research/release-heldout-fixture-release-heldout-baseline-v8/.git"
+    ],
+    "future_paths_observed_unused": [
+      "docs/quality/evidence/release-heldout-matched-study-actual-v1.json",
+      "docs/quality/evidence/release-heldout-matched-1-baseline-v1.json",
+      ".tools/research/release-heldout-matched-1-baseline-v1.log",
+      ".tools/research/release-heldout-fixture-release-heldout-matched-1-baseline-v1",
+      "docs/quality/evidence/release-heldout-matched-2-current-v1.json",
+      ".tools/research/release-heldout-matched-2-current-v1.log",
+      ".tools/research/release-heldout-fixture-release-heldout-matched-2-current-v1",
+      "docs/quality/evidence/release-heldout-matched-3-current-v1.json",
+      ".tools/research/release-heldout-matched-3-current-v1.log",
+      ".tools/research/release-heldout-fixture-release-heldout-matched-3-current-v1",
+      "docs/quality/evidence/release-heldout-matched-4-baseline-v1.json",
+      ".tools/research/release-heldout-matched-4-baseline-v1.log",
+      ".tools/research/release-heldout-fixture-release-heldout-matched-4-baseline-v1"
+    ],
+    "pins": "Before/after each capture and on failures source/input/helpers/evidence/environment/baseline/corpus/Git metadata/membership/HEAD must remain exact. Completed observations/log digests are added to protected bindings.",
+    "independent_scope": "This reviewer verified exact named helper/evidence hashes, baseline path-key coverage, fixed control flow and currently unused outputs/logs/derived fixture paths. Full394/186/841 source/fixture hashes and filesystem memberships are runtime guards, not independently rehashed in this bounded review."
+  },
+  "historical_evidence_disposition": "Original unpaired8011ms vs3127.666ms threshold remains investigated and immutable, alongside both phase diagnostics, aged/fresh primitive trials, all historical failures and source-scoped timings. A valid fixed same-workload opposed study can test whether contemporary current cost exceeds either baseline without diagnosing historical host causes.",
+  "cost_limits": [
+    "Richer current11505nodes/13575edges vsbaseline3533/10003 and larger graph/index/store/Python-allocation footprint remain explicit costs, regardless of timings.",
+    "Memory progressive complete-answer freshness work and exact30 retrieval losses remain separately adjudicated; this study does not waive them.",
+    "Tracemalloc is Python allocation, not RSS; SDK/cached-rebuild local263-file workload is not a universal cold-start SLO.",
+    "Original full suites933PASS/2explicitcapabilitySKIPs each remain exact unchanged evidence; this supplemental study is not a rerun or replacement."
+  ],
+  "findings": [],
+  "final_release_acceptance": "NOT_GRANTED_BEFORE_ACTUAL_INDEPENDENT_REVIEW_AND_FINAL_GATES"
+}

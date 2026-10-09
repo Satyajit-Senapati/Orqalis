@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T20:36:21.513486+00:00",
+  "decision": "V3_BLOCK_INVALID_PROVENANCE_FAILURE_PRESERVED_NO_REMEASUREMENT_APPROVED",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "docs\\quality\\evidence\\release-history-matched-package-result-v3.json": "0440ffbda85a579a2f133677c9c65d5aa52656f74c462abbe9548810ddf493f8",
+    "docs\\quality\\evidence\\release-history-matched-package-measure-actual-v3.json": "c02e6b4a42c712b216bb63cef697e6d07ff63eb0295703885315a1e176d90cd4",
+    "docs/quality/evidence/release-history-matched-package-r1-v3-raw.json": "85179c6ad4e86575c9666be4b3307d4fd8b2527231f4a05a278a5084adf1027a",
+    "docs/quality/evidence/release-history-matched-package-r1-v3-native.json": "3c8322ea33a4bd06d4890fd1392ef92f1a8e31947c3b193ff6f6d3b81808a75c",
+    "docs/quality/evidence/release-history-matched-package-r1-v3-host.json": "0dc06e8b466caa13f86dba6a3d2252dae9e430940aadd50c87eab2a96b731c18",
+    ".tools/research/release-history-matched-package-r1-v3.log": "5d969e1c27c14cfa7efadc43925faea8c3fe97ce3166fa8a092ce268c33c3787",
+    "docs/quality/evidence/release-history-matched-package-r1-identity-v3.json": "2429f740aaf9e18174be2f089038023be054af7bb1ec0982117d143e8c02114b",
+    "docs/quality/evidence/release-history-matched-package-r1-grant-v3.json": "b592bd5cecaddb2cf2b9ac0f7b86d2c3b7bd771c12367f5f9e2bc1dd1d5c31af",
+    ".tools/research/release_history_matched_package_v3.py": "41e46b5082e7cabf5fbf465702a79aad87175d6e7720231806357c8a6fc9d4d8"
+  },
+  "actual_observations": {
+    "outer_exit_code": 1,
+    "immutable_bindings_match_now": true,
+    "captured_provenance_stable": true,
+    "only_capture": "R1",
+    "failure_location": "release_history_matched_package_v3.py:357 module_attestation unknown/no-file classification assertion",
+    "offending_module_recorded": false,
+    "functional_raw_status": "PASS",
+    "rows": 1001,
+    "traversals": 3,
+    "pages": 33,
+    "exact_unique_coverage": true,
+    "concurrent_reservation": {
+      "elapsed_ms": 15.832700009923428,
+      "reserved_unique_id": true,
+      "directory_created": true
+    },
+    "native_sideband_status": "INVALID_OR_INCOMPLETE",
+    "boundary_bundles": 66,
+    "descriptive_query_fraction": 0.0017575244392490183,
+    "later_capture_outputs_absent": true
+  },
+  "lifecycle": {
+    "owned_launcher_pid": 10536,
+    "native_pid": 32328,
+    "native_ppid": 10536,
+    "identity_and_grant_hashes_match": true,
+    "grant_records_native_handle_opened_before_workload": true,
+    "launcher_reaped": true,
+    "held_original_native_object_zero_wait_exit_confirmed": true,
+    "handle_close_confirmed": true,
+    "cleanup_errors": [],
+    "limits": "Review validates captured assertions and the exact reviewed implementation; no new OS process query was invoked. Normal failed-worker exit was observed, not timeout or taskkill fault-injection certification."
+  },
+  "disposition": [
+    "R1 functional raw samples are retained descriptive evidence only. Postcapture dependency attestation failed, native sideband is invalid, and no four-capture comparison or performance acceptance is possible.",
+    "Assertion does not identify the module or establish whether its provenance is legitimate; do not add broad no-file fallback or treat this as a confirmed product defect.",
+    "Prospectively review one import-only metadata diagnostic before invocation. It must preserve exact package isolation and report unknown module name/spec/loader/file/path metadata without constructing services, Git, native counters, pages or reservations.",
+    "No next fixed block, whole20/21 credit, release convergence or source modification approved by this review."
+  ]
+}

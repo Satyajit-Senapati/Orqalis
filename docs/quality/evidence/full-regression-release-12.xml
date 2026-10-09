@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="3" time="8.440" timestamp="2026-10-03T20:04:02.601756+05:30" hostname="THOR-GALAXY"><testcase classname="tests.e2e.test_fixture_paths" name="test_fixture_root_uses_configured_external_directory" time="0.006" /><testcase classname="tests.e2e.test_fixture_paths" name="test_fixture_root_rejects_workspace_descendants" time="0.001" /><testcase classname="tests.e2e.test_local_control_center_filesystem" name="test_control_center_replays_broadcasts_and_restarts_from_task_capsule" time="6.133"><failure message="concurrent.futures._base.CancelledError">tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-548/test_control_center_replays_br0')
+no_database_environment = None
+
+    def test_control_center_replays_broadcasts_and_restarts_from_task_capsule(
+        tmp_path: Path, no_database_environment: None
+    ) -&gt; None:
+        root = _repository(tmp_path)
+        first = Orqalis(root=root)
+        project = first.initialize(root)
+    
+        with TestClient(
+            create_app(first), base_url="http://localhost", client=("127.0.0.1", 50000)
+        ) as client:
+            started = client.post(
+                "/api/runs",
+                json={
+                    "project_id": str(project.id),
+                    "request": "Exercise local Control Center persistence",
+                    "branch": "feature/control-center",
+                    "goal": _goal().model_dump(mode="json"),
+                },
+            )
+            assert started.status_code == 200, started.text
+            snapshot = started.json()
+            run_id = snapshot["run"]["id"]
+            cursor = snapshot["last_event_sequence"]
+    
+            # A late client receives the authoritative snapshot after replaying any
+            # events following its cursor, then receives committed live events.
+            with client.websocket_connect(
+                f"ws://localhost/ws/runs/{run_id}?after={cursor}",
+                headers={"origin": "http://localhost"},
+            ) as socket:
+                initial = socket.receive_json()
+                assert initial["type"] == "snapshot"
+                assert initial["snapshot"]["last_event_sequence"] == cursor
+    
+                paused = client.post(
+                    f"/api/runs/{run_id}/pause", json={"idempotency_key": "pause-local"}
+                )
+                assert paused.status_code == 200, paused.text
+                events = socket.receive_json()
+                assert events["type"] == "events"
+                assert any(event["event_type"] == "RUN_PAUSED" for event in events["events"])
+                current = socket.receive_json()
+                assert current["type"] == "snapshot"
+                assert current["snapshot"]["run"]["state"] == "PAUSED"
+                cursor = current["snapshot"]["last_event_sequence"]
+    
+            capsule_id = TaskCapsuleStore.from_root(root).capsule_id(current["snapshot"]["run"]["id"])
+            assert capsule_id is not None
+            assert (root / ".orqalis" / "tasks" / capsule_id).is_dir()
+            capsules = client.get("/api/tasks")
+            assert capsules.status_code == 200, capsules.text
+            assert capsules.json()[0]["id"] == capsule_id
+            capsule = client.get(f"/api/tasks/{capsule_id}")
+            assert capsule.status_code == 200, capsule.text
+            assert capsule.json()["task"]["run_id"] == run_id
+            assert capsule.json()["event_count"] == cursor
+    
+        first.close()
+    
+        # The second process has no reference to the first SDK or event bus. Its API
+        # reconstructs history from the capsule and accepts the persisted cursor.
+        second = Orqalis(root=root)
+        try:
+            with TestClient(
+                create_app(second), base_url="http://localhost", client=("127.0.0.1", 50001)
+            ) as client:
+                historical = client.get(f"/api/runs/{run_id}")
+                assert historical.status_code == 200, historical.text
+                assert historical.json()["run"]["state"] == "PAUSED"
+                assert client.get("/api/runs").json()[0]["id"] == run_id
+                assert client.get(f"/api/tasks/{capsule_id}").json()["task"]["status"] == "PAUSED"
+                durable = client.get(f"/api/runs/{run_id}/events").json()
+                assert durable[-1]["sequence"] == cursor
+&gt;               with client.websocket_connect(
+                    f"ws://localhost/ws/runs/{run_id}?after={cursor}",
+                    headers={"origin": "http://localhost"},
+                ) as socket:
+
+tests\e2e\test_local_control_center_filesystem.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\starlette\testclient.py:131: in __exit__
+    return self.exit_stack.__exit__(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:610: in __exit__
+    raise exc_details[1]
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:595: in __exit__
+    if cb(*exc_details):
+       ^^^^^^^^^^^^^^^^
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py:478: in _exit_wrapper
+    callback(*args, **kwds)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = None, timeout = None
+
+    def result(self, timeout=None):
+        """Return the result of the call that the future represents.
+    
+        Args:
+            timeout: The number of seconds to wait for the result if the future
+                isn't done. If None, then there is no limit on the wait time.
+    
+        Returns:
+            The result of the call that the future represents.
+    
+        Raises:
+            CancelledError: If the future was cancelled.
+            TimeoutError: If the future didn't finish executing before the given
+                timeout.
+            Exception: If the call raised then that exception will be raised.
+        """
+        try:
+            with self._condition:
+                if self._state in [CANCELLED, CANCELLED_AND_NOTIFIED]:
+&gt;                   raise CancelledError()
+E                   concurrent.futures._base.CancelledError
+
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\concurrent\futures\_base.py:447: CancelledError</failure></testcase></testsuite></testsuites>

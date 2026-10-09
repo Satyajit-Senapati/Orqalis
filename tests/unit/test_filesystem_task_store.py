@@ -1,11 +1,15 @@
+import os
+import subprocess
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from threading import Barrier, local
 from typing import cast
-from uuid import UUID
+from uuid import UUID, uuid4
 
 import pytest
 
+import orqalis.persistence.filesystem.task_store as task_store_module
 from orqalis.core.goals import GoalService
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.domain.acceptance import (
@@ -25,15 +29,24 @@ from orqalis.domain.approval import (
     ControlMode,
 )
 from orqalis.domain.artifact import Evidence, ValidationObservation
-from orqalis.domain.errors import ConflictError
+from orqalis.domain.errors import ConflictError, PolicyDeniedError
 from orqalis.domain.events import Event, EventDraft, EventPayload, EventType
 from orqalis.domain.plan import TaskPlan
 from orqalis.domain.project import Project
 from orqalis.domain.run import Run
 from orqalis.domain.task import Task, TaskExecution, TaskStatus
 from orqalis.domain.timing import PhaseExecution
-from orqalis.persistence.filesystem.io import read_json_object, read_jsonl
-from orqalis.persistence.filesystem.task_store import TaskCapsuleStore, _relative_target
+from orqalis.evaluation.validators import LocalEvaluator
+from orqalis.persistence.filesystem.io import (
+    ensure_no_filesystem_links,
+    read_json_object,
+    read_jsonl,
+)
+from orqalis.persistence.filesystem.task_store import (
+    FilesystemRunRepository,
+    TaskCapsuleStore,
+    _relative_target,
+)
 
 
 def project_store(root: Path) -> tuple[TaskCapsuleStore, Project]:
@@ -322,3 +335,184 @@ def test_controller_lease_is_exclusive_between_units_of_work(tmp_path: Path) -> 
 def _events(store: TaskCapsuleStore, run_id: UUID) -> tuple[Event, ...]:
     with store.unit_of_work() as uow:
         return uow.events.list(run_id)
+
+
+def lookup_fixture(
+    store: TaskCapsuleStore, project: Project
+) -> tuple[Run, GoalContract, Evidence, ApprovalRequest]:
+    run, contract = create_run(store, project)
+    criterion = contract.criteria[0]
+    evidence = Evidence(
+        run_id=run.id,
+        criterion_id=criterion.id,
+        evidence_type="file",
+        structured_data=ValidationObservation(validator_type="file", passed=True, duration_ms=0),
+    )
+    request = ApprovalRequest(
+        run_id=run.id,
+        stage=ApprovalStage.GOAL,
+        subject_version=1,
+        subject_digest="a" * 64,
+        reason="Inspect the goal",
+    )
+    with store.unit_of_work() as uow:
+        uow.runs.save_evaluation(
+            criterion.model_copy(
+                update={"status": AcceptanceStatus.PASS, "evidence_refs": (evidence.id,)}
+            ),
+            evidence,
+        )
+        uow.approvals.add_request(request)
+        uow.commit()
+        updated = uow.runs.get_goal(contract.goal.id)
+        assert updated is not None
+    return run, updated, evidence, request
+
+
+def test_parallel_run_lookups_do_not_acquire_unrelated_state_locks(tmp_path: Path) -> None:
+    store, project = project_store(tmp_path / "repo")
+    cases = (lookup_fixture(store, project), lookup_fixture(store, project))
+    ready = Barrier(2)
+
+    def read_own(index: int) -> None:
+        run, goal, evidence, request = cases[index]
+        _, foreign_goal, foreign_evidence, foreign_request = cases[1 - index]
+        with store.unit_of_work() as uow:
+            assert uow.runs.get(run.id, for_update=True) is not None
+            ready.wait(timeout=5)
+            # Both target locks are held: looking at the other capsule would deadlock.
+            assert uow.runs.get_goal(goal.goal.id) == goal
+            assert uow.runs.get_evidence(evidence.id) == evidence
+            assert uow.approvals.get(request.id) == request
+            assert uow.runs.get_goal(foreign_goal.goal.id, run_id=run.id) is None
+            assert uow.runs.get_evidence(foreign_evidence.id, run_id=run.id) is None
+            assert uow.approvals.get(foreign_request.id, run_id=run.id) is None
+            assert uow.approvals.get(uuid4(), run_id=run.id) is None
+            assert uow.runs.get_goal(uuid4(), run_id=run.id) is None
+            assert uow.runs.get_evidence(uuid4(), run_id=run.id) is None
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = [pool.submit(read_own, index) for index in range(2)]
+        for future in futures:
+            future.result(timeout=5)
+
+
+def test_unscoped_lookup_retains_cold_cross_run_discovery(tmp_path: Path) -> None:
+    store, project = project_store(tmp_path / "repo")
+    first = lookup_fixture(store, project)
+    second = lookup_fixture(store, project)
+    with store.unit_of_work() as uow:
+        assert uow.runs.get(first[0].id) is not None
+        assert uow.runs.get_goal(second[1].goal.id) == second[1]
+        assert uow.runs.get_evidence(second[2].id) == second[2]
+        assert uow.approvals.get(second[3].id) == second[3]
+        assert uow.runs.get_goal(uuid4()) is None
+        assert uow.runs.get_evidence(uuid4()) is None
+        assert uow.approvals.get(uuid4()) is None
+        assert len(uow.runs.list(project.id)) == 2
+        assert uow.runs.get_goal(second[1].goal.id, run_id=uuid4()) is None
+        assert uow.runs.get_evidence(second[2].id, run_id=uuid4()) is None
+        assert uow.approvals.get(second[3].id, run_id=uuid4()) is None
+
+
+def test_first_validation_on_parallel_runs_does_not_scan_missing_evidence(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = tmp_path / "repo"
+    store, project = project_store(root)
+    (root / "main.py").write_text("value = 1\n", encoding="utf-8")
+    cases = (create_run(store, project), create_run(store, project))
+    ready = Barrier(2)
+    worker_state = local()
+    original_get = FilesystemRunRepository.get
+
+    def synchronized_get(
+        repository: FilesystemRunRepository, run_id: UUID, for_update: bool = False
+    ) -> Run | None:
+        result = original_get(repository, run_id, for_update)
+        if for_update and not getattr(worker_state, "ready", False):
+            worker_state.ready = True
+            ready.wait(timeout=5)
+        return result
+
+    monkeypatch.setattr(FilesystemRunRepository, "get", synchronized_get)
+    goals = GoalService(cast(Callable[[], ProjectUnitOfWork], store.unit_of_work))
+
+    def validate(index: int) -> Evidence:
+        run, _ = cases[index]
+        evidence = goals.validate(run.id, "AC-1", LocalEvaluator(root), "first")
+        assert evidence.run_id == run.id and evidence.structured_data.passed
+        assert goals.validate(run.id, "AC-1", LocalEvaluator(root), "first") == evidence
+        assert goals.get(run.id).criteria[0].attempt_count == 1
+        return evidence
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = [pool.submit(validate, index) for index in range(2)]
+        evidence = [future.result(timeout=5) for future in futures]
+    assert evidence[0].id != evidence[1].id
+
+
+def test_recovery_target_anchors_relative_capsule_before_cwd_change(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    first = tmp_path / "first"
+    second = tmp_path / "second"
+    (first / "capsule").mkdir(parents=True)
+    (second / "capsule").mkdir(parents=True)
+    monkeypatch.chdir(first)
+    native = ensure_no_filesystem_links
+
+    def checked(path: Path) -> Path:
+        target = native(path)
+        monkeypatch.chdir(second)
+        return target
+
+    monkeypatch.setattr(task_store_module, "ensure_no_filesystem_links", checked)
+    target = _relative_target(Path("capsule"), "execution/state.yaml")
+    assert target == first / "capsule/execution/state.yaml"
+
+
+def test_recovery_target_requires_existing_capsule_root(tmp_path: Path) -> None:
+    with pytest.raises(FileNotFoundError):
+        _relative_target(tmp_path / "missing", "execution/state.yaml")
+
+
+def test_recovery_target_checks_capsule_and_target_links_before_resolving(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    capsule = tmp_path / "capsule"
+    capsule.mkdir()
+    native = Path.lstat
+
+    def denied(path: Path) -> os.stat_result:
+        if path == capsule:
+            raise PermissionError("capsule metadata denied")
+        return native(path)
+
+    monkeypatch.setattr(Path, "lstat", denied)
+    with pytest.raises(PermissionError, match="capsule metadata denied"):
+        _relative_target(capsule, "execution/state.yaml")
+
+
+@pytest.mark.parametrize("location", ["capsule", "target-parent"])
+def test_recovery_target_rejects_real_directory_links(tmp_path: Path, location: str) -> None:
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    capsule = tmp_path / "capsule"
+    link = capsule
+    if location == "target-parent":
+        capsule.mkdir()
+        link = capsule / "execution"
+    if os.name == "nt":
+        result = subprocess.run(
+            ["cmd", "/c", "mklink", "/J", str(link), str(outside)],
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode:
+            pytest.skip("Filesystem junctions are unavailable")
+    else:
+        link.symlink_to(outside, target_is_directory=True)
+    with pytest.raises(PolicyDeniedError, match="link or junction"):
+        _relative_target(capsule, "execution/state.yaml")
+    assert not (outside / "state.yaml").exists()

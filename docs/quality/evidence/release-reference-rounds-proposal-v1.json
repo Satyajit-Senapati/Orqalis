@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "STAGED_UNRUN_PENDING_INDEPENDENT_REVIEW",
+  "created_at": "2026-10-03T13:58:09.521493+00:00",
+  "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "release_input_sha256": "a6aab317af7c9cb41f8eb2742c58752a732299ce814e3d88520f1d734a2aca4a",
+  "helper_family": "release-private-helper-inventory-readpath-reference-v1.json",
+  "new_helper_sha256": {
+    "release_qualification_v14.py": "65ef375616a45e92b77c1a8caea18db6dda9ea925f534ae9934a5e90093d6c50",
+    "release_complete_rounds_v14.py": "1b1d4e4f276ddbe7aa73acc6bb33849d2c5aff7d53b16e22cb3844d77586a076",
+    "run_full_regression_release_v8.py": "d84ae1d8a5cd3eca2f40a593f789ae0dba7301a312f74b64a63253293363cdc4",
+    "verify_execution_reference_v1.py": "e2cd9cd4dc234fd23bd23c20f373c2b1d0d072fbbc237963a168e3f6db8d501a"
+  },
+  "policy_sha256": "ece3b06a2865c8479c8f38c6686dd44436eb3ca63f3055182c64401e92936b1e",
+  "change": "Only fresh12/13 labels/logs, exact fixed baseline identity/semantics verifier, and COMPLETE_PENDING_INDEPENDENT_REVIEW status. Current and other paired workloads unchanged. No failed round completion or automatic performance acceptance.",
+  "staging_validation_correction": "Environment comparison requires lossless JSON representation roundtrip (tuples become arrays) to compare live full metadata to persisted JSON; no identity field excluded or changed. Prior unrun identity-check assertion mismatch was serialization shape, not source/environment drift.",
+  "independent_guard_corrections": [
+    "Exact current candidate full source fingerprint and per-sample source/helper/script/environment identity required.",
+    "Exact predeclared nonempty semantic/stability key sets required, each value explicitly True, samplecompleteTrue andworkerreturn0."
+  ]
+}

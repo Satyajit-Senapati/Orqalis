@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T19:04:31.023123+00:00",
+  "status": "PRIVATE_UNAPPLIED_UNRUN_PENDING_ROOT_AND_ACCEPTANCE_EXACT_REVIEW",
+  "source_context_parent_supplied": "75b1df2b7e5888cb895408476190d0aa72a4976b560d50dc6e2beadb7455deb7",
+  "input_context": "72bd85b95671892fef14075a16bcecbeaf9344e7cfc86fe3b7f1e6d22e109463",
+  "original_io_sha256": "3035593133a783cd0f4553e7b4ca7435d1799c171e6290faf8cb8ae8ee96e7cc",
+  "original_test_sha256": "c6b9a5e89e24d8e2435e13441bcfec8c6fbde35893edaa9120eb3deefe00cce7",
+  "proposal_files": {
+    ".tools/research/release_readonly_cleanup_io_proposal_v1.py": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+    ".tools/research/release_readonly_cleanup_foundation_proposal_v1.py": "158968b1aef054cdd8635c9f29734f6fd0790f51792feeda091d6b7581834fd3",
+    ".tools/research/release_readonly_cleanup_foundation_additions_v1.txt": "66d3d3ae28be63cf28174cac10aff6b52efa9e47f6b5641bab404ccdc75307c0"
+  },
+  "patch": ".tools/research/release_readonly_cleanup_proposal_v1.patch",
+  "patch_sha256": "e3fc36ac1430915d32ccf364a034a0cc228c9d62d2090efd3e2de23bf6b1c59f",
+  "static_scope": {
+    "module_inverse_AST_equal_after_restoring_only_atomic_try_finally": true,
+    "write_verification_retry_policy_guards_delay_fsync_mode_before_replace_and_recovery_order_unchanged": true,
+    "no_source_full_scan_or_test_invocation": true,
+    "actual_production_bytes_unchanged": true
+  },
+  "actual_proof_review": {
+    "path": "docs/quality/evidence/release-native-readonly-target-proof-v1.json",
+    "sha256": "96db5a5393109acd44575b01d26e4e0c23ebbf35d77d8d0543052a6854cf0f51",
+    "one_call_and_complete": true,
+    "mode_before_after": 292,
+    "attributes_before_after": 33,
+    "target_bytes_equal": true,
+    "readonly_candidate_temp_count": 1,
+    "outward": "unlink PermissionErrorWin5,filename2None",
+    "original_context": "replace PermissionErrorWin5,filename2target",
+    "source_provenance_stable": true,
+    "owned_fixture_cleaned_without_errors": true,
+    "process_exit_record": "docs/quality/evidence/release-native-readonly-target-process-exit-v1.json",
+    "process_exit_record_sha256": "bb82dc196205fdfb447e0f10cfe69abd9ebd5e48634b5396768a302a70dcdfcb",
+    "identity_record": "docs/quality/evidence/release-native-readonly-target-process-identity-v1.json",
+    "identity_record_sha256": "412e2aa735aa8d6574430daef592cf35c0dc682280a60be9f36c6b9479629412",
+    "native_pid_from_raw": 29204,
+    "launcher_pid_parent_supplied": 26128,
+    "limits": "Keep launcher26128 distinct from native29204; parent retained actual redirector/native identity and exited proof. No timeout occurred; launcher-only timeout is not independently certified process-tree cleanup."
+  },
+  "fallback_bounds": [
+    "Normal/missing temporary path remains initial unlink only, no added stat or native call.",
+    "Only first unlink PermissionError with Windows platform and winerror5 considers repair.",
+    "Fresh full link/junction guard, lstat regular-file test and READONLY flag required before chmod.",
+    "Only failed write own mkstemp pathname gets S_IWRITE added; never chmod canonical target or parent, no ACL/OS privilege changes.",
+    "Fresh full guard again before exactly one fallback unlink; FileNotFound remains benign missing-owned-temp condition; other chmod/stat/guard/unlink errors propagate.",
+    "Successful fallback allows pending original replacement error to propagate with original filename2/error fidelity and old target intact.",
+    "No retry expansion, native reader, broad cache/lock/transaction/approval rewrite or durability/event-order change."
+  ],
+  "ownership_limits": "Own temporary means generated same-directory mkstemp pathname; does not add an inode-identity capture or eliminate existing hostile path replacement/TOCTOU. Fresh guards reject observed links/junctions before each cleanup mutation; successful/missing normal path has no new metadata work. No claim protection against an unseen swap between guard and chmod.",
+  "prospective_test_scope": {
+    "new_functions": 5,
+    "expanded_cases": 9,
+    "native_readonly_target": true,
+    "explicit_mode0444_writable_target_replace_error_identity": true,
+    "nonwindows_unknown_writable_nonregular_denials": true,
+    "guard_rejection": true,
+    "normal_success_single_unlink_no_extra_temp_lstat": true,
+    "classification_simulation": "Uses test-local io.os namespace to simulate platform; never changes global os.name. Controlled native cases remain Windows-only and keep oldtargetmode/bytes before fixture cleanup.",
+    "staged_not_collected_or_run": true,
+    "injection_caution": "For private test injection preserve original FilesystemFormatError identity/package exported aliases, or run actual staged-source isolated copy; do not repeat prior class-identity harness issue."
+  },
+  "decision": "Exact minimal cleanup-only proposal eligible for independent review and later controlled tests; no application/invocation authorized here. Original execution16/unmatched external replacement denials remain causally unresolved."
+}

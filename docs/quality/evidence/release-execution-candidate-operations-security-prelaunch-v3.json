@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T23:08:43.909747+00:00",
+  "status": "APPROVED_ONE_C_ONLY_PROSPECTIVE_DIAGNOSTIC_WITH_ROOT_ACK",
+  "reviewer": "release_security_review",
+  "runner": ".tools/research/release_execution_candidate_operations_v3.py",
+  "runner_sha256": "da2057e9235bdba1a9283b843b95a3ebf8f4d04248d13b5b30609477dbbfe550",
+  "plan": ".tools/research/release-execution-candidate-operations-plan-v3.json",
+  "plan_sha256": "2c33f25eae7a751e9183adfc65cfba5fb9d4366749050b44afd1574311eae4cb",
+  "scope": "Static source/AST and explicitly named binding/output inspection only; no product import, native query, helper invocation, workload, source edit, commit or publication.",
+  "declared_source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "declared_input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "checks": {
+    "original_worker_inverse_and_ast_pin_independently_reconstructed_equal": true,
+    "explicit_plan_bindings_checked": 27,
+    "explicit_plan_bindings_all_match": true,
+    "ten_future_outputs_absent_at_review": true,
+    "inherited_attribution_definitions_ast_equal": [
+      "file_sha",
+      "owned_path_guard",
+      "exclusive",
+      "IO_COUNTERS",
+      "PROCESS_MEMORY_COUNTERS",
+      "NativeCounters",
+      "OwnedNativeProcess",
+      "retain_startup_cleanup_error",
+      "publish_identity_record",
+      "identity_handshake",
+      "wait_handshake",
+      "stop_owned_tree",
+      "load_plan",
+      "original_namespace",
+      "guard",
+      "scalar_attribution"
+    ],
+    "native_and_owned_process_lifecycle_unchanged": true,
+    "only_candidate_label_and_one_sample": true,
+    "external_stop_cap_seconds": 300,
+    "cleanup_wait_seconds": 10,
+    "original_26_checks_and_four_stability_checks_retained": true
+  },
+  "reviewed_bounds": [
+    {
+      "lines": "347-426",
+      "finding": "Each observed or unobserved replacement and lease path delegates to captured original exactly once with unchanged arguments, result and raised original exception. Pre/finally bookkeeping errors flag invalid evidence and cannot replace native/method outcome."
+    },
+    {
+      "lines": "427-440,520-534",
+      "finding": "Owned aliases are independently restored; foreign aliases are never overwritten. No repeated unguarded finally restoration masks a primary worker failure. Failed restoration/raw writing is secondary and failure remains incomplete."
+    },
+    {
+      "lines": "472-509",
+      "finding": "Independent AST reconstruction removes only begin/end expressions, two boundary snapshots and three diagnostic return fields to recover exact original worker AST. Existing fixture, execution clock, functional checks and source/environment checks remain."
+    },
+    {
+      "lines": "513-559",
+      "finding": "Native handshake precedes product/native work. Two native snapshots remain outside execution clock. Partial direct bookkeeping and native-query <1% screens plus no bookkeeping/restoration errors are required, without treating these screens as total perturbation proof."
+    },
+    {
+      "lines": "561-647",
+      "finding": "Only fresh C is launchable; exact ten owned paths remain guarded and exclusive. Original held-native-PID handle, 300s outer cap, targeted owned tree stop, bounded reap/close and invalid failure records are retained."
+    },
+    {
+      "file": "src/orqalis/persistence/filesystem/task_store.py",
+      "lines": "513-559",
+      "finding": "Original closed-session, nested owner, state-lock handoff, generation mismatch and dirty snapshot validation run inside captured lease method unchanged; observer does not bypass locking or approval/commit boundaries."
+    }
+  ],
+  "predecessor_disposition": {
+    "v1": "UNRUN; blocked for stale pair scope and repeated unguarded restoration masking original worker exception. Preserved original bytes.",
+    "v2": "UNRUN; preserved; v3 additionally protects observer bookkeeping from replacing original native return/error.",
+    "failed_B_C_attribution_v3": "Preserved invalid B WinError5 capture, C unrun. This new observation neither retries baseline nor substitutes old sample timing."
+  },
+  "concrete_unresolved_blocking_static_findings": [],
+  "limitations": [
+    "Declared source196/current390 inventory contents were not broadly rehashed in this bounded review; runtime/root guard must revalidate all frozen inputs and helper inventories before and after actual run.",
+    "No new product P0/P1 finding is inferred from this private diagnostic review.",
+    "Hook os.replace alias is process-wide while active; immediate original atomic writer caller alone is recorded, other calls delegate unchanged. All hook scheduling and unrecorded overhead remain potential perturbations.",
+    "Hook bookkeeping is partial; native CPU/IO excludes Git/tool children; logical bytes are not physical storage bytes and cycles are not elapsed time. Inclusive lease/replacement intervals overlap, scheduled backoff is inferred rather than measured.",
+    "No fault-injected native process-tree termination certification or atomic TOCTOU exclusion is claimed.",
+    "No actual execution, performance credit, Master53 closure, baseline/current equivalence, convergence, artifact acceptance, final release signoff or publication is approved."
+  ],
+  "root_next_step": "Root may bind exact plan/runner in exclusive v3 ACK and execute exactly one fresh C observation with no competing owned workload, preserve any failure and stop; independently inspect actual source/ownership/observer/functional evidence afterward."
+}

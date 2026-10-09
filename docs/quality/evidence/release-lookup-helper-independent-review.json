@@ -1,0 +1,53 @@
+{
+  "reviewed_at": "2026-10-02T12:38:53.868898+00:00",
+  "scope": "Independent static private-helper review; no tests, benchmarks, audits, installations or artifact builds executed. No source/test/helper edits.",
+  "status": "PLANNED_FRESH_PATHS_ACCEPTED_WITH_TWO_GUARD_HARDENING_NOTES",
+  "source_sha256": "887bc0496e197a4eb0fd0f6e998b0867ea1e5e0c055ff0972cc25d1cef859ab7",
+  "release_input_sha256": "fc57dccac1db4dc35b764735101186ac9f6c6fc6b33b8ae0e8331f5dafee26a4",
+  "verified_release_inputs": 390,
+  "helper_inventory": "docs/quality/evidence/release-private-helper-inventory-lookup-v2.json",
+  "verified_helpers": {
+    ".tools/research/release_artifacts_lookup.py": "c17b450b5d1d84b88d572318f46045451b3f676408e134f8b16ef2f0f8d0e976",
+    ".tools/research/verify_installed_release_lookup.py": "5fe2334f416766b96e57f5d8ca125bc16cfa106a068a31e505a37dfb4184add3",
+    ".tools/research/release_repack_docs_lookup.py": "d2bebd6577e8b084bbabb5f69f07c9a8f5b688e9086d2da2a4cad1b821daba34",
+    ".tools/research/release_heldout_probe_v6.py": "99b4d7951fa1098c0a2fd73a021cb53c01b96cfe1094b339620a483e20f1d4f2",
+    ".tools/research/run_full_regression_release_v4.py": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+    ".tools/research/release_qualification_v5.py": "ec81490915238e257cb1a5873df633a629d2644677f50588500fc3613cd416e8",
+    ".tools/research/release_complete_rounds_v4.py": "096245aea0894d596a485bef47df372ba369dfb23a52f5f89faaa3e82393a052",
+    ".tools/research/release_browser_qualification_v3.py": "0bb6256f651b90d8c887af419262c2688d3d7587bab39f86df56cdf3b03b6c71",
+    ".tools/research/release_governance_diagnostic_v2.py": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275",
+    ".tools/research/release_governance_diagnostic_v4.py": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53"
+  },
+  "accepted_disposition_input_sha256": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e",
+  "accepted_disposition_count": 30,
+  "planned_flow": {
+    "preflight": "preflight-repaired writes fresh lookup-named static/contract/source reports, checks exact source/input/helper identity per operation and retained frontend artifacts/dependencies/builder",
+    "rounds": [
+      8,
+      9
+    ],
+    "order": "8 current first; 9 baseline first; sequential browser-first complete fresh loops",
+    "convergence": "9 requires actual PASS_WITH_ACCEPTED_TRADEOFFS iteration 8 with matching source/input identity and source_stable; each report is emitted only after all listed gates finish",
+    "browser": "Unchanged v3 ephemeral standard parent token and browser matching token; finally restores parent environment, no report token. Zero skips/failures/errors required.",
+    "regression": "Fresh 8/9 JSON+JUnit guard preserves existing captures. Tests/source/helper/wrapper/environment equality required. Existing Python skips remain explicit, unlike mandatory zero-skip full browser.",
+    "comparators": "Raw REVIEW retained, hard invariants must pass and exact 30 reviewed losses/metric values/path lists must match; no aggregate-passed waiver",
+    "artifacts": "Fresh lookup artifact/runtime/prefix directories are containment-checked; packages verify own installed module path and exact third-party advisories including bootstrap pip. Final documentation repack retains original smoke tarball and demands byte-identical non-doc runtime before reusing smoke."
+  },
+  "history_notes": [
+    "Original source640 captures and interruption reports remain historical, never clean iterations of source887.",
+    "Planned 8/9 and lookup preflight/artifact final reports were absent at review.",
+    "Only docs repack intentionally replaces current lookup tarball after preserving original smoke tarball; runtime exact equality required."
+  ],
+  "guard_hardening_notes": [
+    {
+      "id": "REMOVE_UNUSED_HISTORICAL_PREFLIGHT_BRANCHES",
+      "detail": "v5 retains obsolete preflight/preflight-resume paths writing historical release-source-freeze.json and old contract names. Planned preflight-repaired does not enter them; restrict callable phases to fresh lookup preflight and 8/9 to prevent accidental history overwrite."
+    },
+    {
+      "id": "HASH_BIND_INDEPENDENT_TRADEOFF_DISPOSITIONS",
+      "detail": "release-quality-review.json is loaded for accepted 30 dispositions but absent from helper and evaluation inventories. Include its reviewed SHA in guarded private inventory before running fresh loops."
+    }
+  ],
+  "source_repair_review": "All internal known-run goal/evidence reads inspected now supply run scope, including normally-missing GoalService.validate evidence and externally supplied review references. Original six-file review remaining gap is closed in source887.",
+  "qualification_limits": "Current browser diagnostic and all new complete loops remain unreviewed/uncompleted; no convergence or final 23-P1 acceptance claimed. Master requires two complete iterations and final source-bound capability closure."
+}

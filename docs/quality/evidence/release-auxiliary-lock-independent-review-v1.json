@@ -1,0 +1,382 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-02T13:46:23.102522+00:00",
+  "reviewer": "/root/release_quality_review",
+  "status": "RELEASE_BLOCKING_P1_AUXILIARY_GLOBAL_SCAN_LOCK_ORDER",
+  "scope": "Read-only independent review of remaining capsule discovery under already-held owning run locks. No application/test/dependency changes and no measured or test workloads.",
+  "source": {
+    "files": [
+      "pyproject.toml",
+      "src/orqalis/__init__.py",
+      "src/orqalis/__main__.py",
+      "src/orqalis/agents/__init__.py",
+      "src/orqalis/agents/roles.py",
+      "src/orqalis/agents/routing.py",
+      "src/orqalis/agents/service.py",
+      "src/orqalis/api/__init__.py",
+      "src/orqalis/api/app.py",
+      "src/orqalis/api/contracts.py",
+      "src/orqalis/api/hosting.py",
+      "src/orqalis/api/scope.py",
+      "src/orqalis/bootstrap.py",
+      "src/orqalis/cli/__init__.py",
+      "src/orqalis/cli/app.py",
+      "src/orqalis/cli/catalog.py",
+      "src/orqalis/cli/control.py",
+      "src/orqalis/cli/dependencies.py",
+      "src/orqalis/cli/goals.py",
+      "src/orqalis/cli/memory.py",
+      "src/orqalis/cli/runs.py",
+      "src/orqalis/cli/tasks.py",
+      "src/orqalis/config/__init__.py",
+      "src/orqalis/config/settings.py",
+      "src/orqalis/context/__init__.py",
+      "src/orqalis/context/agent.py",
+      "src/orqalis/context/builder.py",
+      "src/orqalis/context/models.py",
+      "src/orqalis/context/service.py",
+      "src/orqalis/core/__init__.py",
+      "src/orqalis/core/approval_guard.py",
+      "src/orqalis/core/approval_subjects.py",
+      "src/orqalis/core/approvals.py",
+      "src/orqalis/core/delivery.py",
+      "src/orqalis/core/delivery_plan.py",
+      "src/orqalis/core/executor.py",
+      "src/orqalis/core/external.py",
+      "src/orqalis/core/goals.py",
+      "src/orqalis/core/orchestrator.py",
+      "src/orqalis/core/phases.py",
+      "src/orqalis/core/plan_draft.py",
+      "src/orqalis/core/plan_preview.py",
+      "src/orqalis/core/plan_revision.py",
+      "src/orqalis/core/planning.py",
+      "src/orqalis/core/ports.py",
+      "src/orqalis/core/preview_revision.py",
+      "src/orqalis/core/projects.py",
+      "src/orqalis/core/recovery.py",
+      "src/orqalis/core/repair.py",
+      "src/orqalis/core/replanning.py",
+      "src/orqalis/core/requirements.py",
+      "src/orqalis/core/runtime_support.py",
+      "src/orqalis/core/scheduler.py",
+      "src/orqalis/core/state_machine.py",
+      "src/orqalis/core/task_runtime.py",
+      "src/orqalis/core/vertical_plan.py",
+      "src/orqalis/delivery/__init__.py",
+      "src/orqalis/delivery/commits.py",
+      "src/orqalis/delivery/documentation.py",
+      "src/orqalis/delivery/gates.py",
+      "src/orqalis/delivery/guardian.py",
+      "src/orqalis/delivery/inspection.py",
+      "src/orqalis/delivery/test_integrity.py",
+      "src/orqalis/delivery/validation.py",
+      "src/orqalis/diagnostics.py",
+      "src/orqalis/domain/__init__.py",
+      "src/orqalis/domain/acceptance.py",
+      "src/orqalis/domain/agent.py",
+      "src/orqalis/domain/approval.py",
+      "src/orqalis/domain/artifact.py",
+      "src/orqalis/domain/base.py",
+      "src/orqalis/domain/capabilities.py",
+      "src/orqalis/domain/delivery.py",
+      "src/orqalis/domain/errors.py",
+      "src/orqalis/domain/events.py",
+      "src/orqalis/domain/execution.py",
+      "src/orqalis/domain/external.py",
+      "src/orqalis/domain/memory.py",
+      "src/orqalis/domain/plan.py",
+      "src/orqalis/domain/project.py",
+      "src/orqalis/domain/projections.py",
+      "src/orqalis/domain/provider.py",
+      "src/orqalis/domain/run.py",
+      "src/orqalis/domain/task.py",
+      "src/orqalis/domain/telemetry.py",
+      "src/orqalis/domain/timing.py",
+      "src/orqalis/evaluation/__init__.py",
+      "src/orqalis/evaluation/ports.py",
+      "src/orqalis/evaluation/validators.py",
+      "src/orqalis/execution/__init__.py",
+      "src/orqalis/execution/artifacts.py",
+      "src/orqalis/execution/cancellation.py",
+      "src/orqalis/execution/commands.py",
+      "src/orqalis/execution/evaluator.py",
+      "src/orqalis/execution/filesystem.py",
+      "src/orqalis/execution/finding_review.py",
+      "src/orqalis/execution/review.py",
+      "src/orqalis/execution/sandbox.py",
+      "src/orqalis/execution/tool_definitions.py",
+      "src/orqalis/execution/tools.py",
+      "src/orqalis/execution/windows_job.py",
+      "src/orqalis/execution/worker.py",
+      "src/orqalis/execution/workspaces.py",
+      "src/orqalis/git/__init__.py",
+      "src/orqalis/git/contracts.py",
+      "src/orqalis/git/delivery.py",
+      "src/orqalis/git/inspection.py",
+      "src/orqalis/git/service.py",
+      "src/orqalis/graph/__init__.py",
+      "src/orqalis/graph/ecmascript.py",
+      "src/orqalis/graph/engine.py",
+      "src/orqalis/graph/models.py",
+      "src/orqalis/graph/parsing.py",
+      "src/orqalis/graph/queries.py",
+      "src/orqalis/graph/symbols.py",
+      "src/orqalis/indexing/__init__.py",
+      "src/orqalis/indexing/models.py",
+      "src/orqalis/indexing/service.py",
+      "src/orqalis/mcp/__init__.py",
+      "src/orqalis/mcp/policy.py",
+      "src/orqalis/mcp/server.py",
+      "src/orqalis/memory/__init__.py",
+      "src/orqalis/memory/brain.py",
+      "src/orqalis/memory/curated.py",
+      "src/orqalis/memory/curation.py",
+      "src/orqalis/memory/indexing.py",
+      "src/orqalis/memory/navigation.py",
+      "src/orqalis/memory/ports.py",
+      "src/orqalis/memory/service.py",
+      "src/orqalis/observability/__init__.py",
+      "src/orqalis/observability/activity.py",
+      "src/orqalis/observability/analytics.py",
+      "src/orqalis/observability/event_bus.py",
+      "src/orqalis/observability/instrumentation.py",
+      "src/orqalis/observability/logging.py",
+      "src/orqalis/observability/projections.py",
+      "src/orqalis/observability/timing.py",
+      "src/orqalis/observability/trace.py",
+      "src/orqalis/persistence/__init__.py",
+      "src/orqalis/persistence/approval_ports.py",
+      "src/orqalis/persistence/contracts.py",
+      "src/orqalis/persistence/delivery_ports.py",
+      "src/orqalis/persistence/event_ports.py",
+      "src/orqalis/persistence/execution_ports.py",
+      "src/orqalis/persistence/filesystem/__init__.py",
+      "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+      "src/orqalis/persistence/filesystem/io.py",
+      "src/orqalis/persistence/filesystem/layout.py",
+      "src/orqalis/persistence/filesystem/locking.py",
+      "src/orqalis/persistence/filesystem/memory_store.py",
+      "src/orqalis/persistence/filesystem/task_store.py",
+      "src/orqalis/persistence/filesystem/unit_of_work.py",
+      "src/orqalis/persistence/ports.py",
+      "src/orqalis/persistence/provider_ports.py",
+      "src/orqalis/persistence/run_ports.py",
+      "src/orqalis/persistence/runtime_ports.py",
+      "src/orqalis/providers/__init__.py",
+      "src/orqalis/providers/anthropic.py",
+      "src/orqalis/providers/anthropic_schema.py",
+      "src/orqalis/providers/configuration.py",
+      "src/orqalis/providers/errors.py",
+      "src/orqalis/providers/external_cli.py",
+      "src/orqalis/providers/fake.py",
+      "src/orqalis/providers/openai.py",
+      "src/orqalis/providers/openai_schema.py",
+      "src/orqalis/providers/ports.py",
+      "src/orqalis/providers/validation.py",
+      "src/orqalis/py.typed",
+      "src/orqalis/retrieval.py",
+      "src/orqalis/sdk.py",
+      "src/orqalis/security/__init__.py",
+      "src/orqalis/security/redaction.py",
+      "src/orqalis/skills/__init__.py",
+      "src/orqalis/skills/bundled/database-edit/instructions.md",
+      "src/orqalis/skills/bundled/database-edit/skill.toml",
+      "src/orqalis/skills/bundled/documentation-edit/instructions.md",
+      "src/orqalis/skills/bundled/documentation-edit/skill.toml",
+      "src/orqalis/skills/bundled/evidence-review/instructions.md",
+      "src/orqalis/skills/bundled/evidence-review/skill.toml",
+      "src/orqalis/skills/bundled/javascript-edit/instructions.md",
+      "src/orqalis/skills/bundled/javascript-edit/skill.toml",
+      "src/orqalis/skills/bundled/python-edit/instructions.md",
+      "src/orqalis/skills/bundled/python-edit/skill.toml",
+      "src/orqalis/skills/bundled/python-test/instructions.md",
+      "src/orqalis/skills/bundled/python-test/skill.toml",
+      "src/orqalis/skills/bundled/react-edit/instructions.md",
+      "src/orqalis/skills/bundled/react-edit/skill.toml",
+      "src/orqalis/skills/bundled/typescript-edit/instructions.md",
+      "src/orqalis/skills/bundled/typescript-edit/skill.toml",
+      "src/orqalis/skills/markdown.py",
+      "src/orqalis/skills/registry.py",
+      "src/orqalis/tasks/__init__.py",
+      "src/orqalis/tasks/history.py",
+      "src/orqalis/workspace/__init__.py",
+      "src/orqalis/workspace/manager.py",
+      "uv.lock"
+    ],
+    "sha256": "0d26e92999fe556b69f9695d792ab8bc60313f60740cf74743741f420a0c8a4b"
+  },
+  "read_file_sha256": {
+    "src/orqalis/persistence/filesystem/auxiliary_stores.py": "7aac78b7d601c5c082dbe66bb3fd0412fa8d83197778de692ea85d5f868b126e",
+    "src/orqalis/persistence/filesystem/task_store.py": "a8c2df70fe2c35a981ddee45cb7a938ccbeb0cdd5e15e9bb2c0c286fb5110561",
+    "src/orqalis/persistence/filesystem/unit_of_work.py": "e57fbd0b25d0f1c2a2b3cd9b92b08bf0e3b2a8b14cbbcfc184acdea38bd6d1c7",
+    "src/orqalis/persistence/filesystem/locking.py": "0b6a097ea313ab219e08d95528476eb179f87f70dddee057f53eb500fb98ef53",
+    "src/orqalis/agents/service.py": "cd29468ca47e1041a5fce40545231f9a99f908235d027133133f08bdd574e713",
+    "src/orqalis/execution/tools.py": "243d9b98211637089213eeae146b72643a676be2250c12d49875f136b5d6eafa",
+    "src/orqalis/execution/review.py": "eb887680264ce96d86def6cc4bc8cdf04ff91007a2435737fcee64bf86a72cec",
+    "src/orqalis/execution/finding_review.py": "46541209f657415a7dbb27685b0e60a72a73a374fd2ff9c753b8be3982981cc4",
+    "src/orqalis/execution/artifacts.py": "39d643c87b8f1fa88ccba8492a35d07584c08efbd4d8056b35b1b41e3ae0792b",
+    "src/orqalis/core/external.py": "68f852657a322df0b3aa0030eb160586792a78f1a8b306c132278bbeb65d7f7e",
+    "src/orqalis/core/recovery.py": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8",
+    "src/orqalis/core/executor.py": "fd244bfcfa25cb990ba1f1e078dde911cf6358e109eca57bf4facc31a21b2886",
+    "src/orqalis/delivery/validation.py": "691db7c80e4c31e3d7b3fb10496c8d9d94ba08b23e9653fe994f3614c0d7bed5",
+    "src/orqalis/delivery/guardian.py": "5929faaf4262353ef76a96be20c57637d83b450e9917ac97f279c6b1428f7918",
+    "src/orqalis/delivery/documentation.py": "973dbd867f4057a2aac79dcf818cd65810bf8caeb377b60bc3decf2402d44d85",
+    "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+    "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9"
+  },
+  "counts": {
+    "confirmed_p0": 0,
+    "confirmed_p1_root_causes": 1
+  },
+  "finding": {
+    "id": "P1-AUXILIARY-SCAN-LOCK-ORDER",
+    "evidence_level": "STATIC_PRODUCTION_CALL_PATH_PROOF_NO_NEW_RUNTIME_REPRODUCTION",
+    "summary": "Auxiliary exhaustive identity/duplicate searches acquire unrelated capsule state locks while holding the owning run state lock. Two legitimate concurrent run transactions can form opposing waits until the normal lock timeout.",
+    "origin": "Inherited from released baseline, not introduced by the atomic PLAN repair or scoped goal/evidence/approval repair.",
+    "baseline_auxiliary_sha256": "7aac78b7d601c5c082dbe66bb3fd0412fa8d83197778de692ea85d5f868b126e",
+    "causal_chain": [
+      "core/runtime_support.py:17-21 locked_run calls runs.get(for_update=True).",
+      "task_store.py:688-709 load_capsule(for_update=True) acquires and retains the owning state lock; unit_of_work.py:35-48 does not acquire a serializing project-wide lease.",
+      "agents/service.py:124 then :230 calls providers.get after owning run is locked; :331-332 repeats this completion lookup; :266 and :367 call provider save under the same owning lock.",
+      "auxiliary_stores.py:273-281 get uses _find; :283-290 save uses _ensure_upsert_owner -> _find.",
+      "auxiliary_stores.py:87-103 _find deliberately exhausts iter_capsules even after a cached-own matching entity is found to detect duplicate identities.",
+      "task_store.py:729-746 cached-first iteration still loads every unrelated capsule for exhaustive consumers; load_capsule:701 acquires each unrelated state lock.",
+      "locking.py:89,102-105 uses the unchanged default 10 second acquisition timeout."
+    ],
+    "two_run_schedule": [
+      "Two independent UoWs on one project load different valid active runs A and B for_update before either discovery. Both retain their own capsule state lock.",
+      "A calls providers.get(its persisted own invocation) and B calls providers.get(its persisted own invocation). AgentService completion uses exactly this sequence.",
+      "Each _find first sees its cached own capsule and records the invocation, then continues exhaustive duplicate validation.",
+      "A next attempts B state lock; B next attempts A state lock. Neither can release its owning state lock until the repository operation completes or raises.",
+      "The per-run controller lease does not serialize different runs. At least one acquisition eventually fails with LockTimeoutError; a cached-own hit does not prevent the wait."
+    ],
+    "alternative_exposed_path": "Two valid external worker finding reports on runs A/B: MCP server.py:476-486 -> ExternalWorkerService.report_finding external.py:282-286 takes distinct controller leases then owning state locks; :325 save_finding -> exhaustive _ensure_upsert_owner/_find. This is an internal owning-run operation, not just a caller asking a generic unscoped external query.",
+    "historical_mechanism_evidence": "release-lookup-lock-before.json previously reproduced opposing capsule state waits in a different get_goal path. That raw runtime evidence is not rebound to current auxiliary calls; this finding is a source-level proof and requires its own focused validation.",
+    "consequences": [
+      "Concurrent unrelated runs can fail normal provider/tool/delivery work after a 10 second stall.",
+      "Adding scoped provider/tool reads alone does not repair globally scanning write-side duplicate checks.",
+      "This review does not establish corruption, a universal reproducibility rate, or the cause of earlier browser/host failures."
+    ]
+  },
+  "affected_internal_calls": [
+    {
+      "repository": "providers.get",
+      "sites": [
+        "agents/service.py:230",
+        "agents/service.py:332"
+      ],
+      "owner_lock": [
+        "agents/service.py:124",
+        "agents/service.py:331"
+      ]
+    },
+    {
+      "repository": "providers.save",
+      "sites": [
+        "agents/service.py:266",
+        "agents/service.py:367",
+        "core/recovery.py:106"
+      ],
+      "owner_lock": [
+        "agents/service.py:124",
+        "agents/service.py:357",
+        "core/recovery.py:46"
+      ]
+    },
+    {
+      "repository": "execution.tool",
+      "sites": [
+        "execution/tools.py:46"
+      ],
+      "owner_lock": [
+        "execution/tools.py:43"
+      ]
+    },
+    {
+      "repository": "execution.save_tool",
+      "sites": [
+        "execution/tools.py:103",
+        "execution/tools.py:142",
+        "core/recovery.py:128"
+      ],
+      "owner_lock": [
+        "execution/tools.py:43",
+        "execution/tools.py:134",
+        "core/recovery.py:46"
+      ]
+    },
+    {
+      "repository": "execution.save_review",
+      "sites": [
+        "execution/review.py:224"
+      ],
+      "owner_lock": [
+        "execution/review.py:51"
+      ]
+    },
+    {
+      "repository": "delivery.save_guardian",
+      "sites": [
+        "delivery/guardian.py:269"
+      ],
+      "owner_lock": [
+        "delivery/guardian.py:206"
+      ]
+    },
+    {
+      "repository": "delivery.save_validation",
+      "sites": [
+        "delivery/validation.py:139"
+      ],
+      "owner_lock": [
+        "delivery/validation.py:81"
+      ]
+    },
+    {
+      "repository": "delivery.save_artifact",
+      "sites": [
+        "delivery/documentation.py:124",
+        "execution/artifacts.py:44"
+      ],
+      "owner_lock": [
+        "delivery/documentation.py:28",
+        "core/executor.py:279 before record_artifacts:280",
+        "core/external.py:224 before record_artifacts:251"
+      ]
+    },
+    {
+      "repository": "delivery.save_finding",
+      "sites": [
+        "core/external.py:325",
+        "execution/finding_review.py:85"
+      ],
+      "owner_lock": [
+        "core/external.py:286",
+        "execution/review.py:51 before review_external_findings:86"
+      ]
+    }
+  ],
+  "bounded_or_safe_remaining_calls": [
+    "Runtime actors/executions/tasks/phases, event receipts/by_key, workspace, provider list, tool lists and delivery run lists resolve load_capsule(run_id), rather than global discovery. No get_actor/get_receipt implementation was found in src; sandbox receipt is a filesystem capability receipt independent of capsule discovery.",
+    "task_store.py:1520-1537 save_criterion and :1539-1553 save_evaluation stop on the cached own goal; normal validated services already hold that goal. Generic malformed/foreign calls remain outside this bound.",
+    "task_store.py:1740-1756 approval.add_decision stops at the cached own request loaded by the scoped decision service. Missing/foreign external direct adapter calls are not globally deadlock-free.",
+    "sdk.py:425-427 list_runs opens its own UoW without owning a run update lock. Its exhaustive scan can wait on busy capsules, but does not itself form the two-run owning-state cycle.",
+    "ToolService.execute providers.get at tools.py:36 is initially unscoped before locked_run at :43, so this initial lookup does not itself hold an owning run state lock. Its later tool lookup and saves remain affected."
+  ],
+  "required_integrity_constraints": [
+    "Preserve canonical capsule validation, recovery/generation consistency, embedded run ownership checks, global duplicate-identity rejection, same-run idempotency-key checks and controller leases.",
+    "Do not replace exhaustive uniqueness checks with a cached-own early return or silently skip busy unrelated capsules: that weakens existing integrity semantics.",
+    "Do not raise general lock timeouts or treat rerun success as proof that opposing waits were removed."
+  ],
+  "minimal_next_actions": [
+    "Introduce scoped owner-known provider/tool reads so normal owning-run replay/completion queries do not discover unrelated capsules.",
+    "Separately make retained global duplicate/integrity checks safe under owning run locks using a documented acquisition-order or explicit bounded contention strategy; any global uniqueness lease must be acquired before owning run state locks. A lease acquired after owning locks can reproduce the same inversion.",
+    "Run one focused real two-run opposing-lock regression covering cached-own provider lookup and a write-side identity check, at normal deadlines, with preserved raw before/after results.",
+    "Retain tests for cross-run duplicate identity, corrupt embedded owner, same-run idempotency conflict, rollback and lease cleanup; freeze source again after an actual repair before full qualification."
+  ],
+  "generic_external_limits": {
+    "severity": "P2 only for deliberately unscoped APIs with no owner-known internal call path",
+    "limits": "Full-list/global discovery cost remains proportional to project capsules and can wait on legitimate concurrent writes. Generic external direct adapter transactions that mix multiple update locks have no claimed global deadlock freedom. This caveat cannot cover the affected internal operations listed above."
+  },
+  "qualification_limit": "Current focused atomic PLAN and browser PASS evidence remains valid for its narrow source and scenario. It does not clear this additional inherited auxiliary P1. Fresh complete rounds alone cannot prove absence of the statically demonstrated concurrent schedule."
+}

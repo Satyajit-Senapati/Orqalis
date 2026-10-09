@@ -1,0 +1,62 @@
+{
+  "review_kind": "independent_read_only_unapplied_porcelain_status_v2",
+  "created_at": "2026-10-03T09:59:54.477411+00:00",
+  "source_binding": {
+    "sha256": "c483ff7c68a202d682a40b5da430f14ed1d967e8422a50caa336d4afbd0b81d9",
+    "file_count": 196,
+    "git_module_sha256": "0a445c020dbaf6a3aa62f5c7862e415b653633e0ca5260600bf8f69159b42519",
+    "proposal": ".tools/research/release_porcelain_status_proposal_v2.py",
+    "proposal_sha256": "7d44f1ccb3599841d13781126a13fec2bcba12e19c63b7db6d38f4255f797c18",
+    "preserved_v1_sha256": "bdf9dcfc0805e95432212297571cd0feec66ea1011aec612a18fdc71b63923e4"
+  },
+  "previous_review": {
+    "path": "docs/quality/evidence/release-porcelain-status-proposal-independent-review.json",
+    "sha256": "99abfd943fa32c03a81199d97b12a19ad5e841ff217989d69ddf95d484061c08",
+    "scope": "v1 findings and retained compatibility/format/parity limits; not overwritten or rebound"
+  },
+  "primary_reference": "https://git-scm.com/docs/git-status",
+  "mechanical_scope": {
+    "only_status_AST_changed_against_current_Git_module": true,
+    "execute_root_resolve_commit_imports_and_all_other_methods_unchanged": true,
+    "v2_against_v1_changes_only": [
+      "Add --no-ahead-behind to the existing porcelain-v2 branch status command.",
+      "Require final NUL and exclude only the final empty split element.",
+      "Reject interior empty NUL records.",
+      "Reject repeated known branch.oid/head headers."
+    ]
+  },
+  "disposition": "All three v1 minimal recommendations addressed; no additional concrete static defect identified in the stated framing and required-header scope. Ready for real-fixture parity validation, not release qualification.",
+  "integrity_review": [
+    "Final NUL check rejects truncated framing before parsing; an empty body or interior empty entry raises GitError.",
+    "Raw rename original remains consumed independently and allowed to contain header/entry-looking text; nonempty path validation remains.",
+    "Duplicate branch headers fail even if the first value was empty because None, rather than truthiness, is the seen-state sentinel.",
+    "Unknown headers remain ignored; missing/empty required known values fail final checks.",
+    "Unborn (initial) still rejects; detached sentinel maps to None; 40/64 lowercase hex HEAD support preserved.",
+    "No-ahead-behind suppresses unused upstream count computation without dropping required branch/HEAD information.",
+    "Bounded space splits and surrogateescape unchanged; full raw filename path information retained."
+  ],
+  "limits": [
+    "No full XY/submodule/mode/OID/rename-score grammar validation is claimed or requested. Ignored metadata is not newly used as application authority.",
+    "root and _execute remain virtual dispatch seams; status no longer calls overridden resolve_commit. No repository subclass depending on that dispatch was found in v1 review.",
+    "This change reduces status subprocess count from four to two for LocalGitService only; no measured latency improvement or browser cure is established.",
+    "Separate external Git/filesystem mutations remain best-effort observation, not an atomic filesystem snapshot.",
+    "Proposal is still private/unapplied at review time; source-bound final qualification must follow any application."
+  ],
+  "required_validation": [
+    "Real ordinary/mixed state, rename, conflict and detached fixtures, compared exactly with preserved v1 GitStatus.",
+    "Actual upstream tracking and dirty submodule path parity; actual copy record if Git fixture/config can produce one, with synthetic copy record coverage regardless.",
+    "Unborn HEAD, nested/file input, worktree and independent root boundaries; injected root/_execute denial and environment checks.",
+    "Raw unusual and non-UTF8 filenames, rename original marker-looking names, unknown headers.",
+    "Malformed/truncated/empty framing, duplicate/missing required known headers, invalid HEAD, missing fields and empty/missing rename original.",
+    "Assert two expected subprocesses and preserve all original browser assertion deadlines."
+  ],
+  "validation_status": {
+    "workloads_tests_builds_benchmarks_run_by_reviewer": false,
+    "application_helper_or_test_edits_by_reviewer": false,
+    "new_commits": false,
+    "fixture_parity_results_independently_verified": false,
+    "full_release_rounds_completed": 0,
+    "full_release_rounds_required": 2,
+    "P1_closure_or_release_certification": false
+  }
+}

@@ -136,6 +136,22 @@ export interface Segment {
   ended_at: string;
   duration_ms: number;
 }
+export interface TraceNode {
+  id: string;
+  entity_id: string;
+  kind: "run" | "phase" | "task" | "actor" | "model" | "tool";
+  parent_id: string | null;
+  related_ids: string[];
+  label: string;
+  status: string;
+  started_at: string | null;
+  completed_at: string | null;
+  duration_ms: number | null;
+  task_id: string | null;
+  task_execution_id: string | null;
+  actor_session_id: string | null;
+  provider_invocation_id: string | null;
+}
 export interface Usage {
   input_tokens: number | null;
   output_tokens: number | null;
@@ -216,7 +232,27 @@ export interface Artifact {
   path_or_uri: string;
   content_hash: string;
 }
+export interface ProviderStats {
+  provider: string;
+  model: string;
+  calls: number;
+  succeeded: number;
+  failed: number;
+  cancelled: number;
+  interrupted: number;
+  running: number;
+  calls_with_latency: number;
+  p50_latency_ms: number | null;
+  p95_latency_ms: number | null;
+  calls_with_usage: number;
+  calls_with_cost: number;
+  reported_input_tokens: number | null;
+  reported_output_tokens: number | null;
+  reported_cost_usd: number | null;
+  errors: Record<string, number>;
+}
 export interface Stats {
+  providers?: ProviderStats[];
   max_parallel_tasks: number;
   mean_parallel_tasks: number;
   critical_path_task_ids: string[];
@@ -282,6 +318,7 @@ export interface Snapshot {
   server_time: string;
   evidence: Evidence[];
   timeline: Segment[];
+  trace?: TraceNode[];
   statistics: Stats;
   providers: ProviderCall[];
   tools: ToolCall[];

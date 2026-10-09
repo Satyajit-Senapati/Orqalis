@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:36:25.402748+00:00",
+  "status": "DIAGNOSTIC_HARNESS_SETUP_FAILURE_RETAINED",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "evidence_sha256": {
+    "docs/quality/evidence/release-history-fixed-pair-diagnostic-result-v2.json": "280c52ae40df14fcc090f1aade8a12c6cd3f6f5f39009b5a30d90a90e3b2b30c",
+    "docs/quality/evidence/release-history-fixed-pair-current-light-v2.json": "8ee89f00fa6cffd252a8565a540eb700b7525b8996c21a999e9441d528092b84",
+    "docs/quality/evidence/release-history-fixed-pair-current-light-semantics-v2.json": "dc8860953ffd441b9973240ddca84b0d41b4473323335f42c5f4004dc7572ae8",
+    ".tools/research/release-history-fixed-pair-work-v2.log": "8c9a7c1eb6627406426776ad5b2b10626c3ac9bb744eaaed6327f22c863c584c"
+  },
+  "pair_original_status": "FAIL",
+  "pair_failure_type": "AssertionError",
+  "child_outcomes": [
+    {
+      "label": "light",
+      "exit_code": 0
+    },
+    {
+      "label": "work",
+      "exit_code": 1
+    }
+  ],
+  "harness_failure": "LocalGitService.common_dir does not exist. getattr fails before callbacks installed or protected B workload invoked. Static reviewer previously checked AST/hash/default dispatch and missed actual method availability; prior approval preserved as point-in-time incomplete review, not rewritten.",
+  "A_valid_observation": {
+    "median_wall_ms": 334.3029000097886,
+    "median_cpu_ms": 312.5,
+    "max_wall_ms": 485.7733999961056,
+    "reservation": {
+      "elapsed_ms": 35.22379999049008,
+      "reserved_unique_id": true,
+      "directory_created": true
+    },
+    "canonical_rows": 1001,
+    "samples": 33,
+    "semantic_order_matches_original_fixture": true,
+    "provenance_matches_original_plan": true
+  },
+  "B_disposition": "No raw report/profile measurement; setup failure is not application regression or performance evidence. Pair remains FAIL; no A repeat or substituted old plan.",
+  "prospective_resume_requirements": [
+    "New plan/hash/labels must explicitly reuse original A hashes/provenance without rebinding it to new plan.",
+    "Correct exact method names and add bounded isolated import/code-availability setup check before B workload; no instance construction/Git/filesystem page prewarm in setup.",
+    "ONE first valid B with original3traversals/page100/33pages/1001content; observer callback/counts/deadlines preserved.",
+    "Current source/390/18/fixture/environment match retained A; no prior timed process active; exclusive new B log/raw/profile/copy.",
+    "Disclose elapsed time/setup failure/cache/host confounding; retain >20% wall OR CPU credibility screen and no retry lottery."
+  ],
+  "release_limits": "No current execution16 failure resolution, no history performance closure,23pending13DEFER0of2. No product/source edits or workloads by reviewer."
+}

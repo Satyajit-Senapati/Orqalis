@@ -1,0 +1,205 @@
+{
+  "reviewed_at": "2026-10-02T13:10:25.487759+00:00",
+  "reviewer": "release_quality_review independent agent",
+  "scope": "Read-only code/design and saved focused/browser evidence review. No benchmark/workload/test execution, production changes, documentation prose edits, dependency edits or commits. This new JSON evidence artifact is the only review output.",
+  "source_fingerprint_method": "runpy.run_path(scripts/benchmark_quality.py)[source_fingerprint](repository_root)",
+  "source_sha256": "0d26e92999fe556b69f9695d792ab8bc60313f60740cf74743741f420a0c8a4b",
+  "source_inventory_count": 196,
+  "files_sha256": {
+    "src/orqalis/core/approvals.py": "2480231ce3f59d27b49dd2ea8ef4737f168a17c8e52ed3858fcc60c9673f7ba4",
+    "src/orqalis/core/orchestrator.py": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+    "src/orqalis/core/preview_revision.py": "208d4839eceaad764bec9a75623776607455beb66777296028c50668e3fc5e4d",
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "src/orqalis/core/approval_guard.py": "9ecb24c74b20295f0938431dab89455ebda87f76bda59806d2545107dae0e363",
+    "src/orqalis/core/approval_subjects.py": "de370a5f494f6f1d2367c2c4b28b06d95e5ea557201f965a7f6b6fb1b2cb8edc",
+    "src/orqalis/core/planning.py": "ee7f6545926652e5018f203da8ad6b49b5ed2bf5bc826e97f5651f4796a49597",
+    "src/orqalis/persistence/filesystem/unit_of_work.py": "e57fbd0b25d0f1c2a2b3cd9b92b08bf0e3b2a8b14cbbcfc184acdea38bd6d1c7",
+    "src/orqalis/persistence/filesystem/task_store.py": "a8c2df70fe2c35a981ddee45cb7a938ccbeb0cdd5e15e9bb2c0c286fb5110561",
+    "tests/integration/test_plan_preview.py": "ec2a147dd95a8b160812b74987346e1a5c405288d85285b7a9866309f4227376"
+  },
+  "status": "ATOMIC_PLAN_CHECKPOINT_REPAIR_ACCEPTED_FOCUSED_GOVERNANCE_PASS_PENDING_FULL_QUALIFICATION",
+  "confirmed_p0_p1_in_reviewed_change": 0,
+  "implementation_disposition": [
+    {
+      "component": "prepare_approval_request / ApprovalService.ensure",
+      "disposition": "ACCEPT",
+      "reason": "Shares original safety, policy, subject/version validation, scoped deterministic UUID lookup, request/event creation and actor update in the callers locked UoW. Helper never commits. Ensure retains early input validation before opening UoW and commits only newly created requests; existing and disabled gates do not mutate or commit."
+    },
+    {
+      "component": "Orchestrator.advance PLANNED",
+      "disposition": "ACCEPT",
+      "reason": "Original transition/goal/plan guards execute before mutation. Request is prepared after current run, actor and phase transitions are staged, before the same commit, using the validated stored plan subject/version. Actor waiting status is not overwritten by subsequent phase staging."
+    },
+    {
+      "component": "PreviewRevisionService.replace",
+      "disposition": "ACCEPT",
+      "reason": "Original controller lease, locked owner, replay, expected version, current goal, no-workspace/no-execution, fresh tasks, role/criterion, safe-content and history guards remain. Staged revised plan, task cancellation/readiness, PLAN request/event and actor update share one final commit."
+    },
+    {
+      "component": "Digest and idempotent wrapper fallbacks",
+      "disposition": "ACCEPT",
+      "reason": "plan_subject uses plan_identity excluding mutable task runtime fields; readiness/cancellation projection does not change its approval identity. Existing _request_plan remains available for old partial checkpoints and finds the same UUID/digest on normal new path without another PLAN commit."
+    },
+    {
+      "component": "Journal, rollback and native notifications",
+      "disposition": "ACCEPT",
+      "reason": "All changes target the same run capsule session. Pending_events captures transition/revision and request tails before original recoverable session journal commit; memory commit remains after authoritative task state and bus publication occurs last. Precommit exception rolls back both checkpoint and approval staging. Journal/fsync/recovery code and event cursor validation are unchanged."
+    },
+    {
+      "component": "Disabled policies and authoritative approval enforcement",
+      "disposition": "ACCEPT",
+      "reason": "ControlPolicy.requires returns false for autonomous or disabled PLAN gate; helper returns None/False before lookup, creation, emit or actor update. This does not autoapprove or relax execution gates. Direct Orchestrator calls now stage required requests atomically while require_approval remains authoritative."
+    }
+  ],
+  "focused_evidence": {
+    "path": "docs/quality/evidence/release-atomic-plan-focused.xml",
+    "sha256": "27c0762cdea6512ad9741e286e64e00509a6b091952a19fb7f514e534a58ac37",
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "18",
+        "time": "161.859",
+        "timestamp": "2026-10-02T18:30:42.258018+05:30",
+        "hostname": "THOR-GALAXY"
+      }
+    ],
+    "test_results": [
+      {
+        "name": "test_preview_and_operator_edit_preserve_versions_and_events",
+        "passed": true
+      },
+      {
+        "name": "test_preview_uses_pinned_git_base_after_head_moves",
+        "passed": true
+      },
+      {
+        "name": "test_supervised_preview_waits_for_exact_goal_approval",
+        "passed": true
+      },
+      {
+        "name": "test_preview_recovers_plan_installed_with_a_different_command_key",
+        "passed": true
+      },
+      {
+        "name": "test_plan_checkpoint_notifications_include_matching_approval",
+        "passed": true
+      },
+      {
+        "name": "test_plan_checkpoint_rolls_back_with_its_approval[preview]",
+        "passed": true
+      },
+      {
+        "name": "test_plan_checkpoint_rolls_back_with_its_approval[replace]",
+        "passed": true
+      },
+      {
+        "name": "test_executor_stops_before_workspace_at_goal_and_plan_gates",
+        "passed": true
+      },
+      {
+        "name": "test_local_api_requires_token_for_decisions_and_plan_edits",
+        "passed": true
+      },
+      {
+        "name": "test_supervised_policy_is_atomic_with_run_creation",
+        "passed": true
+      },
+      {
+        "name": "test_persisted_operator_decisions_bind_to_goal_version_and_digest",
+        "passed": true
+      },
+      {
+        "name": "test_direct_orchestrator_calls_cannot_skip_goal_or_plan_approval",
+        "passed": true
+      },
+      {
+        "name": "test_authoritative_guard_persists_pending_then_requires_exact_approval",
+        "passed": true
+      },
+      {
+        "name": "test_run_approval_wait_and_rejection_are_reconstructed_from_operator_events",
+        "passed": true
+      },
+      {
+        "name": "test_actor_timing_counts_persisted_approval_status_transitions",
+        "passed": true
+      },
+      {
+        "name": "test_task_start_resumes_run_time_after_task_approval",
+        "passed": true
+      },
+      {
+        "name": "test_task_approval_reason_exposes_scope_without_leaking_credentials",
+        "passed": true
+      },
+      {
+        "name": "test_operator_checkpoint_persists_orchestrator_status_and_resumes_on_transition",
+        "passed": true
+      }
+    ],
+    "independent_test_execution": false,
+    "coverage_assessment": "18 saved tests pass with zero failures/errors/skips. New persisted bus-observer test verifies the matching PLAN request/version and APPROVAL_REQUESTED event are already durable at PLANNED/PLAN_REVISED publication; replay adds no events or requests. Two new fault-injection cases verify precommit preview/replacement rollback leaves run/plan/events/requests unchanged. Existing goal-only supervised, direct guard, timing and autonomous preview behavior remain covered."
+  },
+  "fresh_browser_evidence": {
+    "path": "docs/quality/evidence/release-governance-diagnostic-current-atomic-1.json",
+    "sha256": "78b01b8c91c769bf7c2750d8d30ccf39c6fb3d93af044d1cc7890cbad1e4d1e1",
+    "status": "PASS",
+    "shutdown_error": null,
+    "source_sha256": "0d26e92999fe556b69f9695d792ab8bc60313f60740cf74743741f420a0c8a4b",
+    "source_stable": true,
+    "exit_code": 0,
+    "elapsed_seconds": 31.343000000008033,
+    "suites": [
+      {
+        "name": "observed.spec.mjs",
+        "timestamp": "2026-10-02T13:07:28.133Z",
+        "hostname": "",
+        "tests": "1",
+        "failures": "0",
+        "skipped": "0",
+        "time": "29.233",
+        "errors": "0"
+      }
+    ],
+    "test_sha256": "90f2bd95996fd41733ff21c426db27e48308e6d546c3d638a9e79558e8b90f21",
+    "log": ".tools\\research\\release-governance-diagnostic-current-atomic-1.log",
+    "log_sha256": "2a529120e263c61fa70f6555c7d9ea716332470c60b396b3e8d37c12a398aa9b",
+    "thread_stacks": ".tools\\research\\release-governance-diagnostic-current-atomic-1.stacks.log",
+    "stack_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "method": "One planned focused unchanged governance test with thread-local passive native-call timing spans; profiling overhead is not a benchmark. Passive network observers; safe Python frame snapshots only after a failure, tiny owned persisted fixture. Original default5-second assertion and15-second API timeout unchanged. No product/source/auth edits. Does not count as full release iteration.",
+    "xml_path": "docs/quality/evidence/release-governance-diagnostic-current-atomic-1.xml",
+    "xml_sha256": "e2bba3800e2971338b6a8966561d94ff0a72be4afe436300728e847d591edbe6",
+    "xml_suites": [
+      {
+        "name": "observed.spec.mjs",
+        "timestamp": "2026-10-02T13:07:28.133Z",
+        "hostname": "",
+        "tests": "1",
+        "failures": "0",
+        "skipped": "0",
+        "time": "29.233",
+        "errors": "0"
+      }
+    ],
+    "raw_log_stack_hashes_verified": true,
+    "disposition": "One fresh unchanged governance test PASS, no skips, same source/test SHA, original five-second assertions and fifteen-second API timeout, normal owned-host shutdown. This is a focused diagnostic, not a complete release iteration or proof of eliminated latency tails."
+  },
+  "limits": [
+    "Install_plan and advance remain separate recoverable checkpoints; this change removes the separate required PLAN-request commit from the normal advance/replacement path without claiming whole-preview one-transaction semantics.",
+    "Rollback tests interrupt after staging and before journal commit. They do not independently simulate a mid-fsync crash; existing unchanged journal/recovery code supplies that behavior and full contracts/regression must still pass.",
+    "Bus observer reenters canonical reads in the publishing thread before native fan-out; it verifies durable notification contents but does not independently qualify all cross-thread scheduling or WebSocket delivery races.",
+    "One source-bound browser PASS does not prove all previous browser/socket/host failures have one established root cause, zero flake rate, global deadlock freedom or hardware-independent SLO.",
+    "Strict mypy four-file PASS is parent-reported; this reviewer inspected code and saved test/browser captures, and ran no checks/workloads.",
+    "Earlier raw failures remain unchanged and bound to their original 640c/3d/887 sources; no historical timing/status or failure capture is rebound."
+  ],
+  "required_before_release": [
+    "Fresh final production/helper/test/input freeze for this source.",
+    "Required complete fresh qualification rounds, including frozen contracts, ranking dispositions, execution, memory, browser/UI/constrained/full regression and dependency advisories as applicable.",
+    "Convergence count based on actual complete accepted rounds, not this focused diagnostic or prior partial/failing attempts."
+  ],
+  "release_convergence_claim": false,
+  "source_stable_during_review_capture": true
+}

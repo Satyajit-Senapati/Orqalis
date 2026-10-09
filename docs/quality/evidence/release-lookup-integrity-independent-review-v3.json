@@ -1,0 +1,332 @@
+{
+  "reviewed_at": "2026-10-02T12:17:15.989941+00:00",
+  "scope": "Independent read-only code/design and saved raw evidence review. No workload, benchmark, test execution, source/test/dependency edits or commits.",
+  "reviewed_initial_source_sha256": "4cfa539fee70b8cd6a580d5c2f81bb3412b2102ad83578f32fe089366db7bf53",
+  "source_sha256_at_final_read": "3d47f8967dbd331c3b38d085fe5fdb11f6d3b1e67abebefe6678b7b0d4f8ccc6",
+  "same_source_at_final_read": false,
+  "files_sha256": {
+    "src/orqalis/persistence/filesystem/task_store.py": "a8c2df70fe2c35a981ddee45cb7a938ccbeb0cdd5e15e9bb2c0c286fb5110561",
+    "src/orqalis/persistence/run_ports.py": "2d68f282cd9ac258b0db240187a44749cc5b8d87cb8f7ac97d16593243699c2d",
+    "src/orqalis/persistence/approval_ports.py": "2e03d90d98326ae13bfe699eab8372fadd8bed196dbec74e4e80853bac84cdb0",
+    "src/orqalis/observability/projections.py": "de100c5ed92628db9792531acd7d06c3d64c3f26d656205fcb8b1c5a9be8587f",
+    "src/orqalis/core/approvals.py": "d22c06cc3cc56739ee617eb50fba029edcb0d1a9e5e1e99f19eb70c9d7234ca4",
+    "src/orqalis/core/approval_guard.py": "9ecb24c74b20295f0938431dab89455ebda87f76bda59806d2545107dae0e363",
+    "src/orqalis/core/goals.py": "57cdd235ac7f551c6ba03445e92d2111130b8839aec51056c706c94a3ed3a45d",
+    "src/orqalis/execution/review.py": "eb887680264ce96d86def6cc4bc8cdf04ff91007a2435737fcee64bf86a72cec",
+    "src/orqalis/execution/finding_review.py": "46541209f657415a7dbb27685b0e60a72a73a374fd2ff9c753b8be3982981cc4",
+    "src/orqalis/agents/service.py": "cd29468ca47e1041a5fce40545231f9a99f908235d027133133f08bdd574e713",
+    "src/orqalis/delivery/validation.py": "691db7c80e4c31e3d7b3fb10496c8d9d94ba08b23e9653fe994f3614c0d7bed5",
+    "src/orqalis/persistence/filesystem/auxiliary_stores.py": "7aac78b7d601c5c082dbe66bb3fd0412fa8d83197778de692ea85d5f868b126e",
+    "tests/unit/test_filesystem_task_store.py": "272fab1f5c63d4229c687bbc4cef513f53ae33a1977ed1e9544c959d52717fe0",
+    "tests/unit/test_approval_guard.py": "6c20df8396774f67ce5bb880140f07021f6440b7e775ac51507052a65701bc84",
+    "src/orqalis/core/external.py": "68f852657a322df0b3aa0030eb160586792a78f1a8b306c132278bbeb65d7f7e",
+    "src/orqalis/core/orchestrator.py": "20400a7a16452e24854099c5452af4d116308330fce2438460a130336f67d3f4",
+    "src/orqalis/core/plan_revision.py": "7d053af6719c44681a24ff81b1019f655837b84d035a7a10c873d94cbb04e690",
+    "src/orqalis/core/preview_revision.py": "2f5a307ac1244c2da3776280e28050d3ecb919bbabba5cc47398170ed70c3dd2",
+    "src/orqalis/core/repair.py": "b6a0ef1a7710a2618f686c48fa95546005933df8bf85723de56567f07bb140cf",
+    "src/orqalis/core/replanning.py": "a2a22ae5f55e38d38b9246b6ab41e25dd75ae847dcba0c15e737300bfddcc73c",
+    "src/orqalis/delivery/commits.py": "7db3d5331b0d3366631688b61f749c37bdc9b33bb15ed4b8bd9d7d3b7392008c",
+    "src/orqalis/delivery/documentation.py": "973dbd867f4057a2aac79dcf818cd65810bf8caeb377b60bc3decf2402d44d85",
+    "src/orqalis/delivery/guardian.py": "5929faaf4262353ef76a96be20c57637d83b450e9917ac97f279c6b1428f7918",
+    "src/orqalis/memory/curation.py": "ef2500e50fbc96a118f4df4943e1bf3d42e82a519eec5c89a67dd9310b58492c"
+  },
+  "evidence": [
+    {
+      "path": "docs/quality/evidence/release-lookup-lock-before.json",
+      "sha256": "1f36cf842e5915d7f1458bbcb3a5a9aecef2e747e6721a0a29cb663332e55200",
+      "report": {
+        "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+        "source_stable": true,
+        "status": "FAIL",
+        "elapsed_seconds": 10.046999999991385,
+        "workers": [
+          {
+            "run_id": "37fb79ee-bcd3-4215-8e1e-9fe2919c2426",
+            "status": "PASS"
+          },
+          {
+            "run_id": "5a5c3a89-3b34-4b3a-98c7-8cc24b9d3fda",
+            "status": "FAIL",
+            "exception_type": "LockTimeoutError",
+            "error": "Timed out acquiring lock: C:\\Users\\senap\\AppData\\Local\\Temp\\orqalis-lookup-lock-_j9mfno3\\repo\\.orqalis\\runtime\\locks\\ORQ-20261002-0001.state.lock"
+          }
+        ],
+        "method": "Two real state locks held simultaneously, barrier then each retrieves its already-loaded own goal. Unchanged10-second lock timeout; no mocked locks or workload retries. Fixture owned outside checkout, default persistence format.",
+        "captured_at": "2026-10-02T12:07:11.144647+00:00"
+      }
+    },
+    {
+      "path": "docs/quality/evidence/release-lookup-lock-after.json",
+      "sha256": "bc95a8bd6c4be96ca935914f2b83e5f80c30c27f09b7bb2e091534d78e9eecf1",
+      "report": {
+        "source_sha256": "4cfa539fee70b8cd6a580d5c2f81bb3412b2102ad83578f32fe089366db7bf53",
+        "source_stable": true,
+        "status": "PASS",
+        "elapsed_seconds": 0.014999999999417923,
+        "workers": [
+          {
+            "run_id": "42a918a3-083a-4be1-8b64-d4ad307c5d6d",
+            "status": "PASS"
+          },
+          {
+            "run_id": "d70bf29b-f6d0-4cfb-b932-055bb100302e",
+            "status": "PASS"
+          }
+        ],
+        "method": "Two real state locks held simultaneously, barrier then each retrieves its already-loaded own goal. Unchanged10-second lock timeout; no mocked locks or workload retries. Fixture owned outside checkout, default persistence format.",
+        "captured_at": "2026-10-02T12:09:11.872853+00:00"
+      }
+    }
+  ],
+  "status": "SCOPED_LOOKUP_CODE_REPAIR_ACCEPTED_PENDING_FRESH_QUALIFICATION",
+  "accepted_design": [
+    "Lazy cached-first iteration returns an already-loaded target before unrelated capsule state locks; cached iteration order is retained from the previous implementation.",
+    "Scoped getters load the canonical owning capsule through unchanged load_capsule recovery, state lock, model validation, run identity and cached generation behavior. They catch only NotFoundError; conflicts/corruption are not suppressed.",
+    "Scoped misses and foreign entity IDs return None with no global fallback. Unscoped generic discovery remains available for callers that actually lack an owner.",
+    "Snapshot takes the same owning run lock and reads all rows and events within its UoW; scoped goal/evidence reads do not weaken its event cursor coherence.",
+    "Approval creation, stale-subject rejection, exact delivery binding, persisted decisions and idempotency are retained. All production approval get callers now pass their known run.",
+    "Run list comprehensions and auxiliary _find still exhaust discovery; auxiliary global duplicate detection is not short-circuited. Cached-first goal/evidence/approval getters already used first-match semantics before this fix.",
+    "Existing added tests use actual opposing locks, cover cached unscoped hits, scoped missing/foreign IDs, missing owner, cold cross-run generic discovery and full run list.",
+    "All 27 production goal/evidence lookup calls carry run_id in the final reviewed source, including all five previously unscoped evidence reads.",
+    "Plan-derived run_id scopes are consistent: orchestrator, revision and replanning first lock plan.run_id and validate the current goal before retrieving that goal.",
+    "Evidence reviewer run/criterion/status checks remain intact after scoping; missing and foreign IDs now resolve to None in the owning capsule before authorization rejection."
+  ],
+  "all_goal_evidence_calls_at_final_read": [
+    {
+      "path": "src/orqalis/agents/service.py",
+      "line": 152,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/agents/service.py",
+      "line": 178,
+      "call": "uow.runs.get_evidence(ref, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/approvals.py",
+      "line": 193,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/external.py",
+      "line": 302,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/goals.py",
+      "line": 163,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/goals.py",
+      "line": 244,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/goals.py",
+      "line": 268,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/goals.py",
+      "line": 308,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/goals.py",
+      "line": 317,
+      "call": "uow.runs.get_evidence(evidence_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/goals.py",
+      "line": 368,
+      "call": "uow.runs.get_goal(current.current_goal_version_id, run_id=current.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/orchestrator.py",
+      "line": 89,
+      "call": "uow.runs.get_goal(plan.goal_version_id, run_id=plan.run_id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/orchestrator.py",
+      "line": 306,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/plan_revision.py",
+      "line": 59,
+      "call": "uow.runs.get_goal(plan.goal_version_id, run_id=plan.run_id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/preview_revision.py",
+      "line": 64,
+      "call": "uow.runs.get_goal(plan.goal_version_id, run_id=plan.run_id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/repair.py",
+      "line": 115,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/core/replanning.py",
+      "line": 65,
+      "call": "uow.runs.get_goal(plan.goal_version_id, run_id=plan.run_id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/delivery/commits.py",
+      "line": 74,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/delivery/documentation.py",
+      "line": 32,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/delivery/guardian.py",
+      "line": 220,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/delivery/validation.py",
+      "line": 83,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/delivery/validation.py",
+      "line": 98,
+      "call": "uow.runs.get_evidence(reference, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/execution/finding_review.py",
+      "line": 48,
+      "call": "uow.runs.get_evidence(reference, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/execution/review.py",
+      "line": 74,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/execution/review.py",
+      "line": 103,
+      "call": "uow.runs.get_evidence(ref, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/memory/curation.py",
+      "line": 53,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/observability/projections.py",
+      "line": 41,
+      "call": "uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)",
+      "scoped": true
+    },
+    {
+      "path": "src/orqalis/observability/projections.py",
+      "line": 80,
+      "call": "uow.runs.get_evidence(ref, run_id=run.id)",
+      "scoped": true
+    }
+  ],
+  "focused_failure": {
+    "path": "docs/quality/evidence/release-lookup-repair-focused.xml",
+    "sha256": "5d6ded408694768ca860bb5a04e215cb37fcd8319f0a876c173ab74baf190131",
+    "suite_attributes": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "21",
+        "time": "68.582",
+        "timestamp": "2026-10-02T17:41:06.459089+05:30",
+        "hostname": "THOR-GALAXY"
+      }
+    ],
+    "cause": "Approval guard test used dict.get as MagicMock side_effect; the newly required run_id keyword caused TypeError before approval checks.",
+    "current_visible_repair": "tests/unit/test_approval_guard.py now uses a keyword-aware get_request test double and asserts run_id equals the owning run.",
+    "qualification": "Preserve this failed XML and capture the repaired test result separately; this reviewer did not execute or infer a passing rerun."
+  },
+  "limits": [
+    "Raw after probe proves only own cached goal lookup with two real opposing locks, not all service call paths or global deadlock freedom.",
+    "Generic unscoped cold discovery and full auxiliary global integrity scans still touch multiple capsule locks; no claim that all cross-run locking is cured.",
+    "No new identity-validation expansion is introduced. Existing task _load_path does not fully cross-check every embedded child run_id; scoped lookup limits the selected capsule but is not proof that hand-edited domain state is globally valid.",
+    "Browser attempt 6 failure causation remains unproven; the independently reproduced lookup P1 cannot be equated automatically with its five-second Creating UI failure.",
+    "Root-reported strict mypy/Ruff results and currently running focused suite are not independently executed or promoted to complete release evidence."
+  ],
+  "required_before_release": [
+    "Fresh focused validation/rejection-path tests plus approval guard test-double repair result.",
+    "Fresh production and complete qualification-input freeze; no rebinding of previous 640c/4c evidence.",
+    "Two fresh fully completed accepted audit rounds with current source, retaining browser/round 6 failure and original lookup raw evidence."
+  ],
+  "no_release_convergence_claim": true,
+  "reviewed_source_sha256": "3d47f8967dbd331c3b38d085fe5fdb11f6d3b1e67abebefe6678b7b0d4f8ccc6",
+  "source_stable_during_final_callsite_review": true,
+  "initial_gap_report": {
+    "path": ".tools/research/release-lookup-integrity-independent-review-v2.json",
+    "sha256": "07afde259c1c122fc4e52a25e2d7a39961303c8508e0a3e11ac648249eaccb5a",
+    "status_applies_to": "Initial 4c source call sites before root completed remaining scopes; final-read inventory already observed 3d source."
+  },
+  "remaining_confirmed_p0_p1_in_reviewed_lookup_fix": 0,
+  "historical_remaining_findings": [
+    {
+      "severity": "P1",
+      "status": "CONFIRMED_CODE_PATH_NO_NEW_WORKLOAD_REPRODUCTION",
+      "location": "src/orqalis/core/goals.py:305-317",
+      "issue": "GoalService.validate holds its run state lock and calls unscoped get_evidence for a new uuid5 ID. The normal first validation misses its cached own aggregate and exhausts unrelated capsule loads, permitting the same opposing-run lock inversion.",
+      "minimal_action": "Pass run_id=run_id to this get_evidence call; verify the real service first-validation path avoids foreign state reads while its own lock is held.",
+      "final_source_disposition": "STATICALLY_CLOSED_BY_MATCHING_OWNER_RUN_SCOPE_PENDING_FRESH_RUNTIME_VALIDATION"
+    },
+    {
+      "severity": "P1_CLASS_REJECTION_PATH_HAZARD",
+      "status": "STATICALLY_CONFIRMED_REMAINING_UNSCOPED_CALL",
+      "locations": [
+        "src/orqalis/execution/review.py:103",
+        "src/orqalis/execution/finding_review.py:48"
+      ],
+      "issue": "Caller-supplied missing or foreign evidence IDs are looked up under a known locked run before authorization rejection; unscoped misses can acquire unrelated run locks.",
+      "minimal_action": "Pass the known run_id or run.id; keep current unrelated/stale/criterion validation checks.",
+      "final_source_disposition": "STATICALLY_CLOSED_BY_MATCHING_OWNER_RUN_SCOPE_PENDING_FRESH_RUNTIME_VALIDATION"
+    },
+    {
+      "severity": "DEFENSIVE_SCOPE_COMPLETION",
+      "locations": [
+        "src/orqalis/agents/service.py:178",
+        "src/orqalis/delivery/validation.py:98"
+      ],
+      "issue": "Persisted evidence references under known runs normally hit cache but a stale/malformed reference triggers global discovery.",
+      "minimal_action": "Scope both remaining evidence callers. Scope internal known-run get_goal callers consistently to avoid missing/foreign goal fallback.",
+      "final_source_disposition": "STATICALLY_CLOSED_BY_MATCHING_OWNER_RUN_SCOPE_PENDING_FRESH_RUNTIME_VALIDATION"
+    }
+  ],
+  "raw_lookup_after_probe_source_sha256": "4cfa539fee70b8cd6a580d5c2f81bb3412b2102ad83578f32fe089366db7bf53",
+  "no_rebinding_of_raw_probe": true,
+  "scoped_lookup_closure_limits": "No remaining unscoped production goal/evidence caller found. This does not qualify arbitrary multi-run UoWs, global duplicate scans, or unscoped generic consumers as deadlock-free."
+}

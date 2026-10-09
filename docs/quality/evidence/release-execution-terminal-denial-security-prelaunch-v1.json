@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-04T07:49:50.089037+00:00",
+  "status": "BLOCK_UNRUN_V1_DIAGNOSTIC_LIFECYCLE_FAILURE_PRESERVATION_PATH_GUARDS",
+  "reviewer": "release_security_review",
+  "runner_sha256": "f6d010bce61a650482751598348b8af052a46251331a01feb13c15228dbc1a52",
+  "scope": "Exact static helper read only. No product import, observer installation, query, invocation, source edit or workload.",
+  "positive": "Original H.worker invoked unchanged; tracked_open intends to return exact stream with weakrefs only; replacement delegate runs before terminal metadata; original writer attempt4 identification only, no extra retries/sleeps. Fixture intended persistent and timing unqualified.",
+  "blocking_findings": [
+    {
+      "area": "Windows worker ownership",
+      "detail": "subprocess.run timeout300 alone terminates/reaps launched venv redirector, not proven actual native worker/tree. No early identity/grant held-native object or no-next/unknown-exit policy. This can leave a child writing preserved fixture after parent declares timeout. Reuse existing reviewed native-owned lifecycle and same300 outer cap."
+    },
+    {
+      "area": "Original call/worker error preservation",
+      "detail": "Post-open path/weakref bookkeeping and replacement pre/error counter/frame bookkeeping are unguarded; observer errors can replace original result/denial. Final observations.json write is unguarded and can mask primary worker exception. Guard secondary instrumentation/report errors; return/rethrow original call exactly once; observer errors invalidate diagnostic."
+    },
+    {
+      "area": "Output/fixture ownership",
+      "detail": "SCRATCH ancestor and fixed results are not lstat checked for links/reparse/containment; output/sample/observations use overwrite write_text. Require exact fixed owned paths with existing shared guard plus exclusive creation; running/final report evolution should use separate exclusive records or deliberately bound own-record update only."
+    }
+  ],
+  "other_limits": [
+    "Script/gold/environment root prospective pins must be fixed and independently bound before invocation; source196 fingerprint alone does not pin benchmark script/fixture helper bytes.",
+    "Terminal caller should match exact currently loaded original writer code, not only co_name, and record only owned fixture source/target; bounded stream records/drop count recommended.",
+    "No original failure cause proved; no source/retry/deadline changes, no baseline retry/timing credit."
+  ],
+  "requested_next": "Preservev1unrun; stage exact successor with reviewed lifecycle/error/path guards, then independent prelaunch review. No launch approval."
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "status": "CONDITIONAL_STATIC_REVIEW_CLEANUP_OWNERSHIP_GUARD_PENDING",
+  "created_at": "2026-10-07T08:20:40.873464+00:00",
+  "source_sha256": "852314497a4cc4ff7c702aa8f7fe56b9a0dd1db5584922d6c7f577979f8834ca",
+  "release_input_sha256": "84dbce63aed5b9bcfb094f2c0866052aef1b8cd847c71fe2ad595f6eecd557f0",
+  "freeze": {
+    "path": "docs/quality/evidence/release-input-freeze-owned-temp-v1.json",
+    "sha256": "8fa413fbbdcb6c9eea8e5e82baa8569efd09b6639b775e96b73a0f68c2b323c4",
+    "declared_inputs": 394,
+    "scope": "Recorded fields read; no broad source/input inventory rehash."
+  },
+  "reviewed_files": {
+    "src/orqalis/persistence/filesystem/io.py": "072b5e56164228a9b0fadc35a4ffcc8c6f89aac944dcf4341ca22fde40282aad",
+    "scripts/benchmark_memory.py": "5e895103ad3ae16e06797df832b1d4974ba1fe7778742865714bdfe19580befe",
+    "tests/unit/test_atomic_temporary_verification.py": "d0fad5ff88b6d58d9a42f2d3fc8c919c75f6df909add9ea95368f768b1ed5dbf",
+    "tests/unit/test_memory_benchmark.py": "0e65256a7c365f8d55b48dee1e604d3c9cfe554a88554c836a9f26112eabcd66"
+  },
+  "supported_design": [
+    "mkstemp read/write descriptor is wrapped w+b, original complete-write/flush/fsync precede seek/read byte verification, and stream closes before chmod/rename.",
+    "Fresh parent guard and nofollow regular/nonreparse metadata precede descriptor/path dev-inode checks; checks repeat before chmod and every original bounded replacement attempt.",
+    "Reliable identity mismatch raises dedicated error and skips cleanup of foreign substituted pathname; inode-zero path retains legacy byte-read validation.",
+    "Five original retries/backoff/atomic backend/directory sync/recovery formats retained.",
+    "ReadProbe wraps actual verification stream, delegates once and finalizes accounting without closing caller-owned descriptor; original legacy reader remains measured."
+  ],
+  "meaningful_cases": [
+    "Real wrong/truncated writes to descriptor must fail before replacement and preserve original bytes.",
+    "Actual short writes complete exact binary payload; zero progress preserves original.",
+    "Same-content different-file substitution fails identity before replacement and leaves foreign file untouched by product.",
+    "Four real byte payloads compare descriptor validation with legacy read accounting: empty,ASCII,UTF8,invalid/incomplete UTF8."
+  ],
+  "pending_finding": {
+    "scope": "Concrete static ownership-cleanup path; security adjudication requested, not a timing claim.",
+    "file": "src/orqalis/persistence/filesystem/io.py",
+    "lines": [
+      151,
+      152,
+      153,
+      213,
+      216,
+      217,
+      220
+    ],
+    "description": "Parent link guard or unexpected metadata failure in _require_temporary_identity does not set identity_lost because only _TemporaryIdentityError is caught. Ordinary finally may then unlink a temporary pathname through redirected parent despite guard failure. Ownership-unproven cleanup must fail closed while preserving primary error.",
+    "minimal_validation": "Actual redirected parent containing same temporary leaf or deterministic guard failure must preserve original target and foreign pathname and never rename/chmod/unlink through rejected parent. Existing normal success/denial cleanup remains meaningful."
+  },
+  "conditional_acceptance": [
+    "Resolve or independently disprove ownership-unproven cleanup path on actual source before static acceptance.",
+    "Run focused new-source tests and required final static/86/full qualification gates after exact freeze; earlier131PASS was pre-format source940 historical only, not source852 claim.",
+    "Keep metadata read accounting parity and original benchmark semantic/gold/deadline cases; baseline lacking helper uses legacy read accounting.",
+    "Fresh source852 observations required for optimization/performance/convergence claim; prior sourceb897 nativev5 explains candidate design opportunity only."
+  ],
+  "limits": [
+    "No tests, workload, product imports, native queries, source mutations or whole inventory scans by reviewer.",
+    "Existing nativev5 temporary-read inclusive cost is instrumented evidence; avoiding reopen has plausible cost benefit but does not prove magnitude or original browser failure cause.",
+    "No Master53, performance acceptance, release certification, retry relaxation or historical rebind."
+  ],
+  "workloads_invoked": 0
+}

@@ -1,21 +1,38 @@
-from typing import Literal, Self
+from typing import Any, Literal, Self
 from uuid import UUID
 
-from pydantic import Field, model_validator
+from pydantic import Field, SerializerFunctionWrapHandler, model_serializer, model_validator
 
 from orqalis.domain.artifact import Finding
 from orqalis.domain.base import Contract, Entity
 
 
+class ReviewedTestChange(Contract):
+    """Exact test diff accepted through the existing delivery-policy approval."""
+
+    path: str = Field(min_length=1)
+    old_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+    new_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+
+
 class DeliveryPolicy(Contract):
     documentation_path: str | None = None
     approved_sensitive_paths: tuple[str, ...] = ()
+    reviewed_test_changes: tuple[ReviewedTestChange, ...] = ()
     max_deleted_line_ratio: float = Field(default=0.5, ge=0, le=1)
     push: bool = False
     remote: str = Field(default="origin", pattern=r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
     allow_local_remote: bool = False
     author_name: str | None = None
     author_email: str | None = None
+
+    @model_serializer(mode="wrap")
+    def compatible_policy(self, handler: SerializerFunctionWrapHandler) -> dict[str, Any]:
+        value: dict[str, Any] = handler(self)
+        # Preserve fingerprints of existing delivery policies/checkpoints.
+        if not self.reviewed_test_changes:
+            value.pop("reviewed_test_changes", None)
+        return value
 
     @model_validator(mode="after")
     def coherent(self) -> Self:

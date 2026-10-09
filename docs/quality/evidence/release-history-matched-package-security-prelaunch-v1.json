@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T20:19:59.942535+00:00",
+  "reviewer": "release_security_review",
+  "decision": "V1_LAUNCH_BLOCKED_KEEP_PREPARATION_AND_MEASUREMENT_UNRUN",
+  "scope": "Read-only exact private plan/runner, two selected203-file packages/wheel payloads, original helper AST and targeted1001-fixture bytes. No product imports, native queries, setup/copy, measurement or source/test/helper edits.",
+  "identities": {
+    "runner": {
+      "path": ".tools/research/release_history_matched_package_v1.py",
+      "sha256": "590be44862523ec701e32d1468480d38f4b735e372f02ab5604bbaf5c8e85083"
+    },
+    "plan": {
+      "path": ".tools/research/release-history-matched-package-plan-v1.json",
+      "sha256": "889b146bc9838d265682e7d9eb30a9e936e8a04d902a6daa2f95579a3d6b7f65"
+    },
+    "reviewed_method": {
+      "path": ".tools/research/release-history-matched-reference-method-v1.json",
+      "sha256": "d3b88e4d38ef9eee4e5e567e96694c821b96fe20bd5e104638612ab8df253309"
+    },
+    "original_native_helper": {
+      "path": ".tools/research/release_history_native_counters_cleanup_v2_typed_v1.py",
+      "sha256": "81cea03c8abdeb350a44c8ec9cad7b4e5483d73703e748e8a72236e302204d08"
+    },
+    "original_quiet_helper": {
+      "path": ".tools/research/release_history_quiet.py",
+      "sha256": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683"
+    },
+    "freeze": {
+      "path": "docs/quality/evidence/release-input-freeze-cleanup-portable-v3.json",
+      "sha256": "77fc84b1c8ade44145459d4ed5735bbbddd08171ef9e3b37ef1704a05e7d7d95"
+    },
+    "inventory": {
+      "path": "docs/quality/evidence/release-private-helper-inventory-windows-cleanup-typed-v2.json",
+      "sha256": "06423ac37d140ff08bb9d45d2e84d1559e2fd8d446a7f3d99c758ca390bb3c9b"
+    },
+    "roles": {
+      "R": {
+        "wheel": {
+          "path": ".tools/research/artifacts-release-2.1.0-readpath/orqalis-2.1.0-py3-none-any.whl",
+          "sha256": "f96ed0cc2aedc92070443687d999dfba96bc5f553a703c463f6480396952b802"
+        },
+        "package_files": 203,
+        "actual_manifest_matches": true,
+        "wheel_orqalis_payload_manifest_matches": true
+      },
+      "C": {
+        "wheel": {
+          "path": ".tools/research/artifacts-release-2.1.0-windows-cleanup-typed/orqalis-2.1.0-py3-none-any.whl",
+          "sha256": "141163651b14731c6bbd21867f09c52c87cf020d7e3ab3c0e101a5987dd681fc"
+        },
+        "package_files": 203,
+        "actual_manifest_matches": true,
+        "wheel_orqalis_payload_manifest_matches": true
+      }
+    }
+  },
+  "confirmed_static_proofs": {
+    "both203_actual_installed_manifests_and_wheel_full_orqalis_payloads_exact": true,
+    "ten_helper_bindings_actual_hashes_match": true,
+    "known50_module_names_unique": true,
+    "critical6_read_files_byte_equal": true,
+    "IO_definitions_only_atomic_write_bytes_changed": true,
+    "other_known_package_delta": "api/app.py differs; same matched history path must retain orqalis.api.app NOT loaded guard.",
+    "three_native_classes_AST_exact_original81cea": true,
+    "capture_inverse_AST_exact_with_only_authorized_label_import_authority_and_runtime_context_metadata_reverse": true,
+    "original_page100_traversals3_rows1001_pages33_33033_validations_lockwrappers_and_reservation_wait10_assertions_preserved": true,
+    "actual_fixture1001_canonical_digest569569bytes_each569_ordered_ids_shapes_manifest_index_exact": true,
+    "neutral_package_roots_absent_at_review": true,
+    "decision_rule_no_higher_bothC_vs_bothR_whole_wallCPUmedian_p95_max_and_eachtraversalmedian_max_retained": true,
+    "native66queries_outside_original_pageclocks_1percent_credibility_no_historySLO_retained": true,
+    "no_statistical_equivalence_past_host_cause_fullround_or_master53_credit": true
+  },
+  "findings": [
+    {
+      "id": "LIFECYCLE_V1",
+      "kind": "PRELAUNCH_BLOCKING_DIAGNOSTIC_SAFETY_GAP",
+      "file": ".tools/research/release_history_matched_package_v1.py",
+      "lines": [
+        441,
+        444,
+        450,
+        451
+      ],
+      "evidence": "Popen uses known Windows venv redirector; wait is unbounded and exception cleanup kill/wait targets only launcher. No native-child identity witness, tree termination or deadline exists here. Earlier retained probe demonstrated launcher/native PID distinction on this host.",
+      "required_before_launch": "Fresh successor with prospectively bounded symmetric external coordinator stop cap, early native-child/Popen relationship attestation and targeted owned-tree cleanup plus native PID exit verification; preserve original failure and mark incomplete/no next capture if cleanup cannot be confirmed. No product SLO or original FileLock/future change."
+    },
+    {
+      "id": "DEPENDENCY_ATTESTATION_V1",
+      "kind": "PRELAUNCH_PROVENANCE_GUARD_GAP",
+      "file": ".tools/research/release_history_matched_package_v1.py",
+      "lines": [
+        339,
+        345
+      ],
+      "evidence": "A truthy ordinary module.__file__ whose Path.is_file is false bypasses allowed-prefix/hash branch and is labeled builtin/frozen/no-file. This omits the promised every-file-backed dependency proof.",
+      "required_before_launch": "Distinguish true builtin/frozen/namespace modules; ordinary file-backed origin must exist and satisfy allowed current-prefix/hash proof. Do not silently relabel missing/unexpected file paths."
+    }
+  ],
+  "root_response": "Parent independently confirmed launcher-only gap and requested v2 lifecycle repair. Quality author was notified of both findings before successor finalization. V1 remains preserved UNRUN.",
+  "product_P0_P1_conclusion": "No product P0/P1 attributed from this diagnostic static review; these are prelaunch safety/provenance gate findings.",
+  "limits": [
+    "No owned native process started or queried, no preparation, copy or measurement invoked.",
+    "No proof of timeout branch termination or future runtime query suitability until exact successor review and actual evidence.",
+    "Module attestation and current dependency comparisons are planned guards, not actual four-runtime observations.",
+    "Current24/source97 identities remain separately source-bound; retained797 package is not fullcheckout/historical195 replay.",
+    "Original failed/invalid/fatal observations and mandatory whole20/21 full captures remain unclosed."
+  ]
+}

@@ -27,6 +27,7 @@ from orqalis.persistence.filesystem.io import (
 )
 from orqalis.persistence.filesystem.layout import ProjectLayout
 from orqalis.persistence.filesystem.locking import FileLock
+from orqalis.retrieval import lexical_terms
 from orqalis.security.redaction import safe_diagnostic
 
 MEMORY_SCHEMA_VERSION = 1
@@ -54,6 +55,12 @@ class DurableUpdatePolicy(StrEnum):
     MANUAL = "manual"
 
 
+class MemoryLifecycle(StrEnum):
+    ACTIVE = "ACTIVE"
+    SUPERSEDED = "SUPERSEDED"
+    PENDING = "PENDING"
+
+
 class MemoryFreshness(StrEnum):
     FRESH = "FRESH"
     STALE = "STALE"
@@ -79,7 +86,7 @@ class MemoryProvenance(Contract):
 
 
 class DurableMemoryRecord(Contract):
-    schema_version: int = MEMORY_SCHEMA_VERSION
+    schema_version: Literal[1] = 1
     id: str = Field(pattern=r"^MEM-[0-9]{8}-[0-9]{4}$")
     category: MemoryCategory
     title: str = Field(min_length=1, max_length=300)
@@ -89,12 +96,26 @@ class DurableMemoryRecord(Contract):
     introduced_by_task: str | None = None
     confidence: float = Field(default=1.0, ge=0, le=1)
     last_verified_at: AwareDatetime = Field(default_factory=utc_now)
+    supersedes: str | None = Field(default=None, pattern=r"^MEM-[0-9]{8}-[0-9]{4}$")
+    summary: str | None = Field(default=None, max_length=400)
+    references: tuple[str, ...] = Field(default=(), max_length=32)
+
+    @model_validator(mode="after")
+    def valid_references(self) -> Self:
+        if len(set(self.references)) != len(self.references):
+            raise ValueError("Memory references must be unique")
+        for reference in self.references:
+            if _MEMORY_ID.fullmatch(reference) is None or reference == self.id:
+                raise ValueError("Memory references must be other project memory IDs")
+        return self
 
 
 class MemoryRecordStatus(Contract):
     record: DurableMemoryRecord
     freshness: MemoryFreshness
     changed_sources: tuple[str, ...] = ()
+    lifecycle: MemoryLifecycle = MemoryLifecycle.ACTIVE
+    superseded_by: str | None = None
 
 
 class MemoryRevalidationResult(Contract):
@@ -118,6 +139,43 @@ class MemoryProposal(Contract):
     created_at: AwareDatetime = Field(default_factory=utc_now)
     reviewed_at: AwareDatetime | None = None
     review_reason: str | None = None
+    predecessor_digest: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+
+
+class MemorySupersession(Contract):
+    predecessor: str = Field(pattern=r"^MEM-[0-9]{8}-[0-9]{4}$")
+    successor: str = Field(pattern=r"^MEM-[0-9]{8}-[0-9]{4}$")
+    predecessor_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
+    proposal_id: str = Field(pattern=r"^MEM-PROP-[0-9]{8}-[0-9]{4}$")
+    reviewed_at: AwareDatetime
+    reason: str = Field(min_length=1)
+    evidence: tuple[str, ...] = ()
+
+
+class MemoryLifecycleDocument(Contract):
+    """Canonical activation transitions, never a disposable search projection."""
+
+    schema_version: Literal[1] = 1
+    supersessions: tuple[MemorySupersession, ...] = ()
+
+    @model_validator(mode="after")
+    def valid_transitions(self) -> Self:
+        successors: set[str] = set()
+        edges: dict[str, str] = {}
+        for entry in self.supersessions:
+            if entry.predecessor in edges or entry.successor in successors:
+                raise ValueError("Memory lifecycle contains competing transitions")
+            edges[entry.predecessor] = entry.successor
+            successors.add(entry.successor)
+        for start in edges:
+            visited: set[str] = set()
+            current = start
+            while current in edges:
+                if current in visited:
+                    raise ValueError("Memory supersession cycle")
+                visited.add(current)
+                current = edges[current]
+        return self
 
 
 _BASELINE = (
@@ -190,6 +248,8 @@ def _parse_record(path: Path) -> DurableMemoryRecord:
         metadata = json.loads(raw)
     except (ValueError, json.JSONDecodeError) as exc:
         raise ValueError(f"Invalid memory frontmatter: {path.name}") from exc
+    if not isinstance(metadata, dict):
+        raise ValueError(f"Memory frontmatter must be an object: {path.name}")
     title = str(metadata.get("title", ""))
     content = body.strip()
     heading = f"# {title}"
@@ -208,6 +268,7 @@ class CuratedMemoryStore:
         self.history = layout.contained(layout.memory / "history")
         self.reservations = layout.contained(layout.runtime / "sessions" / "memory-ids")
         self.lock_path = layout.lock("memory")
+        self.lifecycle_path = layout.contained(layout.memory / "lifecycle.json")
 
     def initialize(self) -> None:
         self.layout.memory.mkdir(parents=True, exist_ok=True)
@@ -286,6 +347,8 @@ class CuratedMemoryStore:
         verified_commit: str | None = None,
         introduced_by_task: str | None = None,
         confidence: float = 1.0,
+        summary: str | None = None,
+        references: tuple[str, ...] = (),
     ) -> DurableMemoryRecord:
         with FileLock(self.lock_path):
             identifier = self._next_id("MEM")
@@ -303,6 +366,8 @@ class CuratedMemoryStore:
             verified_commit=verified_commit,
             introduced_by_task=introduced_by_task,
             confidence=confidence,
+            summary=summary,
+            references=references,
         )
 
     def save(self, record: DurableMemoryRecord) -> Path:
@@ -310,6 +375,7 @@ class CuratedMemoryStore:
         self._validate_sources(record)
         self.initialize()
         with FileLock(self.lock_path):
+            self._validate_references(record)
             self.records.mkdir(parents=True, exist_ok=True)
             path = self.records / f"{record.id}.md"
             if path.is_file():
@@ -327,19 +393,65 @@ class CuratedMemoryStore:
         self._validate_sources(record)
         return record
 
-    def list(self) -> tuple[DurableMemoryRecord, ...]:
-        if not self.records.is_dir():
-            return ()
-        records = tuple(_parse_record(path) for path in sorted(self.records.glob("MEM-*.md")))
-        for record in records:
-            self._validate_sources(record)
-        return records
+    def _lifecycle_document(self) -> MemoryLifecycleDocument:
+        if not self.lifecycle_path.is_file():
+            return MemoryLifecycleDocument()
+        try:
+            return MemoryLifecycleDocument.model_validate(read_json_object(self.lifecycle_path))
+        except (OSError, ValueError) as exc:
+            raise ConflictError("Canonical memory lifecycle is invalid") from exc
+
+    @staticmethod
+    def _lifecycle_state(
+        record: DurableMemoryRecord, document: MemoryLifecycleDocument
+    ) -> tuple[MemoryLifecycle, str | None]:
+        for entry in document.supersessions:
+            if entry.predecessor == record.id:
+                return MemoryLifecycle.SUPERSEDED, entry.successor
+        if record.supersedes and not any(
+            entry.predecessor == record.supersedes and entry.successor == record.id
+            for entry in document.supersessions
+        ):
+            # Approval writes the immutable successor before publishing its atomic
+            # activation transition. A crash at that boundary leaves it hidden.
+            return MemoryLifecycle.PENDING, None
+        return MemoryLifecycle.ACTIVE, None
+
+    def list(self, *, include_inactive: bool = False) -> tuple[DurableMemoryRecord, ...]:
+        """List active records; historical and interrupted successors are opt-in."""
+        with FileLock(self.lock_path):
+            document = self._lifecycle_document()
+            records = (
+                tuple(_parse_record(path) for path in sorted(self.records.glob("MEM-*.md")))
+                if self.records.is_dir()
+                else ()
+            )
+            by_id = {record.id: record for record in records}
+            if len(by_id) != len(records):
+                raise ConflictError("Duplicate canonical memory identity")
+            for record in records:
+                self._validate_sources(record)
+            for entry in document.supersessions:
+                if entry.predecessor not in by_id or entry.successor not in by_id:
+                    raise ConflictError("Memory lifecycle references a missing record")
+                if by_id[entry.successor].supersedes != entry.predecessor:
+                    raise ConflictError("Memory lifecycle disagrees with successor provenance")
+            return tuple(
+                record
+                for record in records
+                if include_inactive
+                or self._lifecycle_state(record, document)[0] == MemoryLifecycle.ACTIVE
+            )
 
     def search(self, query: str, limit: int = 10) -> tuple[DurableMemoryRecord, ...]:
-        terms = tuple(dict.fromkeys(re.findall(r"[a-z0-9_]{2,}", query.casefold())))
+        terms = lexical_terms(query)
         scored = []
         for record in self.list():
-            text = f"{record.title} {record.category} {record.content}".casefold()
+            text = set(
+                lexical_terms(
+                    f"{record.title} {record.category} {record.summary or ''} {record.content}"
+                )
+            )
             score = sum(term in text for term in terms)
             if score or not terms:
                 scored.append((score, record.title.casefold(), record))
@@ -353,27 +465,50 @@ class CuratedMemoryStore:
         *,
         source_root: Path | None = None,
     ) -> MemoryRecordStatus:
-        self._validate_sources(record)
+        return self.statuses((record,), current_commit, source_root=source_root)[0]
+
+    def statuses(
+        self,
+        records: tuple[DurableMemoryRecord, ...],
+        current_commit: str | None,
+        *,
+        source_root: Path | None = None,
+    ) -> tuple[MemoryRecordStatus, ...]:
+        """Check one result set against one lifecycle snapshot and shared source hashes."""
+        if not records:
+            return ()
+        document = self._lifecycle_document()
         inspected_root = source_root or self.layout.root
-        changed: list[str] = []
-        for relative in record.source.paths:
-            expected = record.source.content_hashes.get(relative)
-            actual = _hash(_source_path(inspected_root, relative))
-            if expected is not None and actual != expected:
-                changed.append(relative)
-        if (
-            not changed
-            and record.verified_commit
-            and current_commit
-            and record.verified_commit != current_commit
-            and not record.source.content_hashes
-        ):
-            changed.extend(record.source.paths or ("<repository>",))
-        return MemoryRecordStatus(
-            record=record,
-            freshness=MemoryFreshness.STALE if changed else MemoryFreshness.FRESH,
-            changed_sources=tuple(sorted(changed)),
-        )
+        source_hashes: dict[str, str | None] = {}
+        result: list[MemoryRecordStatus] = []
+        for record in records:
+            self._validate_sources(record)
+            changed: list[str] = []
+            for relative in record.source.paths:
+                expected = record.source.content_hashes.get(relative)
+                if relative not in source_hashes:
+                    source_hashes[relative] = _hash(_source_path(inspected_root, relative))
+                if expected is not None and source_hashes[relative] != expected:
+                    changed.append(relative)
+            if (
+                not changed
+                and record.verified_commit
+                and current_commit
+                and record.verified_commit != current_commit
+                and not record.source.content_hashes
+            ):
+                changed.extend(record.source.paths or ("<repository>",))
+            lifecycle, successor = self._lifecycle_state(record, document)
+            result.append(
+                MemoryRecordStatus(
+                    record=record,
+                    lifecycle=lifecycle,
+                    superseded_by=successor,
+                    freshness=MemoryFreshness.STALE if changed else MemoryFreshness.FRESH,
+                    changed_sources=tuple(sorted(changed)),
+                )
+            )
+        return tuple(result)
 
     def revalidate(
         self,
@@ -404,6 +539,8 @@ class CuratedMemoryStore:
             stale: list[str] = []
             for record in records:
                 current = self.status(record, current_commit)
+                if current.lifecycle != MemoryLifecycle.ACTIVE:
+                    raise ConflictError("Inactive memory cannot be revalidated")
                 if current.freshness == MemoryFreshness.FRESH:
                     statuses.append(current)
                     unchanged.append(record.id)
@@ -450,10 +587,29 @@ class CuratedMemoryStore:
         *,
         policy: DurableUpdatePolicy = DurableUpdatePolicy.REVIEW,
         evidence: tuple[str, ...] = (),
+        supersedes: str | None = None,
     ) -> MemoryProposal:
-        _ensure_secret_safe(record.title, record.content, rationale, *evidence)
+        _ensure_secret_safe(
+            record.title, record.content, record.model_dump_json(), rationale, *evidence
+        )
         self._validate_sources(record)
         with FileLock(self.lock_path):
+            self._validate_references(record)
+            predecessor_digest = None
+            if supersedes is None:
+                supersedes = record.supersedes
+            if supersedes is not None:
+                supersedes = _require_id(supersedes, _MEMORY_ID, "memory ID")
+                if supersedes == record.id:
+                    raise ConflictError("Memory cannot supersede itself")
+                predecessor = self.get(supersedes)
+                if (
+                    self._lifecycle_state(predecessor, self._lifecycle_document())[0]
+                    != MemoryLifecycle.ACTIVE
+                ):
+                    raise ConflictError("Only active memory can be superseded")
+                predecessor_digest = hashlib.sha256(_frontmatter(predecessor)).hexdigest()
+                record = record.model_copy(update={"supersedes": supersedes})
             if (self.records / f"{record.id}.md").exists():
                 raise ConflictError("Memory identity already exists")
             for root in (self.staging, self.history):
@@ -468,6 +624,7 @@ class CuratedMemoryStore:
                 record=record,
                 rationale=rationale,
                 evidence=evidence,
+                predecessor_digest=predecessor_digest,
             )
             directory = self.staging / proposal.id
             directory.mkdir(parents=True, exist_ok=False)
@@ -478,12 +635,22 @@ class CuratedMemoryStore:
                 (
                     f"# Proposed memory update\n\nCategory: `{record.category}`\n\n"
                     f"## Rationale\n\n{rationale.strip()}\n"
+                    + (
+                        f"\nSupersedes: `{supersedes}`\n\n## Before\n\n"
+                        f"{predecessor.content}\n\n## After\n\n{record.content}\n"
+                        if supersedes
+                        else ""
+                    )
                 ).encode(),
             )
             atomic_write_json(directory / "evidence.json", {"sources": list(evidence)})
         if policy == DurableUpdatePolicy.AUTO:
             return self.approve(proposal.id, "Approved by configured auto policy")
         return proposal
+
+    def _validate_references(self, record: DurableMemoryRecord) -> None:
+        for reference in record.references:
+            self.get(reference)
 
     def _validate_sources(self, record: DurableMemoryRecord) -> None:
         for relative in record.source.paths:
@@ -559,27 +726,70 @@ class CuratedMemoryStore:
     def _review(self, proposal_id: str, approved: bool, reason: str) -> MemoryProposal:
         if not reason.strip():
             raise ConflictError("Memory review requires a reason")
+        _ensure_secret_safe(reason)
         proposal_id = _require_id(proposal_id, _PROPOSAL_ID, "memory proposal ID")
+        expected = "APPROVED" if approved else "REJECTED"
         with FileLock(self.lock_path):
             directory = self.staging / proposal_id
             path = directory / "proposal.yaml"
             if not path.is_file():
                 existing = self.proposal(proposal_id)
-                expected = "APPROVED" if approved else "REJECTED"
                 if existing.status == expected:
                     return existing
                 raise ConflictError("Memory proposal is no longer pending")
             proposal = MemoryProposal.model_validate(read_json_object(path))
-            if proposal.status != "PENDING":
+            if proposal.status not in {"PENDING", expected}:
                 raise ConflictError("Memory proposal is no longer pending")
+            document = self._lifecycle_document()
+            published = next(
+                (entry for entry in document.supersessions if entry.proposal_id == proposal_id),
+                None,
+            )
+            if published is not None and (
+                not approved
+                or published.successor != proposal.record.id
+                or published.predecessor != proposal.record.supersedes
+                or published.predecessor_digest != proposal.predecessor_digest
+            ):
+                raise ConflictError("Memory transition is already published")
             if approved:
+                predecessor_id = proposal.record.supersedes
+                if predecessor_id and published is None:
+                    predecessor = self.get(predecessor_id)
+                    actual_digest = hashlib.sha256(_frontmatter(predecessor)).hexdigest()
+                    if (
+                        proposal.predecessor_digest != actual_digest
+                        or self._lifecycle_state(predecessor, document)[0] != MemoryLifecycle.ACTIVE
+                    ):
+                        raise ConflictError(
+                            "Superseded memory changed after proposal; stage a new proposal"
+                        )
                 self.save(proposal.record)
-            reviewed = proposal.model_copy(
-                update={
-                    "status": "APPROVED" if approved else "REJECTED",
-                    "reviewed_at": utc_now(),
-                    "review_reason": reason,
-                }
+                if predecessor_id and published is None:
+                    assert proposal.predecessor_digest is not None
+                    transition = MemorySupersession(
+                        predecessor=predecessor_id,
+                        successor=proposal.record.id,
+                        predecessor_digest=proposal.predecessor_digest,
+                        proposal_id=proposal_id,
+                        reviewed_at=utc_now(),
+                        reason=reason,
+                        evidence=proposal.evidence,
+                    )
+                    document = MemoryLifecycleDocument(
+                        supersessions=(*document.supersessions, transition)
+                    )
+                    atomic_write_json(self.lifecycle_path, document.model_dump(mode="json"))
+            reviewed = (
+                proposal
+                if proposal.status == expected
+                else proposal.model_copy(
+                    update={
+                        "status": expected,
+                        "reviewed_at": published.reviewed_at if published else utc_now(),
+                        "review_reason": published.reason if published else reason,
+                    }
+                )
             )
             atomic_write_json(path, reviewed.model_dump(mode="json"))
             self.history.mkdir(parents=True, exist_ok=True)

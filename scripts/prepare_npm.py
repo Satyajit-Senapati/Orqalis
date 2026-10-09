@@ -7,12 +7,14 @@ import json
 import shutil
 import subprocess
 import tomllib
+import urllib.request
 import zipfile
 from email.parser import BytesParser
 from pathlib import Path
 
 _MAINTAINER_RELEASE_DOCS = frozenset(
     {
+        "quality",
         "NPM_RELEASE_READINESS.md",
         "REPOSITORY_CLEANUP_AUDIT.md",
         "verification/npm-release-readiness.json",
@@ -150,6 +152,41 @@ def _verify_default_requirements(requirements: str) -> None:
         raise ValueError("Default npm runtime includes database dependencies: " + ", ".join(leaked))
 
 
+def _stage_bootstrap_pip(root: Path, vendor: Path) -> dict[str, str]:
+    """Bundle the exact locked pip wheel before the launcher makes any network install."""
+    lock = tomllib.loads((root / "uv.lock").read_text(encoding="utf-8"))
+    group = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))[
+        "dependency-groups"
+    ]["bootstrap"]
+    packages = [p for p in lock["package"] if p["name"] == "pip"]
+    if len(packages) != 1 or group != [f"pip=={packages[0]['version']}"]:
+        raise ValueError("Bootstrap pip must have one exact locked version")
+    package = packages[0]
+    name = f"pip-{package['version']}-py3-none-any.whl"
+    wheels = [w for w in package["wheels"] if w["url"].endswith("/" + name)]
+    if len(wheels) != 1 or not wheels[0]["url"].startswith("https://files.pythonhosted.org/"):
+        raise ValueError("Bootstrap pip requires one trusted registry wheel")
+    locked = wheels[0]
+    expected = locked["hash"].removeprefix("sha256:")
+    destination = vendor / name
+    if destination.is_symlink():
+        raise ValueError("Bootstrap wheel cannot be a symlink")
+    if destination.exists():
+        content = destination.read_bytes()
+    else:
+        with urllib.request.urlopen(locked["url"], timeout=60) as response:
+            content = response.read()
+    if hashlib.sha256(content).hexdigest() != expected or len(content) != locked["size"]:
+        raise ValueError("Bootstrap pip wheel integrity check failed")
+    destination.write_bytes(content)
+    for stale in vendor.glob("pip-*-py3-none-any.whl"):
+        if stale != destination:
+            if stale.is_symlink() or not stale.is_file():
+                raise ValueError("Bootstrap wheel must be a regular file")
+            stale.unlink()
+    return {"version": package["version"], "wheel": name}
+
+
 def prepare(root: Path, uv: str) -> None:
     package = root / "packages" / "npm"
     config = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]
@@ -190,12 +227,15 @@ def prepare(root: Path, uv: str) -> None:
     vendor = package / "vendor"
     # Explicit paths avoid accidentally shipping an older release from dist/.
     _stage_wheel(wheel, vendor, root)
+    bootstrap = _stage_bootstrap_pip(root, vendor)
     subprocess.run(
         [
             uv,
             "export",
             "--locked",
             "--no-dev",
+            "--group",
+            "bootstrap",
             "--no-emit-project",
             "--no-header",
             "--no-annotate",
@@ -218,9 +258,10 @@ def prepare(root: Path, uv: str) -> None:
         "schema": 1,
         "version": version,
         "license": config["license"],
+        "bootstrap": bootstrap,
         "files": {
             name: hashlib.sha256((vendor / name).read_bytes()).hexdigest()
-            for name in (wheel.name, "requirements.txt")
+            for name in (wheel.name, bootstrap["wheel"], "requirements.txt")
         },
         "web": web,
         "source": source,

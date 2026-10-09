@@ -45,7 +45,7 @@ def review_external_findings(
             raise PolicyDeniedError("Finding resolution requires verifiable evidence")
         verified_source_evidence = False
         for reference in review.evidence_refs:
-            evidence = uow.runs.get_evidence(reference)
+            evidence = uow.runs.get_evidence(reference, run_id=run.id)
             criterion = next(
                 (c for c in goal.criteria if evidence and c.id == evidence.criterion_id), None
             )

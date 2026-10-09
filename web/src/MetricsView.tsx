@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { duration, get } from "./api";
 import { Badge, count, Empty, label } from "./ui";
 import type { Run, Snapshot } from "./types";
+import { ProviderMetrics } from "./ProviderMetrics";
 
 export function MetricsView({
   snapshot,
@@ -87,6 +88,7 @@ export function MetricsView({
           ))}
         </div>
       </section>
+      <ProviderMetrics providers={stats.providers ?? []} />
       <section className="panel operational-panel">
         <div className="section-heading">
           <h2>Actor detail</h2>

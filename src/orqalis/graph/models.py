@@ -79,6 +79,8 @@ class GraphEdge(Contract):
     provenance: GraphProvenance
     confidence: float = Field(ge=0, le=1)
     evidence: tuple[str, ...] = ()
+    resolution_basis: tuple[str, ...] = ()
+    source_expressions: tuple[str, ...] = ()
 
 
 class ProjectGraph(Contract):

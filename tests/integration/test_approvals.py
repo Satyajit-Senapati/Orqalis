@@ -42,6 +42,7 @@ def test_persisted_operator_decisions_bind_to_goal_version_and_digest(git_repo: 
     )
     service = ApprovalService(factory)
     assert service.policy(run.id).mode == ControlMode.AUTONOMOUS
+    assert service.control_state(run.id) == (service.policy(run.id), ())
     assert service.ensure(run.id, ApprovalStage.GOAL, 1, "0" * 64) is None
 
     configured = service.configure(run.id, ControlMode.SUPERVISED)
@@ -52,6 +53,7 @@ def test_persisted_operator_decisions_bind_to_goal_version_and_digest(git_repo: 
     assert request and request.status == ApprovalStatus.PENDING
     assert service.ensure(run.id, ApprovalStage.GOAL, 1, digest) == request
     assert service.list(run.id) == (request,)
+    assert service.control_state(run.id) == (configured, (request,))
     with pytest.raises(ConflictError):
         service.decide(run.id, request.id, ApprovalDecisionKind.APPROVE, "operator", "f" * 64)
     with pytest.raises(InputError, match="requires a reason"):
@@ -61,6 +63,7 @@ def test_persisted_operator_decisions_bind_to_goal_version_and_digest(git_repo: 
     )
     assert approved.status == ApprovalStatus.APPROVED
     assert approved.decision and approved.decision.actor == "operator"
+    assert service.control_state(run.id) == (configured, (approved,))
     assert (
         service.decide(run.id, request.id, ApprovalDecisionKind.APPROVE, "operator", digest)
         == approved

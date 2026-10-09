@@ -56,7 +56,7 @@ class PlanRevisionService:
                     "Repair must preserve the current goal and increment plan version"
                 )
             current = uow.runtime.get_plan(run.id, run.plan_version)
-            goal = uow.runs.get_goal(plan.goal_version_id)
+            goal = uow.runs.get_goal(plan.goal_version_id, run_id=plan.run_id)
             if current is None or goal is None:
                 raise ConflictError("Current execution contract is missing")
             if not repair:

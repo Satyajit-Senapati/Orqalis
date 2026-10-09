@@ -1,0 +1,13 @@
+{
+  "status": "CONFIRMED_BY_STATIC_PATH_REVIEW_PENDING_REGRESSION_AND_FIX",
+  "priority": "P2",
+  "reviewer": "release_quality_review",
+  "source_sha256": "2489f711187119eaef71a8de7bffeafacb820526c78f5f2c50fb65e13659bc19",
+  "file": "src/orqalis/persistence/filesystem/locking.py",
+  "line": 202,
+  "trigger": "A different thread invokes release on the same FileLock instance already held by another thread, including reentrant depth2.",
+  "finding": "Counters/native handle may be mutated before gate.release rejects non-owner, preventing legitimate owner cleanup. Normal correctly-owned execution is not demonstrated affected.",
+  "planned_fix": "Validate gate ownership before acquisition/depth/handle mutation, retaining same native locking, FIFO order, deadlines and reentrancy.",
+  "planned_regression": ".tools/research/test_file_lock_ownership_staged_v1.py",
+  "qualification_boundary": "Current392-input preflight finishes source2489 unchanged. Fix then receives its own freeze, source-bound qualification and full rounds; no historical timing/holder explanation or acceptance credit."
+}

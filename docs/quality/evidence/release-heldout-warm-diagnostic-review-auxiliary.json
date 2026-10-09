@@ -1,0 +1,22 @@
+{
+  "status": "PASS_FUNCTIONAL_DIAGNOSTIC",
+  "plan_sha256": "abb975574a28ea8cdff8f57d69d80e58bd806bbb11b38d96df5de13268da6729",
+  "raw_v8_review_sha256": "50a0a698611895bcd0b63d985809d6673685526534593da5efb79934f302ac2b",
+  "rows": [
+    "release-heldout-warm-diagnostic-baseline-0-auxiliary.json",
+    "release-heldout-warm-diagnostic-current-0-auxiliary.json",
+    "release-heldout-warm-diagnostic-current-1-auxiliary.json",
+    "release-heldout-warm-diagnostic-baseline-1-auxiliary.json"
+  ],
+  "medians": {
+    "baseline": {
+      "wall_ms": 440.58154999947874,
+      "cpu_ms": 242.1875
+    },
+    "current": {
+      "wall_ms": 1861.4388999994844,
+      "cpu_ms": 1085.9375
+    }
+  },
+  "scope": "One predeclared sequential ABBA pair, three warm observations per block. Instrumented phase attribution, no change to original v8 data or timing threshold; independent disposition required. Process CPU excludes Git children; phase times include nested calls and must not be summed."
+}

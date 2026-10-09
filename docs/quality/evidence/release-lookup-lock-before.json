@@ -1,0 +1,20 @@
+{
+  "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "source_stable": true,
+  "status": "FAIL",
+  "elapsed_seconds": 10.046999999991385,
+  "workers": [
+    {
+      "run_id": "37fb79ee-bcd3-4215-8e1e-9fe2919c2426",
+      "status": "PASS"
+    },
+    {
+      "run_id": "5a5c3a89-3b34-4b3a-98c7-8cc24b9d3fda",
+      "status": "FAIL",
+      "exception_type": "LockTimeoutError",
+      "error": "Timed out acquiring lock: C:\\Users\\senap\\AppData\\Local\\Temp\\orqalis-lookup-lock-_j9mfno3\\repo\\.orqalis\\runtime\\locks\\ORQ-20261002-0001.state.lock"
+    }
+  ],
+  "method": "Two real state locks held simultaneously, barrier then each retrieves its already-loaded own goal. Unchanged10-second lock timeout; no mocked locks or workload retries. Fixture owned outside checkout, default persistence format.",
+  "captured_at": "2026-10-02T12:07:11.144647+00:00"
+}

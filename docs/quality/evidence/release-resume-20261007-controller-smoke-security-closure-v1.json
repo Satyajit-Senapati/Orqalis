@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T06:55:16.635335+00:00",
+  "status": "ACTUAL_FOUR_CASE_SMOKE_CONDITION_CLOSED_ROOT_ACK_STILL_REQUIRED",
+  "reviewed_files": {
+    "docs/quality/evidence/release-resume-20261007-owned-lifecycle-smoke-v3.json": "e21b49b3817898d570de5c4b302294d61780c319b8e0dbebf8397bf5efb9b48a",
+    ".tools/research/release_resume_20261007_finish_v1.py": "1ae912b03ff418ce445b89966572ef5956347d75d3e8fec3955a5b5e0064e77b",
+    "docs/quality/evidence/release-resume-20261007-controller-security-review-v1.json": "afe07e484607f9dc70320888f2e68207832acd3cb8dc67acd087362b03731c53"
+  },
+  "checks": {
+    "exact_reviewed_controller_hash": true,
+    "four_actual_reported_cases_pass": true,
+    "all_job_active_processes_zero_after_cleanup": true,
+    "all_owned_launchers_reaped_and_job_handles_closed": true,
+    "normal_success_no_error": true,
+    "timeout_primary_preserved_owned_job_drained": true,
+    "failed_assignment_owned_suspended_child_fallback": true,
+    "exit0_with_remaining_descendant_rejected_after_owned_drain": true
+  },
+  "scope": "Bounded actual report inspection only; no new process/native query or workload. Static review condition for tiny lifecycle smoke is closed. Exact quiet root ACK and remaining admission guards still required before26/27 launch.",
+  "limits": [
+    "Report carries exact current controller hash and job accounting/reap/close outcomes. Reviewer did not rerun smoke or independently query current OS processes.",
+    "Smoke report stores log hashes without log paths; reviewer did not independently rehash those logs. This does not constitute new release/performance sampling or global host-idleness proof.",
+    "Failed-assignment case is reported controlled RuntimeError seam; no claim of actual OS policy denial.",
+    "No convergence, Master53/performance acceptance, final packaging/signoff/publication or main commit."
+  ]
+}

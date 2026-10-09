@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "project_head_unchanged": true,
+  "group": "foundation",
+  "helper_sha256": "66d6f247912f72017ecd20cdd34be0d5897ec350e352cb825f2f4da909c640ef",
+  "commands": [
+    {
+      "name": "Foundation without commit-creating fixtures",
+      "command": [
+        "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+        "-I",
+        "-c",
+        "import sys;from pathlib import Path;root=Path(sys.argv.pop(1));sys.path[:0]=[str(root/'src'),str(root)];import pytest;raise SystemExit(pytest.main(sys.argv[1:]))",
+        "S:\\Orqalis",
+        "tests/unit/test_filesystem_foundation.py",
+        "-q",
+        "--junitxml",
+        "S:\\Orqalis\\.tools\\research\\release-safe-checks-b7f-foundation.junit.xml",
+        "--deselect=tests/unit/test_filesystem_foundation.py::test_bootstrap_writes_schema_v2_json_as_yaml_and_selective_policy",
+        "--deselect=tests/unit/test_filesystem_foundation.py::test_bootstrap_regenerates_gitignore_from_tracking_policy",
+        "--deselect=tests/unit/test_filesystem_foundation.py::test_bootstrap_rejects_invalid_tracking_policy"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.014999999984866,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-foundation-0.log",
+      "log_sha256": "0cac18d7338825b182b3574ca736aa768255c7213a587af7833312f8befffa35"
+    }
+  ],
+  "scope": "Current actual-source no-commit checks only; not a frozen preflight, full regression, installed validation or complete qualification round.",
+  "commit_creating_foundation_cases_deselected": [
+    "test_bootstrap_writes_schema_v2_json_as_yaml_and_selective_policy",
+    "test_bootstrap_regenerates_gitignore_from_tracking_policy",
+    "test_bootstrap_rejects_invalid_tracking_policy"
+  ],
+  "junit": ".tools/research/release-safe-checks-b7f-foundation.junit.xml",
+  "junit_sha256": "53d83ed394f47b167fd27e417c74310e2ffa8e650c7a3a5996e0399183340d52",
+  "suites": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "32",
+      "time": "2.124",
+      "timestamp": "2026-10-02T22:45:46.583359+05:30",
+      "hostname": "THOR-GALAXY"
+    }
+  ]
+}

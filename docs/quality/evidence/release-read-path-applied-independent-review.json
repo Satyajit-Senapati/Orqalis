@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T09:23:30.656424+00:00",
+  "status": "BOUNDED_APPLIED_DELTA_REVIEW_PASS",
+  "reviewer": "independent release_security_review agent",
+  "scope": "Read-only inspection and hashing of applied graph constructor, controls read snapshot/API, recovery target ancestor guard, actual captured focused/static evidence. No workload run by reviewer.",
+  "source_sha256": "c3439180020ec483f902b61b757e1f7bb50756f4e7d59f6de16adb87d0ae0111",
+  "source_inputs": 196,
+  "inverse_previous_source_sha256": "f7ca46771370685dc149bf226ceb49220387ba486effe43cd0308cb949e7fa27",
+  "inverse_reconstruction_proves_only_four_production_deltas": true,
+  "production_files": [
+    {
+      "path": "src/orqalis/graph/engine.py",
+      "sha256": "b3dee5bc9925a6100303da0274620635027df3bc33b60ac6cd19f16c56daaa38",
+      "proposal": ".tools/research/release_graph_constructor_proposal_v2.py",
+      "proposal_sha256": "7c026f934b8d18ec657c9ce6057b117b7a150b525b5cc298b8ee038c7306c32f",
+      "equality": "AST identical; formatter comparison reflow only"
+    },
+    {
+      "path": "src/orqalis/core/approvals.py",
+      "sha256": "8769d96e5422739cb4ef27ed6fac149185c49422b6de75fef9d0894353136367",
+      "proposal": ".tools/research/release_controls_read_proposal_v1.py",
+      "proposal_sha256": "8769d96e5422739cb4ef27ed6fac149185c49422b6de75fef9d0894353136367",
+      "equality": "byte identical"
+    },
+    {
+      "path": "src/orqalis/api/app.py",
+      "sha256": "924c9c29ff8f083dbcbfc05e14dee09f49d393623c8ae3a04aabad45656d5421",
+      "proposal": ".tools/research/release_controls_api_proposal_v1.py",
+      "proposal_sha256": "924c9c29ff8f083dbcbfc05e14dee09f49d393623c8ae3a04aabad45656d5421",
+      "equality": "byte identical"
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py",
+      "sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+      "proposal": ".tools/research/release_recovery_target_guard_proposal_v1.py",
+      "proposal_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+      "equality": "byte identical"
+    }
+  ],
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "boundaries": [
+    {
+      "path": "src/orqalis/graph/engine.py",
+      "line": 424,
+      "conclusion": "Canonical Git root and common directory always validated. Default source reuses canonical root; explicit source normalized; distinct roots compare common directories. Existing layout/storage guards and refresh logic unchanged. No new graph cache."
+    },
+    {
+      "path": "src/orqalis/core/approvals.py",
+      "line": 162,
+      "conclusion": "New control_state uses one existing injected unit_of_work, requires run existence, performs run-scoped policy/list reads and no explicit commit. All prior authorization/approval mutation and validators byte unchanged."
+    },
+    {
+      "path": "src/orqalis/api/app.py",
+      "line": 279,
+      "conclusion": "Only controls response read switches to the new service snapshot; authentication and approval mutations unchanged."
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py",
+      "line": 216,
+      "conclusion": "Capsule normalized/anchored once before full target/ancestor link guard, strict root resolve, target resolve and containment. Recovery ordering, commit/durability and independent atomic-write link check unchanged."
+    }
+  ],
+  "unchanged_plan_preview": {
+    "path": "src/orqalis/core/plan_preview.py",
+    "sha256": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "rejected_approval_consolidation_not_applied": true
+  },
+  "focused_evidence": [
+    {
+      "report": "docs/quality/evidence/release-read-path-focused-v2.json",
+      "report_sha256": "fbc0357a3bd48e93db1fc54e9f5c6393e387f75adb57f30a2c08b396bb11a8d3",
+      "cases": 123,
+      "runner_sha256": "e2afa5aa8aebd11b9b2624745c3a3c1fbf0ee9d8b6b0c426bae008eebfa6c4a8",
+      "junit_sha256": "8d7516b1063883e888cd1c36c15ec1118c84f2978adf7f43788bd21a55447486",
+      "log_sha256": "60121563babb536ced5a83c61a43061fd63c78135ef44a47d96d97b0466e95ee",
+      "actual_output_hashes_and_junit_verified": true
+    },
+    {
+      "report": "docs/quality/evidence/release-read-path-focused-v3.json",
+      "report_sha256": "84770700163d50a361e18744dc1ef1ace97ecba1fb2781733e739dc245d6e4b6",
+      "cases": 37,
+      "runner_sha256": "fb1b1bbe2193d7106116e3cf150bfa253a99abf550471686beac6ae509404921",
+      "junit_sha256": "f2abd5898f09cb7c811bde3d547e0f8729c4200dd6d72678ff7b2908837983da",
+      "log_sha256": "b769d35d3b2aadad7d2e33cd7ba4e19a4d434a76fa7d62c0dc78066c815afbcf",
+      "actual_output_hashes_and_junit_verified": true
+    }
+  ],
+  "import_only_current_test_bridge": [
+    {
+      "path": "tests/unit/test_filesystem_task_store.py",
+      "historical_sha256": "96d28bb0bf5ffc2d8e1a8746b88e4f83fb0adb5da4f23c1d80ca4d979c92e5f5",
+      "current_sha256": "0e8dce47a45d448b00f0117e3e06849b9fbe2395e2da124532141646308591fc",
+      "inverse_import_only_sha256": "96d28bb0bf5ffc2d8e1a8746b88e4f83fb0adb5da4f23c1d80ca4d979c92e5f5",
+      "assertions_monkeypatch_targets_deadlines_unchanged": true
+    },
+    {
+      "path": "tests/unit/test_interface_release.py",
+      "historical_sha256": "5f74a03a2bd05b6c6baef745ac405191463644d749d1e67477368864367581de",
+      "current_sha256": "443bd483ab54a5e52d0fe4185a7c64ab6d2f310040c78ac3082125331f43004d",
+      "inverse_import_only_sha256": "5f74a03a2bd05b6c6baef745ac405191463644d749d1e67477368864367581de",
+      "assertions_monkeypatch_targets_deadlines_unchanged": true
+    }
+  ],
+  "six_other_v2_test_file_hashes_match_current": true,
+  "evidence_interpretation": "Historical 123-test capture retains original test bytes; fresh 37-test full-file capture covers the two corrected files, exact inverse-import-only hash proof bridges the correction. This is not a single current 123-case run and not 160 unique cases.",
+  "new_behavior_case_coverage": "Eleven cases captured in v2: canonical graph identity default/same/nested; injected controls factory with/without stored policy and missing run/no mutation; relative capsule anchored before cwd change; missing capsule root; metadata fault; real root and target-parent directory link denial. Recovery cases retained and freshly run in corrected v3 file.",
+  "static_evidence": {
+    "report": "docs/quality/evidence/release-read-path-static-focused-v1.json",
+    "sha256": "e668a63b7fff12ba3ec286cc1ccfc9bb2feda947fc0bf6dd09084ac0a9f0a6d4",
+    "checks": [
+      {
+        "name": "strict-types",
+        "exit_code": 0,
+        "log": ".tools/research/release-read-path-static-strict-types-v1.log",
+        "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+      },
+      {
+        "name": "ruff-lint",
+        "exit_code": 0,
+        "log": ".tools/research/release-read-path-static-ruff-lint-v1.log",
+        "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+      },
+      {
+        "name": "ruff-format",
+        "exit_code": 0,
+        "log": ".tools/research/release-read-path-static-ruff-format-v1.log",
+        "sha256": "f82b031f997f0909d82c00a03c55289a3924bafda955b7cb56163183055129c3"
+      },
+      {
+        "name": "web-lint",
+        "exit_code": 0,
+        "log": ".tools/research/release-read-path-static-web-lint-v1.log",
+        "sha256": "c874847c992311a6b2839ba65ad533b5b72bdd94e22a84d23bdb75cfc68aae93"
+      }
+    ],
+    "actual_logs_hash_verified": true,
+    "strict_types_source_files": 287,
+    "scope": "Four checks only, not all eleven release preflight gates"
+  },
+  "preserved_dispositions": [
+    {
+      "path": "docs/quality/evidence/release-read-path-runner-guard-disposition-v1.json",
+      "sha256": "bab27b1032913acc5180b524f11483eaeef7816faa837b9780335c11628e88e5"
+    },
+    {
+      "path": "docs/quality/evidence/release-read-path-type-diagnostic-disposition-v1.json",
+      "sha256": "021632e2f80582af6763fa90fc4acf048350aa35cd695e70d9a72dd59863d406"
+    }
+  ],
+  "limitations": [
+    "Custom ApprovalService subclasses overriding only policy/list must also override control_state to customize the API response. Existing UOW factory injection is preserved; arbitrary old method override dispatch is not. No in-repository affected override or concrete P1 found.",
+    "Injected stateful Git services can observe fewer redundant constructor calls and changed error ordering; stable LocalGitService and existing repository identity denials remain correct.",
+    "Filesystem link checks retain existing TOCTOU limits; neither old nor new helper is race-free. Rare concurrent mutation/error timing is not identical, and helper does not establish that every existing ancestor is a directory.",
+    "No browser deadline, latency improvement, full 86-contract closure, full preflight, installed artifact closure, complete qualification rounds or release certification claimed. Previous raw failures remain historical and require fresh original acceptance workloads.",
+    "This source aggregate is not an attestation of a fresh broader 390-input release freeze; parent must bind current tests/frontend/helpers for later qualification."
+  ]
+}

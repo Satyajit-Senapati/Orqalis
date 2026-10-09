@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T11:56:38.624790+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "BOUNDED_EXACT_V2_UNAPPLIED_LAYOUT_RESOLUTION_STATIC_REVIEW_PASS",
+  "decision": "Eligible for bounded application with targeted tests; no concrete new P0/P1 found. Exact v2 addresses v1 altered-root/custom-Path eligibility limits without removing fresh security guard.",
+  "source_sha256": "a360ed56a5afecf0490fee3e8661894cab982e15e51ee8fd5e6d0744e7bc64e1",
+  "source_inputs": 196,
+  "scope": "Read-only exact v2 lexical eligibility, fallback and unchanged downstream guard review. No source/helper/test edits or workloads.",
+  "original": {
+    "path": "src/orqalis/persistence/filesystem/layout.py",
+    "sha256": "c93b8b8b532e7c21a35782b0f20915f92c9eddc09886d501fa14d7f65023e52b"
+  },
+  "proposal": {
+    "path": ".tools/research/release_layout_resolution_proposal_v2.py",
+    "sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba"
+  },
+  "patch": {
+    "path": ".tools/research/release_layout_resolution_proposal_v2.patch",
+    "sha256": "ce3b7a4d736cd818f1505c84a1ac39f247fc3387d70c0e022087971662b9ab82"
+  },
+  "mechanical_proof": "Removing initialization plus canonical_store selection block and restoring original store.resolve recreates original whole source exactly; all other methods unchanged.",
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "conclusions": [
+    "Skip store.resolve only when existing ordinary-descendant fast path is chosen, store has exact native platform Path type, is absolute, and contains no .. components. All checks lexical and request-local; no metadata/path cache.",
+    "Subclasses retain ordinary_descendant=False and original store dispatch/resolution. Absolute outside or traversal parts, custom Path store, relative/mutated parent roots retain original store.resolve.",
+    "Fresh full candidate ancestry link/junction/metadata guard remains before selection and candidate.resolve. Candidate.resolve(strict=False) and exact containment predicate unchanged. All recovery/atomic/UOW/approval/checkpoint/durability behavior unchanged.",
+    "For normal native canonical roots and fixed store child, retained candidate resolution catches outside ancestor swaps against lexical store; removed prefix resolve is not a lost authorization boundary.",
+    "Existing root normalization and separate store property/contained method unaffected."
+  ],
+  "retained_limits": [
+    "No identical transient filesystem observation or injected-error chronology guarantee: removed prefix resolve call on eligible ordinary paths changes error timing and artificial prefix-specific failure hooks. Retained ancestry and candidate resolution errors fail closed.",
+    "Existing TOCTOU limits remain, no race-free filesystem guarantee.",
+    "Windows ordinary case comparisons follow native Path equality. Exotic aliases that change resolved spelling can produce stronger rejection; no exhaustive supported alias parity demonstrated without fixtures.",
+    "Deliberate absolute native root replacement with no .. is still treated according to the constructor\u2019s root selection contract; no extra fresh root canonicalization/cache introduced.",
+    "Exact proposal unapplied/unqualified at capture. Targeted changed-root/custom Path/subclass/link/permission/containment cases required before applied PASS claim.",
+    "No original5s PLAN acceptance/13-of14 closure, performance speedup, complete contracts, installed/two-round qualification or release readiness claim."
+  ],
+  "required_targeted_checks": [
+    "Native ordinary/empty/missing paths skip only redundant store resolution and still resolve candidate",
+    "Relative and .. mutated roots retain store resolution; custom Path store retains injected resolve",
+    "Subclass and atypical absolute/traversal fallback original order and both resolves",
+    "Real root/store/parent/target symlink+junction denied",
+    "Controlled ancestor swap candidate resolves outside lexical store and containment denies",
+    "Unexpected metadata and candidate-resolution errors propagate before downstream IO",
+    "Supported Windows case/path alias behaviors characterized"
+  ],
+  "historical_v1_review": {
+    "path": "docs/quality/evidence/release-layout-resolution-proposal-independent-review-v1.json",
+    "sha256": "4cb0bda5181a9b0a34485640f53f4dcfb3d6847f948a82aaf8c6eaf6447f6d99",
+    "disposition": "Retained separately; v2 strengthens eligibility and is the final static decision requested."
+  }
+}

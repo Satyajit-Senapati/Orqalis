@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "status": "PASS_SCOPED_STATIC_GUARD_REVIEW_PENDING_FRESH_VALIDATION",
+  "created_at": "2026-10-07T08:24:21.559091+00:00",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "6c46fbde0eb5a620f85e819566711f406be6d6375884cd79023c1b21f67f5e8c",
+  "freeze": {
+    "path": "docs/quality/evidence/release-input-freeze-owned-temp-v2.json",
+    "sha256": "764673ad0b2f10f07a18f2d1d9954a29774e379ec9329b327475fdb253ed821c",
+    "declared_inputs": 394,
+    "scope": "Named record fields/digest checked; no entire source/input inventory rehash."
+  },
+  "reviewed_files": {
+    "src/orqalis/persistence/filesystem/io.py": "054d2f51e9406db2b71118c209d45f99643e7b42accda210c02815bb4d6cb4f9",
+    "tests/unit/test_atomic_temporary_verification.py": "453f9370813288841ace6b2588ca16ce73ac62ec782e2bf9cc7b33a2d417eb5b"
+  },
+  "prior_review": {
+    "path": "docs/quality/evidence/release-owned-temp-quality-independent-review-v1.json",
+    "sha256": "ce80649f35c0bd036eb86ac1b941eed4d0b531be54921748713264db9f6694a4",
+    "scope": "Source852 historical conditional review preserved."
+  },
+  "adjudication": {
+    "prior_finding": "Ownership-unproven _require_temporary_identity error could enter ordinary cleanup because only dedicated identity error suppressed cleanup.",
+    "disposition": "CLOSED_IN_STATIC_V2_PATH_REVIEW",
+    "reason": "Caller sets identity_lost before each parent/nofollow identity check, and clears it only after success. Any original error raised by that check propagates unchanged and skips pathname cleanup. Descriptor verifier now only reads/checks bytes and obtains fstat, placing first path-identity check inside explicit ownership-loss guard.",
+    "locations": [
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      202,
+      203,
+      204,
+      218,
+      219
+    ],
+    "tests": "Two parameterized real-write guard failures assert exact exception object, zero unlink calls, original target bytes preserved, unverified temporary preserved for test-owned cleanup."
+  },
+  "retained_semantics": [
+    "Original complete-write/flush/fsync/owned byte-read order retained.",
+    "Regular/nonreparse/dev-inode checks remain fresh before close/chmod/every replacement attempt, with inode-zero path-read fallback.",
+    "Corrupt/truncated/zero-progress write failure and verified ordinary replacement failure retain cleanup behavior.",
+    "Original five-attempt recognized Windows-denial policy and directory fsync unchanged.",
+    "No stronger atomic cross-process pathname-race guarantee claimed."
+  ],
+  "conditional_acceptance": [
+    "Fresh final-source focused133/static/86/full qualification evidence mandatory; pending runs are not PASS claims.",
+    "ReadProbe parity and existing foundations require new-source qualification; prior131 pre-format and b897 diagnostic results retain historical scope.",
+    "Measured avoidance of temporary reopen cost remains plausible until fresh source qualification; original browserFAIL/performance Master53 not automatically closed."
+  ],
+  "limits": [
+    "Bounded static review only; no workload, tests, product imports, native query or source mutation.",
+    "This review closes the specifically reported guard-error cleanup path, not universal filesystem adversarial race proof or release acceptance."
+  ],
+  "workloads_invoked": 0
+}

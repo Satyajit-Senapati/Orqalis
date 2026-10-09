@@ -1,0 +1,16 @@
+{
+  "status": "DIAGNOSTIC_CAPTURE",
+  "source_sha256": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+  "source_stable": true,
+  "helper_sha256": "91e55970f6853c6e7f352848c60461a8caf809fc72b865c4f003f08dd2f0164a",
+  "result": {
+    "disconnect_received_before_worker_release": false,
+    "stream_finished_before_worker_release": false,
+    "subscribers_before_worker_release": 1,
+    "calls_before_worker_release": [
+      "snapshot"
+    ],
+    "subscribers_after_cleanup": 0
+  },
+  "scope": "Actual ASGI WebSocket route and real event bus under one gated synchronous snapshot. Disconnect queued while I/O worker blocked; probe deadline0.5s, worker gates4s/2s. No production deadlines changed, no native shutdown or timing cure claim."
+}

@@ -1,0 +1,1012 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-02T10:44:03.324306+00:00",
+  "reviewer": "Independent specification and acceptance reviewer",
+  "status": "MAPPING_READY_NO_NEW_CONFIRMED_P0_P1_PENDING_FINAL_EVIDENCE_CLOSURE",
+  "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "release_input_sha256": "49af6bd8978badbb6fcf10e84d7d92a4b74133e40dae53e51d6de24c821dab1b",
+  "release_input_file_count": 390,
+  "every_frozen_input_hash_verified": true,
+  "source_hash_independently_verified": true,
+  "candidate_version": "2.1.0",
+  "prior_review": "release-acceptance-final-review.json",
+  "unchanged_previously_inspected_core_paths": [
+    "src/orqalis/core/orchestrator.py",
+    "src/orqalis/core/recovery.py",
+    "src/orqalis/execution/cancellation.py",
+    "src/orqalis/execution/sandbox.py",
+    "src/orqalis/execution/commands.py",
+    "src/orqalis/delivery/guardian.py",
+    "src/orqalis/delivery/test_integrity.py",
+    "src/orqalis/execution/review.py",
+    "src/orqalis/graph/parsing.py",
+    "src/orqalis/graph/engine.py",
+    "src/orqalis/graph/models.py",
+    "src/orqalis/graph/ecmascript.py",
+    "src/orqalis/graph/queries.py",
+    "src/orqalis/sdk.py",
+    "src/orqalis/mcp/server.py",
+    "src/orqalis/cli/catalog.py",
+    "src/orqalis/graph/symbols.py",
+    "src/orqalis/retrieval.py",
+    "src/orqalis/indexing/service.py",
+    "src/orqalis/context/builder.py",
+    "src/orqalis/memory/curated.py",
+    "src/orqalis/memory/curation.py",
+    "src/orqalis/memory/navigation.py",
+    "src/orqalis/cli/memory.py",
+    "src/orqalis/skills/markdown.py",
+    "src/orqalis/skills/registry.py",
+    "src/orqalis/core/vertical_plan.py",
+    "src/orqalis/mcp/policy.py",
+    "src/orqalis/tasks/history.py",
+    "src/orqalis/persistence/filesystem/task_store.py",
+    "src/orqalis/observability/trace.py",
+    "src/orqalis/agents/service.py",
+    "src/orqalis/execution/worker.py",
+    "src/orqalis/domain/telemetry.py",
+    "src/orqalis/observability/analytics.py",
+    "src/orqalis/providers/validation.py",
+    "src/orqalis/providers/openai.py",
+    "src/orqalis/providers/anthropic.py"
+  ],
+  "previously_inspected_core_behavior_sha_identical": true,
+  "changed_prior_inspected_paths": [
+    "pyproject.toml",
+    "uv.lock",
+    "scripts/compare_quality.py",
+    "scripts/run_quality_contracts.py",
+    "scripts/prepare_npm.py",
+    "docs/quality/OSS_LICENSE_AUDIT.md",
+    "tests/unit/test_npm_release.py",
+    "packages/npm/lib/bundle.js",
+    "docs/PUBLISHING.md"
+  ],
+  "new_repair_inspected_sha256": {
+    "packages/npm/lib/runtime.js": "3af3d07d2f6d89ff2f0e864185735a390ebf4297af354e55e577b0656b7951a5",
+    "packages/npm/lib/bundle.js": "324df0d798c5852d8030099e07897c92720e1b17629784d8486077a1b63ca34e",
+    "packages/npm/test/runtime.test.js": "3685b06ceee79c78c2951c8c7a07848d107a07200944be0707efe97dfa835a24",
+    "scripts/prepare_npm.py": "26e475cfe7f63f93c637e9f0a87d93d4bd9567c2a69e90cf94abeb57ebfe5613",
+    "scripts/run_quality_contracts.py": "99df98f055d8b9d980b8b0d011034b439273c2fd6c3a678596f2cbed01d33e3c",
+    "scripts/compare_quality.py": "3fe4e7f00a06281a39660b86fb44124c91f44eb141eba955cb67d136f5bd6993",
+    "tests/unit/test_npm_release.py": "b61d599637df041fa0c33a85b3a672c44c8422612faceb9135ad58129de313d0",
+    "tests/unit/test_contract_compatibility.py": "d11c8a5abc10214bd44577776edc659f0546ce8df368dde8c8ce00db2f6a2fc3",
+    "tests/unit/test_quality_comparison.py": "4d6e90c3797fe5cea013ddeb20653db834e41ffe3cfbbee800f44f4dd91b2d3c",
+    "pyproject.toml": "559cf80ce6089f7e53e4b9470f7966370d5f1077aaf9c53f969f520c927d8e6d",
+    "uv.lock": "e917fd601487be1c67cdf3e1878c2ec4c941d648fb9c803e617b4d9b76c24c7f"
+  },
+  "confirmed_new_p0_findings": [],
+  "confirmed_new_p1_findings": [],
+  "fixed_findings_preserved": [
+    "Pre-existing tasks-index allocation contention: canonical scan outside shared allocation lock; retained deterministic failed preflight and passing allocation/stale-cursor tests.",
+    "Seeded installer advisories: verified locked pip26.2.1 first offline, null config sentinel, exact installed inventories audited.",
+    "Async contract child source contamination: source guard v2 covers actual AnyIO/asyncio transport path; earlier85/1 failure retained and invalid for new comparison."
+  ],
+  "installed_package_checks": {
+    "passed": 17,
+    "mcp_tools": 41,
+    "source_input_bound": true,
+    "artifact_identity": "release-artifact-identity.json",
+    "npm_sha256": "77c46dc17704bb18685661f4e14afffe84cac4727f882217f8be882f43b6b92a",
+    "wheel_sha256": "6d3a75f78e42b6adc968993eb65ced9ca2b593c922b950158ad26cf088a478df"
+  },
+  "actual_installed_audit_witnesses": [
+    {
+      "channel": "wheel",
+      "inventory": "release-installed-wheel-inventory.json",
+      "audit": "release-installed-wheel-advisories.json",
+      "exact_third_party_count": 51,
+      "inventory_exact": true,
+      "reported_vulnerabilities": 0,
+      "skipped_dependencies": 0,
+      "installed_pip": "26.2.1"
+    },
+    {
+      "channel": "npm",
+      "inventory": "release-installed-npm-inventory.json",
+      "audit": "release-installed-npm-advisories.json",
+      "exact_third_party_count": 51,
+      "inventory_exact": true,
+      "reported_vulnerabilities": 0,
+      "skipped_dependencies": 0,
+      "installed_pip": "26.2.1"
+    }
+  ],
+  "static_gates": {
+    "status": "PASS",
+    "source_input_bound": true,
+    "gates": [
+      "Ruff lint",
+      "Ruff format",
+      "Strict app/test types",
+      "Strict scripts",
+      "Web lint",
+      "Web units",
+      "Web production build",
+      "Launcher syntax",
+      "Launcher lint",
+      "Launcher format",
+      "Launcher units"
+    ]
+  },
+  "example_witnesses": {
+    "six_files_unchanged": true,
+    "evidence_source": "06bf82864522ef4fc99f3f8754f6b4646b68815bf9d44724d8d76f1eec9629a1",
+    "scope": "Retained parser/type proof remains explicitly historical; exact file identity supports syntax mapping, fresh v2 service contracts still required."
+  },
+  "all_50_decisions_reconsidered": [
+    {
+      "id": "O01",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Retain filesystem authority",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "O02",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Keep bounded explicit recovery and completed-observation reuse",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "O03",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Retain deterministic ownership and scoped result handoffs",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "O04",
+      "decision": "ADD",
+      "priority": "P1",
+      "adaptation": "Add deterministic child-process death/restart barriers across all phases",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "O05",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer parallel writers and general mailbox until conflict/throughput evaluation",
+      "review": "No release workload or reviewed authority contract now justifies this optional runtime/dependency surface.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "O06",
+      "decision": "REJECT",
+      "priority": "P2",
+      "adaptation": "Reject wholesale framework/database replacement",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "X01",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Persist exact ownership, inspect labels, reconcile before reuse/recovery; fail closed",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "X02",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Retain typed tools, workspace scope and optional isolation",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "X03",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer remote adapters and snapshots; Daytona core is no longer maintained",
+      "review": "Hosted sinks, paid judges, external writes and remote sandboxes remain optional and add network/credential/cost contracts not required for this local release.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "S01",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Detect conservative AST/diff signals; exact reviewed hash-bound exception",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "S02",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Stat and bounded reads before secret/diff analysis",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "S03",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer optional evidence-only scanner adapters until native reliability closes",
+      "review": "Native guardian/reliability fixes and fresh dependency audit are the accepted gate; optional third-party scanner adapters are not required to deliver the documented supported scope.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "G01",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Separate extracted occurrences from inferred target bindings; invalidate cache",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "G02",
+      "decision": "ADD",
+      "priority": "P1",
+      "adaptation": "Add native abstraction for pinned JS/TS/TSX grammars with declared limits",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "G03",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Keep file-granularity cache and report reads separately from parsing",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "G04",
+      "decision": "ADD",
+      "priority": "P1",
+      "adaptation": "Retain Orqalis-owned bounded traversal in SDK/CLI/MCP",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "G05",
+      "decision": "ADD",
+      "priority": "P1",
+      "adaptation": "Add bounded native outline/body/reference reads with source-hash checks",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "G06",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer LSP/SCIP and symbol writes; preserve read-only abstraction",
+      "review": "Remaining lexical/document/paraphrase limitations are transparently scoped; no new labeled workload or reliable semantic-authority design justifies additional retrieval/LSP/model/temporal layers in this release.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "G07",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer clustering/multimodal/model extraction",
+      "review": "Remaining lexical/document/paraphrase limitations are transparently scoped; no new labeled workload or reliable semantic-authority design justifies additional retrieval/LSP/model/temporal layers in this release.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "G08",
+      "decision": "REJECT",
+      "priority": "P2",
+      "adaptation": "Reject mandatory graph/model service",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "R01",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Use shared whole-word/snake/camel terms; invalidate lexical index version",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "R02",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Measure held-out gold and negative context; change only on demonstrated benefit",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "R03",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer new retrieval dependency and fusion pending labeled evidence",
+      "review": "Remaining lexical/document/paraphrase limitations are transparently scoped; no new labeled workload or reliable semantic-authority design justifies additional retrieval/LSP/model/temporal layers in this release.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "M01",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Keep distinct graph/memory/history authorities and scoped proposals",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "M02",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Reviewed digest-bound supersession with atomic lifecycle metadata",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "M03",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Bounded excerpts/discovery and explicit ID references; fetch detail on demand",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "M04",
+      "decision": "ADD",
+      "priority": "P1",
+      "adaptation": "Shared integrity report and CLI/MCP projection",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "M05",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer extra taxonomy/protection modes/bitemporal inference",
+      "review": "Remaining lexical/document/paraphrase limitations are transparently scoped; no new labeled workload or reliable semantic-authority design justifies additional retrieval/LSP/model/temporal layers in this release.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "M06",
+      "decision": "REJECT",
+      "priority": "P2",
+      "adaptation": "Reject replacement SDK/store, silent deletion and fuzzy rewrite as authority",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "H01",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Retain explicit trusted roots, hashes and tool requirements as constraints",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "H02",
+      "decision": "ADD",
+      "priority": "P1",
+      "adaptation": "Versioned routing/portability evaluation; model quality explicitly unknown without paid runs",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "H03",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer richer provenance/environment validation and provider-worker resource execution",
+      "review": "Portable text resources, explicit tool requirements and project-bound MCP satisfy the accepted scope; native execution/hook authority and host process lifecycle still need separate qualification.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "H04",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Keep explicit installation boundary",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "H05",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer arbitrary external hooks until one concrete supported host use case",
+      "review": "Portable text resources, explicit tool requirements and project-bound MCP satisfy the accepted scope; native execution/hook authority and host process lifecycle still need separate qualification.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "H06",
+      "decision": "REJECT",
+      "priority": "P2",
+      "adaptation": "Reject bulk skill/plugin installation and implicit execution of bundled scripts",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "I01",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Document and evaluate supported config/root/discovery/continuation/error contract",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "I02",
+      "decision": "ADD",
+      "priority": "P1",
+      "adaptation": "Expose existing services behind server work policy and root binding",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "I03",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Add root/revision-bound pagination and bounded graph discovery while preserving old tools",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "I04",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer native subprocess workers; supported MCP pathway closes current interoperability need",
+      "review": "Portable text resources, explicit tool requirements and project-bound MCP satisfy the accepted scope; native execution/hook authority and host process lifecycle still need separate qualification.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "I05",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer connector ingestion/PR delivery until scoped token/idempotency contract",
+      "review": "Hosted sinks, paid judges, external writes and remote sandboxes remain optional and add network/credential/cost contracts not required for this local release.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "T01",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Project existing parent IDs into local trace hierarchy and allowlisted spans",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "T02",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Consume backend projections; test actual multi-agent/repair snapshots",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "T03",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Keep nearest-rank p50/p95 and coverage counts sourced from invocations",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "T04",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Keep backend-derived state and avoid visual workflow authoring engine",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "T05",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer OTLP/hosted exporters",
+      "review": "Hosted sinks, paid judges, external writes and remote sandboxes remain optional and add network/credential/cost contracts not required for this local release.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "T06",
+      "decision": "REJECT",
+      "priority": "P2",
+      "adaptation": "Reject mandatory hosted service or private reasoning storage",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "E01",
+      "decision": "ADD",
+      "priority": "P1",
+      "adaptation": "Source-isolated 14-category corpus plus held-out retrieval/routing/contract suite",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "E02",
+      "decision": "KEEP",
+      "priority": "P2",
+      "adaptation": "Keep independent review and repair; add weakening/crash fixtures",
+      "review": "Final history lock shortening and package-only audit exclusion preserve the existing local authority and permission boundaries; no new defect or workload justifies reversal.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "E03",
+      "decision": "DEFER",
+      "priority": "P2",
+      "adaptation": "Defer paid live model quality study; keep a provider-neutral optional future layer",
+      "review": "Hosted sinks, paid judges, external writes and remote sandboxes remain optional and add network/credential/cost contracts not required for this local release.",
+      "new_trigger_to_reopen": false
+    },
+    {
+      "id": "E04",
+      "decision": "ADAPT",
+      "priority": "P1",
+      "adaptation": "Verify licenses, wheel availability, startup/bundle/disk and offline contracts",
+      "review": "Accepted P1 mapping retained for final frozen evidence closure.",
+      "new_trigger_to_reopen": false
+    }
+  ],
+  "decision_counts": {
+    "KEEP": 9,
+    "ADD": 8,
+    "DEFER": 13,
+    "REJECT": 5,
+    "ADAPT": 15
+  },
+  "accepted_p1_count": 23,
+  "accepted_p1_mapping": [
+    {
+      "id": "O04",
+      "subsystem": "Recovery",
+      "acceptance": "Add deterministic child-process death/restart barriers across all phases",
+      "test_criteria": "Owned-child kill/restart at planning, execution, tool, review, repair, docs and Git boundaries; no duplicate effect; real-lock polling starvation, prompt cancellation and repeated-cancel ownership drain",
+      "benchmark_criteria": "Restart outcome, event continuity, side-effect count; live Docker tier separate",
+      "source_paths": [
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/core/recovery.py",
+        "src/orqalis/execution/cancellation.py"
+      ],
+      "observed_witness": "Eight real process-kill barriers cover planning, tool, agent, review, repair, documentation and two Git boundaries; receipts/event sequence survive, completed provider calls and Git commits are not duplicated. Owned cancellation poll threads drain before lease release.",
+      "qualification_boundary_or_remaining_gap": "Live Docker remains a separate tier; not an exactly-once guarantee.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "X01",
+      "subsystem": "Execution",
+      "acceptance": "Persist exact ownership, inspect labels, reconcile before reuse/recovery; fail closed",
+      "test_criteria": "Create/start/inspect/remove fake transport; crash windows; mismatch/daemon denial; all application command paths",
+      "benchmark_criteria": "Zero unrelated deletion or unsafe concurrent writer; deterministic cleanup outcomes",
+      "source_paths": [
+        "src/orqalis/execution/sandbox.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/core/recovery.py"
+      ],
+      "observed_witness": "Receipt written before create, outside writable mount; daemon/name/full-ID/labels bound; mismatches, unavailable daemon, nonzero removal and ineffective removal fail closed. Real child deaths at prepared/created/started reconcile via independent fake transport.",
+      "qualification_boundary_or_remaining_gap": "Docker integration test skipped without configured image; no live daemon isolation claim.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "S01",
+      "subsystem": "Change Guardian",
+      "acceptance": "Detect conservative AST/diff signals; exact reviewed hash-bound exception",
+      "test_criteria": "Assertion removal, skip/xfail, legitimate refactor, exact-hash approvals and stale approval denial",
+      "benchmark_criteria": "Zero known weakening fixture misses; documented false positives",
+      "source_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/delivery/test_integrity.py"
+      ],
+      "observed_witness": "Assertion/helper removals, skip/xfail and assigned module markers, invalid/overcomplex tests require exact old/new hash-bound review; stale exception cannot authorize another tree. Legitimate added assertions pass.",
+      "qualification_boundary_or_remaining_gap": "Conservative Python signals are intentionally not full semantic equivalence; helper refactors may require review. JS test integrity retains declaration/diff checks only.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "S02",
+      "subsystem": "Change Guardian",
+      "acceptance": "Stat and bounded reads before secret/diff analysis",
+      "test_criteria": "Sparse/oversized file, growth race, ordinary allowed file",
+      "benchmark_criteria": "Read bound and explicit denied outcome",
+      "source_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/execution/review.py"
+      ],
+      "observed_witness": "Stat-before-allocation and 10000001-byte bounded read enforce 10000000-byte cap, including growth race; oversized inspection cannot certify delivery.",
+      "qualification_boundary_or_remaining_gap": "Read cap is per-file; no claim of an aggregate controller RAM cap for arbitrary diffs.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "G01",
+      "subsystem": "Graph",
+      "acceptance": "Separate extracted occurrences from inferred target bindings; invalidate cache",
+      "test_criteria": "Unknown receiver, aliases, shadowing, duplicate names, inheritance and rebuild equality",
+      "benchmark_criteria": "Zero false extracted target bindings on labeled fixtures",
+      "source_paths": [
+        "src/orqalis/graph/parsing.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/graph/models.py"
+      ],
+      "observed_witness": "Unknown receivers do not become unique-name targets; alias/shadowing/duplicate/inheritance cases preserve occurrence evidence separately from inferred candidate bindings; changed incremental cache equals full rebuild.",
+      "qualification_boundary_or_remaining_gap": "Python candidates are static; no runtime dispatch certainty. Incomplete extraction disables inference.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "G02",
+      "subsystem": "Graph",
+      "acceptance": "Add native abstraction for pinned JS/TS/TSX grammars with declared limits",
+      "test_criteria": "Multiline/generics/JSX/imports/classes/interfaces/partial syntax; Python parity; package portability",
+      "benchmark_criteria": "Symbol/location accuracy, indexing time/size and parser cache reuse",
+      "source_paths": [
+        "src/orqalis/graph/ecmascript.py",
+        "src/orqalis/graph/parsing.py",
+        "src/orqalis/graph/engine.py",
+        "pyproject.toml",
+        "uv.lock"
+      ],
+      "observed_witness": "Pinned Tree-sitter JS/TS/TSX handles multiline/generics/JSX/imports/classes/interfaces/partial syntax with physical UTF-8 spans, bounded diagnostics and versioned content cache; coordinate crash/deep extraction regressions covered.",
+      "qualification_boundary_or_remaining_gap": "Syntax facts, not semantic LSP binding; installed wheel covered Windows, portable wheel availability is not installed Linux/macOS certification.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "G04",
+      "subsystem": "Graph navigation",
+      "acceptance": "Retain Orqalis-owned bounded traversal in SDK/CLI/MCP",
+      "test_criteria": "Cycles, direction, ambiguity, provenance, bounds, SDK/CLI/MCP contract",
+      "benchmark_criteria": "Returned nodes/bytes vs whole graph; deterministic witness validity",
+      "source_paths": [
+        "src/orqalis/graph/queries.py",
+        "src/orqalis/sdk.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/cli/catalog.py"
+      ],
+      "observed_witness": "Directed impact and shortest-path preserve edge provenance/confidence/witnesses, control cycles, reject invalid limits and unknown targets, explicitly mark truncation. 1201-node scale shape returns 25 nodes/8722 bytes vs 408266 bytes.",
+      "qualification_boundary_or_remaining_gap": "Node/depth bounds and typed discovery; no graph-wide cursor API or constant backend-work claim.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "G05",
+      "subsystem": "Source tools",
+      "acceptance": "Add bounded native outline/body/reference reads with source-hash checks",
+      "test_criteria": "Duplicate/nested/decorated/Unicode symbols, stale source, path escape, byte limits",
+      "benchmark_criteria": "Exact source selection and bytes avoided versus full-file read",
+      "source_paths": [
+        "src/orqalis/graph/symbols.py",
+        "src/orqalis/sdk.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "observed_witness": "Exact stable IDs and required 64-hex source hashes disambiguate symbols; decorators/nesting/Unicode/body boundaries and stale/missing/source escape/budget denial covered. Read APIs preserve static reference confidence and incomplete-parser diagnostics.",
+      "qualification_boundary_or_remaining_gap": "Full selected file may be read within source-read cap to verify hash; saved context bytes are not physical IO savings.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "R01",
+      "subsystem": "Retrieval",
+      "acceptance": "Use shared whole-word/snake/camel terms; invalidate lexical index version",
+      "test_criteria": "Identifier/acronym/noise cases, index invalidation, memory/context parity",
+      "benchmark_criteria": "Fixed labels, recall/precision/MRR/nDCG, negative queries and size",
+      "source_paths": [
+        "src/orqalis/retrieval.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/memory/curated.py"
+      ],
+      "observed_witness": "Shared whole/snake/camel/acronym terms and lexical-v3 invalidation; definitions precede equal-score references; prose/Unicode/token order retained. 29 fixed queries show 87.04% mean index/context recall and zero negative matches.",
+      "qualification_boundary_or_remaining_gap": "Original released-baseline comparison retains 25 target-only precision losses and 5 other metric losses; do not turn raw REVIEW into raw PASS. Current optimization has no new loss versus preoptimization.",
+      "review_disposition": "BOUNDED_TRADEOFF_ACCEPTANCE_PENDING_FRESH_COMPARATIVE_EVIDENCE",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true,
+      "raw_reviews_remain_immutable": true
+    },
+    {
+      "id": "R02",
+      "subsystem": "Retrieval",
+      "acceptance": "Measure held-out gold and negative context; change only on demonstrated benefit",
+      "test_criteria": "Hard serialized budget, negatives clearly marked or omitted, held-out recall",
+      "benchmark_criteria": "At least 24 varied queries; bytes per relevant target; no unexplained recall loss",
+      "source_paths": [
+        "src/orqalis/context/builder.py",
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "benchmarks/engineering_cases.json"
+      ],
+      "observed_witness": "29 varied frozen queries include 15 held-out cases and 2 negatives, exact serialized context caps, explicitly orientation-only fallback and bytes/relevant-target measures. Remaining documentation/provider rank and memory-document top-five loss have concrete source-based explanations.",
+      "qualification_boundary_or_remaining_gap": "This is bounded lexical retrieval, not autonomous coding success. Release ledger must explicitly accept each of the 30 historic losses without relabeling frozen gold.",
+      "review_disposition": "BOUNDED_TRADEOFF_ACCEPTANCE_PENDING_FRESH_COMPARATIVE_EVIDENCE",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true,
+      "raw_reviews_remain_immutable": true
+    },
+    {
+      "id": "M02",
+      "subsystem": "Project Memory",
+      "acceptance": "Reviewed digest-bound supersession with atomic lifecycle metadata",
+      "test_criteria": "Pending/rejected no-op; approval idempotency; concurrent stale approvals; crash windows; history preserved",
+      "benchmark_criteria": "Only current active fact in default retrieval; old fact still inspectable",
+      "source_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/memory/curation.py"
+      ],
+      "observed_witness": "Pending/rejected proposals do not suppress active predecessor; predecessor digest catches manual change; concurrent approval admits one successor; before/after transition and review crash retries remain atomic/idempotent; historical record readable.",
+      "qualification_boundary_or_remaining_gap": "Filesystem review authority retained; injected atomic-write failures are not every OS power-loss scenario.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "M03",
+      "subsystem": "Project Memory",
+      "acceptance": "Bounded excerpts/discovery and explicit ID references; fetch detail on demand",
+      "test_criteria": "Broken/self/cyclic/cross-project refs; depth/node/byte caps; exact ID access",
+      "benchmark_criteria": "Metadata/detail context bytes, reference accuracy, long-record visibility",
+      "source_paths": [
+        "src/orqalis/memory/navigation.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py"
+      ],
+      "observed_witness": "Long memory remains discoverable via bounded previews; explicit single-record pages reconstruct exact content, validate ID/root, cap 32 references and 100 discovery results, enforce serialized response budget. No automatic reference traversal, so read depth is one. Broken/self/cyclic refs inspected.",
+      "qualification_boundary_or_remaining_gap": "max_chars is serialized characters, not guaranteed UTF-8 byte cap; reports measure bytes separately. All-record integrity scan is not constant backend work.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "M04",
+      "subsystem": "Project Memory",
+      "acceptance": "Shared integrity report and CLI/MCP projection",
+      "test_criteria": "Corrupt schema, dangling predecessor/successor, cycles, unsafe paths; no silent omission",
+      "benchmark_criteria": "Deterministic issue count; valid corpus clean",
+      "source_paths": [
+        "src/orqalis/memory/navigation.py",
+        "src/orqalis/cli/memory.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "observed_witness": "Shared integrity checker reports malformed schema/identity, dangling reference/lifecycle, iterative cycle detection and unsafe linked paths; deterministic issue limits/truncated flag, valid corpus clean. CLI/MCP expose same projection.",
+      "qualification_boundary_or_remaining_gap": "Issue response capped, scan examines all canonical records; corrupt records fail visibly rather than being trusted.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "H01",
+      "subsystem": "Skills",
+      "acceptance": "Retain explicit trusted roots, hashes and tool requirements as constraints",
+      "test_criteria": "Malformed YAML, aliases, links, path escape, changed hash, role/tool requirements",
+      "benchmark_criteria": "Portable discovery/activation/resources bytes and correct routing",
+      "source_paths": [
+        "src/orqalis/skills/markdown.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "observed_witness": "Strict portable YAML/frontmatter, no aliases/duplicate/executable metadata; trusted roots, no parent/path escape; discovery/body/resource stages with changed hash and version pin rejection; tool requirements constrain rather than grant authority.",
+      "qualification_boundary_or_remaining_gap": "One Windows symlink test explicitly skipped; independent Windows junction root/resource checks passed historically. Script execution unsupported by design.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "H02",
+      "subsystem": "Skills",
+      "acceptance": "Versioned routing/portability evaluation; model quality explicitly unknown without paid runs",
+      "test_criteria": "Positive/negative scope, role restrictions, explicit pins, schema-compatible provider serialization",
+      "benchmark_criteria": "FP/FN counts, selected vs eager bytes, latency; never fabricate tokens",
+      "source_paths": [
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/core/vertical_plan.py",
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "src/orqalis/providers/validation.py",
+        "src/orqalis/providers/openai.py",
+        "src/orqalis/providers/anthropic.py"
+      ],
+      "observed_witness": "Frozen routing/selection fixtures cover positive/negative scope, role denial, exact/wrong pins and typed portable contract roundtrip; zero FP/FN. Per-case routing/selection timing and actual selected/eager serialized bytes retained; portable staged 1967/2557/9066 bytes vs eager59742.",
+      "qualification_boundary_or_remaining_gap": "Provider/model instruction adherence, actual token use and paid-model quality explicitly unknown; no native-host certification.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "I01",
+      "subsystem": "Assistant integrations",
+      "acceptance": "Document and evaluate supported config/root/discovery/continuation/error contract",
+      "test_criteria": "Fresh stdio clients, two-client continuation, root isolation, permission failure and configuration syntax",
+      "benchmark_criteria": "Initialize/discovery latency and deterministic contract passes; native-host limits explicit",
+      "source_paths": [
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/mcp/policy.py",
+        "docs/examples/codex-mcp.toml",
+        "docs/examples/claude-mcp.json",
+        "docs/examples/vscode-mcp.json",
+        "docs/MCP.md"
+      ],
+      "observed_witness": "Fresh generic stdio discovery, project-root isolation, readonly policy/typed failures and replacement-client continuation are covered by passing integrations and installed17 smoke; supported examples explicitly use node launcher, --policy and --root.",
+      "qualification_boundary_or_remaining_gap": "Six committed host/policy example witness files are byte-identical to the retained syntax/typed proof. Fresh corrected v2 generic stdio/replacement-client/root/policy contracts must finish. Native host execution remains unverified by design.",
+      "review_disposition": "SUPPORTED_GENERIC_CONTRACT_AND_EXAMPLE_MAPPING_READY_PENDING_FRESH_V2_CONTRACT",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true,
+      "available_final_evidence": [
+        "release-integration-examples.json",
+        "release-artifact-identity.json",
+        "installed-npm-release-2.1.0.json"
+      ]
+    },
+    {
+      "id": "I02",
+      "subsystem": "MCP",
+      "acceptance": "Expose existing services behind server work policy and root binding",
+      "test_criteria": "Readonly denied, scoped run, legal transitions, explicit uncertainty, repeated calls",
+      "benchmark_criteria": "Lifecycle contract pass/fail; no duplicated effects",
+      "source_paths": [
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/core/recovery.py"
+      ],
+      "observed_witness": "Pause/resume/cancel/recovery call Core under readonly/work policy and bound project; legal states/repeated keys remain idempotent, conflicting keys/root mismatch denied; uncertainty acknowledgement, active lease and matching sandbox receipt enforced.",
+      "qualification_boundary_or_remaining_gap": "Transport cancellation is not durable run control; host owns its worker process descendants.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "I03",
+      "subsystem": "MCP",
+      "acceptance": "Add root/revision-bound pagination and bounded graph discovery while preserving old tools",
+      "test_criteria": "Multiple pages, no duplicate/omission, stale/tampered/cross-root cursors, payload limits",
+      "benchmark_criteria": "1000+ history rows and graph node pages; bytes and latency",
+      "source_paths": [
+        "src/orqalis/tasks/history.py",
+        "src/orqalis/persistence/filesystem/task_store.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/graph/queries.py"
+      ],
+      "observed_witness": "Canonical task summaries are scanned outside the allocation lock; derived compare/write remains serialized. Two competing allocations make progress during a deliberately blocked scan and receive unique IDs. A stale older scan may overwrite derived index, but the next canonical scan repairs it and rejects the old cursor. Every returned page revision comes from that request canonical summaries, not trust in persistent index. 1001-row exact traversal retained in sequential ABBA probes.",
+      "qualification_boundary_or_remaining_gap": "Confirmed pre-existing allocation lock timeout is corrected without larger timeouts or cached freshness. Current quiet reservations completed 104.55 and44.11ms; one frozen-source allocation timed out and another took5131.50ms. Read latency still varies: current max17464.87/571.92ms and frozen max11112.48/466.24ms, so no history p95/tail improvement is established. Per-page work remains O(capsule count) and scan is best effort under concurrent commits, as before. Bootstrap repair does not change the independently reviewed canonical scan/short allocation-lock fix. Historical quiet ABBA diagnostics remain descriptive, not proof of universal tail speed.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "T01",
+      "subsystem": "Telemetry",
+      "acceptance": "Project existing parent IDs into local trace hierarchy and allowlisted spans",
+      "test_criteria": "Run/task/actor/model/tool correlation; historic missing fields; no secrets/prompts",
+      "benchmark_criteria": "Actual persisted fixture hierarchy and overhead",
+      "source_paths": [
+        "src/orqalis/observability/trace.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/domain/telemetry.py"
+      ],
+      "observed_witness": "Actual parallel/repair run persisted causal run/phase/task/actor/model/tool hierarchy; snapshot restart equality, shared-session/historic fallback, UUID-only in-memory span IDs and private-output sentinel exclusion covered.",
+      "qualification_boundary_or_remaining_gap": "Total execution/UI overhead is measured by comparative fixtures; isolated exporter-on/off attribution is not separately evidenced. No network export or native-host trace propagation claim.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "T02",
+      "subsystem": "Control Center",
+      "acceptance": "Consume backend projections; test actual multi-agent/repair snapshots",
+      "test_criteria": "API-derived intervals, parallel/blocked/repair state, empty/historical data, mobile layout",
+      "benchmark_criteria": "Browser update latency, event/payload sizes, bundle deltas",
+      "source_paths": [
+        "web/src/TraceView.tsx",
+        "web/src/Timeline.tsx",
+        "src/orqalis/observability/analytics.py",
+        "web/e2e/trace.spec.ts",
+        "web/e2e/enhancements.spec.ts"
+      ],
+      "observed_witness": "API-derived timeline and critical-path projections covered by actual parallel/blocked/repair fixture; frontend tests handle empty/historic state; saved actual snapshot browser test includes ancestry keyboard and390px view. Old live benchmark had6 correlated API/WebSocket/DOM transitions.",
+      "qualification_boundary_or_remaining_gap": "Current web units/build/static and installed UI smoke passed; final live correlated UI, mobile trace and comparative loop evidence still required. Prior fece timing is historical.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true,
+      "available_final_evidence": [
+        "release-static-bootstrap.json",
+        "installed-npm-release-2.1.0.json"
+      ]
+    },
+    {
+      "id": "T03",
+      "subsystem": "Telemetry",
+      "acceptance": "Keep nearest-rank p50/p95 and coverage counts sourced from invocations",
+      "test_criteria": "Completed/running/cancelled/error outcomes, unknown vs zero, SSR and live API table",
+      "benchmark_criteria": "Reported coverage, API/UI equality; no fabricated cost",
+      "source_paths": [
+        "src/orqalis/observability/analytics.py",
+        "web/src/ProviderMetrics.tsx",
+        "web/src/ProviderMetrics.test.tsx",
+        "web/e2e/control-center.spec.ts"
+      ],
+      "observed_witness": "Outcome grouping includes success/fail/running/cancelled/interrupted; nearest-rank p50/p95 excludes running/negative duration, unknown stays distinct from reported0, coverage denominators retained. SSR tests and existing actualAPI browser table compare provider/model/outcome/latency coverage.",
+      "qualification_boundary_or_remaining_gap": "Refresh frontend/browser release evidence; coverage subset tested, not all possible live paid-provider pricing/usage.",
+      "review_disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_FINAL_EVIDENCE_BINDING",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "E01",
+      "subsystem": "Evaluation",
+      "acceptance": "Source-isolated 14-category corpus plus held-out retrieval/routing/contract suite",
+      "test_criteria": "Dataset/source hash isolation; reject incomplete/mismatched reports; existing integration contracts",
+      "benchmark_criteria": "Before/after context, recall, startup, graph/memory/disk; unknown model metrics explicit",
+      "source_paths": [
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "scripts/run_quality_contracts.py",
+        "scripts/freeze_contract_tests.py",
+        "benchmarks/engineering_cases.json"
+      ],
+      "observed_witness": "Versioned14engineering-category +15held-out retrieval/routing suite binds dataset/source/resources/helper/environment/JUnit; rejects missing/changed/contaminated/incomplete witness reports. Corrected frozen86 contracts and full748pass/2skip regression source stable. Async guard now rewrites known Orqalis child launches before asyncio transport creation as well as synchronous Popen, preserving cwd/env/argv and unrelated approved commands. Actual AnyIO tests cover console/module/isolated-module. Comparator requires policy v2 and therefore rejects stale v1 captures.",
+      "qualification_boundary_or_remaining_gap": "Prior baseline85pass/1fail exposed actual async child source contamination, retained as failure. Corrected baseline/current contract captures are running; no86/86 or quality PASS is claimed until fresh results close. Two complete sequential audit loops remain0/2.",
+      "review_disposition": "CORRECTED_EVALUATION_IMPLEMENTATION_READY_PENDING_TWO_COMPLETE_LOOPS",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true
+    },
+    {
+      "id": "E04",
+      "subsystem": "Distribution/performance",
+      "acceptance": "Verify licenses, wheel availability, startup/bundle/disk and offline contracts",
+      "test_criteria": "Wheel build, npm launcher, manifest linkcheck, no baseline tag change",
+      "benchmark_criteria": "Cold/warm startup, memory/disk/bundle vs baseline; optional Docker not required",
+      "source_paths": [
+        "pyproject.toml",
+        "uv.lock",
+        "scripts/prepare_npm.py",
+        "scripts/verify_installed.py",
+        "packages/npm/package.json",
+        "docs/quality/OSS_LICENSE_AUDIT.md",
+        "packages/npm/lib/bundle.js",
+        "tests/unit/test_npm_release.py"
+      ],
+      "observed_witness": "Current640c source and390 frozen release inputs match actual installed artifact identity. Isolated wheel smoke and17 installed npm checks pass with41 MCP tools. Exact actual wheel/npm inventories each include51 third-party packages including pip26.2.1 and audit all51 without exclusions, zero reported vulnerabilities. Bootstrap hash-verified locked pip wheel is installed offline no-index/no-deps before any network dependency installer call; each pip invocation receives Python-equivalent config-null sentinel. Both release guards enforce exact release/bootstrap/requirements inventory and hashes.",
+      "qualification_boundary_or_remaining_gap": "Fresh released-baseline/current footprint, comparative correctness and performance plus two full loops remain pending. Final prose/docs changes require installed doc snapshot identity refresh or exact-runtime byte proof. Current local Windows package scope does not certify Linux/macOS, live Docker or paid model task quality.",
+      "review_disposition": "CURRENT_INSTALLED_AND_STATIC_GATES_ACCEPTED_PENDING_COMPARATIVE_AND_FINAL_DOCS_CLOSURE",
+      "historical_behavior_review": "release-acceptance-final-review.json; only explicitly identical inspected implementation paths reused, no historical run is relabeled as current.",
+      "fresh_full_source_contract_required": true,
+      "available_final_evidence": [
+        "release-artifact-identity.json",
+        "installed-wheel-release-2.1.0.json",
+        "installed-npm-release-2.1.0.json",
+        "release-installed-wheel-inventory.json",
+        "release-installed-wheel-advisories.json",
+        "release-installed-npm-inventory.json",
+        "release-installed-npm-advisories.json",
+        "release-static-bootstrap.json"
+      ]
+    }
+  ],
+  "clean_full_audit_iterations": 0,
+  "required_clean_full_audit_iterations": 2,
+  "release_converged": false,
+  "pending_gates": [
+    "Finish corrected v2 baseline/current frozen contracts under matching environment with complete actual JUnit witnesses.",
+    "Run two complete sequential released-baseline/current quality, execution, memory, UI, constrained and full-regression audit loops at this frozen source/input identity.",
+    "Retain all30 historic retrieval losses and raw comparator REVIEW; require separate explicit bounded acceptance with no new unexplained unacceptable degradation.",
+    "Retain history read outliers and separate fixed allocation reliability from unqualified tail-speed claims.",
+    "Bind each of23 accepted P1 to final actual evidence outcomes and refresh final installed documentation identity after prose changes."
+  ],
+  "execution_scope": "Read-only code/test/evidence/decision review and SHA comparisons only. No tests, benchmark, vulnerability audit, install or network request executed by reviewer; no source/docs edits or commits. New ignored JSON review only.",
+  "evidence_sha256": {
+    "release-input-freeze-bootstrap.json": "7c6c987e78cce0808e6de45106171d0e9c4bd8e916a011e6925badabbe045251",
+    "release-artifact-identity.json": "36c8c5d68fa9d5e13878a2757fd99d4edfb7ddd3b98e3b18f138a3feab0be8b7",
+    "installed-wheel-release-2.1.0.json": "93568b539073756c0c79a28f8cf8acdf4152c10fbc80b5a1d6b78837b02b0d91",
+    "installed-npm-release-2.1.0.json": "3a6df0ffef06e65ae979a331919971a727e27c978938f57b2e5f765d87cc682c",
+    "release-installed-wheel-inventory.json": "1d3bce5dbffc3072a46c98e073aed0e7cdd873a2ed929532bbd4024dd5aa37f8",
+    "release-installed-wheel-advisories.json": "d934a1768eeaa380afa70c34999915a15471f0335f3755e6f969fae3aba0e6ed",
+    "release-installed-npm-inventory.json": "1d3bce5dbffc3072a46c98e073aed0e7cdd873a2ed929532bbd4024dd5aa37f8",
+    "release-installed-npm-advisories.json": "d934a1768eeaa380afa70c34999915a15471f0335f3755e6f969fae3aba0e6ed",
+    "release-static-bootstrap.json": "8508c4197216c99e1afc21676a58f7338f17e353836a33e18815f35ebd71127d",
+    "release-integration-examples.json": "4e972d33e32354d96a98bcac31144563f7af8ee7c0a51e7632f4733da7e9e426",
+    "release-preflight-bootstrap-corrections.json": "9d6b5acae7dc56e4455fe98795ec72754b7a3e29606032735c9ff44f482b845e",
+    "release-bootstrap-security-review.json": "3fec23f4bdc2c735bf8dd2e8474f31a2f96a029eab8e9e4a66bb073d0dffb87d",
+    "release-bootstrap-repair-final-review.json": "bc2ea2fee68ed93c2abab78c47ed37597122e3b749e625e6ee4fe2034749e31e"
+  },
+  "limitations": [
+    "Manifest byte integrity is a local release trust boundary, not an external signature.",
+    "Native host launch, paid-provider coding task success/token/adherence, live Docker and installed Linux/macOS remain unverified.",
+    "No universal startup/RAM/history-tail gain or full Markdown/semantic-LSP capability is claimed."
+  ]
+}

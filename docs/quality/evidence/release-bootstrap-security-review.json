@@ -1,0 +1,129 @@
+{
+  "review": "Independent seeded-pip launcher bootstrap security review",
+  "created_utc": "2026-10-02T10:18:45.377930+00:00",
+  "status": "REPAIR_REQUIRED_BEFORE_FINAL_INSTALLED_ARTIFACT_QUALIFICATION",
+  "scope": "Read-only static review of default npm launcher bootstrap, exact supplied installer audit, installed old-pip source, and upstream advisory/fix documentation. No audit, tests, benchmark, exploit, dependency edit, or production edit executed by this reviewer.",
+  "prior_application_audits": "Prior 63-package application environment audit excludes pip because that uv environment does not install pip. It does not qualify seeded pip in separately created launcher venvs.",
+  "source_hashes": {
+    "packages/npm/lib/runtime.js": "7dd90cafe4a919d01908c7a55d391977c9238f7f43cd0adeb6c188838fb2fca0",
+    "packages/npm/lib/bundle.js": "c5f5d34c20704c98f976a4eb3d762412ad220ac07e7417f73f5b23c89137a949",
+    "scripts/prepare_npm.py": "632e345250aeaab006717d5f04f65c21d54336f6761abf8e5f031796436d35b1",
+    "pyproject.toml": "86bce3348683ec1440b1214bbd595fbbdd57f8b625f45f3701b9e715dae0a9e9",
+    "uv.lock": "75b3f840ffd84b890affeb138908730288afbdb9325f231a8e1c4337edb80fd6",
+    "docs/quality/evidence/release-bootstrap-installer-advisories.json": "a49405a13da36df8e99d5829a94b6e36f21db478c57189a61b435e0905e6ecc5",
+    ".tools/research/npm-runtime-optimization/2.0.0-bfb2a0a93284ca281657-win32-x64/Lib/site-packages/pip/_internal/configuration.py": "f8a3a893a8e1de11735cc3d014f275fc416306902c81ef914ab790b8b1cb9b3a",
+    ".tools/research/npm-runtime-optimization/2.0.0-bfb2a0a93284ca281657-win32-x64/Lib/site-packages/pip/_internal/network/download.py": "14b38fdbd74f6040818808bb7848ef01b364cb368a36a6f28ce4f69bc1cf5bc5",
+    ".tools/research/npm-runtime-optimization/2.0.0-bfb2a0a93284ca281657-win32-x64/Lib/site-packages/pip/_internal/models/link.py": "190f21abbc7e14314fbf6e4d6e7daf78833e32506b1990c62ddeda65e1785eb8",
+    ".tools/research/npm-runtime-optimization/2.0.0-bfb2a0a93284ca281657-win32-x64/Lib/site-packages/pip/_internal/operations/prepare.py": "8e8589c0f92ea86b1c42054d2262caef57bd8516a9c0abd108cf07725cac9af5"
+  },
+  "evidence": [
+    {
+      "file": "packages/npm/lib/runtime.js",
+      "lines": [
+        160,
+        162,
+        165,
+        170,
+        172,
+        182,
+        184,
+        195
+      ],
+      "finding": "venv creation seeds installer; first pip command contacts an index for exact hashed binary dependencies; only the application wheel is installed offline afterward. Commands pass inherited environment."
+    },
+    {
+      "file": ".tools/research/npm-runtime-optimization/2.0.0-bfb2a0a93284ca281657-win32-x64/Lib/site-packages/pip/_internal/configuration.py",
+      "lines": [
+        244,
+        247,
+        252,
+        338,
+        341,
+        344,
+        352,
+        354
+      ],
+      "finding": "Isolated mode skips user configuration and normal PIP option environment variables, but global/site config and PIP_CONFIG_FILE remain loaded. PIP_CONFIG_FILE equal to os.devnull disables all config files."
+    },
+    {
+      "file": ".tools/research/npm-runtime-optimization/2.0.0-bfb2a0a93284ca281657-win32-x64/Lib/site-packages/pip/_internal/models/link.py",
+      "lines": [
+        257,
+        408,
+        410,
+        417
+      ],
+      "finding": "URL path is decoded in constructor and basename is decoded again, enabling URL-derived filename separators."
+    },
+    {
+      "file": ".tools/research/npm-runtime-optimization/2.0.0-bfb2a0a93284ca281657-win32-x64/Lib/site-packages/pip/_internal/network/download.py",
+      "lines": [
+        179,
+        180,
+        183,
+        185
+      ],
+      "finding": "Downloader writes the URL-derived path before later archive hash checks, so --require-hashes alone does not neutralize URL destination traversal."
+    }
+  ],
+  "advisory_count": {
+    "reported_entries": 12,
+    "unique_GHSA_ids": 6,
+    "package": "pip",
+    "seeded_version": "25.0.1",
+    "maximum_required_fix": "26.2.0"
+  },
+  "advisory_conditions": [
+    {
+      "id": "GHSA-4xh5-x5gv-qwph",
+      "fix": "25.3",
+      "condition": "Untrusted source tar extraction in legacy fallback; current Python>=3.12 and binary-only dependency installation constrain this path."
+    },
+    {
+      "id": "GHSA-6vgw-5pg2-w6jp",
+      "fix": "26.0",
+      "condition": "Malicious wheel installation; trusted exact ordinary wheel bytes constrain substitution, but hashing alone does not prove arbitrary wheel contents benign."
+    },
+    {
+      "id": "GHSA-58qw-9mgm-455v",
+      "fix": "26.1",
+      "condition": "Crafted tar/zip polyglot distribution; binary-only alone is insufficient, trusted ordinary exact wheel bytes constrain this path."
+    },
+    {
+      "id": "GHSA-jp4c-xjxw-mgf9",
+      "fix": "26.1",
+      "condition": "Deferred module import during self-update check; existing --disable-pip-version-check blocks that behavior."
+    },
+    {
+      "id": "GHSA-wf93-45jw-7689",
+      "fix": "26.1.2",
+      "condition": "Malicious wheel console/gui entry point names; trusted verified pip wheel has ordinary entry points."
+    },
+    {
+      "id": "GHSA-qwm4-qh6w-59xr",
+      "fix": "26.2.0",
+      "condition": "Malicious index URL with double-encoded separators; reachable in pre-upgrade old-pip download path before archive hashes, including wheel-only operations. Default trusted PyPI is not itself shown malicious; configurable alternate index broadens accepted sources."
+    }
+  ],
+  "proposed_group_only_upgrade": {
+    "assessment": "Insufficient to remove all bootstrap advisory paths before the first network operation. It patches retained final pip, but the vulnerable downloader still performs the upgrade/application downloads.",
+    "minimal_safe_boundary": "Bundle a pinned/hash-verified ordinary pip 26.2.0 wheel, include its exact identity in bundle inventory, install it first offline using old pip --no-index --no-deps, then run existing hashed binary application requirements and trusted own-wheel installs using patched pip. Set installer PIP_CONFIG_FILE to platform os.devnull to disable global/site/inherited configuration, preserving --isolated and --disable-pip-version-check."
+  },
+  "qualification": "Let current baseline contracts finish as historical evidence. Freeze/rebind source and release input identity after repair; qualify fresh prepared/packed/installed launcher and audit its actual runtime including pip. Confirm command order, pinned wheel inventory/hash failure, old runtime invalidation via bundle fingerprint, no index contact before patched pip, disabled configuration override, and final pip version. This review does not claim those checks have passed.",
+  "limitations": [
+    "No malicious-index exploit executed.",
+    "No live installed bootstrap audit run by reviewer.",
+    "A trusted bundled installer wheel is a release supply-chain input; manifest integrity is not an external signature.",
+    "Prior independent reviews remain historical evidence and have not been erased or rewritten."
+  ],
+  "sources": [
+    "https://github.com/pypa/pip/pull/14110",
+    "https://pip.pypa.io/en/stable/topics/configuration/",
+    "https://github.com/advisories/GHSA-4xh5-x5gv-qwph",
+    "https://github.com/advisories/GHSA-6vgw-5pg2-w6jp",
+    "https://github.com/advisories/GHSA-58qw-9mgm-455v",
+    "https://github.com/advisories/GHSA-jp4c-xjxw-mgf9",
+    "https://github.com/advisories/GHSA-wf93-45jw-7689",
+    "https://github.com/advisories/GHSA-qwm4-qh6w-59xr"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T11:21:51.841691+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "CONCEPT_ELIGIBLE_BUILTIN_ONLY_NOT_STAGED_OR_TESTED",
+  "source_sha256": "3de7453159f9246b55cfd60a1bd30eced005aab6be3083969e4c5b9e6d5ea07c",
+  "source_inputs": 196,
+  "scope": "Read-only contingency for tracked_files subprocess consolidation. Browser candidate untouched; no patch staged/applied, tests/probes/benchmarks run, or runtime edits.",
+  "file": {
+    "path": "src/orqalis/git/service.py",
+    "sha256": "5ce396c1f78400a418212c13000691b9e60ac64c78cf111bf6c99241f27089e2",
+    "resolve_commit_line": 94,
+    "tracked_files_line": 193,
+    "execute_line": 36
+  },
+  "primary_sources": [
+    {
+      "url": "https://git-scm.com/docs/gitrevisions",
+      "support": "Typed peeling recursively resolves annotated tags until requested object type or fails; commit-only expression can be used as single object argument."
+    },
+    {
+      "url": "https://git-scm.com/docs/git-ls-tree",
+      "support": "Accepts tree-ish argument; recursive name-only NUL output emits filenames without quoting, and cwd affects prefix unless full-tree is specified."
+    },
+    {
+      "url": "https://git-scm.com/docs/git-rev-parse",
+      "support": "Current verification with commit peel enforces commit-ish objects; end-of-options avoids untrusted option interpretation."
+    }
+  ],
+  "bounded_conclusion": "A built-in-only fast path can pass one validated revision^{commit} argument directly to existing ls-tree command, keeping commit-only selection and filename contract. Primary docs support concept, but installed-Git parity is still required before use.",
+  "requirements": [
+    "Reject empty revision, leading hyphen and NUL exactly as current resolve_commit before any subprocess. Preserve one argv argument, no shell composition, and -r/--name-only/-z flags.",
+    "Retain original self.resolve_commit then ls-tree for every LocalGitService subclass and instance resolve_commit override, so existing policy denials/transforms remain authoritative. Exact built-in type and no instance override guard suggested.",
+    "Keep _execute inherited Git-environment sanitization, core.fsmonitor=false, hooksPath=os.devnull, credential-interaction settings, subprocess capture/error redaction and per-command timeout unchanged. No cache/caller status/graph or trusted SHA bypass.",
+    "Keep strict decode utf-8 and existing NUL splitting/empty filtering unchanged; do not silently replace undecodable filenames.",
+    "Keep cwd-relative behavior. Do not introduce --full-tree/--full-name as part of this optimization.",
+    "Do not stage/apply during current browser capture; if original browser qualification is clean, avoid an unnecessary new source candidate."
+  ],
+  "required_parity_cases": [
+    "HEAD/fullSHA/unique abbreviated SHA/parent revisions/explicit refs/lightweight and annotated/nested commit tags",
+    "tree/blob/raw object and tags pointing to tree/blob rejected; missing/ambiguous/invalid refs fail",
+    "empty/leading hyphen/NUL denied without subprocess, whitespace special syntax not split",
+    "Unicode/tab/newline filenames preserve strict NUL contract; invalid UTF8 bytes still rejected where supported",
+    "nested cwd prefix and linked worktree inspection remain equivalent",
+    "two calls after HEAD/branch movement observe fresh committed files; dirty uncommitted files not included",
+    "subclass and instance resolve_commit policy denial and revision remapping retain legacy dispatch",
+    "same _execute environment/timeout/error redaction and one-call fast path vs two-call fallback"
+  ],
+  "differences_and_limits": [
+    "Missing/invalid object error text names ls-tree rather than rev-parse on fast path; GitError class and stderr redaction retained. Exact command/error strings are not equivalent.",
+    "Ref resolution happens inside listing instead of immediately before listing in a separate process. No cross-request/global atomicity promised; one listing still names one commit tree. A caller already supplying immutable status HEAD SHA remains immutable.",
+    "Per-command timeout remains identical; two old process time budgets become one new budget, no timeout increase.",
+    "Dynamic class-level monkeypatching and stateful custom executor command-count assumptions are outside exact built-in fast-path parity; actual private patch must be reviewed separately.",
+    "No current regression/5s cure, native browser pass, installed artifact, full qualification or release readiness claim."
+  ]
+}

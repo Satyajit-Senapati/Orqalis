@@ -1,0 +1,16 @@
+{
+  "status": "BLOCKED_CONTRACT_FAILURE",
+  "source_sha256": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+  "report": "release-contracts-current-stable-v2.json",
+  "report_sha256": "f914a68ad5cab418f56cdd6accd5d4a5dbda4cb6390ee4e25a295b8234a51f7b",
+  "junit_sha256": "0e6c4af783ae0316405d8fa49732a01376745dc8a41fb4237bb74b7955bff1a9",
+  "log_sha256": "96a7e5743dc52abf8f15cec7896389cce2f5f75ede8101bec510acdccb0034d7",
+  "passed": 85,
+  "failed": 1,
+  "skipped": 0,
+  "case": "tests/integration/test_runtime.py::test_event_sequence_concurrency_idempotency_and_corruption_detection",
+  "failure": "FileLock process-local RLock acquisition exceeded original 10-second deadline during eight event appends using four workers.",
+  "pytest_elapsed_seconds": 3074.79,
+  "failed_case_seconds": 21.254,
+  "disposition": "Investigate original lock timeout. Isolated diagnostic passes cannot waive this complete frozen-contract failure. No runtime change, deadline increase, source rebinding, preflight acceptance or round counted."
+}

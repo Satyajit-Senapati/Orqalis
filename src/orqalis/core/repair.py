@@ -112,7 +112,7 @@ class RepairCoordinator:
             review = records[-1] if records else None
             plan = uow.runtime.get_plan(run_id, run.plan_version)
             goal = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )

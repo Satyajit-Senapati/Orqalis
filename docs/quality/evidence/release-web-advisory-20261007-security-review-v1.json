@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T07:05:10.769504+00:00",
+  "status": "SCOPED_ADVISORY_REMEDIATION_SUPPORTED_FRESH_AUDIT_CLEAN_NEW_INPUT_QUALIFICATION_PENDING",
+  "scope": "Narrow independent lock/advisory/actual-stop review only; no tests, audit rerun, dependency-tree scan, package import, native/process query, source edit or workload.",
+  "reviewed_files": {
+    ".tools/research/release-web-lock-before-advisory-20261007-v1.json": "83efc436b9cbbcd142e6c2834dd86b5608d8df9a05471275d8b72cb3b61dc16e",
+    "web/package-lock.json": "96b9a09306d68fdaf6c22d9f27f28a507add18c88bf58f6900fa04aa1cdbf64f",
+    ".tools/research/release-web-advisories-patched-20261007-v1.json": "2b14817574e6290e67865d4bc517f834e26a6ff90af8a36d906f8936559b3c93",
+    ".tools/research/release-command-failure-advisories-web-26.json": "c607dfae3117f63be45db9eec9067dd1d95886db61a54c33dc0699bcd0904cfc",
+    "docs/quality/evidence/release-resume-20261007-finish-v1.json": "1321660b8068363d459f5433be14fa476e5ddeed2a0f570aa3c2cf5f83117bb3",
+    ".tools/research/release-resume-20261007-iteration26-v1.log": "8f4b819a2e7f63760974fce973d184ffbb638524753237e38bfb6b6149d9925f",
+    ".tools/research/release-resume-20261007-advisories-web-26.log": "3c8c960199877a287be4ed1e326142ead14dc7f0871c29fea750fef650cd39e2",
+    "web/package.json": "0eba935cca6750f0188efeef55513632a7df8982b7aa06226ebff04550cae787"
+  },
+  "lock_diff": {
+    "changed_package_entries": [
+      "node_modules/source-map-js"
+    ],
+    "top_metadata_and_every_other_entry_identical": true,
+    "before": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
+      "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==",
+      "dev": true,
+      "license": "BSD-3-Clause",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "after": {
+      "version": "1.2.2",
+      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.2.tgz",
+      "integrity": "sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==",
+      "dev": true,
+      "license": "BSD-3-Clause",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "direct_dependents_from_lock": {
+      "node_modules/@tailwindcss/node": "^1.2.1",
+      "node_modules/postcss": "^1.2.1"
+    },
+    "classification": "Marked dev-only transitive build dependency, reachable through locked @tailwindcss/node and postcss. Real developer/build indexed-map consumption risk; no advisory waiver."
+  },
+  "primary_advisory": {
+    "ghsa": "GHSA-68fv-2mgg-jv7q",
+    "cve": "CVE-2026-93749",
+    "severity": "HIGH",
+    "affected": ">=1.0.0 <1.2.2",
+    "patched": "1.2.2",
+    "mechanism": "Malformed indexed source-map section line offset can synchronously block the event loop; maintainer release states indexed-map denial-of-service repair.",
+    "date_precision": {
+      "published": "2026-09-18",
+      "reviewed_and_updated": "2026-10-05",
+      "meaning": "Newly detected by current npm audit, reviewed after oldOct4 capture; do not call first publication afterOct4."
+    },
+    "sources": [
+      "https://github.com/advisories/GHSA-68fv-2mgg-jv7q",
+      "https://github.com/7rulnik/source-map-js/releases/tag/v1.2.2",
+      "https://github.com/7rulnik/source-map-js/commit/cf76580"
+    ]
+  },
+  "audit_evidence": {
+    "old_audit_exit": 1,
+    "old_count": 1,
+    "fresh_count": 0,
+    "fresh_empty_vulnerabilities": true,
+    "same_full_reported_dependency_counts": {
+      "prod": 29,
+      "dev": 266,
+      "optional": 76,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 294
+    },
+    "no_vulnerable_package_exclusion_or_severity_filter_observed": true,
+    "limits": "Fresh JSON independently parsed and rehashed, not rerun. Fresh command exit provenance will be captured by root final repair record; this review does not independently attest installed node_modules inventory or audit service future state."
+  },
+  "actual26_stop": {
+    "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+    "old_release_input_sha256": "56c454c8630d017a71802cccda1ef0d8d8521964babfa6ee4df8c1284a2c8750",
+    "controller_sha256": "1ae912b03ff418ce445b89966572ef5956347d75d3e8fec3955a5b5e0064e77b",
+    "status": "STOPPED_ON_FIRST_FAILURE",
+    "failed_stage": "iteration26/web audit",
+    "exit_code": 1,
+    "child_reaped": true,
+    "job_active_after_cleanup": 0,
+    "job_handle_closed": true,
+    "cleanup_errors": [],
+    "unexpected_descendants": false,
+    "observed_stage_markers": [
+      "START Real-state browser 26",
+      "DONE Real-state browser 26",
+      "START Advisories python 26",
+      "DONE Advisories python 26",
+      "START Advisories web 26"
+    ],
+    "interpretation": "Fresh real-state browser26 and Python audit completed; web audit stopped first failure. No quality/execution/memory/UI/constrained measured stage or full-suite/27 launch observed in this pipeline. Original failure retained, not promoted to accepted iteration."
+  },
+  "findings": [],
+  "required_next_proofs": [
+    "New input freeze and exact guarded28/29 successors required because web lock changed; do not silently rebind393/56c historical captures.",
+    "Runtime197 and frontend9 actual byte/build provenance equivalence must be independently proved before artifact or heldout/history reuse. Parent isolated build is pending at this review; no such equivalence asserted here.",
+    "New whole qualifications/advisories and final source-bound installed/docs package acceptance remain required."
+  ],
+  "limitations": [
+    "No application code, gold, assertion or deadline change demonstrated by this single lock JSON delta; this review does not broadly rehash runtime files.",
+    "No production exploit observed or causal relation to previous Windows persistence denial/performance blocker established.",
+    "No convergence, readiness, publication or main commit credit."
+  ]
+}

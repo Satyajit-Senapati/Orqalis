@@ -1,4 +1,5 @@
 import hashlib
+import io
 import zipfile
 from pathlib import Path
 
@@ -7,6 +8,7 @@ import pytest
 from scripts.prepare_npm import (
     _MAINTAINER_RELEASE_DOCS,
     _replace_tree,
+    _stage_bootstrap_pip,
     _stage_wheel,
     _verify_default_requirements,
     _verify_wheel_source,
@@ -126,10 +128,18 @@ def test_wheel_python_source_must_match_checkout_exactly(tmp_path: Path) -> None
         _verify_wheel_source(archive, source)
 
 
-def test_release_docs_exclude_exact_maintainer_audits_only(tmp_path: Path) -> None:
+def test_release_docs_exclude_maintainer_audits_and_keep_user_docs(tmp_path: Path) -> None:
     source = tmp_path / "docs"
     (source / "verification").mkdir(parents=True)
-    for name in (*_MAINTAINER_RELEASE_DOCS, "PUBLISHING.md", "verification/v1.0.0.json"):
+    (source / "quality" / "evidence").mkdir(parents=True)
+    for name in (
+        *(_MAINTAINER_RELEASE_DOCS - {"quality"}),
+        "PUBLISHING.md",
+        "verification/v1.0.0.json",
+        "quality-guide.md",
+        "quality/ENHANCEMENT_STATUS.md",
+        "quality/evidence/raw.json",
+    ):
         (source / name).write_text("fixture", encoding="utf-8")
     destination = tmp_path / "package" / "docs"
     _replace_tree(source, destination, tmp_path, excluded=_MAINTAINER_RELEASE_DOCS)
@@ -137,7 +147,7 @@ def test_release_docs_exclude_exact_maintainer_audits_only(tmp_path: Path) -> No
         path.relative_to(destination).as_posix()
         for path in destination.rglob("*")
         if path.is_file()
-    ) == ["PUBLISHING.md", "verification/v1.0.0.json"]
+    ) == ["PUBLISHING.md", "quality-guide.md", "verification/v1.0.0.json"]
 
 
 def test_npm_publish_workflow_requires_manual_tag_dispatch_and_oidc() -> None:
@@ -181,3 +191,41 @@ def test_npm_publish_workflow_uses_only_the_exact_tested_artifact() -> None:
     assert "NODE_AUTH_TOKEN" not in workflow
     assert "NPM_TOKEN" not in workflow
     assert workflow.count("npm publish") == 1
+
+
+def test_bootstrap_pip_uses_exact_lock_and_rejects_tampering(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    vendor = tmp_path / "vendor"
+    vendor.mkdir()
+    content = b"trusted pip wheel"
+    digest = hashlib.sha256(content).hexdigest()
+    (tmp_path / "pyproject.toml").write_text(
+        '[dependency-groups]\nbootstrap = ["pip==26.2.1"]\n', encoding="utf-8"
+    )
+    (tmp_path / "uv.lock").write_text(
+        '[[package]]\nname="pip"\nversion="26.2.1"\nwheels=[{url="'
+        'https://files.pythonhosted.org/packages/pip-26.2.1-py3-none-any.whl",'
+        f'hash="sha256:{digest}",size={len(content)}}}]\n',
+        encoding="utf-8",
+    )
+    requests = []
+
+    def download(url: str, *, timeout: int) -> io.BytesIO:
+        requests.append((url, timeout))
+        return io.BytesIO(content)
+
+    monkeypatch.setattr("scripts.prepare_npm.urllib.request.urlopen", download)
+    result = _stage_bootstrap_pip(tmp_path, vendor)
+    assert result == {"version": "26.2.1", "wheel": "pip-26.2.1-py3-none-any.whl"}
+    assert (vendor / result["wheel"]).read_bytes() == content
+    _stage_bootstrap_pip(tmp_path, vendor)
+    assert len(requests) == 1
+    (vendor / result["wheel"]).write_bytes(b"tampered")
+    with pytest.raises(ValueError, match="integrity"):
+        _stage_bootstrap_pip(tmp_path, vendor)
+    (tmp_path / "pyproject.toml").write_text(
+        '[dependency-groups]\nbootstrap=["pip==25.0.1"]\n', encoding="utf-8"
+    )
+    with pytest.raises(ValueError, match="exact locked version"):
+        _stage_bootstrap_pip(tmp_path, vendor)

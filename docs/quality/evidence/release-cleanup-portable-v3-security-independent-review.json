@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T20:14:03.095945+00:00",
+  "reviewer": "release_security_review",
+  "decision": "BOUNDED_PORTABLE_V3_TEST_CORRECTION_AND_ACTUAL_FOCUSED_STATIC_EVIDENCE_PASS",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "release_input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "scope": "Read-only independent exact byte, AST delta and actual captured evidence review; no workload, test, audit, native query or product/helper mutation by reviewer. New immutable JSON only.",
+  "identities": {
+    "actual_test": {
+      "path": "tests/unit/test_filesystem_foundation.py",
+      "sha256": "fff9918ddf2e19579190b1e2987967fc3c8a2c9735f4c0681da1513cddab6992"
+    },
+    "reviewed_typed_test333d": {
+      "path": ".tools/research/release_readonly_cleanup_foundation_proposal_v5.py",
+      "sha256": "333d7bc6cd10c9d47b60522bedbff28039f1a72a79bce8aef78d2e599c751258"
+    },
+    "actual_freeze": {
+      "path": "docs/quality/evidence/release-input-freeze-cleanup-portable-v3.json",
+      "sha256": "77fc84b1c8ade44145459d4ed5735bbbddd08171ef9e3b37ef1704a05e7d7d95"
+    },
+    "previous_typed_freeze": {
+      "path": "docs/quality/evidence/release-input-freeze-windows-cleanup-typed-v1.json",
+      "sha256": "a6d05db76705971740d28783da6b822d4da79cc4f0bd6d277168197e784aa272"
+    },
+    "native_focused": {
+      "path": "docs/quality/evidence/release-cleanup-portable-focused-v3.json",
+      "sha256": "e99d0a5f3368f02e2252e411fa6e55f507546d7096dd74870102284fc2f0c494"
+    },
+    "native_XML": {
+      "path": "docs/quality/evidence/release-cleanup-portable-focused-v3.xml",
+      "sha256": "65ee9ab5bfcc0527bb1c5b473e1be628c78c78218f697c00988347d17c5f19fe"
+    },
+    "native_log": {
+      "path": ".tools/research/release-cleanup-portable-focused-v3.log",
+      "sha256": "cc7ab762860b3ad8c77c3ee066b7c5ac3c34c048f9bb352988a465504152ea48"
+    },
+    "static": {
+      "path": "docs/quality/evidence/release-cleanup-portable-statics-v3.json",
+      "sha256": "8b59b4bbb7acfcc3ee6a1cb81ad588153f4f8d01d6b5f259ddb8504270f08f55"
+    },
+    "static_logs": [
+      {
+        "path": ".tools/research/release-cleanup-portable-statics-v3-Ruff-all.log",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "path": ".tools/research/release-cleanup-portable-statics-v3-Format-all.log",
+        "sha256": "3c1445d7d048f5113aab0d89b9f0a2b5160bea98859c08651eb369ed281ec976"
+      },
+      {
+        "path": ".tools/research/release-cleanup-portable-statics-v3-win32.log",
+        "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+      },
+      {
+        "path": ".tools/research/release-cleanup-portable-statics-v3-linux.log",
+        "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+      },
+      {
+        "path": ".tools/research/release-cleanup-portable-statics-v3-darwin.log",
+        "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+      }
+    ],
+    "retained_platform_red": {
+      "path": "docs/quality/evidence/release-cleanup-typed-portability-red-v1.json",
+      "sha256": "4701690454794d6da876dea03448a0b685462646141a801a57a1610feba22844"
+    },
+    "retained_lint_stop": {
+      "path": "docs/quality/evidence/release-cleanup-portable-focused-v2.json",
+      "sha256": "0c20083d54cd7aa21ae86f36b7933a6fffc49cee170946b3f30ae80ee1f7f81d"
+    },
+    "correction_disposition": {
+      "path": "docs/quality/evidence/release-cleanup-portable-corrected-v3.json",
+      "sha256": "6ae228fe461d48731cb0b95512f1c30d7dfabd65b8c4819ce478b1550d868349"
+    },
+    "policy_v7": {
+      "path": "docs/quality/evidence/release-execution-reference-policy-v7.json",
+      "sha256": "6742ae4731e1d8869c0d8b5f0d250147e6ba61c530df9e4eb08e91de07981496"
+    },
+    "policy_v6": {
+      "path": "docs/quality/evidence/release-execution-reference-policy-v6.json",
+      "sha256": "7e1291d58c96a9fd0f3baff722b14999896cc1ee46695fdb0e3293bc6baa58d4"
+    }
+  },
+  "independent_byte_proof": {
+    "all390_actual_file_hashes_match_freeze": true,
+    "aggregate390_recomputed_exact97e7": true,
+    "all196_actual_source_files_aggregate_recomputed_exact24ff": true,
+    "389_390_bytes_unchanged_relative995_freeze": true,
+    "only_changed_role": "tests/unit/test_filesystem_foundation.py",
+    "three_exact_test_edit_reverse_reconstructs333d_normalized_text_and_AST": true
+  },
+  "test_semantics": {
+    "metadata": "getattr(...,st_file_attributes,0) equality plus READONLY bit assertion. Missing after or both fields fails bit; missing before cannot equal a valid readonly after. Valid native metadata assertions are unchanged; missing-field exception changes AttributeError to failed assertion, with no passing missing-field case.",
+    "exception_injection": "monkeypatch.setattr(cleanup_error,winerror,winerror,raising=False) uses actual Windows inherited OSError member descriptor. POSIX absent member uses ordinary dynamic attribute. Exception identity remains same; fixture restores attribute after test.",
+    "prior_advice_correction": "Earlier reviewer vars(exception) injection advice was incorrect for Windows descriptor precedence. Portable-v2 lint stopped before tests; retained correction records disclose it. Exact native classification cases now actually passed.",
+    "retained": [
+      "all9 added cleanup behavior cases",
+      "target bytes/mode/attributes and original replacement error identity assertions",
+      "readonly-temp cleanup and unchanged ordinary success checks",
+      "same platform skips and parametrized cases",
+      "no typeignore/nolint suppression/runtime reexport",
+      "no production retries/durability/security/transaction/auth change"
+    ]
+  },
+  "actual_results": {
+    "native_Windows_focused": {
+      "test_count": 81,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "elapsed_seconds": 8.517,
+      "XML_and_log_hashes_independently_verified": true,
+      "source_inputs_gold_stable": true,
+      "environment_stable": true
+    },
+    "statics": {
+      "five_exit0_and_actual_logs_independently_verified": true,
+      "Ruff_all": "PASS",
+      "format_all": "295 files already formatted",
+      "configured_strict287": [
+        "win32 PASS",
+        "linux PASS",
+        "darwin PASS"
+      ],
+      "native_nonWindows_execution": false
+    }
+  },
+  "policy_review": {
+    "actual_v7_sha256": "6742ae4731e1d8869c0d8b5f0d250147e6ba61c530df9e4eb08e91de07981496",
+    "only_top_level_delta": [
+      "status",
+      "created_at",
+      "release_input_sha256",
+      "evidence_sha256",
+      "portable_test_successor"
+    ],
+    "13_added_evidence_hashes_actual_verified": true,
+    "all_v6_evidence_pins_retained_unmodified": true,
+    "performance_rule_reference_repetition_check_keys_SLO_deadlines_round20_21_unchanged": true,
+    "no_historical_result_rebound": true
+  },
+  "findings": [],
+  "confirmed_P0_P1_in_reviewed_correction": 0,
+  "remaining": [
+    "Fresh reuse helpers and matched measurement/quality runner require separate prospective exact review.",
+    "Whole20/21 current-source captures and independent acceptance/security remain pending.",
+    "Final docs-only artifact repack and runtime byte proof remain pending."
+  ],
+  "limitations": [
+    "Configured Linux/macOS mypy platform checks ran on Windows; no native Linux/macOS runtime certification.",
+    "Focused81 and staticPASS do not prove original Execution16 denial actor or repair every external denial.",
+    "No performance improvement, measured qualification, convergence, global host or publication claim.",
+    "Original raw failures and earlier source/helper/input identities remain historical."
+  ]
+}

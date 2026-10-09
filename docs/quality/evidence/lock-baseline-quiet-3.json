@@ -1,0 +1,5076 @@
+{
+  "schema_version": 1,
+  "scope": "instrumented unchanged contract; no timing/performance acceptance claim",
+  "source_root": "S:\\Orqalis\\.tools\\research\\baseline-b8506f7",
+  "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "source_stable": true,
+  "fixture_sha256": "e5d0af6ee92e4befa3a3cafff0a4548fbe0880113c8745004abca28c9d4bbdb8",
+  "fixture_stable": true,
+  "script_sha256": "45726e99cf30c09743781a76bfc70d6433b3d5d10f1c1f3f51c0e7dbdf780cd0",
+  "script_stable": true,
+  "helper_sha256": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+  "helper_stable": true,
+  "environment": {
+    "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "cpu_count": 12,
+    "repetitions": 1,
+    "isolated_python": true,
+    "dependencies": [
+      [
+        "annotated-doc",
+        "0.0.5"
+      ],
+      [
+        "annotated-types",
+        "0.8.0"
+      ],
+      [
+        "anyio",
+        "4.15.1"
+      ],
+      [
+        "attrs",
+        "26.1.0"
+      ],
+      [
+        "certifi",
+        "2026.7.22"
+      ],
+      [
+        "cffi",
+        "2.1.1"
+      ],
+      [
+        "click",
+        "8.5.0"
+      ],
+      [
+        "colorama",
+        "0.4.6"
+      ],
+      [
+        "coverage",
+        "7.16.0"
+      ],
+      [
+        "cryptography",
+        "50.0.1"
+      ],
+      [
+        "fastapi",
+        "0.141.1"
+      ],
+      [
+        "h11",
+        "0.16.0"
+      ],
+      [
+        "httpcore",
+        "1.0.9"
+      ],
+      [
+        "httpcore2",
+        "2.12.0"
+      ],
+      [
+        "httpx",
+        "0.28.1"
+      ],
+      [
+        "httpx2",
+        "2.12.0"
+      ],
+      [
+        "idna",
+        "3.19"
+      ],
+      [
+        "iniconfig",
+        "2.3.0"
+      ],
+      [
+        "jsonschema",
+        "4.26.0"
+      ],
+      [
+        "jsonschema-specifications",
+        "2025.9.1"
+      ],
+      [
+        "librt",
+        "0.15.0"
+      ],
+      [
+        "markdown-it-py",
+        "4.2.0"
+      ],
+      [
+        "mcp",
+        "2.2.0"
+      ],
+      [
+        "mcp-types",
+        "2.2.0"
+      ],
+      [
+        "mdurl",
+        "0.1.2"
+      ],
+      [
+        "mypy",
+        "1.20.2"
+      ],
+      [
+        "mypy_extensions",
+        "1.1.0"
+      ],
+      [
+        "opentelemetry-api",
+        "1.44.0"
+      ],
+      [
+        "opentelemetry-sdk",
+        "1.44.0"
+      ],
+      [
+        "opentelemetry-semantic-conventions",
+        "0.65b0"
+      ],
+      [
+        "orqalis",
+        "2.0.0"
+      ],
+      [
+        "packaging",
+        "26.3"
+      ],
+      [
+        "pathspec",
+        "1.1.1"
+      ],
+      [
+        "pluggy",
+        "1.6.0"
+      ],
+      [
+        "pycparser",
+        "3.0"
+      ],
+      [
+        "pydantic",
+        "2.13.5"
+      ],
+      [
+        "pydantic-settings",
+        "2.15.0"
+      ],
+      [
+        "pydantic_core",
+        "2.46.5"
+      ],
+      [
+        "pygments",
+        "2.21.0"
+      ],
+      [
+        "pyjwt",
+        "2.13.0"
+      ],
+      [
+        "pytest",
+        "9.1.1"
+      ],
+      [
+        "pytest-cov",
+        "7.1.0"
+      ],
+      [
+        "python-dotenv",
+        "1.2.3"
+      ],
+      [
+        "python-multipart",
+        "0.0.32"
+      ],
+      [
+        "pywin32",
+        "312"
+      ],
+      [
+        "pyyaml",
+        "6.0.3"
+      ],
+      [
+        "referencing",
+        "0.37.0"
+      ],
+      [
+        "rich",
+        "15.0.0"
+      ],
+      [
+        "rpds-py",
+        "2026.6.3"
+      ],
+      [
+        "ruff",
+        "0.16.6"
+      ],
+      [
+        "shellingham",
+        "1.5.4"
+      ],
+      [
+        "sse-starlette",
+        "3.4.11"
+      ],
+      [
+        "starlette",
+        "1.6.0"
+      ],
+      [
+        "tree-sitter",
+        "0.26.0"
+      ],
+      [
+        "tree-sitter-javascript",
+        "0.25.0"
+      ],
+      [
+        "tree-sitter-typescript",
+        "0.23.2"
+      ],
+      [
+        "truststore",
+        "0.10.4"
+      ],
+      [
+        "typer",
+        "0.27.2"
+      ],
+      [
+        "types-jsonschema",
+        "4.26.0.20260518"
+      ],
+      [
+        "types-pyyaml",
+        "6.0.12.20260906"
+      ],
+      [
+        "typing-inspection",
+        "0.4.4"
+      ],
+      [
+        "typing_extensions",
+        "4.16.0"
+      ],
+      [
+        "uvicorn",
+        "0.52.4"
+      ],
+      [
+        "websockets",
+        "16.1.1"
+      ]
+    ],
+    "dependency_sha256": "9753a3e3fc19b90ede140de964289177b2e4eb9b4a5d49cdc268f39284f14245",
+    "environment_policy": "isolated-source-v3; no inherited ORQALIS/PYTHON/PYTEST/GIT overrides; no user/system Git config; process-scoped core.autocrlf=input"
+  },
+  "bad_imports": [],
+  "pytest_exit_code": 0,
+  "elapsed_s": 4.879893499994068,
+  "maximum_wait_s": 0.8044656,
+  "maximum_hold_s": 0.3873445,
+  "acquisition_failures": [],
+  "unreleased_acquisitions": 0,
+  "events": [
+    {
+      "kind": "acquire_start",
+      "ns": 839298400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576624,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 865235400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 21729500
+    },
+    {
+      "kind": "acquired",
+      "ns": 865370100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 26048300,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576624,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 883251500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576096,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 886630900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 2123500
+    },
+    {
+      "kind": "acquired",
+      "ns": 886702200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 3434600,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576096,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 887092800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576096
+    },
+    {
+      "kind": "released",
+      "ns": 887284100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576096
+    },
+    {
+      "kind": "release_start",
+      "ns": 894660300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576624
+    },
+    {
+      "kind": "released",
+      "ns": 894921700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576624
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 1029172900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\project-identity.lock",
+      "lock": 1628643816896,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 1032493900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 2585800
+    },
+    {
+      "kind": "acquired",
+      "ns": 1032552100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 3363700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\project-identity.lock",
+      "lock": 1628643816896,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 1038070900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1017600
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 1062829000,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\.bootstrap.lock",
+      "lock": 1628644578064,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 1067491700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 4094200
+    },
+    {
+      "kind": "acquired",
+      "ns": 1067562400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 4718300,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\.bootstrap.lock",
+      "lock": 1628644578064,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 1275876500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 4274300
+    },
+    {
+      "kind": "fsync",
+      "ns": 1297456100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 2655100
+    },
+    {
+      "kind": "fsync",
+      "ns": 1309030700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 3804000
+    },
+    {
+      "kind": "release_start",
+      "ns": 1354116400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\.bootstrap.lock",
+      "lock": 1628644578064
+    },
+    {
+      "kind": "released",
+      "ns": 1354284300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\.bootstrap.lock",
+      "lock": 1628644578064
+    },
+    {
+      "kind": "release_start",
+      "ns": 1354303700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\project-identity.lock",
+      "lock": 1628643816896
+    },
+    {
+      "kind": "released",
+      "ns": 1354387800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\project-identity.lock",
+      "lock": 1628643816896
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 1699257700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644577488,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 1699653600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 383400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644577488,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 1714876300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576624,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 1715258800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 369700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576624,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 1715295800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576624
+    },
+    {
+      "kind": "released",
+      "ns": 1715337600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576624
+    },
+    {
+      "kind": "release_start",
+      "ns": 1718935800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644577488
+    },
+    {
+      "kind": "released",
+      "ns": 1719002200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644577488
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 1725652200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644581328,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 1748461100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1903600
+    },
+    {
+      "kind": "acquired",
+      "ns": 1748540100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 22871500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644581328,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 1754326200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644581328
+    },
+    {
+      "kind": "released",
+      "ns": 1754661800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644581328
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 1759989300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644581616,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 1764017100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 2537900
+    },
+    {
+      "kind": "acquired",
+      "ns": 1764144200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 4127100,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644581616,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 1881041600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 3319300
+    },
+    {
+      "kind": "fsync",
+      "ns": 1921533400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1532900
+    },
+    {
+      "kind": "fsync",
+      "ns": 1951372100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1957600
+    },
+    {
+      "kind": "fsync",
+      "ns": 1980117200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 2959500
+    },
+    {
+      "kind": "fsync",
+      "ns": 1991326200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1409500
+    },
+    {
+      "kind": "fsync",
+      "ns": 2022219600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1856600
+    },
+    {
+      "kind": "fsync",
+      "ns": 2031505900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 2402100
+    },
+    {
+      "kind": "fsync",
+      "ns": 2056216600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 936500
+    },
+    {
+      "kind": "fsync",
+      "ns": 2085626400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1311500
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2087519700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644584304,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2090693300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 2230500
+    },
+    {
+      "kind": "acquired",
+      "ns": 2090799300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 3261100,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644584304,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2091748200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644584304
+    },
+    {
+      "kind": "released",
+      "ns": 2092344700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644584304
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2093766500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644801280,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2094322500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 541300,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644801280,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2096218800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1227900
+    },
+    {
+      "kind": "release_start",
+      "ns": 2096398600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644801280
+    },
+    {
+      "kind": "released",
+      "ns": 2096510100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644801280
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2098037600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800656,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2098586700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 532700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800656,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2100103100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1187000
+    },
+    {
+      "kind": "release_start",
+      "ns": 2100232300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800656
+    },
+    {
+      "kind": "released",
+      "ns": 2100313700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800656
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2101394400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800608,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2101898200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 490500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800608,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2103296300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1130400
+    },
+    {
+      "kind": "release_start",
+      "ns": 2103413500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800608
+    },
+    {
+      "kind": "released",
+      "ns": 2103491500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800608
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2104744000,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800560,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2105166200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 410000,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800560,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2106657900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 1193800
+    },
+    {
+      "kind": "release_start",
+      "ns": 2106831100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800560
+    },
+    {
+      "kind": "released",
+      "ns": 2106921800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800560
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2115011500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644277328,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2115912700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 874700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644277328,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2130747200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 4164000
+    },
+    {
+      "kind": "release_start",
+      "ns": 2151360300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644277328
+    },
+    {
+      "kind": "released",
+      "ns": 2151437400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644277328
+    },
+    {
+      "kind": "release_start",
+      "ns": 2151488700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644581616
+    },
+    {
+      "kind": "released",
+      "ns": 2151596200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644581616
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2163539600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644275216,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2163828400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581184,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2164267700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644277328,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2164547700,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644582144,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2164768900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 1212400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644275216,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2187023800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644796384,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2187490600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 450000,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644796384,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2187532600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644796384
+    },
+    {
+      "kind": "released",
+      "ns": 2187583400,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644796384
+    },
+    {
+      "kind": "release_start",
+      "ns": 2194533800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644275216
+    },
+    {
+      "kind": "released",
+      "ns": 2194636300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644275216
+    },
+    {
+      "kind": "acquired",
+      "ns": 2195710600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 31863500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581184,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2214613200,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644576720,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2215267300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 640200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644576720,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2217212000,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644802528,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2217637900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 417200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644802528,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2222953800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802480,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2223437300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 471500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802480,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2223493600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802480
+    },
+    {
+      "kind": "released",
+      "ns": 2223558800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802480
+    },
+    {
+      "kind": "release_start",
+      "ns": 2229772900,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581184
+    },
+    {
+      "kind": "released",
+      "ns": 2229894400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581184
+    },
+    {
+      "kind": "acquired",
+      "ns": 2230851200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 66568900,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644277328,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2239037400,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644802528
+    },
+    {
+      "kind": "released",
+      "ns": 2239214100,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644802528
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2253714700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644801712,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2263946200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802096,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2264324700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 364000,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802096,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2264361200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802096
+    },
+    {
+      "kind": "released",
+      "ns": 2264405100,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802096
+    },
+    {
+      "kind": "release_start",
+      "ns": 2268001600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644277328
+    },
+    {
+      "kind": "released",
+      "ns": 2268083100,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644277328
+    },
+    {
+      "kind": "acquired",
+      "ns": 2268861800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 104303900,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644582144,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2272037000,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 20388200
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2286044600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644797296,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2294056200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645273344,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2294559400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 485300,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645273344,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2294613700,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645273344
+    },
+    {
+      "kind": "released",
+      "ns": 2294672300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645273344
+    },
+    {
+      "kind": "release_start",
+      "ns": 2301884300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644582144
+    },
+    {
+      "kind": "released",
+      "ns": 2301951000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644582144
+    },
+    {
+      "kind": "fsync",
+      "ns": 2302672800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 979300
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2311086700,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273200,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2329910000,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 3031300
+    },
+    {
+      "kind": "fsync",
+      "ns": 2357227900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 2631700
+    },
+    {
+      "kind": "fsync",
+      "ns": 2367309000,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1104600
+    },
+    {
+      "kind": "fsync",
+      "ns": 2398487200,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 2125200
+    },
+    {
+      "kind": "fsync",
+      "ns": 2407497300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 2215200
+    },
+    {
+      "kind": "fsync",
+      "ns": 2416796700,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1186900
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2438362900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275216,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2438730300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 352000,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275216,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2438889800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275216
+    },
+    {
+      "kind": "released",
+      "ns": 2438925000,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275216
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2440282700,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645276656,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2440713300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 420500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645276656,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2443984800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1786100
+    },
+    {
+      "kind": "release_start",
+      "ns": 2444163800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645276656
+    },
+    {
+      "kind": "released",
+      "ns": 2444288300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645276656
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2448267100,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644799984,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2448741900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 460400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644799984,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2459193600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 3657500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2463532600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644799984
+    },
+    {
+      "kind": "released",
+      "ns": 2463635700,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644799984
+    },
+    {
+      "kind": "release_start",
+      "ns": 2463702400,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644576720
+    },
+    {
+      "kind": "released",
+      "ns": 2463768800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644576720
+    },
+    {
+      "kind": "acquired",
+      "ns": 2465052100,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 211323500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644801712,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2466535300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644579936,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2467411900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 845300,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644579936,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2468985100,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264800,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2469814900,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 814500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264800,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2492968400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264800
+    },
+    {
+      "kind": "released",
+      "ns": 2493078200,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264800
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2494402500,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644799696,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2495548300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 1129500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644799696,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2495641100,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644799696
+    },
+    {
+      "kind": "released",
+      "ns": 2495719000,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644799696
+    },
+    {
+      "kind": "fsync",
+      "ns": 2507918000,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1799000
+    },
+    {
+      "kind": "release_start",
+      "ns": 2508544700,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644579936
+    },
+    {
+      "kind": "released",
+      "ns": 2508764700,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644579936
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2518585600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645262208,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2536265100,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1396600
+    },
+    {
+      "kind": "fsync",
+      "ns": 2564849400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1426800
+    },
+    {
+      "kind": "fsync",
+      "ns": 2591995400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 3012400
+    },
+    {
+      "kind": "fsync",
+      "ns": 2602721700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1337900
+    },
+    {
+      "kind": "fsync",
+      "ns": 2633768400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 2867700
+    },
+    {
+      "kind": "fsync",
+      "ns": 2646184400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 2315700
+    },
+    {
+      "kind": "fsync",
+      "ns": 2654611600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1447400
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2680270200,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273104,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2680934600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 643800,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273104,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2681200100,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273104
+    },
+    {
+      "kind": "released",
+      "ns": 2681256500,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273104
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2682522600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645361184,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2682968000,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 429400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645361184,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2684900900,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1621000
+    },
+    {
+      "kind": "release_start",
+      "ns": 2685062300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645361184
+    },
+    {
+      "kind": "released",
+      "ns": 2685163000,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645361184
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2690122400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644800176,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2690859300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 720700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644800176,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2703873200,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 3865800
+    },
+    {
+      "kind": "release_start",
+      "ns": 2708576800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644800176
+    },
+    {
+      "kind": "released",
+      "ns": 2708673700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644800176
+    },
+    {
+      "kind": "release_start",
+      "ns": 2708709700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644801712
+    },
+    {
+      "kind": "released",
+      "ns": 2708829700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644801712
+    },
+    {
+      "kind": "acquired",
+      "ns": 2709839800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 423779300,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644797296,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2712299700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798832,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2712409800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273824,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2712728700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 416600,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798832,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2712992800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 571700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273824,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2734053000,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273824
+    },
+    {
+      "kind": "released",
+      "ns": 2734137300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273824
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2736035200,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645266144,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2736601300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 554300,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645266144,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2736657300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645266144
+    },
+    {
+      "kind": "released",
+      "ns": 2736704600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645266144
+    },
+    {
+      "kind": "fsync",
+      "ns": 2746556600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1436500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2747507600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798832
+    },
+    {
+      "kind": "released",
+      "ns": 2747574700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798832
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2753821800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273296,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2769458500,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1211700
+    },
+    {
+      "kind": "fsync",
+      "ns": 2799110900,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1188700
+    },
+    {
+      "kind": "fsync",
+      "ns": 2824094600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 2603600
+    },
+    {
+      "kind": "fsync",
+      "ns": 2833335800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1356000
+    },
+    {
+      "kind": "fsync",
+      "ns": 2868810300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 4399700
+    },
+    {
+      "kind": "fsync",
+      "ns": 2879901500,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 2485200
+    },
+    {
+      "kind": "fsync",
+      "ns": 2889160500,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1410300
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2915619200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369968,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2916394700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 753000,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369968,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2916633400,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369968
+    },
+    {
+      "kind": "released",
+      "ns": 2916693600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369968
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2918772800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645372608,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2919407300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 620100,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645372608,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2921391700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1698100
+    },
+    {
+      "kind": "release_start",
+      "ns": 2921723700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645372608
+    },
+    {
+      "kind": "released",
+      "ns": 2921838300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645372608
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2927127300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645275312,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2927506000,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 366200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645275312,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 2936905400,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 2502900
+    },
+    {
+      "kind": "release_start",
+      "ns": 2940683000,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645275312
+    },
+    {
+      "kind": "released",
+      "ns": 2940781200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645275312
+    },
+    {
+      "kind": "release_start",
+      "ns": 2940820500,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644797296
+    },
+    {
+      "kind": "released",
+      "ns": 2940875600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644797296
+    },
+    {
+      "kind": "acquired",
+      "ns": 2942974800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 631869900,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273200,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2945299200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581616,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2945704800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274832,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2945960100,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 646700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581616,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2947105600,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 1384700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274832,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2968027200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274832
+    },
+    {
+      "kind": "released",
+      "ns": 2968109400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274832
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2969368700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645274400,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 2969985700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 604100,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645274400,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 2970041800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645274400
+    },
+    {
+      "kind": "released",
+      "ns": 2970097100,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645274400
+    },
+    {
+      "kind": "fsync",
+      "ns": 2980437500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1353300
+    },
+    {
+      "kind": "release_start",
+      "ns": 2980761900,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581616
+    },
+    {
+      "kind": "released",
+      "ns": 2980825800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581616
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 2987952700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645272912,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 3006875200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1613500
+    },
+    {
+      "kind": "fsync",
+      "ns": 3034217200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1586900
+    },
+    {
+      "kind": "fsync",
+      "ns": 3063301800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 2864600
+    },
+    {
+      "kind": "fsync",
+      "ns": 3073224900,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 2557200
+    },
+    {
+      "kind": "fsync",
+      "ns": 3100845400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 2763100
+    },
+    {
+      "kind": "fsync",
+      "ns": 3112738600,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 2643600
+    },
+    {
+      "kind": "fsync",
+      "ns": 3122473500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1170300
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3161839400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265616,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3163204700,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 1344300,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265616,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 3163529300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265616
+    },
+    {
+      "kind": "released",
+      "ns": 3163590600,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265616
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3165016200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264464,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3165485800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 455700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264464,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 3167214800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1414500
+    },
+    {
+      "kind": "release_start",
+      "ns": 3167344200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264464
+    },
+    {
+      "kind": "released",
+      "ns": 3167414800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264464
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3171479300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644576192,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3171967700,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 474900,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644576192,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 3184376500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 3690500
+    },
+    {
+      "kind": "release_start",
+      "ns": 3188204300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644576192
+    },
+    {
+      "kind": "released",
+      "ns": 3188288400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644576192
+    },
+    {
+      "kind": "release_start",
+      "ns": 3188319000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273200
+    },
+    {
+      "kind": "released",
+      "ns": 3188364400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273200
+    },
+    {
+      "kind": "acquired",
+      "ns": 3189443700,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 670842200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645262208,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3192239300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798592,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3192415400,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265088,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3192730600,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 478500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798592,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3192924300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 498200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265088,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3208457800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264848,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3209135000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 661200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264848,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 3209219500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264848
+    },
+    {
+      "kind": "release_start",
+      "ns": 3209271800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265088
+    },
+    {
+      "kind": "released",
+      "ns": 3209315100,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264848
+    },
+    {
+      "kind": "released",
+      "ns": 3209541400,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265088
+    },
+    {
+      "kind": "release_start",
+      "ns": 3219107300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798592
+    },
+    {
+      "kind": "released",
+      "ns": 3219197500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798592
+    },
+    {
+      "kind": "fsync",
+      "ns": 3220782500,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1397400
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3229835400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273584,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 3298091600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1587000
+    },
+    {
+      "kind": "fsync",
+      "ns": 3325067100,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1935400
+    },
+    {
+      "kind": "fsync",
+      "ns": 3354798800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 2469200
+    },
+    {
+      "kind": "fsync",
+      "ns": 3363535000,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1082500
+    },
+    {
+      "kind": "fsync",
+      "ns": 3389418500,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 2600000
+    },
+    {
+      "kind": "fsync",
+      "ns": 3399293200,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 2312800
+    },
+    {
+      "kind": "fsync",
+      "ns": 3407407500,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1096600
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3430953000,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369680,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3431622200,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 652000,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369680,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 3431907300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369680
+    },
+    {
+      "kind": "released",
+      "ns": 3431965900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369680
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3433571300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645371120,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3434038900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 454200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645371120,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 3435695600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 1253300
+    },
+    {
+      "kind": "release_start",
+      "ns": 3435843200,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645371120
+    },
+    {
+      "kind": "released",
+      "ns": 3435925600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645371120
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3438389500,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645276560,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3438667100,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "wait_ns": 269600,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645276560,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 3446779100,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "elapsed_ns": 2089400
+    },
+    {
+      "kind": "release_start",
+      "ns": 3451145900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645276560
+    },
+    {
+      "kind": "released",
+      "ns": 3451249100,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645276560
+    },
+    {
+      "kind": "release_start",
+      "ns": 3451283900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645262208
+    },
+    {
+      "kind": "released",
+      "ns": 3451348900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645262208
+    },
+    {
+      "kind": "acquired",
+      "ns": 3452157000,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 698321200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273296,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3454222200,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275984,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3455031700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 796700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275984,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 3474746300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275984
+    },
+    {
+      "kind": "released",
+      "ns": 3474948800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275984
+    },
+    {
+      "kind": "fsync",
+      "ns": 3485103800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1555800
+    },
+    {
+      "kind": "fsync",
+      "ns": 3516346500,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1829300
+    },
+    {
+      "kind": "fsync",
+      "ns": 3548140700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1497700
+    },
+    {
+      "kind": "fsync",
+      "ns": 3575727800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 3048800
+    },
+    {
+      "kind": "fsync",
+      "ns": 3585646200,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1488700
+    },
+    {
+      "kind": "fsync",
+      "ns": 3626809700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 5594400
+    },
+    {
+      "kind": "fsync",
+      "ns": 3639948600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 3019400
+    },
+    {
+      "kind": "fsync",
+      "ns": 3652673000,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1515000
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3677444100,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645374336,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3677975100,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 513100,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645374336,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 3678219600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645374336
+    },
+    {
+      "kind": "released",
+      "ns": 3678268000,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645374336
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3679423900,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645362672,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3679768800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 335100,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645362672,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 3681606600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 1556800
+    },
+    {
+      "kind": "release_start",
+      "ns": 3681764500,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645362672
+    },
+    {
+      "kind": "released",
+      "ns": 3681877400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645362672
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3685929400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645366080,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3686346000,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "wait_ns": 404200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645366080,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 3696341100,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "elapsed_ns": 2209700
+    },
+    {
+      "kind": "release_start",
+      "ns": 3700297600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645366080
+    },
+    {
+      "kind": "released",
+      "ns": 3700384400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645366080
+    },
+    {
+      "kind": "release_start",
+      "ns": 3700415600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273296
+    },
+    {
+      "kind": "released",
+      "ns": 3700471600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273296
+    },
+    {
+      "kind": "acquired",
+      "ns": 3701250200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 713282000,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645272912,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3702856500,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645366080,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3703301200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 434400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645366080,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 3719278300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645366080
+    },
+    {
+      "kind": "released",
+      "ns": 3719353700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645366080
+    },
+    {
+      "kind": "fsync",
+      "ns": 3738375200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 2540000
+    },
+    {
+      "kind": "fsync",
+      "ns": 3766240800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1232300
+    },
+    {
+      "kind": "fsync",
+      "ns": 3787951400,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1501300
+    },
+    {
+      "kind": "fsync",
+      "ns": 3815006600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 2570700
+    },
+    {
+      "kind": "fsync",
+      "ns": 3828661700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 6183000
+    },
+    {
+      "kind": "fsync",
+      "ns": 3853692200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 2217800
+    },
+    {
+      "kind": "fsync",
+      "ns": 3869537900,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 2135900
+    },
+    {
+      "kind": "fsync",
+      "ns": 3885513600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 1360000
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3996990300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274640,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3997569700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 563200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274640,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 3997865600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274640
+    },
+    {
+      "kind": "released",
+      "ns": 3997929000,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274640
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 3998970700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262064,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 3999234600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 256100,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262064,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 4019527100,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 20078800
+    },
+    {
+      "kind": "release_start",
+      "ns": 4019710800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262064
+    },
+    {
+      "kind": "released",
+      "ns": 4019803800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262064
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4022573700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645368288,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4022914700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "wait_ns": 331600,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645368288,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 4030591400,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "elapsed_ns": 2037200
+    },
+    {
+      "kind": "release_start",
+      "ns": 4033586100,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645368288
+    },
+    {
+      "kind": "released",
+      "ns": 4033659200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645368288
+    },
+    {
+      "kind": "release_start",
+      "ns": 4033687700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645272912
+    },
+    {
+      "kind": "released",
+      "ns": 4033736300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645272912
+    },
+    {
+      "kind": "acquired",
+      "ns": 4034315200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 804465600,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273584,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4035511800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645365504,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4035891800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 371800,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645365504,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4056203400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645365504
+    },
+    {
+      "kind": "released",
+      "ns": 4056293200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645365504
+    },
+    {
+      "kind": "fsync",
+      "ns": 4067888200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1497300
+    },
+    {
+      "kind": "fsync",
+      "ns": 4095325000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1612400
+    },
+    {
+      "kind": "fsync",
+      "ns": 4130345600,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1246500
+    },
+    {
+      "kind": "fsync",
+      "ns": 4160710300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 2621500
+    },
+    {
+      "kind": "fsync",
+      "ns": 4171401000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1391300
+    },
+    {
+      "kind": "fsync",
+      "ns": 4203302000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 3065000
+    },
+    {
+      "kind": "fsync",
+      "ns": 4215245700,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 2292900
+    },
+    {
+      "kind": "fsync",
+      "ns": 4224885800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1330400
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4250766700,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645459536,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4251210800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 428700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645459536,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4251421600,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645459536
+    },
+    {
+      "kind": "released",
+      "ns": 4251470600,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645459536
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4252730500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263360,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4253165100,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 421700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263360,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 4255018000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 1622900
+    },
+    {
+      "kind": "release_start",
+      "ns": 4255163200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263360
+    },
+    {
+      "kind": "released",
+      "ns": 4255242200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263360
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4259281800,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645263360,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4259712000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "wait_ns": 417500,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645263360,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 4268497100,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "elapsed_ns": 2494500
+    },
+    {
+      "kind": "release_start",
+      "ns": 4272241400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645263360
+    },
+    {
+      "kind": "released",
+      "ns": 4272311100,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645263360
+    },
+    {
+      "kind": "release_start",
+      "ns": 4272339500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273584
+    },
+    {
+      "kind": "released",
+      "ns": 4272372900,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273584
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4275290100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576192,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4275763300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 456600,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576192,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4296187400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361232,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4296755800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 550700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361232,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4296814500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361232
+    },
+    {
+      "kind": "released",
+      "ns": 4296869600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361232
+    },
+    {
+      "kind": "release_start",
+      "ns": 4302246400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576192
+    },
+    {
+      "kind": "released",
+      "ns": 4302338500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576192
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4312699100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645359888,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4313259500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 541400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645359888,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4315578700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263024,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4316117300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 524600,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263024,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4335464200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263024
+    },
+    {
+      "kind": "released",
+      "ns": 4335560200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263024
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4340309600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644797536,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4342317900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 1911400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644797536,
+      "timeout": 10.0
+    },
+    {
+      "kind": "fsync",
+      "ns": 4352116700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "elapsed_ns": 4080600
+    },
+    {
+      "kind": "release_start",
+      "ns": 4355581200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644797536
+    },
+    {
+      "kind": "released",
+      "ns": 4355645800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644797536
+    },
+    {
+      "kind": "release_start",
+      "ns": 4355671600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645359888
+    },
+    {
+      "kind": "released",
+      "ns": 4355702300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645359888
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4357326400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581328,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4358241200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 900800,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581328,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4371470200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361424,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4371967100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 482200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361424,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4372020000,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361424
+    },
+    {
+      "kind": "released",
+      "ns": 4372076800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361424
+    },
+    {
+      "kind": "release_start",
+      "ns": 4379396300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581328
+    },
+    {
+      "kind": "released",
+      "ns": 4379543800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581328
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4392101200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644798592,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4392665900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 544700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644798592,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4394499700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263168,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4395058800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 545400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263168,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4395271600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263168
+    },
+    {
+      "kind": "released",
+      "ns": 4395311700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263168
+    },
+    {
+      "kind": "release_start",
+      "ns": 4395991900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644798592
+    },
+    {
+      "kind": "released",
+      "ns": 4396037500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644798592
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4397345200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645264560,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4397932600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 571400,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645264560,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4400469900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645264560
+    },
+    {
+      "kind": "released",
+      "ns": 4400531300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645264560
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4414038900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645263600,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4414642500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 583800,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645263600,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4416131800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262784,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4416484100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 341900,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262784,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4416651500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262784
+    },
+    {
+      "kind": "released",
+      "ns": 4416690400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262784
+    },
+    {
+      "kind": "release_start",
+      "ns": 4417930300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645263600
+    },
+    {
+      "kind": "released",
+      "ns": 4418014500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645263600
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4434334500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628645275888,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4434883000,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 530200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628645275888,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4467118700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264896,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4467456700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 323200,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264896,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4467493200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264896
+    },
+    {
+      "kind": "released",
+      "ns": 4467532200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264896
+    },
+    {
+      "kind": "release_start",
+      "ns": 4471227700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628645275888
+    },
+    {
+      "kind": "released",
+      "ns": 4471295400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628645275888
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4483105700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644582000,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4483662200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 540700,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644582000,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquire_start",
+      "ns": 4485205400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645266960,
+      "timeout": 10.0
+    },
+    {
+      "kind": "acquired",
+      "ns": 4485666100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "wait_ns": 447800,
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645266960,
+      "timeout": 10.0
+    },
+    {
+      "kind": "release_start",
+      "ns": 4529742100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645266960
+    },
+    {
+      "kind": "released",
+      "ns": 4529839900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645266960
+    },
+    {
+      "kind": "release_start",
+      "ns": 4531459200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644582000
+    },
+    {
+      "kind": "released",
+      "ns": 4531577100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644582000
+    }
+  ],
+  "holds": [
+    {
+      "kind": "release_start",
+      "ns": 887092800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576096,
+      "hold_ns": 390600
+    },
+    {
+      "kind": "release_start",
+      "ns": 894660300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576624,
+      "hold_ns": 29290200
+    },
+    {
+      "kind": "release_start",
+      "ns": 1354116400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\.bootstrap.lock",
+      "lock": 1628644578064,
+      "hold_ns": 286554000
+    },
+    {
+      "kind": "release_start",
+      "ns": 1354303700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\project-identity.lock",
+      "lock": 1628643816896,
+      "hold_ns": 321751600
+    },
+    {
+      "kind": "release_start",
+      "ns": 1715295800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644576624,
+      "hold_ns": 37000
+    },
+    {
+      "kind": "release_start",
+      "ns": 1718935800,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644577488,
+      "hold_ns": 19282200
+    },
+    {
+      "kind": "release_start",
+      "ns": 1754326200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644581328,
+      "hold_ns": 5786100
+    },
+    {
+      "kind": "release_start",
+      "ns": 2091748200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644584304,
+      "hold_ns": 948900
+    },
+    {
+      "kind": "release_start",
+      "ns": 2096398600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644801280,
+      "hold_ns": 2076100
+    },
+    {
+      "kind": "release_start",
+      "ns": 2100232300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800656,
+      "hold_ns": 1645600
+    },
+    {
+      "kind": "release_start",
+      "ns": 2103413500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800608,
+      "hold_ns": 1515300
+    },
+    {
+      "kind": "release_start",
+      "ns": 2106831100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644800560,
+      "hold_ns": 1664900
+    },
+    {
+      "kind": "release_start",
+      "ns": 2151360300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644277328,
+      "hold_ns": 35447600
+    },
+    {
+      "kind": "release_start",
+      "ns": 2151488700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644581616,
+      "hold_ns": 387344500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2187532600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644796384,
+      "hold_ns": 42000
+    },
+    {
+      "kind": "release_start",
+      "ns": 2194533800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644275216,
+      "hold_ns": 29764900
+    },
+    {
+      "kind": "release_start",
+      "ns": 2223493600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802480,
+      "hold_ns": 56300
+    },
+    {
+      "kind": "release_start",
+      "ns": 2229772900,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581184,
+      "hold_ns": 34062300
+    },
+    {
+      "kind": "release_start",
+      "ns": 2239037400,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628644802528,
+      "hold_ns": 21399500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2264361200,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644802096,
+      "hold_ns": 36500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2268001600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644277328,
+      "hold_ns": 37150400
+    },
+    {
+      "kind": "release_start",
+      "ns": 2294613700,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645273344,
+      "hold_ns": 54300
+    },
+    {
+      "kind": "release_start",
+      "ns": 2301884300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644582144,
+      "hold_ns": 33022500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2438889800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275216,
+      "hold_ns": 159500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2444163800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645276656,
+      "hold_ns": 3450500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2463532600,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644799984,
+      "hold_ns": 14790700
+    },
+    {
+      "kind": "release_start",
+      "ns": 2463702400,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644576720,
+      "hold_ns": 248435100
+    },
+    {
+      "kind": "release_start",
+      "ns": 2492968400,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264800,
+      "hold_ns": 23153500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2495641100,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628644799696,
+      "hold_ns": 92800
+    },
+    {
+      "kind": "release_start",
+      "ns": 2508544700,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644579936,
+      "hold_ns": 41132800
+    },
+    {
+      "kind": "release_start",
+      "ns": 2681200100,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273104,
+      "hold_ns": 265500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2685062300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645361184,
+      "hold_ns": 2094300
+    },
+    {
+      "kind": "release_start",
+      "ns": 2708576800,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644800176,
+      "hold_ns": 17717500
+    },
+    {
+      "kind": "release_start",
+      "ns": 2708709700,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644801712,
+      "hold_ns": 243657600
+    },
+    {
+      "kind": "release_start",
+      "ns": 2734053000,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645273824,
+      "hold_ns": 21060200
+    },
+    {
+      "kind": "release_start",
+      "ns": 2736657300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645266144,
+      "hold_ns": 56000
+    },
+    {
+      "kind": "release_start",
+      "ns": 2747507600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798832,
+      "hold_ns": 34778900
+    },
+    {
+      "kind": "release_start",
+      "ns": 2916633400,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369968,
+      "hold_ns": 238700
+    },
+    {
+      "kind": "release_start",
+      "ns": 2921723700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645372608,
+      "hold_ns": 2316400
+    },
+    {
+      "kind": "release_start",
+      "ns": 2940683000,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645275312,
+      "hold_ns": 13177000
+    },
+    {
+      "kind": "release_start",
+      "ns": 2940820500,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644797296,
+      "hold_ns": 230980700
+    },
+    {
+      "kind": "release_start",
+      "ns": 2968027200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274832,
+      "hold_ns": 20921600
+    },
+    {
+      "kind": "release_start",
+      "ns": 2970041800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645274400,
+      "hold_ns": 56100
+    },
+    {
+      "kind": "release_start",
+      "ns": 2980761900,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581616,
+      "hold_ns": 34801800
+    },
+    {
+      "kind": "release_start",
+      "ns": 3163529300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265616,
+      "hold_ns": 324600
+    },
+    {
+      "kind": "release_start",
+      "ns": 3167344200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645264464,
+      "hold_ns": 1858400
+    },
+    {
+      "kind": "release_start",
+      "ns": 3188204300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644576192,
+      "hold_ns": 16236600
+    },
+    {
+      "kind": "release_start",
+      "ns": 3188319000,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273200,
+      "hold_ns": 245344200
+    },
+    {
+      "kind": "release_start",
+      "ns": 3209219500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264848,
+      "hold_ns": 84500
+    },
+    {
+      "kind": "release_start",
+      "ns": 3209271800,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645265088,
+      "hold_ns": 16347500
+    },
+    {
+      "kind": "release_start",
+      "ns": 3219107300,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644798592,
+      "hold_ns": 26376700
+    },
+    {
+      "kind": "release_start",
+      "ns": 3431907300,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645369680,
+      "hold_ns": 285100
+    },
+    {
+      "kind": "release_start",
+      "ns": 3435843200,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645371120,
+      "hold_ns": 1804300
+    },
+    {
+      "kind": "release_start",
+      "ns": 3451145900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645276560,
+      "hold_ns": 12478800
+    },
+    {
+      "kind": "release_start",
+      "ns": 3451283900,
+      "thread": 8128,
+      "thread_name": "ThreadPoolExecutor-0_1",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645262208,
+      "hold_ns": 261840200
+    },
+    {
+      "kind": "release_start",
+      "ns": 3474746300,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645275984,
+      "hold_ns": 19714600
+    },
+    {
+      "kind": "release_start",
+      "ns": 3678219600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645374336,
+      "hold_ns": 244500
+    },
+    {
+      "kind": "release_start",
+      "ns": 3681764500,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645362672,
+      "hold_ns": 1995700
+    },
+    {
+      "kind": "release_start",
+      "ns": 3700297600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645366080,
+      "hold_ns": 13951600
+    },
+    {
+      "kind": "release_start",
+      "ns": 3700415600,
+      "thread": 24660,
+      "thread_name": "ThreadPoolExecutor-0_2",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273296,
+      "hold_ns": 248258600
+    },
+    {
+      "kind": "release_start",
+      "ns": 3719278300,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645366080,
+      "hold_ns": 15977100
+    },
+    {
+      "kind": "release_start",
+      "ns": 3997865600,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645274640,
+      "hold_ns": 295900
+    },
+    {
+      "kind": "release_start",
+      "ns": 4019710800,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262064,
+      "hold_ns": 20476200
+    },
+    {
+      "kind": "release_start",
+      "ns": 4033586100,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645368288,
+      "hold_ns": 10671400
+    },
+    {
+      "kind": "release_start",
+      "ns": 4033687700,
+      "thread": 16756,
+      "thread_name": "ThreadPoolExecutor-0_0",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645272912,
+      "hold_ns": 332437500
+    },
+    {
+      "kind": "release_start",
+      "ns": 4056203400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645365504,
+      "hold_ns": 20311600
+    },
+    {
+      "kind": "release_start",
+      "ns": 4251421600,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645459536,
+      "hold_ns": 210800
+    },
+    {
+      "kind": "release_start",
+      "ns": 4255163200,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263360,
+      "hold_ns": 1998100
+    },
+    {
+      "kind": "release_start",
+      "ns": 4272241400,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628645263360,
+      "hold_ns": 12529400
+    },
+    {
+      "kind": "release_start",
+      "ns": 4272339500,
+      "thread": 24964,
+      "thread_name": "ThreadPoolExecutor-0_3",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645273584,
+      "hold_ns": 238024300
+    },
+    {
+      "kind": "release_start",
+      "ns": 4296814500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361232,
+      "hold_ns": 58700
+    },
+    {
+      "kind": "release_start",
+      "ns": 4302246400,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644576192,
+      "hold_ns": 26483100
+    },
+    {
+      "kind": "release_start",
+      "ns": 4335464200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263024,
+      "hold_ns": 19346900
+    },
+    {
+      "kind": "release_start",
+      "ns": 4355581200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\tasks-index.lock",
+      "lock": 1628644797536,
+      "hold_ns": 13263300
+    },
+    {
+      "kind": "release_start",
+      "ns": 4355671600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645359888,
+      "hold_ns": 42412100
+    },
+    {
+      "kind": "release_start",
+      "ns": 4372020000,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645361424,
+      "hold_ns": 52900
+    },
+    {
+      "kind": "release_start",
+      "ns": 4379396300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628644581328,
+      "hold_ns": 21155100
+    },
+    {
+      "kind": "release_start",
+      "ns": 4395271600,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645263168,
+      "hold_ns": 212800
+    },
+    {
+      "kind": "release_start",
+      "ns": 4395991900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644798592,
+      "hold_ns": 3326000
+    },
+    {
+      "kind": "release_start",
+      "ns": 4400469900,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645264560,
+      "hold_ns": 2537300
+    },
+    {
+      "kind": "release_start",
+      "ns": 4416651500,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645262784,
+      "hold_ns": 167400
+    },
+    {
+      "kind": "release_start",
+      "ns": 4417930300,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628645263600,
+      "hold_ns": 3287800
+    },
+    {
+      "kind": "release_start",
+      "ns": 4467493200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\cache\\search\\.compat-repository-files.jsonl.lock",
+      "lock": 1628645264896,
+      "hold_ns": 36500
+    },
+    {
+      "kind": "release_start",
+      "ns": 4471227700,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\source-projection.lock",
+      "lock": 1628645275888,
+      "hold_ns": 36344700
+    },
+    {
+      "kind": "release_start",
+      "ns": 4529742100,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\tasks\\ORQ-20260926-0001\\execution\\.events.jsonl.lock",
+      "lock": 1628645266960,
+      "hold_ns": 44076000
+    },
+    {
+      "kind": "release_start",
+      "ns": 4531459200,
+      "thread": 21908,
+      "thread_name": "MainThread",
+      "depth": 1,
+      "path": "C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-448\\test_event_sequence_concurrenc0\\source\\.orqalis\\runtime\\locks\\ORQ-20260926-0001.state.lock",
+      "lock": 1628644582000,
+      "hold_ns": 47797000
+    }
+  ]
+}

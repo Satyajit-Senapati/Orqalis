@@ -1,0 +1,113 @@
+{
+  "reviewed_at_utc": "2026-10-04T12:07:45.553069+00:00",
+  "status": "BOUNDED_APPLIED_OWNER_NATIVE_ACCOUNTING_REVIEW_PASS_NO_NEW_CONFIRMED_P0_P1",
+  "scope": "Read-only final named source/test/accounting files, red/focused raw XML and three result records. No workload, product import, native query, broad source/freeze hashing or application edit.",
+  "reported_final_source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "parent_reported_393_input_sha256": "56c454c8630d017a71802cccda1ef0d8d8521964babfa6ee4df8c1284a2c8750",
+  "file_sha256": {
+    "src/orqalis/persistence/filesystem/locking.py": "d786e9cbbcab75783ee32ba7fbec3ef53013fba10c8d0696dadb1de003528dd9",
+    "src/orqalis/persistence/filesystem/_windows_io.py": "e4a7f68f08f3d1f0f1c19f264803feaa3505f7313846ebffcb430c5160563705",
+    "src/orqalis/persistence/filesystem/io.py": "5d363eb287c4cf2d4d8ea300ab2f7f9e2359b33357d0ca870ff919f603cd0600",
+    "tests/unit/test_file_lock_ownership.py": "1de8cf10716988e025be3e3e415fc44526e52848510b0d73a61c350c2b8e9f98",
+    "tests/unit/test_filesystem_shared_reads.py": "f51e0944f9116f81c41c315cda1da5773bd37a3beb332731c54a41880a330405",
+    "tests/unit/test_memory_benchmark.py": "dc9587a40850ac14f684764cf6d54e18ba3fc081657c2a4b02f9776ec5313a53",
+    "tests/unit/test_filesystem_foundation.py": "ab6986832f3a229d8e98e12fb239b88120a1991157b0c9f97a431d57406e7570",
+    "scripts/benchmark_memory.py": "9c773dbcb5b8dbdfcdfd1d1d818eb1eb45793b2aa9862cc952764b502025d36a",
+    ".tools/research/release-shared-io-before-v1/scripts/benchmark_memory.py": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a",
+    ".tools/research/release_memory_shared_io_v1.py": "43151a86e46152eb194e4ff462e907a61381513f09d5e18d811e4767624277ff",
+    "docs/quality/evidence/release-lock-owner-red-actual-v1.json": "08f91813874b3bee2fd49dd984d907fbda7085bfe19ee98d57daeab296102f5c",
+    "docs/quality/evidence/release-final-fixes-focused-actual-v1.json": "bb11655d79ddc1db7cf63d151a3efa480644121bdd30ae109d788dfcb6abf8d3",
+    "docs/quality/evidence/release-final-memory-counter-integrity-v1.json": "6850ed0d45c660f194d1d94f2e8ef7db6f9464ba2359b845d3934a0fe3a06346",
+    "docs/quality/evidence/release-final-fixes-focused-v3.xml": "5d38081ed2b4cc68894cc2e61f5b822930ccbb6fa60af18e173f643ffc7913c9",
+    "docs/quality/evidence/release-lock-owner-red-v1.xml": "0265aa38d81b99a88ad88d22535e8d86340ad6c340c64c24f064954e3bc129c6",
+    "docs/quality/evidence/release-shared-io-portability-memory-security-review-v1.json": "f42767c9c3c626c3b639ec0f1df0f37af5ec86bc655958967d40a910e0011f48"
+  },
+  "lock_change": {
+    "current_sha256": "d786e9cbbcab75783ee32ba7fbec3ef53013fba10c8d0696dadb1de003528dd9",
+    "in_memory_inverse_LF_sha256": "20937f14ce49a257a0ed84f569502c2e37f733d7e660b36ea8d9405c24e04eac",
+    "inverse_only_two_additions_matches_original": true,
+    "review": [
+      "Gate ensure_owned compares actual current-thread identity before FileLock decrements either acquisition/state count or unlocks/closes the native lease. Existing not-held-instance rejection precedes it; final condition-protected gate.release ownership check remains.",
+      "Owner-only state changes make the side-effect-free owner check safe in these intended same-thread acquire/release paths; wrong-thread branch raises without mutating depth/handle/gate. No new lock wait, timeout, native operation, cache or fairness policy.",
+      "Depth1/depth2 regression observes no native unlock and identical handle/counts after rejection, checks another thread cannot acquire, then verifies original owner releases normally and a successor acquires afterward. It does not itself launch a separate-process contender; retained native unlock is directly asserted."
+    ],
+    "red": {
+      "source_sha256": "2489f711187119eaef71a8de7bffeafacb820526c78f5f2c50fb65e13659bc19",
+      "cases": 2,
+      "failures": 2,
+      "errors": 0,
+      "raw_verified": true
+    },
+    "green_owner_cases": 2
+  },
+  "canonical_counter_adoption": {
+    "archived_original_sha256": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a",
+    "current_sha256": "9c773dbcb5b8dbdfcdfd1d1d818eb1eb45793b2aa9862cc952764b502025d36a",
+    "reviewed_private_ReadProbe_AST_exact": true,
+    "whole_canonical_module_inverse_AST_exact": true,
+    "allowed_delta": [
+      "builtins import",
+      "ReadProbe extracted original classifier plus module-local canonical open hook",
+      "one worker descriptive measurement-policy label"
+    ],
+    "canonical_REPO_parent_unchanged": true,
+    "CountedReader_all_other_workloads_golds_checks_budgets_deadlines_AST_unchanged": true,
+    "native_read_coverage_without_double_count_static_review_retained": true,
+    "calibration_actual_pass": {
+      "case": "test_read_probe_counts_canonical_snapshot_reads_once",
+      "source_reads": 2,
+      "memory_reads": 1,
+      "metadata_reads": 1,
+      "open_equals_read_counts": true,
+      "UTF8_bytes_and_characters_exact": true,
+      "canonical_module_open_alias_restored": true,
+      "graph_refreshes": 0
+    },
+    "limits": [
+      "Counters describe returned Python bytes/characters, not physical disk IO or subprocess/kernel reads.",
+      "Instrumentation overhead is part of future measurements; no historical timing or new measurement credit. Preserve original helper and report hashes; use fresh source/helper/dataset bindings."
+    ]
+  },
+  "native_contracts": [
+    "Current Windows-only native functions retain previously reviewed handle/API flags, descriptor ownership, no readonly bypass, close-before-unsupported fallback and permission-denial no fallback. Portable branch remains os.open/os.replace.",
+    "Writer fresh guards, validation/fsync/ownedtemporary cleanup, journal/recovery ordering and five bounded attempts remain unchanged from the prior bounded native review.",
+    "Native13 cases and foundation81 cases appear in current124-case capture; this is focused evidence, not whole release qualification."
+  ],
+  "focused": {
+    "cases": 124,
+    "passed": 124,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "raw_XML_sha_verified": true,
+    "suite_attributes": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "124",
+        "time": "8.742",
+        "timestamp": "2026-10-04T17:29:40.264358+05:30",
+        "hostname": "THOR-GALAXY"
+      }
+    ],
+    "class_case_counts": {
+      "tests.unit.test_file_lock_ownership": 2,
+      "tests.unit.test_memory_benchmark": 28,
+      "tests.unit.test_filesystem_shared_reads": 13,
+      "tests.unit.test_filesystem_foundation": 81
+    }
+  },
+  "retained_history": [
+    "Parent reported two prior collection failures from encoding and repair-boundary errors; no cases ran. They are not overwritten or credited as passes. This review did not separately inspect those raw failed records.",
+    "Earlier891 native143 and2489 portable/preflight results remain historical source-bound evidence; no rebind to b897.",
+    "Prior22 terminal session.yaml denial is not assigned a holder/cause by this owner misuse fix or controlled shared-reader change."
+  ],
+  "limits_and_pending": [
+    "Full393 input and source inventories are parent-reported bindings, not independently recomputed here. Focused record source binding and exact named file/raw XML digests verified.",
+    "Current Windows290 static pass and fullLinux/macOS type gates are parent-reported/current-running; not claimed complete here.",
+    "Fresh preflight/original86 and whole release gates, performance/Master53/convergence, final package/dependency/document closure remain separate.",
+    "No commits, tags, push, publication or final readiness approval."
+  ]
+}

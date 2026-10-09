@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_REVIEW_PASS_NOT_RELEASE_ACCEPTANCE",
+  "reviewed_at": "2026-10-03T14:03:13.464815+00:00",
+  "reviewer": "release_acceptance_review",
+  "review_scope": "Read-only static review of prospective private v14/v8/reference verifier, small inventories and retained evidence records; no helper, benchmark, test, build, audit or dependency scan executed by reviewer.",
+  "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "release_input_sha256": "a6aab317af7c9cb41f8eb2742c58752a732299ce814e3d88520f1d734a2aca4a",
+  "source_binding_limit": "Candidate identity taken from frozen canonical inputs and guarded prospective helpers; this review did not perform a fresh production/dependency tree scan alongside the parent regression.",
+  "reviewed_proposal_sha256": "9386d6af125347c549faf62ca93068cb1132023b8d2237ddab0469b0c5682618",
+  "reviewed_policy_sha256": "ece3b06a2865c8479c8f38c6686dd44436eb3ca63f3055182c64401e92936b1e",
+  "reviewed_new_helpers": {
+    "release_qualification_v14.py": "65ef375616a45e92b77c1a8caea18db6dda9ea925f534ae9934a5e90093d6c50",
+    "release_complete_rounds_v14.py": "1b1d4e4f276ddbe7aa73acc6bb33849d2c5aff7d53b16e22cb3844d77586a076",
+    "run_full_regression_release_v8.py": "d84ae1d8a5cd3eca2f40a593f789ae0dba7301a312f74b64a63253293363cdc4",
+    "verify_execution_reference_v1.py": "e2cd9cd4dc234fd23bd23c20f373c2b1d0d072fbbc237963a168e3f6db8d501a"
+  },
+  "helper_inventory_proofs": {
+    "release-private-helper-inventory-readpath.json": {
+      "sha256": "df8c70ca3f247e636cfb8d5419adb1a9c84795ee765c729731b3e6e79827b80f",
+      "helper_count": 15,
+      "all_declared_bytes_match": true
+    },
+    "release-private-helper-inventory-readpath-followup-v1.json": {
+      "sha256": "398e4dd11613ee57dc4a1d1b39d866636063691bbded3f44488645edccd6f9a4",
+      "helper_count": 15,
+      "all_declared_bytes_match": true
+    },
+    "release-private-helper-inventory-readpath-reference-v1.json": {
+      "sha256": "97c85a674924e4ef704bdc78b8d322de9f82e4e63f80635c29ed192c97f36061",
+      "helper_count": 16,
+      "all_declared_bytes_match": true
+    }
+  },
+  "distinct_helper_union": 22,
+  "shared_inventory_conflicts": [],
+  "static_differences": {
+    "qualification_v13_to_v14": "Fresh labels/logs and reference-family guard; only execution baseline capture replaced by exact immutable reference verification before and after unchanged current 3-repeat capture. Fresh quality both sides (3), memory (5), UI both sides (3), constrained both sides, unchanged full browser/auth/advisories and full Python remain. Second requires first complete capture with same source/input freeze.",
+    "complete_rounds_v13_to_v14": "Fresh 12/13 and private successor invocation/report wording; original accepted preflight verification before/after each candidate capture retained.",
+    "full_regression_v7_to_v8": "Only two fresh labels added to allowlist. Test command/assertions/budgets and source/test/helper/environment checks retained.",
+    "numeric_ast_note": "Outer full-regression numeric AST unchanged. Qualification adds only metadata new_baseline_samples=0; existing numeric constants/workload counts and thresholds retained."
+  },
+  "corrected_guard_findings": [
+    {
+      "finding": "Current execution report could substitute baseline because source was not checked.",
+      "disposition": "CLOSED_IN_STAGED_VERIFIER",
+      "proof": "Full current source fingerprint equals live candidate fingerprint; live candidate hash equals frozen policy. Each sample source/helper/script/environment hash equals verified report identity."
+    },
+    {
+      "finding": "Empty/incomplete maps could pass all(values()).",
+      "disposition": "CLOSED_IN_STAGED_VERIFIER",
+      "proof": "Three samples each require complete/pass true and worker return 0, exact nonempty predeclared 26 semantic and 4 stability keys, every value is True."
+    }
+  ],
+  "reference_integrity": {
+    "all_frozen_evidence_hashes_match": true,
+    "raw_baseline_sample_count": 9,
+    "raw_pooled_median_ms": 55870.139499995275,
+    "policy_semantic_keys_match_immutable_reference": true,
+    "environment_normalization": "Lossless JSON tuple-to-array conversion retains full metadata without exclusion.",
+    "reference_not_fresh_baseline_observation": true
+  },
+  "labels_12_13_output_inventory": "Unused at review time; no corresponding JSON/XML captures found.",
+  "failed_attempt_disposition": "Failed 8 and 10 retained as failed/incomplete negative observations; 9/11 unused. Neither diagnostic nor reference reuse counts as a full iteration.",
+  "release_gate_state": {
+    "qualified_complete_iterations": 0,
+    "required_consecutive_iterations": 2,
+    "accepted_P1_count": 23,
+    "accepted_P1_status": "IMPLEMENTED_PENDING_EVAL",
+    "deferred_count": 13,
+    "release_ready": false
+  },
+  "remaining_acceptance": "Actual two fresh complete candidate captures, unchanged source/environment/inputs through original preflight guards, independent performance/security/specification/metric disposition, 23 accepted-criterion evidence closure, final documentation/artifact identity. All older and new timings (including baseline-2 and failed 8/10), current8/10 and preceding candidate iteration must remain visible; matching identity or slower reference alone gives no performance pass.",
+  "quietness_limit": "One owned workload at a time is coordination, not measured proof of quiet host or an explanation of OS permission denial. No causal attribution or candidate immunity inferred.",
+  "master_interpretation": "Prospective fixed exact execution reference is permissible under master sections 51-53 as documented in frozen interpretation; captures remain COMPLETE_PENDING_INDEPENDENT_REVIEW, never automatic convergence.",
+  "production_changes_by_reviewer": false,
+  "workloads_executed_by_reviewer": false,
+  "commits_or_publication": false
+}

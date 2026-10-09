@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T19:21:12.697762+00:00",
+  "reviewer": "release_security_review",
+  "decision": "APPROVE_EXACT_V5_TEST_ONLY_APPLICATION_AND_FRESH_CHECKS",
+  "scope": "Read-only static independent review; staged v5 remains uninvoked and unapplied at review point. No production/helper/frozen input changes by reviewer.",
+  "reported_application_source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "reported_input_sha256": "91aa1ef80c32a121ee4349e2fa9376bf6b1139c2475bca2cec3fbfd88d4543a8",
+  "identities": {
+    "current_test": {
+      "path": "tests/unit/test_filesystem_foundation.py",
+      "sha256": "c98303233f677e0bb69422f4a96b8c2f9f219a9d988562c003723afc636936f6"
+    },
+    "final_proposal_v5": {
+      "path": ".tools/research/release_readonly_cleanup_foundation_proposal_v5.py",
+      "sha256": "333d7bc6cd10c9d47b60522bedbff28039f1a72a79bce8aef78d2e599c751258"
+    },
+    "retained_proposal_v4": {
+      "path": ".tools/research/release_readonly_cleanup_foundation_proposal_v4.py",
+      "sha256": "3daefbc8ddfbb4f4d2f7f61603a3e3196bf9d8cd2c6344310ec0e93f3a543f62"
+    },
+    "actual_failed_mypy_log": {
+      "path": ".tools/research/release-windows-cleanup-preflight-strict-app-test-types.log",
+      "sha256": "1b46a1cb302ce681a75df02e2f8bff84237def20b374f51336820255caac5409"
+    },
+    "actual_production_io": {
+      "path": "src/orqalis/persistence/filesystem/io.py",
+      "sha256": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6"
+    },
+    "installed_pytest_lookup_implementation": {
+      "path": ".venv/Lib/site-packages/_pytest/monkeypatch.py",
+      "sha256": "b5c405ed57dbd58adfb7f0fae44f84d62402993c50058e07f03387285c03df33"
+    }
+  },
+  "proof": {
+    "normalized_text_reverse_exact": true,
+    "ast_reverse_exact": true,
+    "six_two_argument_dotted_setattr_calls": true,
+    "one_chmod_alias_change": true,
+    "one_unused_local_import_removed": true,
+    "assertions_cases_platform_scopes_unchanged": true,
+    "no_type_ignore_or_runtime_reexport_added": true,
+    "dotted_lookup": "Installed pytest derive_importpath splits final attribute then resolve traverses getattr on currently loaded module attributes; lookup targets current io.os including scoped cloned SimpleNamespace. Existing raising=True, saved old values and scope rollback remain unchanged.",
+    "chmod_alias": "Production io imports standard os; capture os.chmod before monkeypatch retains the same callable as prior io.os.chmod."
+  },
+  "failure_disposition": {
+    "initial_pipeline": "Actual parent-observed EXIT1/CLOSED; audits/lint/format passed, strict287 failed seven attr-defined errors. No downstream benchmark/capture ran. Historical reports remain retained.",
+    "actual_mypy": "Found 7 errors in 1 file (checked 287 source files), matching the seven corrected direct io.os accesses.",
+    "helper_failure_reporting": "Unescaped strict-app/test-types slash caused secondary FileNotFoundError. Separate helper correction still requires exact review; this test-only review does not alter or waive failure handling."
+  },
+  "findings": [],
+  "confirmed_P0_P1_in_this_delta": 0,
+  "required_next_checks": [
+    "Parent apply exact v5 test-only bytes, renew broader390 input freeze with changed test role.",
+    "Fresh affected focused tests and full strict287 type gate must pass.",
+    "Preserve failed preflight and immutable old source/helper/evidence identities; use fresh successor bindings.",
+    "Whole mandatory20/21 qualification and final artifact gates remain pending; no release/convergence claim."
+  ],
+  "limitations": [
+    "Source aggregate and remaining389 inputs not independently rescanned; production IO and exact reviewed files directly hashed only.",
+    "No runtime tests, pytest monkeypatch invocation, benchmark, audit or native probe run by reviewer.",
+    "Prior actual focused81 belongs to c983 test bytes; v5 requires fresh actual capture.",
+    "Original Execution16 external-denial actor remains unproven; typing correction makes no causal reliability claim."
+  ]
+}

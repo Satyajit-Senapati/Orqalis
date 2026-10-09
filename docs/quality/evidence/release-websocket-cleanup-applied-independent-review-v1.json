@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T14:55:00.419514+00:00",
+  "status": "APPLIED_BOUNDED_REVIEW_PASS_FULL_QUALIFICATION_PENDING",
+  "mode": "Read-only source/hash/AST identity/dependency metadata/XML review; no workloads executed. Only this new independent artifact written.",
+  "source": {
+    "sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+    "files": 196
+  },
+  "freeze": {
+    "path": "docs/quality/evidence/release-input-freeze-websocket-v1.json",
+    "file_sha256": "9f5025dc54032eb28756fb8618c087acfaa6a9cdaa8ff1d8d07b353f28e32e0f",
+    "aggregate_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+    "files": 390,
+    "all_actual_hashes_and_aggregate_exact": true,
+    "same_coverage_as_old_390": true,
+    "exact_deltas_from_original_readpath": [
+      "pyproject.toml",
+      "src/orqalis/api/app.py",
+      "tests/integration/test_api.py",
+      "tests/integration/test_hard_crash_matrix.py",
+      "uv.lock"
+    ],
+    "additional_prior_hard_crash_test_delta": "Separately reviewed contract correction; not part of handler change."
+  },
+  "application_proof": {
+    "actual_app_equals_reviewed_staged_bytes": true,
+    "sha256": "9fad01130aa77bfcde291ff870d1c89047d26c1e35bec47b0ae2af070da9c3f9",
+    "proposal_sha256": "b4bd61fb4ada9cea98ab3535a6b250729b7c6efded3fa766fe8d420972d5fb78",
+    "prior_independent_review_sha256": "f6a1622cc969f042469811aac31589cf6f08ebc6559381ae0178705df5ee8dc4",
+    "prior_exact_inverse_AST_remains_applicable": true,
+    "allowed_delta": "Add public AnyIO CancelScope import; shield only original sender.cancel/receiver.cancel/gather finally. No new exception catch or auth/replay/deadline change."
+  },
+  "dependency_proof": {
+    "requirement": "anyio>=4.5,<5",
+    "lock_metadata_only_exact_inverse": true,
+    "lock_inverse_original_sha256": "a4c5c57d65e9a26f0fc0bd20464cdbb2e0de979d076c1703ad89dd2b7ce01898",
+    "exact_removed_lines": 2,
+    "root_package_only": true,
+    "pyproject_inverse_original_sha256": "0696931afd361f71ea109406eb7b3436f0dd03ced20b514838efdf2ba7f774f4",
+    "pyproject_extra_byte_change": "CRLF conversion; remove only added requirement then normalize CRLF to LF exactly restores original audited SHA. Not an unqualified byte-identical pyproject claim.",
+    "installed_metadata_matches_prior_full12_environment": true,
+    "prior_environment_repetitions_used_for_comparison": 1,
+    "dependency_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+    "installed_anyio": "4.15.1",
+    "installed_starlette": "1.6.0",
+    "installed_pyjwt": "2.15.1",
+    "transient_offline_resolution": "Parent reported initial PyJWT2.15.0 selection then restoration; exact final lock inverse and installed metadata prove no final package-version change. No transient package stability claim."
+  },
+  "focused_capture": {
+    "json_sha256": "25b6d83d65c97c38b9701d8629ac79952fafd268c591e06456a2ba52f7c1fb63",
+    "xml_sha256": "319d8871d127b3c86c39ba634c59d1817f827b06c5dc0489c2c1405c6c11026b",
+    "log_sha256": "33401b0e8c0eed61fc812f74baf5dc6d14b42afe315d3f935bb426b2eb69cf5b",
+    "actual_source_test_app_xml_log_bindings_match": true,
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time_seconds": 34.39,
+    "whole_file_classnames": [
+      "tests.e2e.test_local_control_center_filesystem",
+      "tests.integration.test_api",
+      "tests.unit.test_event_bus",
+      "tests.unit.test_filesystem_event_bus"
+    ],
+    "cases": [
+      "test_api_contract_and_websocket_reconnect",
+      "test_api_memory_returns_only_approved_curated_records",
+      "test_api_denies_cross_origin_and_untrusted_host",
+      "test_remote_client_cannot_bypass_loopback_policy_with_host_header",
+      "test_websocket_disconnect_releases_subscription_during_pending_work[snapshot]",
+      "test_websocket_disconnect_releases_subscription_during_pending_work[events]",
+      "test_websocket_disconnect_releases_subscription_during_pending_work[notification]",
+      "test_websocket_transport_cancellation_preserves_cleanup[transport]",
+      "test_websocket_transport_cancellation_preserves_cleanup[native]",
+      "test_control_center_replays_broadcasts_and_restarts_from_task_capsule",
+      "test_bus_filters_runs_and_unsubscribes",
+      "test_bus_is_safe_to_publish_from_worker_thread",
+      "test_bounded_queue_keeps_latest_durable_cursor",
+      "test_bus_rejects_invalid_queue_size",
+      "test_uow_publishes_only_after_event_commit",
+      "test_uow_does_not_publish_rolled_back_event"
+    ],
+    "meaning": "New gated transport/native, existing pending-work disconnect, original restart/replay, and event-bus persistence cases pass. Actual current test bytes still match red-v3 input.",
+    "capture_limit": "Focused JSON binds final source/app/test/XML/log; no separate per-process loaded-module attestation supplied. Reviewer did not rerun."
+  },
+  "retained_failures": {
+    "red_v3_xml_sha256": "ac73f519ca3a9efe8c1d49c2686b8a18ee1b00ffc67d509bcc5048ef253d151d",
+    "original_full12_json_sha256": "6818361175f3246a1ae8a90e1ac316191163cceffd5eb154408307d54a4a4cc5",
+    "original_full12_causal_branch": "Not directly observed; completed-receiver race independently reproduced, original failure retained without waiver.",
+    "prior_minimal_and_red_v2": "Preserved, including native observer artifact explanation."
+  },
+  "limits": [
+    "No full Python/browser/preflight/artifact/two-round readiness claim. Full13 running at review request, outcome not assessed.",
+    "Shield protects scoped framework cancellation, does not swallow direct native Task.cancel; native-stop propagation covered.",
+    "Cooperative bus cleanup; no universal bound for custom uncooperative subscription finalization.",
+    "Historical benchmark/latency results remain source-bound, not rebound to b2aa."
+  ],
+  "remaining_validation": [
+    "Current source-bound static/type checks",
+    "Fresh helper/freeze acceptance and original full gates/two complete required iterations",
+    "Preserve failed rounds and pending execution-performance disposition"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "status": "TEST_ONLY_PROSPECTIVE_CONTRACT_CORRECTION_REVIEWED_UNAPPLIED",
+  "reviewed_at_utc": "2026-10-03T14:29:40.116736+00:00",
+  "reviewer": "independent_release_quality_review",
+  "scope": "Read-only exact staged proposal and existing counterexample XML review. No workload or source/test/helper edit; only this new review written.",
+  "production_source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "original_390_input_sha256": "a6aab317af7c9cb41f8eb2742c58752a732299ce814e3d88520f1d734a2aca4a",
+  "artifact_sha256": {
+    "tests/integration/test_hard_crash_matrix.py": "60a052b0394f7dffb0595fbf706fefda3d74545f80c03611779fd1abd1a1a348",
+    ".tools/research/staged_hard_crash_contract_v1.py": "61cfc32564f6a994c7caf2960c45d662b7ded11c47297136469385530f23df43",
+    "docs/quality/evidence/release-hard-crash-test-contract-proposal-v1.json": "16481bd6e2e87b0984c3629eb5bc12101b104d9b027a8feee51db88af15e84c4",
+    ".tools/research/staged-hard-crash-counterexamples-v2.xml": "94c51464b4c47bfcbc085d92db5c02cba47e5db35ea652b9785da16048e6d52f",
+    "docs/quality/evidence/release-hard-crash-actual-diagnostic-independent-disposition-v1.json": "986b51cce883af10680a08bc656de0423a58557cab480d4b958f3f00f47818e3"
+  },
+  "actual_delta": {
+    "new_helper": "_terminate_controller confirms child alive and rejects live competing lease, fixes deadline before kill, waits only remaining original30s, then fresh timeout0 UoW probes with sleeps capped at20ms/remaining. Successful probe UoW closes before deadline check; persistent/late/error results fail.",
+    "child": "Prebuild same filesystem factory/lease callback; noncomplete phases use helper; completechildwait30 and exitcode0 assertion plus cleanupfinally unchanged.",
+    "old_assertion": "Immediate deadlease assertion replaced by shared-budget helper requirement, not simply dropped.",
+    "all_other_main_matrix_ast_identical": true,
+    "ast_proof": "Remove exactly the old single With/Assert immediate deadlease node; entire original main matrix function AST then equals staged. State/history/idempotence/effect/review/delivery/commit assertions unchanged.",
+    "production_API_policy_or_frozen86_gold_baseline_changed": false
+  },
+  "correctness": {
+    "deadline_starts_before_kill": true,
+    "wait_kill_probe_share_original30s": true,
+    "fresh_nonblocking_controller_API_and_UoW_cleanup": true,
+    "live_exclusion_strengthened": true,
+    "persistent_contention_late_success_and_unexpected_errors_fail": true,
+    "barrier180_and_completewait30_unchanged": true,
+    "no_lockfile_deletion_registry_clearing_or_native_bypass": true,
+    "no_identified_blocking_defect": true
+  },
+  "counterexamples": {
+    "junit_tests": 7,
+    "passes": 7,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "cases": [
+      "test_controller_termination_shares_budget_and_preserves_exclusion[live]",
+      "test_controller_termination_shares_budget_and_preserves_exclusion[delayed]",
+      "test_controller_termination_shares_budget_and_preserves_exclusion[persistent]",
+      "test_controller_termination_shares_budget_and_preserves_exclusion[wait_budget]",
+      "test_controller_termination_shares_budget_and_preserves_exclusion[kill_budget]",
+      "test_controller_termination_shares_budget_and_preserves_exclusion[late]",
+      "test_controller_termination_shares_budget_and_preserves_exclusion[error]"
+    ],
+    "coverage": [
+      "Live competing acquisition fails before kill/wait",
+      "Finite delayed release succeeds within remaining budget",
+      "Persistent denial fails at deadline",
+      "Wait consumes shared budget",
+      "Kill consumes shared budget and leaves waittimeout0/no deadprobe/sleep",
+      "Late successful callback fails",
+      "Unexpected error propagates"
+    ],
+    "limitations": "Mock-clock helper cases only; real matrix deselected and not claimed passed. XML confirms outcomes but no independent runner/test-byte binding accompanies private XML; exact final-source execution identity is no stronger than parent-reported capture. Fresh applied-file validation required. Earlier6-caseXML preserved."
+  },
+  "decision": {
+    "apply_test_only_permissible": true,
+    "description": "Prospective platform-aware contract correction for documented eventual OS release; not a diagnosed product fix or waiver.",
+    "reference": "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfileex",
+    "required_after_apply": [
+      "Preserve old390/originalfull10 failure/isolated diagnostic/proposal; create fresh390 input/source/helper binding (production196 may remain797)",
+      "Run changed-test static validation and actual-file seven counterexamples plus real original hard-crash matrix",
+      "Run complete fresh current Python suites and all mandatory full candidate audit/benchmark gates in two independently accepted consecutive iterations",
+      "Keep execution-performance explanation/bounded-cost review outstanding",
+      "Preserve frozen86/gold/baseline exact identities and honest evidence reuse; final docs/artifact checks still required"
+    ],
+    "original_failure_cause_proven": false,
+    "original_failure_fixed_claimed": false,
+    "completed_full_release_rounds": 0,
+    "p1_closure_claimed": false,
+    "release_certified": false,
+    "main_commit_or_publication": false
+  },
+  "review_execution_note": "Two read-only verification scripts stopped before any output write: first when staged draft gained seventh case during review, second because reviewer numeric-list expectation omitted the existing remaining>0 constant. Corrected exact AST checks pass; neither was a product/test failure."
+}

@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "project_head_unchanged": true,
+  "group": "types",
+  "helper_sha256": "66d6f247912f72017ecd20cdd34be0d5897ec350e352cb825f2f4da909c640ef",
+  "commands": [
+    {
+      "name": "Strict app/test types",
+      "command": [
+        ".venv/Scripts/mypy.exe"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.077999999979511,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-types-0.log",
+      "log_sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+    },
+    {
+      "name": "Strict scripts",
+      "command": [
+        ".venv/Scripts/mypy.exe",
+        "--strict",
+        "scripts"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.5469999999913853,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-types-1.log",
+      "log_sha256": "a3aaf5f81b19b41bca4db48201304558d1f7ca3800bae38ee86392e044969fad"
+    }
+  ],
+  "scope": "Current actual-source no-commit checks only; not a frozen preflight, full regression, installed validation or complete qualification round.",
+  "commit_creating_foundation_cases_deselected": []
+}

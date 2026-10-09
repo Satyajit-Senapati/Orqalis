@@ -1,5 +1,90 @@
 # Release notes
 
+## Orqalis 2.1.0 (local candidate, unpublished)
+
+This candidate adds portable Agent Skills, bounded repository graph queries and exact
+symbol reads, conservative JavaScript/TypeScript/TSX extraction, identifier retrieval,
+reviewed memory supersession and discovery, MCP lifecycle/history tools, local traces
+and provider metrics, durable sandbox ownership and stronger test-integrity checks.
+Graph facts, reviewed project memory and Task Capsules remain separate project-owned
+systems; normal operation requires no external database.
+
+Optimization shares fresh Git/graph work within validated requests, avoids foreign
+capsule scans for known owners, loads source memory on demand and keeps history scans
+outside the allocation lock. FIFO writer handoff retains reentrancy, original deadlines
+and OS locks. PLAN approval persists atomically with its transition. Auxiliary identity
+leases reject duplicates and revalidate run generations. Fresh containment,
+symlink/junction checks, cancellation ownership and canonical recovery remain enforced.
+
+Windows canonical readers now permit shared snapshot access while one atomic rename
+publishes the next generation. Open readers retain their prior bytes. The native rename
+requests replacement and POSIX semantics without bypassing ACLs or read-only permissions.
+Unsupported API/filesystem cases close the handle before using the prior atomic operation.
+Storage formats, fsync, journal/recovery and the five bounded retry attempts are preserved.
+Wrong-thread lock release rejects before changing counters or the native handle.
+Atomic writes also verify flushed temporary bytes through their owned descriptor, avoiding
+a second file open. Fresh identity checks precede replacement; failed ownership checks
+preserve the original error and leave the unverified path untouched during cleanup.
+The public memory benchmark counts canonical native reads once; workloads, gold and
+budgets are preserved, and the original script is archived. The controlled collision
+is fixed; the holder responsible for historical round22 remains unknown.
+
+WebSocket teardown shields child cancellation/join from framework cancellation while
+native cancellation propagates. Temporary cleanup clears READONLY only on a guarded,
+regular owned temporary. State bytes already checked for secrets are reused, lock gates
+are allocated only when absent, and diagnostics are lowercased once per call.
+
+Python, frontend and launcher versions are synchronized at 2.1.0. Advisory repairs
+include PyJWT, brace-expansion and source-map-js1.2.2. The last patch changes one
+dev-only frontend lock entry and reproduces the tested production bytes. The launcher installs verified bundled pip offline
+before index access and disables inherited pip configuration. Windows serve/UI uses a
+Selector loop with at most 512 sockets and no asynchronous pipes/subprocesses;
+SDK/harness workers use separate loops. The Uvicorn minimum is 0.36; the lockfile uses 0.52.4.
+
+**Current local verification, 2026-10-09:** current focused133, immutable86
+compatibility,13 static gates, clean dependency audits, installed wheel/npm17/MCP41,
+exact installed51-package audits, fixed263-file heldout and1,001-row/33-page history
+checks pass. Both whole qualifications completed: each collected935 Python tests,
+with933 PASS, two explicit optional skips and zero failures/errors. Both original
+browser suites passed all14 checks. Source/test/helper/environment guards remained
+stable; owned processes were closed and reaped.
+
+Execution medians25.810 and20.452seconds compare with the pooled all-nine55.870-second
+reference. Paired quality retains all30 reviewed case/metric tradeoffs as raw REVIEW;
+memory, UI and constrained checks pass. Richer graph facts cost more storage and Python
+allocation, and progressive complete memory answers cost more than full rediscovery.
+The larger263-file graph has11,505nodes/13,575edges; its store uses39,782,462bytes and
+query Python peak allocation is56,666,577bytes, excluding native allocation/RSS.
+The original8,011.435ms rebuild crossed the6,505.331ms investigation threshold.
+A fixed baseline/current/current/baseline SDK study confirmed the cold degradation:
+current8,470.894/4,672.093ms versus baseline1,596.899/1,504.215ms. Warm refresh,
+one-file delta and context comparisons stayed below the lines in that current-source
+study. Reader/publication controls did not support a safe fallback. A bounded cache-read
+experiment passed123 focused tests but failed its fixed performance screen and was
+reverted exactly; it is excluded from this candidate. The user explicitly accepted this measured cold-rebuild cost for2.1.0 on2026-10-09
+and deferred cache optimization to the next release. This is a known release
+tradeoff, not a speed fix; its cause remains unknown. All original measurements
+and safeguards remain. The recorded local package checks validate their captured documentation snapshot.
+After documentation consolidation, hosted CI must rebuild and test the current committed
+package; the earlier local tarball is historical evidence. No universal speed,
+RAM or portable latency guarantee is claimed.
+Historical failures and all nine reference timings remain retained; current passing
+checks do not establish the historical failures' causes.
+
+The [engineering status](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/ENHANCEMENT_STATUS.md)
+owns exact identities, retained failures and acceptance dispositions; the
+[worklist](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/NEXT_SESSION.md)
+owns the remaining steps. Hosted platform gates are required before publication.
+Native Linux/macOS execution, live Docker, direct symlink creation and paid assistant
+harnesses remain unqualified by these local Windows checks. Cleanup, commit and push
+were authorized on 2026-10-09; tagging and publication remain pending release-owner gates.
+
+## Release status checked 2026-09-26
+
+The public npm registry now reports `orqalis@2.0.0` as `latest`. This supersedes the dated
+pre-publication statements below. The registry package does not include the post-release
+working-tree enhancements. [Registry metadata](https://registry.npmjs.org/orqalis/latest).
+
 ## Local-first architecture notice - 2026-09-16
 
 > Orqalis is a local-first, repo-native engineering orchestrator. Each initialized project owns its project intelligence and execution history through a structured `.orqalis/` directory located in the repository root. External database infrastructure is not required for standard operation.
@@ -11,7 +96,7 @@ artifacts; their database-backed validation is not current setup guidance. Docke
 optional sandbox infrastructure. The 2.0.0 candidate contains no SQL compatibility extra,
 database migration command or legacy exporter.
 
-# Orqalis 2.0.0 (unreleased release candidate)
+## Orqalis 2.0.0 (historical pre-publication validation)
 
 Orqalis 2.0.0 makes the repository-local `.orqalis/` filesystem store authoritative for
 project intelligence, curated memory, repository graph/index data, Task Capsules, events,
@@ -26,7 +111,7 @@ commands and hashes are recorded in the maintainer cleanup audit. The candidate 
 been published. Public npm `latest` remains the historical 1.0.1 artifact until an
 authorized release owner publishes 2.0.0.
 
-# Orqalis 1.0.1 (historical published artifact)
+## Orqalis 1.0.1 (historical published artifact)
 
 Orqalis 1.0.1 is publicly available on npm. It adds
 `orqalis update --check` and `orqalis update` to the npm launcher so users can check
@@ -62,10 +147,10 @@ the exact delivery policy JSON and repository diff separately.
 Migration `6b93c20e21af` adds run control policies, approval requests and
 decisions. After upgrading, run `orqalis migrate` before starting Orqalis 1.0.1.
 Version 1.0.0 does not contain these controls. The current filesystem release has separate
-[upgrade guidance](../README.md#backup-migration-and-upgrades); the historical control
-surface remains described in the [dashboard guide](DASHBOARD.md#operator-control).
+[upgrade guidance](OPERATIONS.md#data-ownership-and-backup); the historical control
+surface remains described in the [dashboard guide](10-local-control-center.md#operator-control).
 
-## Publication record
+### Publication record
 
 The public registry accepted version 1.0.1 at `2026-09-15T05:33:58.810Z` from source
 commit `dfd8e31f2d6c84b2df9565bff8f3c1d03cd30c9f` and assigned the `latest` tag. The reviewed
@@ -81,7 +166,7 @@ JSON output, invalid-command handling, working-directory isolation, `modes`, and
 release-source GitHub `quality` and `npm package` workflows passed, including
 Windows/Linux/macOS launcher smokes and Linux installed Core/MCP/UI integration.
 
-# Orqalis 1.0.0
+## Orqalis 1.0.0
 
 Orqalis 1.0.0 is publicly available on [npm](https://www.npmjs.com/package/orqalis/v/1.0.0),
 published September 14, 2026 at 09:12:43 UTC. This local V1 application follows the
@@ -93,12 +178,12 @@ npm install -g orqalis
 orqalis --version
 ```
 
-See the current [installation guide](../README.md#install-and-start) for the local-first
+See the current [installation guide](../README.md#quick-start) for the local-first
 candidate. Database setup for this historical artifact remains available from its release
 tag. Windows PowerShell users can use `npm.cmd` and `orqalis.cmd` when script execution
 policy blocks the PowerShell shims.
 
-## Delivered
+### Delivered
 
 - Shared Python SDK, CLI, loopback REST/WebSocket API, project-scoped stdio MCP and React Control Center.
 - PostgreSQL migrations, deterministic workflow/DAG scheduling, durable events, actor sessions, timing and explicit recovery.
@@ -108,7 +193,7 @@ policy blocks the PowerShell shims.
 - DAG, timeline, acceptance, Project Brain, diffs, delivery receipts, actor metrics and historical comparison.
 - Docker limits, process-tree cleanup, cancellation, redaction and optional OpenTelemetry export.
 
-## Dashboard visual refresh - 2026-09-11
+### Dashboard visual refresh - 2026-09-11
 
 The approved 1.0.0 dashboard refresh gives Mission Control a Pitch-inspired primary dark
 identity: deep navy/purple surfaces, layered magenta/violet/cyan light, semantic status
@@ -151,7 +236,7 @@ See [UI behavior hardening evidence](verification/ui-behavior-hardening.json) an
 See [implementation status](IMPLEMENTATION_STATUS.md) for phase evidence and
 [operation instructions](OPERATIONS.md) for execution policies and recovery.
 
-## Validation scope
+### Validation scope
 
 Release verification uses deterministic worker fixtures and mocked provider HTTP boundaries;
 no live OpenAI or Anthropic credentials were supplied. The Python fixture runs actual tests,
@@ -164,7 +249,7 @@ checks cover Windows and Linux branches. GitHub checks on the release commit rem
 authoritative hosted result. Browser tests cover active and completed persisted runs,
 responsive layout and reload.
 
-## Operational limits
+### Operational limits
 
 - V1 is local only. Remote UI/MCP hosting and authentication are not enabled.
 - Embeddings are optional through an adapter; structured search works without credentials.
@@ -181,7 +266,7 @@ The supplied signed-off documents remain the source of truth. Future work should
 these services and contracts rather than create another workflow engine.
 
 
-## Distribution
+### Distribution
 
 Global npm installation is the supported application channel. The npm tarball includes
 the existing Python Core/UI, migrations, skills, Compose configuration and documentation.

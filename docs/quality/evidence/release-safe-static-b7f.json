@@ -1,0 +1,169 @@
+{
+  "status": "PASS",
+  "source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "gates": [
+    {
+      "name": "Ruff lint",
+      "command": [
+        ".venv/Scripts/ruff.exe",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+      "capture_method": "Successful tool stdout preserved after execution, not a new run",
+      "tool_chunk_id": "887b9e",
+      "log": ".tools/research/release-safe-checks-b7f-ruff-lint.log",
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "name": "Ruff format",
+      "command": [
+        ".venv/Scripts/ruff.exe",
+        "format",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+      "capture_method": "Successful tool stdout preserved after execution, not a new run",
+      "tool_chunk_id": "4a97d3",
+      "log": ".tools/research/release-safe-checks-b7f-ruff-format.log",
+      "log_sha256": "57aca214125845d5bc3df0265576cfb3f185a347b24dd01f64ca7819ec2b5211"
+    },
+    {
+      "name": "Strict app/test types",
+      "command": [
+        ".venv/Scripts/mypy.exe"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.077999999979511,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-types-0.log",
+      "log_sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+    },
+    {
+      "name": "Strict scripts",
+      "command": [
+        ".venv/Scripts/mypy.exe",
+        "--strict",
+        "scripts"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.5469999999913853,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-types-1.log",
+      "log_sha256": "a3aaf5f81b19b41bca4db48201304558d1f7ca3800bae38ee86392e044969fad"
+    },
+    {
+      "name": "Web lint",
+      "command": [
+        "npm.cmd",
+        "run",
+        "lint",
+        "--prefix",
+        "web"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 51.0,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-web-0.log",
+      "log_sha256": "ed8de085cd5feb9db06159337617caba3fde2684e75cf727f638995861d7f1ce"
+    },
+    {
+      "name": "Web units",
+      "command": [
+        "npm.cmd",
+        "run",
+        "test",
+        "--prefix",
+        "web"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 16.39100000000326,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-web-1.log",
+      "log_sha256": "79a44997717ef3fe0c2c10fbf273e6db6f97db7d8996eeb6e4a827123b509494"
+    },
+    {
+      "name": "Web production build",
+      "command": [
+        "npm.cmd",
+        "run",
+        "build",
+        "--prefix",
+        "web"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 17.062000000005355,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-web-2.log",
+      "log_sha256": "d89995d398412384b98a9cada00d9b36031fb0d5b6f8462e06e71c26bcfdab78"
+    },
+    {
+      "name": "Launcher syntax",
+      "command": [
+        "npm.cmd",
+        "run",
+        "check",
+        "--prefix",
+        "packages/npm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.625,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-launcher-0.log",
+      "log_sha256": "bf90d2f7d0cde7314fa2eb2705d9a2884085a801245b76d95ae80490eddd4e93"
+    },
+    {
+      "name": "Launcher lint",
+      "command": [
+        "npm.cmd",
+        "run",
+        "lint",
+        "--prefix",
+        "packages/npm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 12.797000000020489,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-launcher-1.log",
+      "log_sha256": "ec6d33ac93d462af0da5b9f881edf017195ebd88a855d2a5895deed6f908f4c1"
+    },
+    {
+      "name": "Launcher format",
+      "command": [
+        "npm.cmd",
+        "run",
+        "format:check",
+        "--prefix",
+        "packages/npm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.625,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-launcher-2.log",
+      "log_sha256": "ed7e9c30a986f10876c739d3cf5ffef2f2497640ad60f96670ab919dd5a6bca5"
+    },
+    {
+      "name": "Launcher units",
+      "command": [
+        "npm.cmd",
+        "test",
+        "--prefix",
+        "packages/npm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.26500000001397,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-launcher-3.log",
+      "log_sha256": "8972c75cc7771a04e262a8d857623261813cb4bc03e2cd29c7284d58160105d6"
+    }
+  ],
+  "group_reports": {
+    "types": "release-safe-checks-b7f-types.json",
+    "web": "release-safe-checks-b7f-web.json",
+    "launcher": "release-safe-checks-b7f-launcher.json"
+  },
+  "scope": "Eleven fresh no-commit static/unit/build checks on actual sourceb7f. Not a frozen preflight acceptance; full current86 contracts, installed artifacts and two full rounds remain required."
+}

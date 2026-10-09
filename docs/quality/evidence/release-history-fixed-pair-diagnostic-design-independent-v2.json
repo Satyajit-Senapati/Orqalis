@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:32:24.796522+00:00",
+  "status": "PROSPECTIVE_DESIGN_APPROVED_SUBJECT_TO_PARENT_LAUNCH_GUARDS",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "reviewed_files_sha256": {
+    "docs/quality/evidence/release-history-fixed-pair-diagnostic-plan-v3.json": "10f04552c2614c52ffc674a56f3d9f688eafa7ba5d195e8993a8c772bce4884c",
+    ".tools/research/release_history_fixed_light_v2.py": "b15306c89ac0b720d124e27e95ba27091ae002d0f5fe8d7083ff2b452950f783",
+    ".tools/research/release_history_fixed_work_v2.py": "1124832c467f1264d039a88483a2bcf463627df98179edaa972bfe4229c3d9ca",
+    ".tools/research/release_history_fixed_pair_v2.py": "3f4631129744cedb1ce063005cfc6e8bc9481e9825bba5cd84cf52aac1b2cd46"
+  },
+  "executed": false,
+  "prior_review": "release-history-fixed-pair-diagnostic-design-independent-v1.json",
+  "all_four_findings_addressed": true,
+  "dispositions": [
+    {
+      "id": "HISTORY-DESIGN-01",
+      "disposition": "ADDRESSED",
+      "evidence": "Direct child wait catches BaseException, attempts kill if live and explicit reap, records cleanup-failure notes while preserving original exception. Normal wait also reaps. No added timeout. Parent must still verify actual exit if cleanup fails or is interrupted."
+    },
+    {
+      "id": "HISTORY-DESIGN-02",
+      "disposition": "ADDRESSED",
+      "evidence": "Initial plan/ack/pipeline byte hashes frozen; ack must bind reviewed_plan_sha256. guards before/after children validate frozen provenance. Both child companions export identical provenance checked by coordinator; final uses initial hashes and fails on drift."
+    },
+    {
+      "id": "HISTORY-DESIGN-03",
+      "disposition": "ADDRESSED",
+      "evidence": "Both logs and copy destinations prechecked absent before A; copies tied exactly to original raw-output stems. Exclusive log creation remains; no deletion/reuse."
+    },
+    {
+      "id": "HISTORY-DESIGN-04",
+      "disposition": "ADDRESSED",
+      "evidence": "Sorted valid-ID directory set/count and orphan set recorded separately from canonical docs; regex matches production. Fixture equality before/after children guards directory/canonical/shape/manifest/index identities."
+    }
+  ],
+  "observer_callback_ast_unchanged": true,
+  "original_plan_and_three_runners_unchanged": true,
+  "exclusive_destinations_absent_at_review": {
+    "A": true,
+    "B": true,
+    "pair": true,
+    "host_A": true,
+    "host_B": true,
+    "A_semantics": true,
+    "B_raw": true,
+    "log_A": true,
+    "log_B": true,
+    "copy_A": true,
+    "copy_B": true
+  },
+  "launch_ack_absent_at_review": true,
+  "production_capsule_predicate": "_CAPSULE_ID = re.compile(r\"ORQ-(?P<date>[0-9]{8})-(?P<sequence>[0-9]{4})\\Z\")",
+  "prospective_permission_scope": "ONE fixed A-then-B current-source diagnostic only after root exact source-bound acknowledgment and confirmation every owned timed child exited. Root reports separate execution/native diagnostics closed exit0; reviewer did not probe processes. No invocation or automatic qualification credit.",
+  "unchanged_measurement_contract": "Callback AST unchanged; protected helper not edited;3traversals/page100/33pages/1001canonicalrows, original concurrent wait10/default locks/future behavior retained. Only guard/provenance/fresh-output changes.",
+  "interpretation_limits": [
+    "No historical797 recreation or causal comparison; fixed-order/cache/host confounding retained.",
+    "No runtime source/390/18/environment/fixture scan or workload during this review; actual pre/post guards required.",
+    "B/A median wall OR CPU >20% invalidates quantitative B attribution; even below screen selected overlapping timings remain descriptive, never summed as application costs.",
+    "Execution16 incomplete/17unrun and unresolved history performance remain.23pending13DEFER0of2; no signoff, product edits, commit or publication."
+  ],
+  "benchmark_label_correction": {
+    "document": "benchmarks/README.md",
+    "sha256": "d3fa95bf5ceb65d87edeb6bc72d4c2a1a659ceb45a31b8bb3c00370e3648c00c",
+    "complete_label_absent": true,
+    "incomplete_label_present": true,
+    "scope": "Label only, old exact-byte review preserved."
+  }
+}

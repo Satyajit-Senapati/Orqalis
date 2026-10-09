@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from types import TracebackType
 
+from orqalis.domain.errors import ConflictError
 from orqalis.observability.event_bus import ProjectEventBus
 from orqalis.persistence.filesystem.auxiliary_stores import (
     FilesystemDeliveryRepository,
@@ -38,7 +39,8 @@ class FilesystemProjectUnitOfWork:
         self.session = TaskCapsuleSession(store)
         self.projects = FilesystemProjectRepository(self.session)
         self.approvals = FilesystemApprovalRepository(self.session)
-        self.memory = FilesystemMemoryRepository(store.layout)
+        self._memory: FilesystemMemoryRepository | None = None
+        self.session.before_auxiliary_lock = self._check_auxiliary_lock_order
         self.runs = FilesystemRunRepository(self.session)
         self.events = FilesystemEventRepository(self.session)
         self.delivery = FilesystemDeliveryRepository(self.session)
@@ -46,6 +48,18 @@ class FilesystemProjectUnitOfWork:
         self.providers = FilesystemProviderRepository(self.session)
         self.runtime = FilesystemRuntimeRepository(self.session)
         self._closed = False
+
+    def _check_auxiliary_lock_order(self) -> None:
+        if self._memory is not None and self._memory.write_locked:
+            raise ConflictError("Acquire auxiliary identities before the source-memory write lease")
+
+    @property
+    def memory(self) -> FilesystemMemoryRepository:
+        """Load the coherent source projection only when this UoW uses memory."""
+        self._ensure_open()
+        if self._memory is None:
+            self._memory = FilesystemMemoryRepository(self.store.layout)
+        return self._memory
 
     @classmethod
     def from_root(
@@ -73,14 +87,16 @@ class FilesystemProjectUnitOfWork:
         self._ensure_open()
         pending_events = self.session.pending_events()
         self.session.commit()
-        self.memory.commit()
+        if self._memory is not None:
+            self._memory.commit()
         if self.event_bus is not None:
             self.event_bus.publish(pending_events)
 
     def rollback(self) -> None:
         self._ensure_open()
         try:
-            self.memory.rollback()
+            if self._memory is not None:
+                self._memory.rollback()
         finally:
             self.session.rollback()
 
@@ -88,11 +104,12 @@ class FilesystemProjectUnitOfWork:
         if self._closed:
             return
         try:
-            try:
-                # Discard an uncommitted memory view before releasing its project lock.
-                self.memory.rollback()
-            finally:
-                self.memory.close()
+            if self._memory is not None:
+                try:
+                    # Discard uncommitted memory before releasing its project lock.
+                    self._memory.rollback()
+                finally:
+                    self._memory.close()
         finally:
             # The controller lease intentionally remains held until every adapter closes.
             self.session.close()

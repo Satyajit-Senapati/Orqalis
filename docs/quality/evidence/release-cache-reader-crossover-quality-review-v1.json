@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T10:46:25.754741+00:00",
+  "status": "PASS_SCOPED_PROSPECTIVE_DIAGNOSTIC_DESIGN_PENDING_ROOT_ACK",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "reviewed_file_sha256": {
+    ".tools/research/release_cache_reader_crossover_v1.py": "a682064b8d67802f2ff124b360943e467d7772567ad652c7fb0f952df35213d6",
+    ".tools/research/release_cache_reader_crossover_outer_v1.py": "6cbcbe559a7ef7928efa6f4b2083beba850df32129716c6230336189ae3bd06a",
+    ".tools/research/release_cold_phase_observer_v3.py": "87fe1e555d89fdb3a19ebe55530ae33d6a1d273ad0cd1041230d31089169a83f",
+    ".tools/research/release_resume_20261007_finish_v2.py": "1c476805dad1f4ec28c2f03862ba1ea957d19c942aecc8169f702ab381c65519",
+    "docs/quality/evidence/release-cache-reader-crossover-plan-v1.json": "fe3c589fbed50f7355f54580473296d8acb05b8f871186c94cd74f264b198fad",
+    "docs/quality/evidence/release-input-freeze-owned-temp-v4.json": "aa5d2b13d0760a6ef9553fb3b06ed853ee62ad99a98614cbf35abd030f614728",
+    "docs/quality/evidence/release-heldout-cold-phase-observation-v3.json": "ac0e76de1283f2ddcbf95aecb1e2e07742c44f6c7ecab84e192929c682a4bc4e",
+    "docs/quality/evidence/release-heldout-cold-phase-outer-v4.json": "de97956ffc6e39c1c9a6d5de2b38a8028f6d1ed1c851867de398d331d887107e",
+    "docs/quality/evidence/release-owned-temp-finish-actual-v1.json": "82638a3fe2925e9ea84502515a9e74709953c467a7fce9a98ae47662b372ddf1",
+    ".tools/research/release-heldout-fixture-release-heldout-cold-phase-observation-v3/.orqalis/memory/graph/manifest.json": "15ad234a00011a56e29d89e3f01a4ae036f6266d05c8a66fc1756a7dea0f678a"
+  },
+  "invoked": false,
+  "release_acceptance_credit": 0,
+  "fixed_method": {
+    "source_references": 263,
+    "unique_referenced_cache_files": 247,
+    "fixture_pinned_files": 249,
+    "order_passes": [
+      [
+        "builtin",
+        "native"
+      ],
+      [
+        "native",
+        "builtin"
+      ]
+    ],
+    "calls_each_reader": 526,
+    "total_reader_calls": 1052,
+    "manifest_source_order_verified": true,
+    "duplicates_retained": true,
+    "fresh_same_no_link_guard_before_each_read": true,
+    "returned_length_and_sha256_checked_each_read": true,
+    "read_close_timing_excludes_guard_and_digest": true
+  },
+  "reader_semantics": "Builtin is Path.read_bytes comparison primitive; native is captured original io._read_bytes and preserves its actual shared_read_opener. No production reader change, decode/model change, additional Git command, profiler, cache write or reconstructed historical baseline.",
+  "observer_review": "The sole hook is shared_read_opener, delegated once by exact existing ColdPhases v3. Pre/post bookkeeping faults invalidate evidence without replacing the original native result/error. Restore marks invalid and identity assertions prohibit successful observation with incomplete restoration. Native opener wall/CPU is nested within native read+close; read/close residual is a difference, not an additional independent phase.",
+  "failure_and_lifetime_review": "Outer checks both complete30/31 full-suite guards and exact source/input; requires separate root ACK pinning this review and prospective acceptance review. Existing owned suspended-job launch assigns before resume and uses180s external stop cap, reaping, job drain/close, errors and before/after pins. Primary worker errors are retained; guard/report errors become secondary notes or standalone failures. No result can be treated COMPLETE when worker or cleanup guards fail.",
+  "binding_limits": "Exact helper/evidence digests and named graph manifest were independently checked. All263 source references match manifest order and each cache digest is pinned in the plan. The249 fixture files and entire394 source/input inventory were not independently rehashed in this review; runner/outer enforce those actual pre/post hashes. Outputs were observed absent; root ACK and actual invocation remain pending.",
+  "interpretation_requirements": [
+    "Retain both passes and every opposed-order pair; do not select faster order or repeat until favorable.",
+    "Native excess in both opposed orders localized in opener interval can support bounded incremental reader cost; mixed results leave mechanism attribution unresolved.",
+    "Bookkeeping is a lower bound excluding full clock/wrapper perturbation; native alone bears opener instrumentation, so measured excess needs that limitation.",
+    "No physical IO, AV, host scheduling or historical cold cause conclusion follows automatically.",
+    "Original qualified8011.4349ms and6505.3314ms investigation threshold remain unchanged; a crossover cannot replace the end-to-end cold capture or grant section53 convergence.",
+    "Current finite comparison involves retained same-cache reads without writers; builtin sharing semantics are not approved as production replacement."
+  ],
+  "findings": [],
+  "final_release_acceptance": "NOT_GRANTED"
+}

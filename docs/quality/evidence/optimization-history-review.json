@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "scope": "Traversal correctness; latency remains inconclusive across batches",
+  "rows": 1001,
+  "capsule_content_sha256": "2682805c34fbf12c39883ea66fed94a620e5e6df772e08f757fd854df8e66e51",
+  "pairs": [
+    {
+      "before_capture": "before",
+      "after_capture": "after",
+      "before_source": "fece9d668365b0e853d84d6de4ebbe41417179dcf68dc00a293dc95e2a09e8c4",
+      "after_source": "3ca4053f27346d3a03ef2a9dd069c3a8edd7009d1c943334c92b896aff757c71",
+      "before_median_ms": 255.2109000098426,
+      "after_median_ms": 214.8763000004692,
+      "ratio": 0.8419558098505282,
+      "before_max_ms": 366.72239999461453,
+      "after_max_ms": 12881.160100005218,
+      "exact_traversal": true
+    },
+    {
+      "before_capture": "before-2",
+      "after_capture": "after-2",
+      "before_source": "fece9d668365b0e853d84d6de4ebbe41417179dcf68dc00a293dc95e2a09e8c4",
+      "after_source": "3ca4053f27346d3a03ef2a9dd069c3a8edd7009d1c943334c92b896aff757c71",
+      "before_median_ms": 523.2288999977754,
+      "after_median_ms": 285.4966000013519,
+      "ratio": 0.5456437899408189,
+      "before_max_ms": 950.5419000051916,
+      "after_max_ms": 5136.604899991653,
+      "exact_traversal": true
+    },
+    {
+      "before_capture": "before-final",
+      "after_capture": "after-final",
+      "before_source": "fece9d668365b0e853d84d6de4ebbe41417179dcf68dc00a293dc95e2a09e8c4",
+      "after_source": "a0c665eaf986f68bb0b93a675969d9bd4017cc97371a38b4e1851187fb2ec945",
+      "before_median_ms": 266.1074999923585,
+      "after_median_ms": 249.29259999771602,
+      "ratio": 0.9368116268984327,
+      "before_max_ms": 356.4022000064142,
+      "after_max_ms": 23445.55799999216,
+      "exact_traversal": true
+    }
+  ],
+  "consistent_twofold_gain": false,
+  "tail_latency_improvement_qualified": false,
+  "canonical_reads_per_page": 1001,
+  "notes": [
+    "No unchanged index replacement, proven by focused regression.",
+    "First two after captures predate graph finite-JSON correction; history code is unchanged.",
+    "Profile ran outside timed samples; cProfile function counts fell 632122 to 446597.",
+    "Raw outliers retained; reports are local observations without hardware isolation."
+  ]
+}

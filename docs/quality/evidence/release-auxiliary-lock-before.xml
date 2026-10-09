@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="11.298" timestamp="2026-10-02T19:22:35.758973+05:30" hostname="THOR-GALAXY"><testcase classname="tests.unit.test_filesystem_auxiliary_stores" name="test_parallel_provider_identity_checks_do_not_invert_run_locks[read]" time="10.618"><failure message="orqalis.persistence.filesystem.locking.LockTimeoutError: Timed out acquiring lock: C:\Users\senap\AppData\Local\Temp\pytest-of-senap\pytest-510\test_parallel_provider_identit0\repo\.orqalis\runtime\locks\ORQ-20261002-0002.state.lock">tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-510/test_parallel_provider_identit0')
+operation = 'read'
+
+    @pytest.mark.parametrize("operation", ["read", "upsert"])
+    def test_parallel_provider_identity_checks_do_not_invert_run_locks(
+        tmp_path: Path, operation: str
+    ) -&gt; None:
+        store, _, first = _initialized_store(tmp_path / "repo")
+        second = first.model_copy(update={"id": uuid4()})
+        with FilesystemProjectUnitOfWork(store) as uow:
+            uow.runs.add(second)
+            uow.commit()
+        invocations = [
+            ProviderExecution(
+                run_id=run.id,
+                task_execution_id=uuid4(),
+                actor_session_id=uuid4(),
+                provider="fixture",
+                model="fixture",
+                request_hash="b" * 64,
+                idempotency_key="provider",
+                started_at=run.created_at,
+                deadline_at=run.created_at + timedelta(minutes=1),
+            )
+            for run in (first, second)
+        ]
+        with FilesystemProjectUnitOfWork(store) as uow:
+            for invocation in invocations:
+                uow.providers.save(invocation)
+            uow.commit()
+        both_locked = Barrier(2)
+    
+        def check(invocation: ProviderExecution) -&gt; None:
+            with FilesystemProjectUnitOfWork(TaskCapsuleStore.from_root(store.root)) as uow:
+                assert uow.runs.get(invocation.run_id, for_update=True) is not None
+                both_locked.wait(timeout=15)
+                if operation == "read":
+                    assert uow.providers.get(invocation.id) == invocation
+                else:
+                    uow.providers.save(invocation)
+                    uow.commit()
+    
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            pending = [pool.submit(check, invocation) for invocation in invocations]
+            for result in pending:
+&gt;               result.result(timeout=20)
+
+tests\unit\test_filesystem_auxiliary_stores.py:358: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\concurrent\futures\thread.py:59: in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_filesystem_auxiliary_stores.py:350: in check
+    assert uow.providers.get(invocation.id) == invocation
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\orqalis\persistence\filesystem\auxiliary_stores.py:274: in get
+    found = _find(
+src\orqalis\persistence\filesystem\auxiliary_stores.py:95: in _find
+    for aggregate in session.iter_capsules():
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+src\orqalis\persistence\filesystem\task_store.py:742: in iter_capsules
+    aggregate = self.load_capsule(run_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\orqalis\persistence\filesystem\task_store.py:701: in load_capsule
+    self._state_lock(run_id, capsule_id)
+src\orqalis\persistence\filesystem\task_store.py:503: in _state_lock
+    lock.acquire()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;orqalis.persistence.filesystem.locking.FileLock object at 0x00000276B3EE6F60&gt;
+
+    def acquire(self) -&gt; None:
+        deadline = time.monotonic() + self.timeout
+        if not self._state.gate.acquire(timeout=self.timeout):
+&gt;           raise LockTimeoutError(f"Timed out acquiring lock: {self.path}")
+E           orqalis.persistence.filesystem.locking.LockTimeoutError: Timed out acquiring lock: C:\Users\senap\AppData\Local\Temp\pytest-of-senap\pytest-510\test_parallel_provider_identit0\repo\.orqalis\runtime\locks\ORQ-20261002-0002.state.lock
+
+src\orqalis\persistence\filesystem\locking.py:105: LockTimeoutError</failure></testcase></testsuite></testsuites>

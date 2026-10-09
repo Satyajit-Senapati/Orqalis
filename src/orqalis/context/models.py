@@ -5,6 +5,7 @@ from pydantic import Field
 from orqalis.domain.base import Contract
 from orqalis.graph.models import GraphNode
 from orqalis.memory.curated import DurableMemoryRecord, MemoryFreshness
+from orqalis.memory.navigation import MemoryDiscoveryItem
 
 
 class MemoryContextItem(Contract):
@@ -18,6 +19,8 @@ class GraphContextItem(Contract):
     score: float = Field(ge=0)
     distance: int | None = Field(default=None, ge=0)
     neighbors: tuple[str, ...] = ()
+    match_reasons: tuple[str, ...] = ()
+    orientation_only: bool = False
 
 
 class HistoricalTaskContext(Contract):
@@ -41,6 +44,7 @@ class ProjectContextPack(Contract):
     relevant_files: tuple[str, ...] = ()
     graph: tuple[GraphContextItem, ...] = ()
     memory: tuple[MemoryContextItem, ...] = ()
+    memory_discovery: tuple[MemoryDiscoveryItem, ...] = ()
     decisions: tuple[str, ...] = ()
     related_tasks: tuple[HistoricalTaskContext, ...] = ()
     size_chars: int = Field(ge=0)

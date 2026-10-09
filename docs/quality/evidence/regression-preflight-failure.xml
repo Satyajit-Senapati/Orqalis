@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="7" time="39.182" timestamp="2026-09-26T21:06:11.504302+05:30" hostname="THOR-GALAXY"><testcase classname="tests.e2e.test_fixture_paths" name="test_fixture_root_uses_configured_external_directory" time="0.007" /><testcase classname="tests.e2e.test_fixture_paths" name="test_fixture_root_rejects_workspace_descendants" time="0.001" /><testcase classname="tests.e2e.test_local_control_center_filesystem" name="test_control_center_replays_broadcasts_and_restarts_from_task_capsule" time="6.209" /><testcase classname="tests.e2e.test_local_first_filesystem" name="test_restart_continuity_and_repository_isolation_without_database" time="11.559" /><testcase classname="tests.e2e.test_local_first_filesystem" name="test_dirty_graph_refresh_and_rebuildable_cache_and_index" time="7.346" /><testcase classname="tests.integration.test_api" name="test_api_contract_and_websocket_reconnect" time="9.065" /><testcase classname="tests.integration.test_api" name="test_api_memory_returns_only_approved_curated_records" time="3.196"><failure message="AssertionError: assert [{'record': {...ACTIVE', ...}] == [{'record': {...sources': []}]&#10;  &#10;  At index 0 diff: {'record': {'schema_version': 1, 'id': 'MEM-20260926-0001', 'category': 'conventions', 'title': 'Authoritative naming convention', 'content': 'The aurora-marker identifies curated naming guidance.', 'source': {'type': 'user', 'paths': [], 'content_hashes': {}}, 'verified_commit': None, 'introduced_by_task': None, 'confidence': 1.0, 'last_verified_at': '2026-09-26T15:36:50.288501Z', 'supersedes': None, 'summary': None, 'references': []}, 'freshness': 'FRESH', 'changed_sources': [], 'lifecycle': 'ACTIVE', 'superseded_by': None} != {'record': {'schema_vers...&#10;  &#10;  ...Full output truncated (2 lines hidden), use '-vv' to show">git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-388/test_api_memory_returns_only_a0/source')
+
+    def test_api_memory_returns_only_approved_curated_records(git_repo: Path) -&gt; None:
+        sdk = Orqalis(root=git_repo)
+        try:
+            project = sdk.initialize(git_repo)
+            store = CuratedMemoryStore(ProjectLayout(git_repo))
+            record = store.new_record(
+                MemoryCategory.CONVENTIONS,
+                "Authoritative naming convention",
+                "The aurora-marker identifies curated naming guidance.",
+                MemoryProvenance(type="user"),
+            )
+            proposal = store.propose(record, "Document a durable project convention")
+            store.approve(proposal.id, "Repository evidence confirms the convention")
+            assert tuple(
+                (git_repo / ".orqalis" / "cache" / "search" / "source-records").glob("SRC-*.md")
+            )
+    
+            with TestClient(
+                create_app(sdk), base_url="http://localhost", client=("127.0.0.1", 50000)
+            ) as client:
+                response = client.get(
+                    f"/api/projects/{project.id}/memory",
+                    params={"query": "aurora-marker", "limit": 10},
+                )
+    
+            assert response.status_code == 200, response.text
+&gt;           assert response.json() == [
+                {
+                    "record": record.model_dump(mode="json"),
+                    "freshness": "FRESH",
+                    "changed_sources": [],
+                }
+            ]
+E           AssertionError: assert [{'record': {...ACTIVE', ...}] == [{'record': {...sources': []}]
+E             
+E             At index 0 diff: {'record': {'schema_version': 1, 'id': 'MEM-20260926-0001', 'category': 'conventions', 'title': 'Authoritative naming convention', 'content': 'The aurora-marker identifies curated naming guidance.', 'source': {'type': 'user', 'paths': [], 'content_hashes': {}}, 'verified_commit': None, 'introduced_by_task': None, 'confidence': 1.0, 'last_verified_at': '2026-09-26T15:36:50.288501Z', 'supersedes': None, 'summary': None, 'references': []}, 'freshness': 'FRESH', 'changed_sources': [], 'lifecycle': 'ACTIVE', 'superseded_by': None} != {'record': {'schema_vers...
+E             
+E             ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\integration\test_api.py:129: AssertionError</failure></testcase></testsuite></testsuites>

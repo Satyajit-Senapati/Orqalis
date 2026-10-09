@@ -1,0 +1,57 @@
+{
+  "reviewed_at": "2026-10-02T12:01:49.232453+00:00",
+  "scope": "Independent read-only source/evidence diagnosis. No test or benchmark workload was executed. No source/test changes.",
+  "status": "BLOCKED_BY_ACTUAL_BROWSER_FAILURE_CAUSE_UNCONFIRMED",
+  "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "release_input_sha256": "49af6bd8978badbb6fcf10e84d7d92a4b74133e40dae53e51d6de24c821dab1b",
+  "verified_input_count": 390,
+  "reviewed_hashes": {
+    "web/src/Governance.tsx": "1e234e2f74a36ab4df7403a44004b6a037c6f1089851feab3df9442df8699062",
+    "web/src/governanceApi.ts": "a3e8be24497aa4a254f653746df30f88f5b05e5489cdeb18ce17b71b0e4938c1",
+    "web/e2e/run-governance.spec.ts": "90f2bd95996fd41733ff21c426db27e48308e6d546c3d638a9e79558e8b90f21",
+    "src/orqalis/api/app.py": "e5bc2cf6ab8169e9064612dae4e678917458281335d321b596a4d5625f93a835",
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "src/orqalis/core/approvals.py": "c14e05a4d2738b54b054c357724f44d0583db00b1d9437005d54abd5fcd80c70",
+    "src/orqalis/core/goals.py": "827b743d9324f22a16f5e480fa29c69d0f98d50f3a83bc6b51df917d178c20fc",
+    "src/orqalis/observability/projections.py": "a5cf50031d11534681680f95ab1fad3540a0c627d1e6c906ed8913ee2ae115c3",
+    "src/orqalis/persistence/filesystem/task_store.py": "9a2d6fb161479aabfcab7619216d4547c1c23cf8ebcfcb1c314f347098a38984",
+    "src/orqalis/persistence/filesystem/locking.py": "0b6a097ea313ab219e08d95528476eb179f87f70dddee057f53eb500fb98ef53",
+    "docs/quality/evidence/release-browser-6.json": "ab33198eed0b534a9247b4297288e113d23f701f410c1a7c9706289efd832275",
+    "docs/quality/evidence/release-browser-6.xml": "488cefa5e860f54907320a23a02c71294cfabdabb2f219d8cd93860db49c2e9f",
+    ".tools/research/release-v4-real-state-browser-6.log": "50890924c4b24aeceef97dddeb799f0d8017e03b8d90f692a93a0db7805624dd",
+    ".tools/research/release-browser-6.log": "3ba5ae1a758aa124220d78005039a15db6da6495413550efe662050a9e4a8140"
+  },
+  "observed_failure": {
+    "attempt": 6,
+    "browser_tests": 14,
+    "passed": 13,
+    "failed": 1,
+    "skipped": 0,
+    "assertion": "GOAL version 1 card after Preview plan, unchanged 5000ms expectation",
+    "page_state": "Creating button disabled; no pending approval and no action error shown",
+    "api_log": "Supervised run creation and controls GET completed; no completed plan-preview POST logged. Access log records completion, so absence does not prove the handler was never entered.",
+    "evidence_handling": "Preserve raw failure and owned browser failure artifacts. The error context includes the ephemeral fixture operator token; do not copy that credential into public reports."
+  },
+  "frontend_review": {
+    "Governance.tsx": "action sets busy, awaits postGovernance, catches rejection and refreshes controls, then clears busy in finally. Creating at assertion indicates unresolved POST or subsequent refresh, not by itself an incorrect state-rendering branch.",
+    "governanceApi.ts": "POST supplies configured operator header, JSON, 15000ms AbortSignal timeout. An HTTP denial should reject and render an alert. Existing 5s assertion can fail before that transport timeout; increasing either timeout is not an accepted repair."
+  },
+  "findings": [
+    {
+      "id": "GOVERNANCE-CROSS-CAPSULE-LOCK-ORDER",
+      "priority": "P1 candidate requiring focused reproduction",
+      "confidence": "Concrete source-level lock-order hazard; causation of attempt 6 unproven",
+      "mechanism": [
+        "SnapshotProjectionService.get_snapshot locks the requested run for_update, then get_goal calls iter_capsules.",
+        "ApprovalService.ensure locks the requested run, then _validate_subject for GOAL calls get_goal.",
+        "FilesystemRunRepository.get_goal and FilesystemApprovalRepository.get call iter_capsules eagerly before inspecting any target cached aggregate.",
+        "iter_capsules loads every uncached unrelated capsule; load_capsule acquires each state lock and reads/recover files.",
+        "Concurrent snapshot(A) and snapshot/approval(B) can each hold their target state lock while attempting the other, creating an A/B cycle until 10s lock timeout."
+      ],
+      "latency_consequence": "Known target goal/request lookups also parse unrelated capsules unnecessarily; this can amplify UI latency and hold the target lock during unrelated work.",
+      "recommended_diagnostic": "Keep existing browser assertions/timeouts. Passively capture request start/end and thread stacks or lock/lookup boundaries. A tiny isolated run may pass yet fail to exercise cross-run snapshot contention; also correlate actual shared active/completed/repair fixture behavior.",
+      "possible_repair_direction": "Resolve run-bound goal and request identifiers within the already loaded owning capsule, avoiding cross-capsule scans while holding a target lock. Retain compatibility for genuinely unscoped lookup paths without weakening approval validation. Root determines implementation after reproduction."
+    }
+  ],
+  "qualification_disposition": "Attempt 6 is a real failed gate, not clean convergence. No waiver and no replacement of raw evidence. Fresh complete rounds must follow any validated repair with revised source/input freeze if product changes."
+}

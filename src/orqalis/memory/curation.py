@@ -50,7 +50,7 @@ class MemoryCurator:
             replay = uow.events.by_key(run_id, "curation:promoted")
             replayed = replay.payload.memory_ids if replay else None
             goal = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )

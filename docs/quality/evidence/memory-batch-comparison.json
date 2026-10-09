@@ -1,0 +1,460 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-09-27T06:27:09.903726+00:00",
+  "comparison_kind": "fixed-corpus correctness and read-volume smoke; timing disabled",
+  "inputs": {
+    "before": {
+      "path": "memory-batch-pre-smoke.json",
+      "sha256": "4801ca1aed8394ac46a2575e2aaf3f6b35e5409876952a13a34086cc9f288728",
+      "source_sha256": "a37dda9e2ca4d37e58ffc6fcab606324df31e16b02dc1261a3371cd44792a757"
+    },
+    "after": {
+      "path": "memory-batch-post-smoke.json",
+      "sha256": "d36339e68189738153b37350590e84ab4fee5f85a421b8d3eae46152687c3e73",
+      "source_sha256": "403e121f6e2a313a36f10e595e995eb915c951da95a95c0a564b451f99d808dd"
+    },
+    "dataset_sha256": "eede4e76fb4a0b6b3949cef8de6e969dce41f9ed583669de2bc9bd41ddfd7d27",
+    "script_sha256": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a"
+  },
+  "invariants": {
+    "same_case_workflow_and_stage_order": true,
+    "same_response_sizes_witnesses_budgets_and_history": true,
+    "both_all_exact_answer_witnesses_pass": true,
+    "both_all_response_caps_pass": true,
+    "both_all_history_retained": true
+  },
+  "totals": {
+    "full_rediscovery": {
+      "source": {
+        "open_operations": {
+          "before": 20,
+          "after": 20
+        },
+        "returned_utf8_bytes": {
+          "before": 2576,
+          "after": 2576
+        }
+      },
+      "memory": {
+        "open_operations": {
+          "before": 30,
+          "after": 30
+        },
+        "returned_utf8_bytes": {
+          "before": 41906,
+          "after": 41906
+        }
+      },
+      "metadata": {
+        "open_operations": {
+          "before": 66,
+          "after": 48
+        },
+        "returned_utf8_bytes": {
+          "before": 76951,
+          "after": 69175
+        }
+      }
+    },
+    "progressive_memory_then_symbol": {
+      "source": {
+        "open_operations": {
+          "before": 6,
+          "after": 6
+        },
+        "returned_utf8_bytes": {
+          "before": 1078,
+          "after": 1078
+        }
+      },
+      "memory": {
+        "open_operations": {
+          "before": 27,
+          "after": 27
+        },
+        "returned_utf8_bytes": {
+          "before": 64111,
+          "after": 64111
+        }
+      },
+      "metadata": {
+        "open_operations": {
+          "before": 54,
+          "after": 54
+        },
+        "returned_utf8_bytes": {
+          "before": 131198,
+          "after": 131198
+        }
+      }
+    },
+    "restart_direct_memory": {
+      "source": {
+        "open_operations": {
+          "before": 3,
+          "after": 3
+        },
+        "returned_utf8_bytes": {
+          "before": 516,
+          "after": 516
+        }
+      },
+      "memory": {
+        "open_operations": {
+          "before": 9,
+          "after": 9
+        },
+        "returned_utf8_bytes": {
+          "before": 40851,
+          "after": 40851
+        }
+      },
+      "metadata": {
+        "open_operations": {
+          "before": 12,
+          "after": 12
+        },
+        "returned_utf8_bytes": {
+          "before": 5244,
+          "after": 5244
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "case": "webhook-retention",
+      "workflow": "full_rediscovery",
+      "response_chars": 11028,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 6,
+            "after": 6
+          },
+          "returned_utf8_bytes": {
+            "before": 791,
+            "after": 791
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 10,
+            "after": 10
+          },
+          "returned_utf8_bytes": {
+            "before": 13754,
+            "after": 13754
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 22,
+            "after": 16
+          },
+          "returned_utf8_bytes": {
+            "before": 27062,
+            "after": 24470
+          }
+        }
+      }
+    },
+    {
+      "case": "webhook-retention",
+      "workflow": "progressive_memory_then_symbol",
+      "response_chars": 8122,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 1,
+            "after": 1
+          },
+          "returned_utf8_bytes": {
+            "before": 168,
+            "after": 168
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 9,
+            "after": 9
+          },
+          "returned_utf8_bytes": {
+            "before": 21086,
+            "after": 21086
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 18,
+            "after": 18
+          },
+          "returned_utf8_bytes": {
+            "before": 46547,
+            "after": 46547
+          }
+        }
+      }
+    },
+    {
+      "case": "webhook-retention",
+      "workflow": "restart_direct_memory",
+      "response_chars": 5400,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 0,
+            "after": 0
+          },
+          "returned_utf8_bytes": {
+            "before": 0,
+            "after": 0
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 3,
+            "after": 3
+          },
+          "returned_utf8_bytes": {
+            "before": 13455,
+            "after": 13455
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 4,
+            "after": 4
+          },
+          "returned_utf8_bytes": {
+            "before": 1751,
+            "after": 1751
+          }
+        }
+      }
+    },
+    {
+      "case": "scheduler-dst",
+      "workflow": "full_rediscovery",
+      "response_chars": 11443,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 8,
+            "after": 8
+          },
+          "returned_utf8_bytes": {
+            "before": 1098,
+            "after": 1098
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 10,
+            "after": 10
+          },
+          "returned_utf8_bytes": {
+            "before": 14130,
+            "after": 14130
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 22,
+            "after": 16
+          },
+          "returned_utf8_bytes": {
+            "before": 26223,
+            "after": 23631
+          }
+        }
+      }
+    },
+    {
+      "case": "scheduler-dst",
+      "workflow": "progressive_memory_then_symbol",
+      "response_chars": 8085,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 4,
+            "after": 4
+          },
+          "returned_utf8_bytes": {
+            "before": 688,
+            "after": 688
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 9,
+            "after": 9
+          },
+          "returned_utf8_bytes": {
+            "before": 21390,
+            "after": 21390
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 18,
+            "after": 18
+          },
+          "returned_utf8_bytes": {
+            "before": 44881,
+            "after": 44881
+          }
+        }
+      }
+    },
+    {
+      "case": "scheduler-dst",
+      "workflow": "restart_direct_memory",
+      "response_chars": 5400,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 3,
+            "after": 3
+          },
+          "returned_utf8_bytes": {
+            "before": 516,
+            "after": 516
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 3,
+            "after": 3
+          },
+          "returned_utf8_bytes": {
+            "before": 13545,
+            "after": 13545
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 4,
+            "after": 4
+          },
+          "returned_utf8_bytes": {
+            "before": 1747,
+            "after": 1747
+          }
+        }
+      }
+    },
+    {
+      "case": "tenant-cache",
+      "workflow": "full_rediscovery",
+      "response_chars": 11502,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 6,
+            "after": 6
+          },
+          "returned_utf8_bytes": {
+            "before": 687,
+            "after": 687
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 10,
+            "after": 10
+          },
+          "returned_utf8_bytes": {
+            "before": 14022,
+            "after": 14022
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 22,
+            "after": 16
+          },
+          "returned_utf8_bytes": {
+            "before": 23666,
+            "after": 21074
+          }
+        }
+      }
+    },
+    {
+      "case": "tenant-cache",
+      "workflow": "progressive_memory_then_symbol",
+      "response_chars": 8043,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 1,
+            "after": 1
+          },
+          "returned_utf8_bytes": {
+            "before": 222,
+            "after": 222
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 9,
+            "after": 9
+          },
+          "returned_utf8_bytes": {
+            "before": 21635,
+            "after": 21635
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 18,
+            "after": 18
+          },
+          "returned_utf8_bytes": {
+            "before": 39770,
+            "after": 39770
+          }
+        }
+      }
+    },
+    {
+      "case": "tenant-cache",
+      "workflow": "restart_direct_memory",
+      "response_chars": 5400,
+      "reads": {
+        "source": {
+          "open_operations": {
+            "before": 0,
+            "after": 0
+          },
+          "returned_utf8_bytes": {
+            "before": 0,
+            "after": 0
+          }
+        },
+        "memory": {
+          "open_operations": {
+            "before": 3,
+            "after": 3
+          },
+          "returned_utf8_bytes": {
+            "before": 13851,
+            "after": 13851
+          }
+        },
+        "metadata": {
+          "open_operations": {
+            "before": 4,
+            "after": 4
+          },
+          "returned_utf8_bytes": {
+            "before": 1746,
+            "after": 1746
+          }
+        }
+      }
+    }
+  ],
+  "limits": "No qualified timing claim. Source files and canonical memory record reads remain unchanged in this corpus. Separate page calls still parse full canonical record files. Request-local source hashing saves work only when multiple selected records share provenance paths."
+}

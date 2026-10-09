@@ -238,3 +238,53 @@ def test_context_rejects_a_task_larger_than_the_hard_budget(tmp_path: Path) -> N
 
     with pytest.raises(InputError, match="exceed the configured budget"):
         ProjectContextBuilder(root).build("x" * 5000, 1000)
+
+
+@pytest.mark.parametrize("failure", ["root", "common_directory"])
+def test_context_preserves_injected_repository_denial(tmp_path: Path, failure: str) -> None:
+    root = _project(tmp_path, "repo")
+
+    class DeniedGit(LocalGitService):
+        def root(self, path: Path) -> Path:
+            if failure == "root":
+                raise PolicyDeniedError("injected repository denial")
+            return super().root(path)
+
+        def common_directory(self, path: Path) -> Path:
+            raise PolicyDeniedError("injected repository denial")
+
+    with pytest.raises(PolicyDeniedError, match="injected repository denial"):
+        ProjectContextBuilder(root, git=DeniedGit())
+
+
+def test_context_uses_one_locked_graph_status_with_all_dirty_paths(tmp_path: Path) -> None:
+    from orqalis.git.contracts import GitStatus
+
+    class RecordingGit(LocalGitService):
+        def __init__(self) -> None:
+            super().__init__()
+            self.observed: list[GitStatus] = []
+
+        def status(self, path: Path) -> GitStatus:
+            result = super().status(path)
+            self.observed.append(result)
+            return result
+
+    root = _project(tmp_path, "shared-status")
+    (root / "status.bin").write_bytes(b"\x00dirty")
+    git = RecordingGit()
+    builder = ProjectContextBuilder(root, git=git)
+    for _ in range(2):
+        git.observed.clear()
+        pack = builder.build("offline retry", 12_000)
+        assert len(git.observed) == 1
+        status = git.observed[0]
+        assert pack.head_commit == status.head
+        assert pack.branch == status.branch
+        assert pack.dirty_paths == tuple(
+            path
+            for path in status.changed_paths
+            if path != ".orqalis" and not path.startswith(".orqalis/")
+        )
+        assert "status.bin" in pack.dirty_paths
+        assert not any(item.node.file_path == "status.bin" for item in pack.graph)

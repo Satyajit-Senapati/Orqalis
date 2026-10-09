@@ -1,17 +1,26 @@
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from pathlib import Path
+from types import ModuleType
 
 import pytest
 
-from orqalis.core.approvals import ApprovalService
+import orqalis.core.orchestrator as orchestrator_module
+import orqalis.core.preview_revision as preview_revision_module
+from orqalis.core.approvals import ApprovalService, prepare_approval_request
 from orqalis.core.plan_preview import PlanPreviewService
+from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.vertical_plan import VerticalPlanner
 from orqalis.domain.acceptance import CriterionDefinition, FileValidation, GoalDraft
-from orqalis.domain.approval import ApprovalDecisionKind, ApprovalStage, ControlMode
+from orqalis.domain.approval import (
+    ApprovalDecisionKind,
+    ApprovalRequest,
+    ApprovalStage,
+    ControlMode,
+)
 from orqalis.domain.errors import ConflictError, PolicyDeniedError
-from orqalis.domain.events import EventType
+from orqalis.domain.events import Event, EventType
 from orqalis.domain.projections import RunSnapshot
-from orqalis.domain.run import RunState
+from orqalis.domain.run import Run, RunState
 from orqalis.domain.task import TaskStatus
 from orqalis.sdk import Orqalis
 from tests.support.filesystem import filesystem_uow_factory
@@ -144,3 +153,136 @@ def test_preview_recovers_plan_installed_with_a_different_command_key(git_repo: 
     assert recovered.version == 1
     assert {task.id for task in recovered.tasks} == {task.id for task in plan.tasks}
     assert sdk.snapshot(state.run.id).run.state == RunState.PLANNED
+
+
+def test_plan_checkpoint_notifications_include_matching_approval(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    prepared, _, state = _prepared(git_repo)
+    prepared.close()
+    sdk = Orqalis(root=git_repo)
+    assert state.goal is not None
+    approvals = ApprovalService(sdk.unit_of_work)
+    approvals.configure(
+        state.run.id, ControlMode.SUPERVISED, frozenset({ApprovalStage.GOAL, ApprovalStage.PLAN})
+    )
+    service = PlanPreviewService(
+        sdk.unit_of_work, sdk.orchestrator, sdk.goals, sdk.memory, sdk.git, approvals
+    )
+    with pytest.raises(PolicyDeniedError):
+        service.preview(state.run.id, "goal-gate")
+    goal_request = approvals.list(state.run.id)[-1]
+    approvals.decide(
+        state.run.id,
+        goal_request.id,
+        ApprovalDecisionKind.APPROVE,
+        "fixture-operator",
+        goal_request.subject_digest,
+    )
+    native_publish = sdk.event_bus.publish
+    observed_versions: list[int] = []
+
+    def observe_commit(events: Iterable[Event]) -> None:
+        batch = tuple(events)
+        if any(
+            event.event_type == EventType.PLAN_REVISED
+            or event.event_type == EventType.RUN_STATE_CHANGED
+            and event.payload.status == RunState.PLANNED
+            for event in batch
+        ):
+            snapshot = sdk.snapshot(state.run.id)
+            requests = approvals.list(state.run.id)
+            assert snapshot.plan is not None
+            assert requests[-1].stage == ApprovalStage.PLAN
+            assert requests[-1].subject_version == snapshot.run.plan_version
+            assert requests[-1].status == "PENDING"
+            assert any(
+                event.event_type == EventType.APPROVAL_REQUESTED
+                and event.payload.approval_request_id == requests[-1].id
+                for event in batch
+            )
+            observed_versions.append(snapshot.run.plan_version)
+        native_publish(batch)
+
+    monkeypatch.setattr(sdk.event_bus, "publish", observe_commit)
+    first = service.preview(state.run.id, "atomic-preview")
+    edited = VerticalPlanner().plan(
+        state.goal,
+        sdk.memory.context(sdk.get_project(state.run.project_id), state.run.request),
+        version=2,
+    )
+    second = service.replace(edited, first.version, "atomic-edit")
+    before = sdk.events(state.run.id)
+    assert service.preview(state.run.id, "atomic-preview") == second
+    assert service.replace(edited, first.version, "atomic-edit") == second
+    assert sdk.events(state.run.id) == before
+    assert observed_versions == [1, 2]
+    assert sum(request.stage == ApprovalStage.PLAN for request in approvals.list(state.run.id)) == 2
+
+
+@pytest.mark.parametrize("checkpoint", ["preview", "replace"])
+def test_plan_checkpoint_rolls_back_with_its_approval(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch, checkpoint: str
+) -> None:
+    prepared, _, state = _prepared(git_repo)
+    prepared.close()
+    sdk = Orqalis(root=git_repo)
+    assert state.goal is not None
+    approvals = ApprovalService(sdk.unit_of_work)
+    approvals.configure(
+        state.run.id, ControlMode.SUPERVISED, frozenset({ApprovalStage.GOAL, ApprovalStage.PLAN})
+    )
+    service = PlanPreviewService(
+        sdk.unit_of_work, sdk.orchestrator, sdk.goals, sdk.memory, sdk.git, approvals
+    )
+    with pytest.raises(PolicyDeniedError):
+        service.preview(state.run.id, "goal-gate")
+    goal_request = approvals.list(state.run.id)[-1]
+    approvals.decide(
+        state.run.id,
+        goal_request.id,
+        ApprovalDecisionKind.APPROVE,
+        "fixture-operator",
+        goal_request.subject_digest,
+    )
+    context = sdk.memory.context(sdk.get_project(state.run.project_id), state.run.request)
+    plan = VerticalPlanner().plan(state.goal, context)
+    component: ModuleType
+    if checkpoint == "preview":
+        # The recoverable installed-plan checkpoint remains separate by design.
+        sdk.orchestrator.install_plan(plan, "installed")
+        component = orchestrator_module
+        version = 1
+    else:
+        service.preview(state.run.id, "installed")
+        component = preview_revision_module
+        version = 2
+        plan = VerticalPlanner().plan(state.goal, context, version=version)
+    before = sdk.snapshot(state.run.id)
+    before_events = sdk.events(state.run.id)
+    before_requests = approvals.list(state.run.id)
+    native_prepare = prepare_approval_request
+
+    def interrupt_after_staging(
+        uow: ProjectUnitOfWork,
+        run: Run,
+        stage: ApprovalStage,
+        subject_version: int,
+        subject_digest: str,
+        reason: str = "",
+    ) -> tuple[ApprovalRequest | None, bool]:
+        request, created = native_prepare(uow, run, stage, subject_version, subject_digest, reason)
+        assert created and request is not None
+        assert request.stage == ApprovalStage.PLAN and request.subject_version == version
+        raise RuntimeError("Interrupted before checkpoint commit")
+
+    monkeypatch.setattr(component, "prepare_approval_request", interrupt_after_staging)
+    with pytest.raises(RuntimeError, match="Interrupted before checkpoint commit"):
+        if checkpoint == "preview":
+            service.preview(state.run.id, "interrupted")
+        else:
+            service.replace(plan, 1, "interrupted")
+    after = sdk.snapshot(state.run.id)
+    assert after.run == before.run and after.plan == before.plan
+    assert sdk.events(state.run.id) == before_events
+    assert approvals.list(state.run.id) == before_requests

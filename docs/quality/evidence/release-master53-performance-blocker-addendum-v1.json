@@ -1,0 +1,555 @@
+{
+  "schema_version": 1,
+  "status": "MASTER53_PERFORMANCE_ACCEPTANCE_BLOCKER_RETAINED",
+  "created_at": "2026-10-03T22:33:00.837715+00:00",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "retained_draft": {
+    "path": "release-final-quality-performance-draft-v1.json",
+    "sha256": "132cea4838f2fc3d84ae203db2c153cdbccd52372e8a8bb489d78c1f9ce95f26",
+    "interpretation_correction": "Its conditional supported-use execution-cost recommendation is NOT Master53 closure. This addendum explicitly leaves unexplained performance degradation blocking acceptance."
+  },
+  "requirement": "Master53: no unexplained benchmark degradation before convergence. Disclosure, reference-range overlap and no confirmed correctness defect do not themselves explain a degradation.",
+  "execution_evidence_sha256": {
+    "release-execution-baseline-diagnostic.json": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+    "release-execution-baseline-2.json": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+    "release-execution-baseline-8-fixed-diagnostic-v1.json": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+    "release-execution-current-20.json": "9439139e7f90a7c9d8d47d6f3ccb2853feba51afae660045438a5da57cf2eed8",
+    "release-execution-current-21.json": "d028c67bebdee5540bbc74b3eb81ed914b96cdd335719319250789fc1ccc9a04"
+  },
+  "actual_totals": {
+    "release-execution-baseline-diagnostic.json": {
+      "samples": [
+        {
+          "execution_elapsed_ms": 55642.85999999265,
+          "persisted_run_timing_ms": {
+            "wall_ms": 52996,
+            "active_ms": 52717,
+            "waiting_ms": 279,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 2646.859999992652,
+          "repository_setup_elapsed_ms": 236.48690000118222,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64570
+          ]
+        },
+        {
+          "execution_elapsed_ms": 55686.493799992604,
+          "persisted_run_timing_ms": {
+            "wall_ms": 52846,
+            "active_ms": 52569,
+            "waiting_ms": 277,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 2840.493799992604,
+          "repository_setup_elapsed_ms": 192.95869999041315,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64571
+          ]
+        },
+        {
+          "execution_elapsed_ms": 55371.642699989025,
+          "persisted_run_timing_ms": {
+            "wall_ms": 52605,
+            "active_ms": 52255,
+            "waiting_ms": 350,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 2766.6426999890245,
+          "repository_setup_elapsed_ms": 232.21439999178983,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64571
+          ]
+        }
+      ],
+      "execution_median_ms": 55642.85999999265,
+      "projected_timing_medians_ms": {
+        "wall_ms": 52846,
+        "active_ms": 52569,
+        "waiting_ms": 279,
+        "blocked_ms": 0,
+        "idle_ms": 0,
+        "queue_ms": 0
+      },
+      "median_execution_minus_projected_wall_ms": 2766.6426999890245
+    },
+    "release-execution-baseline-2.json": {
+      "samples": [
+        {
+          "execution_elapsed_ms": 56502.89820000762,
+          "persisted_run_timing_ms": {
+            "wall_ms": 53618,
+            "active_ms": 53273,
+            "waiting_ms": 345,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 2884.898200007621,
+          "repository_setup_elapsed_ms": 226.93430000799708,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64570
+          ]
+        },
+        {
+          "execution_elapsed_ms": 55870.139499995275,
+          "persisted_run_timing_ms": {
+            "wall_ms": 53192,
+            "active_ms": 52897,
+            "waiting_ms": 295,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 2678.1394999952754,
+          "repository_setup_elapsed_ms": 166.91100000753067,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64570
+          ]
+        },
+        {
+          "execution_elapsed_ms": 55730.52120000648,
+          "persisted_run_timing_ms": {
+            "wall_ms": 52951,
+            "active_ms": 52651,
+            "waiting_ms": 300,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 2779.5212000064785,
+          "repository_setup_elapsed_ms": 173.85490000015125,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64570
+          ]
+        }
+      ],
+      "execution_median_ms": 55870.139499995275,
+      "projected_timing_medians_ms": {
+        "wall_ms": 53192,
+        "active_ms": 52897,
+        "waiting_ms": 300,
+        "blocked_ms": 0,
+        "idle_ms": 0,
+        "queue_ms": 0
+      },
+      "median_execution_minus_projected_wall_ms": 2779.5212000064785
+    },
+    "release-execution-baseline-8-fixed-diagnostic-v1.json": {
+      "samples": [
+        {
+          "execution_elapsed_ms": 95421.07120002038,
+          "persisted_run_timing_ms": {
+            "wall_ms": 90278,
+            "active_ms": 89813,
+            "waiting_ms": 465,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 5143.0712000203785,
+          "repository_setup_elapsed_ms": 367.554199998267,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64576
+          ]
+        },
+        {
+          "execution_elapsed_ms": 95099.94379998534,
+          "persisted_run_timing_ms": {
+            "wall_ms": 89721,
+            "active_ms": 89287,
+            "waiting_ms": 434,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 5378.94379998534,
+          "repository_setup_elapsed_ms": 378.2175999949686,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64575
+          ]
+        },
+        {
+          "execution_elapsed_ms": 95016.15999999922,
+          "persisted_run_timing_ms": {
+            "wall_ms": 88516,
+            "active_ms": 87966,
+            "waiting_ms": 550,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 6500.159999999218,
+          "repository_setup_elapsed_ms": 408.25629999744706,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64575
+          ]
+        }
+      ],
+      "execution_median_ms": 95099.94379998534,
+      "projected_timing_medians_ms": {
+        "wall_ms": 89721,
+        "active_ms": 89287,
+        "waiting_ms": 465,
+        "blocked_ms": 0,
+        "idle_ms": 0,
+        "queue_ms": 0
+      },
+      "median_execution_minus_projected_wall_ms": 5378.94379998534
+    },
+    "release-execution-current-20.json": {
+      "samples": [
+        {
+          "execution_elapsed_ms": 63133.75430001179,
+          "persisted_run_timing_ms": {
+            "wall_ms": 59120,
+            "active_ms": 58807,
+            "waiting_ms": 313,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 4013.7543000117876,
+          "repository_setup_elapsed_ms": 440.1581999845803,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64570
+          ]
+        },
+        {
+          "execution_elapsed_ms": 62957.311000005575,
+          "persisted_run_timing_ms": {
+            "wall_ms": 58113,
+            "active_ms": 57851,
+            "waiting_ms": 262,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 4844.311000005575,
+          "repository_setup_elapsed_ms": 594.1032000118867,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64572
+          ]
+        },
+        {
+          "execution_elapsed_ms": 63480.70230000303,
+          "persisted_run_timing_ms": {
+            "wall_ms": 58673,
+            "active_ms": 58381,
+            "waiting_ms": 292,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 4807.702300003031,
+          "repository_setup_elapsed_ms": 410.3647000156343,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64569
+          ]
+        }
+      ],
+      "execution_median_ms": 63133.75430001179,
+      "projected_timing_medians_ms": {
+        "wall_ms": 58673,
+        "active_ms": 58381,
+        "waiting_ms": 292,
+        "blocked_ms": 0,
+        "idle_ms": 0,
+        "queue_ms": 0
+      },
+      "median_execution_minus_projected_wall_ms": 4807.702300003031
+    },
+    "release-execution-current-21.json": {
+      "samples": [
+        {
+          "execution_elapsed_ms": 66465.91070000432,
+          "persisted_run_timing_ms": {
+            "wall_ms": 61254,
+            "active_ms": 61005,
+            "waiting_ms": 249,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 5211.910700004315,
+          "repository_setup_elapsed_ms": 509.017300006235,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64572
+          ]
+        },
+        {
+          "execution_elapsed_ms": 70923.48650001804,
+          "persisted_run_timing_ms": {
+            "wall_ms": 65787,
+            "active_ms": 65464,
+            "waiting_ms": 323,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 5136.486500018043,
+          "repository_setup_elapsed_ms": 360.05499999737367,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64572
+          ]
+        },
+        {
+          "execution_elapsed_ms": 71385.60559999314,
+          "persisted_run_timing_ms": {
+            "wall_ms": 65974,
+            "active_ms": 65681,
+            "waiting_ms": 293,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          "execution_minus_projected_wall_ms": 5411.605599993141,
+          "repository_setup_elapsed_ms": 505.175500002224,
+          "model_calls": 9,
+          "tool_calls": 2,
+          "event_sequence": 174,
+          "persisted_file_bytes": [
+            192200,
+            64571
+          ]
+        }
+      ],
+      "execution_median_ms": 70923.48650001804,
+      "projected_timing_medians_ms": {
+        "wall_ms": 65787,
+        "active_ms": 65464,
+        "waiting_ms": 293,
+        "blocked_ms": 0,
+        "idle_ms": 0,
+        "queue_ms": 0
+      },
+      "median_execution_minus_projected_wall_ms": 5211.910700004315
+    }
+  },
+  "candidate_deltas_against_fastest_baseline_capture": {
+    "release-execution-current-20.json": {
+      "execution_median_delta_ms": 7490.894300019136,
+      "projected_active_median_delta_ms": 5812,
+      "projected_waiting_median_delta_ms": 13,
+      "median_unprojected_delta_ms": 2041.0596000140067,
+      "not_additive": "Differences of independent medians are descriptive; do not sum them into a decomposition."
+    },
+    "release-execution-current-21.json": {
+      "execution_median_delta_ms": 15280.626500025392,
+      "projected_active_median_delta_ms": 12895,
+      "projected_waiting_median_delta_ms": 14,
+      "median_unprojected_delta_ms": 2445.2680000152905,
+      "not_additive": "Differences of independent medians are descriptive; do not sum them into a decomposition."
+    }
+  },
+  "actual_available_attribution": {
+    "counts": "All15samples retain174events/9models/2tools/one repair/same role counts; six current semantic26checks pass. Event-count vectors equal. Persisted eventbytes192200 and approximately64.57KBstate match. Added logical tasks/events/trace volume cannot explain this fixture's cost.",
+    "timings": "Only whole execution, child/setup and event-projected active/waiting/wall totals are captured. Invocation accounting stores IDs/roles/status/event sequences, not per-invocation timestamps or duration. No per-phase, recovery/journal operation count, file syscall, native CPU or lock-wait timing attribution exists in these reports.",
+    "concrete_phase_deltas": null,
+    "projected_active": "The candidate's extra total is largely within event-projected ACTIVE plus some unprojected span; this does not identify a phase or distinguish CPU, IO, lock waiting, scheduling or retry work. ACTIVE is not processCPU.",
+    "provider_tool": "Matching role counts/status/links/sequences prove semantics, not equal provider/tool or journal latency.",
+    "reference_variation": "55.643/55.870/95.100s reference medians prove same-reference variability; do not prove why, nor waive63.134/70.923s candidate cost."
+  },
+  "pinned_potential_source_investigation_paths": {
+    "src/orqalis/persistence/filesystem/task_store.py": {
+      "baseline": {
+        "path": "src/orqalis/persistence/filesystem/task_store.py",
+        "sha256": "6ed39293afc87286ae487e90493fb88007d96e50ccd08aefd3a4a5af57b7edc4",
+        "bytes": 76568
+      },
+      "candidate": {
+        "path": "src/orqalis/persistence/filesystem/task_store.py",
+        "sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+        "bytes": 82469
+      },
+      "source_body_read_in_this_addendum": false,
+      "causal_attribution": null
+    },
+    "src/orqalis/persistence/filesystem/locking.py": {
+      "baseline": {
+        "path": "src/orqalis/persistence/filesystem/locking.py",
+        "sha256": "0b6a097ea313ab219e08d95528476eb179f87f70dddee057f53eb500fb98ef53",
+        "bytes": 5158
+      },
+      "candidate": {
+        "path": "src/orqalis/persistence/filesystem/locking.py",
+        "sha256": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+        "bytes": 7582
+      },
+      "source_body_read_in_this_addendum": false,
+      "causal_attribution": null
+    },
+    "src/orqalis/persistence/filesystem/io.py": {
+      "baseline": {
+        "path": "src/orqalis/persistence/filesystem/io.py",
+        "sha256": "46dbb9ce8b3ea4248b7882b3daff1fd4d9a4423c1d90ae3daf45c42412eda785",
+        "bytes": 8911
+      },
+      "candidate": {
+        "path": "src/orqalis/persistence/filesystem/io.py",
+        "sha256": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+        "bytes": 10989
+      },
+      "source_body_read_in_this_addendum": false,
+      "causal_attribution": null
+    },
+    "src/orqalis/persistence/filesystem/unit_of_work.py": {
+      "baseline": {
+        "path": "src/orqalis/persistence/filesystem/unit_of_work.py",
+        "sha256": "671e0e48d4459086ceaed2c85fe395f59f8788721ed6cea2ddfb49149b459bbc",
+        "bytes": 3663
+      },
+      "candidate": {
+        "path": "src/orqalis/persistence/filesystem/unit_of_work.py",
+        "sha256": "45436869a92b142b2f0fa3fa98d11bc336085b13e8710d9bb8c3e28a942319d8",
+        "bytes": 4463
+      },
+      "source_body_read_in_this_addendum": false,
+      "causal_attribution": null
+    },
+    "src/orqalis/persistence/filesystem/layout.py": {
+      "baseline": {
+        "path": "src/orqalis/persistence/filesystem/layout.py",
+        "sha256": "7fdc7abfa7ffbaa4d4d1181cc0f7578a01233acd03768bbcad2752bb82fcf660",
+        "bytes": 20204
+      },
+      "candidate": {
+        "path": "src/orqalis/persistence/filesystem/layout.py",
+        "sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+        "bytes": 21747
+      },
+      "source_body_read_in_this_addendum": false,
+      "causal_attribution": null
+    },
+    "src/orqalis/persistence/filesystem/auxiliary_stores.py": {
+      "baseline": {
+        "path": "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+        "sha256": "7aac78b7d601c5c082dbe66bb3fd0412fa8d83197778de692ea85d5f868b126e",
+        "bytes": 17377
+      },
+      "candidate": {
+        "path": "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+        "sha256": "8433e0f801cf77e9bac3d8c80a9d83131049929f5d221910175d8d8b49d71f50",
+        "bytes": 17968
+      },
+      "source_body_read_in_this_addendum": false,
+      "causal_attribution": null
+    },
+    "src/orqalis/graph/engine.py": {
+      "baseline": {
+        "path": "src/orqalis/graph/engine.py",
+        "sha256": "6e4ad1c806f1256ea691582a39303128865e9cfe93bd9938f9565e92df20d43a",
+        "bytes": 38898
+      },
+      "candidate": {
+        "path": "src/orqalis/graph/engine.py",
+        "sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+        "bytes": 54752
+      },
+      "source_body_read_in_this_addendum": false,
+      "causal_attribution": null
+    },
+    "src/orqalis/context/builder.py": {
+      "baseline": {
+        "path": "src/orqalis/context/builder.py",
+        "sha256": "7ba58c873d57a0afe4ed67ff450a6a827ed21020be462c7a291069cf38496a5a",
+        "bytes": 14734
+      },
+      "candidate": {
+        "path": "src/orqalis/context/builder.py",
+        "sha256": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+        "bytes": 17671
+      },
+      "source_body_read_in_this_addendum": false,
+      "causal_attribution": null
+    }
+  },
+  "source_hypotheses_limits": "Different task-store lookup/identity handoff, lock admission, fresh path guards, atomic write retry behavior, and graph/context freshness are bounded candidate investigation areas; recorded file hashes locate them but do not prove any particular delta executed or consumed the extra time. No speculative defect or feature attribution is asserted.",
+  "smallest_meaningful_additional_evidence": {
+    "first": "Inspect an actually retained execution event stream/native operation log if available: correlate phase start/completion and provider/tool timestamps with original workload. These named summary JSONs do not contain that data; do not invent it or reconstruct a historical runtime.",
+    "if_missing": "Prospectively review ONE finite matched immutable-baseline/current attribution observation, preserving original fixture,26checks, source/helper/dependency identities and all budgets. Collect phase boundaries plus original-call work counts and CPU/IO/lock/journal attribution with measured bounded observer overhead and no method monkeypatch that changes dispatch. No aggregate requalification until green and no new tolerance. Stage and independently review before invocation.",
+    "evidence_to_close": "A concrete executed extra-work cause with bounded accepted feature cost, or an independently supported diagnosis/repair of an actual production regression. Another passing aggregate timing, slower reference selection, metadata equality or disclosure alone is insufficient."
+  },
+  "history": {
+    "raw": "MIXED_OR_INDETERMINATE",
+    "static_candidate_read_path_concern_accounted_for": true,
+    "all_prior_tails_retained": true,
+    "unknown_original_timing_causes": true,
+    "no_latency_equivalence_or_auto_master53_closure": true
+  },
+  "pending_final_gates": [
+    "Actual full21",
+    "Final390/source/helpers guards",
+    "Final23criterion/security/performance ledger",
+    "Finalarchive runtime-equivalence and no-links/special/duplicates outer check",
+    "Installed docs/link snapshot"
+  ],
+  "new_confirmed_p0_p1_correctness_defects": [],
+  "release_certification": false,
+  "whole_iteration_acceptance_credit": 0,
+  "workloads_invoked": 0,
+  "scope": "Only five named JSON execution captures, prior draft, and deterministic source-inventory/timing extraction; no application imports/source body walks/tests/profiling/timing invocation. Raw records preserved."
+}

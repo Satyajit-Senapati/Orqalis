@@ -1,0 +1,68 @@
+{
+  "review": "Independent final corrected atomic inventory and strengthened helper guards",
+  "created_utc": "2026-10-02T13:21:56.990487+00:00",
+  "status": "PASS_CORRECTED_PER_FILE_METADATA_AND_NEW_GUARD_COPIES",
+  "source_sha256": "0d26e92999fe556b69f9695d792ab8bc60313f60740cf74743741f420a0c8a4b",
+  "release_input_sha256": "68de4158978e4b720b70d9cc1d9f08d46a12105320a0db64499be59929cbd242",
+  "all390_per_file_hashes_verified_now": true,
+  "metadata_only_correction": {
+    "prior_independent_review": ".tools/research/release-atomic-inventory-correction-security-review.json",
+    "prior_review_sha256": "63086d33c55a52273126a5a6f5e88f99faba25d5f3cbef63e375c6bda9516f3e",
+    "summary": "Original atomic per-file map has four confirmed stale values; preserve it as invalid metadata. Corrected atomic-v2 contains all390 actual hashes, identical file keys/source/aggregate bytes. Prior guard review supported actual aggregate/source/helper binding, not every original per-file value. No source/case/deadline/environment/workload change from metadata repair."
+  },
+  "inventories": {
+    "docs/quality/evidence/release-input-freeze-atomic-v2.json": "a3084926d713f8e4a65bcde5cbe963b67b3d7b641f13d45e18cffabe352b4c03",
+    "docs/quality/evidence/release-private-helper-inventory-atomic-v2.json": "a239effa192c27d3c0d4a9294339e0897d6b988be882d2cfbefccd78450ea46b",
+    "docs/quality/evidence/release-private-helper-inventory-atomic.json": "2580b600faa9ab5b5b9b6095caf5280fc05bcfef773e733af0ff833f6260f480"
+  },
+  "fresh_helper_hashes": {
+    ".tools/research/release_artifacts_atomic_v2.py": "da8c3030090751dfe721127b406be82dbc61c9989db5ea95e49f13b5092cac2e",
+    ".tools/research/verify_installed_release_atomic_v2.py": "0ca4b8fe6791c89392c89a11c89b75834354556beceef0b9dc81768c88bef62a",
+    ".tools/research/release_repack_docs_atomic_v2.py": "d2484738e91e8302a42b3cc62ce5b6ccb3d355f67f496ec1dc577eb5a26978cd",
+    ".tools/research/release_heldout_probe_v7.py": "98cd04c34f19ee352392966e54647174f973f2eb89d0ccfca7afa9d3d5d01948",
+    ".tools/research/run_full_regression_release_v5.py": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+    ".tools/research/release_qualification_v7.py": "39066eb99baad7a71afbac64520e01d287d67ec9fa764653bf746c01d889fa36",
+    ".tools/research/release_complete_rounds_v6.py": "6f1a8bf1a8a0f83dbfa2e74c251585a41706af1ab5cbba8f4ea6c881cead5da7",
+    ".tools/research/release_browser_qualification_v3.py": "0bb6256f651b90d8c887af419262c2688d3d7587bab39f86df56cdf3b03b6c71",
+    ".tools/research/release_governance_diagnostic_v2.py": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275",
+    ".tools/research/release_governance_diagnostic_v4.py": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53",
+    ".tools/research/release-quality-review.json": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e"
+  },
+  "prior_running_helpers_unchanged": true,
+  "reviewed_deltas": [
+    {
+      "file": ".tools/research/release_qualification_v7.py",
+      "prior": ".tools/research/release_qualification_v6.py",
+      "assessment": "Binds corrected v2 frozen input/private inventories, explicitly verifies all recorded per-file values at startup and after each command, retains actual source/aggregate/helper stability guards and fresh log rejection. Removes only obsolete preflight branch and phase allowance; active round8/9 assertions/cases/deadlines/auth/tradeoff identity checks remain unchanged. Full preflight continues separately with original unmodified v6 helper."
+    },
+    {
+      "file": ".tools/research/release_complete_rounds_v6.py",
+      "prior": ".tools/research/release_complete_rounds_v5.py",
+      "assessment": "Binds corrected v2 input/source-freeze names and invokes v7; adds per-file value validation before each of two rounds. Environment and evaluation inventory stability checks unchanged. Corrected source-freeze must exist and PASS before proceeding."
+    },
+    {
+      "file": ".tools/research/release_artifacts_atomic_v2.py",
+      "prior": ".tools/research/release_artifacts_atomic.py",
+      "assessment": "Binds corrected v2 input map and verifies every per-file value before and after artifact qualification; selects v2 installed helper. Fresh build/install/runtime paths, source stability, exact audits including pip, documentation proof and outputs unchanged."
+    },
+    {
+      "file": ".tools/research/verify_installed_release_atomic_v2.py",
+      "prior": ".tools/research/verify_installed_release_atomic.py",
+      "assessment": "Byte-identical; retains actual installed package import boundary, database absence, graph/index/incremental/native-coordinate and CLI assertions."
+    },
+    {
+      "file": ".tools/research/release_repack_docs_atomic_v2.py",
+      "prior": ".tools/research/release_repack_docs_atomic.py",
+      "assessment": "Byte-identical; preserves tested tarball, exact non-documentation runtime byte proof, source stability and exact installed docs proof before smoke reuse."
+    }
+  ],
+  "unchanged_helpers": "All other11-entry private inventory helpers retain their reviewed hashes, including browser native operator-token host/auth setup, full regression source/test/wrapper/environment guards, heldout corpus/witness assertions and native command deadlines. Original running preflight inventory entries also all still match.",
+  "findings": [],
+  "pending_acceptance": "Final source-freeze atomic-v2 must explicitly bind corrected metadata and retained fresh preflight/contract capture identities after completion. No running/pending contract, round8/9, artifact or heldout outcome is certified here.",
+  "limits": [
+    "Read-only diff/hash inspection and new ignored review JSON only.",
+    "No source/docs/test prose edits, benchmark, audit, test execution, commit or publication.",
+    "Prior original invalid inventory, raw captures, helper copies and independent reviews remain preserved.",
+    "Bounded qualification framework review only; no global-host, paid-provider or multi-platform security claim."
+  ]
+}

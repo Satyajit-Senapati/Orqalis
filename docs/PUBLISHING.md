@@ -4,22 +4,32 @@ This guide describes the current local-first npm release. PostgreSQL/pgvector, D
 database environment variables are not standard build, installation or verification
 requirements.
 
-The current local-first candidate is `2.0.0`; the major version is intentional because
-the required SQL runtime and its migration command were removed without an in-package
-legacy-data exporter. Public `orqalis@1.0.1` is immutable historical database-backed
-software. Confirm that the candidate version is unused before publication. This guide does
-not itself authorize a publish.
+The local-first `orqalis@2.0.0` is already published; its version, tag and artifacts are
+immutable. The prepared candidate is **2.1.0**, with synchronized Python, frontend and
+launcher metadata. Bounded local qualification passed with the accepted cold-rebuild
+tradeoff. Commit/push is authorized; publication awaits the hosted and owner gates below.
+The public registry reported `latest=2.0.0` and no exact `2.1.0` version on 2026-10-03.
+Recheck the selected version immediately before future publication. Public 1.0.x remains
+historical database-backed software. This guide does not authorize publication.
+[Registry observation](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/quality/evidence/release-registry-observation-readpath-v1.json)
+records that point-in-time boundary.
 
 ## Public artifact
 
 The supported public artifact is the `orqalis` npm tarball. It contains the Node launcher,
-hash-verified bundled Python wheel, compiled web assets, skills, license and user
+hash-verified bundled Python application and bootstrap-pip wheels, compiled web assets, skills, license and user
 documentation. It does not ship a database Compose stack. The Python wheel is an internal
 npm payload, not a separately supported PyPI release.
 
 Node.js 22+ and Python 3.12+ remain prerequisites. At first use the launcher builds an
 isolated per-user runtime. Each working repository owns its durable `.orqalis/` data; the
-runtime cache is never project history.
+runtime cache is never project history. Before contacting a package index, the launcher
+installs the exact locked pip 26.2.1 wheel from the verified tarball with `--no-index`
+and `--no-deps`. Pip configuration files are disabled with Python's null-device sentinel.
+It then installs hash-locked binary dependencies and the application wheel. The bootstrap
+pin is an installer dependency group, not a new application dependency or service.
+Installed-runtime advisory checks include pip; auditing only the development environment
+does not cover this bootstrap boundary.
 
 ## Prepare the artifact
 
@@ -35,11 +45,19 @@ uv run python scripts/prepare_npm.py
 ```
 
 `prepare_npm.py` refreshes npm-shipped documentation and assets from the canonical tree and
-copies the reviewed wheel. Review its diff. In particular, confirm that no database
+copies the reviewed wheel. Maintainer-only `docs/quality/` research, audit captures and
+release-readiness files stay in the repository; user guides link to their repository
+locations. This prevents local machine paths and growing audit data entering installs.
+Review its diff. In particular, confirm that no database
 Compose/config file, credential, `.orqalis/` project data, local evidence or transient
 cache entered the package.
 
 ## Standard release gates
+
+The commands below are the standard checks. Candidate 2.1.0 additionally requires the
+[acceptance checklist](https://github.com/Satyajit-Senapati/Orqalis/blob/main/docs/NPM_RELEASE_READINESS.md#candidate-210---local-preparation-on-2026-10-03),
+including comparative contracts, installed verification, benchmarks, two complete rounds
+and independent review.
 
 ```bash
 uv run ruff check .
@@ -64,7 +82,6 @@ sandbox integration test is a separate opt-in check and does not gate standard s
 ```bash
 npm pack ./packages/npm --dry-run
 npm pack ./packages/npm --pack-destination dist
-npm publish ./dist/orqalis-2.0.0.tgz --dry-run --access public
 ```
 
 Inspect the exact tarball contents and hashes before publishing. Verify at least:
@@ -121,14 +138,15 @@ the following are true:
 - package construction, all platform smokes and installed integration passed; and
 - the protected `npm-release` environment was approved.
 
-After the reviewed release commit has passed hosted CI, create and push its annotated
-`v2.0.0` tag. Confirm that the version is still unused (normally an npm E404), then invoke
-the workflow against that exact tag:
+Require the separate `ci.yml` quality workflow to pass on the exact committed LF revision
+before tagging or publication. The package publish job depends on smoke and installed
+integration; it does not automatically wait for that separate quality workflow.
 
-```bash
-npm view orqalis@2.0.0 version
-gh workflow run npm-package.yml --ref v2.0.0 -f publish=true
-```
+After the selected release version and commit have passed hosted CI, create its new annotated
+version tag. Never move or recreate `v2.0.0`. Confirm the selected version is still unused,
+then run `npm-package.yml` from GitHub Actions against that exact new tag, with the publish
+input enabled. GitHub CLI is optional; the repository's Actions interface supports this
+workflow without it.
 
 Review and approve the `npm-release` environment deployment. The workflow rebuilds the npm
 artifact from the tag, runs its complete package, platform and installed-application gates,
@@ -136,7 +154,7 @@ verifies that exactly one tarball exists and its embedded name/version match `or
 the selected tag, then publishes that exact tested tarball through OIDC with provenance.
 There is no local `npm publish` fallback in the standard release path.
 
-Do not republish or replace 1.0.1, and do not dispatch `publish=true` as part of a
+Do not republish or replace any existing version, including 1.0.1 and 2.0.0, and do not dispatch `publish=true` as part of a
 verification or cleanup task.
 
 Record registry version/integrity, source commit, wheel and tarball hashes, platform jobs,

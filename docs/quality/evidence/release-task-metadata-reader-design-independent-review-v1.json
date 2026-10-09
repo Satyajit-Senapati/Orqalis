@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:46:10.515673+00:00",
+  "status": "PRIVATE_TEST_DESIGN_CHANGES_REQUIRED_NO_APPLICATION_APPROVAL",
+  "scope": "Small exact file/hash/AST and official documentation review only. No import execution, tests, profiles, workload, fixture/dependency scan, source/test/helper mutation or publication.",
+  "source_context_parent_supplied": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "full_source_fingerprint_recomputed": false,
+  "proposal_report": {
+    "path": "docs\\quality\\evidence\\release-task-metadata-reader-proposal-v2.json",
+    "sha256": "e09ad291b60d27a8764ae400381eee528f9ffca0526536165a26836a918a7759"
+  },
+  "actual_small_file_sha256": {
+    "src/orqalis/persistence/filesystem/io.py": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+    "src/orqalis/persistence/filesystem/task_store.py": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+    ".tools/research/release_task_metadata_reader_io_proposal_v1.py": "10a1853c5ddbe34620d0a4b36f5974432fca0b5fab3f432c5779ca51b92b5362",
+    ".tools/research/release_task_metadata_reader_store_proposal_v1.py": "46e7db9e9dbed9517c3f339ceca4e4bc517e1aec324b9ec6413ce8619b0f6fc0",
+    ".tools/research/release_task_metadata_reader_proposal_v1.patch": "23c7149db06a31eabe7cb3c962de64b3906345eca732df939289b6c005c78fa6",
+    ".tools/research/test_release_task_metadata_reader_private_v1.py": "88c9a66c3b8d46c5dc9f5e555c80a0e2a78259a3b7c314923c3d5ca32f45a533",
+    "scripts/benchmark_memory.py": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a",
+    "benchmarks/memory_workflows.json": "eede4e76fb4a0b6b3949cef8de6e969dce41f9ed583669de2bc9bd41ddfd7d27"
+  },
+  "code_disposition": {
+    "existing_io_definitions_ast_identical": true,
+    "store_inverse_import_one_call_ast_identical": true,
+    "native": "CreateFileW GENERIC_READ(0x80000000), share READ|WRITE|DELETE(7), OPEN_EXISTING(3), NULL security attributes, synchronous normal flags(0x80). No write/creation access or privilege changes. Existing Windows ACL/sharing enforcement applies.",
+    "ownership": "Raw HANDLE belongs to helper until open_osfhandle succeeds; conversion exception closes raw HANDLE once and surfaces CloseHandle failure. Successful conversion transfers ownership to fd; fdopen exception closes fd. Successful stream context closes fd/HANDLE on read success or failure, without second CloseHandle. Actual noninheritance still requires the real GetHandleInformation test to pass.",
+    "validation": "Public opt-in function invokes existing fresh ancestry/link guard then reads one buffer, uses unchanged strict decoder and dictionary check. Caller schema_version/id/run_id checks unchanged by exact inverse AST. No new cache or model bypass; existing external path-swap and in-place writer limitations remain.",
+    "fallback": "ctypes/WinDLL/msvcrt initialized only under os.name==nt. Other platforms use original Path.read_bytes. Fake-posix unit seam cannot substitute for actual non-Windows module-import qualification.",
+    "unchanged_writer": "All existing IO function/class AST is identical including original three replacement attempts,20/40ms and per-attempt fresh guard/durability. No lock order, transaction, approval/checkpoint, timeout or format changes.",
+    "opt_in_scope": "Only TaskCapsuleStore._task_document switches; generic JSON/hash/memory readers remain unchanged. Function may serve multiple task metadata scans beyond the docstring wording; no broad compatibility fix for session/artifact readers claimed."
+  },
+  "functional_test_design": {
+    "real_held_reader": "Held wrapper delegates actual os.fdopen stream; native CreateFile/open_osfhandle occurred before barrier. Main thread performs original atomic writer while real native HANDLE remains open, then releases reader. Old full JSON and subsequent new full JSON checks are meaningful; GetHandleInformation checks live noninheritance and post-close invalidity. No fake native error in this positive case.",
+    "red_evidence": "Prior actual controlled ordinary read-handle probe is separately pinned by proposal. It demonstrates original replacement obstruction; it is not a RED original TaskCapsuleStore endpoint test or original execution16 cause reproduction. New staged overlap test has not run.",
+    "ownership_seams": "Conversion/raw-close failure/fdopen/read failures use explicit mocks for cleanup ownership branch tests, not native error or ACL causation claims. Real repeated Unicode reads/handle closure/missing path remain staged.",
+    "buffer_guards": "Six strict-buffer cases, generic hash same-buffer isolation, and actual junction/symlink guard-before-open seam staged; schema/run/id checks have unchanged-source proof but no proposed-store integration case in this file.",
+    "memory": "Original current SDK and original9 untimed workflows execute with call-spies that fail if task metadata is used. This is fixed-fixture exclusion/counter parity, not proposed-store integration or proof no future memory workload uses task metadata. Existing ReadProbe bypass limits must remain explicit.",
+    "runner": "No separately staged isolated functional runner was provided. Require exact test/private IO/store/patch/source/dataset/helper pins, before-after stability, exclusive XML/log/report, original source import paths, no concurrent owned timed workload, expected selected counts and no unexpected skips. Review exact runner before invocation."
+  },
+  "findings": [
+    {
+      "id": "READER-PRIVATE-PARITY-01",
+      "severity": "PRIVATE_TEST_SETUP_DEFECT",
+      "file": ".tools/research/test_release_task_metadata_reader_private_v1.py",
+      "issue": "Sequential before/after compare_workflows on the same newly installed fixture can compare cold then warm graph/index cache state. Exact ReadProbe dictionaries may differ without any native task read.",
+      "correction": "Stage a new successor with two isolated byte-identical owned copies of one pre-workflow fixture (stable project/record IDs), both running all three original workflows with corresponding spies. Preserve relative-path dictionary accounting and fixture source/status semantics, avoid warming only one path. Keep original test unmodified and no invocation until independent review.",
+      "communicated_to": "/root/release_security_review"
+    }
+  ],
+  "limits": [
+    "All private tests unrun; no PASS, handle leak/native error/RSS/latency or counter-parity result claimed.",
+    "Original fatal task.yaml denial and two unmatched session/artifact denials remain unresolved. A read-sharing compatibility change cannot be called their causal fix.",
+    "Main source remains b2aa; production application requires subsequent independently reviewed evidence, fresh freeze and complete release gates. History B is running; no concurrent functional invocation authorized."
+  ],
+  "primary_sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew",
+      "supports": "Share-delete allows subsequent delete/rename access; NULL security attributes produce noninheritable HANDLE; sharing flags remain until close."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/open-osfhandle?view=msvc-170",
+      "supports": "Successful conversion transfers ownership; fd/stream closure closes native HANDLE; never CloseHandle after transfer."
+    },
+    {
+      "url": "https://docs.python.org/3.12/library/msvcrt.html#msvcrt.open_osfhandle",
+      "supports": "Native HANDLE to CRT descriptor then os.fdopen."
+    }
+  ]
+}

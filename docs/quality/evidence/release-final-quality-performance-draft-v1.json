@@ -1,0 +1,2497 @@
+{
+  "schema_version": 1,
+  "status": "DRAFT_CONDITIONAL_BOUNDED_COST_REVIEW_FULL21_FINAL_GUARDS_AND_PACKAGE_PENDING",
+  "created_at": "2026-10-03T22:18:53.650838+00:00",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "release-execution-baseline-diagnostic.json": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+    "release-execution-baseline-2.json": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+    "release-execution-baseline-8-fixed-diagnostic-v1.json": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+    "release-quality-comparison-20.json": "09d845c1246085ece7e1a46ad084bb2fa22a347849aa90b5c33fa144bdade25d",
+    "release-execution-current-20.json": "9439139e7f90a7c9d8d47d6f3ccb2853feba51afae660045438a5da57cf2eed8",
+    "release-memory-20.json": "cc7983d42fac84395eab227d8ddd004d1b791fa64ff97fb58e3c32de68a954fb",
+    "release-ui-baseline-20.json": "d287d08de955b3c9ec5f3d3660c99ad74457074cf9b58a20c351789f80eef7b1",
+    "release-constrained-baseline-20.json": "d435acc1fc3563080e612b77090140a88133e1964a9837750642efba285f74ca",
+    "release-ui-current-20.json": "c59e852a85ce6abe94d26ff877b129bf61333a685169d212a4b990b6b35190a5",
+    "release-constrained-current-20.json": "e4c1196affa4fc1fbcf035b0f1a8899af09ba8c01a7082f0f4600fbba12c3d9a",
+    "release-browser-20.xml": "049f39e7bc52ffe237e2872454f8df242b2a9864fe7128a3951abc14c1330bcb",
+    "release-quality-comparison-21.json": "6a20fe18a317d3cd572b61ae4e1df8a8fdb486da7c7198ce8fec7b819258d185",
+    "release-execution-current-21.json": "d028c67bebdee5540bbc74b3eb81ed914b96cdd335719319250789fc1ccc9a04",
+    "release-memory-21.json": "2bae42b4a3958eef84a2fe6213ebb2a0b1011cda086d02babe08736eba2d3011",
+    "release-ui-baseline-21.json": "c7befaec0608e5510d3056fb892cab216a82b7e3c8e59228e2bcc3105160cea4",
+    "release-constrained-baseline-21.json": "5016c2dda68ac1457db650b165231ae9fa01acdde22b48a0b2e7bcd07187c556",
+    "release-ui-current-21.json": "2ca96822c8e1af48b581e7eea15116ba831efec38bb5250238a5dd1515a65760",
+    "release-constrained-current-21.json": "76a9234007d43478019b9c7e0f5b51f92067263280984f956cf0fb35d8e956d3",
+    "release-browser-21.xml": "9c528401d1dcdd8bab05b07b74ff4715ad57d6da7570ba361b4e3695279eac78",
+    "full-regression-release-20.json": "2627e1a3ee9c05571ff07fee3e8dfbd773166121fc9db46e3652ac1ddb920675",
+    "full-regression-release-20.xml": "531780983c39caad23490a5b290a3fbb6716b17849656e59acfdc11b8e92d5bd",
+    "release-acceptance-portable-current-pending-matrix-v1.json": "fd2393e071ec5c2a22f02ecce879222ceda9b3027d04cfa579aa13d9438d6d65",
+    "release-heldout-review-v15.json": "eb3cf98fd177b930759fa36acd0c762bd37d08da86f2b50fa6ebdddc0ee11426",
+    "release-history-page-path-and-final-docs-independent-review-v1.json": "66f955ea039fb4d9f62f133bd8e7e4d3ac67606ece95a4ad3fdd36de336c0dcd",
+    "release-history-page-path-acceptance-addendum-v1.json": "549a0889a818fd111b77d12e979800933f8c7a93cc208f56c345e0d8e354d3a3",
+    "release-history-matched-package-result-v4.json": "2c448c06a81f8c3f70b89cbeca4b39e2635e24ed934d260eb4be23d355bc0305",
+    "release-execution-reference-policy-v7.json": "6742ae4731e1d8869c0d8b5f0d250147e6ba61c530df9e4eb08e91de07981496"
+  },
+  "tradeoff_map": {
+    "path": ".tools/research/release-quality-review.json",
+    "sha256": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e",
+    "normalization": "MEM-\\d{8}- -> MEM-DATE- only",
+    "numeric_tolerance": 1e-09
+  },
+  "quality": {
+    "20": {
+      "raw_status": "REVIEW",
+      "exact_reviewed_loss_count": 30,
+      "loss_ids": [
+        "bug-fix/index/precision_at_k",
+        "bug-fix/context/precision_at_k",
+        "refactor/index/mrr",
+        "frontend/index/precision_at_k",
+        "architecture/index/precision_at_k",
+        "test-failure/index/precision_at_k",
+        "git-conflict/context/precision_at_k",
+        "documentation/index/mrr",
+        "documentation/index/ndcg_at_k",
+        "memory/index/recall_at_k",
+        "memory/index/precision_at_k",
+        "memory/index/ndcg_at_k",
+        "multi-agent/index/precision_at_k",
+        "repair/index/precision_at_k",
+        "repair/context/precision_at_k",
+        "security/index/precision_at_k",
+        "probe-camel/index/precision_at_k",
+        "probe-camel/context/precision_at_k",
+        "probe-snake/index/precision_at_k",
+        "probe-snake/context/precision_at_k",
+        "probe-natural-snake/context/precision_at_k",
+        "probe-routing/index/precision_at_k",
+        "probe-routing/context/precision_at_k",
+        "probe-events/index/precision_at_k",
+        "probe-events/context/precision_at_k",
+        "probe-test-command/index/precision_at_k",
+        "probe-test-command/context/precision_at_k",
+        "probe-usage/index/precision_at_k",
+        "probe-permissions/index/precision_at_k",
+        "probe-permissions/context/precision_at_k"
+      ],
+      "failed_hard_invariants": 0,
+      "new_requires_review_reasons": 0,
+      "changes": {
+        "mean_index_recall_at_k": {
+          "baseline": 0.7222222222222222,
+          "current": 0.8703703703703703,
+          "delta": 0.14814814814814814
+        },
+        "mean_context_recall_at_k": {
+          "baseline": 0.8518518518518519,
+          "current": 0.8703703703703703,
+          "delta": 0.01851851851851849
+        },
+        "mean_context_bytes": {
+          "baseline": 5764.068965517241,
+          "current": 5688.620689655172,
+          "delta": -75.44827586206884
+        },
+        "cli_startup": {
+          "baseline_ms": 1826.5012000047136,
+          "current_ms": 1129.575200000545,
+          "ratio": 0.6184366043655651
+        },
+        "mcp_startup_to_project_response": {
+          "baseline_ms": 2644.570800010115,
+          "current_ms": 2325.4206999845337,
+          "ratio": 0.8793187537182364
+        },
+        "graph_cold": {
+          "baseline_ms": 1900.8957000041846,
+          "current_ms": 1300.4574999795295,
+          "ratio": 0.6841288030567204
+        },
+        "graph_unchanged": {
+          "baseline_ms": 280.35749998525716,
+          "current_ms": 198.85690000955947,
+          "ratio": 0.70929759332287
+        },
+        "graph_one_file_changed": {
+          "baseline_ms": 876.7178000125568,
+          "current_ms": 678.4899000194855,
+          "ratio": 0.7738977125932287
+        },
+        "graph_bytes": {
+          "baseline": 1125777,
+          "current": 1641247,
+          "ratio": 1.4578793135763122
+        },
+        "index_bytes": {
+          "baseline": 2354319,
+          "current": 5680851,
+          "ratio": 2.412948712557644
+        },
+        "project_store_bytes": {
+          "baseline": 3872336,
+          "current": 7847467,
+          "ratio": 2.026545991876738
+        },
+        "python_peak_allocated_bytes": {
+          "baseline": 7054151,
+          "current": 11229856,
+          "ratio": 1.591950044732527
+        }
+      },
+      "partitions": {
+        "baseline": {
+          "engineering": {
+            "case_count": 14,
+            "mean_context_bytes": 5812.285714285715,
+            "index": {
+              "recall_at_k": 0.75,
+              "precision_at_k": 0.425,
+              "mrr": 0.6547619047619048,
+              "ndcg_at_k": 0.6383930964252991,
+              "positive_cases": 14,
+              "negative_cases": 0,
+              "negative_returned_paths": 0
+            },
+            "context": {
+              "recall_at_k": 0.8571428571428571,
+              "precision_at_k": 0.40595238095238095,
+              "mrr": 0.8,
+              "ndcg_at_k": 0.7504240323914165,
+              "positive_cases": 14,
+              "negative_cases": 0,
+              "negative_returned_paths": 0
+            }
+          },
+          "held-out": {
+            "case_count": 15,
+            "mean_context_bytes": 5719.066666666667,
+            "index": {
+              "recall_at_k": 0.6923076923076923,
+              "precision_at_k": 0.6346153846153846,
+              "mrr": 0.6923076923076923,
+              "ndcg_at_k": 0.6923076923076923,
+              "positive_cases": 13,
+              "negative_cases": 2,
+              "negative_returned_paths": 0
+            },
+            "context": {
+              "recall_at_k": 0.8461538461538461,
+              "precision_at_k": 0.5897435897435898,
+              "mrr": 0.8461538461538461,
+              "ndcg_at_k": 0.8461538461538461,
+              "positive_cases": 13,
+              "negative_cases": 2,
+              "negative_returned_paths": 2
+            }
+          }
+        },
+        "current": {
+          "engineering": {
+            "case_count": 14,
+            "mean_context_bytes": 5685.5,
+            "index": {
+              "recall_at_k": 0.8928571428571429,
+              "precision_at_k": 0.22142857142857145,
+              "mrr": 0.7523809523809524,
+              "ndcg_at_k": 0.7570044122612722,
+              "positive_cases": 14,
+              "negative_cases": 0,
+              "negative_returned_paths": 0
+            },
+            "context": {
+              "recall_at_k": 0.8928571428571429,
+              "precision_at_k": 0.44285714285714284,
+              "mrr": 0.8571428571428571,
+              "ndcg_at_k": 0.8218526038199879,
+              "positive_cases": 14,
+              "negative_cases": 0,
+              "negative_returned_paths": 0
+            }
+          },
+          "held-out": {
+            "case_count": 15,
+            "mean_context_bytes": 5691.533333333334,
+            "index": {
+              "recall_at_k": 0.8461538461538461,
+              "precision_at_k": 0.30128205128205127,
+              "mrr": 0.8461538461538461,
+              "ndcg_at_k": 0.8461538461538461,
+              "positive_cases": 13,
+              "negative_cases": 2,
+              "negative_returned_paths": 0
+            },
+            "context": {
+              "recall_at_k": 0.8461538461538461,
+              "precision_at_k": 0.3782051282051282,
+              "mrr": 0.8461538461538461,
+              "ndcg_at_k": 0.8461538461538461,
+              "positive_cases": 13,
+              "negative_cases": 2,
+              "negative_returned_paths": 0
+            }
+          }
+        }
+      }
+    },
+    "21": {
+      "raw_status": "REVIEW",
+      "exact_reviewed_loss_count": 30,
+      "loss_ids": [
+        "bug-fix/index/precision_at_k",
+        "bug-fix/context/precision_at_k",
+        "refactor/index/mrr",
+        "frontend/index/precision_at_k",
+        "architecture/index/precision_at_k",
+        "test-failure/index/precision_at_k",
+        "git-conflict/context/precision_at_k",
+        "documentation/index/mrr",
+        "documentation/index/ndcg_at_k",
+        "memory/index/recall_at_k",
+        "memory/index/precision_at_k",
+        "memory/index/ndcg_at_k",
+        "multi-agent/index/precision_at_k",
+        "repair/index/precision_at_k",
+        "repair/context/precision_at_k",
+        "security/index/precision_at_k",
+        "probe-camel/index/precision_at_k",
+        "probe-camel/context/precision_at_k",
+        "probe-snake/index/precision_at_k",
+        "probe-snake/context/precision_at_k",
+        "probe-natural-snake/context/precision_at_k",
+        "probe-routing/index/precision_at_k",
+        "probe-routing/context/precision_at_k",
+        "probe-events/index/precision_at_k",
+        "probe-events/context/precision_at_k",
+        "probe-test-command/index/precision_at_k",
+        "probe-test-command/context/precision_at_k",
+        "probe-usage/index/precision_at_k",
+        "probe-permissions/index/precision_at_k",
+        "probe-permissions/context/precision_at_k"
+      ],
+      "failed_hard_invariants": 0,
+      "new_requires_review_reasons": 0,
+      "changes": {
+        "mean_index_recall_at_k": {
+          "baseline": 0.7222222222222222,
+          "current": 0.8703703703703703,
+          "delta": 0.14814814814814814
+        },
+        "mean_context_recall_at_k": {
+          "baseline": 0.8518518518518519,
+          "current": 0.8703703703703703,
+          "delta": 0.01851851851851849
+        },
+        "mean_context_bytes": {
+          "baseline": 5764.068965517241,
+          "current": 5688.620689655172,
+          "delta": -75.44827586206884
+        },
+        "cli_startup": {
+          "baseline_ms": 2168.4893000056036,
+          "current_ms": 1541.4921999908984,
+          "ratio": 0.7108599521274627
+        },
+        "mcp_startup_to_project_response": {
+          "baseline_ms": 2899.3594000057783,
+          "current_ms": 2759.7760999924503,
+          "ratio": 0.9518571930016507
+        },
+        "graph_cold": {
+          "baseline_ms": 1642.7500999998301,
+          "current_ms": 1597.2264999873005,
+          "ratio": 0.972288176995068
+        },
+        "graph_unchanged": {
+          "baseline_ms": 344.2720000166446,
+          "current_ms": 226.01180002675392,
+          "ratio": 0.6564919598916754
+        },
+        "graph_one_file_changed": {
+          "baseline_ms": 1143.0669999972451,
+          "current_ms": 861.4846999989823,
+          "ratio": 0.7536607215509313
+        },
+        "graph_bytes": {
+          "baseline": 1125777,
+          "current": 1641247,
+          "ratio": 1.4578793135763122
+        },
+        "index_bytes": {
+          "baseline": 2354319,
+          "current": 5680851,
+          "ratio": 2.412948712557644
+        },
+        "project_store_bytes": {
+          "baseline": 3872336,
+          "current": 7847467,
+          "ratio": 2.026545991876738
+        },
+        "python_peak_allocated_bytes": {
+          "baseline": 7054554,
+          "current": 11229856,
+          "ratio": 1.5918591026449014
+        }
+      },
+      "partitions": {
+        "baseline": {
+          "engineering": {
+            "case_count": 14,
+            "mean_context_bytes": 5812.285714285715,
+            "index": {
+              "recall_at_k": 0.75,
+              "precision_at_k": 0.425,
+              "mrr": 0.6547619047619048,
+              "ndcg_at_k": 0.6383930964252991,
+              "positive_cases": 14,
+              "negative_cases": 0,
+              "negative_returned_paths": 0
+            },
+            "context": {
+              "recall_at_k": 0.8571428571428571,
+              "precision_at_k": 0.40595238095238095,
+              "mrr": 0.8,
+              "ndcg_at_k": 0.7504240323914165,
+              "positive_cases": 14,
+              "negative_cases": 0,
+              "negative_returned_paths": 0
+            }
+          },
+          "held-out": {
+            "case_count": 15,
+            "mean_context_bytes": 5719.066666666667,
+            "index": {
+              "recall_at_k": 0.6923076923076923,
+              "precision_at_k": 0.6346153846153846,
+              "mrr": 0.6923076923076923,
+              "ndcg_at_k": 0.6923076923076923,
+              "positive_cases": 13,
+              "negative_cases": 2,
+              "negative_returned_paths": 0
+            },
+            "context": {
+              "recall_at_k": 0.8461538461538461,
+              "precision_at_k": 0.5897435897435898,
+              "mrr": 0.8461538461538461,
+              "ndcg_at_k": 0.8461538461538461,
+              "positive_cases": 13,
+              "negative_cases": 2,
+              "negative_returned_paths": 2
+            }
+          }
+        },
+        "current": {
+          "engineering": {
+            "case_count": 14,
+            "mean_context_bytes": 5685.5,
+            "index": {
+              "recall_at_k": 0.8928571428571429,
+              "precision_at_k": 0.22142857142857145,
+              "mrr": 0.7523809523809524,
+              "ndcg_at_k": 0.7570044122612722,
+              "positive_cases": 14,
+              "negative_cases": 0,
+              "negative_returned_paths": 0
+            },
+            "context": {
+              "recall_at_k": 0.8928571428571429,
+              "precision_at_k": 0.44285714285714284,
+              "mrr": 0.8571428571428571,
+              "ndcg_at_k": 0.8218526038199879,
+              "positive_cases": 14,
+              "negative_cases": 0,
+              "negative_returned_paths": 0
+            }
+          },
+          "held-out": {
+            "case_count": 15,
+            "mean_context_bytes": 5691.533333333334,
+            "index": {
+              "recall_at_k": 0.8461538461538461,
+              "precision_at_k": 0.30128205128205127,
+              "mrr": 0.8461538461538461,
+              "ndcg_at_k": 0.8461538461538461,
+              "positive_cases": 13,
+              "negative_cases": 2,
+              "negative_returned_paths": 0
+            },
+            "context": {
+              "recall_at_k": 0.8461538461538461,
+              "precision_at_k": 0.3782051282051282,
+              "mrr": 0.8461538461538461,
+              "ndcg_at_k": 0.8461538461538461,
+              "positive_cases": 13,
+              "negative_cases": 2,
+              "negative_returned_paths": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "thirty_bounded_dispositions_preserved": [
+    {
+      "case": "bug-fix",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.25,
+      "current": 0.2,
+      "baseline_paths": [
+        "docs/03-project-memory.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/indexing/service.py",
+        ".orqalis/memory/records/MEM-20260927-0002.md"
+      ],
+      "current_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md",
+        "web/src/types.ts",
+        "src/orqalis/context/builder.py"
+      ],
+      "id": "bug-fix/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Index primary target rises from rank 3 to 1; context primary target remains first. Added consumer/documentation paths plus weak frontend vocabulary reduce sparse target-only precision without a target recall loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "bug-fix",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.3333333333333333,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md"
+      ],
+      "current_paths": [
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md",
+        "web/src/types.ts"
+      ],
+      "id": "bug-fix/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Index primary target rises from rank 3 to 1; context primary target remains first. Added consumer/documentation paths plus weak frontend vocabulary reduce sparse target-only precision without a target recall loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "refactor",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "mrr",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/execution/evaluator.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py"
+      ],
+      "id": "refactor/index/mrr",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Request/response schema domain/provider.py is directly relevant and now first; worker stays second and agents/service.py newly enters third. Target-only MRR falls but index coverage improves; missing agents context was already present in baseline.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "frontend",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "web/src/MetricsView.tsx",
+        "src/orqalis/observability/analytics.py"
+      ],
+      "current_paths": [
+        "web/src/MetricsView.tsx",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/observability/analytics.py"
+      ],
+      "id": "frontend/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "MetricsView remains first; added indexing/graph paths are weak partial metric vocabulary, analytics is useful. types.ts target is missing in both revisions, so this is precision noise plus existing incomplete recall.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "architecture",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0001.md",
+        "src/orqalis/persistence/filesystem/io.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0001.md",
+        "src/orqalis/persistence/filesystem/io.py",
+        "web/src/types.ts",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/memory/curated.py"
+      ],
+      "id": "architecture/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Canonical filesystem IO target is preserved behind a relevant durability fact. Added snapshot/atomic component matches lower precision; Markdown section target is missing in both revisions and remains an explicit limitation.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "test-failure",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/execution/evaluator.py",
+        ".orqalis/memory/records/MEM-20260927-0003.md"
+      ],
+      "current_paths": [
+        "src/orqalis/execution/evaluator.py",
+        "web/src/types.ts",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/execution/worker.py"
+      ],
+      "id": "test-failure/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "WorkspaceEvaluator definition remains first; execution contracts and actual worker consumer provide useful adjacent evidence while graph/type tail is weaker. No target loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "git-conflict",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/git/service.py"
+      ],
+      "current_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/git/service.py",
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "id": "git-conflict/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Git service is retained in context and newly found in index; context adds delivery orchestrator, a relevant consumer. Target-only precision falls without a target loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "documentation",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "mrr",
+      "baseline": 0.5,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "docs/02-agent-and-skill-model.md",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/domain/capabilities.py",
+        "docs/02-agent-and-skill-model.md"
+      ],
+      "id": "documentation/index/mrr",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Skill-model documentation falls from index rank 2 to 5, lowering MRR/nDCG, while still present in top five and context rank 2. Registry, MCP and capability implementations are relevant to the unqualified query; no docs-only hint is supplied to search.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "documentation",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "ndcg_at_k",
+      "baseline": 0.6309297535714575,
+      "current": 0.38685280723454163,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "docs/02-agent-and-skill-model.md",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/domain/capabilities.py",
+        "docs/02-agent-and-skill-model.md"
+      ],
+      "id": "documentation/index/ndcg_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Skill-model documentation falls from index rank 2 to 5, lowering MRR/nDCG, while still present in top five and context rank 2. Registry, MCP and capability implementations are relevant to the unqualified query; no docs-only hint is supplied to search.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "recall_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20260927-0004.md",
+        ".orqalis/memory/records/MEM-20260927-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "memory/index/recall_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Memory documentation genuinely drops from index top five, reducing labeled recall and nDCG. Curated-memory implementation stays second after a directly relevant freshness fact; new ahead paths implement freshness/indexing/proposal APIs. Context newly retains both fixed gold paths. This is an accepted channel tradeoff, not a claim of unchanged recall or full documentation coverage.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 0.4,
+      "current": 0.2,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20260927-0004.md",
+        ".orqalis/memory/records/MEM-20260927-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "memory/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Memory documentation genuinely drops from index top five, reducing labeled recall and nDCG. Curated-memory implementation stays second after a directly relevant freshness fact; new ahead paths implement freshness/indexing/proposal APIs. Context newly retains both fixed gold paths. This is an accepted channel tradeoff, not a claim of unchanged recall or full documentation coverage.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "memory",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "ndcg_at_k",
+      "baseline": 0.6934264036172708,
+      "current": 0.38685280723454163,
+      "baseline_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "docs/03-project-memory.md",
+        ".orqalis/memory/records/MEM-20260927-0004.md",
+        ".orqalis/memory/records/MEM-20260927-0001.md"
+      ],
+      "current_paths": [
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "memory/index/ndcg_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Memory documentation genuinely drops from index top five, reducing labeled recall and nDCG. Curated-memory implementation stays second after a directly relevant freshness fact; new ahead paths implement freshness/indexing/proposal APIs. Context newly retains both fixed gold paths. This is an accepted channel tradeoff, not a claim of unchanged recall or full documentation coverage.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "multi-agent",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/scheduler.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/scheduler.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/indexing/service.py"
+      ],
+      "id": "multi-agent/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Scheduler exact definition remains first; extra task/context/MCP consumers and weaker history matches add tail noise without primary target loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "repair",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/repair.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/repair.py",
+        "web/src/types.ts",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/persistence/filesystem/io.py"
+      ],
+      "id": "repair/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "RepairPlanner definition remains first; actual orchestration/planning and criterion contracts are useful adjacent evidence, with generic failure/limit tail noise. Target loss is absent.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "repair",
+      "partition": "engineering",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.25,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/core/repair.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/persistence/filesystem/io.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/repair.py",
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/execution.py",
+        "web/src/types.ts",
+        "src/orqalis/core/orchestrator.py"
+      ],
+      "id": "repair/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "RepairPlanner definition remains first; actual orchestration/planning and criterion contracts are useful adjacent evidence, with generic failure/limit tail noise. Target loss is absent.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "security",
+      "partition": "engineering",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/delivery/guardian.py"
+      ],
+      "current_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/core/vertical_plan.py",
+        "web/src/types.ts"
+      ],
+      "id": "security/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ChangeGuardian definition remains first in index and rises to first in context. Secret screening/planning adjacency and weaker scope vocabulary add index tail noise; no authorization or scope correctness loss is demonstrated.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-camel",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/context/builder.py"
+      ],
+      "current_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "probe-camel/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ProjectContextBuilder definition remains first; MCP direct consumer and context documentation add useful usage evidence, lowering single-target precision.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-camel",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "current_paths": [
+        "src/orqalis/context/builder.py",
+        "src/orqalis/mcp/server.py",
+        "docs/03-project-memory.md"
+      ],
+      "id": "probe-camel/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ProjectContextBuilder definition remains first; MCP direct consumer and context documentation add useful usage evidence, lowering single-target precision.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-snake",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/mcp/server.py",
+        ".orqalis/memory/records/MEM-20260927-0003.md",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py"
+      ],
+      "id": "probe-snake/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "source_hashes exact declaration remains first after occurrence-category correction; direct caller plus weaker source/hash component matches broaden tail. Separate strict symbol access exists; no declaration displacement in this corpus.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-snake",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/git/service.py"
+      ],
+      "id": "probe-snake/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "source_hashes exact declaration remains first after occurrence-category correction; direct caller plus weaker source/hash component matches broaden tail. Separate strict symbol access exists; no declaration displacement in this corpus.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-natural-snake",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py"
+      ],
+      "current_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/git/service.py"
+      ],
+      "id": "probe-natural-snake/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Natural source hashes now retrieves the declaration first in index (baseline missed it); unchanged context primary definition is retained with broadened source/hash tail.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-routing",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "probe-routing/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "implementation_capabilities definition remains first; capability vocabulary and MCP planning surface add component matches, without definition displacement.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-routing",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/core/vertical_plan.py"
+      ],
+      "current_paths": [
+        "src/orqalis/core/vertical_plan.py",
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "id": "probe-routing/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "implementation_capabilities definition remains first; capability vocabulary and MCP planning surface add component matches, without definition displacement.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-events",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/events.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/events.py",
+        "web/src/types.ts",
+        "web/src/MetricsView.tsx",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/delivery/guardian.py"
+      ],
+      "id": "probe-events/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Event definition remains first; actual event-type UI and emitter paths provide some useful usages, while generic type/id graph/memory context tail is weak. Sparse target-only precision loss is real, no target loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-events",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/domain/events.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/events.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/graph/engine.py",
+        "web/src/types.ts"
+      ],
+      "id": "probe-events/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "Event definition remains first; actual event-type UI and emitter paths provide some useful usages, while generic type/id graph/memory context tail is weak. Sparse target-only precision loss is real, no target loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-test-command",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/observability/analytics.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/evaluator.py"
+      ],
+      "id": "probe-test-command/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ValidationCommand definition remains first; commands consumer and evaluator/agent/analytics terms broaden index tail. Context adds direct commands consumer; no target loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-test-command",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.5,
+      "baseline_paths": [
+        "src/orqalis/domain/execution.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/execution.py",
+        "src/orqalis/execution/commands.py"
+      ],
+      "id": "probe-test-command/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ValidationCommand definition remains first; commands consumer and evaluator/agent/analytics terms broaden index tail. Context adds direct commands consumer; no target loss.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-usage",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.2,
+      "baseline_paths": [
+        "src/orqalis/domain/provider.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/provider.py",
+        "src/orqalis/agents/service.py",
+        "web/src/types.ts",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/context/builder.py"
+      ],
+      "id": "probe-usage/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "ProviderUsage definition remains first; agent usage consumer, UI contract and weaker index/context vocabulary broaden index tail. Context still contains only the target.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-permissions",
+      "partition": "held-out",
+      "channel": "index",
+      "metric": "precision_at_k",
+      "baseline": 1.0,
+      "current": 0.25,
+      "baseline_paths": [
+        "src/orqalis/domain/capabilities.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "web/src/MetricsView.tsx",
+        ".orqalis/memory/records/MEM-20260927-0002.md",
+        "src/orqalis/execution/worker.py"
+      ],
+      "id": "probe-permissions/index/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "PermissionProfile declaration remains first, with actual UI display and worker/registry permission enforcement usages. Prior occurrence-before-definition bug is corrected; no permissions authority regression follows from lower sparse-label precision.",
+      "does_not_erase_metric_regression": true
+    },
+    {
+      "case": "probe-permissions",
+      "partition": "held-out",
+      "channel": "context",
+      "metric": "precision_at_k",
+      "baseline": 0.5,
+      "current": 0.3333333333333333,
+      "baseline_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/graph/engine.py"
+      ],
+      "current_paths": [
+        "src/orqalis/domain/capabilities.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "id": "probe-permissions/context/precision_at_k",
+      "disposition": "ACCEPT_BOUNDED_TRADEOFF",
+      "criteria": [
+        "R01",
+        "R02"
+      ],
+      "rationale": "PermissionProfile declaration remains first, with actual UI display and worker/registry permission enforcement usages. Prior occurrence-before-definition bug is corrected; no permissions authority regression follows from lower sparse-label precision.",
+      "does_not_erase_metric_regression": true
+    }
+  ],
+  "execution": {
+    "all_retained_baseline_capture_medians_ms": {
+      "release-execution-baseline-diagnostic.json": 55642.85999999265,
+      "release-execution-baseline-2.json": 55870.139499995275,
+      "release-execution-baseline-8-fixed-diagnostic-v1.json": 95099.94379998534
+    },
+    "all9_baseline_samples_ms": [
+      55642.85999999265,
+      55686.493799992604,
+      55371.642699989025,
+      56502.89820000762,
+      55870.139499995275,
+      55730.52120000648,
+      95421.07120002038,
+      95099.94379998534,
+      95016.15999999922
+    ],
+    "all9_baseline_pooled_median_ms": 55870.139499995275,
+    "rounds": {
+      "20": {
+        "functional_samples": 3,
+        "semantic_checks_per_sample": 26,
+        "sample_elapsed_ms": [
+          63133.75430001179,
+          62957.311000005575,
+          63480.70230000303
+        ],
+        "median_ms": 63133.75430001179,
+        "ratios_to_ALL_baseline_capture_medians": {
+          "release-execution-baseline-diagnostic.json": 1.1346245376319644,
+          "release-execution-baseline-2.json": 1.1300088896326654,
+          "release-execution-baseline-8-fixed-diagnostic-v1.json": 0.6638674196568928
+        },
+        "ratio_to_all9_pooled_baseline": 1.1300088896326654,
+        "event_counts_identical_to_retained_baseline": true,
+        "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+        "script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+        "fixture_sha256": "3f78259b8e27900a2363572883e5d64028de19241067f4ddbf2df12537dbf6a0",
+        "helper_sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+        "persisted_timing": [
+          {
+            "wall_ms": 59120,
+            "active_ms": 58807,
+            "waiting_ms": 313,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          {
+            "wall_ms": 58113,
+            "active_ms": 57851,
+            "waiting_ms": 262,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          {
+            "wall_ms": 58673,
+            "active_ms": 58381,
+            "waiting_ms": 292,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          }
+        ]
+      },
+      "21": {
+        "functional_samples": 3,
+        "semantic_checks_per_sample": 26,
+        "sample_elapsed_ms": [
+          66465.91070000432,
+          70923.48650001804,
+          71385.60559999314
+        ],
+        "median_ms": 70923.48650001804,
+        "ratios_to_ALL_baseline_capture_medians": {
+          "release-execution-baseline-diagnostic.json": 1.274619717606669,
+          "release-execution-baseline-2.json": 1.2694345697852436,
+          "release-execution-baseline-8-fixed-diagnostic-v1.json": 0.7457784270533815
+        },
+        "ratio_to_all9_pooled_baseline": 1.2694345697852436,
+        "event_counts_identical_to_retained_baseline": true,
+        "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+        "script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+        "fixture_sha256": "3f78259b8e27900a2363572883e5d64028de19241067f4ddbf2df12537dbf6a0",
+        "helper_sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+        "persisted_timing": [
+          {
+            "wall_ms": 61254,
+            "active_ms": 61005,
+            "waiting_ms": 249,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          {
+            "wall_ms": 65787,
+            "active_ms": 65464,
+            "waiting_ms": 323,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          },
+          {
+            "wall_ms": 65974,
+            "active_ms": 65681,
+            "waiting_ms": 293,
+            "blocked_ms": 0,
+            "idle_ms": 0,
+            "queue_ms": 0
+          }
+        ]
+      }
+    },
+    "cost_disposition": "Six complete unchanged-fixture samples establish bounded functional execution. Candidate medians63.134s/70.923s are13.46%/27.46% above fastest55.643s and13.00%/26.94% above pooled55.870s; not a latency improvement. Immutable baseline itself has55/55/95s medians; no slow-reference selection or range-overlap automatic pass. Event counts are identical, so extra tasks/events do not explain cost. Stronger/richer representation, freshness and integrity work are real feature costs elsewhere, but no per-phase CPU/IO proof attributes these execution deltas. No concrete correctness or deadline violation is demonstrated. Conditional recommendation: retain as explicit bounded supported-use cost with unknown timing attribution, subject to final independent acceptance; never claim causal no-regression/universalquietness.",
+    "quietness": "One owned workload at a time is recorded; unrelated machine activity was not measured or controlled. timing_qualified is capture-mode qualification, not independently verified host idleness."
+  },
+  "memory": {
+    "rounds": {
+      "20": {
+        "summary": {
+          "cases": 3,
+          "workflow_samples": 45,
+          "all_exact_answer_witnesses_pass": true,
+          "all_response_caps_pass": true,
+          "all_history_retained": true,
+          "direct_reuse_graph_refreshes": 0
+        },
+        "costs": [
+          {
+            "case": "webhook-retention",
+            "workflow": "full_rediscovery",
+            "samples": 5,
+            "complete_answer_median_ms": 584.9489000102039,
+            "total_median_ms": 585.0735999993049,
+            "durable_fact_median_ms": 584.9489000102039,
+            "returned_utf8_bytes_median": 11028,
+            "source_read_operations": [
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "memory_read_operations": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "webhook-retention",
+            "workflow": "progressive_memory_then_symbol",
+            "samples": 5,
+            "complete_answer_median_ms": 1334.6121000067797,
+            "total_median_ms": 1334.703200001968,
+            "durable_fact_median_ms": 525.5504999950062,
+            "returned_utf8_bytes_median": 8122,
+            "source_read_operations": [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "memory_read_operations": [
+              9,
+              9,
+              9,
+              9,
+              9
+            ],
+            "graph_refreshes": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          {
+            "case": "webhook-retention",
+            "workflow": "restart_direct_memory",
+            "samples": 5,
+            "complete_answer_median_ms": 239.8193999833893,
+            "total_median_ms": 517.8203999821562,
+            "durable_fact_median_ms": 239.8193999833893,
+            "returned_utf8_bytes_median": 5400,
+            "source_read_operations": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "memory_read_operations": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "scheduler-dst",
+            "workflow": "full_rediscovery",
+            "samples": 5,
+            "complete_answer_median_ms": 605.6124999886379,
+            "total_median_ms": 605.7234999898355,
+            "durable_fact_median_ms": 605.6124999886379,
+            "returned_utf8_bytes_median": 11443,
+            "source_read_operations": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "memory_read_operations": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "scheduler-dst",
+            "workflow": "progressive_memory_then_symbol",
+            "samples": 5,
+            "complete_answer_median_ms": 1329.9356999923475,
+            "total_median_ms": 1330.0197999924421,
+            "durable_fact_median_ms": 541.2800000049174,
+            "returned_utf8_bytes_median": 8085,
+            "source_read_operations": [
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "memory_read_operations": [
+              9,
+              9,
+              9,
+              9,
+              9
+            ],
+            "graph_refreshes": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          {
+            "case": "scheduler-dst",
+            "workflow": "restart_direct_memory",
+            "samples": 5,
+            "complete_answer_median_ms": 206.87719999114051,
+            "total_median_ms": 487.80440000700764,
+            "durable_fact_median_ms": 206.87719999114051,
+            "returned_utf8_bytes_median": 5400,
+            "source_read_operations": [
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "memory_read_operations": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "tenant-cache",
+            "workflow": "full_rediscovery",
+            "samples": 5,
+            "complete_answer_median_ms": 541.8423000082839,
+            "total_median_ms": 541.9491000066046,
+            "durable_fact_median_ms": 541.8423000082839,
+            "returned_utf8_bytes_median": 11503,
+            "source_read_operations": [
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "memory_read_operations": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "tenant-cache",
+            "workflow": "progressive_memory_then_symbol",
+            "samples": 5,
+            "complete_answer_median_ms": 1275.8231999760028,
+            "total_median_ms": 1275.91119997669,
+            "durable_fact_median_ms": 540.9350999980234,
+            "returned_utf8_bytes_median": 8043,
+            "source_read_operations": [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "memory_read_operations": [
+              9,
+              9,
+              9,
+              9,
+              9
+            ],
+            "graph_refreshes": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          {
+            "case": "tenant-cache",
+            "workflow": "restart_direct_memory",
+            "samples": 5,
+            "complete_answer_median_ms": 239.31610002182424,
+            "total_median_ms": 555.2589000144508,
+            "durable_fact_median_ms": 239.31610002182424,
+            "returned_utf8_bytes_median": 5400,
+            "source_read_operations": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "memory_read_operations": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "release_baseline_measured": false
+      },
+      "21": {
+        "summary": {
+          "cases": 3,
+          "workflow_samples": 45,
+          "all_exact_answer_witnesses_pass": true,
+          "all_response_caps_pass": true,
+          "all_history_retained": true,
+          "direct_reuse_graph_refreshes": 0
+        },
+        "costs": [
+          {
+            "case": "webhook-retention",
+            "workflow": "full_rediscovery",
+            "samples": 5,
+            "complete_answer_median_ms": 627.2721999848727,
+            "total_median_ms": 627.4203999782912,
+            "durable_fact_median_ms": 627.2721999848727,
+            "returned_utf8_bytes_median": 11028,
+            "source_read_operations": [
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "memory_read_operations": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "webhook-retention",
+            "workflow": "progressive_memory_then_symbol",
+            "samples": 5,
+            "complete_answer_median_ms": 1533.8950000004843,
+            "total_median_ms": 1533.9935999945737,
+            "durable_fact_median_ms": 600.3870000131428,
+            "returned_utf8_bytes_median": 8122,
+            "source_read_operations": [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "memory_read_operations": [
+              9,
+              9,
+              9,
+              9,
+              9
+            ],
+            "graph_refreshes": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          {
+            "case": "webhook-retention",
+            "workflow": "restart_direct_memory",
+            "samples": 5,
+            "complete_answer_median_ms": 226.5997999929823,
+            "total_median_ms": 574.9943999981042,
+            "durable_fact_median_ms": 226.5997999929823,
+            "returned_utf8_bytes_median": 5400,
+            "source_read_operations": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "memory_read_operations": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "scheduler-dst",
+            "workflow": "full_rediscovery",
+            "samples": 5,
+            "complete_answer_median_ms": 742.9973999969661,
+            "total_median_ms": 743.1436000042595,
+            "durable_fact_median_ms": 742.9973999969661,
+            "returned_utf8_bytes_median": 11443,
+            "source_read_operations": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "memory_read_operations": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "scheduler-dst",
+            "workflow": "progressive_memory_then_symbol",
+            "samples": 5,
+            "complete_answer_median_ms": 1382.5184000015724,
+            "total_median_ms": 1382.616799994139,
+            "durable_fact_median_ms": 616.7413000075612,
+            "returned_utf8_bytes_median": 8085,
+            "source_read_operations": [
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "memory_read_operations": [
+              9,
+              9,
+              9,
+              9,
+              9
+            ],
+            "graph_refreshes": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          {
+            "case": "scheduler-dst",
+            "workflow": "restart_direct_memory",
+            "samples": 5,
+            "complete_answer_median_ms": 232.64430000563152,
+            "total_median_ms": 590.0543000025209,
+            "durable_fact_median_ms": 232.64430000563152,
+            "returned_utf8_bytes_median": 5400,
+            "source_read_operations": [
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "memory_read_operations": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "tenant-cache",
+            "workflow": "full_rediscovery",
+            "samples": 5,
+            "complete_answer_median_ms": 654.4372000207659,
+            "total_median_ms": 654.669500014279,
+            "durable_fact_median_ms": 654.4372000207659,
+            "returned_utf8_bytes_median": 11503,
+            "source_read_operations": [
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "memory_read_operations": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "case": "tenant-cache",
+            "workflow": "progressive_memory_then_symbol",
+            "samples": 5,
+            "complete_answer_median_ms": 1334.7664999892004,
+            "total_median_ms": 1334.8669999977574,
+            "durable_fact_median_ms": 574.2556000186596,
+            "returned_utf8_bytes_median": 8043,
+            "source_read_operations": [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "memory_read_operations": [
+              9,
+              9,
+              9,
+              9,
+              9
+            ],
+            "graph_refreshes": [
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          {
+            "case": "tenant-cache",
+            "workflow": "restart_direct_memory",
+            "samples": 5,
+            "complete_answer_median_ms": 213.5120999882929,
+            "total_median_ms": 504.56639999174513,
+            "durable_fact_median_ms": 213.5120999882929,
+            "returned_utf8_bytes_median": 5400,
+            "source_read_operations": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "memory_read_operations": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "graph_refreshes": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "release_baseline_measured": false
+      }
+    },
+    "disposition": "Accept explicit supported-use tradeoff underM03/G05: bounded progressive disclosure reduces returned data and logical source reads, preserves all declared complete-answer witnesses and history, but pays two source-symbol refreshes and is slower to complete than fullrediscovery. Direct-ID first durable fact is faster and requires fewer memory reads/zero refreshes; it has a narrower memory-only answer witness and restart total can still be higher. Scheduler fixture records source reads during SDK/bootstrap despite the memory-only answer, so no universal zero-source-I/O claim. These are same-current workflows, not a release-baseline speed comparison. No token/cost/live-provider success metrics exist."
+  },
+  "heldout": {
+    "raw_status": "PASS_FUNCTIONAL",
+    "corpus_files": 263,
+    "timing_investigation": {
+      "cold_graph_ms": {
+        "baseline": 3127.665700012585,
+        "current": 3295.531800016761,
+        "unchanged_investigation_threshold": 6505.33140002517,
+        "triggered": false
+      },
+      "warm_graph_median_ms": {
+        "baseline": 695.4633000132162,
+        "current": 554.1328999970574,
+        "unchanged_investigation_threshold": 1640.9266000264324,
+        "triggered": false
+      },
+      "one_file_graph_ms": {
+        "baseline": 2927.4301000114065,
+        "current": 3323.4217999852262,
+        "unchanged_investigation_threshold": 6104.860200022813,
+        "triggered": false
+      },
+      "context_median_ms": {
+        "baseline": 1343.7202000059187,
+        "current": 1206.5867000201251,
+        "unchanged_investigation_threshold": 2937.4404000118375,
+        "triggered": false
+      }
+    },
+    "metrics": {
+      "graph_nodes": {
+        "baseline": 3533,
+        "current": 11505
+      },
+      "graph_edges": {
+        "baseline": 10003,
+        "current": 13575
+      },
+      "graph_bytes": {
+        "baseline": 4849687,
+        "current": 8253391
+      },
+      "index_bytes": {
+        "baseline": 9501365,
+        "current": 28852891
+      },
+      "store_bytes": {
+        "baseline": 16293933,
+        "current": 39782372
+      },
+      "query_python_peak_allocated_bytes": {
+        "baseline": 30500989,
+        "current": 56666531
+      },
+      "cold_graph_ms": {
+        "baseline": 3127.665700012585,
+        "current": 3295.531800016761
+      },
+      "warm_graph_median_ms": {
+        "baseline": 695.4633000132162,
+        "current": 554.1328999970574
+      },
+      "one_file_graph_ms": {
+        "baseline": 2927.4301000114065,
+        "current": 3323.4217999852262
+      },
+      "context_median_ms": {
+        "baseline": 1343.7202000059187,
+        "current": 1206.5867000201251
+      }
+    },
+    "disposition": "Richer11505nodes/13575edges vs3533/10003 support expanded syntax/symbol/inference facts. Store39.782MB vs16.294MB and index28.853MB vs9.501MB remain material2.44x/3.04x footprint costs; query Python allocation56.667MB vs30.501MB is1.86x and excludes native/RSS. Frozen smaller corpus stores7.847MB vs3.872MB with11.230MB vs7.054MB Python allocation. All four heldout timing investigations clear in this capture; historical triggered captures/outliers remain. Accept bounded feature representation cost, not negligible overhead or universal scaling/latency guarantee."
+  },
+  "history": {
+    "raw_decision": "MIXED_OR_INDETERMINATE",
+    "candidate_specific_executed_read_algorithm": "Accounted for by independently rechecked page-path proof:49/50 loaded files byteequal; IO whole AST exceptwriter equal; successful stable-index/zero-write captures exclude changedwriter on observed page path.",
+    "limits": "CandidateC2tails aboveR2, same-referenceRdrift, historical195/663/334ms and17.46s/23.4s tails remain. No originalhostcause, allocator-state equivalence or latency equivalence established. Bounded O(totalrows) canonical freshness cost and no candidate-specific changed readpath defect identified; conditionalI03 disposition requires final independent acceptance afterfull20/21, not automatic closure from this draft."
+  },
+  "ui": {
+    "20": {
+      "baseline": {
+        "samples_ms": [
+          790.1999999880791,
+          1445.4000000059605,
+          1129,
+          1283.5,
+          1005.6000000238419,
+          1332.300000011921
+        ],
+        "median_ms": 1206.25,
+        "p95_ms": 1445.4000000059605
+      },
+      "current": {
+        "samples_ms": [
+          578.2000000178814,
+          588.5,
+          507,
+          472.60000002384186,
+          531.6999999880791,
+          509.19999998807907
+        ],
+        "median_ms": 520.4499999880791,
+        "p95_ms": 588.5
+      }
+    },
+    "21": {
+      "baseline": {
+        "samples_ms": [
+          982.7000000178814,
+          1191.300000011921,
+          1433.4000000059605,
+          1113.4000000059605,
+          971.3000000119209,
+          1083.800000011921
+        ],
+        "median_ms": 1098.6000000089407,
+        "p95_ms": 1433.4000000059605
+      },
+      "current": {
+        "samples_ms": [
+          673.0999999940395,
+          719.3000000119209,
+          740.2000000178814,
+          504,
+          478.60000002384186,
+          563.7000000178814
+        ],
+        "median_ms": 618.4000000059605,
+        "p95_ms": 740.2000000178814
+      }
+    }
+  },
+  "constrained": {
+    "20": {
+      "baseline": {
+        "cpu_count_allowed": 1,
+        "process_commit_limit_bytes": 268435456,
+        "peak_process_commit_bytes": 46669824,
+        "elapsed_ms": 19437.569100002293,
+        "contexts": [
+          {
+            "budget_chars": 1000,
+            "serialized_chars": 784,
+            "relevant_files": [
+              "service_0.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py"
+            ]
+          },
+          {
+            "budget_chars": 4000,
+            "serialized_chars": 3718,
+            "relevant_files": [
+              "service_0.py",
+              "service_1.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py",
+              "service_1.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py"
+            ]
+          },
+          {
+            "budget_chars": 12000,
+            "serialized_chars": 11666,
+            "relevant_files": [
+              "service_0.py",
+              "service_1.py",
+              "service_10.py",
+              "service_11.py",
+              "service_12.py",
+              "service_13.py",
+              "service_14.py",
+              "service_15.py",
+              "service_16.py",
+              "service_17.py",
+              "service_18.py",
+              "service_19.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py",
+              "service_8.py",
+              "service_9.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py",
+              "service_1.py",
+              "service_10.py",
+              "service_11.py",
+              "service_12.py",
+              "service_13.py",
+              "service_14.py",
+              "service_15.py",
+              "service_16.py",
+              "service_17.py",
+              "service_18.py",
+              "service_19.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py",
+              "service_8.py",
+              "service_9.py"
+            ]
+          }
+        ]
+      },
+      "current": {
+        "cpu_count_allowed": 1,
+        "process_commit_limit_bytes": 268435456,
+        "peak_process_commit_bytes": 49451008,
+        "elapsed_ms": 15752.77809999534,
+        "contexts": [
+          {
+            "budget_chars": 1000,
+            "serialized_chars": 898,
+            "relevant_files": [
+              "service_0.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py"
+            ]
+          },
+          {
+            "budget_chars": 4000,
+            "serialized_chars": 3965,
+            "relevant_files": [
+              "service_0.py",
+              "service_1.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py",
+              "service_1.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py"
+            ]
+          },
+          {
+            "budget_chars": 12000,
+            "serialized_chars": 11987,
+            "relevant_files": [
+              "service_0.py",
+              "service_1.py",
+              "service_10.py",
+              "service_11.py",
+              "service_12.py",
+              "service_13.py",
+              "service_14.py",
+              "service_15.py",
+              "service_16.py",
+              "service_17.py",
+              "service_18.py",
+              "service_19.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py",
+              "service_8.py",
+              "service_9.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py",
+              "service_1.py",
+              "service_10.py",
+              "service_11.py",
+              "service_12.py",
+              "service_13.py",
+              "service_14.py",
+              "service_15.py",
+              "service_16.py",
+              "service_17.py",
+              "service_18.py",
+              "service_19.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py",
+              "service_8.py",
+              "service_9.py"
+            ]
+          }
+        ]
+      }
+    },
+    "21": {
+      "baseline": {
+        "cpu_count_allowed": 1,
+        "process_commit_limit_bytes": 268435456,
+        "peak_process_commit_bytes": 46116864,
+        "elapsed_ms": 19517.926900007296,
+        "contexts": [
+          {
+            "budget_chars": 1000,
+            "serialized_chars": 784,
+            "relevant_files": [
+              "service_0.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py"
+            ]
+          },
+          {
+            "budget_chars": 4000,
+            "serialized_chars": 3718,
+            "relevant_files": [
+              "service_0.py",
+              "service_1.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py",
+              "service_1.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py"
+            ]
+          },
+          {
+            "budget_chars": 12000,
+            "serialized_chars": 11666,
+            "relevant_files": [
+              "service_0.py",
+              "service_1.py",
+              "service_10.py",
+              "service_11.py",
+              "service_12.py",
+              "service_13.py",
+              "service_14.py",
+              "service_15.py",
+              "service_16.py",
+              "service_17.py",
+              "service_18.py",
+              "service_19.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py",
+              "service_8.py",
+              "service_9.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py",
+              "service_1.py",
+              "service_10.py",
+              "service_11.py",
+              "service_12.py",
+              "service_13.py",
+              "service_14.py",
+              "service_15.py",
+              "service_16.py",
+              "service_17.py",
+              "service_18.py",
+              "service_19.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py",
+              "service_8.py",
+              "service_9.py"
+            ]
+          }
+        ]
+      },
+      "current": {
+        "cpu_count_allowed": 1,
+        "process_commit_limit_bytes": 268435456,
+        "peak_process_commit_bytes": 49590272,
+        "elapsed_ms": 15106.172999978298,
+        "contexts": [
+          {
+            "budget_chars": 1000,
+            "serialized_chars": 898,
+            "relevant_files": [
+              "service_0.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py"
+            ]
+          },
+          {
+            "budget_chars": 4000,
+            "serialized_chars": 3965,
+            "relevant_files": [
+              "service_0.py",
+              "service_1.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py",
+              "service_1.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py"
+            ]
+          },
+          {
+            "budget_chars": 12000,
+            "serialized_chars": 11987,
+            "relevant_files": [
+              "service_0.py",
+              "service_1.py",
+              "service_10.py",
+              "service_11.py",
+              "service_12.py",
+              "service_13.py",
+              "service_14.py",
+              "service_15.py",
+              "service_16.py",
+              "service_17.py",
+              "service_18.py",
+              "service_19.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py",
+              "service_8.py",
+              "service_9.py"
+            ],
+            "matching_fixture_paths": [
+              "service_0.py",
+              "service_1.py",
+              "service_10.py",
+              "service_11.py",
+              "service_12.py",
+              "service_13.py",
+              "service_14.py",
+              "service_15.py",
+              "service_16.py",
+              "service_17.py",
+              "service_18.py",
+              "service_19.py",
+              "service_2.py",
+              "service_3.py",
+              "service_4.py",
+              "service_5.py",
+              "service_6.py",
+              "service_7.py",
+              "service_8.py",
+              "service_9.py"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "criterion_scope": {
+    "mapping_sha256": "fd2393e071ec5c2a22f02ecce879222ceda9b3027d04cfa579aa13d9438d6d65",
+    "mapped_files": 92,
+    "all_accepted_ids": [
+      "O04",
+      "X01",
+      "S01",
+      "S02",
+      "G01",
+      "G02",
+      "G04",
+      "G05",
+      "R01",
+      "R02",
+      "M02",
+      "M03",
+      "M04",
+      "H01",
+      "H02",
+      "I01",
+      "I02",
+      "I03",
+      "T01",
+      "T02",
+      "T03",
+      "E01",
+      "E04"
+    ],
+    "this_review_criteria": [
+      "R01",
+      "R02",
+      "G02",
+      "G05",
+      "M03",
+      "I03",
+      "T01",
+      "T02",
+      "E01",
+      "E04"
+    ],
+    "scope": "92-file mapping is retained evidence, not rescanned. Final23-criterion ledger must bind both actual full suites and all reused/fresh proofs; this is quality/performance subset only."
+  },
+  "actual_completed": {
+    "full20": {
+      "tests": 908,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "browser_rounds": {
+      "20": {
+        "xml": {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "json_sha256": "9bf95d16424dff085556d828f8db6aeea540851638a32d3ec1f6baf4843c1326"
+      },
+      "21": {
+        "xml": {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "json_sha256": "0b15a6fd7f8db1f78c5c3c3aecf39e9666c47234eb134cf1ad6a2c9a8bdfb054"
+      }
+    },
+    "full21": "RUNNING_NOT_CLAIMED"
+  },
+  "confirmed_new_p0_p1_production_defects_from_this_bounded_review": [],
+  "universal_no_drawbacks_claim": false,
+  "required_before_final_acceptance": [
+    "Actualfull21exit0/JUnit908withonlytwoexplicitoptional skips and source/test/helper/envstable",
+    "Final390/source/original+portable19 guard confirmation",
+    "Independentfinal23criterion/security/performance disposition",
+    "Final-docv3repack runtimebytesproof+canonical installeddocs+link audit",
+    "Outerfinal archive reject duplicates,links,special entries and validate exactarchivecontents afterpack"
+  ],
+  "workloads_invoked": 0,
+  "whole_iteration_credit": 0,
+  "release_certification": false
+}

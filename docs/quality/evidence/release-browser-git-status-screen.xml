@@ -1,0 +1,104 @@
+<testsuites id="" name="" tests="14" failures="2" skipped="0" errors="0" time="111.11337300000001">
+<testsuite name="control-center.spec.ts" timestamp="2026-10-03T10:25:17.750Z" hostname="" tests="2" failures="0" skipped="0" time="23.906" errors="0">
+<testcase name="Operational views reconstruct a delivered run with keyboard and dark-theme support" classname="control-center.spec.ts" time="20.274">
+</testcase>
+<testcase name="Provider performance matches persisted measurements on desktop and mobile" classname="control-center.spec.ts" time="3.632">
+</testcase>
+</testsuite>
+<testsuite name="enhancements.spec.ts" timestamp="2026-10-03T10:25:17.750Z" hostname="" tests="9" failures="1" skipped="0" time="41.646" errors="0">
+<testcase name="inspectors retain keyboard navigation and mobile task access" classname="enhancements.spec.ts" time="7.756">
+</testcase>
+<testcase name="skills, context, chronological filters and delivery are connected" classname="enhancements.spec.ts" time="8.8">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\.tools\research\release-browser-git-status-screen-artifacts\enhancements-skills-contex-336f3--and-delivery-are-connected\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(locator).toBeVisible() failed" type="expect.toBeVisible">
+<![CDATA[  enhancements.spec.ts:141:1 › skills, context, chronological filters and delivery are connected ───
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.memory-card').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.memory-card').first() with timeout 5000ms
+      - waiting for locator('.memory-card').first()
+
+
+      163 |   await page.getByLabel("Task", { exact: true }).selectOption({ index: 1 });
+      164 |   await page.getByRole("tab", { name: "Project Brain", exact: true }).click();
+    > 165 |   await expect(page.locator(".memory-card").first()).toBeVisible();
+          |                                                      ^
+      166 | });
+      167 |
+      168 | test("socket disconnect triggers bounded replay and reconnect without page reload", async ({
+        at S:\Orqalis\web\e2e\enhancements.spec.ts:165:54
+
+    Error Context: ..\..\.tools\research\release-browser-git-status-screen-artifacts\enhancements-skills-contex-336f3--and-delivery-are-connected\error-context.md
+]]>
+</failure>
+</testcase>
+<testcase name="socket disconnect triggers bounded replay and reconnect without page reload" classname="enhancements.spec.ts" time="6.247">
+</testcase>
+<testcase name="empty history and unavailable runs have honest actionable states" classname="enhancements.spec.ts" time="1.78">
+</testcase>
+<testcase name="run history stays bounded while older runs remain reachable" classname="enhancements.spec.ts" time="3.082">
+</testcase>
+<testcase name="project navigation stays reachable across desktop and mobile" classname="enhancements.spec.ts" time="3.608">
+</testcase>
+<testcase name="home data failures degrade independently without false empty states" classname="enhancements.spec.ts" time="2.583">
+</testcase>
+<testcase name="event-history failure keeps Mission Control usable" classname="enhancements.spec.ts" time="2.309">
+</testcase>
+<testcase name="timeline detail follows live snapshots and tiny intervals stay operable" classname="enhancements.spec.ts" time="5.481">
+</testcase>
+</testsuite>
+<testsuite name="mission-control.spec.ts" timestamp="2026-10-03T10:25:17.750Z" hostname="" tests="1" failures="0" skipped="0" time="6.992" errors="0">
+<testcase name="Mission Control displays persisted state and survives refresh" classname="mission-control.spec.ts" time="6.992">
+</testcase>
+</testsuite>
+<testsuite name="run-governance.spec.ts" timestamp="2026-10-03T10:25:17.750Z" hostname="" tests="1" failures="1" skipped="0" time="21.521" errors="0">
+<testcase name="supervised run decisions and plan edits stay bound to persisted versions" classname="run-governance.spec.ts" time="21.521">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\.tools\research\release-browser-git-status-screen-artifacts\run-governance-supervised--91d3a-bound-to-persisted-versions\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(locator).toBeVisible() failed" type="expect.toBeVisible">
+<![CDATA[  run-governance.spec.ts:14:1 › supervised run decisions and plan edits stay bound to persisted versions 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('region', { name: 'Run governance' }).getByText('PLAN · version 1')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('region', { name: 'Run governance' }).getByText('PLAN · version 1') with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Run governance' }).getByText('PLAN · version 1')
+
+
+      70 |
+      71 |   await governance.getByRole("button", { name: "Preview plan" }).click();
+    > 72 |   await expect(governance.getByText("PLAN \u00b7 version 1")).toBeVisible();
+         |                                                               ^
+      73 |   await expect(governance.getByText("Plan v1")).toBeVisible();
+      74 |   await governance.getByRole("button", { name: "Edit plan" }).click();
+      75 |   const planEditor = governance.getByLabel("Plan draft JSON");
+        at S:\Orqalis\web\e2e\run-governance.spec.ts:72:63
+
+    Error Context: ..\..\.tools\research\release-browser-git-status-screen-artifacts\run-governance-supervised--91d3a-bound-to-persisted-versions\error-context.md
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="trace.spec.ts" timestamp="2026-10-03T10:25:17.750Z" hostname="" tests="1" failures="0" skipped="0" time="6.921" errors="0">
+<testcase name="saved actual parallel-repair snapshot supports keyboard trace ancestry and critical path" classname="trace.spec.ts" time="6.921">
+</testcase>
+</testsuite>
+</testsuites>

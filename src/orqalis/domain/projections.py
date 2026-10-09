@@ -16,6 +16,7 @@ from orqalis.domain.telemetry import (
     RuntimeStatistics,
     SkillActivity,
     TimelineSegment,
+    TraceNode,
 )
 from orqalis.domain.timing import PhaseExecution, TimingBreakdown
 
@@ -48,6 +49,7 @@ class RunSnapshot(Contract):
     tasks: tuple[Task, ...] = ()
     preparation_tasks: tuple[Task, ...] = ()
     timeline: tuple[TimelineSegment, ...] = ()
+    trace: tuple[TraceNode, ...] = ()
     statistics: RuntimeStatistics = Field(default_factory=RuntimeStatistics)
     providers: tuple[ProviderCallProjection, ...] = ()
     tools: tuple[ToolInvocation, ...] = ()

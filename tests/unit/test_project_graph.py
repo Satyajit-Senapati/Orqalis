@@ -1,4 +1,6 @@
+import hashlib
 import json
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -6,12 +8,15 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
+from orqalis.domain.errors import PolicyDeniedError
+from orqalis.git.service import LocalGitService
 from orqalis.graph import (
     GraphEdge,
     GraphNode,
     GraphNodeKind,
     GraphProvenance,
     GraphRelation,
+    ProjectGraph,
     ProjectGraphEngine,
 )
 from orqalis.memory.curated import (
@@ -23,6 +28,10 @@ from orqalis.memory.curated import (
     source_hashes,
 )
 from orqalis.persistence.filesystem import bootstrap_project_store
+from orqalis.persistence.filesystem.io import (
+    FilesystemFormatError,
+    read_json_object_with_sha256,
+)
 from orqalis.persistence.filesystem.layout import ProjectLayout, load_manifest
 
 
@@ -133,7 +142,7 @@ def test_python_ast_graph_and_persisted_manifest(git_repo: Path) -> None:
     assert all(
         edge.provenance == GraphProvenance.EXTRACTED
         for edge in result.graph.edges
-        if edge.relation in {GraphRelation.IMPORTS, GraphRelation.CALLS, GraphRelation.EXTENDS}
+        if edge.relation == GraphRelation.IMPORTS
     )
     service = next(
         node
@@ -359,3 +368,266 @@ def test_git_branch_switch_refreshes_graph_and_memory_freshness(git_repo: Path) 
     assert isinstance(top_graph, dict)
     assert top_graph["indexed_branch"] == "main"
     assert top_graph["indexed_commit"] == main_head
+
+
+@pytest.mark.parametrize("number", [float("nan"), float("inf"), float("-inf")])
+def test_graph_refresh_rejects_nonfinite_metadata_before_persisting(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch, number: float
+) -> None:
+    bootstrap_project_store(git_repo)
+    engine = ProjectGraphEngine(git_repo)
+    graph = ProjectGraph(
+        parser_version="source-ast-v5",
+        nodes=(
+            GraphNode(
+                id="file:invalid",
+                kind=GraphNodeKind.FILE,
+                name="invalid.py",
+                metadata={"metric": number},
+            ),
+        ),
+    )
+    monkeypatch.setattr(engine, "_assemble", lambda *_: graph)
+    with pytest.raises(FilesystemFormatError, match="not valid JSON"):
+        engine.refresh()
+    assert not engine.graph_path.exists()
+    assert not engine.manifest_path.exists()
+
+
+def test_graph_refresh_recovers_overflowing_number_in_derived_cache(git_repo: Path) -> None:
+    bootstrap_project_store(git_repo)
+    engine = ProjectGraphEngine(git_repo)
+    engine.refresh()
+    cached = json.loads(engine.graph_path.read_text(encoding="utf-8"))
+    cached["nodes"][0]["metadata"]["metric"] = "OVERFLOW_NUMBER"
+    engine.graph_path.write_text(
+        json.dumps(cached).replace('"OVERFLOW_NUMBER"', "1e999"), encoding="utf-8"
+    )
+    assert engine.load() is None
+    repaired = engine.refresh()
+    assert repaired.metrics.processed_files > 0
+    assert engine.load() == repaired.graph
+
+
+def test_digest_proof_reuses_validation_but_never_returned_models(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import orqalis.graph.engine as module
+
+    bootstrap_project_store(git_repo)
+    engine = ProjectGraphEngine(git_repo)
+    engine.refresh()
+    original_digest = module._graph_digest
+    digest_calls: list[ProjectGraph] = []
+
+    def counted_digest(graph: ProjectGraph) -> str:
+        digest_calls.append(graph)
+        return original_digest(graph)
+
+    monkeypatch.setattr(module, "_graph_digest", counted_digest)
+    first = engine.load()
+    assert first is not None and first.nodes
+    first.nodes[0].metadata["caller_mutation"] = "private"
+    second = engine.load()
+    assert second is not None and second is not first
+    assert "caller_mutation" not in second.nodes[0].metadata
+    assert len(digest_calls) == 1
+
+    # A same-size change with restored timestamps must still invalidate the proof.
+    original = engine.graph_path.read_bytes()
+    stats = engine.graph_path.stat()
+    name = second.nodes[0].name
+    document = json.loads(original)
+    document["nodes"][0]["name"] = ("x" if name[0] != "x" else "y") + name[1:]
+    changed = module._graph_payload(ProjectGraph.model_validate(document)) + b"\n"
+    assert len(changed) == len(original) and changed != original
+    engine.graph_path.write_bytes(changed)
+    os.utime(engine.graph_path, ns=(stats.st_atime_ns, stats.st_mtime_ns))
+    assert engine.load() is None
+    assert engine._graph_digest_proof is None
+    assert len(digest_calls) == 2
+    engine.graph_path.write_bytes(original)
+    assert engine.load() is not None
+    assert len(digest_calls) == 3
+
+
+@pytest.mark.parametrize("failure", ["manifest", "missing", "duplicate", "nonfinite"])
+def test_digest_proof_checks_fresh_manifest_and_invalidates_failures(
+    git_repo: Path, failure: str
+) -> None:
+    bootstrap_project_store(git_repo)
+    engine = ProjectGraphEngine(git_repo)
+    engine.refresh()
+    assert engine.load() is not None and engine._graph_digest_proof is not None
+    if failure == "manifest":
+        manifest = json.loads(engine.manifest_path.read_bytes())
+        manifest["graph_sha256"] = "0" * 64
+        engine.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    elif failure == "missing":
+        engine.graph_path.unlink()
+    elif failure == "duplicate":
+        engine.graph_path.write_bytes(b'{"nodes":[],"nodes":[]}')
+    else:
+        engine.graph_path.write_bytes(b'{"generated_at":NaN}')
+    assert engine.load() is None
+    assert engine._graph_digest_proof is None
+
+
+def test_digest_proof_is_coherent_when_another_load_updates_it(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import orqalis.graph.engine as module
+
+    bootstrap_project_store(git_repo)
+    engine = ProjectGraphEngine(git_repo)
+    engine.refresh()
+    assert engine.load() is not None
+    original_reader = read_json_object_with_sha256
+
+    def interleaved_read(path: Path) -> tuple[dict[str, object], str]:
+        result = original_reader(path)
+        engine._graph_digest_proof = ("b" * 64, "c" * 64)
+        return result
+
+    monkeypatch.setattr(module, "read_json_object_with_sha256", interleaved_read)
+    assert engine.load() is not None
+    assert engine._graph_digest_proof is not None
+    assert (
+        engine._graph_digest_proof[0] == hashlib.sha256(engine.graph_path.read_bytes()).hexdigest()
+    )
+
+
+def test_digest_proof_cannot_reuse_volatile_timestamp_default(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import orqalis.graph.engine as module
+
+    bootstrap_project_store(git_repo)
+    engine = ProjectGraphEngine(git_repo)
+    engine.refresh()
+    document = json.loads(engine.graph_path.read_bytes())
+    del document["generated_at"]
+    content = json.dumps(document).encode()
+    engine.graph_path.write_bytes(content)
+    manifest = json.loads(engine.manifest_path.read_bytes())
+    engine._graph_digest_proof = (hashlib.sha256(content).hexdigest(), manifest["graph_sha256"])
+    calls: list[ProjectGraph] = []
+    original_digest = module._graph_digest
+
+    def counted_digest(graph: ProjectGraph) -> str:
+        calls.append(graph)
+        return original_digest(graph)
+
+    monkeypatch.setattr(module, "_graph_digest", counted_digest)
+    assert engine.load() is None
+    assert len(calls) == 1 and engine._graph_digest_proof is None
+
+
+def test_digest_proof_clears_and_preserves_link_policy_error(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import orqalis.graph.engine as module
+
+    bootstrap_project_store(git_repo)
+    engine = ProjectGraphEngine(git_repo)
+    engine.refresh()
+    assert engine.load() is not None
+
+    def denied(path: Path) -> tuple[dict[str, object], str]:
+        raise PolicyDeniedError("linked project storage")
+
+    monkeypatch.setattr(module, "read_json_object_with_sha256", denied)
+    with pytest.raises(PolicyDeniedError, match="linked project storage"):
+        engine.load()
+    assert engine._graph_digest_proof is None
+
+
+@pytest.mark.parametrize("source_kind", ["default", "same", "nested"])
+def test_graph_constructor_validates_canonical_identity_once(
+    git_repo: Path, source_kind: str
+) -> None:
+    class ObservedGit(LocalGitService):
+        def __init__(self) -> None:
+            super().__init__()
+            self.roots: list[Path] = []
+            self.common: list[Path] = []
+
+        def root(self, path: Path) -> Path:
+            self.roots.append(path)
+            return super().root(path)
+
+        def common_directory(self, path: Path) -> Path:
+            self.common.append(path)
+            return super().common_directory(path)
+
+    nested = git_repo / "nested"
+    nested.mkdir()
+    source = None if source_kind == "default" else git_repo if source_kind == "same" else nested
+    git = ObservedGit()
+    engine = ProjectGraphEngine(git_repo, source_root=source, git=git)
+    assert engine.root == engine.store_root == git_repo.resolve()
+    assert git.roots == ([git_repo] if source is None else [git_repo, source])
+    assert git.common == [git_repo.resolve()]
+
+
+@pytest.mark.parametrize("phase", ["cold", "warm", "metadata", "delta"])
+def test_refresh_with_status_returns_locked_full_status(git_repo: Path, phase: str) -> None:
+    from orqalis.git.contracts import GitStatus
+
+    class RecordingGit(LocalGitService):
+        def __init__(self) -> None:
+            super().__init__()
+            self.observed: list[GitStatus] = []
+
+        def status(self, path: Path) -> GitStatus:
+            result = super().status(path)
+            self.observed.append(result)
+            return result
+
+    _add_graph_fixture(git_repo)
+    bootstrap_project_store(git_repo)
+    git = RecordingGit()
+    engine = ProjectGraphEngine(git_repo, git=git)
+    if phase != "cold":
+        engine.refresh()
+        git.observed.clear()
+    if phase == "metadata":
+        _git(git_repo, "switch", "-c", "status-metadata")
+    if phase == "delta":
+        (git_repo / "pkg" / "helpers.py").write_text(
+            "def changed_helper():\n    return 2\n", encoding="utf-8"
+        )
+    # Binary files are excluded from the graph, but still belong to full status.
+    (git_repo / "status.bin").write_bytes(b"\x00dirty")
+    result, status = engine.refresh_with_status()
+    assert len(git.observed) == 1
+    assert status is git.observed[0]
+    assert status.repo_root == git_repo.resolve()
+    assert "status.bin" in status.changed_paths
+    assert "status.bin" not in result.manifest.dirty_paths
+    assert result.manifest.indexed_commit == status.head
+    assert result.manifest.indexed_branch == status.branch
+    if phase == "warm":
+        assert result.metrics.processed_files == 0
+    elif phase == "metadata":
+        assert status.branch == "status-metadata"
+        assert result.metrics.processed_files == 0
+    elif phase == "delta":
+        assert result.metrics.processed_files == 1
+        assert any(node.name == "changed_helper" for node in result.graph.nodes)
+
+
+@pytest.mark.parametrize("override", ["root", "common_directory", "_execute"])
+def test_graph_location_batch_preserves_instance_git_denial(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch, override: str
+) -> None:
+    from orqalis.git.service import GitError, LocalGitService
+
+    service = LocalGitService()
+
+    def denied(*args: object) -> object:
+        raise GitError("instance location denial")
+
+    monkeypatch.setattr(service, override, denied)
+    with pytest.raises(GitError, match="instance location denial"):
+        ProjectGraphEngine(git_repo, git=service)

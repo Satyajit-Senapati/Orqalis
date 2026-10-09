@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "reviewer": "release_acceptance_review",
+  "reviewed_at": "2026-10-04T06:36:06.884840+00:00",
+  "status": "PROSPECTIVE_METHOD_ACCEPTABLE_AFTER_ACTUAL_FRESH_PREFLIGHT_NO_ACCEPTANCE_CREDIT",
+  "source_sha256": "4f4088875af3050f10f5be510f8b05159e2bedd37f88fd818a6365a2f0348d44",
+  "release_input_sha256": "6a9316bf2d1decb71aef5e40983ad896c1d9bbd082e473f70cdd4d86b2ee5ee3",
+  "scope": "Exact three source deltas vs preserved source24 copies; named successor text/AST and frozen metadata comparison; no application imports, builds, tests, native queries or measured workloads. Actual full source aggregate not recomputed by reviewer.",
+  "bindings": {
+    ".tools/research/release_qualification_pure_work_v4.py": "d6dc139bff3c019431f3fdff0f334030d3995a9299b7f27f757fd4084788c01d",
+    "docs/quality/evidence/release-private-helper-inventory-pure-work-v4.json": "6ca9bef5db84907f10f634552db02f78b90340c69cf3a579a5457b6db08fab88",
+    "docs/quality/evidence/release-input-freeze-pure-work-v1.json": "67ac519ca81b6c54c438004c1a50abb3adc95dd50480802098e1ad99aa36481f",
+    "docs/quality/evidence/release-execution-reference-policy-pure-work-v1.json": "1d740fd926f8b52fa75d7eb1187e384c20ecea88938025af3c33f9d5862cb9b6",
+    ".tools/research/verify_execution_reference_pure_work_v2.py": "cb9c2deb48f76e04a0240b2bf9cef1eae444355ec944c4e8bf873437b58461d6",
+    ".tools/research/run_full_regression_release_v13.py": "7684c100e8dbbd839233e7034472ac3b5b5f69cdab3ffb9ee5bf5d6b77c81c08",
+    ".tools/research/release_preflight_pure_work_v2.py": "608cbcc5513f25ae7b795df12ad78fb7ea0d48daa3bec849c044b8d52571b200",
+    "docs/quality/evidence/release-pure-work-equivalence-v1.json": "e897c7ecdee6a9e6e609e45863c50e7adcc1e2719f83e77ae437e8fbb49162d0",
+    "docs/quality/evidence/release-pure-work-focused-v1.xml": "475eab784b4f3b983c7bf1d873196b117fa09194837060cf938a50bc9451703c",
+    "docs/quality/evidence/release-pure-work-optimization-security-independent-v2.json": "bec3ad16fe73df8b8b517bf4034bde105b4dbdab600aaf49251abf35cc10ba05"
+  },
+  "source_changes": {
+    "src/orqalis/persistence/filesystem/locking.py": {
+      "before": "4f741cb79e27b34e5e341db218bfe1c9e48fea1232ccfa684c3b1164de77808f",
+      "current": "20937f14ce49a257a0ed84f569502c2e37f733d7e660b36ea8d9405c24e04eac"
+    },
+    "src/orqalis/persistence/filesystem/task_store.py": {
+      "before": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+      "current": "0867154bd96853d4a4666b7f5e4bbaac0c76868c784e791c17073721111864e4"
+    },
+    "src/orqalis/security/redaction.py": {
+      "before": "f0f3324097898199e0f48819ce58d174e477f4b3ac2956d5f9518b6e35a335f4",
+      "current": "68632a517f31692ec43686f2186a1474eb831811172bc98dd38058888f255e67"
+    }
+  },
+  "semantic_disposition": [
+    "State serialized once with unchanged strict JSON encoding and safe_diagnostic equality check; checked immutable bytes reused for execution/state.yaml. Durability/recovery/projection format and rejection checks unchanged.",
+    "Existing lock registry state returned without allocating a discarded Condition/gate; missing-state construction and insertion remain under same registry mutex. FIFO, timeouts, platform locks and lifetime unchanged.",
+    "Plain diagnostic string lowered once with unchanged marker/regex and original redact input. Eager lowercase on private-key denial and custom str subclass call-order are bounded limits, not universal speed claims."
+  ],
+  "actual_evidence": {
+    "focused_xml": "141 PASS, zero failures/errors/skips; no independent rerun",
+    "equivalence": "Root report: 42 documents/125526 bytes identical and15 redaction cases, no timing acceptance",
+    "freeze_bridge": "Same390 paths;387 exact unchanged, only named3 source bytes differ; all test/gold entries unchanged"
+  },
+  "helper_disposition": {
+    "full_wrapper": "v12\u2192v13 only adds release22/23 allowed labels; original command/deadlines/assertions unchanged",
+    "execution_reference": "Original v7 verifier\u2192pure_work_v2 only policy path/hash; all26 semantic+4 stability keys and source/helper/script/fixture/full-environment bindings retained. All nine baseline samples and failed observations retained, no new reference selection.",
+    "qualifier": "Original repeat counts quality3/execution3/memory5/UI3, constrained/browser/full Python/advisories/30 exact-loss checks retained;22 current-first,23 baseline-first,23 requires22 COMPLETE_PENDING on same source/input. v4 delta fromv3 only inventory/report-policy literals.",
+    "inventory": "v4 top identities current; historical acceptor/copy_proofs refer only historical source24, not fresh current artifact proof. v2 preflight inventory guarded exact byte-map only; its stale top metadata must never serve source attestation.",
+    "status": "Capture COMPLETE_PENDING_INDEPENDENT_REVIEW only; no automatic performance pass/signoff"
+  },
+  "required_before_launch": [
+    "Root must assert actual fresh static11 PASS and current86 complete86 PASS/zero failure/error/skip with all identity stability flags, exact current source/freeze before invoking22. Preserve any preflight failures and do not relabel oldsource24 report.",
+    "Root source/input/helper boundary orchestration and exclusive labels/outputs; no simultaneous owned measured workloads."
+  ],
+  "required_for_final_acceptance": [
+    "Both fresh whole22/23 including full current Python must complete with exact final identity guards; no credit from historical20/21 for this source.",
+    "Fresh current-source installed wheel/npm/MCP and heldout proof or separately reviewed explicit exact-identity bridge; historical source24 archives remain dated. Final documentation repack/link/archive audit still required.",
+    "Independent all23 capability and all30 tradeoff/performance review. Strict Master53 no unexplained degradation remains open until new evidence adjudicated; static pure-work reductions do not prove historical63/71s cause."
+  ],
+  "findings_resolved_in_staging": [
+    "Stale v2 inventory source/input/policy identities corrected in preservedv3/v4 successors.",
+    "Hardcoded candidate bypass in verifierv1 replaced original policy-bound verifierv2.",
+    "v3 iteration policy field incorrectly historicalv7; correctedv4 report literal."
+  ],
+  "remaining_blocking_code_findings": [],
+  "limits": "Prospective bounded method approval only. No fresh preflight result, benchmark pass, performance improvement, P1 promotion, convergence credit, platform certification or final release readiness asserted. No main commit/push/tag/publication."
+}

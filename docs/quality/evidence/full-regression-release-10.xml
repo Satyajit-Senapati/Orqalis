@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="38" time="783.651" timestamp="2026-10-03T19:25:23.098015+05:30" hostname="THOR-GALAXY"><testcase classname="tests.e2e.test_fixture_paths" name="test_fixture_root_uses_configured_external_directory" time="0.011" /><testcase classname="tests.e2e.test_fixture_paths" name="test_fixture_root_rejects_workspace_descendants" time="0.001" /><testcase classname="tests.e2e.test_local_control_center_filesystem" name="test_control_center_replays_broadcasts_and_restarts_from_task_capsule" time="6.695" /><testcase classname="tests.e2e.test_local_first_filesystem" name="test_restart_continuity_and_repository_isolation_without_database" time="15.475" /><testcase classname="tests.e2e.test_local_first_filesystem" name="test_dirty_graph_refresh_and_rebuildable_cache_and_index" time="17.156" /><testcase classname="tests.integration.test_api" name="test_api_contract_and_websocket_reconnect" time="18.561" /><testcase classname="tests.integration.test_api" name="test_api_memory_returns_only_approved_curated_records" time="10.749" /><testcase classname="tests.integration.test_api" name="test_api_denies_cross_origin_and_untrusted_host" time="1.118" /><testcase classname="tests.integration.test_api" name="test_remote_client_cannot_bypass_loopback_policy_with_host_header" time="1.413" /><testcase classname="tests.integration.test_api" name="test_websocket_disconnect_releases_subscription_during_pending_work[snapshot]" time="9.963" /><testcase classname="tests.integration.test_api" name="test_websocket_disconnect_releases_subscription_during_pending_work[events]" time="11.636" /><testcase classname="tests.integration.test_api" name="test_websocket_disconnect_releases_subscription_during_pending_work[notification]" time="11.956" /><testcase classname="tests.integration.test_approval_timing" name="test_operator_checkpoint_persists_orchestrator_status_and_resumes_on_transition" time="9.099" /><testcase classname="tests.integration.test_approvals" name="test_persisted_operator_decisions_bind_to_goal_version_and_digest" time="7.123" /><testcase classname="tests.integration.test_authoritative_approval_gates" name="test_direct_orchestrator_calls_cannot_skip_goal_or_plan_approval" time="30.131" /><testcase classname="tests.integration.test_cancellation" name="test_persisted_cancel_interrupts_provider_without_reclassifying_terminal_run" time="20.594" /><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[False-False]" time="100.091" /><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[False-True]" time="92.001" /><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[True-False]" time="21.776" /><testcase classname="tests.integration.test_external_findings" name="test_external_finding_failure_repairs_then_resolves_independently" time="72.058" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[omitted]" time="22.199" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[assertion_only]" time="20.239" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[wrong_source]" time="20.951" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[missing_text]" time="19.907" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[unrelated_evidence]" time="20.718" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[criterion_evidence_only]" time="20.988" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[stale_evidence]" time="21.471" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[../secret]" time="0.001" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[/tmp/secret]" time="0.001" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[C:/private]" time="0.000" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[..\\secret]" time="0.000" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[accepted]" time="63.133" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[recreated_before_review]" time="22.100" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[recreated_before_delivery]" time="41.827" /><testcase classname="tests.integration.test_external_skill_selection" name="test_external_documentation_task_loads_scoped_skill" time="10.898" /><testcase classname="tests.integration.test_goals" name="test_persisted_goals_evidence_idempotency_and_revision" time="2.346" /><testcase classname="tests.integration.test_goals" name="test_goal_cli" time="4.426" /><testcase classname="tests.integration.test_hard_crash_matrix" name="test_hard_kill_matrix_preserves_history_and_deduplicates_effects" time="30.705"><failure message="AssertionError: Dead controller retained its lease&#10;assert False&#10; +  where False = try_run_lock(UUID('1c745037-286b-4840-9dcf-3b5bd4b610b8'))&#10; +    where try_run_lock = &lt;orqalis.persistence.filesystem.auxiliary_stores.FilesystemExecutionRepository object at 0x0000020895F4AE10&gt;.try_run_lock&#10; +      where &lt;orqalis.persistence.filesystem.auxiliary_stores.FilesystemExecutionRepository object at 0x0000020895F4AE10&gt; = &lt;orqalis.persistence.filesystem.unit_of_work.FilesystemProjectUnitOfWork object at 0x00000208977E1070&gt;.execution">git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-545/test_hard_kill_matrix_preserve0/source')
+tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-545/test_hard_kill_matrix_preserve0')
+
+    def test_hard_kill_matrix_preserves_history_and_deduplicates_effects(
+        git_repo: Path,
+        tmp_path: Path,
+    ) -&gt; None:
+        factory = filesystem_uow_factory(git_repo)
+        sdk = Orqalis(unit_of_work=factory)
+        project = sdk.initialize(git_repo)
+        prepared = sdk.prepare_run(
+            project.id,
+            "Change answer",
+            "feature/hard-kill-matrix",
+            GoalDraft(
+                goal="Change answer",
+                scope=("main.py", "README.md"),
+                definition_of_done=("Observed evidence and reviewed delivery",),
+                criteria=(
+                    CriterionDefinition(
+                        key="AC-1",
+                        description="Answer is 43",
+                        validation_spec=FileValidation(path="main.py", contains="answer = 43"),
+                    ),
+                ),
+            ),
+        )
+        run_id, worktrees = prepared.run.id, tmp_path / "workers"
+        audit = tmp_path / "effects.jsonl"
+        states = {
+            "planning": "GOAL_DEFINED",
+            "tool": "EXECUTING",
+            "agent": "EXECUTING",
+            "review": "REVIEWING",
+            "repair": "REPAIR_PLANNING",
+            "documentation": "DOCUMENTING",
+            "git_prepare": "COMMITTING",
+            "git_attach": "COMMITTING",
+        }
+        barriers = {}
+        previous_events: tuple[object, ...] = ()
+        for phase, state in states.items():
+            barriers[phase] = _child(
+                git_repo, worktrees, run_id, phase, tmp_path / f"{phase}.json", audit
+            )
+            with factory() as lease:
+&gt;               assert lease.execution.try_run_lock(run_id), "Dead controller retained its lease"
+E               AssertionError: Dead controller retained its lease
+E               assert False
+E                +  where False = try_run_lock(UUID('1c745037-286b-4840-9dcf-3b5bd4b610b8'))
+E                +    where try_run_lock = &lt;orqalis.persistence.filesystem.auxiliary_stores.FilesystemExecutionRepository object at 0x0000020895F4AE10&gt;.try_run_lock
+E                +      where &lt;orqalis.persistence.filesystem.auxiliary_stores.FilesystemExecutionRepository object at 0x0000020895F4AE10&gt; = &lt;orqalis.persistence.filesystem.unit_of_work.FilesystemProjectUnitOfWork object at 0x00000208977E1070&gt;.execution
+
+tests\integration\test_hard_crash_matrix.py:109: AssertionError</failure></testcase></testsuite></testsuites>

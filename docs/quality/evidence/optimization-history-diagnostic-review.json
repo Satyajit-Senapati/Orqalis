@@ -1,0 +1,31 @@
+{
+  "status": "REVIEW",
+  "scope": "Diagnostic profiles; not a measured performance comparison",
+  "source_bindings": {
+    "before": "fece9d668365b0e853d84d6de4ebbe41417179dcf68dc00a293dc95e2a09e8c4",
+    "current": "a0c665eaf986f68bb0b93a675969d9bd4017cc97371a38b4e1851187fb2ec945"
+  },
+  "observed": {
+    "before": {
+      "median_wall_ms": 584.4413000013446,
+      "max_wall_ms": 6174.429199993028,
+      "max_cpu_ms": 1359.375
+    },
+    "current": {
+      "median_wall_ms": 461.1962000053609,
+      "max_wall_ms": 2172.1774999896297,
+      "max_cpu_ms": 1562.5
+    }
+  },
+  "baseline_stalls_reproduced": true,
+  "lock_wait_hotspot_observed": false,
+  "cause_proven": false,
+  "tail_latency_improvement_qualified": false,
+  "notes": [
+    "Both sources showed slow canonical reads and path checks.",
+    "Frozen source largest page: 6174 ms wall and 1094 ms process CPU; wall delay is not all active Python work.",
+    "Diagnostics ran while a correctness-only frozen contract suite was active; timings are descriptive and cannot isolate filesystem wait from scheduler/resource interference.",
+    "Keep every raw spike, including corrected-source 23446 ms unprofiled sample.",
+    "No timeout, filesystem-boundary guard, or persistent freshness policy was changed."
+  ]
+}

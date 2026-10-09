@@ -1,0 +1,72 @@
+<testsuites id="" name="" tests="14" failures="1" skipped="0" errors="0" time="88.473358">
+<testsuite name="control-center.spec.ts" timestamp="2026-10-03T05:44:59.417Z" hostname="" tests="2" failures="1" skipped="0" time="31.083" errors="0">
+<testcase name="Operational views reconstruct a delivered run with keyboard and dark-theme support" classname="control-center.spec.ts" time="25.46">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\.tools\research\release-browser-metadata-screen-artifacts\control-center-Operational-be70c-oard-and-dark-theme-support\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(locator).toContainText(expected) failed" type="expect.toContainText">
+<![CDATA[  control-center.spec.ts:9:1 › Operational views reconstruct a delivered run with keyboard and dark-theme support 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.brain-health')
+    Expected substring: "Indexed commit"
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" locator('.brain-health') with timeout 15000ms
+      - waiting for locator('.brain-health')
+
+
+      70 |   await expect(page.locator(".evidence-record").first()).toContainText("Hash");
+      71 |   await page.getByRole("tab", { name: "Project Brain", exact: true }).click();
+    > 72 |   await expect(page.locator(".brain-health")).toContainText("Indexed commit", {
+         |                                               ^
+      73 |     timeout: 15_000,
+      74 |   });
+      75 |   await expect(page.locator(".memory-card").first()).toBeVisible();
+        at S:\Orqalis\web\e2e\control-center.spec.ts:72:47
+
+    Error Context: ..\..\.tools\research\release-browser-metadata-screen-artifacts\control-center-Operational-be70c-oard-and-dark-theme-support\error-context.md
+]]>
+</failure>
+</testcase>
+<testcase name="Provider performance matches persisted measurements on desktop and mobile" classname="control-center.spec.ts" time="5.623">
+</testcase>
+</testsuite>
+<testsuite name="enhancements.spec.ts" timestamp="2026-10-03T05:44:59.417Z" hostname="" tests="9" failures="0" skipped="0" time="26.64" errors="0">
+<testcase name="inspectors retain keyboard navigation and mobile task access" classname="enhancements.spec.ts" time="6.142">
+</testcase>
+<testcase name="skills, context, chronological filters and delivery are connected" classname="enhancements.spec.ts" time="5.98">
+</testcase>
+<testcase name="socket disconnect triggers bounded replay and reconnect without page reload" classname="enhancements.spec.ts" time="3.332">
+</testcase>
+<testcase name="empty history and unavailable runs have honest actionable states" classname="enhancements.spec.ts" time="0.94">
+</testcase>
+<testcase name="run history stays bounded while older runs remain reachable" classname="enhancements.spec.ts" time="1.22">
+</testcase>
+<testcase name="project navigation stays reachable across desktop and mobile" classname="enhancements.spec.ts" time="2.212">
+</testcase>
+<testcase name="home data failures degrade independently without false empty states" classname="enhancements.spec.ts" time="2.107">
+</testcase>
+<testcase name="event-history failure keeps Mission Control usable" classname="enhancements.spec.ts" time="1.077">
+</testcase>
+<testcase name="timeline detail follows live snapshots and tiny intervals stay operable" classname="enhancements.spec.ts" time="3.63">
+</testcase>
+</testsuite>
+<testsuite name="mission-control.spec.ts" timestamp="2026-10-03T05:44:59.417Z" hostname="" tests="1" failures="0" skipped="0" time="2.808" errors="0">
+<testcase name="Mission Control displays persisted state and survives refresh" classname="mission-control.spec.ts" time="2.808">
+</testcase>
+</testsuite>
+<testsuite name="run-governance.spec.ts" timestamp="2026-10-03T05:44:59.417Z" hostname="" tests="1" failures="0" skipped="0" time="15.67" errors="0">
+<testcase name="supervised run decisions and plan edits stay bound to persisted versions" classname="run-governance.spec.ts" time="15.67">
+</testcase>
+</testsuite>
+<testsuite name="trace.spec.ts" timestamp="2026-10-03T05:44:59.417Z" hostname="" tests="1" failures="0" skipped="0" time="2.518" errors="0">
+<testcase name="saved actual parallel-repair snapshot supports keyboard trace ancestry and critical path" classname="trace.spec.ts" time="2.518">
+</testcase>
+</testsuite>
+</testsuites>

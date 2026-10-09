@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="86" time="2467.560" timestamp="2026-09-26T21:15:25.805658+05:30" hostname="THOR-GALAXY"><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[False-False]" time="114.575" /><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[False-True]" time="129.875" /><testcase classname="tests.integration.test_executor" name="test_isolated_developer_test_review_vertical_slice_and_resume[True-False]" time="48.939" /><testcase classname="tests.integration.test_external_findings" name="test_external_finding_failure_repairs_then_resolves_independently" time="142.839"><failure message="orqalis.persistence.filesystem.locking.LockTimeoutError: Timed out acquiring lock: C:\Users\senap\AppData\Local\Temp\pytest-of-senap\pytest-395\test_external_finding_failure_0\source\.orqalis\runtime\locks\ORQ-20260926-0001.state.lock">git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-395/test_external_finding_failure_0/source')
+tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-395/test_external_finding_failure_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000243C84C2C90&gt;
+
+    def test_external_finding_failure_repairs_then_resolves_independently(
+        git_repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -&gt; None:
+        sdk = Orqalis(root=git_repo)
+        factory = sdk.unit_of_work
+        project = sdk.initialize(git_repo)
+        goal = GoalDraft(
+            goal="Keep module and correct the reported behavior",
+            scope=("main.py",),
+            definition_of_done=("Independent review verifies reported issues",),
+            criteria=(
+                CriterionDefinition(
+                    key="AC-1",
+                    description="Module remains available",
+                    validation_spec=FileValidation(path="main.py"),
+                ),
+            ),
+        )
+        state = sdk.prepare_run(project.id, goal.goal, "feature/finding-repair", goal)
+        policy = ExecutionPolicy(write_paths=("main.py",), command_mode="trusted_local")
+        external = sdk.external_work(tmp_path / "worktrees")
+        work = external.next_work(state.run.id, policy)
+        assert work is not None
+        report = FindingReport(
+            severity="blocking", summary="Answer must become 43", source_ref="main.py"
+        )
+        finding = external.report_finding(state.run.id, work.execution.id, report, "source-issue")
+        assert finding.task_id == work.task.id
+        external.report(
+            state.run.id,
+            work.execution.id,
+            WorkerResult(summary="Ready for independent inspection", completed=True, artifact_paths=()),
+        )
+        # A completed worker receipt neither closes an issue nor passes delivery gates.
+        with factory() as uow:
+            run = uow.runs.get(state.run.id)
+            assert run is not None
+            with pytest.raises(PolicyDeniedError, match="blocking worker findings"):
+                guard_delivery(uow, run, RunState.CHANGE_GUARD)
+        reviews = 0
+    
+        def respond(request: ProviderExecutionRequest) -&gt; ProviderExecutionResult:
+            nonlocal reviews
+            reviews += 1
+            assert request.role == "reviewer"
+            assert len(request.findings) == 1 and request.findings[0].id == finding.id
+            assert request.acceptance is not None
+            resolved = reviews &gt; 1
+            return ProviderExecutionResult(
+                output=ReviewResult(
+                    overall="PASS" if resolved else "FAIL",
+                    criteria=tuple(
+                        CriterionReview(
+                            criterion_id=c.id,
+                            status="PASS",
+                            reason="Observed passing source validator",
+                            evidence_refs=c.evidence_refs,
+                            source_checks=(),
+                        )
+                        for c in request.acceptance.criteria
+                    ),
+                    blocking_findings=()
+                    if resolved
+                    else ("Reported main.py behavior still needs correction",),
+                    non_blocking_findings=(),
+                    finding_reviews=(
+                        FindingReview(
+                            finding_id=finding.id,
+                            resolved=resolved,
+                            reason="Inspected reported source",
+                            source_checks=(SourceCheck(path="main.py", contains="answer = 43"),)
+                            if resolved
+                            else (),
+                        ),
+                    ),
+                ).model_dump(mode="json")
+            )
+    
+        provider = FakeProvider(respond)
+        executor = sdk.executor(tmp_path / "worktrees", (provider,))
+        failed = asyncio.run(
+            executor.execute(state.run.id, "fixture", policy, repair_automatically=False)
+        )
+        assert failed.review is not None and failed.review.result.overall == "FAIL"
+        assert sdk.snapshot(state.run.id).run.repair_iteration == 1
+        assert (
+            next(f for f in sdk.snapshot(state.run.id).findings if f.id == finding.id).status == "open"
+        )
+        for _ in range(2):
+            repair = external.next_work(state.run.id, policy)
+            assert repair is not None
+            if repair.task.preferred_role == "developer":
+                (repair.workspace / "main.py").write_text("answer = 43\n", encoding="utf-8")
+            external.report(
+                state.run.id,
+                repair.execution.id,
+                WorkerResult(
+                    summary="Targeted correction inspected", completed=True, artifact_paths=()
+                ),
+            )
+        accepted = asyncio.run(
+            executor.execute(state.run.id, "fixture", policy, repair_automatically=False)
+        )
+        assert accepted.review is not None and accepted.review.result.overall == "PASS"
+        assert (
+            next(f for f in sdk.snapshot(state.run.id).findings if f.id == finding.id).status
+            == "resolved"
+        )
+        assert (
+            external.report_finding(state.run.id, work.execution.id, report, "source-issue").id
+            == finding.id
+        )
+        with factory() as uow:
+            run = uow.runs.get(state.run.id)
+            assert run is not None
+            guard_delivery(uow, run, RunState.CHANGE_GUARD)
+        assert reviews == 2
+        original_validation = sdk.delivery.validation.validate
+    
+        async def mutate_before_validation(run_id: UUID, attempt: TaskExecution) -&gt; FinalValidation:
+            (work.workspace / "main.py").write_text("answer = 44\n", encoding="utf-8")
+            return await original_validation(run_id, attempt)
+    
+        monkeypatch.setattr(sdk.delivery.validation, "validate", mutate_before_validation)
+        with pytest.raises(PolicyDeniedError, match="Final validation failed"):
+&gt;           asyncio.run(sdk.delivery.finalize(state.run.id, DeliveryPolicy()))
+
+tests\integration\test_external_findings.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+..\..\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+src\orqalis\observability\instrumentation.py:59: in invoke
+    return await function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\orqalis\core\delivery.py:54: in finalize
+    return await watch_cancellation(self.factory, run_id, self._finalize(run_id, policy))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\orqalis\execution\cancellation.py:59: in watch_cancellation
+    run = uow.runs.get(run_id)
+          ^^^^^^^^^^^^^^^^^^^^
+src\orqalis\persistence\filesystem\task_store.py:1429: in get
+    return self.session.load_capsule(run_id, for_update=for_update).run
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\orqalis\persistence\filesystem\task_store.py:685: in load_capsule
+    self._state_lock(run_id, capsule_id)
+src\orqalis\persistence\filesystem\task_store.py:487: in _state_lock
+    lock.acquire()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;orqalis.persistence.filesystem.locking.FileLock object at 0x00000243C98BB740&gt;
+
+    def acquire(self) -&gt; None:
+        deadline = time.monotonic() + self.timeout
+        if not self._state.gate.acquire(timeout=self.timeout):
+&gt;           raise LockTimeoutError(f"Timed out acquiring lock: {self.path}")
+E           orqalis.persistence.filesystem.locking.LockTimeoutError: Timed out acquiring lock: C:\Users\senap\AppData\Local\Temp\pytest-of-senap\pytest-395\test_external_finding_failure_0\source\.orqalis\runtime\locks\ORQ-20260926-0001.state.lock
+
+src\orqalis\persistence\filesystem\locking.py:105: LockTimeoutError</failure></testcase><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[omitted]" time="34.850" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[assertion_only]" time="39.267" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[wrong_source]" time="41.176" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[missing_text]" time="34.036" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[unrelated_evidence]" time="42.531" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[criterion_evidence_only]" time="36.265" /><testcase classname="tests.integration.test_external_findings" name="test_worker_findings_cannot_be_waived_without_evidence[stale_evidence]" time="46.381" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[../secret]" time="0.002" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[/tmp/secret]" time="0.002" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[C:/private]" time="0.002" /><testcase classname="tests.integration.test_external_findings" name="test_finding_source_cannot_escape_repository[..\\secret]" time="0.002" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[accepted]" time="128.720" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[recreated_before_review]" time="44.885" /><testcase classname="tests.integration.test_external_findings" name="test_deleted_source_finding_uses_matching_absence_evidence_and_revalidates_optional_criterion[recreated_before_delivery]" time="85.227" /><testcase classname="tests.integration.test_external_skill_selection" name="test_external_documentation_task_loads_scoped_skill" time="31.538" /><testcase classname="tests.integration.test_mcp" name="test_mcp_workflow_continues_across_clients_and_enforces_server_policy" time="176.779" /><testcase classname="tests.integration.test_mcp" name="test_mcp_stdio_lifecycle_and_project_isolation" time="12.145" /><testcase classname="tests.integration.test_memory_release" name="test_context_graph_is_source_backed_without_repeated_scans" time="25.313" /><testcase classname="tests.integration.test_memory_release" name="test_indexer_and_embedding_upgrade_refresh_once_at_unchanged_head" time="15.364" /><testcase classname="tests.integration.test_memory_release" name="test_legacy_run_projection_never_enters_authoritative_context" time="14.467" /><testcase classname="tests.integration.test_memory_release" name="test_recovered_embeddings_backfill_stored_content_without_git_reads" time="25.539" /><testcase classname="tests.integration.test_memory_release" name="test_embedding_backfill_validates_provider_dimensions_before_persisting" time="6.170" /><testcase classname="tests.integration.test_parallel" name="test_independent_context_workers_execute_in_parallel_before_dependency" time="109.273" /><testcase classname="tests.integration.test_recovery" name="test_explicit_recovery_uses_new_attempt_preserves_contract_and_enforces_limit[1]" time="45.800" /><testcase classname="tests.integration.test_recovery" name="test_explicit_recovery_uses_new_attempt_preserves_contract_and_enforces_limit[3]" time="71.596" /><testcase classname="tests.integration.test_repair" name="test_targeted_repair_preserves_history_and_stops_at_limit[True-1]" time="103.896" /><testcase classname="tests.integration.test_repair" name="test_targeted_repair_preserves_history_and_stops_at_limit[False-1]" time="188.168" /><testcase classname="tests.integration.test_repair" name="test_targeted_repair_preserves_history_and_stops_at_limit[False-0]" time="52.696" /><testcase classname="tests.integration.test_runtime" name="test_durable_task_attempts_pause_resume_cancel_and_timing" time="9.752" /><testcase classname="tests.integration.test_runtime" name="test_event_sequence_concurrency_idempotency_and_corruption_detection" time="4.030" /><testcase classname="tests.integration.test_stack_fixtures" name="test_language_neutral_source_contract_to_accepted_commit[react]" time="154.064" /><testcase classname="tests.integration.test_stack_fixtures" name="test_language_neutral_source_contract_to_accepted_commit[android]" time="194.205" /><testcase classname="tests.integration.test_stack_fixtures" name="test_language_neutral_source_contract_to_accepted_commit[monorepo]" time="182.705" /><testcase classname="tests.unit.test_git" name="test_repository_detection_dirty_paths_and_committed_read" time="2.195"><failure message="AssertionError: assert b'answer = 42\r\n' == b'answer = 42\n'&#10;  &#10;  At index 11 diff: b'\r' != b'\n'&#10;  Use -v to get more diff">git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-395/test_repository_detection_dirt0/source')
+
+    def test_repository_detection_dirty_paths_and_committed_read(git_repo: Path) -&gt; None:
+        service = LocalGitService()
+        assert service.root(git_repo / "tests/test_main.py") == git_repo
+        status = service.status(git_repo)
+        assert status.branch == "main"
+        assert status.changed_paths == ()
+        assert service.has_commit(git_repo, status.head)
+        assert not service.has_commit(git_repo, "0" * 40)
+        (git_repo / "main.py").write_text("changed locally\n")
+        (git_repo / "with spaces.txt").write_text("untracked\n")
+        assert service.status(git_repo).changed_paths == ("main.py", "with spaces.txt")
+&gt;       assert service.read_file(git_repo, status.head, "main.py") == b"answer = 42\n"
+E       AssertionError: assert b'answer = 42\r\n' == b'answer = 42\n'
+E         
+E         At index 11 diff: b'\r' != b'\n'
+E         Use -v to get more diff
+
+tests\unit\test_git.py:31: AssertionError</failure></testcase><testcase classname="tests.unit.test_git" name="test_rename_includes_old_and_new_paths" time="1.064" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[../secret]" time="0.002" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[/absolute]" time="0.003" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[.git/config]" time="0.006" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[C:/secret]" time="0.003" /><testcase classname="tests.unit.test_git" name="test_unsafe_relative_paths_denied[a/../b]" time="0.004" /><testcase classname="tests.unit.test_git" name="test_git_environment_cannot_redirect_repo" time="1.002" /><testcase classname="tests.unit.test_git" name="test_worktree_create_cleanup_preserves_source" time="4.646" /><testcase classname="tests.unit.test_git" name="test_dirty_or_changed_branch_cleanup_denied" time="3.092" /><testcase classname="tests.unit.test_git" name="test_worktree_unsafe_branches_denied[main]" time="1.105" /><testcase classname="tests.unit.test_git" name="test_worktree_unsafe_branches_denied[master]" time="1.390" /><testcase classname="tests.unit.test_git" name="test_worktree_unsafe_branches_denied[--force]" time="1.157" /><testcase classname="tests.unit.test_git" name="test_worktree_unsafe_branches_denied[../unsafe]" time="1.351" /><testcase classname="tests.unit.test_git" name="test_existing_branch_and_nested_workspace_denied" time="1.591" /><testcase classname="tests.unit.test_project_graph" name="test_graph_models_support_typed_and_extension_relations" time="0.003" /><testcase classname="tests.unit.test_project_graph" name="test_python_ast_graph_and_persisted_manifest" time="3.910" /><testcase classname="tests.unit.test_project_graph" name="test_dirty_incremental_refresh_cache_hit_rename_and_delete" time="5.410" /><testcase classname="tests.unit.test_project_graph" name="test_schema_valid_graph_tampering_forces_deterministic_rebuild" time="3.068" /><testcase classname="tests.unit.test_project_graph" name="test_graph_refresh_synchronizes_top_level_manifest_cursor" time="4.101" /><testcase classname="tests.unit.test_project_graph" name="test_untracked_files_and_full_rebuild_after_cache_deletion" time="4.580" /><testcase classname="tests.unit.test_project_graph" name="test_graph_engine_isolates_repository_roots" time="5.339" /><testcase classname="tests.unit.test_project_graph" name="test_git_branch_switch_refreshes_graph_and_memory_freshness" time="5.279" /><testcase classname="tests.unit.test_project_index" name="test_rebuild_generates_all_artifacts_and_searches_each_source" time="5.045" /><testcase classname="tests.unit.test_project_index" name="test_search_rebuilds_deleted_index_after_cache_deletion" time="4.557" /><testcase classname="tests.unit.test_project_index" name="test_indexes_are_strictly_isolated_by_repository_root" time="8.111" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[api_key]" time="0.015" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[ORQALIS_OPENAI_API_KEY]" time="0.012" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[DATABASE_PASSWORD]" time="0.014" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[access_token]" time="0.010" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[refresh_token]" time="0.016" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[client_secret]" time="0.012" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[apiKey]" time="0.010" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[accessToken]" time="0.007" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[refreshToken]" time="0.007" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[databasePassword]" time="0.010" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[privateKey]" time="0.006" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[authorization]" time="0.005" /><testcase classname="tests.unit.test_security" name="test_credential_names_reject_opaque_structured_provider_values[cookie]" time="0.009" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[DATABASE_PASSWORD=&quot;a secret with spaces {secret}&quot;]" time="0.008" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[access_token={secret}]" time="0.004" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[Authorization: Basic {secret}]" time="0.005" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[Request headers: Authorization: Basic {secret}]" time="0.003" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[Cookie: session={secret}; identity=private]" time="0.007" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[postgresql://operator:{secret}@localhost/database]" time="0.003" /><testcase classname="tests.unit.test_security" name="test_diagnostics_remove_complete_nested_or_header_credential[{{&quot;summary&quot;: &quot;access_token={secret}&quot;}}]" time="0.003" /><testcase classname="tests.unit.test_security" name="test_usage_metadata_and_ordinary_source_remain_public" time="0.005" /><testcase classname="tests.unit.test_security" name="test_escaped_json_credentials_and_long_assignment_text_are_bounded" time="0.021" /><testcase classname="tests.unit.test_security" name="test_guardian_rejects_environment_named_opaque_credentials" time="3.152" /></testsuite></testsuites>

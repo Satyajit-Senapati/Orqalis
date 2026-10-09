@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-04T13:19:35.748065+00:00",
+  "status": "FUNCTIONAL_PASS_EXECUTION_PERFORMANCE_UNEXPLAINED_MASTER53_BLOCKED",
+  "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "separately_rehashed_named_records": {
+    "docs/quality/evidence/release-execution-current-24.json": "8070991746949ea6e96918082b932304cd563e487442b80c9d23a544d2e18730",
+    ".tools/research/release-final-fixes-execution-current-24.host-context.json": "f68757342857d8fd07dd060d9ca566f6bcbd3b07f969f0714b7acc607709a57e",
+    "docs/quality/evidence/release-execution-baseline-diagnostic.json": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+    "docs/quality/evidence/release-execution-baseline-2.json": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+    "docs/quality/evidence/release-execution-baseline-8-fixed-diagnostic-v1.json": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+    "docs/quality/evidence/release-execution-current-20.json": "9439139e7f90a7c9d8d47d6f3ccb2853feba51afae660045438a5da57cf2eed8",
+    "docs/quality/evidence/release-execution-current-21.json": "d028c67bebdee5540bbc74b3eb81ed914b96cdd335719319250789fc1ccc9a04"
+  },
+  "actual_round24": {
+    "functional_samples_passed": 3,
+    "original_checks_each": 26,
+    "stability_checks_each": 4,
+    "original_script_helpers_fixture_environment_match_all_three_retained_baseline_captures": true,
+    "execution_samples_ms": [
+      60704.46059998358,
+      84352.4872000562,
+      89061.24530005036
+    ],
+    "median_ms": 84352.4872000562,
+    "pooled_all9_baseline_median_ms": 55870.139499995275,
+    "candidate_vs_pooled_ratio": 1.5097955357720798,
+    "candidate_vs_pooled_increase_percent": 50.97955357720798,
+    "all_retained_baseline_capture_medians_ms": [
+      55642.85999999265,
+      55870.139499995275,
+      95099.94379998534
+    ],
+    "samples": [
+      {
+        "execution_ms": 60704.46059998358,
+        "projected_wall_ms": 57292,
+        "projected_active_ms_not_CPU": 57147,
+        "projected_waiting_ms": 145,
+        "execution_minus_projected_wall_ms": 3412.4605999835767,
+        "repository_setup_ms_excluded_execution": 254.32940002065152,
+        "child_ms_excluded_original_execution_boundary": 63162.61860000668,
+        "event_count": 174,
+        "model_calls": 9,
+        "tool_calls": 2
+      },
+      {
+        "execution_ms": 84352.4872000562,
+        "projected_wall_ms": 77050,
+        "projected_active_ms_not_CPU": 76636,
+        "projected_waiting_ms": 414,
+        "execution_minus_projected_wall_ms": 7302.487200056203,
+        "repository_setup_ms_excluded_execution": 535.5252000153996,
+        "child_ms_excluded_original_execution_boundary": 88654.13229999831,
+        "event_count": 174,
+        "model_calls": 9,
+        "tool_calls": 2
+      },
+      {
+        "execution_ms": 89061.24530005036,
+        "projected_wall_ms": 81213,
+        "projected_active_ms_not_CPU": 80844,
+        "projected_waiting_ms": 369,
+        "execution_minus_projected_wall_ms": 7848.245300050359,
+        "repository_setup_ms_excluded_execution": 793.1475000223145,
+        "child_ms_excluded_original_execution_boundary": 94464.94549995987,
+        "event_count": 174,
+        "model_calls": 9,
+        "tool_calls": 2
+      }
+    ]
+  },
+  "host_context_only": {
+    "aggregate_host_busy_fraction": 0.5841870156109419,
+    "physical_memory_load_before_percent": 72,
+    "physical_memory_load_after_percent": 82,
+    "one_owned_workload_claim": "One coordinator command at a time; preceding owned full suite/build/audit completed before timed benchmarks. No other owned benchmark command launched in parallel.",
+    "limits": "Includes candidate CPU; boundary RAM not worker peak/RSS/paging evidence. No independent external I/O/scheduling/security/cache cause measured; cannot declare quiet host or causal explanation."
+  },
+  "findings": [
+    "Execution climbs60.704\u219284.352\u219289.061sec; projected run wall57.292\u219277.050\u219281.213sec and outside-projection residual3.412\u21927.302\u21927.848sec both increase. Projected ACTIVE is not CPU.",
+    "145/414/369ms waiting cannot account for multi-second difference. Frozen5sec wait_for is a maximum architectural concurrency barrier, not a fixed provider delay.",
+    "Fixture setup254\u2192536\u2192793ms also increases but is excluded from original execution. This is non-exclusive variance evidence, not proof host rather than product caused execution cost.",
+    "Raw24 contains no worker/native API CPU/IO/perphase counters. Native shared-read/rename overhead is a concrete changed source-path hypothesis, not quantified cause.",
+    "Prior4f single instrumented48.4497sec/2124replacements/2transient/0terminal and prior22first70.8595sec then terminalWin5 are parent-reported retained context, not independently rehashed here or replacement acceptance samples.",
+    "63.134/70.923 prior whole20/21 and slow baseline95.100 remain. No sample selection, deadline/workload relaxation, attribution to unknown historical holder, or release acceptance."
+  ],
+  "prospective_one_narrow_methodology": {
+    "status": "DESIGN_ONLY_REQUIRES_EXACT_ROOT_SECURITY_ACCEPTANCE_REVIEW_NO_RUNNER_STAGED",
+    "question": "How much of ONE original execution interval is spent in changed canonical snapshot-read and native rename operations, versus other worker elapsed/CPU time?",
+    "finite_work": "ONE fresh candidate execution of unchanged original worker/fixture26+4checks, original5sec barrier/300sec owned native-process cap. Do not repeat baseline or rerun until faster.",
+    "outside_clock_observation": "Retain two typed native whole-self CPU/IO bundles immediately outside original clock. Same reviewed ownership/handshake/tree-stop/guard pattern; no host process scan.",
+    "two_pass_through_targets": "io._read_bytes (guarded caller already selected target; inclusive open+read) and io._replace_file (new native open+rename+close path). Bind actual original callable/module hashes; delegate originals exactly once preserving args/results/exceptions. No sleep/profile/lock wrapper, no changes to Git/graph identity guards.",
+    "scalar_per_call": "Monotonic start/end, thread_id, thread_time_ns CPU start/end, success/error type+WinError, opaque/relative-owned target class only; no file bytes/requests/prompt payloads. Direct bookkeeping failures INVALID but never mask native outcomes.",
+    "interpretation": "Report interval unions and per-thread inclusive CPU totals with nesting/concurrency limits. _read_bytes includes temporary verification reads and may overlap _replace_file across threads. Do not sum inclusive intervals into historical elapsed. Native CPU excludes subprocesses; thread CPU is CPU charged to that thread, not exclusive backend implementation.",
+    "phase_context": "After original clock, reuse persisted scalar phase/provider/tool timestamps and sequences; no extra SDK/store/recovery calls. Phase timings localize wall intervals, not reconstruct per-phase native CPU.",
+    "credibility": "Predeclare direct observer bookkeeping+query screen, explicitly incomplete perturbation proof. No adaptive extra samples; any missing/error/overhead/lifetime/guard failure invalidates quantitative claim.",
+    "decision": "Material observed changed-I/O cost justifies targeted backend design review; negligible cost excludes that mechanism only in this observation and leaves53 blocked. Neither result retroactively proves old host cause or timing equivalence."
+  },
+  "workloads_invoked_by_reviewer": 0,
+  "no_new_confirmed_candidate_correctness_defect": true,
+  "current_full24_and_round25_status": "Full24 pending at review; round25 not read or credited.",
+  "release_acceptance_credit": 0
+}

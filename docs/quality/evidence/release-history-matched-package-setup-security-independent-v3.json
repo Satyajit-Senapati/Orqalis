@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T20:32:53.669361+00:00",
+  "decision": "APPROVE_ONE_FIXED_V3_MEASUREMENT_ACK_AFTER_ACTUAL_PREPARATION_PASS",
+  "scope": "Independent bounded actual setup and metadata review; no native queries, product imports, package payload scans, copies or workloads invoked by reviewer.",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "docs\\quality\\evidence\\release-history-matched-package-prepare-actual-v3.json": "ed993369c9d977019f5d31841e1c261a7072de2d7dadc24aec1125e5a249b39c",
+    ".tools/research/release-history-matched-package-setup-v3.json": "64d120708ad4256fa23bed8067975b2f10769c8a4a951168e67bba1f17f6bc17",
+    ".tools\\research\\release-history-matched-package-prepare-actual-v3.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".tools/research/release-history-matched-package-plan-v3.json": "a931ea1c3e7e266fe2e62fdac6ccd89df918a863eb69a439e5e95b857dc18feb",
+    ".tools/research/release_history_matched_package_v3.py": "41e46b5082e7cabf5fbf465702a79aad87175d6e7720231806357c8a6fc9d4d8",
+    "docs/quality/evidence/release-history-matched-package-prepare-ack-v3.json": "3c36aded795ea0a9afcc3b4a461277064f52c7e40cc815d1d6cca2fcae5fad5d",
+    "docs/quality/evidence/release-input-freeze-cleanup-portable-v3.json": "77fc84b1c8ade44145459d4ed5735bbbddd08171ef9e3b37ef1704a05e7d7d95",
+    "docs/quality/evidence/release-private-helper-inventory-windows-cleanup-typed-v2.json": "06423ac37d140ff08bb9d45d2e84d1559e2fd8d446a7f3d99c758ca390bb3c9b",
+    "docs/quality/evidence/release-private-helper-inventory-portable-reuse-v2.json": "16ec6da5116041c86253d0c4b5f74a8fad65b442367a4f02e7e97c37ece99016",
+    "docs/quality/evidence/release-history-matched-package-security-prelaunch-v3.json": "2dc92712afe5213dae742b62494197db8c8e12ae9038303ed2f76a4b8a614574",
+    "docs/quality/evidence/release-history-matched-package-design-acceptance-independent-v3.json": "8f1665ac747e984ea9fc95fe43d8ee6560f07af261af9dda300837224e2d716c"
+  },
+  "verified": {
+    "actual_prepare_exit_code": 0,
+    "reported_bindings_stable": true,
+    "actual_small_bindings_match": true,
+    "setup_status": "BYTE_EXACT_PACKAGE_ONLY_PREPARATION_PASS",
+    "exact_manifest_metadata_by_role": {
+      "R": {
+        "count": 203,
+        "equal_reviewed_plan": true,
+        "neutral_root_exists": true
+      },
+      "C": {
+        "count": 203,
+        "equal_reviewed_plan": true,
+        "neutral_root_exists": true
+      }
+    },
+    "environment_metadata_matches_reviewed_version_and_dependency_hash": true,
+    "setup_reports_no_native_queries_imports_pages_reservation_or_workloads": true,
+    "prepare_ack_measurement_false": true,
+    "measurement_ack_and_all_capture_outputs_absent_at_review": true,
+    "empty_prepare_log_sha_matches": true
+  },
+  "limits": [
+    "Actual package byte equality is established by the reviewed prepare implementation and captured successful pre/post package guards, not an independently repeated payload rehash in this metadata review.",
+    "No performance result or release convergence is established. Historical failures and 0/2 whole release rounds remain unchanged.",
+    "Approval covers one predeclared R1/C1/C2/R2 block only after separate root ACK binding this exact setup hash and reviewed runner/plan; stop on first failure and independently review actual worker lifecycle and results."
+  ],
+  "confirmed_launch_blocking_findings": []
+}

@@ -30,7 +30,11 @@ def workspace_digest(workspace: RunWorkspace, git: LocalGitService) -> str:
         if target.exists():
             if not target.is_file() or target.stat().st_size > 10_000_000:
                 raise PolicyDeniedError("Changed artifact exceeds review limits")
-            digest.update(hashlib.sha256(target.read_bytes()).digest())
+            with target.open("rb") as stream:
+                content = stream.read(10_000_001)
+            if len(content) > 10_000_000:
+                raise PolicyDeniedError("Changed artifact exceeds review limits")
+            digest.update(hashlib.sha256(content).digest())
         else:
             digest.update(b"deleted")
     return digest.hexdigest()
@@ -67,7 +71,7 @@ class ReviewService:
             ):
                 raise PolicyDeniedError("Review must match a persisted result of this Reviewer")
             goal = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )
@@ -96,7 +100,7 @@ class ReviewService:
                 raise ConflictError("Review overall outcome contradicts its criteria/findings")
             for item in result.criteria:
                 criterion = next(c for c in goal.criteria if c.id == item.criterion_id)
-                evidence = [uow.runs.get_evidence(ref) for ref in item.evidence_refs]
+                evidence = [uow.runs.get_evidence(ref, run_id=run.id) for ref in item.evidence_refs]
                 if any(
                     e is None
                     or e.run_id != run_id

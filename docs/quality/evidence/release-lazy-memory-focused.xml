@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="3.084" timestamp="2026-10-02T18:01:10.924137+05:30" hostname="THOR-GALAXY"><testcase classname="tests.unit.test_filesystem_auxiliary_stores" name="test_auxiliary_repositories_roundtrip_restart_and_preserve_semantics" time="0.738" /><testcase classname="tests.unit.test_filesystem_auxiliary_stores" name="test_full_uow_rollback_discards_capsule_extensions_and_memory" time="0.297" /><testcase classname="tests.unit.test_filesystem_auxiliary_stores" name="test_controller_lease_is_held_until_full_uow_closes" time="0.241" /><testcase classname="tests.unit.test_filesystem_auxiliary_stores" name="test_task_only_uow_preserves_unrelated_corrupt_source_projection" time="0.268" /><testcase classname="tests.unit.test_filesystem_auxiliary_stores" name="test_delayed_memory_access_observes_commit_and_releases_its_lock" time="0.280"><failure message="pydantic_core._pydantic_core.ValidationError: 4 validation errors for ProjectSnapshot&#10;indexed_commit_sha&#10;  Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/missing&#10;repo_fingerprint&#10;  Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/missing&#10;files_scanned&#10;  Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/missing&#10;commit_sha&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', input_type=str]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden">tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-503/test_delayed_memory_access_obs0')
+
+    def test_delayed_memory_access_observes_commit_and_releases_its_lock(tmp_path: Path) -&gt; None:
+        store, project, _ = _initialized_store(tmp_path / "repo")
+&gt;       snapshot = ProjectSnapshot(project_id=project.id, commit_sha="b" * 40)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 4 validation errors for ProjectSnapshot
+E       indexed_commit_sha
+E         Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.13/v/missing
+E       repo_fingerprint
+E         Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.13/v/missing
+E       files_scanned
+E         Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.13/v/missing
+E       commit_sha
+E         Extra inputs are not permitted [type=extra_forbidden, input_value='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', input_type=str]
+E           For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+
+tests\unit\test_filesystem_auxiliary_stores.py:293: ValidationError</failure></testcase></testsuite></testsuites>

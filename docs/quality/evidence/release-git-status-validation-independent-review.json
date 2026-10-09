@@ -1,0 +1,132 @@
+{
+  "review_kind": "independent_read_only_completed_scoped_validation",
+  "created_at": "2026-10-03T10:21:18.733389+00:00",
+  "source_binding": {
+    "sha256": "635e1fec1b39c5998e8294ba376ee2a641546f4c632b5973a775b7a26cff6957",
+    "file_count": 196
+  },
+  "completed_captures": [
+    {
+      "capture": "docs/quality/evidence/release-git-status-focused-v1.json",
+      "capture_sha256": "7fbf88c21737ed9da2484c78a631456fe36502855b54978097ea2d70de8f99f9",
+      "source_sha256": "635e1fec1b39c5998e8294ba376ee2a641546f4c632b5973a775b7a26cff6957",
+      "test_file_sha256": {
+        "tests/unit/test_git.py": "87a25c8e7a706cda0ff499b13afea222c721c405eaa434a9a682a3fed460c1a7",
+        "tests/unit/test_project_graph.py": "9a30b712ab1fab0715e45fd1c4e0c9f4179383c05c4cddbd85c4a66b12c877c4",
+        "tests/unit/test_project_context_builder.py": "7b8c3224fa396a4d1c4578f1223962ca2bda36458e28f1df302ea06143a1ea89",
+        "tests/integration/test_memory.py": "1b8519af19d476564700772641e87338cb886747b5e24a255ca37df30b0009e1"
+      },
+      "runner": ".tools/research/release_git_status_focused_v1.py",
+      "runner_sha256": "0a05e8448ea6740a74c26a3fb7f3471ee04630e13e57a4754d790dc7a5f58b91",
+      "junit_sha256": "d42db03b851ae41d8cdd9a73a90881a4718401f9f7f888353e01f52f8073b4da",
+      "log_sha256": "e435e0c0de31aa2424394d37177ba3d67ddca47d69b46a8f54d01d57e7f2a4a9",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "75",
+          "time": "825.220",
+          "timestamp": "2026-10-03T15:31:19.820363+05:30",
+          "hostname": "THOR-GALAXY"
+        }
+      ],
+      "cases": 75,
+      "runner_isolated_actual_src_bootstrap_read": true,
+      "scale_500_source_functions_present_in_JUnit": [
+        "test_large_repository_refresh_reads_only_changed_source"
+      ]
+    },
+    {
+      "capture": "docs/quality/evidence/release-git-status-focused-v2.json",
+      "capture_sha256": "f63e08860c4cc43a2cd317504b4e0245f4ec29e371fcf9c80370640103fb7fe1",
+      "source_sha256": "635e1fec1b39c5998e8294ba376ee2a641546f4c632b5973a775b7a26cff6957",
+      "test_file_sha256": {
+        "tests/unit/test_git.py": "a92120c3fe1b80d2f2362169655645b24276accb3ad3302f274f1481d84eaf1b"
+      },
+      "runner": ".tools/research/release_git_status_focused_v2.py",
+      "runner_sha256": "c733843531681ba59ecf0fc893aab28bea554f07e881a13ec306502c2e68a19d",
+      "junit_sha256": "7c50294b8c03f1d6bf12cacfbc3680497ef6ef7a51b851ecf52ef076bc901c13",
+      "log_sha256": "4bc16577bd7a996823d1d8d6021e1da048abc598fbde2b405a17bb8c0d11ed11",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "31",
+          "time": "57.906",
+          "timestamp": "2026-10-03T15:46:52.306471+05:30",
+          "hostname": "THOR-GALAXY"
+        }
+      ],
+      "cases": 31,
+      "runner_isolated_actual_src_bootstrap_read": true,
+      "scale_500_source_functions_present_in_JUnit": []
+    }
+  ],
+  "style_correction_proof": {
+    "disposition": "docs/quality/evidence/release-git-status-test-lint-disposition-v1.json",
+    "disposition_sha256": "c61075c3d48e9b0a8f78b58241ffcea6ee60350c4c689ceed8c01bff57fffc80",
+    "retained_original_two_lint_errors_log_sha256": "ac06624cae5281279054c58e47acf536bf50807f7e37cb3818ae1151cf40f870",
+    "current_Git_test_sha256": "a92120c3fe1b80d2f2362169655645b24276accb3ad3302f274f1481d84eaf1b",
+    "exact_two_change_inverse_original_Git_test_sha256": "87a25c8e7a706cda0ff499b13afea222c721c405eaa434a9a682a3fed460c1a7",
+    "original_CRLF_preserved_in_reconstruction": true,
+    "changes_only": [
+      "Explicit UTF-8 encode argument removed; str.encode() has identical default UTF-8 semantics.",
+      "Equivalent same-condition if/else replaced by conditional expression; raw/suffix operands and malformed framing values unchanged."
+    ],
+    "assertions_deadlines_fixture_paths_and_production_inputs_unchanged": true,
+    "other_three_v1_test_files_byte_identical_now": true,
+    "old_75_capture_not_rebound_to_new_test_hash": true
+  },
+  "static_evidence": {
+    "path": "docs/quality/evidence/release-git-status-static-v2.json",
+    "sha256": "09434b5465630ca80e556f25bec4523c5796461996b686be2f3b12520efeb270",
+    "checks": [
+      {
+        "name": "typing",
+        "exit_code": 0,
+        "log": ".tools\\research\\release-git-status-typing-v2.log",
+        "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+      },
+      {
+        "name": "lint",
+        "exit_code": 0,
+        "log": ".tools\\research\\release-git-status-lint-v2.log",
+        "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+      },
+      {
+        "name": "format",
+        "exit_code": 0,
+        "log": ".tools\\research\\release-git-status-format-v2.log",
+        "sha256": "f82b031f997f0909d82c00a03c55289a3924bafda955b7cb56163183055129c3"
+      }
+    ],
+    "raw_log_results": [
+      "Success: no issues found in 287 source files",
+      "All checks passed!",
+      "309 files already formatted"
+    ],
+    "all_raw_log_hashes_verified": true
+  },
+  "runner_limits": [
+    "Both retained runners use Python -I with explicit src bootstrap and verify orqalis imported from actual repository src; controlled_environment is used.",
+    "Sources and selected test files are hashed before/after; equality is reported in raw capture and current source/test identities mechanically match as specified.",
+    "These scoped manifests do not independently capture every possible environment or helper input; do not substitute for complete frozen release qualification."
+  ],
+  "disposition": "Completed 75-case source635 evidence is valid at its original Git-test bytes; completed 31-case source635 Git evidence validates the exact corrected Git-test bytes. Other three suites remain byte-identical, and fresh static logs are bound. No new source changes or failures are inferred.",
+  "limits": {
+    "browser_14_result": "pending/not reviewed in this artifact",
+    "browser_deadline_cure_claim": false,
+    "frozen_86_preflight_closure": false,
+    "full_release_rounds_completed": 0,
+    "full_release_rounds_required": 2,
+    "P1_closure": false,
+    "release_certification": false,
+    "reviewer_tests_workloads_builds_or_benchmarks": false,
+    "production_test_helper_capture_mutations": false,
+    "new_commits": false
+  }
+}

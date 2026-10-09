@@ -1,0 +1,1376 @@
+{
+  "status": "TWO_LOCAL_QUALIFICATIONS_ACCEPTED_WITH_USER_COLD_EXCEPTION_OSS23_PENDING_FINAL_DELIVERY_GATES",
+  "reviewed_at": "2026-10-09T06:18:23.724503+00:00",
+  "reviewer": "release_acceptance_review",
+  "release": "2.1.0",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "accepted_local_qualification_iterations": 2,
+  "accepted_section53_iterations_with_release_specific_exception": 2,
+  "unqualified_clean_convergence": false,
+  "whole_rounds": [
+    {
+      "label": 30,
+      "status": "ACCEPTED_LOCAL_QUALIFICATION_WITH_EXPLICIT_COLD_COST_EXCEPTION",
+      "raw_iteration_status_unchanged": "COMPLETE_PENDING_INDEPENDENT_REVIEW",
+      "full": {
+        "total": 935,
+        "passed": 933,
+        "failed": 0,
+        "errors": 0,
+        "skips": [
+          {
+            "classname": "tests.integration.test_sandbox",
+            "name": "test_docker_workspace_network_and_readonly_root",
+            "reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image"
+          },
+          {
+            "classname": "tests.unit.test_portable_skills",
+            "name": "test_skill_symlink_parent_is_rejected",
+            "reason": "Creating symlinks requires local OS permissions"
+          }
+        ]
+      },
+      "five_full_stability_flags": true,
+      "browser": {
+        "passed": 14,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "start": "2026-10-07T09:03:52.836303+00:00",
+      "finish": "2026-10-07T09:43:19.968376+00:00"
+    },
+    {
+      "label": 31,
+      "status": "ACCEPTED_LOCAL_QUALIFICATION_WITH_EXPLICIT_COLD_COST_EXCEPTION",
+      "raw_iteration_status_unchanged": "COMPLETE_PENDING_INDEPENDENT_REVIEW",
+      "full": {
+        "total": 935,
+        "passed": 933,
+        "failed": 0,
+        "errors": 0,
+        "skips": [
+          {
+            "classname": "tests.integration.test_sandbox",
+            "name": "test_docker_workspace_network_and_readonly_root",
+            "reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image"
+          },
+          {
+            "classname": "tests.unit.test_portable_skills",
+            "name": "test_skill_symlink_parent_is_rejected",
+            "reason": "Creating symlinks requires local OS permissions"
+          }
+        ]
+      },
+      "five_full_stability_flags": true,
+      "browser": {
+        "passed": 14,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "start": "2026-10-07T09:43:22.077526+00:00",
+      "finish": "2026-10-07T10:27:51.076309+00:00"
+    }
+  ],
+  "authorization": {
+    "status": "USER_ACCEPTED_RELEASE_SPECIFIC_PERFORMANCE_TRADEOFF",
+    "recorded_at": "2026-10-09T06:08:12.376320+00:00",
+    "release": "2.1.0",
+    "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+    "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+    "user_authorization_verbatim": "Accept the tradeoff for now we'll do in next release",
+    "authorization_context": "Direct user reply to explicit choice between cache redesign/fresh qualification and acceptance of measured cold-rebuild cost with amended performance criterion.",
+    "scope": "For2.1.0 only, the existing cold graph-rebuild degradation is an explicitly accepted product tradeoff instead of a local release blocker. Root cause remains unknown. This is not a speed fix, general benchmark waiver or retroactive clean-run relabeling.",
+    "preserved_requirements": [
+      "Original2xbaseline+250ms investigation rule and all samples unchanged",
+      "No waiver for new correctness/security P0/P1, graph/gold/semantic regressions or unrelated benchmark degradation",
+      "Existing snapshot/link/rename/freshness protections unchanged",
+      "Independent acceptance of exact source-bound qualifications still required",
+      "Hosted platform/owner gates and no main commit/push/tag/publication remain"
+    ],
+    "deferred_work": {
+      "id": "PERF-COLD-01",
+      "target": "Next release after2.1.0; version not selected",
+      "task": "Investigate and optimize cache-storage/open costs with preserved freshness, parser identity, strict validation, containment, snapshot and atomic-rename semantics; meaningful focused checks, fixed fullSDK comparisons, two source-bound full qualifications. No blind retries or weak-reader fallback."
+    },
+    "raw_evidence_sha256": {
+      "release-heldout-matched-study-actual-v2.json": "457b515e57f3ffec759c914541d0322b23fb15f7fcdfc3e1640b332afa72c301",
+      "release-full-sdk-cache-reader-control-actual-v2.json": "0ca5f1206827d8278248ecacaa42a9b014f837d19c7eaf5f0f1eed8feaee6f47",
+      "release-full-sdk-cache-reader-control-actual-quality-disposition-v2.json": "a90117569b952e7cd72278669c78fd0a34c6329126bcbdb43397fb0bc40f394a",
+      "release-full-sdk-cache-reader-control-actual-acceptance-disposition-v2.json": "e6726dbacbdf5817ca109b1dd76d62eb778dc2f49c4fec2779249d382e4fa2c4",
+      "release-owned-temp-quality-performance-final-proof-v1.json": "2e6cd48d147d116a3d02aff8b3af5536bd931460a3ad2e9ddc443cdd22b0fccc"
+    },
+    "accepted_convergence_iterations_before_independent_review": 0,
+    "no_new_workload_execution": true
+  },
+  "evidence_sha256": {
+    "release-cold-performance-user-acceptance-2.1.0-v1.json": "cfd8ecaf438d905aa6648508aea541870246625619246d3285d618c915c02107",
+    "release-tradeoff-final-quality-review-v1.json": "3516867368b87002955b406cf2e7a98b008bfed2c46736a48a481199eae07931",
+    "release-owned-temp-two-whole-functional-acceptance-cold-open-v1.json": "c7150b00666b32826b64b2f18891423283444b2e4fb6971ab5278e3ff1504aed",
+    "release-owned-temp-quality-performance-final-proof-v1.json": "2e6cd48d147d116a3d02aff8b3af5536bd931460a3ad2e9ddc443cdd22b0fccc",
+    "release-owned-temp-quality-performance-preliminary-v1.json": "da1d1088c1ee33a12ac72c9c956d27b220d8ee715851bdabe8e4cbc1364a2d85",
+    "release-graph-cache-read-ahead-rollback-acceptance-review-v1.json": "7553a810af2dff178ac883e2a93335ab1959a91f5469257b9feb4bdebe29cea2",
+    "release-owned-temp-final-runtime-security-review-v1.json": "95412d9c283ae5e6ef6045c894a5254ed34092fc7c8c5d5d9cac0cc4e9f68728",
+    "release-owned-temp-initial-artifact-security-review-v1.json": "3b086970817cf1cd3c57d9e6847f0e5aa9aece62966d098c7241ac0aa97ac606",
+    "release-owned-temp-final-docs-actual-security-closure-v6.json": "aa15b5f530e9dcd45f44648864f10f5b7bdab2e05f6de9987982a1c5b880cd4d",
+    "release-owned-temp-final-docs-actual-v6.json": "9a62f8509f7b88730e4ecf5a9b9252d50cfe45da6cdd28f872cd2106a52300fc",
+    "release-owned-temp-finish-actual-v1.json": "82638a3fe2925e9ea84502515a9e74709953c467a7fce9a98ae47662b372ddf1",
+    "release-static-owned-temp-release.json": "7d02033c69d41aed8a5f84db52f82e2351b59c2d1f7c59567f1a170d1faa7fa1",
+    "release-contracts-current-owned-temp-release-v2.json": "bca206a52f3ab31a0e381003329f0dda3b42fe2e50c03bf4131c873280e9bde8",
+    "release-contracts-current-owned-temp-release-v2.junit.xml": "2dd48136aaa348d60b3d192e49f120a345ce1d5b8d926212e7956bc5e1360c48",
+    "release-history-owned-temp-release-semantics-v1.json": "1aefe685645cbaf4fd39c36771f4437708aba20349654b4e59453cdf10e1f83f",
+    "release-integration-examples.json": "4e972d33e32354d96a98bcac31144563f7af8ee7c0a51e7632f4733da7e9e426",
+    "installed-npm-release-2.1.0-owned-temp-release.json": "54188f0f4ad5be6b5c72c3d6d514ed267decf290fe6d1af31575a700a44f707e",
+    "installed-wheel-release-2.1.0-owned-temp-release.json": "592aea0e70696a73c100e30c5e8c8eaf1d2a5aa953d1bb32f3a84b6e00d9206a",
+    "release-history-page-path-acceptance-addendum-v1.json": "549a0889a818fd111b77d12e979800933f8c7a93cc208f56c345e0d8e354d3a3",
+    "release-heldout-current-owned-temp-release-v1.json": "a4ba759d7a91dcf8679ae8641267cc30003a85342bdf02d24ac6d09779a5223b",
+    "release-iteration-30.json": "35cc8ba5a324ee647dce6ca959cb7c1119811fe5a49047c6bb495929c33d82b2",
+    "full-regression-release-30.json": "b67c458e3c044cd474aad7c82cb29436b5a71e16623c6975ec0ad194e0064ea4",
+    "full-regression-release-30.xml": "9ef25e649a4132808983419a505ccb2b08c5af37d902b20d0f0f6fc4e8b64377",
+    "release-browser-30.json": "70212cac2e8c6ad575d0a7b7edc69f6cc3bc4a0a6b9e78cfd209b4df26145187",
+    "release-browser-30.xml": "b970727e77a831dab3b04372242672811cc4ea861e291d53e7530e631aeba40e",
+    "release-memory-30.json": "38a88e71aa02d5e0cbcff4b1356ef5e695004a8378264ffa12b126f3ebd03536",
+    "release-quality-comparison-30.json": "78c64daab42fa9eaf35671c7fd38671a5a155d7eafa4d24073bff235a0923454",
+    "release-execution-current-30.json": "d863c4db4f72cd256d315de92aa4f8d35d389e534b009606335298527d3d53bf",
+    "release-ui-current-30.json": "1a3f528da7ba8e53953051390bbf44a4e4c5b3efb6ac5676792233919e13c6e3",
+    "release-constrained-current-30.json": "92700521c6ee38e438b4e17c9f22e536137560045255ba7fdd1f39b0b3379a4d",
+    "release-iteration-31.json": "47222a1f3f655e7c32abe6cfe1595e2080c778155df150dba620503650a80005",
+    "full-regression-release-31.json": "3812272c986c509b8e4b1f1594d4360333ff64aefed28594c974de11cbb0130d",
+    "full-regression-release-31.xml": "e06646fe157ada8e4a0423f8ebdab5d1414273dff81e749f5e9ec2a1d2bdd74d",
+    "release-browser-31.json": "ebaac36490489d6d3a972b2e8635763f5db29fd0bc30571e759b2bce6a042e03",
+    "release-browser-31.xml": "930cf58a55e2e466d505eb8ffbebd57b8bc400cb1bf0498d41705836dccbdc78",
+    "release-memory-31.json": "5c09f39773a4b4852e0315909603102b7d80668d2abb11337b193c5d400d340e",
+    "release-quality-comparison-31.json": "9abba7699365d5e6204b8825df866bffff4d4d1b2e102a514da79bfa65cd9a7d",
+    "release-execution-current-31.json": "68c6b7393adea9bcc023d4b013b33a7094f29be08dce64a54b105702da8e1813",
+    "release-ui-current-31.json": "f71abc71c64a2b2c58041f3f96e1130e808df9a20a2ad7a3569542ba3d53f0e5",
+    "release-constrained-current-31.json": "e6dc9f9124ce9c72cc0d5c26b95a588e34e4e41656e217199aea0b7721215f30"
+  },
+  "document_snapshots_sha256": {
+    "docs/quality/capabilities.json": "a30b21905fd9f6e8a3ef4f0e3a5c414c6f1ffab0c4ce047e071b1259fe256a69",
+    "docs/quality/MASTER_ENHANCEMENT_PLAN.md": "967e3b875178cfbfcc304651f31a795ba4e9ab72a7c9cbeb0cd169bcdc661775",
+    "docs/quality/ENHANCEMENT_BACKLOG.md": "c3dcdc525a4d2518e7a757135ac3d52c1dc4a0abba8f04b1cf8e8f53cc854313"
+  },
+  "mapped_unique_source_test_support_files_rehashed": 92,
+  "identity_scope": "Exact source01/inputa0 restoration independently verified previously197/394; current mapped files rehashed here against original freeze or unchanged gold lineage. Both fulls exact source/test/helper/wrapper/environment match. No new full inventory/dependency scan, product import, test or benchmark.",
+  "decision": "Accept the two consecutive local whole30/31 qualifications WITH EXPLICIT USER-ACCEPTED COLD GRAPH-REBUILD COST EXCEPTION. Preserved raw pending/block labels and original timestamps remain unchanged; this record supplies new exception-bound adjudication, not clean relabeling or new execution.",
+  "performance_and_security_scope": {
+    "exact_quality_tradeoffs_per_round": 30,
+    "both_raw_quality_status": "REVIEW",
+    "no_new_or_unmapped_losses_in_actual_independent_quality_proof": true,
+    "six_execution_samples_26plus4_PASS_below_every_all9_reference_sample": true,
+    "memory_workflows": 90,
+    "browser_each14_PASS_0fail_error_skip": true,
+    "static13_and_frozen86_PASS": true,
+    "installed17_MCP41_exact51dependency_audits_PASS": true,
+    "confirmed_current_runtime_P0": 0,
+    "confirmed_current_runtime_P1": 0,
+    "new_unrelated_unexplained_gate_identified_in_review": false,
+    "limits": "Retain progressive memory refresh latency/richer storage+allocation costs/historyMIXED+tails. Character response caps/logical reads/process commit are not tokens/physicalIO/RSS. Direct-ID memory workflow has narrower witnesses. No cause of historical native/browser failures, OS/external-host idle or universal latency guarantee claimed."
+  },
+  "capabilities": {
+    "count": 23,
+    "promoted_count": 0,
+    "status": "ALL23_REMAIN_IMPLEMENTED_PENDING_EVAL",
+    "DEFER_count_unchanged": 13,
+    "broader_master52_all_P1_feature_closure": false,
+    "per_id_current_coverage": [
+      {
+        "id": "O04",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Owned-child kill/restart at planning, execution, tool, review, repair, docs and Git boundaries; no duplicate effect; real-lock polling starvation, prompt cancellation and repeated-cancel ownership drain",
+        "benchmark_criteria": "Restart outcome, event continuity, side-effect count; live Docker tier separate",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/core/orchestrator.py": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+          "src/orqalis/core/recovery.py": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8",
+          "src/orqalis/execution/cancellation.py": "4b8e92e3b09b1a1d43ebabe19f3f001f79ce8d174fa67f5a11229cf286344816",
+          "tests/integration/test_hard_crash_matrix.py": "61cfc32564f6a994c7caf2960c45d662b7ded11c47297136469385530f23df43",
+          "tests/unit/test_cancellation_polling.py": "bba9ad5dbdc49f2553fc42ba0036489bab96ad3d243b66188cb7bb6375961d0c"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/integration/test_hard_crash_matrix.py": {
+              "PASS": 8,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_cancellation_polling.py": {
+              "PASS": 6,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/integration/test_hard_crash_matrix.py": {
+              "PASS": 8,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_cancellation_polling.py": {
+              "PASS": 6,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "One real matrix covers planning/tool/agent/review/repair/documentation/git_prepare/git_attach. Eight class PASS include that one matrix plus seven live/dead/shared30s-deadline helper scenarios. Event continuity/idempotency/effect once, owned cancellation drain and persistentlease failure remain required.",
+        "benchmark_evidence_route": "Both real-crash/cancellation full XMLs plus six original26+4 execution captures.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "X01",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Create/start/inspect/remove fake transport; crash windows; mismatch/daemon denial; all application command paths",
+        "benchmark_criteria": "Zero unrelated deletion or unsafe concurrent writer; deterministic cleanup outcomes",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/execution/sandbox.py": "8f6111c2eea7ca789e91bee7ef7deb4d520c50b0cf7410629ca29b24eec590fe",
+          "src/orqalis/execution/commands.py": "1b42123323ac14322416cfb5f48e922830c4e7420440b552678577ed727a4c77",
+          "src/orqalis/core/recovery.py": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8",
+          "tests/unit/test_sandbox_lifecycle.py": "389651db2159b988fab2d7e3af0925b7b0ea00d863f7d0b25d4f8cc8b51f6f99",
+          "tests/integration/test_sandbox_recovery.py": "81f83ca3f71f77f6caa6765bf21a6d2b056982abe73251421922bc90a1124397"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_sandbox_lifecycle.py": {
+              "PASS": 13,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_sandbox_recovery.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_sandbox_lifecycle.py": {
+              "PASS": 13,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_sandbox_recovery.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "All command entry points preserve durable daemon/full-ID/label receipts, uncertain create/remove crash windows, mismatch/denial and fail-closed cleanup. LiveDocker is explicitly optional, not inferred.",
+        "benchmark_evidence_route": "Both13 fake lifecycle+1recovery classes; explicit optional live Docker skip.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "S01",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Assertion removal, skip/xfail, legitimate refactor, exact-hash approvals and stale approval denial",
+        "benchmark_criteria": "Zero known weakening fixture misses; documented false positives",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/delivery/guardian.py": "5929faaf4262353ef76a96be20c57637d83b450e9917ac97f279c6b1428f7918",
+          "src/orqalis/delivery/test_integrity.py": "7fc302d7333b495122867b0a5a7db9a0c28844481131cd56e7df671736553a90",
+          "tests/unit/test_guardian_integrity.py": "8cfe19296a9469352c7243b128a547fff9fc715d2f23b2ed0498301cd263530a"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_guardian_integrity.py": {
+              "PASS": 19,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_guardian_integrity.py": {
+              "PASS": 19,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Exact digest/version review exceptions deny stale approval; assertion/helper removal, skip/xfail/module collection/syntax/AST complexity signals fail closed. Conservative false positives remain described.",
+        "benchmark_evidence_route": "Both19 conservative integrity fixture cases; no universal weakening-detection claim.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "S02",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Sparse/oversized file, growth race, ordinary allowed file",
+        "benchmark_criteria": "Read bound and explicit denied outcome",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/delivery/guardian.py": "5929faaf4262353ef76a96be20c57637d83b450e9917ac97f279c6b1428f7918",
+          "src/orqalis/execution/review.py": "eb887680264ce96d86def6cc4bc8cdf04ff91007a2435737fcee64bf86a72cec",
+          "tests/unit/test_guardian_integrity.py": "8cfe19296a9469352c7243b128a547fff9fc715d2f23b2ed0498301cd263530a"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_guardian_integrity.py": {
+              "PASS": 19,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_guardian_integrity.py": {
+              "PASS": 19,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Sparse/oversized and growing-file races enforce bounds before whole-content allocation; ordinary permitted file still works.",
+        "benchmark_evidence_route": "Both19 guardian fixture cases and current30/31 constrained measurements.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "G01",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Unknown receiver, aliases, shadowing, duplicate names, inheritance and rebuild equality",
+        "benchmark_criteria": "Zero false extracted target bindings on labeled fixtures",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/graph/parsing.py": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+          "src/orqalis/graph/engine.py": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+          "src/orqalis/graph/models.py": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+          "tests/unit/test_graph_provenance.py": "c9656fcd334d6b42ce7f9003160215f7e1b4fae7028ab4f7ab88ce1b8935226c",
+          "tests/unit/test_project_graph.py": "f98718dded3fb2b24387965b30350fdeff1077f216e9d257c4e8e4246de99ac5"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_graph_provenance.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_project_graph.py": {
+              "PASS": 30,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_graph_provenance.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_project_graph.py": {
+              "PASS": 30,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Occurrences EXTRACTED and target candidates INFERRED remain distinct; unknown receivers, imports/shadowing/inheritance and partial/rebuild fixture labels show no false extracted binding.",
+        "benchmark_evidence_route": "Both provenance10/projectgraph30 plus fixed quality graph witnesses.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "G02",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Multiline/generics/JSX/imports/classes/interfaces/partial syntax; Python parity; package portability",
+        "benchmark_criteria": "Symbol/location accuracy, indexing time/size and parser cache reuse",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/graph/ecmascript.py": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+          "src/orqalis/graph/parsing.py": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+          "src/orqalis/graph/engine.py": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+          "pyproject.toml": "db46ccf2aaed13a1b53e428fc6425dbf4d3ceb847a48fc0f4554d5a042ba2d34",
+          "uv.lock": "4b0f3dc2dfb5d86e4d40323200bfc8af495984e8dae1fca4627920be19a03bbc",
+          "tests/unit/test_ecmascript_graph.py": "5d097107fed94487534edd1438e899f19f4d36cfea5fe3e1815a65bb76604b49"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_ecmascript_graph.py": {
+              "PASS": 33,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_ecmascript_graph.py": {
+              "PASS": 33,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Pinned native grammars capture TSX/generics/multiline/partial syntax and exact Unicode byte spans; Python parity/cache invalidation/one-file parse and installed portability match. Syntax is not runtime/LSP certainty.",
+        "benchmark_evidence_route": "Both33 ECMAScript fixtures,263-file heldout, installed wheel extraction/incremental proof.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "G04",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Cycles, direction, ambiguity, provenance, bounds, SDK/CLI/MCP contract",
+        "benchmark_criteria": "Returned nodes/bytes vs whole graph; deterministic witness validity",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/graph/queries.py": "dafa778e9f2e7829fe576ff589d3b5d58f5543803fc19434fcc2567e97b7a5e7",
+          "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+          "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+          "src/orqalis/cli/catalog.py": "c3e80586f0d6426ccf0feb24c7177b808b8a10566061f58be0f4c51f468d4703",
+          "tests/unit/test_graph_queries.py": "4c12e29b916db763d07dcd97fd33996e99347c9e3635714369cbbde15fa193b5",
+          "tests/integration/test_mcp.py": "35d85f7135a44c7288f9f126ecd406cb3eaecfb30fcb9f1f5a4b258a872e7587"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_graph_queries.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_mcp.py": {
+              "PASS": 2,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_graph_queries.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_mcp.py": {
+              "PASS": 2,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Traversal direction, cycles, ambiguity, incomplete bounds and edge witnesses remain deterministic at SDK/CLI/MCP; bytes are actual serialized selective results.",
+        "benchmark_evidence_route": "Both10query/2MCP cases; quality/navigation and current memory response metrics.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "G05",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Duplicate/nested/decorated/Unicode symbols, stale source, path escape, byte limits",
+        "benchmark_criteria": "Exact source selection and bytes avoided versus full-file read",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/graph/symbols.py": "4c461b9e066c4744082fb149ac657c894f6b22bb4c9495440ff7608d5bc45db0",
+          "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+          "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+          "tests/unit/test_symbol_reads.py": "b468ca2a2230bf82fdb1166be830957898c85657b62954e1b0898f0ee4d86e79"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_symbol_reads.py": {
+              "PASS": 9,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_symbol_reads.py": {
+              "PASS": 9,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Exact symbol bodies include decorators/nesting/Unicode; stale hash, missing/span corruption/path escape/budget failure deny reads. Bytes avoided is logical source selection, not physical storage I/O.",
+        "benchmark_evidence_route": "Both9symbol cases, current memory90 workflows with exact source/hash/span witnesses.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "R01",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Identifier/acronym/noise cases, index invalidation, memory/context parity",
+        "benchmark_criteria": "Fixed labels, recall/precision/MRR/nDCG, negative queries and size",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/retrieval.py": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+          "src/orqalis/indexing/service.py": "60631d58de2e8e872e9d2bdf2713013200d7ae9e7fe39c38f37f3c0b44f5f274",
+          "src/orqalis/context/builder.py": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+          "src/orqalis/memory/curated.py": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+          "tests/unit/test_identifier_retrieval.py": "8fc89f0eadc5b44c112ebdf0e4fa4bff4064eee3c68e8f5da1b05494b934611e"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_identifier_retrieval.py": {
+              "PASS": 9,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_identifier_retrieval.py": {
+              "PASS": 9,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Shared whole/snake/camel/acronym terms and lexical-v3 invalidation retain definition-first tie separation; all fixed ranking losses require unchanged independent30-disposition proof.",
+        "benchmark_evidence_route": "Both9identifier tests; both fixed quality rawREVIEW exact30-disposition proofs.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "R02",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Hard serialized budget, negatives clearly marked or omitted, held-out recall",
+        "benchmark_criteria": "At least 24 varied queries; bytes per relevant target; no unexplained recall loss",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/context/builder.py": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+          "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+          "scripts/compare_quality.py": "3fe4e7f00a06281a39660b86fb44124c91f44eb141eba955cb67d136f5bd6993",
+          "benchmarks/engineering_cases.json": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+          "tests/unit/test_project_context_builder.py": "7b8c3224fa396a4d1c4578f1223962ca2bda36458e28f1df302ea06143a1ea89",
+          "tests/unit/test_quality_comparison.py": "4d6e90c3797fe5cea013ddeb20653db834e41ffe3cfbbee800f44f4dd91b2d3c"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_project_context_builder.py": {
+              "PASS": 8,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_quality_comparison.py": {
+              "PASS": 40,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_project_context_builder.py": {
+              "PASS": 8,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_quality_comparison.py": {
+              "PASS": 40,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "At least24 varied frozen queries, current/baseline and held-out evidence retain hard serialized budget, negative/orientation labels, exact target paths and no unexplained recall/ranking loss.",
+        "benchmark_evidence_route": "Both8context/40comparator cases, varied fixed quality queries and263-file heldout3 witnesses.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "M02",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Pending/rejected no-op; approval idempotency; concurrent stale approvals; crash windows; history preserved",
+        "benchmark_criteria": "Only current active fact in default retrieval; old fact still inspectable",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/memory/curated.py": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+          "src/orqalis/memory/curation.py": "ef2500e50fbc96a118f4df4943e1bf3d42e82a519eec5c89a67dd9310b58492c",
+          "tests/unit/test_memory_lifecycle.py": "01bbbb0fd03fb883049f689d2b8288e39575888ff15395a409d70dd55406bcd0"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_memory_lifecycle.py": {
+              "PASS": 9,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_memory_lifecycle.py": {
+              "PASS": 9,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Reviewed digest-bound successor publication is atomic/idempotent, pending/rejected no-op, competing/stale/crash approvals fail safe; default retrieval includes only active fact while old fact remains readable.",
+        "benchmark_evidence_route": "Both9lifecycle cases, current memory90 workflow active/historical witnesses.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "M03",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Broken/self/cyclic/cross-project refs; depth/node/byte caps; exact ID access",
+        "benchmark_criteria": "Metadata/detail context bytes, reference accuracy, long-record visibility",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/memory/navigation.py": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+          "src/orqalis/memory/curated.py": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+          "src/orqalis/context/builder.py": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+          "tests/unit/test_memory_navigation.py": "de5062fc5ea573b7b092f8dd40d09fe1fa6cd7b187f2705a1bab0be863abfa7f",
+          "tests/unit/test_memory_interfaces.py": "29c49e6e07c2ac987834381f056abad87c078da90ae2de94240d8e538aaf13a2"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_memory_navigation.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_memory_interfaces.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_memory_navigation.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_memory_interfaces.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Long relevant record discovery, exact progressive bodies and explicit references remain visible under bounded context; self/cycle/cross-root/dangling references deny or report precisely. Character limits are not equal UTF8-byte limits; no automatic unbounded traversal.",
+        "benchmark_evidence_route": "Both10navigation/1interface cases, current90workflow cap/read/latency metrics.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "M04",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Corrupt schema, dangling predecessor/successor, cycles, unsafe paths; no silent omission",
+        "benchmark_criteria": "Deterministic issue count; valid corpus clean",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/memory/navigation.py": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+          "src/orqalis/cli/memory.py": "1d32f1b79951fd9a09eff21909f92c9cd786f9097afd5670e22ea842caa21341",
+          "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+          "tests/unit/test_memory_navigation.py": "de5062fc5ea573b7b092f8dd40d09fe1fa6cd7b187f2705a1bab0be863abfa7f",
+          "tests/unit/test_memory_lifecycle.py": "01bbbb0fd03fb883049f689d2b8288e39575888ff15395a409d70dd55406bcd0"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_memory_navigation.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_memory_lifecycle.py": {
+              "PASS": 9,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_memory_navigation.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_memory_lifecycle.py": {
+              "PASS": 9,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "CLI/SDK/MCP use one deterministic integrity projection; corrupt schema/frontmatter, links, dangling predecessor/successor and cycles are visible, valid corpus clean. Full integrity scan is not constant work.",
+        "benchmark_evidence_route": "Both10navigation/9lifecycle cases, deterministic integrity and current memory workflows.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "H01",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Malformed YAML, aliases, links, path escape, changed hash, role/tool requirements",
+        "benchmark_criteria": "Portable discovery/activation/resources bytes and correct routing",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/skills/markdown.py": "4270ea261dae1a6ac8fd610bbbec273ecbd85814ed387c7757be66e5b0e29f1b",
+          "src/orqalis/skills/registry.py": "e2836acb98b075844afc3fcc40a488f45ba7f6be96308c1e08e4a72cf58a3bf8",
+          "src/orqalis/persistence/filesystem/io.py": "054d2f51e9406db2b71118c209d45f99643e7b42accda210c02815bb4d6cb4f9",
+          "tests/unit/test_portable_skills.py": "79a9c839d6bfab84976c1570c6ca8ca2d53217705373a58e45b9bade9e550b8e",
+          "tests/unit/test_filesystem_foundation.py": "ab6986832f3a229d8e98e12fb239b88120a1991157b0c9f97a431d57406e7570"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_portable_skills.py": {
+              "PASS": 21,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 1
+            },
+            "tests/unit/test_filesystem_foundation.py": {
+              "PASS": 81,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_portable_skills.py": {
+              "PASS": 21,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 1
+            },
+            "tests/unit/test_filesystem_foundation.py": {
+              "PASS": 81,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Trusted-root YAML/resources cannot escape via symlink/alias/unsupported metadata; content pin, rediscovery/stale activation, role/tool/binary/resource bounds remain enforced; bytes compare selected/eager disclosure.",
+        "benchmark_evidence_route": "Both21portable cases+explicit symlink skip and81foundation cases; fixed quality portability/routing.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "H02",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Positive/negative scope, role restrictions, explicit pins, schema-compatible provider serialization",
+        "benchmark_criteria": "FP/FN counts, selected vs eager bytes, latency; never fabricate tokens",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/skills/registry.py": "e2836acb98b075844afc3fcc40a488f45ba7f6be96308c1e08e4a72cf58a3bf8",
+          "src/orqalis/core/vertical_plan.py": "6077e9dad95907f6b18b6dfd705b65a246885fdd5233607ce385ca54958c1ff7",
+          "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+          "scripts/compare_quality.py": "3fe4e7f00a06281a39660b86fb44124c91f44eb141eba955cb67d136f5bd6993",
+          "src/orqalis/providers/validation.py": "7629b81b97deba5d3f3868e8db32609c0f6d02ca4fee8845ea1133281c1e6769",
+          "src/orqalis/providers/openai.py": "81625f0cb236171f110c9945de8fd76d6be25a130d5b81e1aee330ad9f4c0d36",
+          "src/orqalis/providers/anthropic.py": "bafef3f1f22017a2b7a2c80d90dd718c6f6059ba6d2d2d2bfbfb4393d2300766",
+          "tests/unit/test_planner_skills.py": "0651f0ea8fdf3a65abb19d1a5c83e1bf1d3bc0445893fce5df0ac14fa7ddb286",
+          "tests/integration/test_external_skill_selection.py": "1a19b713442748fc3e13bec00680655e17e462a49e3c3696557dbb3bfbcbdb6d"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_planner_skills.py": {
+              "PASS": 39,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_external_skill_selection.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_planner_skills.py": {
+              "PASS": 39,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_external_skill_selection.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Positive/negative routing scopes, directory exclusions, mandatory role/tools and explicit pins plus typed provider serialization prove portability. No paid model quality, token or cost claim.",
+        "benchmark_evidence_route": "Both39planner/1external-skill cases and paired quality routing FP/FN/pins/progressive disclosure.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "I01",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Fresh stdio clients, two-client continuation, root isolation, permission failure and configuration syntax",
+        "benchmark_criteria": "Initialize/discovery latency and deterministic contract passes; native-host limits explicit",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+          "src/orqalis/mcp/policy.py": "fa4b4c039a399da4cbc5af1698781630c6931a91b417e0f56604b7c7c15ef544",
+          "docs/examples/codex-mcp.toml": "0c5687b9b626f4944dde5e9fc5564a15976b57d82afd7ca83e0e5a33dfaeeb17",
+          "docs/examples/claude-mcp.json": "a52a69b4e879051babcdeaf4a822c005c7197b7c36290dffd53ea92a93595532",
+          "docs/examples/vscode-mcp.json": "fd2bf321dbf07ad6806abb99f57f8398f9368b0958f5fe02cdc0740a60c5dcd5",
+          "docs/MCP.md": "37577df8fe6aeca903b440f07c2f67ffee3c3beb38748347d7337cb1cc3f9ff9",
+          "tests/integration/test_mcp.py": "35d85f7135a44c7288f9f126ecd406cb3eaecfb30fcb9f1f5a4b258a872e7587",
+          "tests/integration/test_mcp_lifecycle.py": "05257582f04979c39d4453eed9ca41db32752f038fb2f33d10884bd8622e2023",
+          "tests/unit/test_mcp_project_scope.py": "af34727b259c6670b5d19e625e9fb3740ab904914dff8d297ebe3d4a83cb72d3",
+          "tests/unit/test_mcp_control_policy.py": "48646e14481ed45ce3ef1aacc3e01a8e67241a689e1716536c6bb95a04833685"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/integration/test_mcp.py": {
+              "PASS": 2,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_mcp_lifecycle.py": {
+              "PASS": 3,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_mcp_project_scope.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_mcp_control_policy.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/integration/test_mcp.py": {
+              "PASS": 2,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_mcp_lifecycle.py": {
+              "PASS": 3,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_mcp_project_scope.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_mcp_control_policy.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Generic fresh/replacement stdio clients and immutable root/work policy show discovery/continuation/error denial. Six config/policy syntax/type examples are static witnesses only; require exact unchanged example hashes or fresh proof, current package docs/root-policy descriptions and runtime contracts. No native-host certification.",
+        "benchmark_evidence_route": "Current86 genericstdio contracts, installed17/MCP41, both MCP policy/lifecycle cases and six unchanged typed/syntax example hashes.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion.",
+          "Six unchanged historical example hashes are verified; genericstdio/currentinstalled contract proof is not native-host certification. Initialize/discovery latency scope must be explicit in the final benchmark ledger."
+        ]
+      },
+      {
+        "id": "I02",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Readonly denied, scoped run, legal transitions, explicit uncertainty, repeated calls",
+        "benchmark_criteria": "Lifecycle contract pass/fail; no duplicated effects",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+          "src/orqalis/core/orchestrator.py": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+          "src/orqalis/core/recovery.py": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8",
+          "tests/integration/test_mcp_lifecycle.py": "05257582f04979c39d4453eed9ca41db32752f038fb2f33d10884bd8622e2023"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/integration/test_mcp_lifecycle.py": {
+              "PASS": 3,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/integration/test_mcp_lifecycle.py": {
+              "PASS": 3,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Readonly/scope/legal transition/repeat/recovery uncertainty and matching receipt/lease cases delegate to Core; atomic PLAN checkpoint, strict lookup and auxiliary lock repairs require complete workflow qualification.",
+        "benchmark_evidence_route": "Both3MCP lifecycle cases,86core contracts and installed discovery.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "I03",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Multiple pages, no duplicate/omission, stale/tampered/cross-root cursors, payload limits",
+        "benchmark_criteria": "1000+ history rows and graph node pages; bytes and latency",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/tasks/history.py": "5378666302ab851cc47ffcde9a845cd5e9f0824681536e452a8081ac18d9c6e3",
+          "src/orqalis/persistence/filesystem/task_store.py": "0867154bd96853d4a4666b7f5e4bbaac0c76868c784e791c17073721111864e4",
+          "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+          "src/orqalis/graph/queries.py": "dafa778e9f2e7829fe576ff589d3b5d58f5543803fc19434fcc2567e97b7a5e7",
+          "tests/unit/test_task_history_pages.py": "8824046180285bdf48f1c0d4c852e8d30722560b95e1fc618d0b8d9a1e776a40",
+          "tests/unit/test_graph_queries.py": "4c12e29b916db763d07dcd97fd33996e99347c9e3635714369cbbde15fa193b5"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_task_history_pages.py": {
+              "PASS": 11,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_graph_queries.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_task_history_pages.py": {
+              "PASS": 11,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_graph_queries.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Pages cover all1001 IDs without duplicates/omissions; equal timestamps, tampered/cross-root/stale cursor, canonical mutations/index recovery and bounded graph discovery pass. Older scans cannot overwrite freshness; concurrent allocation progress and variable O(history) tails reported.",
+        "benchmark_evidence_route": "Current1001/3/33 semantic-only report, both11history/10query cases; old history timing/page-path proofs historical only.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion.",
+          "Current source01 1001-row report explicitly has no timing. No current1001 bytes/latency or exact relevant-source equivalence bridge is known. Historical source24/797 timing remains historical; history.py/task_store.py/io.py have changed hashes. This is acceptance-coverage missing evidence, not a new correctness regression. No timing invocation authorized in this doc-only step."
+        ]
+      },
+      {
+        "id": "T01",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Run/task/actor/model/tool correlation; historic missing fields; no secrets/prompts",
+        "benchmark_criteria": "Actual persisted fixture hierarchy and overhead",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/observability/trace.py": "4fae4815b33e79864d629a2c2fbf18c2ca7cdefbb8d6ff9fa2e2ba4caaaea787",
+          "src/orqalis/agents/service.py": "27798522a11b0e24bc20e2982b343c5fe0e3b00403723fb3b8afb2ee91cbd516",
+          "src/orqalis/execution/worker.py": "f6842c0ff2ac82195d37dc9085dfe2d84c8d5726177d272b63f639ac65971e56",
+          "src/orqalis/domain/telemetry.py": "b70ba84930291a397e24cc6c63f17bdd5e0283ad94bd27aeec7a75d563039590",
+          "tests/unit/test_trace_hierarchy.py": "2485ba87acfd64764b39b761aedbb23ae61cfd221ab66f9eccc09f69b7598c1f",
+          "tests/integration/test_trace_projection.py": "3249acb954f32a62f31aa23b322a42ddfc2bef6c0278e89bdb9a0c1a94639885"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_trace_hierarchy.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_trace_projection.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_trace_hierarchy.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/integration/test_trace_projection.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Actual persisted parallel/repair fixture correlates run/task/actor/model/tool ancestry and restart; historical missing fields do not invent timing/parents, allowlist excludes secrets/prompts. Overhead from actual telemetry captures.",
+        "benchmark_evidence_route": "Both persisted trace tests and six original26+4 execution captures; bounded telemetry overhead.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "T02",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "API-derived intervals, parallel/blocked/repair state, empty/historical data, mobile layout",
+        "benchmark_criteria": "Browser update latency, event/payload sizes, bundle deltas",
+        "production_and_test_paths_sha256": {
+          "web/src/TraceView.tsx": "bc3ce5c8c70f697fad9f2dcc337e8170a39148014000f44b71a0c374c1d7cf25",
+          "web/src/Timeline.tsx": "ef06b867b6eadcd8c4248bcc589ef8f17a99e8256315344bb4881f56ddd1cbed",
+          "src/orqalis/observability/analytics.py": "295c2eef16cf4cbdc40136b49d0eee44434968f54e71dcae870fe4890bdfaf12",
+          "web/e2e/trace.spec.ts": "90414338f1624f89ac3047053d3713efa3c5dadeef15babd5360a9793d341ac6",
+          "web/e2e/enhancements.spec.ts": "89487271ede7b942b929e93a8490dcd9275d0a53c656cd5435fa4e4f575bc4dc",
+          "tests/integration/test_trace_projection.py": "3249acb954f32a62f31aa23b322a42ddfc2bef6c0278e89bdb9a0c1a94639885"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/integration/test_trace_projection.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/integration/test_trace_projection.py": {
+              "PASS": 1,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {
+            "web/e2e/trace.spec.ts": [
+              "saved actual parallel-repair snapshot supports keyboard trace ancestry and critical path"
+            ],
+            "web/e2e/enhancements.spec.ts": [
+              "inspectors retain keyboard navigation and mobile task access",
+              "skills, context, chronological filters and delivery are connected",
+              "socket disconnect triggers bounded replay and reconnect without page reload",
+              "empty history and unavailable runs have honest actionable states",
+              "run history stays bounded while older runs remain reachable",
+              "project navigation stays reachable across desktop and mobile",
+              "home data failures degrade independently without false empty states",
+              "event-history failure keeps Mission Control usable",
+              "timeline detail follows live snapshots and tiny intervals stay operable"
+            ]
+          },
+          "31": {
+            "web/e2e/trace.spec.ts": [
+              "saved actual parallel-repair snapshot supports keyboard trace ancestry and critical path"
+            ],
+            "web/e2e/enhancements.spec.ts": [
+              "inspectors retain keyboard navigation and mobile task access",
+              "skills, context, chronological filters and delivery are connected",
+              "socket disconnect triggers bounded replay and reconnect without page reload",
+              "empty history and unavailable runs have honest actionable states",
+              "run history stays bounded while older runs remain reachable",
+              "project navigation stays reachable across desktop and mobile",
+              "home data failures degrade independently without false empty states",
+              "event-history failure keeps Mission Control usable",
+              "timeline detail follows live snapshots and tiny intervals stay operable"
+            ]
+          }
+        },
+        "specific_acceptance_check": "API-derived persisted parallel/blocked/repair/historical views, keyboard/mobile access, timeline first actual socket/direct-close and changed duration within original shared15s budget, plus live browser measurement and actual bundle deltas. Earlier browser failures remain retained.",
+        "benchmark_evidence_route": "Both14original browser cases, current30/31 pairedUI correlated transitions and actual frontend identity.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "T03",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Completed/running/cancelled/error outcomes, unknown vs zero, SSR and live API table",
+        "benchmark_criteria": "Reported coverage, API/UI equality; no fabricated cost",
+        "production_and_test_paths_sha256": {
+          "src/orqalis/observability/analytics.py": "295c2eef16cf4cbdc40136b49d0eee44434968f54e71dcae870fe4890bdfaf12",
+          "web/src/ProviderMetrics.tsx": "d38dddd3bda81558af8cf58ee78c5ff986211d60f36a18fa821a20cb7435307d",
+          "web/src/ProviderMetrics.test.tsx": "79620961a6c9ac974726738e85b11f0e29a58da879408bf7db961fe0e2169970",
+          "web/e2e/control-center.spec.ts": "f4e9ae9b2cd318d45cafaa5504763cf00a12ae5c259257826547eb8dfdf449c6",
+          "tests/unit/test_provider_metrics.py": "ccecd54a98327d28349d72b1d55d02616daebeb3a3f65da39b5357891157b3a0"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_provider_metrics.py": {
+              "PASS": 2,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_provider_metrics.py": {
+              "PASS": 2,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {
+            "web/e2e/control-center.spec.ts": [
+              "Operational views reconstruct a delivered run with keyboard and dark-theme support",
+              "Provider performance matches persisted measurements on desktop and mobile"
+            ]
+          },
+          "31": {
+            "web/e2e/control-center.spec.ts": [
+              "Operational views reconstruct a delivered run with keyboard and dark-theme support",
+              "Provider performance matches persisted measurements on desktop and mobile"
+            ]
+          }
+        },
+        "specific_acceptance_check": "API/UI provider/model coverage and nearest-rank p50/p95 preserve completed/running/cancelled/error distinctions and unknown vs zero, SSR/live table matches; no fabricated cost.",
+        "benchmark_evidence_route": "Both2provider unit cases, current static web units inclProviderMetrics SSR, both14original browser liveAPI/table cases.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "E01",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Dataset/source hash isolation; reject incomplete/mismatched reports; existing integration contracts",
+        "benchmark_criteria": "Before/after context, recall, startup, graph/memory/disk; unknown model metrics explicit",
+        "production_and_test_paths_sha256": {
+          "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+          "scripts/compare_quality.py": "3fe4e7f00a06281a39660b86fb44124c91f44eb141eba955cb67d136f5bd6993",
+          "scripts/run_quality_contracts.py": "99df98f055d8b9d980b8b0d011034b439273c2fd6c3a678596f2cbed01d33e3c",
+          "scripts/freeze_contract_tests.py": "d944ac40f4e6f0a5d4432a83fde60fe74727a844817413b97a64fd2edcbe0980",
+          "benchmarks/engineering_cases.json": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+          "tests/unit/test_quality_comparison.py": "4d6e90c3797fe5cea013ddeb20653db834e41ffe3cfbbee800f44f4dd91b2d3c",
+          "tests/unit/test_contract_compatibility.py": "d11c8a5abc10214bd44577776edc659f0546ce8df368dde8c8ce00db2f6a2fc3"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_quality_comparison.py": {
+              "PASS": 40,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_contract_compatibility.py": {
+              "PASS": 20,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_quality_comparison.py": {
+              "PASS": 40,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            },
+            "tests/unit/test_contract_compatibility.py": {
+              "PASS": 20,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Dataset/helper/source/runner/actual JUnit/environment/child isolation and strict comparator incomplete/duplicate/skipped/mismatched denial remain. Complete immutable baselines, frozen gold, exact30 raw losses and two fresh full rounds are needed.",
+        "benchmark_evidence_route": "Both40comparator/20contractcompatibility cases, frozen86 and paired quality hashes/all30 loss dispositions.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion."
+        ]
+      },
+      {
+        "id": "E04",
+        "status_retained": "IMPLEMENTED_PENDING_EVAL",
+        "promotion_approved": false,
+        "test_criteria": "Wheel build, npm launcher, manifest linkcheck, no baseline tag change",
+        "benchmark_criteria": "Cold/warm startup, memory/disk/bundle vs baseline; optional Docker not required",
+        "production_and_test_paths_sha256": {
+          "pyproject.toml": "db46ccf2aaed13a1b53e428fc6425dbf4d3ceb847a48fc0f4554d5a042ba2d34",
+          "uv.lock": "4b0f3dc2dfb5d86e4d40323200bfc8af495984e8dae1fca4627920be19a03bbc",
+          "scripts/prepare_npm.py": "26e475cfe7f63f93c637e9f0a87d93d4bd9567c2a69e90cf94abeb57ebfe5613",
+          "scripts/verify_installed.py": "e758242edc9e42c3ca460afe03882f686e9be608ed7b3d46e6751fa1e2ffe169",
+          "packages/npm/package.json": "0bb0d3e09849ea178272a94606d0bd998e8037b1a707b0618aa32b20e0f9d27f",
+          "docs/quality/OSS_LICENSE_AUDIT.md": "c5ecfb3ddd440c01be7e7d2fbe2f1e33e13471739aae6c76c121dbce2fcd4dfa",
+          "packages/npm/lib/bundle.js": "324df0d798c5852d8030099e07897c92720e1b17629784d8486077a1b63ca34e",
+          "tests/unit/test_npm_release.py": "b61d599637df041fa0c33a85b3a672c44c8422612faceb9135ad58129de313d0"
+        },
+        "actual_full30_31_test_outcomes": {
+          "30": {
+            "tests/unit/test_npm_release.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          },
+          "31": {
+            "tests/unit/test_npm_release.py": {
+              "PASS": 10,
+              "FAIL": 0,
+              "ERROR": 0,
+              "SKIP": 0
+            }
+          }
+        },
+        "actual_browser30_31_cases": {
+          "30": {},
+          "31": {}
+        },
+        "specific_acceptance_check": "Version2.1.0 source/wheel/npm/frontend/manifest/vendor/notices/lock hashes and offline launcher bootstrap match. Actual third-party inventory incl pip audits zero; startup/store/allocation/bundle costs compared and independently dispositioned; final package links/docs exact.",
+        "benchmark_evidence_route": "Both10npm-release cases, actual installed wheel/npm17/MCP41/exact51audits and old71-entry/43-doc physical parity/link proof; final new shipping-prose snapshot still required.",
+        "pending": [
+          "Final independent per-ID criterion/benchmark scope adjudication and final shipping-document snapshot closure remain; whole acceptance alone is not status promotion.",
+          "Repack amended shipping prose under fresh unique outputs, prove runtime/wheel/frontend/vendor/notices parity and complete physical installed current43-doc snapshot, then original local-link+fragment checks and independent actual review. Old proof cannot bind changed prose."
+        ]
+      }
+    ]
+  },
+  "remaining_local_gates": [
+    "Complete final precise23 per-ID tests/benchmark/scope acceptance ledger; all registry statuses remain pending until individually adjudicated.",
+    "I03 current1001-row bytes/latency scope or legitimate exact bridge is unclosed; semantic1001 proof and old timing cannot be mislabeled current. No new timing in this doc-only step.",
+    "Reconcile existing README/readiness/release notes/status/worklist/registry/signoff to source01/inputa0, boundedlocal2/2WITH EXCEPTION, all23pending, nextreleasePERF-COLD-01. Observed registry qualification_state still cites retired4f408/whole22; documentation reconciliation needed.",
+    "Fresh final shipping-prose archive/complete installed payload/current43-doc/runtime26/wheel/frontend/vendor/notices/paths+modes parity and repository+installed local-link/fragment checks, then independent actual review. Prior v6 blocked prose checks stay historical.",
+    "Finalize master54 signoff separating accepted local release qualifications from broader pending OSS capability evaluation. No final local release-ready claim before delivery gates."
+  ],
+  "preserved_failures": "Original8011 cold trigger, originalsource01 matched-v2 fourcold triggers, rejectedread-ahead v4 sixtriggers/failedfocusv1/passed123v2/exactrollback, latestinconclusive fullSDK nativeCRTcontrol, other interrupted/native/browser/advisory observations unchanged. Exception does not fix unknown cause or waive unrelated regressions.",
+  "review_calibration": "An initial reviewer-only path assertion expected every nonfreeze mapped support path to be docs and stopped on benchmarks/engineering_cases.json before writing. Corrected to require its exact historical gold hash. No product/capture failure or workload rerun.",
+  "owner_platform_limits": [
+    "Native Linux/macOS runtime/hostedmatrix requires separate owner workflow; cross-platform static types do not certify runtime.",
+    "No live paid provider/native assistant/liveDocker/directsymlink certification inferred.",
+    "No main commit/push/tag/publication or external operation authorized."
+  ],
+  "no_new_execution_or_product_publicdoc_edit": true,
+  "final_local_release_ready_signoff": false,
+  "overall_OSS_enhancement_signoff_complete": false
+}

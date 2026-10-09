@@ -3,6 +3,7 @@ from collections.abc import Callable, Coroutine, Iterator
 from contextlib import contextmanager
 from functools import wraps
 from typing import Any
+from uuid import UUID
 
 from opentelemetry import metrics, trace
 from opentelemetry.trace import Status, StatusCode
@@ -33,6 +34,29 @@ def operation(name: str) -> Iterator[None]:
                 time.perf_counter() - started,
                 attributes,
             )
+
+
+def annotate_operation(
+    *,
+    run_id: UUID,
+    task_id: UUID | None = None,
+    actor_session_id: UUID | None = None,
+    task_execution_id: UUID | None = None,
+    provider_invocation_id: UUID | None = None,
+    tool_invocation_id: UUID | None = None,
+) -> None:
+    """Attach only durable UUID identifiers, never task/provider/tool payloads."""
+    span = trace.get_current_span()
+    for name, value in (
+        ("run_id", run_id),
+        ("task_id", task_id),
+        ("actor_session_id", actor_session_id),
+        ("task_execution_id", task_execution_id),
+        ("provider_invocation_id", provider_invocation_id),
+        ("tool_invocation_id", tool_invocation_id),
+    ):
+        if value is not None:
+            span.set_attribute(f"orqalis.{name}", str(value))
 
 
 def observed[**P, R](name: str) -> Callable[[Callable[P, R]], Callable[P, R]]:

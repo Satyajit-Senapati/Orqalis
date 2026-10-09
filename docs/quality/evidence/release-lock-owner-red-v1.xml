@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.570" timestamp="2026-10-04T17:26:22.142088+05:30" hostname="THOR-GALAXY"><testcase classname=".tools.research.test_file_lock_ownership_staged_v1" name="test_wrong_thread_release_preserves_owner_and_native_lease[1]" time="0.010"><failure message="assert 0 == 1&#10; +  where 0 = _LockState(gate=&lt;orqalis.persistence.filesystem.locking._ReentrantGate object at 0x000001E1F421B860&gt;, handle=None, depth=0).depth&#10; +    where _LockState(gate=&lt;orqalis.persistence.filesystem.locking._ReentrantGate object at 0x000001E1F421B860&gt;, handle=None, depth=0) = &lt;orqalis.persistence.filesystem.locking.FileLock object at 0x000001E1F421AFF0&gt;._state">tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-570/test_wrong_thread_release_pres0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001E1F421B740&gt;
+depth = 1
+
+    @pytest.mark.parametrize("depth", [1, 2])
+    def test_wrong_thread_release_preserves_owner_and_native_lease(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, depth: int
+    ) -&gt; None:
+        lock = FileLock(tmp_path / "lease.lock")
+        for _ in range(depth):
+            lock.acquire()
+        handle = lock._state.handle
+        assert handle is not None
+        unlocks: list[BinaryIO] = []
+        original_unlock = locking._platform_unlock
+    
+        def observed_unlock(stream: BinaryIO) -&gt; None:
+            unlocks.append(stream)
+            original_unlock(stream)
+    
+        monkeypatch.setattr(locking, "_platform_unlock", observed_unlock)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            with pytest.raises(RuntimeError, match="unowned"):
+                pool.submit(lock.release).result(timeout=1)
+&gt;           assert lock._acquisitions == lock._state.depth == depth
+E           assert 0 == 1
+E            +  where 0 = _LockState(gate=&lt;orqalis.persistence.filesystem.locking._ReentrantGate object at 0x000001E1F421B860&gt;, handle=None, depth=0).depth
+E            +    where _LockState(gate=&lt;orqalis.persistence.filesystem.locking._ReentrantGate object at 0x000001E1F421B860&gt;, handle=None, depth=0) = &lt;orqalis.persistence.filesystem.locking.FileLock object at 0x000001E1F421AFF0&gt;._state
+
+.tools\research\test_file_lock_ownership_staged_v1.py:33: AssertionError</failure></testcase><testcase classname=".tools.research.test_file_lock_ownership_staged_v1" name="test_wrong_thread_release_preserves_owner_and_native_lease[2]" time="0.010"><failure message="AssertionError: assert 1 == 2&#10; +  where 1 = _LockState(gate=&lt;orqalis.persistence.filesystem.locking._ReentrantGate object at 0x000001E1F421A300&gt;, handle=&lt;_io.Buff...sers\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-570\\test_wrong_thread_release_pres1\\lease.lock'&gt;, depth=1).depth&#10; +    where _LockState(gate=&lt;orqalis.persistence.filesystem.locking._ReentrantGate object at 0x000001E1F421A300&gt;, handle=&lt;_io.Buff...sers\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-570\\test_wrong_thread_release_pres1\\lease.lock'&gt;, depth=1) = &lt;orqalis.persistence.filesystem.locking.FileLock object at 0x000001E1F421BEF0&gt;._state">tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-570/test_wrong_thread_release_pres1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001E1F421BF80&gt;
+depth = 2
+
+    @pytest.mark.parametrize("depth", [1, 2])
+    def test_wrong_thread_release_preserves_owner_and_native_lease(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, depth: int
+    ) -&gt; None:
+        lock = FileLock(tmp_path / "lease.lock")
+        for _ in range(depth):
+            lock.acquire()
+        handle = lock._state.handle
+        assert handle is not None
+        unlocks: list[BinaryIO] = []
+        original_unlock = locking._platform_unlock
+    
+        def observed_unlock(stream: BinaryIO) -&gt; None:
+            unlocks.append(stream)
+            original_unlock(stream)
+    
+        monkeypatch.setattr(locking, "_platform_unlock", observed_unlock)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            with pytest.raises(RuntimeError, match="unowned"):
+                pool.submit(lock.release).result(timeout=1)
+&gt;           assert lock._acquisitions == lock._state.depth == depth
+E           AssertionError: assert 1 == 2
+E            +  where 1 = _LockState(gate=&lt;orqalis.persistence.filesystem.locking._ReentrantGate object at 0x000001E1F421A300&gt;, handle=&lt;_io.Buff...sers\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-570\\test_wrong_thread_release_pres1\\lease.lock'&gt;, depth=1).depth
+E            +    where _LockState(gate=&lt;orqalis.persistence.filesystem.locking._ReentrantGate object at 0x000001E1F421A300&gt;, handle=&lt;_io.Buff...sers\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-570\\test_wrong_thread_release_pres1\\lease.lock'&gt;, depth=1) = &lt;orqalis.persistence.filesystem.locking.FileLock object at 0x000001E1F421BEF0&gt;._state
+
+.tools\research\test_file_lock_ownership_staged_v1.py:33: AssertionError</failure></testcase></testsuite></testsuites>

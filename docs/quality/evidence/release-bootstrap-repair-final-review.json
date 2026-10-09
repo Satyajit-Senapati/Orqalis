@@ -1,0 +1,86 @@
+{
+  "review": "Independent final review of offline bundled pip bootstrap repair and Windows configuration correction",
+  "created_utc": "2026-10-02T10:32:06.267400+00:00",
+  "status": "NO_CONFIRMED_OPEN_P0_P1_IN_REVIEWED_BOOTSTRAP_SCOPE_PENDING_FINAL_FROZEN_INSTALLED_QUALIFICATION",
+  "source_hashes": {
+    "scripts/prepare_npm.py": "26e475cfe7f63f93c637e9f0a87d93d4bd9567c2a69e90cf94abeb57ebfe5613",
+    "pyproject.toml": "559cf80ce6089f7e53e4b9470f7966370d5f1077aaf9c53f969f520c927d8e6d",
+    "uv.lock": "e917fd601487be1c67cdf3e1878c2ec4c941d648fb9c803e617b4d9b76c24c7f",
+    "packages/npm/lib/runtime.js": "3af3d07d2f6d89ff2f0e864185735a390ebf4297af354e55e577b0656b7951a5",
+    "packages/npm/lib/bundle.js": "324df0d798c5852d8030099e07897c92720e1b17629784d8486077a1b63ca34e",
+    "tests/unit/test_npm_release.py": "b61d599637df041fa0c33a85b3a672c44c8422612faceb9135ad58129de313d0",
+    "packages/npm/test/runtime.test.js": "3685b06ceee79c78c2951c8c7a07848d107a07200944be0707efe97dfa835a24"
+  },
+  "findings": [],
+  "accepted_boundaries": [
+    {
+      "file": "scripts/prepare_npm.py",
+      "lines": [
+        155,
+        162,
+        167,
+        179,
+        230,
+        237,
+        261
+      ],
+      "assessment": "One locked pip package exactly matches bootstrap dependency group. Locked URL must identify universal pip wheel on files.pythonhosted.org. Cached/downloaded content must match exact SHA256 and size before staging. Export includes bootstrap group with locked hashed requirements. Manifest includes bootstrap identity and wheel hash."
+    },
+    {
+      "file": "packages/npm/lib/bundle.js",
+      "assessment": "Manifest requires exact safe bootstrap basename and exact three-file inventory plus manifest; verifies each SHA256 before runtime setup. Full manifest fingerprint changes runtime directory identity, invalidating old ready runtimes."
+    },
+    {
+      "file": "packages/npm/lib/runtime.js",
+      "lines": [
+        160,
+        167,
+        177,
+        182,
+        183,
+        188,
+        193,
+        194,
+        200,
+        205,
+        206,
+        211
+      ],
+      "assessment": "First installer operation is offline no-index/no-deps against manifest-verified local pip wheel; later commands invoke patched installed pip for hashed binary application dependencies, offline ownwheel, and dependency check. Existing disable-version-check and Python isolated mode remain. Corrected PIP_CONFIG_FILE exactly matches Python os.devnull on Windows and POSIX, so isolated mode cannot retain global/site pip configuration."
+    },
+    {
+      "file": "pyproject.toml",
+      "line": 35,
+      "assessment": "bootstrap pip==26.2.1; uv.lock contains matching wheel SHA256 71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e and size1816632. Version is above all six prior advisory fixes."
+    }
+  ],
+  "test_review": {
+    "python": "test_bootstrap_pip_uses_exact_lock_and_rejects_tampering covers trusted download, cached reuse, corrupted content rejection and mismatched group rejection.",
+    "launcher": "Bootstrap wheel tampering/missing metadata rejects before setup. Concurrent setup test asserts offline-first order, hashes/binary/dependency guards, Python-equivalent configuration sentinel override, and one setup across two launches. No test execution by reviewer.",
+    "execution": "Reviewer did not run tests, audits, benchmarks or package installation."
+  },
+  "qualification": "Static reviewed bootstrap paths are closed by current source. Final source and release input freeze remain pending; root must run final checks and audit actual exact prepared/packed/installed launcher and wheel runtime inventories including pip. No final full-source qualification or clean installed-runtime audit is asserted by this report.",
+  "limitations": [
+    "Static read-only review, except prior read-only Node/Python null-device string probe; no tests, audits, package installation or benchmarks executed by this reviewer.",
+    "Fresh frozen exact source binding and actual installed package inventories/audits are pending root qualification.",
+    "Verified local pip wheel remains a trusted release supply-chain input; source manifest integrity is not an external signature.",
+    "Existing host filesystem mutation races and compromised selected Python are outside the accepted bootstrap boundary.",
+    "Prior raw audit and failed/repaired reviews retained unchanged."
+  ],
+  "resolved_finding": {
+    "id": "BOOTSTRAP-WINDOWS-NULL-SENTINEL",
+    "prior_report": ".tools/research/release-bootstrap-repair-review.json",
+    "prior_report_sha256": "dadece59568d5f38a365aca5fce73923f60475ceee602d4d6dde8b9a72923b22",
+    "fix_file": "packages/npm/lib/runtime.js",
+    "line": 167,
+    "resolution": "PIP_CONFIG_FILE now explicitly uses nul on Windows and /dev/null elsewhere, matching Python os.devnull rather than Node os.devNull. This overrides inherited PIP_CONFIG_FILE. All four pip invocations receive installerEnv. Seeded pip exact equality disables global/site/environment-selected config before processing trusted offline wheel.",
+    "test_file": "packages/npm/test/runtime.test.js",
+    "lines": [
+      390,
+      423,
+      424,
+      425
+    ],
+    "test_resolution": "Unsafe inherited config input is replaced and the regression asserts the Python-equivalent platform sentinel."
+  }
+}

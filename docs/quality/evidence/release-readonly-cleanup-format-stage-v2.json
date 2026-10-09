@@ -1,0 +1,22 @@
+{
+  "status": "FORMATTED_PRIVATE_ONLY_AST_IDENTICAL",
+  "files": {
+    ".tools/research/release_readonly_cleanup_io_proposal_v2.py": {
+      "original_path": ".tools/research/release_readonly_cleanup_io_proposal_v1.py",
+      "before_sha256": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+      "after_sha256": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+      "AST_equal": true
+    },
+    ".tools/research/release_readonly_cleanup_foundation_proposal_v2.py": {
+      "original_path": ".tools/research/release_readonly_cleanup_foundation_proposal_v1.py",
+      "before_sha256": "158968b1aef054cdd8635c9f29734f6fd0790f51792feeda091d6b7581834fd3",
+      "after_sha256": "02b7e94aeaff5ea0aaa7b3b57609eed28ef0322a37d0d1abd80781c16fede4e5",
+      "AST_equal": true
+    }
+  },
+  "ruff_format_output": "1 file reformatted, 1 file left unchanged\n",
+  "ruff_lint_exit": 1,
+  "ruff_lint_output": "B010 [*] Do not call `setattr` with a constant attribute value. It is not any safer than normal property access.\n    --> .tools\\research\\release_readonly_cleanup_foundation_proposal_v2.py:1072:5\n     |\n1070 |     target.write_bytes(b\"before\")\n1071 |     cleanup_error = PermissionError(\"cleanup denied\")\n1072 |     setattr(cleanup_error, \"winerror\", winerror)\n     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n1073 |     replacement_error = OSError(\"replacement refused\")\n1074 |     chmod = os.chmod\n     |\nhelp: Replace `setattr` with assignment\n     |\n1071 |     cleanup_error = PermissionError(\"cleanup denied\")\n     -     setattr(cleanup_error, \"winerror\", winerror)\n1072 +     cleanup_error.winerror = winerror\n1073 |     replacement_error = OSError(\"replacement refused\")\n     |\n\nFound 1 error.\n[*] 1 fixable with the `--fix` option.\n",
+  "production_changed": false,
+  "tests_invoked": false
+}

@@ -34,11 +34,11 @@ def git_repo(tmp_path: Path) -> Path:
     repo = tmp_path / "source"
     repo.mkdir()
     fixture_git(repo, "init", "-b", "main")
-    (repo / "pyproject.toml").write_text('[project]\nname = "fixture"\n', encoding="utf-8")
-    (repo / "main.py").write_text("answer = 42\n", encoding="utf-8")
-    (repo / "AGENTS.md").write_text("Run tests before delivery.\n", encoding="utf-8")
+    (repo / "pyproject.toml").write_bytes(b'[project]\nname = "fixture"\n')
+    (repo / "main.py").write_bytes(b"answer = 42\n")
+    (repo / "AGENTS.md").write_bytes(b"Run tests before delivery.\n")
     (repo / "tests").mkdir()
-    (repo / "tests/test_main.py").write_text("def test_answer():\n    assert 42 == 42\n")
+    (repo / "tests/test_main.py").write_bytes(b"def test_answer():\n    assert 42 == 42\n")
     fixture_git(repo, "add", ".")
     fixture_git(repo, "commit", "-m", "test: create fixture")
     return repo

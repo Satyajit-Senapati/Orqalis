@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "status": "ONE_PLANNED_INSTRUMENTED_DIAGNOSTIC_UNRUN",
+  "planned_at": "2026-10-03T14:13:33.794615+00:00",
+  "original_failure": "full-regression-release-10.json",
+  "original_failure_sha256": "398519ca48661fb36522a7150e35c4ae970cbf0262c66a665b9388f418bae963",
+  "candidate_source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "test_sha256": "60a052b0394f7dffb0595fbf706fefda3d74545f80c03611779fd1abd1a1a348",
+  "runner_sha256": "fbcc1820ca111cfe1b1df9744d61afe473875b4b263baf362e250edfcda272a9",
+  "scope": "One original hard-crash test, in-memory parent-side branch/native-error/kill/wait observation only; unchanged workers, assertions and original180s/30s/timeout0 budgets. No retry, polling, waiver or fresh benchmark.12/13 remain unrun.",
+  "post_failure_probe": "At most one timeout0 probe after original failed assertion, only if native error observed and still before fixedkill-start+30s. No sleeping/retry of original assertion, no green recategorization, original pytestexit retained.",
+  "instrumentation_guards": "Thread-local active lock stack; only exactfailedtry_run_lock native EACCES/EAGAIN qualifies optionalprobe; unexpectedprobeacquire/releaseerrors recorded without suppressing report or replacing originalpytestexit. Native errors carrythread_id and failedcall attribution filterscallthread; firstkilldeadline setdefaultneverresetbycleanup."
+}

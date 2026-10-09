@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-27T06:35:51.712047+00:00",
+  "status": "REVIEW_TIMING_INCONCLUSIVE",
+  "scope": "Two sequential capture pairs in opposite order, three samples per case/workflow in each run, same dataset/script/dependency environment. No cross-source speedup claim.",
+  "inputs": [
+    {
+      "order": "pre-then-post",
+      "before": {
+        "file": "memory-batch-pre-measured.json",
+        "sha256": "5e1c79b6ddaff197b5ee6bd43cde23919a12efc339cb07aa04c81f2004dfaf9f",
+        "source_sha256": "a37dda9e2ca4d37e58ffc6fcab606324df31e16b02dc1261a3371cd44792a757"
+      },
+      "after": {
+        "file": "memory-batch-post-measured.json",
+        "sha256": "3d5c17eccd7d525f91cbe96436194d2bfdbf5855dc003a607fe9a845fd77f561",
+        "source_sha256": "403e121f6e2a313a36f10e595e995eb915c951da95a95c0a564b451f99d808dd"
+      }
+    },
+    {
+      "order": "post-then-pre",
+      "before": {
+        "file": "memory-batch-pre-measured-reverse.json",
+        "sha256": "e74317c293ea7a8625a66f7eda2db53163c0929708be4b5d182a40668e27ec35",
+        "source_sha256": "a37dda9e2ca4d37e58ffc6fcab606324df31e16b02dc1261a3371cd44792a757"
+      },
+      "after": {
+        "file": "memory-batch-post-measured-reverse.json",
+        "sha256": "ecf38ca0bfc1b8743bfb037ad228bab7ad6c2f48d1eacdaade349542ce392607",
+        "source_sha256": "403e121f6e2a313a36f10e595e995eb915c951da95a95c0a564b451f99d808dd"
+      }
+    }
+  ],
+  "environment_match": true,
+  "answer_and_cap_witnesses_pass": true,
+  "case_medians": [
+    {
+      "order": "pre-then-post",
+      "case": "webhook-retention",
+      "workflow": "full_rediscovery",
+      "before_median_ms": 1531.439,
+      "after_median_ms": 1572.102,
+      "delta_ms": 40.664
+    },
+    {
+      "order": "pre-then-post",
+      "case": "webhook-retention",
+      "workflow": "progressive_memory_then_symbol",
+      "before_median_ms": 2573.051,
+      "after_median_ms": 2504.364,
+      "delta_ms": -68.687
+    },
+    {
+      "order": "pre-then-post",
+      "case": "webhook-retention",
+      "workflow": "restart_direct_memory",
+      "before_median_ms": 947.187,
+      "after_median_ms": 975.671,
+      "delta_ms": 28.484
+    },
+    {
+      "order": "pre-then-post",
+      "case": "scheduler-dst",
+      "workflow": "full_rediscovery",
+      "before_median_ms": 1530.723,
+      "after_median_ms": 1635.908,
+      "delta_ms": 105.185
+    },
+    {
+      "order": "pre-then-post",
+      "case": "scheduler-dst",
+      "workflow": "progressive_memory_then_symbol",
+      "before_median_ms": 2470.17,
+      "after_median_ms": 2485.079,
+      "delta_ms": 14.909
+    },
+    {
+      "order": "pre-then-post",
+      "case": "scheduler-dst",
+      "workflow": "restart_direct_memory",
+      "before_median_ms": 824.206,
+      "after_median_ms": 833.57,
+      "delta_ms": 9.364
+    },
+    {
+      "order": "pre-then-post",
+      "case": "tenant-cache",
+      "workflow": "full_rediscovery",
+      "before_median_ms": 1577.415,
+      "after_median_ms": 728.165,
+      "delta_ms": -849.25
+    },
+    {
+      "order": "pre-then-post",
+      "case": "tenant-cache",
+      "workflow": "progressive_memory_then_symbol",
+      "before_median_ms": 2442.528,
+      "after_median_ms": 1259.668,
+      "delta_ms": -1182.859
+    },
+    {
+      "order": "pre-then-post",
+      "case": "tenant-cache",
+      "workflow": "restart_direct_memory",
+      "before_median_ms": 916.787,
+      "after_median_ms": 523.325,
+      "delta_ms": -393.462
+    },
+    {
+      "order": "post-then-pre",
+      "case": "webhook-retention",
+      "workflow": "full_rediscovery",
+      "before_median_ms": 646.231,
+      "after_median_ms": 1256.802,
+      "delta_ms": 610.57
+    },
+    {
+      "order": "post-then-pre",
+      "case": "webhook-retention",
+      "workflow": "progressive_memory_then_symbol",
+      "before_median_ms": 1124.171,
+      "after_median_ms": 2625.8,
+      "delta_ms": 1501.63
+    },
+    {
+      "order": "post-then-pre",
+      "case": "webhook-retention",
+      "workflow": "restart_direct_memory",
+      "before_median_ms": 422.653,
+      "after_median_ms": 667.047,
+      "delta_ms": 244.394
+    },
+    {
+      "order": "post-then-pre",
+      "case": "scheduler-dst",
+      "workflow": "full_rediscovery",
+      "before_median_ms": 875.589,
+      "after_median_ms": 1205.926,
+      "delta_ms": 330.337
+    },
+    {
+      "order": "post-then-pre",
+      "case": "scheduler-dst",
+      "workflow": "progressive_memory_then_symbol",
+      "before_median_ms": 1162.542,
+      "after_median_ms": 1712.997,
+      "delta_ms": 550.455
+    },
+    {
+      "order": "post-then-pre",
+      "case": "scheduler-dst",
+      "workflow": "restart_direct_memory",
+      "before_median_ms": 388.433,
+      "after_median_ms": 678.746,
+      "delta_ms": 290.312
+    },
+    {
+      "order": "post-then-pre",
+      "case": "tenant-cache",
+      "workflow": "full_rediscovery",
+      "before_median_ms": 745.177,
+      "after_median_ms": 717.502,
+      "delta_ms": -27.676
+    },
+    {
+      "order": "post-then-pre",
+      "case": "tenant-cache",
+      "workflow": "progressive_memory_then_symbol",
+      "before_median_ms": 1114.762,
+      "after_median_ms": 1199.539,
+      "delta_ms": 84.778
+    },
+    {
+      "order": "post-then-pre",
+      "case": "tenant-cache",
+      "workflow": "restart_direct_memory",
+      "before_median_ms": 538.837,
+      "after_median_ms": 421.705,
+      "delta_ms": -117.132
+    }
+  ],
+  "interpretation": "Several case/workflow medians move by hundreds of milliseconds in both directions while source and canonical-record read counts remain unchanged. The fixed-corpus read-volume reduction is deterministic; elapsed time does not isolate it from warm cache and host load. Full program timing comparison remains pending."
+}

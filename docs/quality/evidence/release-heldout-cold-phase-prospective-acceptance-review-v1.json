@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T10:18:42.775571+00:00",
+  "reviewer": "release_acceptance_review",
+  "status": "CHANGES_REQUIRED_BEFORE_DIAGNOSTIC_LAUNCH",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "scope": "Exact named private observer/probe/plan static read only; no imports, constructors, native queries or workload.",
+  "named_identities": {
+    "docs/quality/evidence/release-heldout-cold-phase-plan-v1.json": "fa9bbd3def5458e585945b980b8277fda3e959319504c1d8d88ba4af559152da",
+    ".tools/research/release_cold_phase_observer_v1.py": "27222b148071dd182c22a6be8c71c03a4c84a1c54c7529878f11e8e3ddef84f5",
+    ".tools/research/release_heldout_cold_phase_probe_v1.py": "92cc2f140f68e96d6d8c5159db4f5441e7e9b98971dc56a956ddc2607204be93"
+  },
+  "findings": [
+    {
+      "id": "OBSERVER_PRE_DELEGATION_FAILURE",
+      "location": "ColdPhases.watch.observed before try/original call",
+      "description": "Pre-call clocks/row construction/list append/stack append/bookkeeping are unguarded. Observer failure prevents natural delegation, contradicting observational delegate-once semantics. Guard observation setup, preserve natural original return/exception and mark evidence INVALID on observer failure."
+    },
+    {
+      "id": "OBSERVER_SECONDARY_NOTE_MASKING",
+      "location": "ColdPhases.watch finally and __exit__",
+      "description": "Calls to primary.add_note are unguarded; note failure can replace natural primary. Use safe note handling and retain invalid evidence metadata."
+    },
+    {
+      "id": "HOOK_INSTALLATION_TRACKING",
+      "location": "ColdPhases.watch setter/bindings append",
+      "description": "Hook is installed before restoration binding is recorded. A failure between those operations can leave a hook untracked. Track intended installation before mutation and restore/verify each relevant binding without masking primary."
+    }
+  ],
+  "admission_conditions": [
+    "Use new successor files preservingv1 UNRUN and prelaunch exact identities; no edits of product or qualified capture.",
+    "Actual both30/31 whole completion/clean owned jobs before the one600s owned launch, exact current source/input/plan/helper/evidence guards before/after and fresh rootACK.",
+    "Primary-preserving probe SDK.close/report failure and exclusive fixed owned paths must be supplied by actual code or reviewed outer coordinator, not plan prose alone."
+  ],
+  "criterion_sufficiency": "One fixed current-only observation can investigate natural private phase counts, nested inclusive/immediate-child-exclusive time and current command/writer costs. It cannot guarantee explanation of original8011ms sample, recover its absent phase counters, replace that timing or closeMaster53 automatically. Original threshold and all references remain immutable; unexplained residuals remain explicit.",
+  "method_positives": [
+    "Original public rebuild call and protected263 corpus/canonicalSDK initialization are retained.",
+    "Public Git method objects not patched; subprocess.run delegates original args and no added Git commands.",
+    "Only cold phase instrumentation enabled; originalwarm3/delta1/index/gold/context/allocation flow resumes after restoration.",
+    "No current/baseline timing acceptance or performance threshold is added. Lower-bound observer overhead explicitly not total perturbation proof."
+  ],
+  "release_acceptance_credit": 0,
+  "product_p0_p1_finding": false,
+  "workload_run": false
+}

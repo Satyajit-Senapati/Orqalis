@@ -1,0 +1,49 @@
+{
+  "status": "PRESERVED_PREFLIGHT",
+  "items": [
+    {
+      "component": "local release-history diagnostic helper",
+      "error": "Fixture assertion before measurement: expected task.json instead of canonical task.yaml",
+      "production_effect": "None; no measurement, source or tests changed",
+      "correction": "Use the existing canonical task.yaml filename; no assertion weakening"
+    },
+    {
+      "component": "quiet baseline history concurrency probe",
+      "error": "Natural canonical scan held tasks-index long enough for reserve_capsule to raise default10-second LockTimeoutError on frozen pre-optimization source",
+      "production_effect": "Confirmed pre-existing allocation contention; fixed by shortening the lock critical section",
+      "deterministic_reproducer": "release-history-lock-preflight.xml",
+      "raw_helper": "release_history_quiet_preflight.py",
+      "capture_limitation": "Initial helper aborted before writing timing arrays; v2 writes progressive observations and retains failures"
+    },
+    {
+      "component": "larger held-out local diagnostic helper",
+      "error": "Used ProjectIndexMatch.record instead of existing document.path witness",
+      "production_effect": "None; first baseline report did not complete and is not qualified",
+      "correction": "Correct the helper field, retain fixed corpus/failed scratch, capture fresh v2 outputs"
+    },
+    {
+      "component": "larger held-out local diagnostic helper v2",
+      "error": "Assumed .orqalis/graph path instead of existing engine.graph_path under cache/graph",
+      "production_effect": "None; query assertions passed, report did not complete, timings not qualified",
+      "correction": "Use actual engine.graph_path under .orqalis/memory/graph and fresh v3 evidence; prior fixtures retained"
+    },
+    {
+      "component": "release advisory helper",
+      "error": "pip-audit rejected --no-deps with installed --path scanning (exit2) before any audit",
+      "production_effect": "None; application, dependencies and tests unchanged",
+      "correction": "Remove requirement-only --no-deps/--disable-pip flags; audit the exact installed site-packages path using native metadata enumeration. Do not ignore vulnerabilities."
+    },
+    {
+      "component": "release advisory helper installed-path scan",
+      "error": "pip-audit --strict rejects the own editable orqalis distribution even with --skip-editable (exit1); no advisory result produced",
+      "production_effect": "None; no application/dependency/test change and no vulnerability ignored",
+      "correction": "Enumerate exact installed third-party name/version pairs, exclude only independently source-reviewed own editable2.1.0, audit pinned inventory with --no-deps --disable-pip --strict, and require exact report inventory equality."
+    },
+    {
+      "component": "baseline UI dependency staging",
+      "error": "Isolated builder correctly rejected the current frontend lock for immutable2.0.0source; guard failed before creating output",
+      "production_effect": "None; all candidate static gates passed, no mismatched frontend was built or measured",
+      "correction": "Install dedicated baseline dependencies from its exact package-lock.json, pass explicit --dependencies-root, and retain guard unchanged."
+    }
+  ]
+}

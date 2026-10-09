@@ -1,0 +1,31 @@
+{
+  "status": "USER_ACCEPTED_RELEASE_SPECIFIC_PERFORMANCE_TRADEOFF",
+  "recorded_at": "2026-10-09T06:08:12.376320+00:00",
+  "release": "2.1.0",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "user_authorization_verbatim": "Accept the tradeoff for now we'll do in next release",
+  "authorization_context": "Direct user reply to explicit choice between cache redesign/fresh qualification and acceptance of measured cold-rebuild cost with amended performance criterion.",
+  "scope": "For2.1.0 only, the existing cold graph-rebuild degradation is an explicitly accepted product tradeoff instead of a local release blocker. Root cause remains unknown. This is not a speed fix, general benchmark waiver or retroactive clean-run relabeling.",
+  "preserved_requirements": [
+    "Original2xbaseline+250ms investigation rule and all samples unchanged",
+    "No waiver for new correctness/security P0/P1, graph/gold/semantic regressions or unrelated benchmark degradation",
+    "Existing snapshot/link/rename/freshness protections unchanged",
+    "Independent acceptance of exact source-bound qualifications still required",
+    "Hosted platform/owner gates and no main commit/push/tag/publication remain"
+  ],
+  "deferred_work": {
+    "id": "PERF-COLD-01",
+    "target": "Next release after2.1.0; version not selected",
+    "task": "Investigate and optimize cache-storage/open costs with preserved freshness, parser identity, strict validation, containment, snapshot and atomic-rename semantics; meaningful focused checks, fixed fullSDK comparisons, two source-bound full qualifications. No blind retries or weak-reader fallback."
+  },
+  "raw_evidence_sha256": {
+    "release-heldout-matched-study-actual-v2.json": "457b515e57f3ffec759c914541d0322b23fb15f7fcdfc3e1640b332afa72c301",
+    "release-full-sdk-cache-reader-control-actual-v2.json": "0ca5f1206827d8278248ecacaa42a9b014f837d19c7eaf5f0f1eed8feaee6f47",
+    "release-full-sdk-cache-reader-control-actual-quality-disposition-v2.json": "a90117569b952e7cd72278669c78fd0a34c6329126bcbdb43397fb0bc40f394a",
+    "release-full-sdk-cache-reader-control-actual-acceptance-disposition-v2.json": "e6726dbacbdf5817ca109b1dd76d62eb778dc2f49c4fec2779249d382e4fa2c4",
+    "release-owned-temp-quality-performance-final-proof-v1.json": "2e6cd48d147d116a3d02aff8b3af5536bd931460a3ad2e9ddc443cdd22b0fccc"
+  },
+  "accepted_convergence_iterations_before_independent_review": 0,
+  "no_new_workload_execution": true
+}

@@ -17,6 +17,25 @@ class TimelineSegment(Contract):
     duration_ms: int = Field(ge=0)
 
 
+class TraceNode(Contract):
+    """Rebuildable local operation hierarchy; IDs never imply a hosted trace export."""
+
+    id: str
+    entity_id: UUID
+    kind: Literal["run", "phase", "task", "actor", "model", "tool"]
+    parent_id: str | None = None
+    related_ids: tuple[str, ...] = ()
+    label: str
+    status: str
+    started_at: AwareDatetime | None = None
+    completed_at: AwareDatetime | None = None
+    duration_ms: int | None = Field(default=None, ge=0)
+    task_id: UUID | None = None
+    task_execution_id: UUID | None = None
+    actor_session_id: UUID | None = None
+    provider_invocation_id: UUID | None = None
+
+
 class ProviderCallProjection(Contract):
     id: UUID
     actor_session_id: UUID
@@ -33,6 +52,26 @@ class ProviderCallProjection(Contract):
     context_summary: str | None = None
 
 
+class ProviderStatistics(Contract):
+    provider: str
+    model: str
+    calls: int
+    succeeded: int
+    failed: int
+    cancelled: int
+    interrupted: int
+    running: int
+    calls_with_latency: int
+    p50_latency_ms: int | None = None
+    p95_latency_ms: int | None = None
+    calls_with_usage: int
+    calls_with_cost: int
+    reported_input_tokens: int | None = None
+    reported_output_tokens: int | None = None
+    reported_cost_usd: float | None = None
+    errors: dict[str, int] = Field(default_factory=dict)
+
+
 class RuntimeStatistics(Contract):
     max_parallel_tasks: int = 0
     mean_parallel_tasks: float = 0
@@ -47,6 +86,7 @@ class RuntimeStatistics(Contract):
     reported_cost_usd: float | None = None
     calls_with_cost: int = 0
     first_pass_success: bool | None = None
+    providers: tuple[ProviderStatistics, ...] = ()
 
 
 class SkillActivity(Contract):

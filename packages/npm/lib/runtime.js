@@ -162,6 +162,10 @@ export async function ensureRuntime(root, options = {}) {
       [...source.prefix, "-I", "-m", "venv", runtime],
       { env },
     );
+    const installerEnv = {
+      ...env,
+      PIP_CONFIG_FILE: platform() === "win32" ? "nul" : "/dev/null",
+    };
     const pip = [
       "-I",
       "-m",
@@ -169,6 +173,18 @@ export async function ensureRuntime(root, options = {}) {
       "--isolated",
       "--disable-pip-version-check",
     ];
+    // Upgrade from a verified local wheel before old seeded pip touches an index.
+    await setup(
+      python,
+      [
+        ...pip,
+        "install",
+        "--no-index",
+        "--no-deps",
+        join(root, "vendor", bundle.bootstrapWheel),
+      ],
+      { env: installerEnv },
+    );
     await setup(
       python,
       [
@@ -179,7 +195,7 @@ export async function ensureRuntime(root, options = {}) {
         "-r",
         join(root, "vendor/requirements.txt"),
       ],
-      { env },
+      { env: installerEnv },
     );
     await setup(
       python,
@@ -190,9 +206,9 @@ export async function ensureRuntime(root, options = {}) {
         "--no-index",
         join(root, "vendor", bundle.wheel),
       ],
-      { env },
+      { env: installerEnv },
     );
-    await setup(python, [...pip, "check"], { env });
+    await setup(python, [...pip, "check"], { env: installerEnv });
     await setup(
       python,
       [

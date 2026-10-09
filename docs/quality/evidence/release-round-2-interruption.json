@@ -1,0 +1,32 @@
+{
+  "status": "INCOMPLETE_NOT_CLEAN_ITERATION",
+  "attempt": 2,
+  "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "release_input_sha256": "49af6bd8978badbb6fcf10e84d7d92a4b74133e40dae53e51d6de24c821dab1b",
+  "cause": "Private browser helper omitted matching dedicated API/browser operator token, triggering the existing governance test prerequisite skip. Application and test assertions unchanged.",
+  "browser": {
+    "passed": 13,
+    "skipped": 1,
+    "test_assertion_failures": 0,
+    "qualification_gate": "FAIL because all browser cases are required"
+  },
+  "raw_evidence": [
+    "release-browser-2.json",
+    "release-browser-2.xml"
+  ],
+  "commands_stopped_before": [
+    "Full current Python regression 2",
+    "Entire attempt 3"
+  ],
+  "preserved_helpers": {
+    "original": ".tools\\research\\release_browser_qualification.py",
+    "sha256": "527e5e01a6f8fd9f83d394974ab0c941679ca46470cc0489a6b7aa147185ffde"
+  },
+  "correction": {
+    "helper": ".tools\\research\\release_browser_qualification_v2.py",
+    "sha256": "db338c80ac5f6ae71f7b1ac9b4aacc3daf026a108a3115113d7aae502586d54b",
+    "scope": "Random transient token passed to Settings.operator_token and existing browser env only. No product, dependencies, fixture assertions or timeout edits; no skips waived."
+  },
+  "consecutive_complete_iterations": 0,
+  "created_at": "2026-10-02T11:44:50.266779+00:00"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "status": "PROPOSED_UNAPPLIED",
+  "created_at": "2026-10-03T14:47:11.098054+00:00",
+  "original_app_sha256": "924c9c29ff8f083dbcbfc05e14dee09f49d393623c8ae3a04aabad45656d5421",
+  "staged_app_sha256": "9fad01130aa77bfcde291ff870d1c89047d26c1e35bec47b0ae2af070da9c3f9",
+  "regression_test_sha256": "a8c5d5fed2c47e4accf56196507effbdbef4d7848fe5e87580f916cbb779fb09",
+  "prior_full_failure_sha256": "6818361175f3246a1ae8a90e1ac316191163cceffd5eb154408307d54a4a4cc5",
+  "red_regression_xml_sha256": "ac73f519ca3a9efe8c1d49c2686b8a18ee1b00ffc67d509bcc5048ef253d151d",
+  "scope": "Shield only existing child cancel-and-join cleanup. No authorization, replay, source-data, filesystem-worker, numeric deadline or exception-catching change. Deterministic completed-receiver/transport-cancel race; native cancellation must still propagate. Original full12 branch plausible but not directly observed. Add direct anyio>=4.5,<5 dependency if applied; installed version unchanged.",
+  "diagnostic_helpers": {
+    ".tools\\research\\diagnose_websocket_cancel_v1.py": "49c3123e48dcbb2826334a3231eda8e08d909eaabd48871155798a3f0f9e23f4",
+    ".tools\\research\\diagnose_websocket_cancel_v2.py": "d80054098fc95fdf5664def3b2ae9432afc26e01807841575fc8b31cb35fe5c8",
+    ".tools\\research\\diagnose_websocket_cancel_v3.py": "6fe000e8a0b6638e6d1295eb7747b0e485b55b7e65928fed2eddfd3a5df6544b",
+    ".tools\\research\\diagnose_websocket_cancel_v4.py": "381b727b613dadb63d3dce2aca24ef8058c1e7f3245e2dec56f5744f992fd1c5"
+  },
+  "limits": "v1-v3 minimal generic diagnostics did not reproduce escape; v4 completed receiver did. Earlier redv2 native check incorrectly awaited asyncio.shield, losing cancellation message; redv3 observes original task directly. Preserve every raw observation."
+}

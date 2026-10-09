@@ -1,0 +1,222 @@
+{
+  "reviewed_at": "2026-10-02T12:35:45.362037+00:00",
+  "scope": "Independent read-only implementation/lifetime/order review and retained raw evidence inspection; no workloads, benchmarks, tests, product/dependency edits or commits.",
+  "reviewed_source_sha256": "887bc0496e197a4eb0fd0f6e998b0867ea1e5e0c055ff0972cc25d1cef859ab7",
+  "status": "NARROW_LAZY_MEMORY_OPTIMIZATION_ACCEPTED_PENDING_FRESH_QUALIFICATION",
+  "files_sha256": {
+    "src/orqalis/persistence/filesystem/unit_of_work.py": "e57fbd0b25d0f1c2a2b3cd9b92b08bf0e3b2a8b14cbbcfc184acdea38bd6d1c7",
+    "src/orqalis/persistence/filesystem/memory_store.py": "03366b624e972b2c467a6791ec201d228d08a50a737d14ebbbcd192a0e585b52",
+    "src/orqalis/core/ports.py": "88a0cef99e9a08afb1fe47d8dc955af2ed5c2fdf91e53e2e94ee14f635fad2a5",
+    "src/orqalis/memory/service.py": "6dd804b608689a48c30b23390a2dff2accd9464882244cc274d4359bac871ac7",
+    "tests/unit/test_filesystem_auxiliary_stores.py": "d10025a05561d4c76f1b52a1bed317e88610c24323f892f4f380c5cc257d73c3"
+  },
+  "confirmed_p0_p1_in_change": 0,
+  "accepted_invariants": [
+    "The getter checks UoW open state before either returning or constructing memory, caches one original FilesystemMemoryRepository after successful construction, and reuses that same adapter.",
+    "Task-only construction, commit, rollback and close do not access the property and therefore do not load, validate, migrate, write or lock unrelated derived memory.",
+    "When memory is initialized, session commit remains first, memory commit second and event publication last. A memory persistence failure cannot precede an authoritative task commit through a changed order.",
+    "Memory construction still acquires its original source-projection lock, performs original legacy relocation and canonical cache validation, and releases the constructor lock on errors. A failed constructor assignment leaves _memory=None.",
+    "Memory mutation still acquires and retains its original project write lock and reloads state after acquiring it; delayed first reads do not bypass conflict/format validation or write synchronization.",
+    "Rollback calls initialized memory rollback before session rollback. Close calls initialized memory rollback/close in nested finally blocks, then closes task/session/controller leases even if memory cleanup raises.",
+    "Existing public ProjectUnitOfWork protocol already declares a read-only memory property; repository search found no production assignment to this UoW property.",
+    "Memory services that access uow.memory still use the original adapter; task/approval/event/snapshot and canonical context paths can now avoid constructing that unused compatibility source projection."
+  ],
+  "bounded_behavior_changes": [
+    "Memory snapshot acquisition moves from UoW construction to first memory access. It remains internally coherent but may observe a memory commit made between those points. The project UoW does not promise a globally atomic cross-adapter task-and-memory snapshot.",
+    "Task-only operations no longer fail because an unrelated disposable source projection is malformed. First actual memory access still rejects that malformed projection without rewriting it.",
+    "Legacy source-artifact relocation is deferred until actual adapter access. This is intentional separation of authoritative task availability from derived-memory maintenance.",
+    "FilesystemProjectUnitOfWork remains a transaction object for a single caller/thread. This review does not add support for sharing one UoW concurrently across threads; lazy construction is not independently synchronized."
+  ],
+  "new_test_review": [
+    "Actual corrupt source graph fixture verifies task-only get/commit and rollback still work and preserve corrupt bytes, while actual memory graph access rejects invalid content.",
+    "Delayed reader UoW is constructed before a writer commits a real snapshot; first reader.memory access sees the commit, then reader acquires its write lease and exit allows a successor to acquire that lease.",
+    "Getter access through the closed reader raises RuntimeError; existing mixed task/memory rollback and full UoW controller-lease tests retain broader adapter lifecycle coverage."
+  ],
+  "focused_saved_results_at_review": [
+    {
+      "path": "docs/quality/evidence/release-lazy-memory-focused-v2.xml",
+      "sha256": "7a5b2a5cf5b4518e3aeb1fc50c57656454b8cf91c3fcb9e5e27df111a100ae16",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "19",
+          "time": "214.696",
+          "timestamp": "2026-10-02T18:01:58.518166+05:30",
+          "hostname": "THOR-GALAXY"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "path": "docs/quality/evidence/release-lazy-memory-focused.xml",
+      "sha256": "8c8981756b07a2886b6335dc134b63982406ae5660ebe62d1b99dee8e64f4dc0",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "1",
+          "skipped": "0",
+          "tests": "5",
+          "time": "3.084",
+          "timestamp": "2026-10-02T18:01:10.924137+05:30",
+          "hostname": "THOR-GALAXY"
+        }
+      ],
+      "failures": [
+        {
+          "test": {
+            "classname": "tests.unit.test_filesystem_auxiliary_stores",
+            "name": "test_delayed_memory_access_observes_commit_and_releases_its_lock",
+            "time": "0.280"
+          },
+          "text": "tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-503/test_delayed_memory_access_obs0')\n\n    def test_delayed_memory_access_observes_commit_and_releases_its_lock(tmp_path: Path) -> None:\n        store, project, _ = _initialized_store(tmp_path / \"repo\")\n>       snapshot = ProjectSnapshot(project_id=project.id, commit_sha=\"b\" * 40)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       pydantic_core._pydantic_core.ValidationError: 4 validation errors for ProjectSnapshot\nE       indexed_commit_sha\nE         Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]\nE           For further information visit https://errors.pydantic.dev/2.13/v/missing\nE       repo_fingerprint\nE         Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]\nE           For further information visit https://errors.pydantic.dev/2.13/v/missing\nE       files_scanned\nE         Field required [type=missing, input_value={'project_id': UUID('d0fe...bbbbbbbbbbbbbbbbbbbbbb'}, input_type=dict]\nE           For further information visit https://errors.pydantic.dev/2.13/v/missing\nE       commit_sha\nE         Extra inputs are not permitted [type=extra_forbidden, input_value='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', input_type=str]\nE           For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden\n\ntests\\unit\\test_filesystem_auxiliary_stores.py:293: ValidationError"
+        }
+      ]
+    }
+  ],
+  "initial_focused_failure_disposition": "Initial XML has 4 passed and 1 failure: new delayed-read test constructed ProjectSnapshot with nonexistent commit_sha and omitted required fields before exercising product logic. Current test fixture correctly uses indexed_commit_sha, repo_fingerprint and files_scanned. Preserve failing XML; only a separately saved corrected result can qualify the test.",
+  "historical_span_evidence": {
+    "report": "docs/quality/evidence/release-governance-diagnostic-current-spans-1.json",
+    "report_sha256": "30237e83200257018d6e742fc9d499d42e757e1f3e86d82303500d8cb1697e62",
+    "source_sha256": "3d47f8967dbd331c3b38d085fe5fdb11f6d3b1e67abebefe6678b7b0d4f8ccc6",
+    "source_stable": true,
+    "raw_status": "FAIL",
+    "spans_path": ".tools/research/release-governance-diagnostic-current-spans-1.spans.json",
+    "spans_sha256": "eaec77616f57cabde4fe81fa2a3ec73ed37e6f0e5066d5d3aae7b5b316f29e43",
+    "instrumentation": ".tools/research/release_governance_diagnostic_v4.py",
+    "instrumentation_sha256": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53",
+    "second_preview": {
+      "elapsed_seconds": 6.297000000005937,
+      "thread_cpu_seconds": 2.09375,
+      "thread_id": 28000,
+      "rows": {
+        "filesystem.is_symlink": {
+          "calls": 11564,
+          "wall_seconds": 0.8439999999973224,
+          "thread_cpu_seconds": 0.328125,
+          "max_wall_seconds": 0.07799999999406282
+        },
+        "filesystem.is_junction": {
+          "calls": 11553,
+          "wall_seconds": 0.4219999999477295,
+          "thread_cpu_seconds": 0.359375,
+          "max_wall_seconds": 0.01600000000325963
+        },
+        "lock.acquire": {
+          "calls": 55,
+          "wall_seconds": 0.32700000000477303,
+          "thread_cpu_seconds": 0.078125,
+          "max_wall_seconds": 0.1870000000053551
+        },
+        "memory.relocate": {
+          "calls": 9,
+          "wall_seconds": 0.36199999996460974,
+          "thread_cpu_seconds": 0.171875,
+          "max_wall_seconds": 0.09300000000803266
+        },
+        "filesystem.read_bytes": {
+          "calls": 185,
+          "wall_seconds": 0.9690000000118744,
+          "thread_cpu_seconds": 0.0625,
+          "max_wall_seconds": 0.03200000000651926
+        },
+        "memory.load": {
+          "calls": 9,
+          "wall_seconds": 0.9380000000383006,
+          "thread_cpu_seconds": 0.515625,
+          "max_wall_seconds": 0.23500000000058208
+        },
+        "memory.init": {
+          "calls": 9,
+          "wall_seconds": 1.6119999999937136,
+          "thread_cpu_seconds": 0.703125,
+          "max_wall_seconds": 0.3600000000005821
+        },
+        "uow.init": {
+          "calls": 9,
+          "wall_seconds": 1.6119999999937136,
+          "thread_cpu_seconds": 0.703125,
+          "max_wall_seconds": 0.3600000000005821
+        },
+        "capsule.recover": {
+          "calls": 36,
+          "wall_seconds": 2.7510000000038417,
+          "thread_cpu_seconds": 0.578125,
+          "max_wall_seconds": 1.6720000000059372
+        },
+        "approval.ensure": {
+          "calls": 2,
+          "wall_seconds": 0.922999999995227,
+          "thread_cpu_seconds": 0.53125,
+          "max_wall_seconds": 0.7350000000005821
+        },
+        "capsule.documents": {
+          "calls": 3,
+          "wall_seconds": 0.09500000001571607,
+          "thread_cpu_seconds": 0.0625,
+          "max_wall_seconds": 0.03200000000651926
+        },
+        "filesystem.fsync": {
+          "calls": 77,
+          "wall_seconds": 0.28200000000651926,
+          "thread_cpu_seconds": 0.046875,
+          "max_wall_seconds": 0.09399999999732245
+        },
+        "filesystem.replace": {
+          "calls": 66,
+          "wall_seconds": 0.312000000019907,
+          "thread_cpu_seconds": 0.171875,
+          "max_wall_seconds": 0.07800000000861473
+        },
+        "capsule.commit": {
+          "calls": 3,
+          "wall_seconds": 2.9530000000231666,
+          "thread_cpu_seconds": 0.703125,
+          "max_wall_seconds": 1.7340000000112923
+        },
+        "session.commit": {
+          "calls": 3,
+          "wall_seconds": 3.0940000000264263,
+          "thread_cpu_seconds": 0.75,
+          "max_wall_seconds": 1.8280000000086147
+        },
+        "plan.install": {
+          "calls": 1,
+          "wall_seconds": 0.8589999999967404,
+          "thread_cpu_seconds": 0.390625,
+          "max_wall_seconds": 0.8589999999967404
+        },
+        "plan.advance": {
+          "calls": 1,
+          "wall_seconds": 2.125,
+          "thread_cpu_seconds": 0.3125,
+          "max_wall_seconds": 2.125
+        }
+      }
+    },
+    "attribution": "Native wrappers aggregate only the synchronous preview thread using threading.local and time.thread_time, avoiding unrelated HTTP/WebSocket worker attribution. Timings include instrumentation overhead; nested phases cannot be summed as exclusive time. Historical 3d source timing is not rebound to lazy source.",
+    "conclusion": "Nine eager memory initializations consumed 1.612 seconds wall and 0.703125 seconds thread CPU inside a 6.297-second/2.09375-thread-CPU preview. All recorded lock acquisitions total 0.327 seconds with max 0.187, so this diagnostic does not show a ten-second opposing lock timeout. Three session commits consumed 3.094 wall seconds; those and unrelated path/write costs remain."
+  },
+  "required_validation": [
+    "Fresh unchanged governance test and optional exact thread-local spans on the lazy source: verify that unused compatibility memory construction is eliminated and the original five-second assertion passes without changing timeout or workload.",
+    "Fresh contracts/full regression and required complete release rounds bound to the final production/input freeze."
+  ],
+  "limitations": [
+    "No post-optimization speedup or governance passing result is inferred from historical spans.",
+    "No assertion that all transaction latency/tails, memory footprint, cross-run global scans or lifecycle errors are solved.",
+    "Underlying memory adapter lock/validation/write code is unchanged; no new correctness defect found in this narrow implementation."
+  ],
+  "no_release_convergence_claim": true,
+  "corrected_focused_capture_observed": {
+    "path": "docs/quality/evidence/release-lazy-memory-focused-v2.xml",
+    "tests": 19,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time_seconds": 214.696,
+    "qualification_limit": "Saved XML inspected, not executed by this reviewer; final input/source freeze and complete rounds still pending."
+  }
+}

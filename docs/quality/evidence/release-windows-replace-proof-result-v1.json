@@ -1,0 +1,118 @@
+{
+  "status": "CONTROLLED_CONTRACT_PASS",
+  "started_at": "2026-10-03T18:02:54.419558+00:00",
+  "cases": [
+    {
+      "case": "original-three-denials",
+      "calls": [
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": 5,
+          "reader_open": true
+        }
+      ],
+      "waits_seconds": [
+        0.02,
+        0.04
+      ],
+      "success": false,
+      "error": 5,
+      "bytes_preserved_or_complete": true,
+      "temporary_files": 0,
+      "reader_closed": true
+    },
+    {
+      "case": "proposal-three-denials",
+      "calls": [
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": null,
+          "reader_open": false
+        }
+      ],
+      "waits_seconds": [
+        0.02,
+        0.04,
+        0.08
+      ],
+      "success": true,
+      "error": null,
+      "bytes_preserved_or_complete": true,
+      "temporary_files": 0,
+      "reader_closed": true
+    },
+    {
+      "case": "proposal-persistent-denial",
+      "calls": [
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": 5,
+          "reader_open": true
+        },
+        {
+          "native_error": 5,
+          "reader_open": true
+        }
+      ],
+      "waits_seconds": [
+        0.02,
+        0.04,
+        0.08,
+        0.16
+      ],
+      "success": false,
+      "error": 5,
+      "bytes_preserved_or_complete": true,
+      "temporary_files": 0,
+      "reader_closed": true
+    },
+    {
+      "case": "nt-immediate-error",
+      "mocked_error_classification_only": true,
+      "calls": 1,
+      "waits": 0,
+      "preserved": true
+    },
+    {
+      "case": "posix-immediate-error",
+      "mocked_error_classification_only": true,
+      "calls": 1,
+      "waits": 0,
+      "preserved": true
+    }
+  ],
+  "limits": "Deterministic controlled native handle proof, no original execution16 holder/cause or benchmark credit. os.replace wrapper delegates actual native call; reader closes after third real denial. No release deadline change.",
+  "protected_stable": true,
+  "freeze_stable": true,
+  "plan_stable": true,
+  "finished_at": "2026-10-03T18:02:58.552690+00:00"
+}

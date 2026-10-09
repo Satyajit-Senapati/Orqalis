@@ -1,0 +1,81 @@
+{
+  "review_kind": "independent_read_only_unapplied_proposal",
+  "created_at": "2026-10-03T09:58:16.235698+00:00",
+  "source_binding": {
+    "sha256": "c483ff7c68a202d682a40b5da430f14ed1d967e8422a50caa336d4afbd0b81d9",
+    "file_count": 196,
+    "git_module": "src/orqalis/git/service.py",
+    "git_module_sha256": "0a445c020dbaf6a3aa62f5c7862e415b653633e0ca5260600bf8f69159b42519",
+    "proposal": ".tools/research/release_porcelain_status_proposal_v1.py",
+    "proposal_sha256": "bdf9dcfc0805e95432212297571cd0feec66ea1011aec612a18fdc71b63923e4"
+  },
+  "scope": {
+    "application_edits": false,
+    "helper_edits": false,
+    "tests_or_workloads_run": false,
+    "proposal_execution": false,
+    "commits": false,
+    "release_certification": false
+  },
+  "primary_reference": "https://git-scm.com/docs/git-status",
+  "mechanical_proof": {
+    "only_LocalGitService_status_AST_changed": true,
+    "full_module_AST_restored_by_replacing_proposed_status_with_current_status": true,
+    "imports_and_execute_root_resolve_commit_other_methods_unchanged": true
+  },
+  "disposition": "Narrow optimization is reasonable after unused upstream counting is disabled and framing validation is strengthened; real fixture parity remains required. No measured speedup or browser latency cure is established.",
+  "confirmed_format_properties": [
+    "Ordinary record maxsplit=8, rename/copy maxsplit=9 and unmerged maxsplit=10 match documented v2 field positions.",
+    "Rename/copy target and original paths are both retained; original is a separate raw NUL record and must not be interpreted as a header or entry even when its filename starts with # or ?.",
+    "surrogateescape and bounded space splitting preserve raw filename spaces, tabs, newlines and non-UTF8 bytes in changed_paths; later path-policy checks are not bypassed.",
+    "Unknown headers are ignored as required by the extensible v2 header contract. Unsupported entry types are rejected; ignored-file entries are not requested.",
+    "Committed HEAD remains required: (initial) is rejected; 40/64 lowercase hexadecimal OIDs accepted; (detached) maps to None.",
+    "Root resolution and injected _execute dispatch remain; environment overrides, hook/fsmonitor restrictions, optional-lock suppression and timeouts are unchanged."
+  ],
+  "required_minimal_adjustments": [
+    {
+      "issue": "--branch defaults to upstream ahead/behind counts; branch.ab is unused. This can introduce avoidable history traversal.",
+      "recommendation": "Add --no-ahead-behind to the same status command; retain branch.oid/head and unknown-header handling.",
+      "severity": "bounded performance risk, not measured regression"
+    },
+    {
+      "issue": "v1 accepts missing trailing NUL and silently ignores interior empty NUL records.",
+      "recommendation": "Require final NUL and iterate all records except only its final empty split element; reject interior empty records while preserving legal raw filenames.",
+      "severity": "structural parser validation gap; no repository input exploit demonstrated"
+    },
+    {
+      "issue": "v1 overwrites duplicate known branch.oid/head headers.",
+      "recommendation": "Reject duplicate required known headers rather than selecting the last one.",
+      "severity": "structural parser validation gap; no legitimate Git output requires duplicates"
+    }
+  ],
+  "validation_claim_limits": [
+    "v1 checks field count, nonempty extracted paths and final HEAD/branch presence; it does not validate the complete XY/submodule/mode/OID/rename-score token grammar. Do not claim all malformed metadata is rejected.",
+    "Ignored metadata is not used for application authority; avoid expanding parser complexity without a concrete needed invariant.",
+    "status no longer virtually dispatches resolve_commit(root, HEAD). A custom LocalGitService subclass implementing denial/transformation only there changes behavior; no such repository subclass was found. Root and _execute overrides remain.",
+    "Third-party GitService implementations are unaffected because status remains the same public method and return contract.",
+    "No cross-command filesystem/Git snapshot atomicity is promised; one status process reduces separate metadata observations but concurrent external mutations remain possible."
+  ],
+  "repository_override_evidence": [
+    "tests/integration/test_memory.py:ObservedGit overrides tracked_files/read_file only.",
+    "tests/unit/test_project_context_builder.py:DeniedGit overrides root/common_directory; RecordingGit overrides status and delegates to super.",
+    "tests/unit/test_project_graph.py:ObservedGit overrides root/common_directory; RecordingGit overrides status and delegates to super.",
+    "Read-only rg found no repository LocalGitService subclass overriding resolve_commit."
+  ],
+  "required_parity_validation": [
+    "Ordinary staged/unstaged modifications, additions/deletions/type changes, clean and fully enumerated untracked files; exact GitStatus parity against preserved v1 implementation.",
+    "Actual rename and copy-detection fixtures with both source/destination retained, including filenames starting with header/entry marker text.",
+    "Actual unmerged conflict fixture with all paths retained.",
+    "Attached and detached committed HEAD, unborn HEAD rejecting GitError, SHA-256 repository when available, and upstream tracking with no ahead/behind work requested.",
+    "Nested directory, existing file path, linked worktree and independent repository roots; preserve injected root denial and _execute environment/command seams.",
+    "Space, Unicode and other platform-supported unusual filenames; synthetic raw tabs/newlines/non-UTF8 names where Windows cannot create them; preserve full dirty submodule paths.",
+    "Unknown headers accepted; missing/duplicate required headers, invalid HEAD, unsupported entries, truncated record fields, empty extracted paths, missing/empty rename original, missing final NUL and interior empty records rejected.",
+    "Count exactly two subprocesses in LocalGitService.status (root plus status), without weakening public deadlines or guards; actual end-to-end performance remains a separate fresh-source gate."
+  ],
+  "historical_evidence_limits": {
+    "parent_reported_passive_f30_browser": "13 PASS / 1 FAIL memory-card; Brain 7.297 seconds and 22 Git calls 4.17 seconds; PLAN preview passed and native close normal. This review does not rerun or independently rebind that timing.",
+    "full_release_rounds_completed": 0,
+    "full_release_rounds_required": 2,
+    "no_P1_closure_or_latency_cure_claim": true
+  }
+}

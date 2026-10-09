@@ -1,0 +1,64 @@
+<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="15.026812999999999">
+<testsuite name="observed.spec.mjs" timestamp="2026-10-02T12:40:38.413Z" hostname="" tests="1" failures="1" skipped="0" time="13.437" errors="0">
+<testcase name="supervised run decisions and plan edits stay bound to persisted versions" classname="observed.spec.mjs" time="13.437">
+<system-out>
+<![CDATA[{"event":"request","method":"GET","path":"/runs/bcb7508f-80ca-47fc-850d-b4b59db9896c"}
+{"event":"response","method":"GET","path":"/runs/bcb7508f-80ca-47fc-850d-b4b59db9896c","status":200,"elapsed_ms":382.83940000000075}
+{"event":"request","method":"GET","path":"/assets/index-C66Gw5MY.js"}
+{"event":"request","method":"GET","path":"/assets/react-vendor-U1vTuZxe.js"}
+{"event":"request","method":"GET","path":"/assets/vendor-BAvqjBdR.js"}
+{"event":"request","method":"GET","path":"/assets/graph-vendor-CKzJ-StU.js"}
+{"event":"request","method":"GET","path":"/assets/graph-vendor-BnuhLJ6X.css"}
+{"event":"request","method":"GET","path":"/assets/index-DS3Gk_28.css"}
+{"event":"response","method":"GET","path":"/assets/index-C66Gw5MY.js","status":200,"elapsed_ms":129.63450000000012}
+{"event":"response","method":"GET","path":"/assets/graph-vendor-BnuhLJ6X.css","status":200,"elapsed_ms":122.58310000000074}
+{"event":"response","method":"GET","path":"/assets/vendor-BAvqjBdR.js","status":200,"elapsed_ms":172.29789999999957}
+{"event":"response","method":"GET","path":"/assets/react-vendor-U1vTuZxe.js","status":200,"elapsed_ms":191.07790000000023}
+{"event":"response","method":"GET","path":"/assets/graph-vendor-CKzJ-StU.js","status":200,"elapsed_ms":191.19949999999972}
+{"event":"response","method":"GET","path":"/assets/index-DS3Gk_28.css","status":200,"elapsed_ms":316.1716999999999}
+{"event":"request","method":"GET","path":"/api/runs/bcb7508f-80ca-47fc-850d-b4b59db9896c"}
+{"event":"request","method":"GET","path":"/api/projects"}
+{"event":"request","method":"GET","path":"/api/runs"}
+{"event":"request","method":"GET","path":"/assets/orqalis.svg"}
+{"event":"response","method":"GET","path":"/assets/orqalis.svg","status":200,"elapsed_ms":1556.8132000000005}
+{"event":"response","method":"GET","path":"/api/projects","status":200,"elapsed_ms":1685.1542}
+{"event":"response","method":"GET","path":"/api/runs/bcb7508f-80ca-47fc-850d-b4b59db9896c","status":200,"elapsed_ms":2048.7120999999997}
+{"event":"request","method":"GET","path":"/api/runs/bcb7508f-80ca-47fc-850d-b4b59db9896c/events"}
+{"event":"request","method":"GET","path":"/api/runs/bcb7508f-80ca-47fc-850d-b4b59db9896c/controls"}
+{"event":"response","method":"GET","path":"/api/runs/bcb7508f-80ca-47fc-850d-b4b59db9896c/events","status":200,"elapsed_ms":268.6438999999991}
+{"event":"response","method":"GET","path":"/api/runs","status":200,"elapsed_ms":2429.7306}
+{"event":"response","method":"GET","path":"/api/runs/bcb7508f-80ca-47fc-850d-b4b59db9896c/controls","status":200,"elapsed_ms":1906.9081000000006}
+
+[[ATTACHMENT|..\..\..\.tools\research\governance-browser-diagnostic\results-current-lazy-spans-1\observed-supervised-run-de-7dc77-bound-to-persisted-versions\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(locator).toBeVisible() failed" type="expect.toBeVisible">
+<![CDATA[  ..\..\..\web\e2e\run-governance.spec.ts:14:1 › supervised run decisions and plan edits stay bound to persisted versions 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('region', { name: 'Run governance' }).getByText('Supervised', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('region', { name: 'Run governance' }).getByText('Supervised', { exact: true }) with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Run governance' }).getByText('Supervised', { exact: true })
+
+
+      56 |   await page.goto(`/runs/${runId}`);
+      57 |   const governance = page.getByRole("region", { name: "Run governance" });
+    > 58 |   await expect(governance.getByText("Supervised", { exact: true })).toBeVisible();
+         |                                                                     ^
+      59 |   await governance.getByLabel("Operator token").fill(operatorToken!);
+      60 |   await governance.getByRole("button", { name: "Preview plan" }).click();
+      61 |   await expect(governance.getByText("GOAL \u00b7 version 1")).toBeVisible();
+        at S:\Orqalis\web\e2e\run-governance.spec.ts:58:69
+
+    Error Context: results-current-lazy-spans-1\observed-supervised-run-de-7dc77-bound-to-persisted-versions\error-context.md
+]]>
+</failure>
+</testcase>
+</testsuite>
+</testsuites>

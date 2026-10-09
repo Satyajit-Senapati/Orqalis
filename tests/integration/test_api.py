@@ -116,6 +116,13 @@ def test_api_memory_returns_only_approved_curated_records(git_repo: Path) -> Non
         assert tuple(
             (git_repo / ".orqalis" / "cache" / "search" / "source-records").glob("SRC-*.md")
         )
+        replacement = store.new_record(
+            MemoryCategory.CONVENTIONS,
+            "Updated naming convention",
+            "The aurora-marker now identifies reviewed naming guidance.",
+            MemoryProvenance(type="user"),
+        )
+        pending = store.propose(replacement, "Update the accepted convention", supersedes=record.id)
 
         with TestClient(
             create_app(sdk), base_url="http://localhost", client=("127.0.0.1", 50000)
@@ -124,16 +131,38 @@ def test_api_memory_returns_only_approved_curated_records(git_repo: Path) -> Non
                 f"/api/projects/{project.id}/memory",
                 params={"query": "aurora-marker", "limit": 10},
             )
+            assert response.status_code == 200, response.text
+            # Lifecycle fields are additive; pending proposals remain excluded.
+            assert response.json() == [
+                {
+                    "record": record.model_dump(mode="json"),
+                    "freshness": "FRESH",
+                    "changed_sources": [],
+                    "lifecycle": "ACTIVE",
+                    "superseded_by": None,
+                }
+            ]
+            assert all("item" not in value for value in response.json())
 
-        assert response.status_code == 200, response.text
-        assert response.json() == [
-            {
-                "record": record.model_dump(mode="json"),
-                "freshness": "FRESH",
-                "changed_sources": [],
-            }
-        ]
-        assert all("item" not in value for value in response.json())
+            approved = store.approve(pending.id, "Reviewed the replacement convention")
+            updated = client.get(
+                f"/api/projects/{project.id}/memory",
+                params={"query": "aurora-marker", "limit": 10},
+            )
+            assert updated.status_code == 200, updated.text
+            assert updated.json() == [
+                {
+                    "record": approved.record.model_dump(mode="json"),
+                    "freshness": "FRESH",
+                    "changed_sources": [],
+                    "lifecycle": "ACTIVE",
+                    "superseded_by": None,
+                }
+            ]
+            # Supersession filters default retrieval without destroying history.
+            historical = sdk.get_project_memory(record.id)
+            assert historical.item.lifecycle == "SUPERSEDED"
+            assert historical.item.superseded_by == replacement.id
     finally:
         sdk.close()
 
@@ -177,3 +206,220 @@ def test_remote_client_cannot_bypass_loopback_policy_with_host_header(git_repo: 
         ):
             pass
         assert error.value.code == 1008
+
+
+@pytest.mark.parametrize("blocked_stage", ["snapshot", "events", "notification"])
+def test_websocket_disconnect_releases_subscription_during_pending_work(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch, blocked_stage: str
+) -> None:
+    import asyncio
+    import threading
+    from uuid import UUID
+
+    from starlette.routing import WebSocketRoute
+    from starlette.types import Message
+    from starlette.websockets import WebSocket
+
+    from orqalis.domain.approval import ControlMode
+    from orqalis.domain.events import Event
+    from orqalis.domain.projections import RunSnapshot
+
+    sdk = Orqalis(root=git_repo)
+    project = sdk.initialize(git_repo)
+    run = sdk.goals.create_pending(
+        project,
+        "Disconnect lifecycle",
+        "feature/disconnect",
+        sdk.git.status(git_repo).head,
+        ControlMode.AUTONOMOUS,
+        None,
+    )
+    state = sdk.snapshot(run.id)
+    entered = threading.Event()
+    release = threading.Event()
+    event_reads: list[int] = []
+
+    def snapshot(run_id: UUID) -> RunSnapshot:
+        if blocked_stage == "snapshot":
+            entered.set()
+            assert release.wait(4)
+        return state
+
+    def events(run_id: UUID, after: int = 0, limit: int | None = None) -> tuple[Event, ...]:
+        event_reads.append(after)
+        if blocked_stage == "events":
+            entered.set()
+            assert release.wait(4)
+        return ()
+
+    monkeypatch.setattr(sdk, "snapshot", snapshot)
+    monkeypatch.setattr(sdk, "events", events)
+
+    async def exercise() -> None:
+        messages: asyncio.Queue[Message] = asyncio.Queue()
+        messages.put_nowait({"type": "websocket.connect"})
+        snapshot_sent = asyncio.Event()
+
+        async def receive() -> Message:
+            return await messages.get()
+
+        async def send(message: Message) -> None:
+            if message["type"] == "websocket.send" and '"type":"snapshot"' in message["text"]:
+                snapshot_sent.set()
+
+        socket = WebSocket(
+            {
+                "type": "websocket",
+                "scheme": "ws",
+                "path": f"/ws/runs/{run.id}",
+                "query_string": b"",
+                "headers": [],
+                "server": ("127.0.0.1", 9000),
+                "client": ("127.0.0.1", 30000),
+                "subprotocols": [],
+            },
+            receive,
+            send,
+        )
+        app = create_app(sdk)
+        endpoint = next(
+            route.endpoint
+            for route in app.routes
+            if isinstance(route, WebSocketRoute) and route.path == "/ws/runs/{run_id}"
+        )
+        stream = asyncio.create_task(endpoint(socket, run.id, 0))
+        try:
+            if blocked_stage == "notification":
+                await asyncio.wait_for(snapshot_sent.wait(), 2)
+            else:
+                assert await asyncio.to_thread(entered.wait, 2)
+            messages.put_nowait({"type": "websocket.disconnect", "code": 1000})
+            await asyncio.wait_for(asyncio.shield(stream), 0.5)
+            assert run.id not in sdk.event_bus._subscribers
+            if blocked_stage == "snapshot":
+                assert event_reads == []
+        finally:
+            # A cancelled coroutine cannot kill a filesystem worker; let it finish safely.
+            release.set()
+            await asyncio.wait_for(stream, 2)
+
+    try:
+        asyncio.run(exercise())
+    finally:
+        sdk.close()
+
+
+@pytest.mark.parametrize("cancellation", ["transport", "native"])
+def test_websocket_transport_cancellation_preserves_cleanup(
+    git_repo: Path, monkeypatch: pytest.MonkeyPatch, cancellation: str
+) -> None:
+    import asyncio
+
+    from anyio import CancelScope
+    from starlette.routing import WebSocketRoute
+    from starlette.types import Message
+    from starlette.websockets import WebSocket
+
+    from orqalis.domain.approval import ControlMode
+    from orqalis.observability.event_bus import EventNotification, EventSubscription
+
+    sdk = Orqalis(root=git_repo)
+    project = sdk.initialize(git_repo)
+    run = sdk.goals.create_pending(
+        project,
+        "Transport cancellation lifecycle",
+        "feature/transport-cancel",
+        sdk.git.status(git_repo).head,
+        ControlMode.AUTONOMOUS,
+        None,
+    )
+    original_receive = EventSubscription.receive
+
+    async def exercise() -> None:
+        messages: asyncio.Queue[Message] = asyncio.Queue()
+        messages.put_nowait({"type": "websocket.connect"})
+        waiting = asyncio.Event()
+        cleanup_started = asyncio.Event()
+        cleanup_finished = asyncio.Event()
+        release_cleanup = asyncio.Event()
+        scopes: list[CancelScope] = []
+
+        async def subscription_receive(
+            subscription: EventSubscription, timeout: float | None = None
+        ) -> EventNotification:
+            waiting.set()
+            try:
+                return await original_receive(subscription, timeout)
+            finally:
+                # A real subscription wait may suspend while cancelling its queue wait.
+                # Place transport cancellation precisely inside this finalization.
+                cleanup_started.set()
+                await release_cleanup.wait()
+                cleanup_finished.set()
+
+        monkeypatch.setattr(EventSubscription, "receive", subscription_receive)
+
+        async def receive() -> Message:
+            return await messages.get()
+
+        async def send(message: Message) -> None:
+            pass
+
+        socket = WebSocket(
+            {
+                "type": "websocket",
+                "scheme": "ws",
+                "path": f"/ws/runs/{run.id}",
+                "query_string": b"",
+                "headers": [],
+                "server": ("127.0.0.1", 9000),
+                "client": ("127.0.0.1", 30000),
+                "subprotocols": [],
+            },
+            receive,
+            send,
+        )
+        app = create_app(sdk)
+        endpoint = next(
+            route.endpoint
+            for route in app.routes
+            if isinstance(route, WebSocketRoute) and route.path == "/ws/runs/{run_id}"
+        )
+
+        async def serve() -> None:
+            with CancelScope() as scope:
+                scopes.append(scope)
+                await endpoint(socket, run.id, 0)
+                await asyncio.sleep(0)
+
+        stream = asyncio.create_task(serve())
+        try:
+            await asyncio.wait_for(waiting.wait(), 2)
+            if cancellation == "transport":
+                messages.put_nowait({"type": "websocket.disconnect", "code": 1000})
+            else:
+                stream.cancel("native-stop")
+            await asyncio.wait_for(cleanup_started.wait(), 2)
+            assert not cleanup_finished.is_set()
+            if cancellation == "transport":
+                scopes[0].cancel()
+            release_cleanup.set()
+            if cancellation == "transport":
+                await asyncio.wait_for(asyncio.shield(stream), 0.5)
+                assert scopes[0].cancelled_caught
+            else:
+                with pytest.raises(asyncio.CancelledError, match="native-stop"):
+                    await asyncio.wait_for(stream, 0.5)
+                assert not scopes[0].cancelled_caught
+            assert cleanup_finished.is_set()
+            assert sdk.event_bus.subscriber_count(run.id) == 0
+        finally:
+            release_cleanup.set()
+            if not stream.done():
+                stream.cancel()
+            await asyncio.gather(stream, return_exceptions=True)
+
+    try:
+        asyncio.run(exercise())
+    finally:
+        sdk.close()

@@ -14,3 +14,10 @@
 
 # Preserve intentional Markdown hard breaks in the supplied signed-off baseline.
 SIGNOFF.md whitespace=-blank-at-eol
+
+# Retain the exact captured bytes used by the release evidence hash chains.
+# Runtime/source text still uses the LF rules above.
+docs/quality/evidence/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+# Generated captures are reviewable but collapsed by default in GitHub diffs.
+docs/quality/evidence/** linguist-generated=true
+/.gitattributes text eol=lf

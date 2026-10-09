@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/release_security_review",
+  "created_utc": "2026-10-02T15:28:01.243717+00:00",
+  "status": "PASS_BOUNDED_CURRENT_SOURCE_PREFLIGHT_AND_INSTALLED_SECURITY_CLOSURE",
+  "source_sha256": "47ec43dd0beec7dff56ad064f78a1f1a46c4cc83172e8f55a20ef00617edac4e",
+  "release_input_sha256": "eb4365b0c25526de96c0f446ddb18ccc3b5b320946d92407710ff02f981d9629",
+  "binding": {
+    "source_inventory_actual": true,
+    "actual_source_digest_recomputed": true,
+    "all390_individual_input_values_match": true,
+    "actual390_input_aggregate_recomputed": true,
+    "all15_private_helper_hashes_match": true,
+    "accepted_attestation_evidence_hashes_match": true,
+    "accepted_private_inventory_hash_matches": true
+  },
+  "confirmed_findings_in_reviewed_scope": {
+    "p0": 0,
+    "p1": 0
+  },
+  "contracts_and_static": {
+    "current_contracts": {
+      "tests": 86,
+      "passed": 86,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "method": "Actual raw JUnit testcase inspection plus exact JUnit/report/child audit hash checks. Current source identity and recorded source/test/helper/runner/dataset stability are true; recorded child launches target actual current root."
+    },
+    "static_gates": {
+      "count": 11,
+      "status": "all PASS",
+      "actual_log_hashes_verified": true
+    },
+    "accepted_guard": "Reviewed strengthened acceptance binds both exact baseline/current contract identities and both frontend build proofs, all raw evidence/helper hashes, current per-file inputs and environment. Actual accepted report hash references independently verified. No dependency tree scan or accept helper rerun performed by this reviewer."
+  },
+  "artifacts": {
+    "wheel_sha256": "b96cc905f6e474b838c5c18a667772658599d19e1ca793598506a8f65269095b",
+    "tested_runtime_smoke_tarball_sha256": "8a4b816e8a2bee159b4c4ba7114d5809355f4cf63a8c299531c5fcf14d3b27eb",
+    "actual_archive_bytes_match": true,
+    "wheel_entries": 208,
+    "npm_entries": 71,
+    "embedded_application_wheel_byte_identical": true,
+    "forbidden_cache_or_project_paths": [],
+    "unsafe_absolute_parent_or_link_entries": [],
+    "method": "Read-only ZIP/tar metadata and embedded wheel byte comparison; no extraction or execution."
+  },
+  "installed_dependencies": {
+    "wheel": {
+      "actual_third_party_package_count": 51,
+      "pip": "26.2.1",
+      "pyjwt": "2.15.1",
+      "audit_pins_equal_actual_installed_metadata": true,
+      "reported_vulnerabilities": 0,
+      "skipped_packages": 0
+    },
+    "npm": {
+      "actual_third_party_package_count": 51,
+      "pip": "26.2.1",
+      "pyjwt": "2.15.1",
+      "audit_pins_equal_actual_installed_metadata": true,
+      "reported_vulnerabilities": 0,
+      "skipped_packages": 0
+    },
+    "actual_own_package": "orqalis2.1.0",
+    "method": "Read importlib distribution metadata from explicit actual wheel/npm site-packages paths and compare every normalized name/version to recorded inventory and advisory rows. No application process, dependency resolver, audit or recursive dependency scan executed."
+  },
+  "installer_boundary": {
+    "bundled_pip_version": "26.2.1",
+    "locked_pip_wheel_sha256": "71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e",
+    "bundle_vendor_inventory_exact": true,
+    "all_vendor_hashes_verified": true,
+    "actual_ready_marker_manifest_fingerprint_matches": true,
+    "installed_launcher_code_matches_frozen_source": true,
+    "offline_verified_pip_wheel_first_retained": true,
+    "python_config_sentinel_win_nul_posix_devnull_retained": true,
+    "isolated_disable_version_check_hashed_binary_deps_and_offline_ownwheel_guards_retained": true,
+    "licenses": "Own-wheel dist-info LICENSE and bundled pip wheel license metadata physically present."
+  },
+  "retained_integration_evidence": {
+    "npm_checks_passed": 17,
+    "npm_checks_total": 17,
+    "mcp_tools": 41,
+    "scope": "Filesystem/no-database setup, idempotent project/context/catalog/run, MCP stdio, packaged UI/assets/routes/API/websocket, hostile cwd import isolation and owned shutdown. Evidence inspected, not rerun."
+  },
+  "additional_fresh_audits": {
+    "application_dev_environment_pins": 63,
+    "pins_equal_recorded_inventory": true,
+    "reported_vulnerabilities": 0,
+    "skipped_packages": 0,
+    "web_npm_vulnerability_map_empty": true,
+    "launcher_npm_vulnerability_map_empty": true,
+    "scope": "Exact retained point-in-time results; no advisory exclusions added."
+  },
+  "documentation_boundary": {
+    "captured_installed_documentation_files": 43,
+    "captured_installed_documentation_digest": "39a8f2963fb83b179a2dad8b8210a407d370e1dc5f02f00c873101341b6bd7ba",
+    "actual_installed_snapshot_digest_verified": true,
+    "current_prose_changed_after_capture": true,
+    "required_before_final_tarball_or_signoff": "Final docs-only repack, exact installed docs proof, and runtime byte equivalence against this tested smoke tarball. Current installed capture qualifies its historical43-doc snapshot; it is not final current-prose qualification."
+  },
+  "evidence_sha256": {
+    "docs/quality/evidence/release-input-freeze-auxiliary.json": "c7b8042698d6ea5657e19245fde0c6d0193b0ae729f8e7a9ddd3fe7de255e1dd",
+    "docs/quality/evidence/release-private-helper-inventory-auxiliary-v2.json": "013205282e18998dd7a2975c5611b8d4653a927e7aeaa7fe3ebf2f3ea43537b0",
+    "docs/quality/evidence/release-source-freeze-auxiliary-accepted.json": "848355ca951a9c9ed65e3fd590d38d17dfb5b0892cba49503e23572e84a07103",
+    "docs/quality/evidence/release-source-freeze-auxiliary.json": "29379e24a9627d7be9cc5e32302d4d219836be0154f166e2840ac4b2917cfdcc",
+    "docs/quality/evidence/release-static-auxiliary.json": "d88364fea0d47dff6a220d4751db98fae90333ff4f795861fda79a82237727ce",
+    "docs/quality/evidence/release-contracts-current-auxiliary-v2.json": "c359eb90d3967e44afedbdb1516f2aa0f233b95c3baa210193349b14f0d1dd54",
+    "docs/quality/evidence/release-contracts-current-auxiliary-v2.junit.xml": "444be7ea0d40dd68969af818c235139683811ea5eb9787a9150fa14d4cada878",
+    "docs/quality/evidence/release-contracts-current-auxiliary-v2.children.jsonl": "c69afd771a79a7a89a8ed70958b206940fe91469963ecf4f8f72a319bb950527",
+    "docs/quality/evidence/release-artifact-identity-auxiliary.json": "1a027f0cf5f64ccebacb27f0c622c08e2950abd425ad72e85ca073cc8a006ada",
+    "docs/quality/evidence/installed-npm-release-2.1.0-auxiliary.json": "21b0c0155988ed161659053aebdbebc02c99936be217ef1d7eb25dd5e5dc2b51",
+    "docs/quality/evidence/release-installed-wheel-inventory-auxiliary.json": "1d3bce5dbffc3072a46c98e073aed0e7cdd873a2ed929532bbd4024dd5aa37f8",
+    "docs/quality/evidence/release-installed-wheel-advisories-auxiliary.json": "d934a1768eeaa380afa70c34999915a15471f0335f3755e6f969fae3aba0e6ed",
+    "docs/quality/evidence/release-installed-npm-inventory-auxiliary.json": "1d3bce5dbffc3072a46c98e073aed0e7cdd873a2ed929532bbd4024dd5aa37f8",
+    "docs/quality/evidence/release-installed-npm-advisories-auxiliary.json": "d934a1768eeaa380afa70c34999915a15471f0335f3755e6f969fae3aba0e6ed",
+    "docs/quality/evidence/release-archive-contents-auxiliary.json": "391c549759ad48cef78faac92912953e4ccd2d89dbff68ee0464444255a8a477",
+    "docs/quality/evidence/release-python-inventory-auxiliary.json": "fe585a862995e8d53211e7b989971256418690f0f658eed2aa816f6388ed819d",
+    "docs/quality/evidence/release-python-advisories-auxiliary.json": "b9c5b259cfc5701b721e974b81249da80d6a6093ed29fb7bd20ea7c69f5d5672",
+    "docs/quality/evidence/release-web-advisories-auxiliary.json": "2b14817574e6290e67865d4bc517f834e26a6ff90af8a36d906f8936559b3c93",
+    "docs/quality/evidence/release-launcher-advisories-auxiliary.json": "63b438e17b8e5147b74190133b6a805956878b33859c6ec496bda2c3afe86b87"
+  },
+  "performance_and_convergence": "Not assessed. Heldoutv8 active measured sequentially; rounds0/2 at task handoff. No performance/complete regression/two-round convergence claim from this review.",
+  "limits": [
+    "Local Windows final candidate preflight and actual installed archive/dependency/bootstrap boundary only.",
+    "Read-only evidence/source/metadata/archive hashing; reviewer ran no workload, tests, audits, benchmarks, install, recursive dependency scan or commit/publication.",
+    "No Linux/macOS/live Docker/paid-provider/native-host/global hostile-host/universal zero-vulnerability claim.",
+    "Prior failed, historical and correction evidence preserved; this is a new current-source bounded review."
+  ]
+}

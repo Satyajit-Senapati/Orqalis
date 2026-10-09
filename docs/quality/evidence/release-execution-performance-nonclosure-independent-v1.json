@@ -1,0 +1,347 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T22:33:28.133472+00:00",
+  "status": "PERFORMANCE_ACCEPTANCE_BLOCKER_EXECUTION_UNKNOWN_ATTRIBUTION_NO_MASTER53_CLOSURE",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "release-paired20-21-acceptance-conditional-draft-v1.json": "85952065b5c4ee03c8fda3b4c6f30ddd35ccd1d2da4b7bbc7ebcdffb3f2922aa",
+    "release-final-quality-performance-draft-v1.json": "132cea4838f2fc3d84ae203db2c153cdbccd52372e8a8bb489d78c1f9ce95f26",
+    "release-execution-baseline-diagnostic.json": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+    "release-execution-baseline-2.json": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+    "release-execution-baseline-8-fixed-diagnostic-v1.json": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+    "release-execution-current-20.json": "9439139e7f90a7c9d8d47d6f3ccb2853feba51afae660045438a5da57cf2eed8",
+    "release-execution-current-21.json": "d028c67bebdee5540bbc74b3eb81ed914b96cdd335719319250789fc1ccc9a04",
+    "docs/quality/MASTER_ENHANCEMENT_PLAN.md": "8e6dc4ceecca327770e974959a12aa5d945377a3ed7b6e53be818c216326c260",
+    "scripts/benchmark_execution.py": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+    "tests/support/trace_fixture.py": "08f212d1ca71b23f24a42cc5ac6e6562345b058f77cef9a09b6ca17eea23ad6f"
+  },
+  "supersedes_recommendation_not_evidence": "The prior conditional bounded-supported-use execution recommendation is insufficient for strict Master53 closure. Prior draft immutable; measurement/verifications remain valid.",
+  "master_requirement": {
+    "source": "docs/quality/MASTER_ENHANCEMENT_PLAN.md",
+    "lines": [
+      1544,
+      1554
+    ],
+    "criterion": "Require at least TWO consecutive full benchmark/audit iterations with no unexplained benchmark degradation.",
+    "interpretation": "Documenting a slower observation or demonstrating functional correctness does not by itself explain it. No waiver or newly selected slower baseline can substitute for the required explanation."
+  },
+  "disposition": {
+    "performance_acceptance_blocker": true,
+    "confirmed_production_p0_p1_defect": false,
+    "capabilities_promoted": 0,
+    "convergence_credit": 0,
+    "full21_complete_claim": false,
+    "signoff_permitted": false,
+    "functional_execution_evidence": "All six current samples complete and pass26 semantic+4 stability checks; preserve separately from performance acceptance.",
+    "scope": "This does not withdraw the independently demonstrated history closed-read-path source reasoning or recreate a history correctness defect. It does block overallMaster53 closure and E04/final aggregate performance acceptance."
+  },
+  "execution_evidence": {
+    "release-execution-baseline-diagnostic.json": {
+      "execution_elapsed_ms": [
+        55642.85999999265,
+        55686.493799992604,
+        55371.642699989025
+      ],
+      "median_ms": 55642.85999999265,
+      "event_counts": [
+        174,
+        174,
+        174
+      ],
+      "persisted_payload_bytes": [
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64570
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64571
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64571
+        }
+      ],
+      "event_projected_run_timing": [
+        {
+          "wall_ms": 52996,
+          "active_ms": 52717,
+          "waiting_ms": 279,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 52846,
+          "active_ms": 52569,
+          "waiting_ms": 277,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 52605,
+          "active_ms": 52255,
+          "waiting_ms": 350,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        }
+      ]
+    },
+    "release-execution-baseline-2.json": {
+      "execution_elapsed_ms": [
+        56502.89820000762,
+        55870.139499995275,
+        55730.52120000648
+      ],
+      "median_ms": 55870.139499995275,
+      "event_counts": [
+        174,
+        174,
+        174
+      ],
+      "persisted_payload_bytes": [
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64570
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64570
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64570
+        }
+      ],
+      "event_projected_run_timing": [
+        {
+          "wall_ms": 53618,
+          "active_ms": 53273,
+          "waiting_ms": 345,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 53192,
+          "active_ms": 52897,
+          "waiting_ms": 295,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 52951,
+          "active_ms": 52651,
+          "waiting_ms": 300,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        }
+      ]
+    },
+    "release-execution-baseline-8-fixed-diagnostic-v1.json": {
+      "execution_elapsed_ms": [
+        95421.07120002038,
+        95099.94379998534,
+        95016.15999999922
+      ],
+      "median_ms": 95099.94379998534,
+      "event_counts": [
+        174,
+        174,
+        174
+      ],
+      "persisted_payload_bytes": [
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64576
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64575
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64575
+        }
+      ],
+      "event_projected_run_timing": [
+        {
+          "wall_ms": 90278,
+          "active_ms": 89813,
+          "waiting_ms": 465,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 89721,
+          "active_ms": 89287,
+          "waiting_ms": 434,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 88516,
+          "active_ms": 87966,
+          "waiting_ms": 550,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        }
+      ]
+    },
+    "release-execution-current-20.json": {
+      "execution_elapsed_ms": [
+        63133.75430001179,
+        62957.311000005575,
+        63480.70230000303
+      ],
+      "median_ms": 63133.75430001179,
+      "event_counts": [
+        174,
+        174,
+        174
+      ],
+      "persisted_payload_bytes": [
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64570
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64572
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64569
+        }
+      ],
+      "event_projected_run_timing": [
+        {
+          "wall_ms": 59120,
+          "active_ms": 58807,
+          "waiting_ms": 313,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 58113,
+          "active_ms": 57851,
+          "waiting_ms": 262,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 58673,
+          "active_ms": 58381,
+          "waiting_ms": 292,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        }
+      ]
+    },
+    "release-execution-current-21.json": {
+      "execution_elapsed_ms": [
+        66465.91070000432,
+        70923.48650001804,
+        71385.60559999314
+      ],
+      "median_ms": 70923.48650001804,
+      "event_counts": [
+        174,
+        174,
+        174
+      ],
+      "persisted_payload_bytes": [
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64572
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64572
+        },
+        {
+          "execution/events.jsonl": 192200,
+          "execution/state.yaml": 64571
+        }
+      ],
+      "event_projected_run_timing": [
+        {
+          "wall_ms": 61254,
+          "active_ms": 61005,
+          "waiting_ms": 249,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 65787,
+          "active_ms": 65464,
+          "waiting_ms": 323,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        },
+        {
+          "wall_ms": 65974,
+          "active_ms": 65681,
+          "waiting_ms": 293,
+          "blocked_ms": 0,
+          "idle_ms": 0,
+          "queue_ms": 0
+        }
+      ]
+    }
+  },
+  "retained_costs": {
+    "current_median_ms": [
+      63133.75430001179,
+      70923.48650001804
+    ],
+    "ratios_to_fastest_capture_median": [
+      1.1346245376319644,
+      1.274619717606669
+    ],
+    "ratios_to_all9_pooled_median": [
+      1.1300088896326654,
+      1.2694345697852436
+    ],
+    "all_baseline_capture_medians_ms": {
+      "release-execution-baseline-diagnostic.json": 55642.85999999265,
+      "release-execution-baseline-2.json": 55870.139499995275,
+      "release-execution-baseline-8-fixed-diagnostic-v1.json": 95099.94379998534
+    },
+    "no_slow_reference_selection": true
+  },
+  "attribution_assessment": {
+    "exact_timing_boundary": "scripts/benchmark_execution.py403-405 times asyncio.run(execute_trace_fixture(...)). Repository Git fixture creation before403, interpreter/import startup, post-capture persisted reload/verification after405 excluded. Within fixture: SDK initialization/prepare/pause/resume/memory/planning/install/execute/final snapshot/close are included.",
+    "available_projection": "run wall/active/waiting/blocked/idle/queue describes event-state time, not per-phase CPU, lock wait or filesystem work. Concurrent task durations must not be summed.",
+    "same_semantic_work": "174 events,9 successful model calls,2 successful tool writes,1 repair,planv2/100%,REVIEWING endpoint and essentially same events192200B/state64569–64576B.",
+    "not_explanation": [
+      "Extra tasks/events/checkpoint volume is contradicted by recorded counts/bytes.",
+      "Richer graph/index representations explain observed graph/store allocation footprints but are not measured execution-phase attribution.",
+      "Current63/71s lying within older55–95s range proves variability, not that candidate slowdown is unrelated to code.",
+      "Passing unchanged worker/provider deadlines proves liveness within those tests, not absence of unexplained degradation."
+    ],
+    "extra_candidate_guards": "Additional current guard/containment/projection work could be demonstrated by an exact executed call-path comparison with the retained source; these captures contain no counters/timing that quantify it or establish contribution to the observed medians. Do not infer that explanation from the mere presence of new source functions.",
+    "specific_cause": "Unresolved from retained evidence; no specific OS/security-agent/allocator or candidate regression path proven."
+  },
+  "required_next_evidence": "A bounded prospective causal attribution investigation on the exact fixture path, or an exact source/structural argument adequate to account for measured degradation; retain all existing samples and failures. Predeclare any diagnostic before invocation, distinguish structural work counts from timings, do not retry timings until green or change performance/gold/deadlines/tolerance. No diagnostic is approved or invoked by this review.",
+  "other_pending_gates": [
+    "Actualfull21completion and final outer byte/environment checks",
+    "Final23ledger/security/13DEFER/30loss reviews",
+    "Finalcurrentdocs/signoff/archive/runtime/frontend/link proofs after legitimate performance resolution"
+  ],
+  "review_scope": "Read only named master/script/fixture and seven existing evidenceJSON. Wrote only this new excluded maintainer addendum; no workload/import/source/test/helper/public-doc change.",
+  "no_commit_or_publication": true
+}

@@ -160,7 +160,7 @@ class GoalService:
             if run is None or run.state != RunState.ANALYZING:
                 raise ConflictError("Initial requirements need the analyzing checkpoint")
             if run.current_goal_version_id:
-                existing = uow.runs.get_goal(run.current_goal_version_id)
+                existing = uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 assert existing is not None
                 saved = GoalDraft(
                     **{
@@ -241,7 +241,7 @@ class GoalService:
             run = uow.runs.get(run_id)
             if not run or not run.current_goal_version_id:
                 raise NotFoundError("Run or current goal not found")
-            contract = uow.runs.get_goal(run.current_goal_version_id)
+            contract = uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
             if contract is None:
                 raise NotFoundError("Current goal not found")
             return contract
@@ -265,7 +265,7 @@ class GoalService:
                 raise ConflictError("Pause execution before explicitly revising the goal")
             if uow.events.by_key(run.id, "delivery:policy"):
                 raise PolicyDeniedError("Delivery has started; a changed goal requires a new run")
-            current = uow.runs.get_goal(run.current_goal_version_id)
+            current = uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
             if not current or current.goal.version != expected_version:
                 raise ConflictError("Goal version changed; reload before revising")
             revised = self._contract(run_id, draft, expected_version + 1, current.goal.id, reason)
@@ -305,7 +305,7 @@ class GoalService:
             run = uow.runs.get(run_id, for_update=True)
             if not run or not run.current_goal_version_id:
                 raise NotFoundError("Run or current goal not found")
-            contract = uow.runs.get_goal(run.current_goal_version_id)
+            contract = uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
             if not contract:
                 raise NotFoundError("Current goal not found")
             criterion = next(
@@ -314,7 +314,7 @@ class GoalService:
             if criterion is None:
                 raise NotFoundError("Criterion not found")
             evidence_id = uuid5(criterion.id, idempotency_key)
-            existing = uow.runs.get_evidence(evidence_id)
+            existing = uow.runs.get_evidence(evidence_id, run_id=run.id)
             if existing:
                 return existing
             if uow.events.by_key(run_id, f"validation:{evidence_id}:start"):
@@ -365,7 +365,7 @@ class GoalService:
             current = uow.runs.get(run_id, for_update=True)
             if current is None or current.current_goal_version_id != criterion.goal_version_id:
                 raise ConflictError("Goal changed during validation; evidence cannot be promoted")
-            latest = uow.runs.get_goal(current.current_goal_version_id)
+            latest = uow.runs.get_goal(current.current_goal_version_id, run_id=current.id)
             assert latest is not None
             current_criterion = next(item for item in latest.criteria if item.id == criterion.id)
             status = AcceptanceStatus.PASS if observation.passed else AcceptanceStatus.FAIL

@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/release_security_review",
+  "created_utc": "2026-10-02T16:16:26.861958+00:00",
+  "status": "PASS_BOUNDED_FRESH_DIGEST_QUALIFICATION_GUARD_REVIEW_RESULTS_PENDING",
+  "source_sha256": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+  "release_input_sha256": "a0b43a9a3c71fab57c5036991335858873e88282738ae0a09a8508e99dcb6c40",
+  "binding": {
+    "actual_complete_source_inventory_and_digest_verified": true,
+    "all390_actual_individual_input_values_verified": true,
+    "actual390_byte_aggregate_verified": true,
+    "all14_private_helper_hashes_verified": true,
+    "prior15_auxiliary_helper_bytes_unchanged": true,
+    "private_parent_inventory_sha_verified": true
+  },
+  "inventories": {
+    "docs/quality/evidence/release-input-freeze-digest.json": "217e9c671c82f5ef147cdabb70fb67895cb16dae5fbd8933859f2a38927573f6",
+    "docs/quality/evidence/release-private-helper-inventory-digest.json": "f8e72d3e451ab8dc85fca970d1d3bdd0348c3b221ad098d44ddaaae72f6d0a61"
+  },
+  "private_helpers": {
+    ".tools/research/release_artifacts_digest.py": "c9454bf3d37f26a86a4e8fe705e1d06daa9bb39e303b3288d69a6b483abda545",
+    ".tools/research/verify_installed_release_digest.py": "09df0e64b41632328551a82e114932a9cb00333275eb4eac52771b045d595be4",
+    ".tools/research/release_repack_docs_digest.py": "2d84211b7c487d75f02876011303579e23fee5d6f9d7f9f3d9cdd7cbe1d06e95",
+    ".tools/research/release_heldout_probe_v9.py": "c3b31f574c6f917a85583e9e1ec63bcc34ac2b24e81cab2c1b4127475d0fb5c7",
+    ".tools/research/run_full_regression_release_v6.py": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+    ".tools/research/release_qualification_v9.py": "e22d456b57a53e8d39f36885e2a234f02d8c226514ace4f9f919ec715319aacc",
+    ".tools/research/release_browser_qualification_v3.py": "0bb6256f651b90d8c887af419262c2688d3d7587bab39f86df56cdf3b03b6c71",
+    ".tools/research/release_governance_diagnostic_v2.py": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275",
+    ".tools/research/release_governance_diagnostic_v4.py": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53",
+    ".tools/research/release-quality-review.json": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e",
+    ".tools/research/release_preflight_digest.py": "258e4e83660e974efd0568c122b535d78802a983fa30b53a45a69ff9d276596b",
+    ".tools/research/verify_frontend_reuse_digest.py": "8ed0460d522116749b52aeac6c8e4c78887f02d883f08302cfcd3306ce206ed9",
+    ".tools/research/accept_release_preflight_digest.py": "5e5d5a4cae92e4136d9e01c42f4d150a760d72930854c10ef8eaaf2c48f74d21",
+    ".tools/research/release_complete_rounds_v9.py": "62b1c974ee449335d0517d435b7b4f5cedaa4be798759f129067825e529cdc52"
+  },
+  "exact_input_delta_from_auxiliary": [
+    "src/orqalis/graph/engine.py",
+    "src/orqalis/persistence/filesystem/io.py",
+    "tests/unit/test_filesystem_foundation.py",
+    "tests/unit/test_project_graph.py"
+  ],
+  "production_delta_scope": "Only src/orqalis/graph/engine.py and src/orqalis/persistence/filesystem/io.py changed; tests/unit/test_project_graph.py and tests/unit/test_filesystem_foundation.py are the other390-input changes. Implementation has a separate independent review; this report reviews qualification guards, not implementation performance or correctness anew.",
+  "copy_diff_reviews": [
+    {
+      "prior": "release_preflight_auxiliary.py",
+      "fresh": "release_preflight_digest.py",
+      "prior_sha256": "646e98c9609a7598fb1dcc24e300643befad4affe2d497d08d6d6655ebe5fd95",
+      "fresh_sha256": "258e4e83660e974efd0568c122b535d78802a983fa30b53a45a69ff9d276596b",
+      "assertion_count": 40,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    },
+    {
+      "prior": "accept_release_preflight_auxiliary.py",
+      "fresh": "accept_release_preflight_digest.py",
+      "prior_sha256": "2fba50e7b93502fd8980b91e9b440c66aefc1ce24aa24a0176ede8b1e0879be8",
+      "fresh_sha256": "5e5d5a4cae92e4136d9e01c42f4d150a760d72930854c10ef8eaaf2c48f74d21",
+      "assertion_count": 30,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    },
+    {
+      "prior": "release_complete_rounds_v8.py",
+      "fresh": "release_complete_rounds_v9.py",
+      "prior_sha256": "cdd758058d39c3902fcefbb20dccce2fdc25ff37a2bfc05a73eb9ce573c5b15e",
+      "fresh_sha256": "62b1c974ee449335d0517d435b7b4f5cedaa4be798759f129067825e529cdc52",
+      "assertion_count": 6,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    },
+    {
+      "prior": "release_qualification_v8.py",
+      "fresh": "release_qualification_v9.py",
+      "prior_sha256": "b4864043cecf9bfc5e3fe6f571fc61f75ab3c004ff332f80fc9fca4756b2098e",
+      "fresh_sha256": "e22d456b57a53e8d39f36885e2a234f02d8c226514ace4f9f919ec715319aacc",
+      "assertion_count": 25,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    },
+    {
+      "prior": "verify_frontend_reuse_auxiliary.py",
+      "fresh": "verify_frontend_reuse_digest.py",
+      "prior_sha256": "12c3afef1932a42c616c1db1b47586a9a1539171d89462566caf6ec10899da03",
+      "fresh_sha256": "8ed0460d522116749b52aeac6c8e4c78887f02d883f08302cfcd3306ce206ed9",
+      "assertion_count": 4,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    },
+    {
+      "prior": "release_artifacts_auxiliary.py",
+      "fresh": "release_artifacts_digest.py",
+      "prior_sha256": "10511c327b3a96acbfc175444e9854761845f18dd7d50a44034a4e6df5b87967",
+      "fresh_sha256": "c9454bf3d37f26a86a4e8fe705e1d06daa9bb39e303b3288d69a6b483abda545",
+      "assertion_count": 15,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    },
+    {
+      "prior": "verify_installed_release_auxiliary.py",
+      "fresh": "verify_installed_release_digest.py",
+      "prior_sha256": "ed8930f44c79a9e4bb31026c38107e28a94deda229a8fee22d6c3a8a754320f2",
+      "fresh_sha256": "09df0e64b41632328551a82e114932a9cb00333275eb4eac52771b045d595be4",
+      "assertion_count": 6,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    },
+    {
+      "prior": "release_repack_docs_auxiliary.py",
+      "fresh": "release_repack_docs_digest.py",
+      "prior_sha256": "9a6382346ae345d7e05ecd614a3e8949b48725c8f82cb7ef651a80e147f10f84",
+      "fresh_sha256": "2d84211b7c487d75f02876011303579e23fee5d6f9d7f9f3d9cdd7cbe1d06e95",
+      "assertion_count": 6,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    },
+    {
+      "prior": "release_heldout_probe_v8.py",
+      "fresh": "release_heldout_probe_v9.py",
+      "prior_sha256": "e32123a22507c0d4ed9b59019ba78a6b9e1e786fd9995e702fa3653fdc26bb03",
+      "fresh_sha256": "c3b31f574c6f917a85583e9e1ec63bcc34ac2b24e81cab2c1b4127475d0fb5c7",
+      "assertion_count": 11,
+      "numeric_constants_and_deadlines_unchanged": true,
+      "delta": "Only reviewed source/inventory/helper/capture bindings and output path substitutions; cases and checks unchanged."
+    }
+  ],
+  "preserved_guard_chain": [
+    {
+      "phase": "Preflight",
+      "assessment": "Exact candidate source hard bind, individual390/aggregate/private14 hashes at start/after each subprocess; immutable baseline source/test/dataset/runner/helper/environment/child audit/JUnit86 reuse retained unchanged; fresh current contract execution and11 static gates use fresh digest paths. Original source47 reports remain historical."
+    },
+    {
+      "phase": "Frontend acceptance",
+      "assessment": "Separate fresh baseline sidecar invokes full existing B.validate_build; new accept_release_preflight_digest requires it with exact candidate/input/baseline/verifier/build identity. Both baseline and current full validate_build calls remain, including actual source/dependency/artifact trees, both locks, builder and Node tool bytes/version. Earlier baseline frontend gap does not reappear."
+    },
+    {
+      "phase": "Contract/static acceptance",
+      "assessment": "Both current and baseline require actual external frozen test fingerprint, runner/helper/dataset bytes, normalized environment, selected source/stability/86, child policy/actual audit/JUnit; static source/input identity plus all11 PASS and actual gate log hashes retained. Exact accepted raw evidence/build/private hashes compared deterministically on --verify."
+    },
+    {
+      "phase": "Full rounds",
+      "assessment": "release_complete_rounds_v9 retains acceptance --verify before/after unchanged round8/9 workloads. Evaluation/environment/source/input/helper stability and prior successful round8 identity required for9. No case, assertion, deadline, auth, tradeoff or fresh-log requirement weakened. Native browser helper and full regression wrapper remain byte-identical to reviewed copies."
+    },
+    {
+      "phase": "Artifacts/repack",
+      "assessment": "Fresh digest artifact/install/runtime dirs, rooted path and no-prior-directory guards retained. Exact installed inventories/audits include pip26.2.1 without skips/vulnerability exclusions. Offline verified seed wheel and current installed source boundary are unchanged, but must be freshly executed for new own-wheel bytes. Docs repack preserves tested tarball and requires exact non-documentation runtime byte equivalence before smoke reuse."
+    }
+  ],
+  "freshness_observed": {
+    "round8_9_result_collisions": [],
+    "digest_artifact_install_runtime_directories_exist": false,
+    "prior_source47_helpers_and_raw_captures_preserved": true
+  },
+  "confirmed_guard_findings": {
+    "p0": 0,
+    "p1": 0,
+    "other": []
+  },
+  "execution_status": "Fresh digest preflight, acceptance, artifacts and full rounds had not been run at task handoff. No fresh result, installed dependency/security closure, performance or convergence PASS is claimed here. Source47 installed/capture review remains historical rather than rebound to source1e3fc528.",
+  "limits": [
+    "Read-only diffs/AST/source/input/helper hashing and new canonical review JSON only; no workload, tests, audits, benchmark, recursive dependency scan, source/helper mutation, commit or publication.",
+    "Bounded qualification guard review only; no multi-platform/native-host/paid-provider/global hostile-host/universal security claim.",
+    "Fresh result/source/installed/archive/docs byte evidence and two complete rounds remain root qualification work."
+  ]
+}

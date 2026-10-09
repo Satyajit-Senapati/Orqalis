@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "status": "DIAGNOSTIC_PAIR_PASSED_FRESH_COMPLETE_ATTEMPTS_APPROPRIATE_NOT_CONVERGED",
+  "reviewer": "Independent release quality reviewer",
+  "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "release_input_sha256": "49af6bd8978badbb6fcf10e84d7d92a4b74133e40dae53e51d6de24c821dab1b",
+  "fixture_sha256": "3f78259b8e27900a2363572883e5d64028de19241067f4ddbf2df12537dbf6a0",
+  "execution_script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+  "fixture_helpers_sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+  "environment_sha256": "f899d7229da0991bcea54229abac4d37b7c5c3633e44266e46e6de9b86886c52",
+  "method": "Read-only verification of planned diagnostic pair, actual samplechecks/source/helper/script/environment stability and commandlogdigests. No benchmark or source/test/dependency edit by reviewer. Earlierfailedround preserved.",
+  "inputs": [
+    {
+      "path": "docs/quality/evidence/release-execution-failure-diagnostic.json",
+      "sha256": "006dbc1312dbff0c28eed18e2b5155415f6a6aadc3d57b37cd525fb20ede7a40"
+    },
+    {
+      "path": "docs/quality/evidence/release-execution-baseline-diagnostic.json",
+      "sha256": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3"
+    },
+    {
+      "path": "docs/quality/evidence/release-execution-current-diagnostic.json",
+      "sha256": "562df57fbe8caccae5000674aa2c41d3239fafb45cc85eed56295780658a19ac"
+    },
+    {
+      "path": "docs/quality/evidence/release-execution-baseline-1.json",
+      "sha256": "0a6435166932c89a28e13bd73eebae5d6b65a664bd95055f4ab99d9c92914bc5"
+    },
+    {
+      "path": ".tools/research/release_execution_failure_diagnostic.py",
+      "sha256": "26aa158ed02b400ce525c0158961468b3876d7fe027605bda268f4a80b5c2131"
+    },
+    {
+      "path": ".tools/research/release_qualification_v2.py",
+      "sha256": "68f7116670a8d3728c982be728c435d2f5fdf2252f703236063d9d1a8dce43af"
+    },
+    {
+      "path": "scripts/benchmark_execution.py",
+      "sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9"
+    },
+    {
+      "path": ".tools/research/release-execution-failure-independent-review.json",
+      "sha256": "1bb968a1321b479946722b8d26da577597fcc4feb49c2cf62ca928e88a0a9e4a"
+    }
+  ],
+  "raw_logs_verified": [
+    {
+      "path": "docs\\quality\\evidence\\release-execution-baseline-diagnostic.log",
+      "sha256": "25e47f25adca96a5f3a56f3c05ce4f02f0c7adabd7f189ce7801d24a53faea4c",
+      "manifest_match": true
+    },
+    {
+      "path": "docs\\quality\\evidence\\release-execution-current-diagnostic.log",
+      "sha256": "9e6c80d596560e028f244cf2a33a00a985415253a35705e2a3612dcbd89d6a4a",
+      "manifest_match": true
+    }
+  ],
+  "diagnostic_samples": {
+    "baseline": {
+      "complete": true,
+      "passed": true,
+      "input_stable": true,
+      "samples": 3,
+      "worker_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "checks_per_sample": [
+        26,
+        26,
+        26
+      ],
+      "all_sample_checks_true": true,
+      "all_sample_input_stability_flags_true": true,
+      "isolated_source_bindings_match": true,
+      "summary": {
+        "deterministic_fixture_passes": 3,
+        "acceptance_first_pass_count": 0,
+        "timing_qualified": true,
+        "execution_elapsed": {
+          "samples_ms": [
+            55642.85999999265,
+            55686.493799992604,
+            55371.642699989025
+          ],
+          "median_ms": 55642.85999999265,
+          "p95_ms": 55686.493799992604,
+          "p95_method": "nearest-rank; small-sample maximum is not a tail-latency estimate"
+        },
+        "child_process_elapsed": {
+          "samples_ms": [
+            57153.91870000167,
+            57187.77079999563,
+            57091.51889999339
+          ],
+          "median_ms": 57153.91870000167,
+          "p95_ms": 57187.77079999563,
+          "p95_method": "nearest-rank; small-sample maximum is not a tail-latency estimate"
+        }
+      }
+    },
+    "current": {
+      "complete": true,
+      "passed": true,
+      "input_stable": true,
+      "samples": 3,
+      "worker_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "checks_per_sample": [
+        26,
+        26,
+        26
+      ],
+      "all_sample_checks_true": true,
+      "all_sample_input_stability_flags_true": true,
+      "isolated_source_bindings_match": true,
+      "summary": {
+        "deterministic_fixture_passes": 3,
+        "acceptance_first_pass_count": 0,
+        "timing_qualified": true,
+        "execution_elapsed": {
+          "samples_ms": [
+            54315.68079999124,
+            55619.90499999956,
+            54756.72440000926
+          ],
+          "median_ms": 54756.72440000926,
+          "p95_ms": 55619.90499999956,
+          "p95_method": "nearest-rank; small-sample maximum is not a tail-latency estimate"
+        },
+        "child_process_elapsed": {
+          "samples_ms": [
+            56061.704299994744,
+            57234.65900000883,
+            56453.53479999176
+          ],
+          "median_ms": 56453.53479999176,
+          "p95_ms": 57234.65900000883,
+          "p95_method": "nearest-rank; small-sample maximum is not a tail-latency estimate"
+        }
+      }
+    }
+  },
+  "interpretation": "Bothsources eachpassed3fresh executionfixtures under unchangedsource/fixture/script/environment. This demonstrates successfulreexecutionwaspossible withoutpatchingbaseline/timeoutraise; it does NOT establish exactWinError5cause/transience, quantify flakerate or prove candidate retried/recoveredthisfailure.",
+  "prior_failure": {
+    "path": "docs/quality/evidence/release-execution-baseline-1.json",
+    "complete": false,
+    "samples": 0,
+    "worker_returncode": 1,
+    "not_promoted": true,
+    "failed_round_not_counted": true,
+    "candidate_failure_observed_in_diagnostic": false
+  },
+  "fresh_attempt_plan": {
+    "decision": "APPROPRIATE_FIXED_ADDITIONAL_COMPLETE_VALIDATION",
+    "planned_attempts": [
+      {
+        "label": 2,
+        "order": "current thenbaseline"
+      },
+      {
+        "label": 3,
+        "order": "baseline thencurrent"
+      }
+    ],
+    "reason": "Requiredtwofull audits remainuncompleted. Oneexplicitplanneddiagnosticpair nowpasseswithunchangedinputs, supporting continuation to separatelynamed complete rounds; no diagnosticcapture reuseorfailedroundpromotion. Orderreversehelps expose order/resource bias.",
+    "conditions": [
+      "Freshoutputlabelsandfullrawcommandlogs for everygate",
+      "Freeze390maininputs/source andseparatelyrecord privatewrapperidentity",
+      "Eachattemptmustcompletequality/execution/memory/UI/constrained/realbrowser/fullcurrentregression/advisories andactualacceptancechecks",
+      "Stopandinvestigate anynewfailure or materiallychangedreviewwitness; do not blindlyrepeat samefailedrounduntilgreen",
+      "Consecutiveclean countdepends on actualcompleteacceptedattempt2+attempt3 evidence, not label-minus1 arithmetic",
+      "Originalbaselinefailure anddiagnosticreports remain separate andvisible"
+    ]
+  },
+  "source_correction_required": null,
+  "exact_windows_denial_cause_proven": false,
+  "candidate_retry_use_observed": false,
+  "flakerate_established": false,
+  "scope_limits": [
+    "Deterministicfakeproviderfixture withdeliberateFAILfirstreviewthenPASSand exactlyonerepair, not autonomouscodingquality",
+    "Three samplesper source in oneplannedpair, not statisticalreliability or tailguarantee",
+    "No hostedplatform/Docker/liveprovider evidence",
+    "Timingqualified field belongs to samplecapturemethod, not finalreleaseconvergence",
+    "SuccessdoesnoteraseshistoricalWin5baselinefailure"
+  ],
+  "convergence": "NOT_CONVERGED: diagnostics arenotcleanfullaudititerations; requiredattempts2/3ongoing/pending. No releasesignoff fromthisreview."
+}

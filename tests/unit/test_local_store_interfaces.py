@@ -71,6 +71,7 @@ def test_local_store_cli_tasks_context_graph_and_rebuild(
         ["context", "tablet navigation", "--repo", str(root), "--json"],
         ["rebuild-index", "--repo", str(root), "--json"],
         ["memory", "graph", "--repo", str(root), "--json"],
+        ["memory", "impact", "main.py", "--repo", str(root)],
     ):
         result = runner.invoke(app, arguments)
         assert result.exit_code == 0, result.output
@@ -101,6 +102,9 @@ def test_mcp_exposes_root_isolated_local_store_tools(tmp_path: Path) -> None:
             assert {
                 "get_project_context",
                 "get_project_graph",
+                "get_change_impact",
+                "find_graph_path",
+                "get_skill_resource",
                 "get_related_symbols",
                 "list_tasks",
                 "get_task",
@@ -111,14 +115,77 @@ def test_mcp_exposes_root_isolated_local_store_tools(tmp_path: Path) -> None:
             calls: tuple[tuple[str, dict[str, object]], ...] = (
                 ("get_project_context", {"task": "tablet navigation"}),
                 ("get_project_graph", {}),
+                ("get_change_impact", {"node_or_path": "main.py"}),
                 ("get_related_symbols", {"task": "tablet navigation"}),
                 ("list_tasks", {}),
                 ("get_task", {"task_id": task_id}),
                 ("get_task_context", {"task_id": task_id}),
             )
+            runner = CliRunner()
+
+            graph = sdk.project_graph()
+            node_id = graph.nodes[0].id
+            path = await client.call_tool(
+                "find_graph_path", {"source_id": node_id, "target_id": node_id}
+            )
+            assert not path.is_error
+            bad = await client.call_tool("get_change_impact", {"node_or_path": "../outside.py"})
+            assert bad.is_error
+            path_result = runner.invoke(
+                app, ["memory", "path", node_id, node_id, "--repo", str(root)]
+            )
+            assert path_result.exit_code == 0 and json.loads(path_result.stdout)["found"]
+
             for name, arguments in calls:
                 result = await client.call_tool(name, arguments)
                 assert not result.is_error, (name, result.content)
+
+    try:
+        asyncio.run(scenario())
+    finally:
+        sdk.close()
+
+
+def test_mcp_portable_skill_resources_remain_inside_configured_roots(tmp_path: Path) -> None:
+    from orqalis.config.settings import Settings
+    from tests.unit.test_portable_skills import skill
+
+    root = repository(tmp_path / "repo")
+    trusted = tmp_path / "trusted-skills"
+    trusted.mkdir()
+    directory = skill(trusted)
+    (directory / "references").mkdir()
+    (directory / "references/guide.md").write_text("Inspect criterion evidence.")
+    sdk = Orqalis(root=root, settings=Settings(skill_roots=(trusted,)))
+    project = sdk.initialize(root)
+    policy = MCPPolicy(project_id=project.id, workspaces_root=tmp_path / "worktrees")
+    assert any(entry.metadata.id == "code-review" for entry in sdk.list_skills())
+
+    async def scenario() -> None:
+        async with Client(create_mcp(sdk, policy)) as client:
+            loaded = await client.call_tool(
+                "get_skill", {"skill_id": "code-review", "version": "0.0.0"}
+            )
+            assert not loaded.is_error
+            resource = await client.call_tool(
+                "get_skill_resource",
+                {
+                    "skill_id": "code-review",
+                    "version": "0.0.0",
+                    "path": "references/guide.md",
+                },
+            )
+            assert not resource.is_error and resource.structured_content
+            assert resource.structured_content["content"] == "Inspect criterion evidence."
+            denied = await client.call_tool(
+                "get_skill_resource",
+                {
+                    "skill_id": "code-review",
+                    "version": "0.0.0",
+                    "path": "../../repo/main.py",
+                },
+            )
+            assert denied.is_error
 
     try:
         asyncio.run(scenario())

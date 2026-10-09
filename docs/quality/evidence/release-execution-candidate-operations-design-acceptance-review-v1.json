@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T23:05:26.393605+00:00",
+  "status": "UNAPPROVED_PROSPECTIVE_DIAGNOSTIC_PRIMARY_ERROR_PRESERVATION_REPAIR_REQUIRED",
+  "runner_sha256": "8c5d9c931161fc7102628c3fa546300323475633b9cc63c62b41f728469bbfd4",
+  "plan_sha256": "095e95bbc2d612ddb70e383c3ffc67e268a93f5b6be024806ebf3cd36f3b3cc7",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "findings": [
+    {
+      "severity": "BLOCKING_PRIVATE_HARNESS_SEMANTICS",
+      "location": "OperationObservers.begin replacement/lease finally bookkeeping",
+      "finding": "Unshielded perf_counter/str/threading/record allocation/list append in finally can raise and replace an original native PermissionError/lease exception or alter successful call result. The stated passthrough exception guarantee requires primary result/error preservation and a separately recorded observer-invalid condition.",
+      "required_change": "Shield observer bookkeeping, retain original exception or successful result unchanged, record any instrumentation failure outside timed hook as INVALID; no silently ignored incomplete observations."
+    },
+    {
+      "severity": "BLOCKING_PRIVATE_HARNESS_PRIMARY_EXCEPTION",
+      "location": "child finally restore call",
+      "finding": "Unshielded restore assertions in outerfinally can replace the original worker error. Existingexcept addsnotes, but finally repeatsrestoration and canmaskprimary.",
+      "required_change": "Retain primary worker exception; restoration failure is recordedsecondary/invalid, no successfuldispatchintegrityclaim."
+    },
+    {
+      "severity": "CORRECTION_ALREADY_REQUESTED_BY_ROOT",
+      "location": "plan limits",
+      "finding": "Old ONEbaseline/ONEcandidate and pair wording contradicts newONEC-onlyscope. Exactsuccessor must correctuninvokedprosewithnewhashbindings."
+    }
+  ],
+  "other_reviewed_scope": {
+    "oneC_not_baseline_retry": true,
+    "native_and_lifecycle_defs_ast_exact_v3": true,
+    "scalar_attribution_ast_exact_v3": true,
+    "original26plus4_andclock_setup_fixture_5s300s_workload_unchanged_in_transform": true,
+    "exclusive_new10paths_and_guardscope": "Inheritedhardcodedpath/ancestor/literalguards adaptedoneC; not atomicTOCTOUprotection.",
+    "replace_hook": "Only immediateoriginalatomicwriter caller recorded; process-globalosal othercallsdelegated, still haveframe/time observeroverhead.",
+    "lease_hook": "Callsoriginalonce,separatesfirstfromalreadyheldinclusiveinterval; nested/concurrentintervalscannotbesummed.",
+    "backoff": "20/40/80/160 scheduledinferencefromwritercontrolflow, not actualsleepmeasurement."
+  },
+  "attribution_limits": [
+    "Instrumentation is newdiagnostic andtimingperturbed; no replacementofoldcapturedmedians.",
+    "C-only can show recognizeddenials/leasework for thisfixture, not matchedreference speed orhistoricalcause.",
+    "Anybookkeeping/restorationfailure must invalidateobservation; directoverheadpartial neverfullperturbationproof."
+  ],
+  "master53_performance_blocker_open": true,
+  "invocation_approved": false,
+  "workloads_invoked": 0,
+  "release_acceptance_credit": 0,
+  "original_source_tests_protected_helpers_unmodified": true
+}

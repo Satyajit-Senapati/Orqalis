@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "status": "ROUND_8_INCOMPLETE_BASELINE_FAILURE_BOUNDED_CONTINUATION_RECOMMENDED",
+  "reviewed_at_utc": "2026-10-03T13:03:00.768645+00:00",
+  "reviewer": "independent_release_quality_review",
+  "scope": "Read-only review; no workload executed and no source/helper/test/dependency/capture edited. One new disposition written.",
+  "binding": {
+    "current_source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+    "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+    "source_files_individually_rehashed": true,
+    "current_release_input_sha256": "a6aab317af7c9cb41f8eb2742c58752a732299ce814e3d88520f1d734a2aca4a",
+    "release_inputs": 390,
+    "helpers": 15,
+    "all_frozen_input_and_helper_hashes_match": true,
+    "execution_script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+    "execution_helper_sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+    "execution_fixture_sha256": "3f78259b8e27900a2363572883e5d64028de19241067f4ddbf2df12537dbf6a0",
+    "baseline_candidate_environment_equal": true
+  },
+  "artifact_sha256": {
+    "docs/quality/evidence/release-execution-baseline-8.json": "f2d7885a9d1b22dc10bb863253f5bfe4a1a080f7c50ead9693aa4975363f46ac",
+    "docs/quality/evidence/release-execution-current-8.json": "84b6ac7b6b1714366c9042743c7ed1ed0548994fac0f8ef8e8eb60960d644e5e",
+    ".tools/research/release-command-failure-execution-baseline-8.json": "8799b7755e585ee977c943029bba2688f24c3e803fb7a037d838b6e0e18e0a46",
+    ".tools/research/release-v12-execution-baseline-8.log": "178fe1fae2eeaf1d614588c2c5d8b43db67be0bd8123e2ce78b7c04af753ed0d",
+    "docs/quality/evidence/release-execution-failure-diagnostic.json": "006dbc1312dbff0c28eed18e2b5155415f6a6aadc3d57b37cd525fb20ede7a40",
+    "src/orqalis/persistence/filesystem/io.py": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+    ".tools/research/baseline-b8506f7/src/orqalis/persistence/filesystem/io.py": "46dbb9ce8b3ea4248b7882b3daff1fd4d9a4423c1d90ae3daf45c42412eda785",
+    ".tools/research/release_complete_rounds_v12.py": "ab7392571597dec3c57f3d624d67a81af968fe530ce7f4e38338ea0dbba24d3f",
+    ".tools/research/release_qualification_v12.py": "f21e179015910be57f1dafd774154dbf7b55e5dcbeb31dd2e3728fbf24a6746c",
+    "tests/unit/test_filesystem_foundation.py": "7fff7432a577e37ccb249d2c87f4bddc2d48569bdf70e578aa43045374efea15",
+    "docs/quality/evidence/release-input-freeze-readpath.json": "1fb60b6d87b2fd289b84e9c26fcf315089422578b092a9da132cbf541ae154a9",
+    "docs/quality/evidence/release-private-helper-inventory-readpath.json": "df8c70ca3f247e636cfb8d5419adb1a9c84795ee765c729731b3e6e79827b80f"
+  },
+  "failure": {
+    "round": 8,
+    "side": "immutable baseline",
+    "complete": false,
+    "completed_samples": 0,
+    "failed_repetition": 0,
+    "worker_returncode": 1,
+    "command_returncode": 1,
+    "exception_type": "PermissionError",
+    "winerror": 5,
+    "operation": "os.replace temporary goal.md to canonical goal.md",
+    "stack": "GoalService.validate -> FilesystemProjectUnitOfWork.commit -> TaskCapsuleSession.commit -> _commit_capsule -> TaskCapsuleStore._recover -> atomic_write_bytes -> os.replace",
+    "baseline_single_replace": true,
+    "candidate_atomic_write_behavior": "Existing maximum3 attempts on Windows PermissionError Win5/32/33; fresh filesystem-link guard before retry,20/40ms delays; persistent denial propagates, temporary cleanup and original content preservation retained.",
+    "existing_test_scope": "Foundation tests check1/2 transient Win32 denials recover and persistent Win5 stops exactly after3 attempts, preserves original and cleans temporary file. No tests run by reviewer.",
+    "attribution": "Same exception/atomic replacement failure class as historical baseline capture; exact external denying process, transient OS/share cause and recurrence probability unproven."
+  },
+  "candidate_execution": {
+    "complete": true,
+    "input_stable": true,
+    "passed_samples": 3,
+    "no_candidate_failure_in_this_capture": true,
+    "limit": "Candidate3/3 passing execution does not complete a comparative round or prove its bounded retry caused the difference."
+  },
+  "historical_planned_diagnostic": {
+    "record": "release-execution-failure-diagnostic.json",
+    "record_source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+    "runs": [
+      {
+        "label": "baseline",
+        "report": "release-execution-baseline-diagnostic.json",
+        "report_sha256": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+        "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+        "complete": true,
+        "samples": 3,
+        "log_sha256": "25e47f25adca96a5f3a56f3c05ce4f02f0c7adabd7f189ce7801d24a53faea4c"
+      },
+      {
+        "label": "current",
+        "report": "release-execution-current-diagnostic.json",
+        "report_sha256": "562df57fbe8caccae5000674aa2c41d3239fafb45cc85eed56295780658a19ac",
+        "source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+        "complete": true,
+        "samples": 3,
+        "log_sha256": "9e6c80d596560e028f244cf2a33a00a985415253a35705e2a3612dcbd89d6a4a"
+      }
+    ],
+    "limit": "Historical unchanged baseline/current planned diagnostic both completed3/3; remains historical and is not rebound to current source. Does not cure or waive round8."
+  },
+  "recommendation": {
+    "preserve": [
+      "Round8 incomplete baseline raw capture and full failure log",
+      "All successful partial round8 captures as supplemental evidence only",
+      "Unused round9 labels",
+      "Immutable baseline source and original retry/timeout/workload behavior"
+    ],
+    "one_fixed_baseline_diagnostic": {
+      "justified": true,
+      "plan": "Predeclare exactly one unchanged3-repetition baseline capture using same script/helpers/fixture/source/environment/mode and original timeout, fresh output/log labels. No baseline changes or automatic retries.",
+      "acceptance": "Must complete all3 samples with exact input stability and retained full log. It is diagnostic only and never counted as a qualification round.",
+      "failure_action": "Stop planned continuation after any diagnostic failure; record it and investigate reproducibility/external interference before considering a new plan. Do not repeatedly rerun until green."
+    },
+    "new_two_round_family": {
+      "conditional_on": "Fixed diagnostic completes without identity or functional failure, independently reviewed label-only new helper family and fresh provenance manifest.",
+      "labels": [
+        10,
+        11
+      ],
+      "requirements": "Exactly two newly labeled full rounds, same cases/repetitions/budgets/deadlines/auth/thresholds and raw30 REVIEW dispositions as8/9, original fail-fast behavior; no splicing partial8 or diagnostic samples into them. Stop first failed new attempt.",
+      "reuse": "Reuse completed source-bound preflight/static/contracts/artifacts only with exact original capture/file/source/environment/evaluator/helper identity linkage and acceptance revalidation; explicitly distinguish reused evidence from new execution. New label helpers require separate reviewed inventory/provenance; do not rewrite old captures or falsely rebind original helper hashes."
+    }
+  },
+  "release_limits": {
+    "complete_full_release_rounds": 0,
+    "required": 2,
+    "round8_counted": false,
+    "diagnostic_counted": false,
+    "baseline_modified": false,
+    "candidate_regression_confirmed_by_this_failure": false,
+    "release_certified": false,
+    "main_commit_or_publication": false
+  }
+}

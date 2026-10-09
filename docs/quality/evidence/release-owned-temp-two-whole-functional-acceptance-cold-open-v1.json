@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T10:29:53.954315+00:00",
+  "reviewer": "release_acceptance_review",
+  "status": "TWO_FUNCTIONALLY_COMPLETE_WHOLES_CURRENT_COLD_PERFORMANCE_OPEN",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "scope": "Bounded actual named JSON/XML/log identity review only. No QA/import/runtime/source scans.",
+  "named_reports_sha256": {
+    "release-owned-temp-finish-actual-v1.json": "82638a3fe2925e9ea84502515a9e74709953c467a7fce9a98ae47662b372ddf1",
+    "release-iteration-30.json": "35cc8ba5a324ee647dce6ca959cb7c1119811fe5a49047c6bb495929c33d82b2",
+    "full-regression-release-30.json": "b67c458e3c044cd474aad7c82cb29436b5a71e16623c6975ec0ad194e0064ea4",
+    "full-regression-release-30.xml": "9ef25e649a4132808983419a505ccb2b08c5af37d902b20d0f0f6fc4e8b64377",
+    "release-iteration-31.json": "47222a1f3f655e7c32abe6cfe1595e2080c778155df150dba620503650a80005",
+    "full-regression-release-31.json": "3812272c986c509b8e4b1f1594d4360333ff64aefed28594c974de11cbb0130d",
+    "full-regression-release-31.xml": "e06646fe157ada8e4a0423f8ebdab5d1414273dff81e749f5e9ec2a1d2bdd74d",
+    "release-owned-temp-current-measurements-preliminary-acceptance-v1.json": "e950a7b722bafe469d028be3e497a48058be5fa0ababcc0a719a2f09c1cde358",
+    "release-owned-temp-larger-heldout-cold-criterion-review-v1.json": "a23b8a91a619657ad765bae7a6a537253e446c57980f6c0202a11b7d6aa39fe2"
+  },
+  "whole_rounds": {
+    "30": {
+      "total": 935,
+      "passed": 933,
+      "failed": 0,
+      "errors": 0,
+      "skips": [
+        {
+          "name": "test_docker_workspace_network_and_readonly_root",
+          "reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image"
+        },
+        {
+          "name": "test_skill_symlink_parent_is_rejected",
+          "reason": "Creating symlinks requires local OS permissions"
+        }
+      ],
+      "all5_stability_flags_true": true,
+      "elapsed_seconds": 1628.734000000055,
+      "full_json_sha256": "b67c458e3c044cd474aad7c82cb29436b5a71e16623c6975ec0ad194e0064ea4",
+      "full_xml_sha256": "9ef25e649a4132808983419a505ccb2b08c5af37d902b20d0f0f6fc4e8b64377",
+      "iteration_sha256": "35cc8ba5a324ee647dce6ca959cb7c1119811fe5a49047c6bb495929c33d82b2"
+    },
+    "31": {
+      "total": 935,
+      "passed": 933,
+      "failed": 0,
+      "errors": 0,
+      "skips": [
+        {
+          "name": "test_docker_workspace_network_and_readonly_root",
+          "reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image"
+        },
+        {
+          "name": "test_skill_symlink_parent_is_rejected",
+          "reason": "Creating symlinks requires local OS permissions"
+        }
+      ],
+      "all5_stability_flags_true": true,
+      "elapsed_seconds": 1778.0470000000205,
+      "full_json_sha256": "3812272c986c509b8e4b1f1594d4360333ff64aefed28594c974de11cbb0130d",
+      "full_xml_sha256": "e06646fe157ada8e4a0423f8ebdab5d1414273dff81e749f5e9ec2a1d2bdd74d",
+      "iteration_sha256": "47222a1f3f655e7c32abe6cfe1595e2080c778155df150dba620503650a80005"
+    }
+  },
+  "outer_owned_jobs": [
+    {
+      "label": "iteration30",
+      "exit_code": 0,
+      "child_reaped": true,
+      "job_handle_closed": true,
+      "job_after_cleanup": {
+        "total_processes": 30211,
+        "active_processes": 0,
+        "terminated_processes": 0
+      },
+      "cleanup_errors": [],
+      "log_sha256": "4b16c98cea2fb91a0e16bf08830559bac1966524cc5196abf0dead2eb7da0527"
+    },
+    {
+      "label": "iteration31",
+      "exit_code": 0,
+      "child_reaped": true,
+      "job_handle_closed": true,
+      "job_after_cleanup": {
+        "total_processes": 30211,
+        "active_processes": 0,
+        "terminated_processes": 0
+      },
+      "cleanup_errors": [],
+      "log_sha256": "1b516c980b94f5dcd498118e98be761d1506835f0011c1bfcf70ce4b9ec11088"
+    }
+  ],
+  "same_source_tests_helper_fullwrapper_environment_between_fulls": true,
+  "existing_preliminary_measurement_proofs_unchanged": {
+    "execution_samples": 6,
+    "execution_checks_per_sample": 26,
+    "stability_flags_per_sample": 4,
+    "all9_baseline_observations_retained": true,
+    "memory_workflow_samples": 90,
+    "retrieval_dispositions_each_round": 30,
+    "both_raw_comparison": "REVIEW",
+    "browser_each_round": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0
+    },
+    "advisories_each_round": "zero exact declared dev/installed inventories remain distinct"
+  },
+  "skip_disposition": "Live Docker image and direct symlink creation are explicit optional platform/environment coverage; mandatory fake lifecycle/recovery and shared path containment/portable-skill tests run. No native Docker/symlink/cross-platform certification inferred.",
+  "historical_failures": "Old28 PLAN deadline remains failed/unexplained on retiredb897 source; current01 two original browser suites pass without extending assertions/deadlines. Earlier interrupted/advisory/nativeIO failures remain original records, not erased.",
+  "master53": "Both required full benchmark/audit iterations are now functionally complete, but0 accepted convergence credit pending independent larger-heldout cold investigation and final criterion/document closure. Full success or execution improvement does not automatically accept current cold8011.435ms trigger.",
+  "accepted_convergence_iterations": 0,
+  "capability_promotion": false,
+  "release_ready": false,
+  "remaining": [
+    "One reviewed finite cold-phase diagnostic with exact completed-whole admission/quiet ACK; independent actual explanation or explicit blocker.",
+    "Final23-criteria/all50decisions/13DEFER evidence ledger and platform limits.",
+    "Final consolidated documentation/package/archive/link/notices source-bound checks and truthful signoff."
+  ],
+  "commit_or_publication": false
+}

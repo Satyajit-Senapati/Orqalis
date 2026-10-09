@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:27:13.283248+00:00",
+  "status": "CHANGES_REQUIRED_BEFORE_INVOCATION",
+  "review_scope": "Read-only prospective design/AST review; no workloads, fixture traversal, build, dependency scans or runtime profile invoked.",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "reviewed_files_sha256": {
+    "docs/quality/evidence/release-history-fixed-pair-diagnostic-plan-v2.json": "22d8b48a1e0e2ad4b4bddeea4fd5aff7035d5cae7ea82758cb65176f76394056",
+    ".tools/research/release_history_fixed_light_v1.py": "cd22d05f3fea72faccb3f0ca9979e93d12bb149302a5863db601dd6ec5c2bfe4",
+    ".tools/research/release_history_fixed_work_v1.py": "fd71f3cb5c2f6335d0d81eee2ea80a25f4d149642140ac11924ce1e87779418a",
+    ".tools/research/release_history_fixed_pair_v1.py": "6b43cd45c1ee8c2c13da498e861d4ec809c3076d98b0435aa4a0901abf8015d5"
+  },
+  "executed": false,
+  "findings": [
+    {
+      "id": "HISTORY-DESIGN-01",
+      "file": ".tools/research/release_history_fixed_pair_v1.py",
+      "lines": [
+        100,
+        104
+      ],
+      "issue": "Bare Popen/wait has no exception kill/reap. An interrupted wait can leave owned measurement child running after failure serialization.",
+      "required_correction": "Use Popen context with try wait except BaseException kill then raise, retaining original no-added-timeout behavior; release hold only after actual child exit."
+    },
+    {
+      "id": "HISTORY-DESIGN-02",
+      "file": ".tools/research/release_history_fixed_pair_v1.py",
+      "issue": "guards() validates runner/source/helper identities but not unchanged PLAN, launch acknowledgment or terminal pipeline bytes. Final report hashes current late-read files, which can silently differ from the reviewed/initial bytes.",
+      "required_correction": "Freeze initial exact plan/ack/pipeline digests, bind reviewed plan hash through acknowledgment or parent prelaunch attestation without a circular runner-hash dependency, and assert all three unchanged before/after each child and at final report. Record frozen hashes, never rebind on drift."
+    },
+    {
+      "id": "HISTORY-DESIGN-03",
+      "file": ".tools/research/release_history_fixed_pair_v1.py",
+      "issue": "Logs absent checked only on per-child exclusive open; original helper checks reservation-copy destination only after its 33 pages. A stale B log/copy can consume A and measured B before predictable exclusivity failure, contrary to predeclared launch guards.",
+      "required_correction": "Precheck both exclusive log paths and both .tools/research/release-history-concurrency-<raw-output-stem> directories before any child. Keep exclusive create and original helper checks; do not clean or reuse existing paths."
+    },
+    {
+      "id": "HISTORY-DESIGN-04",
+      "file": ".tools/research/release_history_fixed_pair_v1.py",
+      "issue": "fixture() records 1001 canonical task documents but omits promised task-directory identity/count. Production TaskCapsuleStore._capsule_directories enumerates valid-ID directories independently of task.yaml; orphan reservation directories affect allocation.",
+      "required_correction": "Record exact valid capsule-ID directory set/count alongside canonical documents and compare unchanged before/after each capture. Do not alter seed or assume document count equals directory count."
+    }
+  ],
+  "observer_disposition": {
+    "mechanism": "Code-object-selected sys/threading profile callbacks; no additional method/instance/class wrappers found. Existing protected FileLock.acquire and service._task_document light wrappers remain identical in A/B.",
+    "dispatch": "Selected LocalGitService/history/store method-object identity checks preserve identity-sensitive default fast paths. B preimports same current modules; startup/import-cache difference remains a disclosed fixed-order limitation, not source-change attribution.",
+    "scope": "Real constructor/page/reserve stack scopes and thread-local selected nesting; normal source root/layout attributes used without callback filesystem I/O. Current implementation labels seed-versus-nonseed as owned-copy; actual protected workload defines its only nonseed root as exclusive reservation copy. Do not generalize this label to arbitrary workloads.",
+    "timing": "Selected inclusive and exclusive-of-selected-descendant durations overlap; not exhaustive exclusive application CPU. Callback overhead stays inside raw page wall/processCPU; native internals remain enclosed/unattributed. Return counters can include exceptional unwinds and do not prove success.",
+    "counts": "Coordinator enforces 33 main pages, 33 read_index, 33033 canonical document calls with 1001 rows, 3 traversals, page100. Original concurrent wait10/default locks/future behavior unchanged.",
+    "errors": "Application BaseException propagates; observer exceptions recorded, diagnostics fail; sys/threading profilers and argv restored in finally.",
+    "screen": "Predeclared >20% B/A median wall OR CPU invalidates quantitative B attribution only, not a product performance gate. Independent later review required; no automatic performance PASS or retry.",
+    "status": "Conservative diagnostic design after required lifecycle/provenance/exclusivity/fixture guards are repaired; not launch approval."
+  },
+  "evidence_limits": [
+    "Exact plan/runner hashes matched and AST parsed without invocation. No full source/390/18 hash scan performed during active execution diagnostic.",
+    "Parent reports pipeline61738 closed exit1; current execution16 failure remains independently unresolved and capture17 unrun. This design grants no execution diagnosis/repair credit.",
+    "No historical797 reconstruction; one fixed current-current A-then-B pair remains subject to host/order/cache confounding.",
+    "All23 accepted P1 remain IMPLEMENTED_PENDING_EVAL,13DEFER,0/2 convergence; no release signoff, product edits, commits or publication."
+  ]
+}

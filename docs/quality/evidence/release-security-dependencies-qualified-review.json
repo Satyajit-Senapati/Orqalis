@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-02T09:27:44.080196+00:00",
+  "reviewer": "Independent release security/reliability specialist",
+  "status": "TARGETED_DEPENDENCY_REPAIRS_ACCEPTED_ALL_THREE_STRICT_AUDITS_CLEAN",
+  "source_sha256": "06bf82864522ef4fc99f3f8754f6b4646b68815bf9d44724d8d76f1eec9629a1",
+  "release_inputs_sha256": "a6ccd0acfc241ac22ff37d2126be8c46b68074ad847f26793989e79745183ca7",
+  "all_frozen_file_hashes_match": true,
+  "frozen_file_count": 380,
+  "changed_inputs_since_75539c_freeze": [
+    "packages/npm/package-lock.json",
+    "uv.lock",
+    "web/package-lock.json"
+  ],
+  "python_installed_changes": {
+    "pyjwt": [
+      "2.13.0",
+      "2.15.1"
+    ]
+  },
+  "npm_lock_repairs": {
+    "web/package-lock.json": {
+      "before": "5.0.9",
+      "after": "5.0.12",
+      "dev": true,
+      "installed_version": "5.0.12",
+      "entry_sha512": "sha512-YovQ3rzhaLMIrDjNDMkNS01tea93qhEhG5xy8f6+R0l+dw3Ki+5sCoIoI942iuLZTHWogWktgwVDhU09iNEimQ==",
+      "parents": {
+        "node_modules/minimatch": "^5.0.8"
+      },
+      "exact_previous_bytes_reconstruct": true,
+      "previous_sha256": "8c032378568c3d11978f6b6002ff63b96e22c4b4ffa4ca05aa4c8b48f0dfd4ed",
+      "current_sha256": "83efc436b9cbbcd142e6c2834dd86b5608d8df9a05471275d8b72cb3b61dc16e",
+      "permitted_changed_fields": [
+        "version",
+        "resolved",
+        "integrity"
+      ]
+    },
+    "packages/npm/package-lock.json": {
+      "before": "5.0.9",
+      "after": "5.0.12",
+      "dev": true,
+      "installed_version": "5.0.12",
+      "entry_sha512": "sha512-YovQ3rzhaLMIrDjNDMkNS01tea93qhEhG5xy8f6+R0l+dw3Ki+5sCoIoI942iuLZTHWogWktgwVDhU09iNEimQ==",
+      "parents": {
+        "node_modules/minimatch": "^5.0.8"
+      },
+      "exact_previous_bytes_reconstruct": true,
+      "previous_sha256": "882ec32f0d00931b3c928bcbd05b1346e9d5b3b314f60a3682302787b2bea8ca",
+      "current_sha256": "ff7ae80d586ff6638e3de830b8ee33470a1065362ddc2343f84ddf4429ce141d",
+      "permitted_changed_fields": [
+        "version",
+        "resolved",
+        "integrity"
+      ]
+    }
+  },
+  "audits": {
+    "python": {
+      "packages": 63,
+      "vulnerabilities": 0,
+      "skips": [],
+      "exact_installed_inventory": true
+    },
+    "web": {
+      "dependency_counts": {
+        "prod": 29,
+        "dev": 266,
+        "optional": 76,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 294
+      },
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "scope_counts_unchanged": true,
+      "previous_vulnerable_package": "brace-expansion",
+      "original_advisory_ids": [
+        "GHSA-q2hr-2g5m-vwhr",
+        "GHSA-qhr7-859c-m2p7",
+        "GHSA-6j4f-fj2g-mc7p"
+      ]
+    },
+    "launcher": {
+      "dependency_counts": {
+        "prod": 1,
+        "dev": 80,
+        "optional": 0,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 80
+      },
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "scope_counts_unchanged": true,
+      "previous_vulnerable_package": "brace-expansion",
+      "original_advisory_ids": [
+        "GHSA-q2hr-2g5m-vwhr",
+        "GHSA-qhr7-859c-m2p7",
+        "GHSA-6j4f-fj2g-mc7p"
+      ]
+    }
+  },
+  "advisory_exclusions": [],
+  "audit_gate_review": "Python enumerates all installed third-party distributions, excludes only the own editable source package, and rejects any vulnerability/skip/inventory mismatch. npm commands are plain npm audit --prefix AREA --json without --omit, audit-level filtering or suppression; both production and development trees retain the same counted scope. Original captures remain retained.",
+  "security_scope": {
+    "pyjwt": "MCP dependency2.2.0 requires pyjwt[crypto]>=2.10.1. Default Orqalis MCP CLI is stdio; no direct JWT verification in src; installed MCP JWT usage inspected is optional private-key OAuth assertion encoding. Prior source/path review remains applicable.",
+    "brace-expansion": "Both entries have dev=true and are pulled by minimatch in ESLint development trees. Browser app and launcher runtime source have not changed with the lock update. Dev classification narrows reachability; it was not used as a reason to suppress advisories.",
+    "prior_reviews": "Application, packaging guard, history concurrency and security-boundary reports remain historical source-bound evidence; this combined review rebinds dependency scope and broad inputs without pretending to rerun full regression."
+  },
+  "primary_sources": [
+    "https://pyjwt.readthedocs.io/en/stable/changelog.html",
+    "https://github.com/juliangruber/brace-expansion/releases/tag/v5.0.12",
+    "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr"
+  ],
+  "primary_source_check": "Version5.0.12 is upstream released and the quadratic expansion advisory names it as patched. The installed2.15.1 Python behavior and prior official PyJWT review are preserved in the previous dependency review.",
+  "evidence_sha256": {
+    "docs/quality/evidence/release-input-freeze-v2.json": "bb519f75f55f925cb2a980cde9c604821bebc9362cddfb70bc91cc4678130d05",
+    "docs/quality/evidence/release-input-freeze-final.json": "50191a2a0f0338cd53e3158488e9bf14df91a3a0716288d7e771563ba53b2260",
+    "docs/quality/evidence/release-input-freeze-qualified.json": "a0d9f27ce67fab115500eb13e8d5e070f5a7e44d826946f3e07c2771466fb806",
+    "docs/quality/evidence/release-python-advisories-preflight-vulnerable.json": "badff6227de94315acccafdf276ffc483b8c6da001cad6e7f33d8ed3769710ca",
+    "docs/quality/evidence/release-python-advisories-repaired.json": "b9c5b259cfc5701b721e974b81249da80d6a6093ed29fb7bd20ea7c69f5d5672",
+    "docs/quality/evidence/release-web-advisories-remediation-vulnerable.json": "bdaea6a0cf2faf1eb40efb2e43a992342860421194b8c3e92d87a87a1b1b7058",
+    "docs/quality/evidence/release-launcher-advisories-remediation-initial.json": "8e53d24ce6deff7cb9eb176384a77d2565695e540c4a5e50454d3b1b9ffb9f60",
+    "docs/quality/evidence/release-web-advisories-repaired.json": "2b14817574e6290e67865d4bc517f834e26a6ff90af8a36d906f8936559b3c93",
+    "docs/quality/evidence/release-launcher-advisories-repaired.json": "63b438e17b8e5147b74190133b6a805956878b33859c6ec496bda2c3afe86b87",
+    "docs/quality/evidence/release-frontend-dependency-remediation.json": "58e8bc9b7cd493b24c7f43c43be14ad5b6047244df4b642b185ab7b51786a2e8",
+    ".tools/research/release_qualification.py": "81b04b8d6d468ddf7524fb206df7b5a97bead815721c26639564e22196222f45",
+    ".tools/research/release-security-dependency-remediation-review.json": "43c7ee78ede5e5b072259db82fbd44c48df93bff1bc57aa82e8e3dae959bef9a",
+    "uv.lock": "75b3f840ffd84b890affeb138908730288afbdb9325f231a8e1c4337edb80fd6",
+    "web/package-lock.json": "83efc436b9cbbcd142e6c2834dd86b5608d8df9a05471275d8b72cb3b61dc16e",
+    "packages/npm/package-lock.json": "ff7ae80d586ff6638e3de830b8ee33470a1065362ddc2343f84ddf4429ce141d"
+  },
+  "remaining_validation": [
+    "Coordinating fresh held-out/frozen-contract/full-regression/installed-package captures must bind this final source, broad inputs and environment.",
+    "Advisory results establish no known database matches at capture time, not absence of undiscovered vulnerabilities.",
+    "This reviewer consumed existing evidence and did not run new audits, tests or benchmarks."
+  ],
+  "mutations": "Only this new ignored review JSON. No source/dependency/test/doc edits, evidence overwrite, commits or publication."
+}

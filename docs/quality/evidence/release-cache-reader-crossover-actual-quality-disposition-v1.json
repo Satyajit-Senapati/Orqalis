@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T10:50:24.141322+00:00",
+  "status": "READER_DESIGN_MULTI_SECOND_COST_NOT_SUPPORTED_COLD_INVESTIGATION_OPEN",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "reviewed_evidence_sha256": {
+    "docs\\quality\\evidence\\release-cache-reader-crossover-plan-v1.json": "fe3c589fbed50f7355f54580473296d8acb05b8f871186c94cd74f264b198fad",
+    "docs\\quality\\evidence\\release-cache-reader-crossover-quality-review-v1.json": "23d2b127edab9f65e7d0611439ed1c298df9b8bc334b58889f0856f1bc32f196",
+    "docs\\quality\\evidence\\release-cache-reader-crossover-observation-v1.json": "599bfef18fb118e2fd4ec3a817856532be808e2d874ea426a388eb6284246da5",
+    "docs\\quality\\evidence\\release-cache-reader-crossover-outer-v1.json": "bd32bab635ed8bf37e082df3496def68344a14c6ebea57ba713594623d8c5d1e"
+  },
+  "actual_complete_diagnostic_only": true,
+  "owned_worker_exit_cleanup_guards_pass": true,
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false,
+  "reader_calls_each": 526,
+  "bytes_each_reader_each_pass": 2097910,
+  "all1052_length_hash_checks_verified_against_plan": true,
+  "opposed_order_results": [
+    {
+      "pass": 1,
+      "builtin_ms": 17.6681,
+      "native_ms": 20.2634,
+      "native_minus_builtin_ms": 2.5953,
+      "nested_native_opener_ms": 7.6277
+    },
+    {
+      "pass": 2,
+      "builtin_ms": 15.6003,
+      "native_ms": 21.1815,
+      "native_minus_builtin_ms": 5.5812,
+      "nested_native_opener_ms": 6.3102
+    }
+  ],
+  "total_native_minus_builtin_ms": 8.1765,
+  "bookkeeping_ns_lower_bound": 1403900,
+  "supported_conclusion": "This fixed retained-file crossover does not support multi-second inherent shared snapshot reader overhead. Native excess is only8.1765ms across526 reads including asymmetric opener instrumentation. The actual implementation has no explicit opener retry or sleep. Neither unsafe reader fallback nor source optimization is justified by this evidence.",
+  "scope_limits": [
+    "Retained cache files were aged after SDK creation, and fixture prehashes read file contents before timing; this is a warmed retained-file comparison.",
+    "Thread CPU per tiny call has coarse quantization; opener subinterval is nested and not additive. Bookkeeping is not a full perturbation bound.",
+    "This is not a contemporaneous complete baseline/current cold comparison and cannot prove historical8011ms cause, AV/filesystem/OS cause, or universal speed.",
+    "All prior qualified/raw diagnostics remain immutable;4451ms and this fast crossover do not replace8011ms."
+  ],
+  "performance_gate": {
+    "status": "OPEN_UNEXPLAINED_COLD_DEGRADATION_SECTION53",
+    "qualified_current_ms": 8011.4348999923095,
+    "unchanged_investigation_threshold_ms": 6505.33140002517,
+    "correctness_p1_from_this_timing": false,
+    "accepted_convergence_iterations": 0
+  },
+  "next_bounded_question_if_resumed": "Immediate post-write cache lifecycle is untested by the aged/prehashed crossover. Any follow-up must be prospectively finite: balanced opposed-order builtin/native first reads of newly canonically written owned caches, expected content hashes from emitted bytes, disk-content prehashing deferred until after first-read pairs, unchanged safeguards and fixed sample count. Such a method tests lifecycle-dependent reader cost only; no ad hoc full rebuild, timing selection, or specific external cause claim. No runner or invocation is authorized by this review.",
+  "session_disposition": "Retain the objective performance evidence blocker and existing functional proof; no supported production optimization or false release closure."
+}

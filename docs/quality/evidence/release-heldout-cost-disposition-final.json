@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "status": "ACCEPT_BOUNDED_FEATURE_COST_RETAIN_RAW_LATENCY_REVIEW",
+  "reviewer": "Independent release quality reviewer",
+  "measured_source_sha256": "75539c7b992b59b7c418427cfd0fb89472224ec4099e8519e72197de949de9fe",
+  "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "corpus_sha256": "19bc76f87b5e95287204e8edbdee8c4c3be8b4b5c478a48e686166166034a0a9",
+  "later_workspace_source_observed_sha256": "06bf82864522ef4fc99f3f8754f6b4646b68815bf9d44724d8d76f1eec9629a1",
+  "source_carry_forward_rule": "Graph/index/context/IO file hashes inspected in initialreview remain identical, but PyJWTdependencychange alters source+environment identity. Previous measurements stay bound755/olddependency; fresh06bf/newdependency captures are needed, not rawreport rebinding.",
+  "method": "Read-only review of raw captures and root sequential phase diagnostics. No benchmark or production/test/dependency/docs/raw-evidence modification by reviewer.",
+  "inputs": [
+    {
+      "path": ".tools/research/release-heldout-independent-review-v3.json",
+      "sha256": "f1dc7956dfb3eec5ca899fc87b5a028a570c292112f15923bfd73fe165ccd184"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-review-v3.json",
+      "sha256": "9318edd3ccd3d1705d35ca3ca1bc7ba75e443f4f8f668dce6cf99bb36757039a"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-baseline-v3.json",
+      "sha256": "505ec4e9385bd438200223ad9ac56bc242036a7d7e60324016953f9be62e5291"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-current-v3.json",
+      "sha256": "ff1c99dd653c1d9b7463ab88b50ee18fe152ead4975f2bccecc1fe9c6f3a63ee"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-phases-baseline.json",
+      "sha256": "c3f36c7e54e9e4c0284fe91665e378fa4778b23c594722d8407e556a6ff8675c"
+    },
+    {
+      "path": "docs/quality/evidence/release-heldout-phases-current.json",
+      "sha256": "b9031cb3357cca96f2428f545841900d1d8ec8baf5579c083a06f0a25cb227b5"
+    },
+    {
+      "path": ".tools/research/release_heldout_phases.py",
+      "sha256": "60b2d6115ed9ae2ca9988d0255e1c9ca551aa338cfe8aa18622bec8a0baf30fb"
+    },
+    {
+      "path": "docs/quality/MASTER_ENHANCEMENT_PLAN.md",
+      "sha256": "8e6dc4ceecca327770e974959a12aa5d945377a3ed7b6e53be818c216326c260"
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_BACKLOG.md",
+      "sha256": "19ab20ffa7e423d6c92d79f6cf0c58e1f939bac549c49d77635f705e83544748"
+    }
+  ],
+  "prior_review_preserved": ".tools/research/release-heldout-independent-review-v3.json",
+  "raw_timing_budget_triggers": {
+    "cold_graph_ms": true,
+    "warm_graph_median_ms": true,
+    "one_file_graph_ms": true
+  },
+  "raw_heldout_PASS_means": "Functional3exact declaration and bounded context witnesses plus zero/one processed-file invariants; NO performance acceptance gate.",
+  "dispositions": [
+    {
+      "id": "G01/G02/G05-footprint",
+      "decision": "ACCEPT_BOUNDED_FEATURE_COST",
+      "rationale": "Scope/path/line occurrence identity, native syntax and source/provenance facts explain98.1%netnodegrowth. Graph1.70x/index3.04x/store2.44x/Pythonallocation2.15x accompany3.26xnodes. Per-node footprint falls.39.8MBstore and65.7MBPythonallocation are real costs; never describe as negligible. No deleting trusted facts or weakening guards."
+    },
+    {
+      "id": "G02/E04-wall-latency",
+      "decision": "ACCEPT_WITH_RESIDUAL_MEASUREMENT_RISK",
+      "rationale": "Initial warm/cold/delta exceed existing2x+250ms investigation budgets. Sequential phase data finds off-process-CPU stalls on both sources, even canonicalserialization, and reverses initial warm direction. DeltaCPU increases44.4%with3.26xnodes/1.36xedges;92.7%of instrumented wall difference is not accounted for by processCPU. This is enough to accept added featureCPU cost and disclose local wall-risk, not prove OS/kernel/filesystem/scheduling cause or qualify improved tails."
+    },
+    {
+      "id": "per-expression-scope-map",
+      "decision": "DEFER_NOT_A_RELEASE_BLOCKER",
+      "rationale": "Concrete avoidable scope-map construction exists. Entire candidate resolverphase is0.344sCPU/~5.16%of deltaCPU, and reusable-map savings are only part of that. It cannot explain38-76sdelta wall or unchanged refresh. No necessary minimum production edit is identified for bounded acceptance."
+    }
+  ],
+  "diagnostic_observations": {
+    "warm": {
+      "baseline": [
+        {
+          "wall_ms": 3581.179600005271,
+          "cpu_ms": 625.0
+        },
+        {
+          "wall_ms": 7383.623400004581,
+          "cpu_ms": 468.75
+        }
+      ],
+      "current": [
+        {
+          "wall_ms": 1632.8586000017822,
+          "cpu_ms": 625.0
+        },
+        {
+          "wall_ms": 6541.425300005358,
+          "cpu_ms": 1125.0
+        }
+      ]
+    },
+    "delta": {
+      "baseline": {
+        "wall_ms": 10080.910399992717,
+        "cpu_ms": 4609.375,
+        "not_accounted_for_by_processCPU_ms": 5471.535399992717,
+        "processed_files": 1
+      },
+      "current": {
+        "wall_ms": 38053.82929999905,
+        "cpu_ms": 6656.25,
+        "not_accounted_for_by_processCPU_ms": 31397.57929999905,
+        "processed_files": 1
+      }
+    },
+    "delta_cpu_ratio": 1.4440677966101696,
+    "delta_wall_ratio": 3.774840544166184,
+    "fraction_wall_difference_not_accounted_for_by_processCPU": 0.9268265493738111,
+    "resolver_calls": 8989,
+    "resolver_cpu_ms": 343.75,
+    "resolver_fraction_totalCPU": 0.051643192488262914,
+    "candidate_delta_phases": {
+      "_graph_payload": {
+        "calls": 2,
+        "wall_ms": 2446.5914000029443,
+        "cpu_ms": 1156.25
+      },
+      "_graph_digest": {
+        "calls": 1,
+        "wall_ms": 1824.9906999990344,
+        "cpu_ms": 671.875
+      },
+      "_load_state": {
+        "calls": 1,
+        "wall_ms": 3751.7816000035964,
+        "cpu_ms": 1296.875
+      },
+      "_read_source": {
+        "calls": 264,
+        "wall_ms": 3652.9188000858994,
+        "cpu_ms": 625.0
+      },
+      "_discover": {
+        "calls": 1,
+        "wall_ms": 4415.9564999863505,
+        "cpu_ms": 671.875
+      },
+      "_storage_target": {
+        "calls": 264,
+        "wall_ms": 8154.493799986085,
+        "cpu_ms": 1000.0
+      },
+      "_read_cache": {
+        "calls": 263,
+        "wall_ms": 13232.032300031278,
+        "cpu_ms": 1593.75
+      },
+      "_parse": {
+        "calls": 1,
+        "wall_ms": 172.08230000687763,
+        "cpu_ms": 46.875
+      },
+      "_resolve_symbol": {
+        "calls": 8989,
+        "wall_ms": 3399.635799927637,
+        "cpu_ms": 343.75
+      },
+      "_assemble": {
+        "calls": 1,
+        "wall_ms": 14291.793500000495,
+        "cpu_ms": 2296.875
+      },
+      "atomic_write_bytes": {
+        "calls": 1,
+        "wall_ms": 104.641800004174,
+        "cpu_ms": 46.875
+      },
+      "_write_manifest": {
+        "calls": 1,
+        "wall_ms": 47.21129999961704,
+        "cpu_ms": 15.625
+      },
+      "update_graph_cursor": {
+        "calls": 1,
+        "wall_ms": 32.18650000053458,
+        "cpu_ms": 15.625
+      }
+    },
+    "limits": [
+      "Nestedphase timings must not be summed",
+      "ProcessCPUexcludes childGitCPU; remainder is not proof all delay is filesystem or scheduler",
+      "Two warm/onedelta instrumented samples are descriptive, not replacement of qualified raw timings",
+      "Specific OS/kernel/scheduler/filesystem cause remains unproven",
+      "Phase captures lack independent full environment/sample-distribution attestation"
+    ]
+  },
+  "material_accepted_feature_correctness_blocker_demonstrated": false,
+  "proven_algorithm_caused_high_latency_defect": false,
+  "required_production_fix_from_review": null,
+  "residual_signals": [
+    "Raw76.3sdelta/6.77swarm remain",
+    "Instrumenteddelta38s with31.4snotaccountedforbyprocessCPU",
+    "Full-graph validation/globalassembly scales with graph size",
+    "Tiny per-expression scope-map allocation remains deferred",
+    "Native/RSS/constrained large-corpus footprint not qualified"
+  ],
+  "release_conditions": [
+    "Document explicit bounded cost/risk decision and preserve raw triggers",
+    "Two fresh complete final-source benchmark/audit iterations must pass hard gates and identify/independently disposition any new signal",
+    "Bind final installed packages/source/docs; do not carry timing results to later source blindly",
+    "Keep OS/offCPU diagnostic limits in handoff; no timeout raising, sample hiding or stale mtime cache"
+  ],
+  "unsupported_claims": [
+    "Negligible overhead",
+    "No raw performance regression",
+    "Fixed/improved tails",
+    "Universal graph speedup",
+    "No drawbacks",
+    "256MiBlargerheldoutpassed",
+    "65.7MBnative/RSS"
+  ],
+  "master_interpretation": "MASTER46/52 reject disproportionate/unacceptable cost: reviewer accepts disclosed feature/activeCPUcost on bounded corpus. MASTER53 no unexplained degradation requires explicit analyzed residual-risk decision rather than erasing triggers. This is not proof of OS cause or release convergence.",
+  "later_source_change": {
+    "workspace_source_sha256": "06bf82864522ef4fc99f3f8754f6b4646b68815bf9d44724d8d76f1eec9629a1",
+    "root_reported_scope": "Security dependency uv.lock PyJWT2.13.0->2.15.1 only; root reports application and test files unchanged; uv output updates onlyPyJWT.",
+    "independently_checked_relevant_application_files": [
+      {
+        "path": "src/orqalis/graph/engine.py",
+        "unchanged_since_review": true
+      },
+      {
+        "path": "src/orqalis/graph/models.py",
+        "unchanged_since_review": true
+      },
+      {
+        "path": "src/orqalis/indexing/service.py",
+        "unchanged_since_review": true
+      },
+      {
+        "path": "src/orqalis/context/builder.py",
+        "unchanged_since_review": true
+      },
+      {
+        "path": "src/orqalis/persistence/filesystem/io.py",
+        "unchanged_since_review": true
+      }
+    ],
+    "evidence_policy": "Retain755source/rawmeasurements and olddependencyenvironment. No contract rebind or promotion to06bf. Root will recapture fresh heldoutv4 and final-source loops under updateddependencyenvironment; cost diagnosis remains historical."
+  }
+}

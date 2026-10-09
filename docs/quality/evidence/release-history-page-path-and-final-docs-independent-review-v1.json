@@ -1,0 +1,346 @@
+{
+  "status": "BOUNDED_STATIC_REVIEW_COMPLETE_HISTORY_PERFORMANCE_NOT_CLOSED",
+  "checked_at": "2026-10-03T21:19:54.329474+00:00",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "scope": "Static AST/text comparison of nine named source/helper files, three fixture metadata documents, and small retained records only. No application import, workload, benchmark, test, profile, runtime query, package/dependency inventory walk, or source/test/helper/public-doc mutation.",
+  "history": {
+    "current_reference_static_checks": {
+      "tasks/history.py": {
+        "current_sha256": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "retained_reference_sha256": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "bytes_equal": true,
+        "entire_module_ast_equal_excluding_only_atomic_write_bytes": true
+      },
+      "persistence/filesystem/task_store.py": {
+        "current_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+        "retained_reference_sha256": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095",
+        "bytes_equal": true,
+        "entire_module_ast_equal_excluding_only_atomic_write_bytes": true
+      },
+      "persistence/filesystem/io.py": {
+        "current_sha256": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+        "retained_reference_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+        "bytes_equal": false,
+        "entire_module_ast_equal_excluding_only_atomic_write_bytes": true
+      }
+    },
+    "layout_sha256": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+    "actual_fixed_result_sha256": "2c448c06a81f8c3f70b89cbeca4b39e2635e24ed934d260eb4be23d355bc0305",
+    "fixed_plan_sha256": "c141e426fc1f5ab8bb2f7399fd20294059b3fdd6b78d81dd6335337370e8c6f7",
+    "fixture": {
+      "rows": 1001,
+      "canonical_bytes": 569569,
+      "canonical_sha256": "2f2688cf4aa2ceab4b74484df0ffd4df1c399a33f7491c94a471ca6fb264045f",
+      "valid_directory_count": 1001,
+      "orphan_directories": [],
+      "small_documents_rehashed": {
+        ".orqalis/manifest.yaml": "207a678ac4fad56f0e967c3ad3d1009aed0c41c29aecf1033351893b84743be1",
+        ".orqalis/tasks/index.json": "849da0f36878dbbcfaf909313b67d25580623787fddd9aa69ffb3fd46c032973",
+        ".orqalis/tasks/ORQ-20261002-0001/task.yaml": "ce6b6ddfcb342b9c9218586df451ecd8af8156ee8abedaa1b29b87172a5a4581"
+      },
+      "whole_canonical_fixture_guard": "Relied on retained actual fixed-capture proofs; did not re-read all1001 canonical documents."
+    },
+    "page_call_path": [
+      "TaskHistoryService.page validates cursor, reloads manifest, calls TaskCapsuleStore.read_index, validates all summaries, sorts all rows, hashes revision, and returns the requested slice.",
+      "read_index scans canonical task.yaml documents, projects summary fields, then takes tasks-index lock and reads the stored index.",
+      "The only atomic-writer edge is current != expected -> atomic_write_json(index, expected) -> atomic_write_bytes. No swallowed writer exception exists in this branch.",
+      "Page does not call history._entry/get/related or TaskCapsuleSession recovery/commit/rollback paths."
+    ],
+    "observed_writer_path_disposition": "Changed atomic writer is excluded from the successful fixed-fixture page execution by the combined static branch, retained unchanged index guard, and zero WriteOperationCount/WriteTransferCount in all12 timed traversal deltas. If index repair executed successfully it would synchronously write/flush/fsync nonempty canonical index bytes before return; an early failure would propagate and invalidate that capture. This is source-and-observation path reasoning, not direct function instrumentation or a universal no-write assertion.",
+    "read_algorithm_disposition": "No candidate-specific executed canonical-read algorithm change found. Whole io module AST equality excluding only atomic_write_bytes also proves unchanged imports/global statements/read helpers in that module. Prior actual loaded-file proof remains49/50 equal; API app is not loaded in history workers.",
+    "raw_decision_preserved": "MIXED_OR_INDETERMINATE",
+    "all_four_summaries": [
+      {
+        "label": "R1",
+        "whole": {
+          "wall_median": 173.91710000811145,
+          "wall_p95": 209.54029998392798,
+          "wall_max": 213.19229999789968,
+          "cpu_median": 171.875,
+          "cpu_p95": 203.125,
+          "cpu_max": 203.125
+        },
+        "traversals": [
+          {
+            "wall_median": 170.52899999544024,
+            "wall_p95": 180.86369999218732,
+            "wall_max": 189.00270000449382,
+            "cpu_median": 171.875,
+            "cpu_p95": 171.875,
+            "cpu_max": 187.5
+          },
+          {
+            "wall_median": 188.28540001413785,
+            "wall_p95": 209.54029998392798,
+            "wall_max": 213.19229999789968,
+            "cpu_median": 187.5,
+            "cpu_p95": 203.125,
+            "cpu_max": 203.125
+          },
+          {
+            "wall_median": 167.2215000144206,
+            "wall_p95": 175.04070000723004,
+            "wall_max": 186.22259999392554,
+            "cpu_median": 156.25,
+            "cpu_p95": 171.875,
+            "cpu_max": 187.5
+          }
+        ],
+        "native_traversal_io": [
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          },
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          },
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          }
+        ]
+      },
+      {
+        "label": "C1",
+        "whole": {
+          "wall_median": 200.2267999923788,
+          "wall_p95": 284.728400001768,
+          "wall_max": 285.2384999860078,
+          "cpu_median": 187.5,
+          "cpu_p95": 265.625,
+          "cpu_max": 296.875
+        },
+        "traversals": [
+          {
+            "wall_median": 183.9726000034716,
+            "wall_p95": 240.91719998978078,
+            "wall_max": 251.31570000667125,
+            "cpu_median": 187.5,
+            "cpu_p95": 218.75,
+            "cpu_max": 250.0
+          },
+          {
+            "wall_median": 223.83590001845732,
+            "wall_p95": 259.11320000886917,
+            "wall_max": 284.728400001768,
+            "cpu_median": 203.125,
+            "cpu_p95": 234.375,
+            "cpu_max": 265.625
+          },
+          {
+            "wall_median": 211.54630000819452,
+            "wall_p95": 253.3302000083495,
+            "wall_max": 285.2384999860078,
+            "cpu_median": 187.5,
+            "cpu_p95": 250.0,
+            "cpu_max": 296.875
+          }
+        ],
+        "native_traversal_io": [
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          },
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          },
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          }
+        ]
+      },
+      {
+        "label": "C2",
+        "whole": {
+          "wall_median": 244.2058000015095,
+          "wall_p95": 370.8370999956969,
+          "wall_max": 425.33639998873696,
+          "cpu_median": 234.375,
+          "cpu_p95": 359.375,
+          "cpu_max": 359.375
+        },
+        "traversals": [
+          {
+            "wall_median": 265.52990000345744,
+            "wall_p95": 311.9545000081416,
+            "wall_max": 370.8370999956969,
+            "cpu_median": 250.0,
+            "cpu_p95": 312.5,
+            "cpu_max": 328.125
+          },
+          {
+            "wall_median": 223.2537000090815,
+            "wall_p95": 285.87739999056794,
+            "wall_max": 286.865999980364,
+            "cpu_median": 218.75,
+            "cpu_p95": 281.25,
+            "cpu_max": 296.875
+          },
+          {
+            "wall_median": 266.12240000395104,
+            "wall_p95": 366.04790002456866,
+            "wall_max": 425.33639998873696,
+            "cpu_median": 265.625,
+            "cpu_p95": 359.375,
+            "cpu_max": 359.375
+          }
+        ],
+        "native_traversal_io": [
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          },
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          },
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          }
+        ]
+      },
+      {
+        "label": "R2",
+        "whole": {
+          "wall_median": 273.12180001172237,
+          "wall_p95": 364.9599000054877,
+          "wall_max": 394.92980000795797,
+          "cpu_median": 265.625,
+          "cpu_p95": 343.75,
+          "cpu_max": 343.75
+        },
+        "traversals": [
+          {
+            "wall_median": 259.93479997850955,
+            "wall_p95": 300.6380000151694,
+            "wall_max": 364.9599000054877,
+            "cpu_median": 234.375,
+            "cpu_p95": 296.875,
+            "cpu_max": 312.5
+          },
+          {
+            "wall_median": 312.26580002112314,
+            "wall_p95": 346.1483999853954,
+            "wall_max": 394.92980000795797,
+            "cpu_median": 281.25,
+            "cpu_p95": 343.75,
+            "cpu_max": 343.75
+          },
+          {
+            "wall_median": 284.6828000037931,
+            "wall_p95": 318.3788000023924,
+            "wall_max": 353.05989999324083,
+            "cpu_median": 265.625,
+            "cpu_p95": 312.5,
+            "cpu_max": 343.75
+          }
+        ],
+        "native_traversal_io": [
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          },
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          },
+          {
+            "ReadOperationCount": 22066,
+            "WriteOperationCount": 0,
+            "OtherOperationCount": 212102,
+            "ReadTransferCount": 10047026,
+            "WriteTransferCount": 0,
+            "OtherTransferCount": 5025284
+          }
+        ]
+      }
+    ],
+    "unresolved_limits": [
+      "Source equality and path exclusion do not measure allocator state, import/code-object layout effects, hash seed, cache state, CPU scheduling/frequency, or host/resource causation.",
+      "Same-reference R1/R2 median/CPU drift demonstrates variability, but does not waive candidate C2 p95/max above R2 or establish latency equivalence.",
+      "All historical195ms,663ms,334ms medians and17.46s/23.4s tails retained; invalid Python-profile timing remains invalid.",
+      "No invented history SLO, no transfer of heldout2*baseline+250ms threshold, no sample selection, no new timing invocation.",
+      "Master53 history/performance acceptance remains a separate independent disposition; this static report awards no complete-iteration or release credit."
+    ]
+  },
+  "final_docs_v3": {
+    "status": "STATIC_DESIGN_REVIEW_PASS_UNRUN",
+    "plan_sha256": "9e5aaae4f30a2c2467c65231bd494e5bc2870020b992f4ef6bc4ab433501b172",
+    "helpers": {
+      ".tools/research/release_repack_final_docs_portable_v3.py": "95e9fbda1228b68b9e98c63dbb46db67692728e3f90746fed1a61ac19251767a",
+      ".tools/research/audit_release_docs_final_portable_v3.py": "f940c4f0b1ba664a4d2cd3731ae173f0d51d3f532ea64cf6f8ece4ee8fb489ab"
+    },
+    "future_outputs_absent": [
+      ".tools/research/artifacts-release-2.1.0-final-portable-v3",
+      ".tools/research/npm-prefix-release-2.1.0-final-portable-v3",
+      "docs/quality/evidence/release-final-artifact-identity-portable-v3.json",
+      ".tools/research/npm-pack-release-final-portable-v3-v1.json",
+      "docs/quality/evidence/documentation-link-audit-release-final-portable-v3.json"
+    ],
+    "verified_design": [
+      "All new artifact, install-prefix, pack-log, report, and audit paths use unique portable-v3 names; pinned initial archives and install prefix preserved.",
+      "Repack prechecks outputs and validates accepted proof, exact390 input inventory, both original/portable19 helper inventories, initial archives, and source before/after.",
+      "Non-documentation archive file bytes must equal previously tested runtime; README/SIGNOFF and dynamic canonical installed documentation inventory are separately byte-checked.",
+      "Auditor consumes the same portable-v3 artifact report emitted by repack and audits installed SIGNOFF as well as README/docs.",
+      "Markdown images/links, HTML href/src/IDs, local target boundaries and heading fragments checked; external references explicitly unfetched.",
+      "Heading-regex interpretation error is honestly corrected in plan; no actual regex repair claimed."
+    ],
+    "limits": [
+      "No repack, installation or link audit invoked; future archive/runtime byte proof and installed-doc audit are not yet achieved.",
+      "Design reuses existing smoke evidence only after runtime byte equivalence, not as a fresh smoke execution.",
+      "Parent must enforce final accepted-two-round/prose-final prerequisite; helper design alone does not establish release readiness."
+    ]
+  },
+  "workloads_invoked": 0,
+  "whole_iteration_credit": 0,
+  "release_certification": false
+}

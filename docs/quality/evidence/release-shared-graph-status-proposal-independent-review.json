@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "status": "SCOPED_SHARED_GRAPH_STATUS_PROPOSAL_READ_ONLY_REVIEW_PASS_UNAPPLIED",
+  "reviewed_at_utc": "2026-10-03T09:49:22.661016+00:00",
+  "source_sha256": "f30ef25cfab6a64a83f1e9603a01f121d3c1130a9067738a9f2ff62096532705",
+  "source_recomputed": true,
+  "scope": "Static exact private proposal review only; no production application, test execution or runtime measurement.",
+  "exact_proposal_proofs": {
+    "src/orqalis/graph/engine.py": {
+      "production_sha256": "b3dee5bc9925a6100303da0274620635027df3bc33b60ac6cd19f16c56daaa38",
+      "proposal": ".tools/research/release_shared_graph_status_engine_proposal_v1.py",
+      "proposal_sha256": "49912882265ac712d17ab153a083800b41484fb29bfd5c4b14423b6c535a2f9a",
+      "undo_exact_reviewed_edits_restores_entire_original_ast": true
+    },
+    "src/orqalis/context/builder.py": {
+      "production_sha256": "4abac0bae334ff221d278808e7d51626635509e6765688b36ecae7c262680450",
+      "proposal": ".tools/research/release_shared_graph_status_builder_proposal_v1.py",
+      "proposal_sha256": "0a28af97935402832a1362a61b1551388b3a0d7a1ff0e0ac3ae963f3b98f52c1",
+      "undo_exact_reviewed_edits_restores_entire_original_ast": true
+    }
+  },
+  "exact_delta": {
+    "engine_added_methods": [
+      "refresh_with_status",
+      "_refresh_with_status"
+    ],
+    "engine_changed_methods": {
+      "_refresh": "Returns first member of internal tuple; public refresh/rebuild retain GraphRefreshResult.",
+      "_refresh_locked": "Return annotation and all three returns become(result,status); every original statement/guard unchanged."
+    },
+    "builder_changed_method": "build",
+    "builder_only_assignment_changes": [
+      "Earlier separate injected git.status becomes refreshed,status=self.graph_engine.refresh_with_status()",
+      "Graph is taken from refreshed.graph"
+    ]
+  },
+  "safety_review": {
+    "status_captured_after_current_graph_load_inside_original_graph_lock": true,
+    "full_source_gitstatus_returned_on_all_three_paths": true,
+    "gitstatus_model_frozen_and_changed_paths_tuple": true,
+    "same_injected_git_and_normalized_source": true,
+    "canonical_worktree_common_directory_and_storage_guards_unchanged": true,
+    "schema_parser_digest_validation_and_rebuild_behavior_unchanged": true,
+    "same_filehash_discovery_parser_cache_and_graph_cursor_writes": true,
+    "context_retains_full_non_orqalis_dirty_paths_not_manifest_filtered_subset": true,
+    "context_branch_head_memory_freshness_use_same_status_as_graph_refresh": true,
+    "no_cross_request_status_or_model_cache": true,
+    "no_mutable_last_status_side_channel": true,
+    "public_refresh_rebuild_result_models_and_persisted_formats_unchanged": true,
+    "graph_lock_released_before_context_memory_history_ranking": true
+  },
+  "risks_and_limits": [
+    "Git status/source observation remains best-effort against external Git/file mutations, as before; graph lock does not make repository filesystem changes atomic.",
+    "Private _refresh_locked return signature changes; no outside src/test callsite was found.",
+    "Custom graph-engine subclasses/monkeypatches overriding only refresh do not govern inherited refresh_with_status; builder currently constructs its own engine and public Git injection is preserved.",
+    "One duplicate injected git.status is removed per context build, but latency magnitude and browser deadline cure are unmeasured.",
+    "The new method is additive; no public data model field or persistence format changes."
+  ],
+  "required_focused_validation": [
+    "Cold/full-build tuple and unchanged public result serialization",
+    "Clean warm shortcut tuple",
+    "No-content-change manifest/branch update tuple",
+    "Exactly one injected source-status call per context",
+    "Full dirty-path freshness including ignored/non-graph-indexed extensions and non-orqalis files",
+    "Worktree source and canonical store separation plus unrelated-repository denial",
+    "Invalid digest/data and policy errors still propagate/rebuild as before",
+    "Concurrent callers receive their own local status tuple without cross-request mixups"
+  ],
+  "preserved_failure": {
+    "report": "release-browser-read-path-screen.json",
+    "report_sha256": "7d59a5f75135460e9ebebcc19e43c45b1dd174691da779aadcb747a43835de39",
+    "junit_sha256": "08e86ca9f977e0ee447be71f983093a76e214a461e35d3cf55cebdd3b23b8d57",
+    "source_sha256": "f30ef25cfab6a64a83f1e9603a01f121d3c1130a9067738a9f2ff62096532705",
+    "counts": {
+      "tests": 14,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "passed": 12,
+    "owned_host_closed": true,
+    "original_failure_cause_or_cure_claimed": false
+  },
+  "qualification_limits": {
+    "proposal_applied_by_reviewer": false,
+    "tests_builds_benchmarks_run": false,
+    "new_agents_spawned": false,
+    "existing_artifacts_overwritten": false,
+    "full_release_rounds_completed": 0,
+    "required_full_release_rounds": 2,
+    "p0_p1_closure_claimed": false,
+    "release_certified": false
+  },
+  "findings": "No concrete integrity defect found within this exact proposal; meaningful focused validation and fresh source qualification are required after any application."
+}

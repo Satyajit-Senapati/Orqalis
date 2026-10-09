@@ -1,0 +1,57 @@
+{
+  "status": "CHANGES_REQUIRED_REPORTING_ONLY_BEFORE_INVOCATION",
+  "reviewed_at": "2026-10-07T11:33:47.643897+00:00",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "reviewed_sha256": {
+    ".tools/research/release_cache_publication_control_v1.py": "50471eeac1a4a26756225677a089115ccc7eb464838df89dda542857b25ff268",
+    ".tools/research/release_cache_publication_control_outer_v1.py": "a26258953eaad9e2f1c7122d00f125bcbc3b2af36e11d5fa6cd1fcda651ae549",
+    "docs/quality/evidence/release-cache-publication-control-plan-v1.json": "08f8a7b45af22b358a8e825920f1a9394d8fe8aae6de8116566ca203fb666a9a"
+  },
+  "scope": "Static named-file review only; no product imports, atomic write/read invocation, fixture hashing or workload.",
+  "concrete_findings": [
+    {
+      "file": ".tools/research/release_cache_publication_control_v1.py",
+      "field": "report.limits",
+      "issue": "Copied limits says Builtin is comparison primitive although every reader is current native. This misdescribes the variable under test; the comparison primitive is classic os.replace publication.",
+      "required_replacement": "Classic os.replace is a publication-only diagnostic control, not a shipping fallback.",
+      "severity": "Reporting correction; no workload, assertions, budget, gold or guard change needed."
+    },
+    {
+      "file": ".tools/research/release_cache_publication_control_v1.py",
+      "field": "report.limits",
+      "issue": "Fresh per-reader copies should be Fresh per-publisher copies to reflect native/classic publication cohorts and identical native reader.",
+      "severity": "Same reporting-only correction."
+    }
+  ],
+  "otherwise_validated": {
+    "references": 263,
+    "unique_cache_references": 247,
+    "opposed_orders": [
+      [
+        "native",
+        "classic"
+      ],
+      [
+        "classic",
+        "native"
+      ]
+    ],
+    "calls_each_publisher": 526,
+    "fresh_owned_targets_and_native_reads": 1052,
+    "actual_publisher_alias": "Original io._replace_file or os.replace only during unchanged atomic_write_bytes; restored after every write and finally.",
+    "reader": "Original current io._read_bytes for both roles; identical native-opener observation.",
+    "clock": "Publication and read times separately retained; first external read follows same no-link guard, no new-target content priming outside production owned-fd verification.",
+    "identity": "Each returned byte length/hash verified, complete1052copies final-hashed by worker/outer; source/input/environment/plan/helpers/prior evidence and original249fixture hashes guarded. Named small helper/evidence pins match; large runtime guard mappings not recaptured by reviewer.",
+    "failure_and_admission": "Original reviewed owned lifecycle300cap, current both whole/full proof admission, exact two reviews/rootACK, no external idle claim, all-outcome stable guards and primary-preserving outer errors retained."
+  },
+  "production_boundary": [
+    "New owned absent targets only; no source shipping policy change or fallback approved. No baseline or original benchmark replacement.",
+    "Any future initial-publication policy requires explicit race/appearing-target/sharing/containment/atomicity/readonly/error/cleanup review; check-then-rename absence is not atomic proof."
+  ],
+  "master53": "STILL_BLOCKED_SUPPORTED_CURRENT_COLD_COMPARATIVE_DEGRADATION; publisher causal effect untested",
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false,
+  "registry_promotion": false,
+  "release_ready": false
+}

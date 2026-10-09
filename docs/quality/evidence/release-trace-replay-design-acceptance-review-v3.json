@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-04T06:10:14.504250+00:00",
+  "status": "APPROVED_PROSPECTIVE_V3_EVENT_ENVELOPE_DECODER_REPAIR_ONE_TRACE_CALL_ONLY",
+  "runner_sha256": "fb8344fc0b4c33dac3c29acf96789db652b293892111647656f0f99998079069",
+  "plan_sha256": "ce472e081c40426778d6fe3a1aac892a83089d5fb941ef5148cb6799f5ee057c",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "prior_design_review": "release-trace-replay-design-acceptance-review-v2.json",
+  "prior_review_sha256": "c112197663239477a35238b0834a8a58022fb0470d6e94d891b1391d757f0753",
+  "delta_verified": {
+    "entire_runner_exact_v2_except_v3_pathliterals_and_three_decoder_lines": true,
+    "persisted_dict_schema_version1_required": true,
+    "only_schema_version_envelope_removed_before_originalEvent_modelvalidate": true,
+    "production_parse_event_equivalent_decode": true,
+    "174_actualretained_records_validenvelope": true,
+    "actual_namedbindings_exact": {
+      ".tools/research/execution-candidate-operations-c-workspace-v3/repository/.orqalis/tasks/ORQ-20261003-0001/execution/state.yaml": true,
+      ".tools/research/execution-candidate-operations-c-workspace-v3/repository/.orqalis/tasks/ORQ-20261003-0001/execution/events.jsonl": true,
+      "docs/quality/evidence/release-input-freeze-cleanup-portable-v3.json": true,
+      "src/orqalis/observability/trace.py": true,
+      "src/orqalis/observability/projections.py": true,
+      "src/orqalis/sdk.py": true,
+      "tests/support/trace_fixture.py": true,
+      "scripts/benchmark_execution.py": true,
+      "docs/quality/evidence/release-execution-candidate-operations-result-v3.json": true,
+      "src/orqalis/persistence/filesystem/task_store.py": true,
+      "docs/quality/evidence/release-trace-replay-result-v2.json": true
+    },
+    "zero_prior_trace_calls_retained_failure": true,
+    "newexclusiveoutputabsent": true,
+    "original_trace_call_andclock_andbeforeafter_sourceplanrunner_guards_unchanged": true
+  },
+  "scope": "One finite firsttrace invocation onretainedfinaldomainmodels, notretryingmeasuredtrace. ReviewerdecodedJSONonly; no imports/modelconstructor/tracecalls/nativequery/workload. Rootmayinvokeonceunderpriorserialscope; failedv2zero-callrecordimmutable.",
+  "limits": [
+    "No historical/earlysnapshot/globalcallbound/generaltraceSLO/candidatebaselinespeedclaim.",
+    "Onefinal174event41nodefunctioncostcannotreplaceoldexecutioncapturesorautomaticallycloseMaster53.",
+    "Decodeerrorsstillfailurepreservedandnoautomaticretry; anysource/data/plan/runnerguarddrift invalidatesresult."
+  ],
+  "master53_execution_performance_blocker_open": true,
+  "release_acceptance_credit": 0,
+  "trace_calls_invoked_by_reviewer": 0,
+  "source_tests_publicdocs_protectedhelpers_unchanged": true,
+  "no_commit_or_publication": true
+}

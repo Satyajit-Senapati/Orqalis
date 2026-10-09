@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "status": "SCOPED_APPLIED_CONTROLS_AND_RECONNECT_REVIEW_PASS_FRESH_QUALIFICATION_PENDING",
+  "reviewed_at_utc": "2026-10-03T09:15:30.943725+00:00",
+  "source_sha256": "c3439180020ec483f902b61b757e1f7bb50756f4e7d59f6de16adb87d0ae0111",
+  "source_recomputed": true,
+  "scope": "Applied control-state read, API composition, focused test design and reconnect strengthening only. Other graph/recovery optimization at the same source is outside this review. No tests/workloads performed.",
+  "applied_proposal_proofs": {
+    "src/orqalis/core/approvals.py": {
+      "production_sha256": "8769d96e5422739cb4ef27ed6fac149185c49422b6de75fef9d0894353136367",
+      "proposal": ".tools/research/release_controls_read_proposal_v1.py",
+      "proposal_sha256": "8769d96e5422739cb4ef27ed6fac149185c49422b6de75fef9d0894353136367",
+      "entire_ast_equal_reviewed_proposal": true
+    },
+    "src/orqalis/api/app.py": {
+      "production_sha256": "924c9c29ff8f083dbcbfc05e14dee09f49d393623c8ae3a04aabad45656d5421",
+      "proposal": ".tools/research/release_controls_api_proposal_v1.py",
+      "proposal_sha256": "924c9c29ff8f083dbcbfc05e14dee09f49d393623c8ae3a04aabad45656d5421",
+      "entire_ast_equal_reviewed_proposal": true
+    }
+  },
+  "exact_reviewed_ast_delta": {
+    "approvals": "Only added ApprovalService.control_state; all prior methods/imports remain unchanged.",
+    "api": "Only controls endpoint body changes from separate injected policy/list calls to one injected control_state and identical ControlView construction."
+  },
+  "control_state_review": {
+    "one_injected_factory_context": true,
+    "one_run_existence_check": true,
+    "same_policy_autonomous_default_and_repository_list_projection": true,
+    "same_uow_owner_aggregate_reuse": true,
+    "no_commit_or_for_update_or_new_lease": true,
+    "goal_service_and_approval_writes_guards_unchanged": true,
+    "tests_reviewed": {
+      "unit_cases": 3,
+      "unit_assertions": [
+        "Autonomous/supervised outputs",
+        "Exactly one injected factory and owner run read",
+        "Exactly one policy and list call",
+        "No commit",
+        "Missing run rejects before approval reads and commit"
+      ],
+      "persisted_integration_states": [
+        "Autonomous default without requests",
+        "Supervised pending request",
+        "Decision-projected approved request"
+      ]
+    },
+    "compatibility_limit": "Custom subclasses overriding only policy/list do not have those overrides dispatched by inherited control_state; duck-typed service replacements need the new method. Existing factory injection is preserved. No arbitrary override-compatibility claim.",
+    "latency_limit": "Coherence/duplicate-read optimization, not established primary governance deadline cause or cure."
+  },
+  "reconnect_review": {
+    "current_test_sha256": "89487271ede7b942b929e93a8490dcd9275d0a53c656cd5435fa4e4f575bc4dc",
+    "reviewed_exact_block_sha256": "d9de4104fa74c6ddab560b6e1eaae9f093f3c758a9daec7b0fb01b18a4604bda",
+    "reverse_only_block_reconstructs_entire_historical_test_sha256": "6e06afd88aac8f3f98d0bd3c109afaa109d14352b5b0095b72d5b5c1a5a230c8",
+    "historical_newline_encoding": "CRLF",
+    "all_other_assertions_unchanged": true,
+    "required_initial_connections": ">0",
+    "close_callback_non_null_required": true,
+    "direct_close_invocation": true,
+    "required_reconnect_connections": ">1",
+    "readiness_plus_reconnect_shared_budget_ms": 15000,
+    "remaining_budget_floor_ms": 1,
+    "budget_limit": "The1ms minimum avoids zero-timeout unbounded semantics after exhaustion; no substantive deadline extension. Changed-duration assertion unchanged.",
+    "production_reconnect_code_changed": false,
+    "static_gap": "Usable snapshot renders before awaited history completes and first socket exists; optional close could be a no-op without readiness.",
+    "original_failure_causation_proven": false
+  },
+  "reviewed_tests_sha256": {
+    "tests/unit/test_approval_contracts.py": "2e3914dbd2ef2a0112fb087449fa34cc87da50863948bbd4bf1297c41e166f6a",
+    "tests/integration/test_approvals.py": "3b90ba146717378c495bf1d10eac2de2deb659b4ff679f3afef240978a4ec83f",
+    "web/e2e/enhancements.spec.ts": "89487271ede7b942b929e93a8490dcd9275d0a53c656cd5435fa4e4f575bc4dc"
+  },
+  "preserved_historical_evidence": {
+    "source_sha256": "f7ca46771370685dc149bf226ceb49220387ba486effe43cd0308cb949e7fa27",
+    "original_full_browser": {
+      "tests": 14,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 12
+    },
+    "original_full_owned_host_closed": true,
+    "passive_two_case": {
+      "tests": 2,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1
+    },
+    "passive_close_records": [
+      {
+        "wall_s": 0.2340000000258442,
+        "outcome": "PASS",
+        "thread_alive": false
+      }
+    ],
+    "artifact_sha256": {
+      "release-browser-ui-loop-screen.json": "e131b1453cdca494fc04f9b6dae1202bab26576af3db21d9c6b01d3c9a4bb1cc",
+      "release-browser-ui-loop-screen.xml": "93c553ea2102f3d4fa3e900bf4797b7b646109a78b74dfb15dcdf65a4b5a804b",
+      "release-ui-path-stage-spans.json": "eeff141bc246a67b6cde639b6f012b21fb27d28926011296e763ee1648a96a05",
+      "release-browser-ui-path-stage-spans.xml": "b6f1f776c4d59e611d0b16f8a4bb770c5249d73cc98833da6ecb835baa10b381"
+    },
+    "passive_chronology_parent_reported_ms": {
+      "route_created": 734.55,
+      "close_called": 1371,
+      "actual_close": 1665,
+      "reconnect": 3040
+    },
+    "chronology_limit": "One observed successful forced-close timeline diagnostic does not establish why the original timeline test failed. Passive two-case report remains FAIL because governance failed.",
+    "raw_failures_waived_or_rebound": false
+  },
+  "qualification_limits": {
+    "focused_affected_file_tests": "Running at review request; no result inferred.",
+    "fresh_full_browser_pass_claimed": false,
+    "full_release_rounds_completed": 0,
+    "required_full_release_rounds": 2,
+    "p1_closure_claimed": false,
+    "release_certified": false,
+    "production_tests_helpers_docs_mutated_by_reviewer": false,
+    "benchmarks_tests_or_new_agents_run": false
+  },
+  "findings": "No concrete defect found in this scoped applied change; fresh affected checks and complete release qualification remain required."
+}

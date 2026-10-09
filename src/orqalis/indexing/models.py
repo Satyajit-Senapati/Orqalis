@@ -7,7 +7,7 @@ from pydantic import AwareDatetime, Field
 from orqalis.domain.base import Contract, utc_now
 
 INDEX_SCHEMA_VERSION = 1
-INDEX_VERSION = "lexical-v1"
+INDEX_VERSION = "lexical-v3"
 
 IndexMetadataValue = str | int | float | bool | None | list[str]
 
@@ -15,6 +15,7 @@ IndexMetadataValue = str | int | float | bool | None | list[str]
 class IndexRecordKind(StrEnum):
     FILE = "repository_file"
     SYMBOL = "repository_symbol"
+    REFERENCE = "repository_reference"
     MEMORY = "memory"
     TASK = "task"
 

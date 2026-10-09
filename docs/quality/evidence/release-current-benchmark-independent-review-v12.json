@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "status": "FUNCTIONAL_PASS_NO_FRESH_TIMING_TRIGGER_BOUNDED_REVIEW",
+  "reviewed_at_utc": "2026-10-03T12:44:39.873359+00:00",
+  "reviewer": "independent_release_quality_review",
+  "scope": "Read-only source, metadata, corpus, fixture and raw-result verification. No benchmark/test/build executed. Only this new review written.",
+  "binding": {
+    "current_source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+    "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+    "canonical_sources_recomputed": true,
+    "raw_sources_stable": true,
+    "environment_metadata_recomputed": true,
+    "baseline_current_environments_identical": true,
+    "dependency_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+    "release_input_sha256": "a6aab317af7c9cb41f8eb2742c58752a732299ce814e3d88520f1d734a2aca4a",
+    "release_input_files": 390,
+    "private_helper_files": 15,
+    "freeze_and_helpers_all_hashes_match": true,
+    "environment_normalization": "JSON tuple/list representation only; no version or field change."
+  },
+  "artifact_sha256": {
+    "release-heldout-baseline-v12.json": "5fa25897749945f9ee53b82ab541c93b7f831eba8d7de92d8d24ea49ab0fb226",
+    "release-heldout-current-v12.json": "de5dadb55232af310c707562d4253c6a0745c636a0f43ad821372ce78e8fd560",
+    "release-heldout-review-v12.json": "edf838def64fa724facde55ce6ef48d92876151a5fe77e534a146f1c011674f5",
+    "release-history-readpath-1001-v1.json": "ac51a07ec713effcda1e9e7ee698ce155be79c38a28aa796e458ce11bbb90d53",
+    "release-heldout-corpus.json": "edab35fa66ff52e427184d8d7a542c280493f15fb956f1229b9c5b362ee1fed1",
+    "release-current-benchmark-independent-review-v10.json": "ee020b99b883d04ca08e84df67c4bc2aaf0c82f4121b434184b628ba895278e7",
+    "release-history-quiet-review-v2.json": "3cda860d7c5cac65f566d5352345fe06af2765f860bf81f0f5f4f09b1b1b6085",
+    "release-heldout-review-v8.json": "50a0a698611895bcd0b63d985809d6673685526534593da5efb79934f302ac2b",
+    "release-input-freeze-readpath.json": "1fb60b6d87b2fd289b84e9c26fcf315089422578b092a9da132cbf541ae154a9",
+    "release-private-helper-inventory-readpath.json": "df8c70ca3f247e636cfb8d5419adb1a9c84795ee765c729731b3e6e79827b80f"
+  },
+  "helper_sha256": {
+    ".tools/research/release_heldout_probe_v10.py": "9179de6a7f1ef352d2e6e3b580859cbd2c58a94ba0e3d7a6432274f3e545b890",
+    ".tools/research/release_heldout_probe_v11.py": "4341aff202ebab91768bcdde409e77894f5e29360bac8f5f37895a4990ea0205",
+    ".tools/research/release_heldout_probe_v12.py": "424db692bd5ff0bb230dc1817b253f9d3b8bbac15c5ef820a887f71417492197",
+    ".tools/research/release_history_quiet.py": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683",
+    "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c"
+  },
+  "corpus": {
+    "sha256": "19bc76f87b5e95287204e8edbdee8c4c3be8b4b5c478a48e686166166034a0a9",
+    "files": 263,
+    "bytes": 1812392,
+    "independently_rehashed_roots": [
+      {
+        "root": ".tools/research/release-heldout-corpus",
+        "files": 263,
+        "bytes": 1812392,
+        "sha256": "19bc76f87b5e95287204e8edbdee8c4c3be8b4b5c478a48e686166166034a0a9"
+      },
+      {
+        "root": ".tools/research/release-heldout-fixture-release-heldout-baseline-v8",
+        "files": 263,
+        "bytes": 1812392,
+        "sha256": "19bc76f87b5e95287204e8edbdee8c4c3be8b4b5c478a48e686166166034a0a9"
+      },
+      {
+        "root": ".tools/research/release-heldout-fixture-release-heldout-baseline-v12",
+        "files": 263,
+        "bytes": 1812392,
+        "sha256": "19bc76f87b5e95287204e8edbdee8c4c3be8b4b5c478a48e686166166034a0a9"
+      },
+      {
+        "root": ".tools/research/release-heldout-fixture-release-heldout-current-v12",
+        "files": 263,
+        "bytes": 1812392,
+        "sha256": "19bc76f87b5e95287204e8edbdee8c4c3be8b4b5c478a48e686166166034a0a9"
+      }
+    ],
+    "scope": "Fixed retained historical real-code slice, not entire current project or frozen engineering-case dataset."
+  },
+  "method": {
+    "v10_to_v11_to_v12_exact_only_output_label_replacements": true,
+    "numeric_constants_identical": true,
+    "git_provenance": [
+      {
+        "root": "release-heldout-fixture-release-heldout-baseline-v8",
+        "head": "be00c39a5a86bb737404fdca9f6e19ebf1f66bdf",
+        "clean": true,
+        "gitignore_sha256": "b073862c12d68d08e3967194e8b6c8d97bb9835d59e6fed9794517c9897defe4"
+      },
+      {
+        "root": "release-heldout-fixture-release-heldout-baseline-v12",
+        "head": "be00c39a5a86bb737404fdca9f6e19ebf1f66bdf",
+        "clean": true,
+        "gitignore_sha256": "b073862c12d68d08e3967194e8b6c8d97bb9835d59e6fed9794517c9897defe4"
+      },
+      {
+        "root": "release-heldout-fixture-release-heldout-current-v12",
+        "head": "be00c39a5a86bb737404fdca9f6e19ebf1f66bdf",
+        "clean": true,
+        "gitignore_sha256": "b073862c12d68d08e3967194e8b6c8d97bb9835d59e6fed9794517c9897defe4"
+      }
+    ],
+    "new_git_metadata_commits": false,
+    "git_limit": "Reviewed helper copies existing retained .git/.gitignore, invokes only read-only status/rev-parse, and records unchanged HEAD. Existing commit identity is not a new commit."
+  },
+  "functional": {
+    "matching_baseline_current_exact_query_targets": true,
+    "baseline_witnesses": [
+      {
+        "query": "ProjectGraphEngine",
+        "target": "src/orqalis/graph/engine.py",
+        "index_definition_first": true,
+        "context_target_present": true,
+        "context_chars": 11704
+      },
+      {
+        "query": "ProjectContextBuilder",
+        "target": "src/orqalis/context/builder.py",
+        "index_definition_first": true,
+        "context_target_present": true,
+        "context_chars": 11356
+      },
+      {
+        "query": "TaskCapsuleStore",
+        "target": "src/orqalis/persistence/filesystem/task_store.py",
+        "index_definition_first": true,
+        "context_target_present": true,
+        "context_chars": 11905
+      }
+    ],
+    "current_witnesses": [
+      {
+        "query": "ProjectGraphEngine",
+        "target": "src/orqalis/graph/engine.py",
+        "index_definition_first": true,
+        "context_target_present": true,
+        "context_chars": 11632
+      },
+      {
+        "query": "ProjectContextBuilder",
+        "target": "src/orqalis/context/builder.py",
+        "index_definition_first": true,
+        "context_target_present": true,
+        "context_chars": 11613
+      },
+      {
+        "query": "TaskCapsuleStore",
+        "target": "src/orqalis/persistence/filesystem/task_store.py",
+        "index_definition_first": true,
+        "context_target_present": true,
+        "context_chars": 11651
+      }
+    ],
+    "context_cap_chars": 12000,
+    "warm_processed_files_asserted": 0,
+    "delta_processed_files_asserted": 1,
+    "parse_count_limit": "processed_files assertions are verified in helper; no persisted parser-call instrumentation in raw v12.",
+    "samples": "One parser-cache-warm rebuild, three same-engine warm refreshes, one restored one-file mutation, three query samples for each of three targets."
+  },
+  "performance": {
+    "rule": "Investigate current_ms > 2 * baseline_ms + 250; raw PASS is functional only.",
+    "metrics": [
+      {
+        "metric": "cold_graph_ms",
+        "baseline_ms": 2271.238099987386,
+        "current_ms": 2736.676800006535,
+        "investigation_threshold_ms": 4792.476199974772,
+        "triggered": false
+      },
+      {
+        "metric": "warm_graph_median_ms",
+        "baseline_ms": 452.9529999999795,
+        "current_ms": 447.10309998481534,
+        "investigation_threshold_ms": 1155.905999999959,
+        "triggered": false
+      },
+      {
+        "metric": "one_file_graph_ms",
+        "baseline_ms": 1920.2874999900814,
+        "current_ms": 2308.1860000093,
+        "investigation_threshold_ms": 4090.574999980163,
+        "triggered": false
+      },
+      {
+        "metric": "context_median_ms",
+        "baseline_ms": 975.133600004483,
+        "current_ms": 893.304099998204,
+        "investigation_threshold_ms": 2200.267200008966,
+        "triggered": false
+      }
+    ],
+    "fresh_triggers": 0,
+    "footprint": {
+      "graph_nodes": {
+        "baseline": 3533,
+        "current": 11505,
+        "ratio": 3.2564392867251626
+      },
+      "graph_edges": {
+        "baseline": 10003,
+        "current": 13575,
+        "ratio": 1.3570928721383584
+      },
+      "graph_bytes": {
+        "baseline": 4849687,
+        "current": 8253391,
+        "ratio": 1.7018399331750689
+      },
+      "index_bytes": {
+        "baseline": 9501365,
+        "current": 28852891,
+        "ratio": 3.0367100937602123
+      },
+      "store_bytes": {
+        "baseline": 16293933,
+        "current": 39782372,
+        "ratio": 2.441545083068649
+      },
+      "query_python_peak_allocated_bytes": {
+        "baseline": 30500886,
+        "current": 56666583,
+        "ratio": 1.8578667845911099
+      }
+    },
+    "cost_disposition": "Material richer graph/index representation costs remain: storage about 2.44x and Python peak allocation about 1.86x baseline. They are not negligible.",
+    "allocation_limit": "tracemalloc peak for one context query; excludes native allocations and does not measure RSS.",
+    "engine_scope": "Repeated warm operations reuse an engine/builder; per-engine proof cache does not guarantee matching SDK/MCP fresh-engine benefit.",
+    "timing_limit": "One local fixed pair; no hardware-independent SLO, universal search quality, outlier bound or tail-cure claim."
+  },
+  "history": {
+    "status": "PASS_WITHIN_FIXED_1001_ROW_FIXTURE",
+    "canonical_sha256": "2f2688cf4aa2ceab4b74484df0ffd4df1c399a33f7491c94a471ca6fb264045f",
+    "canonical_hash_unique_ids_and_owned_copy_recomputed": true,
+    "rows": 1001,
+    "traversals": 3,
+    "page_size": 100,
+    "pages": 33,
+    "exact_coverage_assertions_reviewed": true,
+    "aggregate_statistics_recomputed": true,
+    "median_wall_ms": 194.8125000053551,
+    "reported_p95_wall_ms": 278.0429000267759,
+    "p95_method": "Sorted 33 observations [-2], matching retained helper; not a population percentile or guaranteed tail bound.",
+    "max_wall_ms": 360.77579998527654,
+    "max_lock_acquire_ms": 0.27459999546408653,
+    "slow_canonical_reads": [],
+    "concurrent_reservation": {
+      "elapsed_ms": 29.97269999468699,
+      "reserved_unique_id": true,
+      "directory_created": true
+    },
+    "reservation_owned_copy": true,
+    "new_reserved_directory": "ORQ-20261003-0001",
+    "limits": "One quiet local capture with small timing wrappers; separate genuine two-thread reservation. No universal concurrency/latency or causal OS claim."
+  },
+  "preserved_historical_risk": {
+    "history_source755_runs": [
+      {
+        "source_sha256": "75539c7b992b59b7c418427cfd0fb89472224ec4099e8519e72197de949de9fe",
+        "median_wall_ms": 881.017099993187,
+        "p95_wall_ms": 5117.26249998901,
+        "max_wall_ms": 17464.872399999877,
+        "max_lock_acquire_ms": 0.344899992342107,
+        "concurrent_reservation": {
+          "elapsed_ms": 104.5455999992555,
+          "reserved_unique_id": true,
+          "directory_created": true
+        }
+      },
+      {
+        "source_sha256": "75539c7b992b59b7c418427cfd0fb89472224ec4099e8519e72197de949de9fe",
+        "median_wall_ms": 302.84150000079535,
+        "p95_wall_ms": 442.02379998750985,
+        "max_wall_ms": 571.9195999990916,
+        "max_lock_acquire_ms": 4.133099995669909,
+        "concurrent_reservation": {
+          "elapsed_ms": 44.106499990448356,
+          "reserved_unique_id": true,
+          "directory_created": true
+        }
+      }
+    ],
+    "prior_23_second_capture_preserved": true,
+    "heldout_source47_v8_warm": {
+      "source_sha256": "47ec43dd0beec7dff56ad064f78a1f1a46c4cc83172e8f55a20ef00617edac4e",
+      "baseline_ms": 1091.0277999937534,
+      "current_ms": 2680.0039000081597,
+      "threshold_ms": 2432.055599987507,
+      "triggered": true
+    },
+    "v10_source_b7f": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+    "binding_limit": "Historical755/47/b7f captures retain original source binding; no timings rebound to797 and no historical failures relabeled.",
+    "latency_tails_cured": false
+  },
+  "release_limits": {
+    "complete_full_release_rounds": 0,
+    "required_full_release_rounds": 2,
+    "next_required_round_labels": [
+      8,
+      9
+    ],
+    "p1_closure_claimed": false,
+    "release_certified": false,
+    "frontend_dependency_tree_scan_performed": false,
+    "preflight_and_artifacts_scope": "Parent reports fresh current preflight and artifacts PASS; this assigned review independently covers benchmarks only, not all release gates.",
+    "main_commit_or_publication_performed": false
+  }
+}

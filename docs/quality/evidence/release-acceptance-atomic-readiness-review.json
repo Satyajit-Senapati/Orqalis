@@ -1,0 +1,1502 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-02T13:20:25.756619+00:00",
+  "reviewer": "Independent release acceptance specification reviewer",
+  "scope": "Read-only source/test/document and saved-evidence review. No tests/benchmarks/advisories/installers/native-host/remote research workloads executed. Only this fresh canonical review written.",
+  "status": "ATOMIC_SOURCE_MAPPING_READY_NOT_CLOSED_NOT_CONVERGED_FREEZE_METADATA_CORRECTION_REQUIRED",
+  "candidate_version": "2.1.0",
+  "source_sha256": "0d26e92999fe556b69f9695d792ab8bc60313f60740cf74743741f420a0c8a4b",
+  "release_input_sha256": "68de4158978e4b720b70d9cc1d9f08d46a12105320a0db64499be59929cbd242",
+  "source_and_aggregate_input_hashes_independently_verified": true,
+  "release_input_file_count": 390,
+  "release_input_inventory": "release-input-freeze-atomic.json",
+  "individual_input_hash_mismatches": [
+    {
+      "path": "src/orqalis/core/approvals.py",
+      "recorded_sha256": "d22c06cc3cc56739ee617eb50fba029edcb0d1a9e5e1e99f19eb70c9d7234ca4",
+      "actual_sha256": "2480231ce3f59d27b49dd2ea8ef4737f168a17c8e52ed3858fcc60c9673f7ba4"
+    },
+    {
+      "path": "src/orqalis/core/orchestrator.py",
+      "recorded_sha256": "20400a7a16452e24854099c5452af4d116308330fce2438460a130336f67d3f4",
+      "actual_sha256": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38"
+    },
+    {
+      "path": "src/orqalis/core/preview_revision.py",
+      "recorded_sha256": "2f5a307ac1244c2da3776280e28050d3ecb919bbabba5cc47398170ed70c3dd2",
+      "actual_sha256": "208d4839eceaad764bec9a75623776607455beb66777296028c50668e3fc5e4d"
+    },
+    {
+      "path": "tests/integration/test_plan_preview.py",
+      "recorded_sha256": "624a303698bdd2ec4e982981502a3d55d881ff56077d74a0a79a1136f655575f",
+      "actual_sha256": "ec2a147dd95a8b160812b74987346e1a5c405288d85285b7a9866309f4227376"
+    }
+  ],
+  "all_individual_input_hashes_verified": false,
+  "identity_note": "Aggregate390-path digest and source match exactly; four inherited per-file mapping values are stale. Running aggregate guards remain valid. Preserve existing freeze and supply fresh corrected per-file witness/superseding metadata before final signoff. No product-code defect or source drift is indicated.",
+  "registry_sha256": "0b97ab261eafbd674b4838dc9277704b88ec901ba05eda5ae84178b326d47ca2",
+  "decision_counts": {
+    "KEEP": 9,
+    "ADD": 8,
+    "DEFER": 13,
+    "REJECT": 5,
+    "ADAPT": 15
+  },
+  "all_50_decisions_reconsidered": true,
+  "all_decisions": [
+    {
+      "id": "O01",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Retain filesystem authority"
+    },
+    {
+      "id": "O02",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Keep bounded explicit recovery and completed-observation reuse"
+    },
+    {
+      "id": "O03",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Retain deterministic ownership and scoped result handoffs"
+    },
+    {
+      "id": "O04",
+      "priority": "P1",
+      "decision": "ADD",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "O05",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Parallel readers already exist; parallel writers/mailboxes require measured throughput and conflict/ownership proof before adding coordination."
+    },
+    {
+      "id": "O06",
+      "priority": "P2",
+      "decision": "REJECT",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_REJECT",
+      "reason": "Would duplicate state authority and add infrastructure; Reject wholesale framework/database replacement"
+    },
+    {
+      "id": "X01",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "X02",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Retain typed tools, workspace scope and optional isolation"
+    },
+    {
+      "id": "X03",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Remote sandboxes add egress/cost/provider receipt semantics absent a requested deployment; optional local Docker covers accepted scope."
+    },
+    {
+      "id": "S01",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "S02",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "S03",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Evidence-only scanners are bounded future adapters after native closure, requiring license/update proof rather than new release dependency."
+    },
+    {
+      "id": "G01",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "G02",
+      "priority": "P1",
+      "decision": "ADD",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "G03",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Keep file-granularity cache and report reads separately from parsing"
+    },
+    {
+      "id": "G04",
+      "priority": "P1",
+      "decision": "ADD",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "G05",
+      "priority": "P1",
+      "decision": "ADD",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "G06",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Read-only syntax tools cover accepted source access; semantic LSP edits/SCIP require separate lifecycle, portability and license work."
+    },
+    {
+      "id": "G07",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Unmeasured model/clustering/multimodal architecture extraction risks inferred authority; deterministic docs extraction can be a separate labeled future experiment."
+    },
+    {
+      "id": "G08",
+      "priority": "P2",
+      "decision": "REJECT",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_REJECT",
+      "reason": "Conflicts with simple offline authority; Reject mandatory graph/model service"
+    },
+    {
+      "id": "R01",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "R02",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "R03",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Zero-overlap lexical misses remain a future opportunity but no accepted workload justifies vector/fusion runtime; preserve gold and independently evaluate a bounded experiment later."
+    },
+    {
+      "id": "M01",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Keep distinct graph/memory/history authorities and scoped proposals"
+    },
+    {
+      "id": "M02",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "M03",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "M04",
+      "priority": "P1",
+      "decision": "ADD",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "M05",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Current lifecycle/reference/history semantics meet accepted use; taxonomy/protection/bitemporal query needs a specific operation or query."
+    },
+    {
+      "id": "M06",
+      "priority": "P2",
+      "decision": "REJECT",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_REJECT",
+      "reason": "Would split authority or auto-persist uncontrolled conversation; Reject replacement SDK/store, silent deletion and fuzzy rewrite as authority"
+    },
+    {
+      "id": "H01",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "H02",
+      "priority": "P1",
+      "decision": "ADD",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "H03",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Richer provenance metadata is possible lightweight future polish; environment/resource execution semantics are not needed for self-contained bundled skills."
+    },
+    {
+      "id": "H04",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Keep explicit installation boundary"
+    },
+    {
+      "id": "H05",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Arbitrary executable hooks risk hidden orchestration; existing explicit policy/telemetry checkpoints cover accepted use."
+    },
+    {
+      "id": "H06",
+      "priority": "P2",
+      "decision": "REJECT",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_REJECT",
+      "reason": "License/policy drift and irrelevant context; Reject bulk skill/plugin installation and implicit execution of bundled scripts"
+    },
+    {
+      "id": "I01",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "I02",
+      "priority": "P1",
+      "decision": "ADD",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "I03",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "I04",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Root/policy MCP continuation covers current interoperability; native worker host policies are not Orqalis enforcement and need separate contract."
+    },
+    {
+      "id": "I05",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "No remote delivery destination requested; external issue/PR effects require scoped tokens/idempotency/receipt uncertainty first."
+    },
+    {
+      "id": "T01",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "T02",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "T03",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "T04",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Keep backend-derived state and avoid visual workflow authoring engine"
+    },
+    {
+      "id": "T05",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Local safe trace projection suffices; optional sink/export requires explicit privacy/configuration/overhead evaluation."
+    },
+    {
+      "id": "T06",
+      "priority": "P2",
+      "decision": "REJECT",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_REJECT",
+      "reason": "Would violate default local-first behavior; Reject mandatory hosted service or private reasoning storage"
+    },
+    {
+      "id": "E01",
+      "priority": "P1",
+      "decision": "ADD",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    },
+    {
+      "id": "E02",
+      "priority": "P2",
+      "decision": "KEEP",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_KEEP",
+      "reason": "Keep independent review and repair; add weakening/crash fixtures"
+    },
+    {
+      "id": "E03",
+      "priority": "P2",
+      "decision": "DEFER",
+      "registry_status": "DECIDED",
+      "reconsidered": true,
+      "disposition": "RETAIN_DEFER",
+      "reason": "Paid live-model study can inform future quality but is not needed for native correctness; output quality remains unknown."
+    },
+    {
+      "id": "E04",
+      "priority": "P1",
+      "decision": "ADAPT",
+      "registry_status": "IMPLEMENTED_PENDING_EVAL",
+      "reconsidered": true,
+      "disposition": "RETAIN_ACCEPTED_IMPLEMENTED_PENDING_EVAL",
+      "reason": "Implementation/test mapping ready; current full evidence remains required."
+    }
+  ],
+  "accepted_p1_count": 23,
+  "accepted_p1_mapping": [
+    {
+      "id": "O04",
+      "subsystem": "Recovery",
+      "accepted_behavior": "Add deterministic child-process death/restart barriers across all phases",
+      "test_criteria": "Owned-child kill/restart at planning, execution, tool, review, repair, docs and Git boundaries; no duplicate effect; real-lock polling starvation, prompt cancellation and repeated-cancel ownership drain",
+      "benchmark_criteria": "Restart outcome, event continuity, side-effect count; live Docker tier separate",
+      "source_paths": [
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/core/recovery.py",
+        "src/orqalis/execution/cancellation.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/core/orchestrator.py": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+        "src/orqalis/core/recovery.py": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8",
+        "src/orqalis/execution/cancellation.py": "4b8e92e3b09b1a1d43ebabe19f3f001f79ce8d174fa67f5a11229cf286344816"
+      },
+      "test_paths": [
+        "tests/integration/test_hard_crash_matrix.py",
+        "tests/unit/test_cancellation_polling.py"
+      ],
+      "concrete_test_cases": {
+        "tests/integration/test_hard_crash_matrix.py": [
+          "test_hard_kill_matrix_preserves_history_and_deduplicates_effects"
+        ],
+        "tests/unit/test_cancellation_polling.py": [
+          "test_contended_cancellation_poll_does_not_block_event_loop",
+          "test_transient_poll_lock_contention_does_not_abort_operation_or_lose_cancel",
+          "test_caller_cancel_drains_inflight_poll_and_operation_before_return",
+          "test_non_lock_read_errors_remain_visible_and_drain_operation",
+          "test_operation_lock_error_is_not_hidden_by_poll_contention"
+        ]
+      },
+      "assessment": "Eight hard-death barriers and owned cancellation drain remain mapped. Atomic PLAN changes require new full crash/contracts evidence; precommit rollback is not independently simulated mid-fsync power loss.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "X01",
+      "subsystem": "Execution",
+      "accepted_behavior": "Persist exact ownership, inspect labels, reconcile before reuse/recovery; fail closed",
+      "test_criteria": "Create/start/inspect/remove fake transport; crash windows; mismatch/daemon denial; all application command paths",
+      "benchmark_criteria": "Zero unrelated deletion or unsafe concurrent writer; deterministic cleanup outcomes",
+      "source_paths": [
+        "src/orqalis/execution/sandbox.py",
+        "src/orqalis/execution/commands.py",
+        "src/orqalis/core/recovery.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/execution/sandbox.py": "8f6111c2eea7ca789e91bee7ef7deb4d520c50b0cf7410629ca29b24eec590fe",
+        "src/orqalis/execution/commands.py": "1b42123323ac14322416cfb5f48e922830c4e7420440b552678577ed727a4c77",
+        "src/orqalis/core/recovery.py": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8"
+      },
+      "test_paths": [
+        "tests/unit/test_sandbox_lifecycle.py",
+        "tests/integration/test_sandbox_recovery.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_sandbox_lifecycle.py": [
+          "test_receipt_before_create_and_reconcile_by_verified_full_id",
+          "test_recovery_fails_closed_and_retains_receipt",
+          "test_receipts_cannot_be_inside_mount",
+          "test_command_success_cannot_hide_cleanup_failure",
+          "test_process_death_preserves_receipt_for_independent_reconciliation",
+          "test_transport_nonzero_is_not_a_cleanup_success",
+          "test_successful_remove_must_verify_container_absence"
+        ],
+        "tests/integration/test_sandbox_recovery.py": [
+          "test_tool_failure_recovery_reconciles_host_owned_receipt_before_new_attempt"
+        ]
+      },
+      "assessment": "Exact machine-local receipts, daemon/full-ID/label ownership and fail-closed reconciliation remain. Fake transport qualifies ownership; live Docker is explicitly separate.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "S01",
+      "subsystem": "Change Guardian",
+      "accepted_behavior": "Detect conservative AST/diff signals; exact reviewed hash-bound exception",
+      "test_criteria": "Assertion removal, skip/xfail, legitimate refactor, exact-hash approvals and stale approval denial",
+      "benchmark_criteria": "Zero known weakening fixture misses; documented false positives",
+      "source_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/delivery/test_integrity.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/delivery/guardian.py": "5929faaf4262353ef76a96be20c57637d83b450e9917ac97f279c6b1428f7918",
+        "src/orqalis/delivery/test_integrity.py": "7fc302d7333b495122867b0a5a7db9a0c28844481131cd56e7df671736553a90"
+      },
+      "test_paths": [
+        "tests/unit/test_guardian_integrity.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_guardian_integrity.py": [
+          "test_guardian_blocks_weakened_test_and_requires_exact_review",
+          "test_assertions_can_be_added_without_test_exception",
+          "test_oversized_change_is_rejected_before_content_allocation",
+          "test_default_delivery_policy_keeps_legacy_fingerprints",
+          "test_integrity_handles_unittest_and_changed_skip_conditions",
+          "test_uninspectable_ast_complexity_fails_closed",
+          "test_syntax_disabled_tests_require_review_but_baseline_repairs_do_not",
+          "test_module_skip_collections_and_scope_changes_require_review",
+          "test_assertion_helper_removal_requires_review",
+          "test_growing_changed_file_is_bounded_after_size_check"
+        ]
+      },
+      "assessment": "Conservative Python AST test-integrity and exact hash review are present; not full semantic equivalence or JS AST integrity.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "S02",
+      "subsystem": "Change Guardian",
+      "accepted_behavior": "Stat and bounded reads before secret/diff analysis",
+      "test_criteria": "Sparse/oversized file, growth race, ordinary allowed file",
+      "benchmark_criteria": "Read bound and explicit denied outcome",
+      "source_paths": [
+        "src/orqalis/delivery/guardian.py",
+        "src/orqalis/execution/review.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/delivery/guardian.py": "5929faaf4262353ef76a96be20c57637d83b450e9917ac97f279c6b1428f7918",
+        "src/orqalis/execution/review.py": "eb887680264ce96d86def6cc4bc8cdf04ff91007a2435737fcee64bf86a72cec"
+      },
+      "test_paths": [
+        "tests/unit/test_guardian_integrity.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_guardian_integrity.py": [
+          "test_guardian_blocks_weakened_test_and_requires_exact_review",
+          "test_assertions_can_be_added_without_test_exception",
+          "test_oversized_change_is_rejected_before_content_allocation",
+          "test_default_delivery_policy_keeps_legacy_fingerprints",
+          "test_integrity_handles_unittest_and_changed_skip_conditions",
+          "test_uninspectable_ast_complexity_fails_closed",
+          "test_syntax_disabled_tests_require_review_but_baseline_repairs_do_not",
+          "test_module_skip_collections_and_scope_changes_require_review",
+          "test_assertion_helper_removal_requires_review",
+          "test_growing_changed_file_is_bounded_after_size_check"
+        ]
+      },
+      "assessment": "Per-file preallocation stat and bounded read preserve 10000000-byte cap including growth; no whole-controller RAM guarantee.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "G01",
+      "subsystem": "Graph",
+      "accepted_behavior": "Separate extracted occurrences from inferred target bindings; invalidate cache",
+      "test_criteria": "Unknown receiver, aliases, shadowing, duplicate names, inheritance and rebuild equality",
+      "benchmark_criteria": "Zero false extracted target bindings on labeled fixtures",
+      "source_paths": [
+        "src/orqalis/graph/parsing.py",
+        "src/orqalis/graph/engine.py",
+        "src/orqalis/graph/models.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/graph/parsing.py": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+        "src/orqalis/graph/engine.py": "59a4da2b1d76b4af85c8551bbec3096e8828c0aaeac313d56c521d6d197a081a",
+        "src/orqalis/graph/models.py": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03"
+      },
+      "test_paths": [
+        "tests/unit/test_graph_provenance.py",
+        "tests/unit/test_project_graph.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_graph_provenance.py": [
+          "test_unrelated_global_names_never_become_call_targets",
+          "test_supported_import_aliases_are_candidates_with_original_expressions",
+          "test_shadowed_import_does_not_bind_to_imported_symbol",
+          "test_lexical_and_class_candidates_do_not_claim_runtime_certainty",
+          "test_unresolved_occurrences_are_scoped_and_inheritance_is_not_suffix_bound",
+          "test_candidate_graph_is_deterministic_for_input_order",
+          "test_changed_binding_matches_full_rebuild_and_invalidates_old_cache"
+        ],
+        "tests/unit/test_project_graph.py": [
+          "test_graph_models_support_typed_and_extension_relations",
+          "test_python_ast_graph_and_persisted_manifest",
+          "test_dirty_incremental_refresh_cache_hit_rename_and_delete",
+          "test_schema_valid_graph_tampering_forces_deterministic_rebuild",
+          "test_graph_refresh_synchronizes_top_level_manifest_cursor",
+          "test_untracked_files_and_full_rebuild_after_cache_deletion",
+          "test_graph_engine_isolates_repository_roots",
+          "test_git_branch_switch_refreshes_graph_and_memory_freshness",
+          "test_graph_refresh_rejects_nonfinite_metadata_before_persisting",
+          "test_graph_refresh_recovers_overflowing_number_in_derived_cache"
+        ]
+      },
+      "assessment": "Unknown receiver occurrences remain distinct from inferred candidate target bindings; versioned parser cache and rebuild equality tests exist.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "G02",
+      "subsystem": "Graph",
+      "accepted_behavior": "Add native abstraction for pinned JS/TS/TSX grammars with declared limits",
+      "test_criteria": "Multiline/generics/JSX/imports/classes/interfaces/partial syntax; Python parity; package portability",
+      "benchmark_criteria": "Symbol/location accuracy, indexing time/size and parser cache reuse",
+      "source_paths": [
+        "src/orqalis/graph/ecmascript.py",
+        "src/orqalis/graph/parsing.py",
+        "src/orqalis/graph/engine.py",
+        "pyproject.toml",
+        "uv.lock"
+      ],
+      "source_hashes": {
+        "src/orqalis/graph/ecmascript.py": "06e1945c4db01c3a1bd1d71e062f9505e6bebdbdce7beadebd7c5e4af48be1fe",
+        "src/orqalis/graph/parsing.py": "e767d4f28337201bfe091a39f6fedec368f552d88089127dfce7edf36d03a215",
+        "src/orqalis/graph/engine.py": "59a4da2b1d76b4af85c8551bbec3096e8828c0aaeac313d56c521d6d197a081a",
+        "pyproject.toml": "559cf80ce6089f7e53e4b9470f7966370d5f1077aaf9c53f969f520c927d8e6d",
+        "uv.lock": "e917fd601487be1c67cdf3e1878c2ec4c941d648fb9c803e617b4d9b76c24c7f"
+      },
+      "test_paths": [
+        "tests/unit/test_ecmascript_graph.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_ecmascript_graph.py": [
+          "test_tsx_syntax_and_exact_locations_cover_real_language_constructs",
+          "test_grammar_dialects_and_unicode",
+          "test_partial_syntax_is_reported_without_losing_intact_declarations",
+          "test_dynamic_receiver_literals_are_never_stored_in_graph_names",
+          "test_deeply_nested_source_uses_bounded_expression_walk",
+          "test_graph_integration_cache_dialects_and_dirty_rebuild",
+          "test_source_change_during_parse_cannot_poison_content_cache",
+          "test_default_export_and_object_methods_do_not_create_false_global_bindings",
+          "test_python_symbol_span_includes_decorators",
+          "test_credential_import_and_quoted_method_names_are_not_persisted",
+          "test_escaped_import_and_string_alias_cannot_create_false_or_private_facts",
+          "test_javascript_heritage_and_class_expression_use_visible_binding",
+          "test_nested_symbols_have_bounded_output_and_visible_truncation",
+          "test_same_line_unicode_byte_spans_exclude_adjacent_declarations",
+          "test_python_parenthesized_decorator_and_unicode_exact_byte_spans",
+          "test_python_extraction_limits_are_visible_and_do_not_infer_partial_bindings",
+          "test_python_span_uses_physical_newlines",
+          "test_javascript_block_shadowing_cannot_infer_global_inheritance",
+          "test_large_coordinates_do_not_corrupt_native_parser_process"
+        ]
+      },
+      "assessment": "Pinned JS/TS/TSX grammars, exact physical UTF-8 spans and bounded partial/deep diagnostics are implemented. Native installed current-source packaging remains pending.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "G04",
+      "subsystem": "Graph navigation",
+      "accepted_behavior": "Retain Orqalis-owned bounded traversal in SDK/CLI/MCP",
+      "test_criteria": "Cycles, direction, ambiguity, provenance, bounds, SDK/CLI/MCP contract",
+      "benchmark_criteria": "Returned nodes/bytes vs whole graph; deterministic witness validity",
+      "source_paths": [
+        "src/orqalis/graph/queries.py",
+        "src/orqalis/sdk.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/cli/catalog.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/graph/queries.py": "dafa778e9f2e7829fe576ff589d3b5d58f5543803fc19434fcc2567e97b7a5e7",
+        "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+        "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+        "src/orqalis/cli/catalog.py": "c3e80586f0d6426ccf0feb24c7177b808b8a10566061f58be0f4c51f468d4703"
+      },
+      "test_paths": [
+        "tests/unit/test_graph_queries.py",
+        "tests/integration/test_mcp.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_graph_queries.py": [
+          "test_impact_walks_incoming_dependencies_with_evidence_and_cycle_control",
+          "test_graph_limits_report_incomplete_results",
+          "test_paths_respect_direction_and_provenance",
+          "test_graph_invalid_budgets_are_rejected",
+          "test_unknown_nodes_are_not_interpreted_as_filesystem_reads"
+        ],
+        "tests/integration/test_mcp.py": [
+          "test_mcp_workflow_continues_across_clients_and_enforces_server_policy",
+          "test_mcp_stdio_lifecycle_and_project_isolation"
+        ]
+      },
+      "assessment": "Directed impact/path preserve witness/provenance, ambiguity/cycle limits and SDK/CLI/MCP projection. Bounded discovery is not graph-wide pagination or constant backend work.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "G05",
+      "subsystem": "Source tools",
+      "accepted_behavior": "Add bounded native outline/body/reference reads with source-hash checks",
+      "test_criteria": "Duplicate/nested/decorated/Unicode symbols, stale source, path escape, byte limits",
+      "benchmark_criteria": "Exact source selection and bytes avoided versus full-file read",
+      "source_paths": [
+        "src/orqalis/graph/symbols.py",
+        "src/orqalis/sdk.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/graph/symbols.py": "4c461b9e066c4744082fb149ac657c894f6b22bb4c9495440ff7608d5bc45db0",
+        "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+        "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4"
+      },
+      "test_paths": [
+        "tests/unit/test_symbol_reads.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_symbol_reads.py": [
+          "test_duplicate_names_and_python_decorators_have_exact_bodies",
+          "test_same_line_javascript_and_unicode_offsets_are_separate",
+          "test_nested_typescript_body_does_not_include_neighbor",
+          "test_hash_guard_rejects_changed_and_removed_source",
+          "test_budget_and_invalid_requests_fail_without_partial_body",
+          "test_missing_or_invalid_byte_span_fails_closed",
+          "test_reference_candidates_keep_evidence_and_explicit_coverage",
+          "test_sdk_and_mcp_symbol_reads_require_source_identity",
+          "test_parser_incompleteness_is_visible_and_diagnostics_are_bounded"
+        ]
+      },
+      "assessment": "Exact symbol ID and source-hash reads reject stale/removed/escape/budget violations. Returned bytes avoided do not prove less physical source IO.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "R01",
+      "subsystem": "Retrieval",
+      "accepted_behavior": "Use shared whole-word/snake/camel terms; invalidate lexical index version",
+      "test_criteria": "Identifier/acronym/noise cases, index invalidation, memory/context parity",
+      "benchmark_criteria": "Fixed labels, recall/precision/MRR/nDCG, negative queries and size",
+      "source_paths": [
+        "src/orqalis/retrieval.py",
+        "src/orqalis/indexing/service.py",
+        "src/orqalis/context/builder.py",
+        "src/orqalis/memory/curated.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/retrieval.py": "65d235ee831618aa3750ed1ef9fe5e54c584de2c27d08ca69e0dc08584e31dc1",
+        "src/orqalis/indexing/service.py": "60631d58de2e8e872e9d2bdf2713013200d7ae9e7fe39c38f37f3c0b44f5f274",
+        "src/orqalis/context/builder.py": "184902173540241b26e999781d4e97fdfc99aed4c3e3de2fbb95477c51c74466",
+        "src/orqalis/memory/curated.py": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490"
+      },
+      "test_paths": [
+        "tests/unit/test_identifier_retrieval.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_identifier_retrieval.py": [
+          "test_identifier_terms_match_natural_language_without_substring_noise",
+          "test_index_and_context_find_identifier_parts_and_rebuild_old_indexes",
+          "test_memory_uses_the_same_identifier_terms",
+          "test_definitions_win_reference_ties_without_hiding_external_calls",
+          "test_lexical_terms_preserve_prose_and_identifier_order"
+        ]
+      },
+      "assessment": "Shared identifier-aware tokenization, lexical-v3 invalidation and definition tie order exist. Fresh current-source exact30 loss dispositions remain required.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "R02",
+      "subsystem": "Retrieval",
+      "accepted_behavior": "Measure held-out gold and negative context; change only on demonstrated benefit",
+      "test_criteria": "Hard serialized budget, negatives clearly marked or omitted, held-out recall",
+      "benchmark_criteria": "At least 24 varied queries; bytes per relevant target; no unexplained recall loss",
+      "source_paths": [
+        "src/orqalis/context/builder.py",
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "benchmarks/engineering_cases.json"
+      ],
+      "source_hashes": {
+        "src/orqalis/context/builder.py": "184902173540241b26e999781d4e97fdfc99aed4c3e3de2fbb95477c51c74466",
+        "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+        "scripts/compare_quality.py": "3fe4e7f00a06281a39660b86fb44124c91f44eb141eba955cb67d136f5bd6993",
+        "benchmarks/engineering_cases.json": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263"
+      },
+      "test_paths": [
+        "tests/unit/test_project_context_builder.py",
+        "tests/unit/test_quality_comparison.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_project_context_builder.py": [
+          "test_context_combines_ranked_graph_memory_git_and_history",
+          "test_context_is_root_isolated_and_marks_dirty_files",
+          "test_context_reads_canonical_store_while_inspecting_linked_worktree",
+          "test_context_rejects_an_unrelated_source_repository",
+          "test_context_rejects_a_task_larger_than_the_hard_budget"
+        ],
+        "tests/unit/test_quality_comparison.py": [
+          "test_valid_comparison_allows_unsupported_baseline_and_explicit_orientation",
+          "test_negative_paths_cannot_pass_even_when_positive_recall_is_unchanged",
+          "test_same_recall_with_worse_ranking_requires_review",
+          "test_invalid_or_incomplete_witnesses_are_rejected",
+          "test_different_environments_cannot_be_compared",
+          "test_skill_and_portability_regressions_cannot_pass",
+          "test_contract_skips_missing_evidence_and_lying_flags_cannot_pass",
+          "test_added_source_files_and_non_python_resources_change_fingerprint",
+          "test_junit_counts_real_outcomes_and_rejects_missing_or_duplicate_cases",
+          "test_benchmark_environment_drops_application_credentials_and_git_overrides",
+          "test_controlled_git_commits_crlf_fixture_as_lf_without_local_config",
+          "test_timed_preserves_results_and_rejects_empty_measurements",
+          "test_contract_child_cli_is_bound_to_selected_source",
+          "test_contract_runner_consumes_actual_junit_under_source_isolation",
+          "test_helperless_or_changed_contracts_cannot_be_compared"
+        ]
+      },
+      "assessment": "Frozen29 varied queries include15 held-out/two negatives with serialized budget and orientation-only fallback; unexplained recall/ranking loss fails and raw REVIEW stays raw REVIEW.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "M02",
+      "subsystem": "Project Memory",
+      "accepted_behavior": "Reviewed digest-bound supersession with atomic lifecycle metadata",
+      "test_criteria": "Pending/rejected no-op; approval idempotency; concurrent stale approvals; crash windows; history preserved",
+      "benchmark_criteria": "Only current active fact in default retrieval; old fact still inspectable",
+      "source_paths": [
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/memory/curation.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/memory/curated.py": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+        "src/orqalis/memory/curation.py": "ef2500e50fbc96a118f4df4943e1bf3d42e82a519eec5c89a67dd9310b58492c"
+      },
+      "test_paths": [
+        "tests/unit/test_memory_lifecycle.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_memory_lifecycle.py": [
+          "test_only_approved_successor_is_active_and_history_remains_readable",
+          "test_rejected_and_conflicting_proposals_do_not_hide_predecessor",
+          "test_crash_boundaries_have_one_active_record_and_retry_is_idempotent",
+          "test_concurrent_reviews_cannot_publish_competing_successors",
+          "test_lifecycle_cycles_and_missing_records_fail_closed",
+          "test_self_supersession_and_secret_review_reason_are_denied",
+          "test_status_batch_shares_lifecycle_and_source_reads_without_hiding_changes"
+        ]
+      },
+      "assessment": "Reviewed digest-bound supersession and atomic lifecycle metadata preserve old history and reject stale concurrent approval; first-access lazy source memory retains original coherence and write reload.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "M03",
+      "subsystem": "Project Memory",
+      "accepted_behavior": "Bounded excerpts/discovery and explicit ID references; fetch detail on demand",
+      "test_criteria": "Broken/self/cyclic/cross-project refs; depth/node/byte caps; exact ID access",
+      "benchmark_criteria": "Metadata/detail context bytes, reference accuracy, long-record visibility",
+      "source_paths": [
+        "src/orqalis/memory/navigation.py",
+        "src/orqalis/memory/curated.py",
+        "src/orqalis/context/builder.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/memory/navigation.py": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+        "src/orqalis/memory/curated.py": "c7a933df1bca0dfb32f57817dd56066ea19e686d18d46e3de2267aebf5574490",
+        "src/orqalis/context/builder.py": "184902173540241b26e999781d4e97fdfc99aed4c3e3de2fbb95477c51c74466"
+      },
+      "test_paths": [
+        "tests/unit/test_memory_navigation.py",
+        "tests/unit/test_memory_interfaces.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_memory_navigation.py": [
+          "test_discovery_has_small_explainable_metadata_and_get_pages_exact_body",
+          "test_explicit_references_validate_and_integrity_reports_manual_corruption",
+          "test_long_relevant_memory_is_discoverable_inside_automatic_context",
+          "test_irrelevant_graph_fallback_is_explicit_orientation",
+          "test_integrity_reports_non_object_frontmatter"
+        ],
+        "tests/unit/test_memory_interfaces.py": [
+          "test_operator_review_cli_and_progressive_mcp_keep_review_boundary"
+        ]
+      },
+      "assessment": "Long records remain discoverable with explicit bounded body pages;32 refs,100 discoveries, no automatic traversal (depth1). Serialized character cap is not equal UTF-8 byte cap; bytes are measured separately. No new missing accepted implementation criterion found within this documented scope.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "M04",
+      "subsystem": "Project Memory",
+      "accepted_behavior": "Shared integrity report and CLI/MCP projection",
+      "test_criteria": "Corrupt schema, dangling predecessor/successor, cycles, unsafe paths; no silent omission",
+      "benchmark_criteria": "Deterministic issue count; valid corpus clean",
+      "source_paths": [
+        "src/orqalis/memory/navigation.py",
+        "src/orqalis/cli/memory.py",
+        "src/orqalis/mcp/server.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/memory/navigation.py": "0c165e629504e3bb2fff65dff9184864d1959d8c07cd588f88405689782c7468",
+        "src/orqalis/cli/memory.py": "1d32f1b79951fd9a09eff21909f92c9cd786f9097afd5670e22ea842caa21341",
+        "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4"
+      },
+      "test_paths": [
+        "tests/unit/test_memory_navigation.py",
+        "tests/unit/test_memory_lifecycle.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_memory_navigation.py": [
+          "test_discovery_has_small_explainable_metadata_and_get_pages_exact_body",
+          "test_explicit_references_validate_and_integrity_reports_manual_corruption",
+          "test_long_relevant_memory_is_discoverable_inside_automatic_context",
+          "test_irrelevant_graph_fallback_is_explicit_orientation",
+          "test_integrity_reports_non_object_frontmatter"
+        ],
+        "tests/unit/test_memory_lifecycle.py": [
+          "test_only_approved_successor_is_active_and_history_remains_readable",
+          "test_rejected_and_conflicting_proposals_do_not_hide_predecessor",
+          "test_crash_boundaries_have_one_active_record_and_retry_is_idempotent",
+          "test_concurrent_reviews_cannot_publish_competing_successors",
+          "test_lifecycle_cycles_and_missing_records_fail_closed",
+          "test_self_supersession_and_secret_review_reason_are_denied",
+          "test_status_batch_shares_lifecycle_and_source_reads_without_hiding_changes"
+        ]
+      },
+      "assessment": "Schema/lifecycle/reference/path/cycle integrity is visible and bounded; full canonical record scan is not constant backend work.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "H01",
+      "subsystem": "Skills",
+      "accepted_behavior": "Retain explicit trusted roots, hashes and tool requirements as constraints",
+      "test_criteria": "Malformed YAML, aliases, links, path escape, changed hash, role/tool requirements",
+      "benchmark_criteria": "Portable discovery/activation/resources bytes and correct routing",
+      "source_paths": [
+        "src/orqalis/skills/markdown.py",
+        "src/orqalis/skills/registry.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/skills/markdown.py": "4270ea261dae1a6ac8fd610bbbec273ecbd85814ed387c7757be66e5b0e29f1b",
+        "src/orqalis/skills/registry.py": "e2836acb98b075844afc3fcc40a488f45ba7f6be96308c1e08e4a72cf58a3bf8"
+      },
+      "test_paths": [
+        "tests/unit/test_portable_skills.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_portable_skills.py": [
+          "test_standard_skill_selection_and_resources_preserve_policy",
+          "test_skill_body_is_not_exposed_during_discovery_and_changes_are_detected",
+          "test_unsupported_ambiguous_and_executable_metadata_are_rejected",
+          "test_skill_resources_cannot_escape_root",
+          "test_skill_symlink_parent_is_rejected",
+          "test_native_and_legacy_formats_cannot_silently_override_each_other",
+          "test_legacy_instruction_changes_require_rediscovery",
+          "test_frontmatter_without_body_or_final_newline_is_valid",
+          "test_missing_binary_and_oversized_resources_are_rejected"
+        ]
+      },
+      "assessment": "Strict YAML trusted-root/pinned portable skills and bounded resources exist. Tool requirements constrain authority; scripts remain unexecuted by design.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "H02",
+      "subsystem": "Skills",
+      "accepted_behavior": "Versioned routing/portability evaluation; model quality explicitly unknown without paid runs",
+      "test_criteria": "Positive/negative scope, role restrictions, explicit pins, schema-compatible provider serialization",
+      "benchmark_criteria": "FP/FN counts, selected vs eager bytes, latency; never fabricate tokens",
+      "source_paths": [
+        "src/orqalis/skills/registry.py",
+        "src/orqalis/core/vertical_plan.py",
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "src/orqalis/providers/validation.py",
+        "src/orqalis/providers/openai.py",
+        "src/orqalis/providers/anthropic.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/skills/registry.py": "e2836acb98b075844afc3fcc40a488f45ba7f6be96308c1e08e4a72cf58a3bf8",
+        "src/orqalis/core/vertical_plan.py": "6077e9dad95907f6b18b6dfd705b65a246885fdd5233607ce385ca54958c1ff7",
+        "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+        "scripts/compare_quality.py": "3fe4e7f00a06281a39660b86fb44124c91f44eb141eba955cb67d136f5bd6993",
+        "src/orqalis/providers/validation.py": "7629b81b97deba5d3f3868e8db32609c0f6d02ca4fee8845ea1133281c1e6769",
+        "src/orqalis/providers/openai.py": "81625f0cb236171f110c9945de8fd76d6be25a130d5b81e1aee330ad9f4c0d36",
+        "src/orqalis/providers/anthropic.py": "bafef3f1f22017a2b7a2c80d90dd718c6f6059ba6d2d2d2bfbfb4393d2300766"
+      },
+      "test_paths": [
+        "tests/unit/test_planner_skills.py",
+        "tests/integration/test_external_skill_selection.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_planner_skills.py": [
+          "test_task_scope_selects_only_applicable_developer_skills",
+          "test_targeted_repair_retains_original_required_skills",
+          "test_scope_infers_capabilities_without_unrelated_memory_languages",
+          "test_scope_exclusions_and_directory_boundaries_prevent_skill_leakage",
+          "test_known_scoped_filename_with_spaces_is_supported",
+          "test_bundled_skill_discovery_is_lazy_and_frontend_skills_remain_separate",
+          "test_bundled_edit_skills_require_scoped_write_tools"
+        ],
+        "tests/integration/test_external_skill_selection.py": [
+          "test_external_documentation_task_loads_scoped_skill"
+        ]
+      },
+      "assessment": "Routing positive/negative, role restrictions, pins and provider typed roundtrip with progressive byte measurements map. Paid-model quality/tokens remain unknown.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "I01",
+      "subsystem": "Assistant integrations",
+      "accepted_behavior": "Document and evaluate supported config/root/discovery/continuation/error contract",
+      "test_criteria": "Fresh stdio clients, two-client continuation, root isolation, permission failure and configuration syntax",
+      "benchmark_criteria": "Initialize/discovery latency and deterministic contract passes; native-host limits explicit",
+      "source_paths": [
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/mcp/policy.py",
+        "docs/examples/codex-mcp.toml",
+        "docs/examples/claude-mcp.json",
+        "docs/examples/vscode-mcp.json",
+        "docs/MCP.md"
+      ],
+      "source_hashes": {
+        "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+        "src/orqalis/mcp/policy.py": "fa4b4c039a399da4cbc5af1698781630c6931a91b417e0f56604b7c7c15ef544",
+        "docs/examples/codex-mcp.toml": "0c5687b9b626f4944dde5e9fc5564a15976b57d82afd7ca83e0e5a33dfaeeb17",
+        "docs/examples/claude-mcp.json": "a52a69b4e879051babcdeaf4a822c005c7197b7c36290dffd53ea92a93595532",
+        "docs/examples/vscode-mcp.json": "fd2bf321dbf07ad6806abb99f57f8398f9368b0958f5fe02cdc0740a60c5dcd5",
+        "docs/MCP.md": "37577df8fe6aeca903b440f07c2f67ffee3c3beb38748347d7337cb1cc3f9ff9"
+      },
+      "test_paths": [
+        "tests/integration/test_mcp.py",
+        "tests/integration/test_mcp_lifecycle.py",
+        "tests/unit/test_mcp_project_scope.py",
+        "tests/unit/test_mcp_control_policy.py"
+      ],
+      "concrete_test_cases": {
+        "tests/integration/test_mcp.py": [
+          "test_mcp_workflow_continues_across_clients_and_enforces_server_policy",
+          "test_mcp_stdio_lifecycle_and_project_isolation"
+        ],
+        "tests/integration/test_mcp_lifecycle.py": [
+          "test_lifecycle_is_durable_idempotent_and_visible_to_replacement_client",
+          "test_lifecycle_enforces_readonly_and_bound_project_before_mutation",
+          "test_recovery_requires_inspection_lease_and_matching_receipt_across_clients"
+        ],
+        "tests/unit/test_mcp_project_scope.py": [
+          "test_direct_factory_denies_other_project_memory_and_configured_skills"
+        ],
+        "tests/unit/test_mcp_control_policy.py": [
+          "test_operator_owned_mcp_policy_selects_supervised_gates"
+        ]
+      },
+      "assessment": "Generic fresh stdio/client continuation/root/work-policy contracts plus six retained parser/type config witnesses map; native host execution remains unverified.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "I02",
+      "subsystem": "MCP",
+      "accepted_behavior": "Expose existing services behind server work policy and root binding",
+      "test_criteria": "Readonly denied, scoped run, legal transitions, explicit uncertainty, repeated calls",
+      "benchmark_criteria": "Lifecycle contract pass/fail; no duplicated effects",
+      "source_paths": [
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/core/recovery.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+        "src/orqalis/core/orchestrator.py": "10030c24728fe42472a5c200e22a1681b3261416f6b94960c617ebd8bd842f38",
+        "src/orqalis/core/recovery.py": "df8fc857e9aaef9cd7093b47fe1043ce43c25f4717a0fd3494de2051c7f7b5f8"
+      },
+      "test_paths": [
+        "tests/integration/test_mcp_lifecycle.py"
+      ],
+      "concrete_test_cases": {
+        "tests/integration/test_mcp_lifecycle.py": [
+          "test_lifecycle_is_durable_idempotent_and_visible_to_replacement_client",
+          "test_lifecycle_enforces_readonly_and_bound_project_before_mutation",
+          "test_recovery_requires_inspection_lease_and_matching_receipt_across_clients"
+        ]
+      },
+      "assessment": "Lifecycle delegates to Core under immutable root/work policy, valid transitions, lease ownership and explicit uncertainty. Atomic checkpoint helper preserves authoritative approval enforcement.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "I03",
+      "subsystem": "MCP",
+      "accepted_behavior": "Add root/revision-bound pagination and bounded graph discovery while preserving old tools",
+      "test_criteria": "Multiple pages, no duplicate/omission, stale/tampered/cross-root cursors, payload limits",
+      "benchmark_criteria": "1000+ history rows and graph node pages; bytes and latency",
+      "source_paths": [
+        "src/orqalis/tasks/history.py",
+        "src/orqalis/persistence/filesystem/task_store.py",
+        "src/orqalis/mcp/server.py",
+        "src/orqalis/graph/queries.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/tasks/history.py": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "src/orqalis/persistence/filesystem/task_store.py": "a8c2df70fe2c35a981ddee45cb7a938ccbeb0cdd5e15e9bb2c0c286fb5110561",
+        "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+        "src/orqalis/graph/queries.py": "dafa778e9f2e7829fe576ff589d3b5d58f5543803fc19434fcc2567e97b7a5e7"
+      },
+      "test_paths": [
+        "tests/unit/test_task_history_pages.py",
+        "tests/unit/test_graph_queries.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_task_history_pages.py": [
+          "test_pages_cover_equal_timestamp_history_without_duplicates_after_reopen",
+          "test_cursor_rejects_copied_project_root_and_stale_revision",
+          "test_page_rejects_invalid_cursor_and_bounds_without_unbounded_stage_reads",
+          "test_empty_page_returns_no_continuation",
+          "test_unchanged_pages_do_not_replace_the_derived_index",
+          "test_same_size_same_timestamp_edit_invalidates_cursor",
+          "test_pages_repair_missing_or_corrupt_index_from_canonical_tasks",
+          "test_slow_canonical_scan_does_not_block_task_allocation",
+          "test_concurrent_canonical_commit_repairs_a_stale_scan_on_next_page"
+        ],
+        "tests/unit/test_graph_queries.py": [
+          "test_impact_walks_incoming_dependencies_with_evidence_and_cycle_control",
+          "test_graph_limits_report_incomplete_results",
+          "test_paths_respect_direction_and_provenance",
+          "test_graph_invalid_budgets_are_rejected",
+          "test_unknown_nodes_are_not_interpreted_as_filesystem_reads"
+        ]
+      },
+      "assessment": "Canonical revision/root cursors and1001-row exact traversal evidence map; allocation lock hold is shortened without stale freshness/timeouts. Variable historical17.46s tail remains, page work O(history).",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "T01",
+      "subsystem": "Telemetry",
+      "accepted_behavior": "Project existing parent IDs into local trace hierarchy and allowlisted spans",
+      "test_criteria": "Run/task/actor/model/tool correlation; historic missing fields; no secrets/prompts",
+      "benchmark_criteria": "Actual persisted fixture hierarchy and overhead",
+      "source_paths": [
+        "src/orqalis/observability/trace.py",
+        "src/orqalis/agents/service.py",
+        "src/orqalis/execution/worker.py",
+        "src/orqalis/domain/telemetry.py"
+      ],
+      "source_hashes": {
+        "src/orqalis/observability/trace.py": "4fae4815b33e79864d629a2c2fbf18c2ca7cdefbb8d6ff9fa2e2ba4caaaea787",
+        "src/orqalis/agents/service.py": "cd29468ca47e1041a5fce40545231f9a99f908235d027133133f08bdd574e713",
+        "src/orqalis/execution/worker.py": "f6842c0ff2ac82195d37dc9085dfe2d84c8d5726177d272b63f639ac65971e56",
+        "src/orqalis/domain/telemetry.py": "b70ba84930291a397e24cc6c63f17bdd5e0283ad94bd27aeec7a75d563039590"
+      },
+      "test_paths": [
+        "tests/unit/test_trace_hierarchy.py",
+        "tests/integration/test_trace_projection.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_trace_hierarchy.py": [
+          "test_historical_missing_phase_and_shared_session_do_not_invent_parents_or_timing"
+        ],
+        "tests/integration/test_trace_projection.py": [
+          "test_actual_parallel_repair_trace_survives_restart_and_correlates_spans"
+        ]
+      },
+      "assessment": "Persisted safe trace ancestry and historical fallback/restart tests remain. Lazy UoW/strict run lookup and atomic PLAN events require full source-bound projection contracts.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "T02",
+      "subsystem": "Control Center",
+      "accepted_behavior": "Consume backend projections; test actual multi-agent/repair snapshots",
+      "test_criteria": "API-derived intervals, parallel/blocked/repair state, empty/historical data, mobile layout",
+      "benchmark_criteria": "Browser update latency, event/payload sizes, bundle deltas",
+      "source_paths": [
+        "web/src/TraceView.tsx",
+        "web/src/Timeline.tsx",
+        "src/orqalis/observability/analytics.py",
+        "web/e2e/trace.spec.ts",
+        "web/e2e/enhancements.spec.ts"
+      ],
+      "source_hashes": {
+        "web/src/TraceView.tsx": "bc3ce5c8c70f697fad9f2dcc337e8170a39148014000f44b71a0c374c1d7cf25",
+        "web/src/Timeline.tsx": "ef06b867b6eadcd8c4248bcc589ef8f17a99e8256315344bb4881f56ddd1cbed",
+        "src/orqalis/observability/analytics.py": "295c2eef16cf4cbdc40136b49d0eee44434968f54e71dcae870fe4890bdfaf12",
+        "web/e2e/trace.spec.ts": "90414338f1624f89ac3047053d3713efa3c5dadeef15babd5360a9793d341ac6",
+        "web/e2e/enhancements.spec.ts": "6e06afd88aac8f3f98d0bd3c109afaa109d14352b5b0095b72d5b5c1a5a230c8"
+      },
+      "test_paths": [
+        "web/e2e/trace.spec.ts",
+        "web/e2e/enhancements.spec.ts",
+        "tests/integration/test_trace_projection.py"
+      ],
+      "concrete_test_cases": {
+        "tests/integration/test_trace_projection.py": [
+          "test_actual_parallel_repair_trace_survives_restart_and_correlates_spans"
+        ]
+      },
+      "assessment": "Actual parallel/repair fixture and mobile/keyboard/critical-path/live interval tests exist. Focused atomic governance1PASS0SKIP is additional checkpoint evidence, not full14-case browser or UI performance qualification.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "T03",
+      "subsystem": "Telemetry",
+      "accepted_behavior": "Keep nearest-rank p50/p95 and coverage counts sourced from invocations",
+      "test_criteria": "Completed/running/cancelled/error outcomes, unknown vs zero, SSR and live API table",
+      "benchmark_criteria": "Reported coverage, API/UI equality; no fabricated cost",
+      "source_paths": [
+        "src/orqalis/observability/analytics.py",
+        "web/src/ProviderMetrics.tsx",
+        "web/src/ProviderMetrics.test.tsx",
+        "web/e2e/control-center.spec.ts"
+      ],
+      "source_hashes": {
+        "src/orqalis/observability/analytics.py": "295c2eef16cf4cbdc40136b49d0eee44434968f54e71dcae870fe4890bdfaf12",
+        "web/src/ProviderMetrics.tsx": "d38dddd3bda81558af8cf58ee78c5ff986211d60f36a18fa821a20cb7435307d",
+        "web/src/ProviderMetrics.test.tsx": "79620961a6c9ac974726738e85b11f0e29a58da879408bf7db961fe0e2169970",
+        "web/e2e/control-center.spec.ts": "f4e9ae9b2cd318d45cafaa5504763cf00a12ae5c259257826547eb8dfdf449c6"
+      },
+      "test_paths": [
+        "tests/unit/test_provider_metrics.py",
+        "web/src/ProviderMetrics.test.tsx",
+        "web/e2e/control-center.spec.ts"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_provider_metrics.py": [
+          "test_provider_metrics_preserve_missing_usage_and_count_all_outcomes",
+          "test_percentiles_use_nearest_rank_and_exclude_running_or_invalid_durations"
+        ]
+      },
+      "assessment": "Persisted provider outcomes, nearest-rank p50/p95 and unknown-versus-zero coverage map to SSR/API/browser tests; no fabricated price or paid usage.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "E01",
+      "subsystem": "Evaluation",
+      "accepted_behavior": "Source-isolated 14-category corpus plus held-out retrieval/routing/contract suite",
+      "test_criteria": "Dataset/source hash isolation; reject incomplete/mismatched reports; existing integration contracts",
+      "benchmark_criteria": "Before/after context, recall, startup, graph/memory/disk; unknown model metrics explicit",
+      "source_paths": [
+        "scripts/benchmark_quality.py",
+        "scripts/compare_quality.py",
+        "scripts/run_quality_contracts.py",
+        "scripts/freeze_contract_tests.py",
+        "benchmarks/engineering_cases.json"
+      ],
+      "source_hashes": {
+        "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+        "scripts/compare_quality.py": "3fe4e7f00a06281a39660b86fb44124c91f44eb141eba955cb67d136f5bd6993",
+        "scripts/run_quality_contracts.py": "99df98f055d8b9d980b8b0d011034b439273c2fd6c3a678596f2cbed01d33e3c",
+        "scripts/freeze_contract_tests.py": "d944ac40f4e6f0a5d4432a83fde60fe74727a844817413b97a64fd2edcbe0980",
+        "benchmarks/engineering_cases.json": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263"
+      },
+      "test_paths": [
+        "tests/unit/test_quality_comparison.py",
+        "tests/unit/test_contract_compatibility.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_quality_comparison.py": [
+          "test_valid_comparison_allows_unsupported_baseline_and_explicit_orientation",
+          "test_negative_paths_cannot_pass_even_when_positive_recall_is_unchanged",
+          "test_same_recall_with_worse_ranking_requires_review",
+          "test_invalid_or_incomplete_witnesses_are_rejected",
+          "test_different_environments_cannot_be_compared",
+          "test_skill_and_portability_regressions_cannot_pass",
+          "test_contract_skips_missing_evidence_and_lying_flags_cannot_pass",
+          "test_added_source_files_and_non_python_resources_change_fingerprint",
+          "test_junit_counts_real_outcomes_and_rejects_missing_or_duplicate_cases",
+          "test_benchmark_environment_drops_application_credentials_and_git_overrides",
+          "test_controlled_git_commits_crlf_fixture_as_lf_without_local_config",
+          "test_timed_preserves_results_and_rejects_empty_measurements",
+          "test_contract_child_cli_is_bound_to_selected_source",
+          "test_contract_runner_consumes_actual_junit_under_source_isolation",
+          "test_helperless_or_changed_contracts_cannot_be_compared"
+        ],
+        "tests/unit/test_contract_compatibility.py": [
+          "test_exact_declared_semantics_pass",
+          "test_semantic_or_structural_regression_never_passes",
+          "test_amendment_changes_only_declared_block_and_preserves_selection",
+          "test_frozen_tree_is_idempotent_and_refuses_mutation_or_escape",
+          "test_profile_versions_and_lf_fixture_are_exact_and_reproducible",
+          "test_contract_guard_binds_actual_anyio_children"
+        ]
+      },
+      "assessment": "Frozen source/dataset/resources/helper/environment/JUnit v2 child isolation and guarded30-disposition input are implemented. Atomic source contract captures/complete8/9 loops remain pending; old source640 contracts cannot be rebound.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    },
+    {
+      "id": "E04",
+      "subsystem": "Distribution/performance",
+      "accepted_behavior": "Verify licenses, wheel availability, startup/bundle/disk and offline contracts",
+      "test_criteria": "Wheel build, npm launcher, manifest linkcheck, no baseline tag change",
+      "benchmark_criteria": "Cold/warm startup, memory/disk/bundle vs baseline; optional Docker not required",
+      "source_paths": [
+        "pyproject.toml",
+        "uv.lock",
+        "scripts/prepare_npm.py",
+        "scripts/verify_installed.py",
+        "packages/npm/package.json",
+        "docs/quality/OSS_LICENSE_AUDIT.md",
+        "packages/npm/lib/bundle.js",
+        "tests/unit/test_npm_release.py"
+      ],
+      "source_hashes": {
+        "pyproject.toml": "559cf80ce6089f7e53e4b9470f7966370d5f1077aaf9c53f969f520c927d8e6d",
+        "uv.lock": "e917fd601487be1c67cdf3e1878c2ec4c941d648fb9c803e617b4d9b76c24c7f",
+        "scripts/prepare_npm.py": "26e475cfe7f63f93c637e9f0a87d93d4bd9567c2a69e90cf94abeb57ebfe5613",
+        "scripts/verify_installed.py": "e758242edc9e42c3ca460afe03882f686e9be608ed7b3d46e6751fa1e2ffe169",
+        "packages/npm/package.json": "0bb0d3e09849ea178272a94606d0bd998e8037b1a707b0618aa32b20e0f9d27f",
+        "docs/quality/OSS_LICENSE_AUDIT.md": "6304a13a1dee222ff3400bc4a1344ee4d543a3657eb0a54a887eaa7759d10b51",
+        "packages/npm/lib/bundle.js": "324df0d798c5852d8030099e07897c92720e1b17629784d8486077a1b63ca34e",
+        "tests/unit/test_npm_release.py": "b61d599637df041fa0c33a85b3a672c44c8422612faceb9135ad58129de313d0"
+      },
+      "test_paths": [
+        "tests/unit/test_npm_release.py"
+      ],
+      "concrete_test_cases": {
+        "tests/unit/test_npm_release.py": [
+          "test_default_npm_requirements_reject_database_dependencies",
+          "test_replace_tree_removes_stale_generated_files",
+          "test_stage_wheel_removes_only_previous_orqalis_release",
+          "test_stage_wheel_rejects_vendor_outside_checkout",
+          "test_wheel_frontend_must_match_current_build_exactly",
+          "test_wheel_python_source_must_match_checkout_exactly",
+          "test_release_docs_exclude_maintainer_audits_and_keep_user_docs",
+          "test_npm_publish_workflow_requires_manual_tag_dispatch_and_oidc",
+          "test_npm_publish_workflow_uses_only_the_exact_tested_artifact",
+          "test_bootstrap_pip_uses_exact_lock_and_rejects_tampering"
+        ]
+      },
+      "assessment": "Pinned licenses/dependencies and hash-verified offline pip bootstrap/installer manifests exist. Fresh current-source installed wheel/npm, exact advisories including pip, performance/footprint and final docs identity are required; historical640 artifacts are not accepted as current.",
+      "disposition": "IMPLEMENTATION_MAPPING_READY_PENDING_CURRENT_FULL_EVIDENCE_CLOSURE",
+      "missing_implementation_criterion_found": false,
+      "closed": false
+    }
+  ],
+  "confirmed_new_p0_findings": [],
+  "confirmed_new_p1_findings": [],
+  "missing_accepted_implementation_criteria_requiring_code_found": [],
+  "release_evidence_metadata_findings": [
+    {
+      "id": "STALE_ATOMIC_PER_FILE_HASH_WITNESSES",
+      "severity": "Release evidence correction required before signoff",
+      "scope": "Four individual hash fields, not product source, aggregate identity or assertions.",
+      "paths": [
+        "src/orqalis/core/approvals.py",
+        "src/orqalis/core/orchestrator.py",
+        "src/orqalis/core/preview_revision.py",
+        "tests/integration/test_plan_preview.py"
+      ]
+    }
+  ],
+  "reviewed_release_repairs": {
+    "lookup": "Confirmed real opposing-lock failure before vs pass after, known run scoped including missing/foreign/new evidence; generic cold lookup and exhaustive auxiliary duplicate validation retained.",
+    "lazy_memory": "First actual use constructs coherent memory once; original write reload/commit/cleanup retained, task-only UoW avoids construction.",
+    "atomic_PLAN": "Required validated request/event/actor update shares transition/edit locked commit. Independent18 focused cases and focused unchanged browser1PASS0SKIP clean shutdown; whole-preview single-transaction semantics not claimed."
+  },
+  "focused_evidence_sha256": {
+    "release-lookup-integrity-independent-review-v3.json": "5253bf055731a730455554a4614af00ce4ad7f35a7343148b7abe696499f6b72",
+    "release-lazy-memory-independent-review-v1.json": "5f35cef049a5c3e5e3ba61e6c25c3325c0885b6c5c17ab092d77731a54a159ba",
+    "release-atomic-plan-independent-review.json": "0776af934e77ad37be3fb4894135aecd9006bc146f1fc0026a74cb92fc5bc30c",
+    "release-lookup-repair-focused-v2.xml": "36f79ffb12bd9c5f076652ec47bf04714d0ec2f73b07f07cf4ccd6d04f2db01c",
+    "release-lazy-memory-focused-v2.xml": "7a5b2a5cf5b4518e3aeb1fc50c57656454b8cf91c3fcb9e5e27df111a100ae16",
+    "release-atomic-plan-focused.xml": "27c0762cdea6512ad9741e286e64e00509a6b091952a19fb7f514e534a58ac37",
+    "release-governance-diagnostic-current-atomic-1.json": "78b01b8c91c769bf7c2750d8d30ccf39c6fb3d93af044d1cc7890cbad1e4d1e1",
+    "release-static-atomic.json": "b0312f4cd1fa186c0e7bbcb25308be948ca64761d5b80d0cc3758cfafaf23703"
+  },
+  "historical_example_proof": "release-integration-examples.json is retained syntax/type witness only; generic current stdio contracts remain required, native host certification not claimed.",
+  "documentation_review": {
+    "authority": "SOURCE_OF_TRUTH orders accepted design/source/task guides/historical evidence. Canonical50 registry produces purposeful catalog/matrix/backlog projections.",
+    "current_status": "ENHANCEMENT_STATUS carries current evidence; NEXT_SESSION is execution handoff, distinguishes failed/partial/focused/full gates and forbids historical helper reuse.",
+    "consolidation": "Public design/interface/operation guides are separate from repository-only maintainer research. Raw quality/evidence is intentionally immutable, not scattered prose to merge/delete. No additional prose document is needed for this review.",
+    "distribution": "Entire docs/quality is excluded from npm; public guide research links point to GitHub. Current-source final package docs inventory and links still require verification.",
+    "material_quality_gap": "No documentation inconsistency requiring product-code change found; final status/evidence updates remain pending actual qualification."
+  },
+  "clean_complete_current_source_iterations": 0,
+  "required_clean_complete_iterations": 2,
+  "release_converged": false,
+  "all_accepted_p1_closed": false,
+  "pending_closure": [
+    "Correct inherited four per-file freeze witnesses while preserving aggregate identity and historical record.",
+    "Finish fresh atomic baseline/current86-contract preflight with v2 actual async child isolation.",
+    "Two complete current-source/input/helper/environment-stable8/9 loops with quality/execution/memory/liveAPI-WebSocket-DOM UI/constrained/full zero-skip browser/fullPython/advisories.",
+    "Independent exact30 ranking-loss dispositions and resource/performance/history-tail review, preserving raw REVIEW and frozen gold.",
+    "Fresh current-source installed artifacts, exact advisory inventories including pip, licenses/manifests/docs links/inventory and final runtime-byte proof.",
+    "Bind all23 P1 acceptance rows to completed current evidence, update existing consolidated docs and create signoff only after closure."
+  ],
+  "limits": [
+    "No universal deadlock freedom, zero flake rate, hardware-independent speed/RAM/latency SLO or paid-model quality claim.",
+    "Historical1001-row timing and source640 installed captures remain historical, never relabeled current.",
+    "Generic config/stdio/wheel availability do not certify native assistant hosts/Linux/macOS/liveDocker.",
+    "Serialized character limits do not guarantee equal UTF-8 byte limits; bounded responses do not imply constant scan work.",
+    "No commit/push/tag/publication performed."
+  ]
+}

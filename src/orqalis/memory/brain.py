@@ -32,11 +32,19 @@ class ProjectBrainService:
         # The stable Brain graph shape remains a projection of the typed repository
         # graph. The ContextPack is the authority for ranked knowledge and freshness;
         # it contains curated memory, graph context, and related Task Capsules.
-        entities, relations = self.memory.graph(project)
-        context = self.memory.context(
-            inspected_project,
-            query if query.strip() else _DEFAULT_BRAIN_QUERY,
-        )
+        task = query if query.strip() else _DEFAULT_BRAIN_QUERY
+        if (
+            type(self.memory) is MemoryService
+            and "graph" not in self.memory.__dict__
+            and "context" not in self.memory.__dict__
+            and project.repo_root == inspected_project.repo_root
+        ):
+            entities, relations, context = self.memory.graph_context(
+                project, inspected_project, task
+            )
+        else:
+            entities, relations = self.memory.graph(project)
+            context = self.memory.context(inspected_project, task)
         return ProjectBrain(
             project_id=project_id,
             inspected_root=inspected_project.repo_root,

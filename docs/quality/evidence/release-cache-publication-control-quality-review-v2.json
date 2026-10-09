@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T11:35:05.173106+00:00",
+  "status": "PASS_SCOPED_PUBLICATION_CONTROL_DESIGN_PENDING_ROOT_ACK",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "reviewed_file_sha256": {
+    ".tools/research/release_cache_publication_control_v2.py": "8f87eba377ed4447c03077ed8ad30e7f9f0b037a2a82046a5719c612e962c118",
+    ".tools/research/release_cache_publication_control_outer_v2.py": "ecd0f00fcce34e470b987ee56e23a14422503f7e30e28ea494aa416931829f8a",
+    "docs/quality/evidence/release-cache-publication-control-plan-v2.json": "6cb2a0cb79b0c162441752335a904ea3011267f07df1e8b76bfd9b3eeab84267",
+    ".tools/research/release_cold_phase_observer_v3.py": "87fe1e555d89fdb3a19ebe55530ae33d6a1d273ad0cd1041230d31089169a83f",
+    ".tools/research/release_resume_20261007_finish_v2.py": "1c476805dad1f4ec28c2f03862ba1ea957d19c942aecc8169f702ab381c65519",
+    "docs/quality/evidence/release-input-freeze-owned-temp-v4.json": "aa5d2b13d0760a6ef9553fb3b06ed853ee62ad99a98614cbf35abd030f614728",
+    "docs/quality/evidence/release-heldout-cold-phase-observation-v3.json": "ac0e76de1283f2ddcbf95aecb1e2e07742c44f6c7ecab84e192929c682a4bc4e",
+    "docs/quality/evidence/release-heldout-cold-phase-outer-v4.json": "de97956ffc6e39c1c9a6d5de2b38a8028f6d1ed1c851867de398d331d887107e",
+    "docs/quality/evidence/release-owned-temp-finish-actual-v1.json": "82638a3fe2925e9ea84502515a9e74709953c467a7fce9a98ae47662b372ddf1",
+    "docs/quality/evidence/release-cache-reader-crossover-observation-v1.json": "599bfef18fb118e2fd4ec3a817856532be808e2d874ea426a388eb6284246da5",
+    "docs/quality/evidence/release-cache-reader-crossover-outer-v1.json": "bd32bab635ed8bf37e082df3496def68344a14c6ebea57ba713594623d8c5d1e",
+    "docs/quality/evidence/release-heldout-matched-study-actual-v2.json": "457b515e57f3ffec759c914541d0322b23fb15f7fcdfc3e1640b332afa72c301",
+    "docs/quality/evidence/release-heldout-matched-study-actual-acceptance-disposition-v2.json": "749994d0ad5e8c2e657cbc11bc3eaf0c621fdef0ada0a875965d82ad0a7fa322",
+    "docs/quality/evidence/release-heldout-matched-study-actual-quality-disposition-v2.json": "5107091cad4ebf54d4e3ff9d051d5fbc669bcd55bba29848cc427afefc50c9b1"
+  },
+  "invoked": false,
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false,
+  "fixed_method": {
+    "source_references": 263,
+    "unique_source_cache_files": 247,
+    "new_separate_absent_targets": 1052,
+    "opposed_publisher_orders": [
+      [
+        "native",
+        "classic"
+      ],
+      [
+        "classic",
+        "native"
+      ]
+    ],
+    "calls_each_publisher": 526,
+    "identical_native_first_reads": 1052,
+    "outer_stop_cap_seconds": 300
+  },
+  "controlled_delta": "Private module alias io._replace_file selects captured original native publisher or os.replace only during original io.atomic_write_bytes on independently new contained absent targets; all original byte write/flush/fsync/owned-fd verification/identity guards/cleanup/retry control flow remains. Alias restored after every publication and outer finally; success requires exact alias and reader/opener restoration. No production file or method is modified.",
+  "measurement_review": "Publication wall/thread CPU is recorded separately and excluded from first-reader interval. Publication-to-read-start age retained. Both publishers use identical captured native reader with same guarded delegate-once opener hook, avoiding the reader-choice confound. Fresh no-link guard before read; no target content hash/open is added before first external read. Returned byte length/SHA after read and all1052 final copies rechecked. Opener is nested; publication/read/residual values are not blindly additive and bookkeeping is a perturbation lower bound only.",
+  "admission_failure_review": "Exact root ACK requires actual quality/acceptance review digests and source/plan/controller pins, truthfully owned QA idle. Completed30/31/source/input/whole guards remain prerequisite; supported matched cold-regression record is bound. Exact owned suspended-job lifecycle runs one worker with300s external cap, then requires exit0/reaped/job0/closed/no errors. Before/after source/input/helpers/evidence/fixture/environment pins run on all outcomes; original failures retained with secondary guard/report notes. No retry of this experiment or result overwrite.",
+  "v2_delta": "Preserved unrun v1 successor changes only unique plan/output/fixture/ACK/review/log names and corrected copied per-reader/builtin scope sentence to accurate per-publisher/classic publication-only control. Plan workload/numerics/data/fixture/evidence/order unchanged; source AST parses.",
+  "binding_scope": "Named helper/evidence hashes independently verified.263 payload rows and249 original fixture pins unchanged from reviewed fresh-reader dataset; full inventories are staged runtime pre/post guards, not independently rehashed during this review. Four new paths observed absent.",
+  "prospective_interpretation": [
+    "Retain both opposed orders and all samples/publication/read ages, including failures; no selection, adaptive repeat, threshold or workload change.",
+    "A consistent publisher effect under identical readers supports bounded publication-dependent first-open cost on newly owned targets, not automatically the full SDK cold distribution or a specific kernel/AV cause.",
+    "No consistent effect leaves publication hypothesis unresolved and does not justify a source optimization.",
+    "Classic os.replace is control only. Any shipping new-file optimization needs independent absent-target race, source/path identity, active-reader transition, existing-target behavior and recovery/durability tests; keep current native existing-target semantics.",
+    "Original supported matched cold regression and section53 acceptance block remain until actual evidence and any corrected-source qualification resolve them. No diagnostic timing replaces8011 or matched values."
+  ],
+  "findings": [],
+  "final_release_acceptance": "NOT_GRANTED"
+}

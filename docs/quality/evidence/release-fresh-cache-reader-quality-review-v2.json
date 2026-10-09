@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T10:52:54.209262+00:00",
+  "status": "PASS_SCOPED_PROSPECTIVE_DIAGNOSTIC_DESIGN_PENDING_ROOT_ACK",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "reviewed_file_sha256": {
+    ".tools/research/release_fresh_cache_reader_v2.py": "c2f761e0fb68a404b62d339b450acb72fedde34d6870bacbcfa9d86b2e8c121b",
+    ".tools/research/release_fresh_cache_reader_outer_v2.py": "29edf1165b4202b61e63284e5cecccf8d1cf97462939013d26088d5900fd6718",
+    "docs/quality/evidence/release-fresh-cache-reader-plan-v2.json": "1e865fa2cbbc412f57ac4dd47a486443cecac16bd49fc86cb60a6be4d5ab9c2b",
+    ".tools/research/release_cold_phase_observer_v3.py": "87fe1e555d89fdb3a19ebe55530ae33d6a1d273ad0cd1041230d31089169a83f",
+    ".tools/research/release_resume_20261007_finish_v2.py": "1c476805dad1f4ec28c2f03862ba1ea957d19c942aecc8169f702ab381c65519",
+    "docs/quality/evidence/release-input-freeze-owned-temp-v4.json": "aa5d2b13d0760a6ef9553fb3b06ed853ee62ad99a98614cbf35abd030f614728",
+    "docs/quality/evidence/release-heldout-cold-phase-observation-v3.json": "ac0e76de1283f2ddcbf95aecb1e2e07742c44f6c7ecab84e192929c682a4bc4e",
+    "docs/quality/evidence/release-heldout-cold-phase-outer-v4.json": "de97956ffc6e39c1c9a6d5de2b38a8028f6d1ed1c851867de398d331d887107e",
+    "docs/quality/evidence/release-owned-temp-finish-actual-v1.json": "82638a3fe2925e9ea84502515a9e74709953c467a7fce9a98ae47662b372ddf1",
+    "docs/quality/evidence/release-cache-reader-crossover-observation-v1.json": "599bfef18fb118e2fd4ec3a817856532be808e2d874ea426a388eb6284246da5",
+    "docs/quality/evidence/release-cache-reader-crossover-outer-v1.json": "bd32bab635ed8bf37e082df3496def68344a14c6ebea57ba713594623d8c5d1e"
+  },
+  "invoked": false,
+  "release_acceptance_credit": 0,
+  "supersedes_scope": "Unrun v1 naming defect only; v1 preserved. V2 corrects child plan/output literals to agree with outer and gives all new fixture/result/log/ACK/review names. Method/criteria/numerics unchanged.",
+  "fixed_method": {
+    "source_references": 263,
+    "unique_original_cache_files_referenced": 247,
+    "opposed_orders": [
+      [
+        "builtin",
+        "native"
+      ],
+      [
+        "native",
+        "builtin"
+      ]
+    ],
+    "reader_calls_each": 526,
+    "new_separate_reader_targets": 1052,
+    "outer_stop_cap_seconds": 300,
+    "all_new_target_paths_observed_absent": [
+      "docs/quality/evidence/release-fresh-cache-reader-observation-v2.json",
+      "docs/quality/evidence/release-fresh-cache-reader-outer-v2.json",
+      ".tools/research/release-fresh-cache-reader-v2.log",
+      ".tools/research/release-fresh-cache-reader-fixture-v2"
+    ]
+  },
+  "first_read_review": "Each sample creates its own never-before-existing owned JSON target using the unchanged production atomic_write_bytes outside the read clock. Original payload is loaded from pinned retained source caches. After publication only fresh no-link/path/stat checks occur before timed external read; no new-target content prehash/open is added. Original canonical writer descriptor verification remains part of publication and is not represented as an OS-cold cache condition. Publication-to-read-start interval is recorded. Exact returned length/SHA is checked after that read; final1052 target hashes are verified after all first reads.",
+  "observer_review": "Only shared_read_opener is hooked, preserving captured native io._read_bytes. Hook is disabled during publication and builtin reads, active for native first reads. Exact ColdPhases v3 delegates once, preserves native outcomes on observer failures, marks INVALID and restores identity. Opener interval is nested; asymmetric wrapper overhead and coarse per-call thread CPU remain explicit limitations.",
+  "ownership_guard_review": "C.owned checks absent contained new fixture/targets and before output writes; outer prechecks exclusive observation/log/result, uses the exact reviewed suspended-job lifecycle with assignment before resume and300s external stop cap, then requires exit0/reaped/job0/closed/no errors. Source/input/original249fixture hashes, plan bytes and helper/evidence/environment pins are enforced before/after including exception paths. Original worker or guard error remains primary; no cleanup/retry or target deletion introduced.",
+  "binding_limits": "Exact helper/evidence hashes and fixed263 path equality independently checked; protected source/input and249 fixture whole inventories are enforced by staged runner/outer, not rehashed by this bounded review. Both complete30/31 admission proofs and a separate exact root ACK remain required.",
+  "findings": [
+    {
+      "id": "FRESH_V1_PATH_MISMATCH",
+      "disposition": "CLOSED_IN_UNRUN_V2",
+      "detail": "Child v1 used doubled release-cache-reader-fresh-cache-reader plan/output names. V2 agrees exactly with actual plan and outer expected observation."
+    }
+  ],
+  "interpretation_limits": [
+    "This tests immediate post-publication first external reads of newly named copies, not the complete SDK parser-cache rebuild lifecycle or native physical cold IO.",
+    "All1052 copies are retained. Opposed orders and all pairs must remain; no favorable sample selection, repeat, clock change or reader weakening.",
+    "Millisecond fresh-read overhead would not explain8011ms whole rebuild; persistent order-consistent native excess localized in opener could support a bounded mechanism, but not historical cause without further evidence.",
+    "No proposed production fallback or reparse/share guard weakening is authorized.",
+    "Original8011.4349ms against6505.3314ms investigation remains unchanged; no convergence/release acceptance is granted by prelaunch review."
+  ],
+  "final_release_acceptance": "NOT_GRANTED"
+}

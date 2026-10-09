@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T19:00:26.758878+00:00",
+  "status": "APPROVED_ONE_PROSPECTIVE_CONTROLLED_PROOF",
+  "runner": ".tools/research/release_native_readonly_target_proof_v1.py",
+  "runner_sha256": "64fa8aaee64d7092b573f54cdf88726af56493efec146f4f1a574abb54462d2b",
+  "plan_sha256": "086b4eb38b675de3b6d51d6ee46b5f6b34a630213c489ceb695b2606d6ea5061",
+  "source_sha256": "75b1df2b7e5888cb895408476190d0aa72a4976b560d50dc6e2beadb7455deb7",
+  "input_sha256": "72bd85b95671892fef14075a16bcecbeaf9344e7cfc86fe3b7f1e6d22e109463",
+  "full_regression": {
+    "tests": 899,
+    "passed": 897,
+    "skipped": 2,
+    "failures": 0,
+    "errors": 0,
+    "all_five_stability_flags": true,
+    "actual_exit_observation": "Parent attests session33477 exit0/closed; report is not a process-liveness detector."
+  },
+  "checks": [
+    "Actual runner AST parsed and exact reviewed bytes matched.",
+    "Six named metadata/evidence bindings matched actual files; full XML899/897/2 matched report.",
+    "New fixture/report/quiet ACK absent at review.",
+    "One unchanged production atomic_write_bytes into exclusively owned readonly fixture; captures target/temporary state and original exception context before cleanup.",
+    "Cleanup changes permissions only on guarded known fixture files; no recursive delete or canonical permission changes.",
+    "Before/after actual source390/current19/gold/full-tests/environment checks fail closed; imported product paths guarded.",
+    "Both reproduction and nonreproduction outcomes explicit; no repeated calls or automatic retry."
+  ],
+  "conditions": [
+    "Parent enforces one30second owned-PID deadline, confirms actual exit, and writes exact reviewed quiet ACK only with no competing owned workload.",
+    "Timeout/incomplete/cleanup failure retains report and residual fixture; no automatic retry/unreviewed cleanup."
+  ],
+  "limits": [
+    "Design review only; runner not invoked by reviewer.",
+    "No original execution16 denial-cause attribution, AV blame, performance certification, P1 closure or release/convergence credit.",
+    "Full75 standalone passing report remains its exact source scope; later source edits require fresh qualification."
+  ],
+  "workload_invoked": false,
+  "production_edits": false,
+  "convergence_iterations": 0
+}

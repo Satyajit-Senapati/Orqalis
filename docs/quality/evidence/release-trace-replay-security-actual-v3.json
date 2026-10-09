@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-04T06:11:55.791379+00:00",
+  "status": "ONE_READ_ONLY_TRACE_REPLAY_ACTUAL_CONFIRMED_NO_PERFORMANCE_CREDIT",
+  "reviewer": "release_security_review",
+  "evidence_hashes": {
+    "root_actual": "2e0b50bc93e1e25ed8b7466e88c5b5eb3b2769debf0dc363a9ae10d62394cfee",
+    "result": "fde2c3f3692e19adfcae3392313446f40fb27ed0a8f387255659da878554e50f",
+    "failed_v2_preserved": "0dce0376b2b48644875897f652244b4b1d1bbbad174f2a56292d8889dfba1e85",
+    "runner": "fb8344fc0b4c33dac3c29acf96789db652b293892111647656f0f99998079069",
+    "plan": "ce472e081c40426778d6fe3a1aac892a83089d5fb941ef5148cb6799f5ee057c",
+    "prelaunch_review": "c7ee8d0ff0900e0a1025fc4f9e8a75e955b1b60271fdd2807738c8eda1f2c757",
+    "log": "c220ed158ff98ae668cd9f201667a45a56939ea6e76d72755be6e036f4485919"
+  },
+  "actual": {
+    "root_exit_code": 0,
+    "root_pins_stable": true,
+    "loaded_plan_runner_data_source_guard_stable": true,
+    "error_type": null,
+    "calls": 1,
+    "event_count": 174,
+    "node_count": 41,
+    "wall_ns": 3064600,
+    "wall_ms": 3.0646,
+    "trace_sha256_reported_not_reconstructed_by_reviewer": "38d4aa992a95db24397f6bd92691cc19712dedd9c43a7bfa8481bed7dd14eed7",
+    "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+    "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+    "release_acceptance_credit": 0
+  },
+  "independent_checks": {
+    "all_four_actual_outer_pins_match": true,
+    "all_eleven_plan_bindings_match": true,
+    "log_json_equals_result": true,
+    "log_path": ".tools/research/release-trace-replay-actual-v3.log",
+    "result_hash_matches_root_actual": true,
+    "v2_failure_hash_unchanged_calls0_stable": true
+  },
+  "scope": "Named report/data/source hashes only. Actual root record exit0 plus helper status count prove one final-state174event/41node trace construction completed. No SDK/UOW/store/recovery/new execution or fixture; exclusive result write only. No product import, replay, native query, source edit or workload by reviewer.",
+  "limits": [
+    "3.0646ms is one descriptive final-fixture trace-call duration excluding imports/decoding. It does not measure earlier snapshot cost, dynamic execution call count, historically added overhead, universal latency or causal attribution.",
+    "Trace digest is helper-reported model serialization; reviewer did not reconstruct trace nodes by invoking product code.",
+    "Broad390 source hash guard is reported by reviewed helper before/after; eleven explicitly bound named files and root pins independently match, not a repeated broad source inventory scan.",
+    "Failed v2 remains invalid calls0/no timing; no historical execution timing substitution or baseline retry.",
+    "Master53 remains open; 0accepted convergence/23pending/13DEFER and final archive/doc/artifact acceptance stay separate. No release-ready/signoff/commit/publication claim."
+  ]
+}

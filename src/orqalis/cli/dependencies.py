@@ -1,14 +1,19 @@
+from __future__ import annotations
+
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import typer
 from pydantic import ValidationError
 
-from orqalis.core.projects import ProjectService
 from orqalis.domain.errors import OrqalisError
-from orqalis.sdk import Orqalis
 from orqalis.security.redaction import safe_diagnostic
+
+if TYPE_CHECKING:
+    from orqalis.core.projects import ProjectService
+    from orqalis.sdk import Orqalis
 
 
 @contextmanager
@@ -29,6 +34,8 @@ def command_errors() -> Iterator[None]:
 
 @contextmanager
 def sdk_service(root: Path | None = None) -> Iterator[Orqalis]:
+    from orqalis.sdk import Orqalis
+
     with command_errors():
         sdk = Orqalis(root=root)
         try:

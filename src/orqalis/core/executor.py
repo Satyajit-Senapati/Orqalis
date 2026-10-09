@@ -27,6 +27,7 @@ from orqalis.execution.artifacts import record_artifacts
 from orqalis.execution.cancellation import at_checkpoint, watch_cancellation
 from orqalis.execution.evaluator import WorkspaceEvaluator
 from orqalis.execution.review import ReviewService, workspace_digest
+from orqalis.execution.sandbox import SandboxOwner
 from orqalis.execution.worker import AgentWorker
 from orqalis.execution.workspaces import ExecutionWorkspaces
 from orqalis.memory.service import MemoryService
@@ -397,6 +398,12 @@ class RunExecutor:
         self, run_id: UUID, attempt: TaskExecution, path: "Path", policy: ExecutionPolicy
     ) -> None:
         contract = self.goals.get(run_id)
+        with self.factory() as uow:
+            run = locked_run(uow, run_id)
+            project = uow.projects.get(run.project_id)
+            if project is None:
+                raise NotFoundError("Validation project missing")
+            owner = SandboxOwner(project.repo_root, run_id)
         for criterion in contract.criteria:
             if criterion.validation_spec.kind in {"review", "manual"}:
                 continue
@@ -405,7 +412,7 @@ class RunExecutor:
                 self.goals.validate,
                 run_id,
                 criterion.key,
-                WorkspaceEvaluator(path, policy),
+                WorkspaceEvaluator(path, policy, sandbox_owner=owner),
                 key,
                 attempt.id,
             )

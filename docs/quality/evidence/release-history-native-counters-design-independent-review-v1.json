@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T18:11:06.267978+00:00",
+  "status": "DESIGN_REVIEW_PASS_BOUNDED_DIAGNOSTIC_ONLY_WORKLOAD_UNRUN",
+  "exact_bindings": {
+    "runner": ".tools/research/release_history_native_counters_v1.py",
+    "runner_sha256": "cb0b187c36194f636ff4ce0821894b7216171d28aebb10aef7ce93bd8b7436b1",
+    "plan": "docs/quality/evidence/release-history-native-counters-plan-v1.json",
+    "plan_sha256": "6239b83ff9700f07c7ee1827d8ec2dcae19a8bb118557fbf6e1b7ad8988a8078",
+    "original": ".tools/research/release_history_quiet.py",
+    "original_sha256": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683",
+    "setup": "docs/quality/evidence/release-history-native-counters-setup-v1.json",
+    "setup_sha256": "0b66502110668dc5ac8e2f5aeb50ee629359ed859b677a6465814ef637a93c92",
+    "freeze_sha256": "2aef52c68b6782388c5155495c260a0b83fbee5fe5902c2d644b3b302fe59a70",
+    "source_sha256_from_freeze_and_plan": "75b1df2b7e5888cb895408476190d0aa72a4976b560d50dc6e2beadb7455deb7",
+    "input_sha256_from_freeze_and_plan": "72bd85b95671892fef14075a16bcecbeaf9344e7cfc86fe3b7f1e6d22e109463",
+    "inventory_sha256": "8e4c4071cff393f4117edf58897e6756269f3f563ab4f00c7ba5b887b308e923",
+    "inventory_helper_count": 18,
+    "historical_inventory_source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44"
+  },
+  "inspection_scope": "Exact small code/JSON evidence hashes and static AST review only. No full source/helper set/fixture/dependency scans, native self-query, page/reservation/Git/profiling/workload or application edits by reviewer.",
+  "workload_preservation": {
+    "inverse_AST_equal_to_original_explicit_child_workload": true,
+    "removed_only_observation_AST_nodes": [
+      [
+        125,
+        "native_before = native.snapshot()"
+      ],
+      [
+        128,
+        "native_after = native.snapshot()"
+      ],
+      [
+        129,
+        "observations.append(native.delta(native_before, native_after, page_number))"
+      ],
+      [
+        138,
+        "assert len(rows) == len(observations) == 33"
+      ],
+      [
+        165,
+        "notes.update(source_sha256=source['sha256'], environment=environment, canonical_sha256=canonical_before, ordered_ids=all_ids, raw_status=report['status'], raw_sha256=file_sha(OUTPUT), sample_wall_sum_ms=sum(samples))"
+      ]
+    ],
+    "same_original_33page_traversal_1001rows_cursor_unique_order_coverage_and_original_concurrency_copy_reservation": true,
+    "all_original_light_read_and_lock_wrappers_timers_assertions_future_calls_10s_scanning_wait_preserved": true,
+    "no_automatic_ABBA_branch": true,
+    "native_snapshots_per_page": 2,
+    "query_bundles_total_expected": 66,
+    "each_bundle_calls": 4,
+    "actual_capture_not_executed_by_reviewer": true
+  },
+  "type_and_native_boundary_review": {
+    "own_process_only": true,
+    "pseudo_handle_not_closed": true,
+    "HANDLE": "wintypes.HANDLE pointer width, no truncation of native pseudo-handle",
+    "io": "6 uint64 fields,48bytes",
+    "filetime": "2DWORD8bytes, high/low merged to64bit100ns CPU cumulative times",
+    "memory": "2DWORD plus8SIZE_T,72bytes on actual64bit setup; cb set/passed/checked",
+    "error_behavior": "Every native BOOL return checked then WinError(last_error) propagates; no zero fill/swallow, no handle or service mutation.",
+    "counters": "Own-process cumulative IO/CPU/all-thread cycles/faults; before/after nonnegative differences validated, possible wrap/reset fails closed. Memory working-set/peak are raw boundary snapshots, not hard-fault counters.",
+    "setup_evidence": "Actual captured64bit structures/APIs and2 own-process snapshots PASS. Report bytes/source/plan/runner bindings match. Reviewer did not execute setup; no source freshness claim from setup metadata alone."
+  },
+  "timing_and_interpretation": {
+    "placement_evidence_lines": {
+      "before_original_timing": 125,
+      "unchanged_original_timer_and_call": 126,
+      "after_original_recorded_timer": 128,
+      "screen": 230
+    },
+    "timers_unchanged": true,
+    "screen": "Sum measured66 query bundle wall <=1% sum original33 page wall; predeclared diagnostic observer screen only, not application SLO or proof zero perturbation. If screen fails quantitative attribution invalid with no retry.",
+    "bias_limits": [
+      "Queries bracket but are not simultaneous with original clocks; native deltas include some before/after query overhead and all concurrent process threads.",
+      "Boundary observer can perturb cache/scheduling despite calls outside measured interval;1% direct-query cost is not an A/B estimate of all observer effects.",
+      "IO counters include logical and non-file IO; not physical disk/source-path bytes. Fault count does not distinguish hard paging. Cycles must not become elapsed time/frequency/instructions.",
+      "No native historical counter baseline; cannot retroactively explain earlier tail/profile CPU values or assert platform-wide regression origin."
+    ]
+  },
+  "provenance_and_failure_guards": {
+    "before_after_source_and_390aggregate_guards_in_runner": true,
+    "originalhelper_and_all18inventory_helper_hash_checks_in_runner": true,
+    "plan_ack_setup_freeze_inventory_immutable_before_after_in_runner": true,
+    "actual_18helper_bytes_rehashed_by_reviewer": false,
+    "actual_source_or_390bytes_rehashed_by_reviewer": false,
+    "historical_manifest_scope": "18-helper manifest remains historically source-bound to b2aa. It supplies immutable helper identities, not current75b source binding. Current source/input binding supplied separately by new freeze/plan and runtime guards.",
+    "exclusive_output_and_owned_concurrency_copy": true,
+    "exact_plan_launch_ack_requires_onecapture_quiet_authorization": true,
+    "loaded_source_modules_checked_and_errorpropagation": true,
+    "raw_failure_preserved_and_sideband_no_overwrite": true,
+    "parent_deadline": "Original child does not introduce a new overall wall timeout; enclosing owned launcher must retain its approved process deadline and observe real exit. Original future.result calls unchanged.",
+    "status_caveat": "Native observer credibility describes observer only. Original reservation rawstatus FAIL can coexist with credible sideband; acceptance must check raw PASS/actual process exit and separate current qualification guards. Never treat counter credible as functional/release PASS."
+  },
+  "findings": [],
+  "confirmed_P0_P1": 0,
+  "decision": "No blocking design defect in this exact bound sideband. Eligible for root exact-plan launch acknowledgment and one already-required successor history capture only after current regression/preflight/artifact work ends. Does not authorize additional captures, profiles, source changes, retries-until-green or release signoff.",
+  "primary_sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessiocounters",
+    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesstimes",
+    "https://learn.microsoft.com/en-us/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryprocesscycletime",
+    "https://learn.microsoft.com/en-us/windows/win32/api/psapi/ns-psapi-process_memory_counters"
+  ]
+}

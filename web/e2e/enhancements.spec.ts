@@ -479,9 +479,16 @@ test("timeline detail follows live snapshots and tiny intervals stay operable", 
     initial.timeline[0].duration_ms + " ms",
   );
 
+  const reconnectDeadline = Date.now() + 15_000;
+  await expect.poll(() => connections, { timeout: 15_000 }).toBeGreaterThan(0);
+  expect(closeCurrent).not.toBeNull();
   serveUpdated = true;
-  closeCurrent?.();
-  await expect.poll(() => connections, { timeout: 15_000 }).toBeGreaterThan(1);
+  closeCurrent!();
+  await expect
+    .poll(() => connections, {
+      timeout: Math.max(1, reconnectDeadline - Date.now()),
+    })
+    .toBeGreaterThan(1);
   await expect(panel.locator(".detail-card")).toContainText(
     changed.duration_ms + " ms",
   );

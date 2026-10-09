@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "status": "PRIVATE_UNAPPLIED_TESTS_STAGED_UNINVOKED_PENDING_TWO_INDEPENDENT_REVIEWS",
+  "created_at": "2026-10-03T17:42:19.729874+00:00",
+  "source_context_sha256_parent_supplied": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "source_full_fingerprint_recomputed": false,
+  "originals": {
+    "src/orqalis/persistence/filesystem/io.py": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+    "src/orqalis/persistence/filesystem/task_store.py": "df71c09991f99d16d2aebd1f543494c41363e4c92d581638df438b180671a095"
+  },
+  "private_files": {
+    ".tools/research/release_task_metadata_reader_io_proposal_v1.py": "10a1853c5ddbe34620d0a4b36f5974432fca0b5fab3f432c5779ca51b92b5362",
+    ".tools/research/release_task_metadata_reader_store_proposal_v1.py": "46e7db9e9dbed9517c3f339ceca4e4bc517e1aec324b9ec6413ce8619b0f6fc0"
+  },
+  "patch": ".tools/research/release_task_metadata_reader_proposal_v1.patch",
+  "patch_sha256": "23c7149db06a31eabe7cb3c962de64b3906345eca732df939289b6c005c78fa6",
+  "actual_code_unchanged": true,
+  "static_checks": {
+    "all_existing_io_functions_and_classes_ast_identical": true,
+    "task_store_inverse_only_import_and_one_call_ast_identical": true,
+    "syntax_parse_only_no_native_invocation": true
+  },
+  "scope": "Only TaskCapsuleStore._task_document opts in. All existing generic IO/JSON/hash/memory/writer paths unchanged.",
+  "reason": "Controlled ordinary Windows read handle blocked existing replacement through original retry policy; unlocked task.yaml identity discovery is a concrete supported concurrency opportunity. This is a compatibility proposal for that opportunity, not a cause diagnosis of execution16.",
+  "native_ownership": [
+    "CreateFileW requests GENERIC_READ, shares READ|WRITE|DELETE, OPEN_EXISTING, NULL security attributes (non-inheritable).",
+    "Before successful open_osfhandle conversion own raw HANDLE; close it if conversion raises, surface CloseHandle failure.",
+    "After successful conversion own fd; close fd if fdopen raises.",
+    "After stream creation context closes stream/fd/native handle on read success or exception; no CloseHandle after ownership transfer."
+  ],
+  "security_bounds": [
+    "Fresh existing link/junction ancestry guard before the one buffer read; no removed guard or path/model cache.",
+    "Strict existing decoder and dictionary validation; caller schema/id/run_id validation unchanged.",
+    "Windows ACLs still enforce GENERIC_READ; no write access, chmod, privilege, service or policy change.",
+    "No broad all-capsule locking, new lock order, checkpoint/approval/transaction changes, write retry/delay increase, durability or format change.",
+    "Atomic replacement may provide coherent old bytes to existing reader and new bytes to next reader; not a guarantee for in-place writers or an elimination of existing path TOCTOU."
+  ],
+  "instrumentation_limits": {
+    "benchmark_path": "scripts/benchmark_memory.py",
+    "benchmark_sha256": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a",
+    "boundary": "ReadProbe patches Path.open; native reads bypass this and prior io.open observation. Broad generic-reader replacement was rejected in this proposal to preserve current memory-record/graph accounting.",
+    "restriction": "No measured task-read reduction credit or claim of complete Path.open accounting after applying this opt-in. Before any workload can exercise this native task metadata path under ReadProbe, independent new observer/accounting validation is required. Protected benchmark source/assertions must not be edited or silently evolved.",
+    "scope_not_proven_by_static_review": "No claim every future memory workflow excludes task metadata; no benchmark invocation or proposed read observer exists."
+  },
+  "prospective_tests_not_added_or_run": [
+    "Windows barrier-controlled opt-in reader held during original atomic replacement: replacement succeeds within unchanged policy, held reader returns entire old JSON, subsequent reader entire new JSON; no mixed/partial object.",
+    "Generic read_json_object_with_sha256 remains byte/AST-identical; parse and hash same original one-read buffer regression stays.",
+    "Missing file, Unicode name, native access denied propagate appropriate OSError subclasses with filename; existing malformed UTF8/JSON/duplicate keys/schema/identity errors unchanged.",
+    "Fresh real symlink/junction guard rejection before native open, including parent links, unchanged external swap limitations.",
+    "Mocked conversion failure closes raw handle once; fdopen failure closes fd once; read failure and successful read close stream/fd once; CloseHandle failure surfaced rather than hidden; native repeated reads no leaked/inherited handles.",
+    "POSIX fallback is original Path.read_bytes; importing module on POSIX never requires msvcrt/WinDLL.",
+    "ReadProbe parity for existing memory workflows and explicit documentation of native task-read metric limitation, without modifying frozen benchmark or claiming bypass as reduction."
+  ],
+  "actual_evidence": {
+    "controlled_native_probe": {
+      "path": "docs/quality/evidence/release-native-read-handle-diagnostic-v1.json",
+      "sha256": "a0d6b71b0161485194ce11a6f713d2998c6afc06170c7bf4473ec12028ec757f",
+      "status": "CONTROLLED_NATIVE_BLOCKING_REPRODUCED"
+    },
+    "diagnostic_independent_review": {
+      "path": "docs/quality/evidence/release-execution16-owned-io-diagnostic-independent-review-v1.json",
+      "sha256": "d30a1fe0aa74bc73167460e694047f100f3c247df55c9c522c69552cd34c45ff"
+    },
+    "original_fatal_cause": "Unresolved. One execution diagnostic passed26checks but two real session/artifact replacement denials had no matching observed owned io.open readers; proposal does not address or explain these unmatched errors."
+  },
+  "next_causal_inspection_plan_uninvoked": {
+    "when": "Only after history fixed-pair process actually exits; no OS log or holder query while timed workloads active.",
+    "primary": "Read existing Microsoft-Windows-Windows Defender/Operational events for original execution16 capture and diagnostic UTC windows, filtered to exact S:\\Orqalis workspace paths; provider/event/time plus exact target matches, capped200 records per fixed window, no enabling logs or policy changes.",
+    "window_binding": "Obtain original capture UTC boundaries from its retained report/log metadata; diagnostic running.json creation through result.json completion plus/minus2seconds. No fabricated conversion of coarse monotonic stamps to exact wall-clock denial time.",
+    "secondary": "Current owner/DACL/inheritance/native attributes of exactly two retained denied targets and immediate capsule/containing directories, no recursive/SACL reads or edits. Current ACL is a current snapshot, not proof of past external holder.",
+    "restart_manager": "If a future denial remains observable, an independently reviewed exact-file-only RmRegisterResources/RmGetList query could identify current registered holders, followed by RmEndSession; never RmShutdown/RmRestart/service/policy changes or generic process scan. Post-exit query cannot identify an already vanished historical transient holder.",
+    "interpretation": "Matching events can guide attribution; missing events, no current holder or archive attributes do not prove or disprove AV/external cause. Retain release blocker and raw failures without retries until pass."
+  },
+  "primary_sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew",
+    "https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/open-osfhandle?view=msvc-170",
+    "https://docs.python.org/3.12/library/msvcrt.html#msvcrt.open_osfhandle"
+  ],
+  "decision": "No application authorized; obtain independent quality/acceptance review and actual controlled test/counter parity evidence first. This task-metadata compatibility proposal cannot close original fatal failure or unmatched session/artifact errors; avoid source qualification churn without causal evidence.",
+  "predecessor": {
+    "path": "docs/quality/evidence/release-task-metadata-reader-proposal-v1.json",
+    "sha256": "bd724d6c6a76008c919127debceed8cad3d0039fbe426659777ed8a268da4574"
+  },
+  "correction": "The actual class is TaskCapsuleStore, not FileTaskCapsuleStore. Original v1 preserved point in time; no proposal bytes changed.",
+  "staged_tests": {
+    "path": ".tools/research/test_release_task_metadata_reader_private_v1.py",
+    "sha256": "88c9a66c3b8d46c5dc9f5e555c80a0e2a78259a3b7c314923c3d5ca32f45a533",
+    "syntax_ast_parsed": true,
+    "collected": false,
+    "invoked": false,
+    "isolated_runner_required": "A separately reviewed runner must insert original src in isolated sys.path, pin this test/private proposal/source/store/dataset/script bytes and before/after stability, capture pytest XML/log, and ensure no timed workloads. No such runner invoked here."
+  },
+  "staging_failure_preserved_in_tool_history": "Initial staging script refused guessed scripts/fixtures/memory_workflows.json before any file write. Exact declared benchmarks/memory_workflows.json path then used; no test invocation or false success.",
+  "memory_fixture_static_bound": {
+    "script_sha256": "13494c75a1f0480dffb11211580d93218fc1934f9b3dcbace518df7f6f01339a",
+    "dataset_path": "benchmarks/memory_workflows.json",
+    "dataset_sha256": "eede4e76fb4a0b6b3949cef8de6e969dce41f9ed583669de2bc9bd41ddfd7d27",
+    "case_ids": [
+      "webhook-retention",
+      "scheduler-dst",
+      "tenant-cache"
+    ],
+    "basis": "install_fixture only source Git repo, SDK initialization and curated memory records/proposals; compare_workflows calls context/source/active-memory/navigation/symbol/body APIs and superseded-memory verification. Static examination suggests no task.yaml but SDK does construct TaskCapsuleStore; dynamic no-call/no-task-path and exact ReadProbe dictionary parity assertions staged for every fixed case and all3 workflows.",
+    "claim": "NOT YET PROVEN by executed parity tests; cannot claim counter parity or all fixed fixture exclusion yet."
+  },
+  "bounded_private_host_metadata_disposition": {
+    "path": ".tools/research/release-win-denial-host-metadata-v1.json",
+    "sha256": "932501f1c9b820594608e3cf33acbc7c37a068987c51ba751dc0286e4f5acf2c",
+    "status": "BOUNDED_EXISTING_HOST_METADATA_ONLY",
+    "utc_window": [
+      "2026-10-03T17:09:00Z",
+      "2026-10-03T17:29:00Z"
+    ],
+    "defender_log_status": "READ",
+    "events_read": 2,
+    "workspace_matches": 0,
+    "acl_snapshots_read": 4,
+    "volume_type": "local fixed NTFS per actual metadata",
+    "no_sids_copied": true,
+    "limits": "Existing Operational log accessible with2 events,0 workspace matches;4 current DACL reads. Not proof of absent external denial, AV cause/exoneration, effective-token authorization or historical ACL/holder. Private raw contains SIDs; no raw text published. No new OS query invoked by reviewer."
+  }
+}

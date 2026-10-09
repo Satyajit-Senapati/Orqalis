@@ -1,0 +1,366 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T21:18:28.734348+00:00",
+  "status": "ROUND20_MEASUREMENTS_INTERIM_REVIEW_FULL20_AND_ROUND21_PENDING",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "release-quality-comparison-20.json": "09d845c1246085ece7e1a46ad084bb2fa22a347849aa90b5c33fa144bdade25d",
+    "release-execution-current-20.json": "9439139e7f90a7c9d8d47d6f3ccb2853feba51afae660045438a5da57cf2eed8",
+    "release-memory-20.json": "cc7983d42fac84395eab227d8ddd004d1b791fa64ff97fb58e3c32de68a954fb",
+    "release-ui-current-20.json": "c59e852a85ce6abe94d26ff877b129bf61333a685169d212a4b990b6b35190a5",
+    "release-ui-baseline-20.json": "d287d08de955b3c9ec5f3d3660c99ad74457074cf9b58a20c351789f80eef7b1",
+    "release-constrained-current-20.json": "e4c1196affa4fc1fbcf035b0f1a8899af09ba8c01a7082f0f4600fbba12c3d9a",
+    "release-constrained-baseline-20.json": "d435acc1fc3563080e612b77090140a88133e1964a9837750642efba285f74ca",
+    "release-browser-20.json": "9bf95d16424dff085556d828f8db6aeea540851638a32d3ec1f6baf4843c1326",
+    "release-browser-20.xml": "049f39e7bc52ffe237e2872454f8df242b2a9864fe7128a3951abc14c1330bcb",
+    "release-execution-reference-policy-v7.json": "6742ae4731e1d8869c0d8b5f0d250147e6ba61c530df9e4eb08e91de07981496",
+    "release-execution-baseline-diagnostic.json": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+    "release-execution-baseline-2.json": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+    "release-execution-baseline-8-fixed-diagnostic-v1.json": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7"
+  },
+  "tradeoff_review_sha256": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e",
+  "quality": {
+    "raw_status": "REVIEW",
+    "hard_invariant_failures": 0,
+    "exact_retained_metric_tradeoffs": 30,
+    "changes_retained": {
+      "mean_index_recall_at_k": {
+        "baseline": 0.7222222222222222,
+        "current": 0.8703703703703703,
+        "delta": 0.14814814814814814
+      },
+      "mean_context_recall_at_k": {
+        "baseline": 0.8518518518518519,
+        "current": 0.8703703703703703,
+        "delta": 0.01851851851851849
+      },
+      "mean_context_bytes": {
+        "baseline": 5764.068965517241,
+        "current": 5688.620689655172,
+        "delta": -75.44827586206884
+      },
+      "cli_startup": {
+        "baseline_ms": 1826.5012000047136,
+        "current_ms": 1129.575200000545,
+        "ratio": 0.6184366043655651
+      },
+      "mcp_startup_to_project_response": {
+        "baseline_ms": 2644.570800010115,
+        "current_ms": 2325.4206999845337,
+        "ratio": 0.8793187537182364
+      },
+      "graph_cold": {
+        "baseline_ms": 1900.8957000041846,
+        "current_ms": 1300.4574999795295,
+        "ratio": 0.6841288030567204
+      },
+      "graph_unchanged": {
+        "baseline_ms": 280.35749998525716,
+        "current_ms": 198.85690000955947,
+        "ratio": 0.70929759332287
+      },
+      "graph_one_file_changed": {
+        "baseline_ms": 876.7178000125568,
+        "current_ms": 678.4899000194855,
+        "ratio": 0.7738977125932287
+      },
+      "graph_bytes": {
+        "baseline": 1125777,
+        "current": 1641247,
+        "ratio": 1.4578793135763122
+      },
+      "index_bytes": {
+        "baseline": 2354319,
+        "current": 5680851,
+        "ratio": 2.412948712557644
+      },
+      "project_store_bytes": {
+        "baseline": 3872336,
+        "current": 7847467,
+        "ratio": 2.026545991876738
+      },
+      "python_peak_allocated_bytes": {
+        "baseline": 7054151,
+        "current": 11229856,
+        "ratio": 1.591950044732527
+      }
+    },
+    "scope": "All30 identities/values/normalized paths match reviewed dispositions; raw metric regressions remain visible and final review still required."
+  },
+  "execution": {
+    "semantic_checks_per_sample": 26,
+    "stability_checks_per_sample": 4,
+    "passes": 3,
+    "median_ms": 63133.75430001179,
+    "fastest_retained_baseline_ms": 55642.85999999265,
+    "all9_pooled_baseline_ms": 55870.139499995275,
+    "fixed_reference_ms": 95099.94379998534,
+    "ratio_to_fastest": 1.1346245376319644,
+    "ratio_to_pooled": 1.1300088896326654,
+    "ratio_to_fixed": 0.6638674196568928,
+    "scope": "Functional3/3; slower reference reuse is not a performance pass. Capture flag timing_qualified means mode requirements met, not verified host idleness or causal no-regression. Finalcost/quietness/allreferences review pending."
+  },
+  "memory": {
+    "workflows": 45,
+    "exact_declared_witnesses_caps_history": true,
+    "direct_graph_refreshes": 0,
+    "per_case_measured_costs": [
+      {
+        "case": "webhook-retention",
+        "full_complete_answer_median_ms": 584.9489000102039,
+        "progressive_complete_answer_median_ms": 1334.6121000067797,
+        "full_durable_fact_median_ms": 584.9489000102039,
+        "progressive_durable_fact_median_ms": 525.5504999950062,
+        "direct_durable_fact_median_ms": 239.8193999833893,
+        "full_response_utf8_bytes_median": 11028,
+        "progressive_response_utf8_bytes_median": 8122,
+        "direct_response_utf8_bytes_median": 5400
+      },
+      {
+        "case": "scheduler-dst",
+        "full_complete_answer_median_ms": 605.6124999886379,
+        "progressive_complete_answer_median_ms": 1329.9356999923475,
+        "full_durable_fact_median_ms": 605.6124999886379,
+        "progressive_durable_fact_median_ms": 541.2800000049174,
+        "direct_durable_fact_median_ms": 206.87719999114051,
+        "full_response_utf8_bytes_median": 11443,
+        "progressive_response_utf8_bytes_median": 8085,
+        "direct_response_utf8_bytes_median": 5400
+      },
+      {
+        "case": "tenant-cache",
+        "full_complete_answer_median_ms": 541.8423000082839,
+        "progressive_complete_answer_median_ms": 1275.8231999760028,
+        "full_durable_fact_median_ms": 541.8423000082839,
+        "progressive_durable_fact_median_ms": 540.9350999980234,
+        "direct_durable_fact_median_ms": 239.31610002182424,
+        "full_response_utf8_bytes_median": 11503,
+        "progressive_response_utf8_bytes_median": 8043,
+        "direct_response_utf8_bytes_median": 5400
+      }
+    ],
+    "scope": "Same-current SDK workflow alternatives, not release-baseline memory comparison. Fullrediscovery/progressive require complete answer; direct has narrower memory-only witness. Progressive response reduction cannot imply faster full answers/fewer canonical memory reads; symbolic source APIs refresh/read for freshness. Tokens/cost/live success unavailable."
+  },
+  "browser": {
+    "PASS": 14,
+    "FAIL_ERROR_SKIP": 0,
+    "owned_host_closed": true,
+    "scope": "Owned temporary persisted active/completed/repair runs with fake providers; actual local API/UI. Trace fixture routes remain explicitly intercepted in that UI test. No paid-provider/native-host claim."
+  },
+  "ui": {
+    "current": {
+      "samples_ms": [
+        578.2000000178814,
+        588.5,
+        507,
+        472.60000002384186,
+        531.6999999880791,
+        509.19999998807907
+      ],
+      "median_ms": 520.4499999880791,
+      "p95_ms": 588.5
+    },
+    "baseline": {
+      "samples_ms": [
+        790.1999999880791,
+        1445.4000000059605,
+        1129,
+        1283.5,
+        1005.6000000238419,
+        1332.300000011921
+      ],
+      "median_ms": 1206.25,
+      "p95_ms": 1445.4000000059605
+    },
+    "median_ratio": 0.43146113988649043,
+    "scope": "Warm local pause/resume API through real WebSocket to DOM; exact run, command, durable event and rendered sequence correlation. No provider/network generalization. Smoke mode suppresses timing output."
+  },
+  "constrained": {
+    "current": {
+      "peak_process_commit_bytes": 49451008,
+      "elapsed_ms": 15752.77809999534,
+      "cpu_count_allowed": 1,
+      "process_commit_limit_bytes": 268435456,
+      "contexts": [
+        {
+          "budget_chars": 1000,
+          "serialized_chars": 898,
+          "relevant_files": [
+            "service_0.py"
+          ],
+          "matching_fixture_paths": [
+            "service_0.py"
+          ]
+        },
+        {
+          "budget_chars": 4000,
+          "serialized_chars": 3965,
+          "relevant_files": [
+            "service_0.py",
+            "service_1.py",
+            "service_2.py",
+            "service_3.py",
+            "service_4.py",
+            "service_5.py",
+            "service_6.py"
+          ],
+          "matching_fixture_paths": [
+            "service_0.py",
+            "service_1.py",
+            "service_2.py",
+            "service_3.py",
+            "service_4.py",
+            "service_5.py",
+            "service_6.py"
+          ]
+        },
+        {
+          "budget_chars": 12000,
+          "serialized_chars": 11987,
+          "relevant_files": [
+            "service_0.py",
+            "service_1.py",
+            "service_10.py",
+            "service_11.py",
+            "service_12.py",
+            "service_13.py",
+            "service_14.py",
+            "service_15.py",
+            "service_16.py",
+            "service_17.py",
+            "service_18.py",
+            "service_19.py",
+            "service_2.py",
+            "service_3.py",
+            "service_4.py",
+            "service_5.py",
+            "service_6.py",
+            "service_7.py",
+            "service_8.py",
+            "service_9.py"
+          ],
+          "matching_fixture_paths": [
+            "service_0.py",
+            "service_1.py",
+            "service_10.py",
+            "service_11.py",
+            "service_12.py",
+            "service_13.py",
+            "service_14.py",
+            "service_15.py",
+            "service_16.py",
+            "service_17.py",
+            "service_18.py",
+            "service_19.py",
+            "service_2.py",
+            "service_3.py",
+            "service_4.py",
+            "service_5.py",
+            "service_6.py",
+            "service_7.py",
+            "service_8.py",
+            "service_9.py"
+          ]
+        }
+      ]
+    },
+    "baseline": {
+      "peak_process_commit_bytes": 46669824,
+      "elapsed_ms": 19437.569100002293,
+      "cpu_count_allowed": 1,
+      "process_commit_limit_bytes": 268435456,
+      "contexts": [
+        {
+          "budget_chars": 1000,
+          "serialized_chars": 784,
+          "relevant_files": [
+            "service_0.py"
+          ],
+          "matching_fixture_paths": [
+            "service_0.py"
+          ]
+        },
+        {
+          "budget_chars": 4000,
+          "serialized_chars": 3718,
+          "relevant_files": [
+            "service_0.py",
+            "service_1.py",
+            "service_2.py",
+            "service_3.py",
+            "service_4.py",
+            "service_5.py",
+            "service_6.py",
+            "service_7.py"
+          ],
+          "matching_fixture_paths": [
+            "service_0.py",
+            "service_1.py",
+            "service_2.py",
+            "service_3.py",
+            "service_4.py",
+            "service_5.py",
+            "service_6.py",
+            "service_7.py"
+          ]
+        },
+        {
+          "budget_chars": 12000,
+          "serialized_chars": 11666,
+          "relevant_files": [
+            "service_0.py",
+            "service_1.py",
+            "service_10.py",
+            "service_11.py",
+            "service_12.py",
+            "service_13.py",
+            "service_14.py",
+            "service_15.py",
+            "service_16.py",
+            "service_17.py",
+            "service_18.py",
+            "service_19.py",
+            "service_2.py",
+            "service_3.py",
+            "service_4.py",
+            "service_5.py",
+            "service_6.py",
+            "service_7.py",
+            "service_8.py",
+            "service_9.py"
+          ],
+          "matching_fixture_paths": [
+            "service_0.py",
+            "service_1.py",
+            "service_10.py",
+            "service_11.py",
+            "service_12.py",
+            "service_13.py",
+            "service_14.py",
+            "service_15.py",
+            "service_16.py",
+            "service_17.py",
+            "service_18.py",
+            "service_19.py",
+            "service_2.py",
+            "service_3.py",
+            "service_4.py",
+            "service_5.py",
+            "service_6.py",
+            "service_7.py",
+            "service_8.py",
+            "service_9.py"
+          ]
+        }
+      ]
+    }
+  },
+  "open_acceptance": [
+    "Full20 not complete at review; round21 remains mandatory, no convergencecredit.",
+    "Execution median versus faster retained baselines and richer graph/index/store/Python allocation costs need bounded cost disposition.",
+    "History rawMIXED remains; pending static closed-page-path proof may establish unchanged source algorithm/allocation work but cannot relabel rawtimings or infer oldhostcause.",
+    "Finalall23 criterion/security/30tradeoff/13DEFER review, finaldoc/package identity audit andmaster54 signoff mandatory."
+  ],
+  "review_scope": "Named existing round20 and reference reports/14case XML only, independent stdlib result checks/arithmetic. No sourcewalks/dependencyinventoryhashes/appimports/query/workloads/protected edits."
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T06:20:01.739052+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "PASS_NARROW_PROPOSAL_AND_APPLIED_DELTA_STATIC_REVIEW_TESTS_PENDING",
+  "source_before_sha256": "a39b723de8d0631363b643263d69e550a4239bd24f7dcda7d2aa3318c1f72604",
+  "actual_source_sha256": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+  "reviewed_file_sha256": {
+    "src/orqalis/context/builder.py": "4abac0bae334ff221d278808e7d51626635509e6765688b36ecae7c262680450",
+    "src/orqalis/graph/engine.py": "ddb2e1958b373cb8aab340d699ca5a06f476b8bae25cfe93a24d563c992e61e9",
+    "src/orqalis/git/contracts.py": "f4c53eb93505546351e31c6ef86fb378e611a053341cb000b7a34dc6573688c8",
+    "src/orqalis/git/service.py": "0a445c020dbaf6a3aa62f5c7862e415b653633e0ca5260600bf8f69159b42519",
+    "src/orqalis/persistence/filesystem/layout.py": "7fdc7abfa7ffbaa4d4d1181cc0f7578a01233acd03768bbcad2752bb82fcf660",
+    "src/orqalis/persistence/filesystem/io.py": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "src/orqalis/memory/service.py": "6dd804b608689a48c30b23390a2dff2accd9464882244cc274d4359bac871ac7",
+    "tests/unit/test_project_context_builder.py": "dfcc52d1916c18d3040f30fe2995c011bca165f2e61d9d32ea484f10d941cee4"
+  },
+  "prior_builder_sha256": "184902173540241b26e999781d4e97fdfc99aed4c3e3de2fbb95477c51c74466",
+  "proposal_applied_during_review_by_parent": true,
+  "reviewer_application_helper_test_edits": false,
+  "reviewer_workloads_run": false,
+  "confirmed_new_P0_P1_findings": 0,
+  "delta_proof": "Review began against a39. Source guard caught parent application before report creation. Reversing only the reviewed constructor simplification and unused import removal in memory exactly reproduces the entire a39 source fingerprint. Actual 6318563c candidate has no other production input difference from a39.",
+  "boundary_conclusion": [
+    "Canonical resolve_project_root, ProjectLayout and load_manifest retained. ProjectGraphEngine receives canonical root, raw requested source_root, and same injected GitService. Builder uses engine.root as source_root after successful validation.",
+    "Engine roots canonical store and requested source with injected GitService then compares common_directory identities before graph storage target setup (engine.py:423-432). Its unchanged storage target checks reject links/junctions/containment escapes (engine.py:1292-1303; layout.py:69-81).",
+    "Only independently selected canonical manifest is read before the engine repository identity check; no foreign source context or graph data is returned. Curated memory/task construction and graph writes remain after successful validation.",
+    "Status and memory freshness use the same normalized source root as the graph. Linked worktrees retain canonical store, while unrelated Git repositories remain denied.",
+    "Injected GitService dispatch remains intact. LocalGitService.root is idempotent on stable repositories; its common-directory comparison has the same repository identity meaning. No in-repo non-idempotent custom implementation found in targeted tests.",
+    "No approval service, plan-preview, checkpoint, UOW/commit, graph refresh, status or memory freshness path changed."
+  ],
+  "observable_differences": [
+    "Canonical missing/malformed manifest can now fail before an unrelated/invalid source; safe fail-closed ordering, but not identical exception precedence.",
+    "Unrelated source uses engine PolicyDeniedError message; same type and canonical project repository phrase expected by current tests.",
+    "Non-idempotent/stateful custom root services or call-count mocks can differ when duplicate root/common-directory queries are removed; arbitrary custom-service equivalence is not asserted.",
+    "One duplicate source-root query and two common-directory queries are removed on default successful construction; no end-to-end latency benefit asserted."
+  ],
+  "existing_context_tests_recommended": [
+    "ranked graph/memory/Git/history",
+    "root isolation and dirty source",
+    "linked worktree canonical storage and stale memory",
+    "unrelated source rejection through builder and MemoryService",
+    "hard context budget rejection"
+  ],
+  "recommendation": "Narrow simplification retains authoritative engine guards and is eligible within authorized reversible optimization scope, subject to normal automatic review. Existing context tests must pass before candidate qualification.",
+  "diagnostic": {
+    "path": ".tools/research/release-browser-brain-spans-a39-v2.brain-spans.json",
+    "sha256": "82a0f3f86ab1c4e7b360213e30ffaf4bdbdc4e49c8415ad63495b591f8ec4057",
+    "scope": "Existing single-case diagnostic only; no full 14-case browser pass or performance certification."
+  },
+  "limitations": [
+    "No post-change tests observed at review creation; no workloads executed by reviewer.",
+    "No fresh installed-artifact, full browser, performance, complete rounds or release-ready claim.",
+    "No approval-flow bypass authorized; rejected plan-preview alternatives remain unapplied."
+  ]
+}

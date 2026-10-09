@@ -1,0 +1,98 @@
+{
+  "reviewed_at_utc": "2026-10-04T11:01:33.047583+00:00",
+  "status": "BOUNDED_STATIC_NO_CONFIRMED_P0_P1_NEW_QUALIFICATION_REQUIRED",
+  "scope": "Read-only five production files plus new Windows primitive and two named testfiles against saved pre-change originals. No tests, imports of product, native query or benchmark invoked.",
+  "reviewed_files_sha256": {
+    "src/orqalis/persistence/filesystem/_windows_io.py": "a023acc5a33a8402d0d937be400f77cb2ccc8e9e269248ba8ada175c68c33b13",
+    "src/orqalis/persistence/filesystem/io.py": "c041c6adc5cbdd3c6a2aa9611a3a10847dd9e2f0c816704afb08ffe86898b79e",
+    "src/orqalis/persistence/filesystem/layout.py": "8174b5c13223ae361012cae4ab568b67773fbe0bcb7c2c8c322ee7a102dfc0f8",
+    "src/orqalis/persistence/filesystem/memory_store.py": "dabfecd58bf01b89b8025e39f832cf08ae5bf8f9e7a269bf140152102c865539",
+    "src/orqalis/tasks/history.py": "5378666302ab851cc47ffcde9a845cd5e9f0824681536e452a8081ac18d9c6e3",
+    "tests/unit/test_filesystem_shared_reads.py": "7b1d085040e4332303383e47610bc98d55a6bae00cc392530272dfdd204b70e3",
+    "tests/unit/test_filesystem_foundation.py": "ab6986832f3a229d8e98e12fb239b88120a1991157b0c9f97a431d57406e7570"
+  },
+  "before_files_sha256": {
+    "src/orqalis/persistence/filesystem/io.py": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+    "src/orqalis/persistence/filesystem/layout.py": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+    "src/orqalis/persistence/filesystem/memory_store.py": "420b0fc8ce46592a176131c8af66648a9271f8283a833ea3b22245a4bba8004c",
+    "src/orqalis/tasks/history.py": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+    "tests/unit/test_filesystem_foundation.py": "fff9918ddf2e19579190b1e2987967fc3c8a2c9735f4c0681da1513cddab6992"
+  },
+  "function_delta": {
+    "src/orqalis/persistence/filesystem/io.py": {
+      "changed_functions": [
+        "atomic_write_bytes",
+        "read_json",
+        "read_json_object_with_sha256",
+        "read_jsonl",
+        "repair_jsonl_prefix"
+      ],
+      "added_functions": [
+        "_read_bytes",
+        "read_bytes",
+        "read_text"
+      ],
+      "removed_functions": []
+    },
+    "src/orqalis/persistence/filesystem/layout.py": {
+      "changed_functions": [
+        "_sync_store_gitignore",
+        "migrate_manifest"
+      ],
+      "added_functions": [],
+      "removed_functions": []
+    },
+    "src/orqalis/persistence/filesystem/memory_store.py": {
+      "changed_functions": [
+        "_read_record",
+        "_relocate_legacy_artifacts"
+      ],
+      "added_functions": [],
+      "removed_functions": []
+    },
+    "src/orqalis/tasks/history.py": {
+      "changed_functions": [
+        "get",
+        "related"
+      ],
+      "added_functions": [],
+      "removed_functions": []
+    }
+  },
+  "foundation_original_assertion_AST_exact": true,
+  "foundation_original_test_functions": 54,
+  "primary_references": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew",
+    "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfileinformationbyhandle",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_rename_info",
+    "https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ne-minwinbase-file_info_by_handle_class",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/ns-ntifs-_file_rename_information",
+    "https://docs.python.org/3.12/library/msvcrt.html#msvcrt.open_osfhandle"
+  ],
+  "integrity": [
+    "Typed HANDLE/DWORD/BOOL signatures and naturally aligned RenameInfo structure use full UTF16LE target path, zero RootDirectory, byte length and a zero-terminated allocated buffer. Enum22 is FileRenameInfoEx. Flags3 are replace-if-exists and POSIX semantics, with no ignore-readonly flag.",
+    "CreateFile read handle uses GENERIC_READ, OPEN_EXISTING, READ/WRITE/DELETE sharing and OPEN_REPARSE_POINT. Successful CRT conversion transfers lifetime to the returned fd and enclosing Python stream; conversion failure closes native handle and preserves primary exception. Security attributes NULL keeps native handle noninheritable.",
+    "Rename opens only the owned temporary with DELETE access and OPEN_REPARSE_POINT. It attempts one SetFileInformation operation, closes the handle in finally and permits fallback only after successful close for1/50/87 unsupported results. Permission/sharing denials propagate to the existing writer policy.",
+    "Close failure preserves a raised native primary as a note; a close failure after native success propagates instead of falsely claiming complete success. No fallback occurs after a failed close. A rare successful rename followed by close failure is an ambiguous caller outcome, handled by unchanged durable recovery; no handle-close infallibility claim.",
+    "Fresh ancestor path guards, strict JSON decode and duplicate/nonfinite rejection, same-buffer digest, fsync-before-rename, temporary validation and readonly cleanup remain. Five attempts and20/40/80/160ms delays remain unchanged. Caller replacement paths are normalized by the original guard.",
+    "Layout/memory/history deltas route original bytes or UTF8 reads through guarded helpers; text preserves universal newline behavior and history truncation/error handling. No checkpoint, UOW, journal/recovery order or authorization delta occurs in these files.",
+    "The leaf reparse-open prevents redirect through a swapped final symlink; ancestor races remain the existing path-based guard limitation, not an atomic sandbox claim. Canonical own writer replacements provide coherent old/new snapshots, not arbitrary external in-place-write snapshot guarantees."
+  ],
+  "test_scope": [
+    "Native paused canonical reader and held shared-reader cases assert old snapshot/new pathname and no temporary leak. Ordinary uncooperative reader case requires PermissionError and unchanged bytes.",
+    "Conversion failure requires actual native close result1; malformed opener writes rejected before touching file. Native permission denial preserves both files and closes handle; unsupported87 fallback occurs exactly once after close.",
+    "Missing-file error/filename and UTF8/newline behavior retained. Existing foundation injection changes target the new actual writer seam and read-buffer seam; all54 original test assertion AST lists unchanged."
+  ],
+  "evidence_sha256": {
+    "release-windows-posix-shared-probe-v2.json": "96d3425825bdc40f89b095ddc718ec5e92d51d850ee567fc3b07a8813c3c8d25",
+    "release-shared-read-focused-failure-v1.json": "eb5af6f7ed8ae894837dfcd5ae7b5cbe14e68617e367e90fdd18ba31199ce6f1",
+    "release-shared-io-test-integrity-v1.json": "86388d0bbd352f91463e43e7d39a59c5212c308fb8af78a0994de0c6b5e35f75"
+  },
+  "limitations": [
+    "Expanded focused/hard-crash suite was active at request; no completion result observed here. Earlier11 native case PASS was parent-reported, not verified by this record.",
+    "New Windows test directly accesses caught.value.winerror at shared_reads.py155; skipif does not narrow static types on Linux/darwin. Parent notified; configured cross-platform strict checks should resolve before qualification.",
+    "Windows helpers use builtins.open(opener) rather than Path.open; protected read-count benchmarks instrumenting Path.open must not award apparent avoided-read savings without a reviewed symmetric accounting boundary. Parent notified.",
+    "Unsupported older filesystem/API falls back to prior os.replace and therefore retains its concurrent-reader failure behavior. Local NTFS probe does not qualify other Windows filesystems, Linux/macOS runtime or all host policies.",
+    "Original22 terminal session.yaml Win5 holder and cause are still unproven. This addresses separately controlled shared-reader compatibility and cannot close original failure or Master53/performance/signoff without renewed qualification."
+  ]
+}

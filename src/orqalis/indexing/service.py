@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import re
 import time
 from collections import defaultdict
 from collections.abc import Iterable, Mapping
@@ -39,9 +38,9 @@ from orqalis.persistence.filesystem import (
     load_manifest,
     read_json_object,
 )
+from orqalis.retrieval import lexical_terms
 from orqalis.security.redaction import safe_diagnostic
 
-_TERM = re.compile(r"[a-z0-9_]{2,}")
 _ARTIFACTS = (
     "files.jsonl",
     "symbols.jsonl",
@@ -217,6 +216,7 @@ class ProjectIndex:
         ranked.sort(
             key=lambda item: (
                 -item.score,
+                item.document.kind == IndexRecordKind.REFERENCE,
                 item.document.title.casefold(),
                 item.document.id,
             )
@@ -323,7 +323,11 @@ class ProjectIndex:
             documents.append(
                 IndexDocument(
                     id=f"repository:symbol:{node.id}",
-                    kind=IndexRecordKind.SYMBOL,
+                    kind=(
+                        IndexRecordKind.REFERENCE
+                        if node.kind == GraphNodeKind.REFERENCE
+                        else IndexRecordKind.SYMBOL
+                    ),
                     title=node.name,
                     path=node.file_path,
                     summary=" ".join(
@@ -449,13 +453,16 @@ def _metadata_strings(metadata: Mapping[str, object]) -> tuple[str, ...]:
 
 
 def _tokenize(value: str) -> tuple[str, ...]:
-    return tuple(dict.fromkeys(_TERM.findall(value.casefold())))
+    return lexical_terms(value)
 
 
 def _json_bytes(value: object) -> bytes:
     try:
         return (
-            json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n"
+            json.dumps(
+                value, ensure_ascii=False, separators=(",", ":"), sort_keys=True, allow_nan=False
+            )
+            + "\n"
         ).encode("utf-8")
     except (TypeError, ValueError) as exc:
         raise ConflictError("Project index contains unserializable data") from exc
@@ -464,9 +471,16 @@ def _json_bytes(value: object) -> bytes:
 def _jsonl_bytes(values: Iterable[object]) -> bytes:
     try:
         return b"".join(
-            (json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False) + "\n").encode(
-                "utf-8"
-            )
+            (
+                json.dumps(
+                    value,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                    allow_nan=False,
+                )
+                + "\n"
+            ).encode("utf-8")
             for value in values
         )
     except (TypeError, ValueError) as exc:

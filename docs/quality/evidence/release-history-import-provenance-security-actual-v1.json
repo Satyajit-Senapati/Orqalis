@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T20:45:17.501989+00:00",
+  "decision": "EXACT_TWO_PYEXPAT_GENERATED_ALIAS_CLASSIFICATION_REPAIR_REASONABLE_PENDING_STAGED_FAMILY_REVIEW",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "evidence_sha256": {
+    "docs\\quality\\evidence\\release-history-import-provenance-v1.json": "76a0019f5b99379074ff00daa4cb80cff3f7d7a645ac91127b027bbdb2d17f4a",
+    "docs\\quality\\evidence\\release-history-import-provenance-actual-v1.json": "fd473f955cacc1221c7ad5fef921ecfa9cb51788d252fdfc6ee3791c5e6f0ded",
+    "S:\\Orqalis\\.tools\\research\\release-history-import-provenance-plan-v1.json": "74aa03d725759cf1720cee01e37290d36c68b3ba05c7d4f55ecf30b6c84977a3",
+    "S:\\Orqalis\\.tools\\research\\release_history_import_provenance_v1.py": "f28518ee1890b1bcff90b7694efe78540ca345ac613d449d7804b76627290262",
+    "S:\\Orqalis\\docs\\quality\\evidence\\release-history-import-provenance-security-prelaunch-v1.json": "3799812496ce8855e0e5403265698ad434ae99b69aae65cc3974957177ea147e",
+    "S:\\Orqalis\\docs\\quality\\evidence\\release-history-import-provenance-ack-v1.json": "52ac98e04e4a9c147943cfa0def508b09cf67bc0bb33b29795b4ed5a62430971",
+    "S:\\Orqalis\\.tools\\python\\cpython-3.12.14-windows-x86_64-none\\DLLs\\pyexpat.pyd": "6bb4d145099a62c3c4d6718a0fd7e0525d9736d7e584171506c2731fec674dc0"
+  },
+  "observed": {
+    "actual_diagnostic_exit_code": 0,
+    "captured_provenance_stable": true,
+    "unknown_v3_modules": [
+      "pyexpat.errors",
+      "pyexpat.model"
+    ],
+    "alias_metadata": [
+      {
+        "module": "pyexpat.errors",
+        "module_type": "builtins.module",
+        "spec_present": false,
+        "spec_origin": null,
+        "spec_loader_type": null,
+        "module_loader_type": null,
+        "loader_identity_matches": true,
+        "namespace_locations": [],
+        "namespace_branch": false,
+        "builtin_frozen_branch": false,
+        "exact_v3_generated_assert_pass": false,
+        "exact_v3_branch_would_reject": true,
+        "linked_file_module": null
+      },
+      {
+        "module": "pyexpat.model",
+        "module_type": "builtins.module",
+        "spec_present": false,
+        "spec_origin": null,
+        "spec_loader_type": null,
+        "module_loader_type": null,
+        "loader_identity_matches": true,
+        "namespace_locations": [],
+        "namespace_branch": false,
+        "builtin_frozen_branch": false,
+        "exact_v3_generated_assert_pass": false,
+        "exact_v3_branch_would_reject": true,
+        "linked_file_module": null
+      }
+    ],
+    "linked_file": {
+      "path": "S:\\Orqalis\\.tools\\python\\cpython-3.12.14-windows-x86_64-none\\DLLs\\pyexpat.pyd",
+      "sha256": "6bb4d145099a62c3c4d6718a0fd7e0525d9736d7e584171506c2731fec674dc0"
+    },
+    "selected_Orqalis_files": 50,
+    "ordinary_file_modules": 261,
+    "no_workload_flag": false
+  },
+  "primary_source": {
+    "url": "https://github.com/python/cpython/blob/v3.12.14/Modules/pyexpat.c",
+    "evidence": "MODULE_NAME is pyexpat; add_submodule uses PyModule_New, inserts the new object into sys.modules and into the parent module. add_errors_module and add_model_module create MODULE_NAME .errors and .model at initialization. Source lines1781-1782,1808-1834,1952,2003,2132-2136."
+  },
+  "repair_bounds": [
+    "Permit ONLY exact pyexpat.errors and pyexpat.model with observed absent __file__/spec/loader through the existing explicit-generated branch, linked to actually loaded ordinary-file pyexpat path/hash under current allowed baseprefix.",
+    "Preserve strict ordinary missing-file rejection, namespace restrictions, unknown no-file rejection, package/source/fixture/dependency bindings and all measured workloads/criteria/lifecycle.",
+    "A clearer assertion message including module name and spec/loader metadata is appropriate diagnostic visibility, not acceptance weakening."
+  ],
+  "limits": [
+    "Import-only observation demonstrates legitimate aliases matching CPython implementation; it supports explanation of the same failed v3 branch but does not recover that original unnamed module witness retrospectively.",
+    "No XML parser/security behavior is changed and no product defect or performance improvement is inferred.",
+    "Failed v3 remains INVALID; no existing R1 timing reuse, next measurement or whole release acceptance approved by this scoped disposition."
+  ]
+}

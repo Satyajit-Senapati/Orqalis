@@ -4,18 +4,24 @@ from __future__ import annotations
 
 import ast
 import hashlib
+import io
 import json
+import posixpath
+import re
 import time
-from collections import defaultdict
+import tokenize
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
 
-from pydantic import Field, ValidationError
+from pydantic import ValidationError
 
-from orqalis.domain.base import Contract, utc_now
-from orqalis.domain.errors import PolicyDeniedError
+from orqalis.domain.base import utc_now
+from orqalis.domain.errors import ConflictError, PolicyDeniedError
 from orqalis.git.contracts import GitService, GitStatus
 from orqalis.git.service import LocalGitService, validate_relative_path
+from orqalis.graph.ecmascript import KINDS as SCRIPT_PARSERS
+from orqalis.graph.ecmascript import extract as extract_script
+from orqalis.graph.ecmascript import parser_identity
 from orqalis.graph.models import (
     GraphEdge,
     GraphManifest,
@@ -27,16 +33,40 @@ from orqalis.graph.models import (
     GraphRelation,
     ProjectGraph,
 )
+from orqalis.graph.parsing import (
+    MAX_BINDINGS,
+    MAX_CALLS,
+    MAX_DEPTH,
+    MAX_IMPORTS,
+    MAX_NAME,
+    MAX_QUALIFIED_NAME,
+    MAX_SYMBOLS,
+    MAX_VISITS,
+)
+from orqalis.graph.parsing import (
+    CallSpec as _CallSpec,
+)
+from orqalis.graph.parsing import (
+    ImportSpec as _ImportSpec,
+)
+from orqalis.graph.parsing import (
+    ParsedSource as _ParsedSource,
+)
+from orqalis.graph.parsing import (
+    SymbolSpec as _SymbolSpec,
+)
 from orqalis.persistence.filesystem.io import (
     FilesystemFormatError,
+    atomic_write_bytes,
     atomic_write_json,
     read_json_object,
+    read_json_object_with_sha256,
 )
 from orqalis.persistence.filesystem.layout import ProjectLayout, update_graph_cursor
 from orqalis.persistence.filesystem.locking import FileLock
 
 GRAPH_SCHEMA_VERSION = 1
-PARSER_VERSION = "python-ast-v1"
+PARSER_VERSION = f"source-ast-v5;{parser_identity()}"
 MAX_FILE_BYTES = 1_000_000
 
 _SOURCE_EXTENSIONS = {
@@ -49,6 +79,10 @@ _SOURCE_EXTENSIONS = {
     ".hpp",
     ".java",
     ".js",
+    ".mjs",
+    ".cjs",
+    ".mts",
+    ".cts",
     ".jsx",
     ".kt",
     ".kts",
@@ -105,6 +139,10 @@ _LANGUAGES = {
     ".hpp": "C++",
     ".java": "Java",
     ".js": "JavaScript",
+    ".mjs": "JavaScript",
+    ".cjs": "JavaScript",
+    ".mts": "TypeScript",
+    ".cts": "TypeScript",
     ".jsx": "JavaScript",
     ".kt": "Kotlin",
     ".kts": "Kotlin",
@@ -121,41 +159,6 @@ _LANGUAGES = {
 }
 
 
-class _CallSpec(Contract):
-    name: str
-    line: int = Field(ge=1)
-
-
-class _ImportSpec(Contract):
-    module: str
-    names: tuple[str, ...] = ()
-    level: int = Field(default=0, ge=0)
-    owner: str | None = None
-    line: int = Field(ge=1)
-
-
-class _SymbolSpec(Contract):
-    kind: str
-    name: str
-    qualified_name: str
-    parent_qualified_name: str | None = None
-    line_start: int = Field(ge=1)
-    line_end: int = Field(ge=1)
-    bases: tuple[str, ...] = ()
-    calls: tuple[_CallSpec, ...] = ()
-
-
-class _ParsedSource(Contract):
-    parser_version: str
-    parser_kind: str
-    content_hash: str
-    line_count: int = Field(ge=1)
-    syntax_error: bool = False
-    symbols: tuple[_SymbolSpec, ...] = ()
-    imports: tuple[_ImportSpec, ...] = ()
-    module_calls: tuple[_CallSpec, ...] = ()
-
-
 @dataclass(slots=True)
 class _OpenSymbol:
     kind: str
@@ -165,7 +168,10 @@ class _OpenSymbol:
     line_start: int
     line_end: int
     bases: tuple[str, ...]
+    byte_start: int | None = None
+    byte_end: int | None = None
     calls: list[_CallSpec] = field(default_factory=list)
+    bound_names: set[str] = field(default_factory=set)
 
     def freeze(self) -> _SymbolSpec:
         return _SymbolSpec(
@@ -176,16 +182,56 @@ class _OpenSymbol:
             line_start=self.line_start,
             line_end=self.line_end,
             bases=self.bases,
+            byte_start=self.byte_start,
+            byte_end=self.byte_end,
             calls=tuple(self.calls),
+            bound_names=tuple(sorted(self.bound_names)),
         )
 
 
 class _PythonCollector(ast.NodeVisitor):
-    def __init__(self) -> None:
+    def __init__(self, source: str | None = None) -> None:
         self.symbols: list[_OpenSymbol] = []
         self.imports: list[_ImportSpec] = []
         self.module_calls: list[_CallSpec] = []
         self._stack: list[_OpenSymbol] = []
+        self.diagnostics: set[str] = set()
+        self._visits = self._depth = self._call_count = self._binding_count = 0
+        self._line_offsets: list[int] = []
+        self._decorators: list[tuple[int, int]] = []
+        if source is not None:
+            # AST rows count physical CR/LF newlines, not Unicode separators inside
+            # literals. Offsets always refer to the unchanged original UTF-8 bytes.
+            self._line_offsets = [
+                0,
+                *(match.end() for match in re.finditer(rb"\r\n|\r|\n", source.encode("utf-8"))),
+            ]
+            # Token positions distinguish real decorator markers from strings/comments,
+            # including parenthesized decorators whose AST expression starts later.
+            for token in tokenize.generate_tokens(io.StringIO(source, newline=None).readline):
+                if token.type == tokenize.OP and token.string == "@":
+                    row, column = token.start
+                    if not token.line[:column].strip():
+                        self._decorators.append((row, len(token.line[:column].encode("utf-8"))))
+
+    def visit(self, node: ast.AST) -> None:
+        self._visits += 1
+        if self._visits > MAX_VISITS or self._depth >= MAX_DEPTH:
+            self.diagnostics.add("visit_limit" if self._visits > MAX_VISITS else "depth_limit")
+            return
+        self._depth += 1
+        try:
+            super().visit(node)
+        finally:
+            self._depth -= 1
+
+    def _bind(self, names: list[str], target: set[str]) -> None:
+        for name in names:
+            if len(name) > MAX_NAME or self._binding_count >= MAX_BINDINGS:
+                self.diagnostics.add("binding_limit")
+                continue
+            target.add(name)
+            self._binding_count += 1
 
     @property
     def _owner(self) -> str | None:
@@ -193,9 +239,22 @@ class _PythonCollector(ast.NodeVisitor):
 
     def visit_Import(self, node: ast.Import) -> None:
         for alias in node.names:
+            if (
+                len(self.imports) >= MAX_IMPORTS
+                or len(alias.name) > 500
+                or len(alias.asname or "") > MAX_NAME
+            ):
+                self.diagnostics.add("import_limit")
+                continue
             self.imports.append(
                 _ImportSpec(
                     module=alias.name,
+                    aliases=(
+                        (
+                            alias.asname or alias.name.split(".")[0],
+                            alias.name if alias.asname else alias.name.split(".")[0],
+                        ),
+                    ),
                     names=(),
                     owner=self._owner,
                     line=node.lineno,
@@ -203,10 +262,21 @@ class _PythonCollector(ast.NodeVisitor):
             )
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
+        if len(self.imports) >= MAX_IMPORTS or len(node.module or "") > 500:
+            self.diagnostics.add("import_limit")
+            return
+        aliases = [
+            alias
+            for alias in node.names[:256]
+            if len(alias.name) <= MAX_NAME and len(alias.asname or "") <= MAX_NAME
+        ]
+        if len(aliases) != len(node.names):
+            self.diagnostics.add("import_alias_limit")
         self.imports.append(
             _ImportSpec(
                 module=node.module or "",
-                names=tuple(alias.name for alias in node.names),
+                names=tuple(alias.name for alias in aliases),
+                aliases=tuple((alias.asname or alias.name, alias.name) for alias in aliases),
                 level=node.level,
                 owner=self._owner,
                 line=node.lineno,
@@ -228,13 +298,20 @@ class _PythonCollector(ast.NodeVisitor):
 
     def visit_Call(self, node: ast.Call) -> None:
         name = _expression_name(node.func)
-        if name:
+        if name and self._call_count >= MAX_CALLS:
+            self.diagnostics.add("call_limit")
+        elif name:
+            self._call_count += 1
             call = _CallSpec(name=name, line=node.lineno)
             if self._stack:
                 self._stack[-1].calls.append(call)
             else:
                 self.module_calls.append(call)
         self.generic_visit(node)
+
+    def visit_Name(self, node: ast.Name) -> None:
+        if self._stack and isinstance(node.ctx, (ast.Store, ast.Del)):
+            self._bind([node.id], self._stack[-1].bound_names)
 
     def _visit_function(self, node: ast.FunctionDef | ast.AsyncFunctionDef) -> None:
         direct_method = bool(self._stack and self._stack[-1].kind == GraphNodeKind.CLASS)
@@ -251,30 +328,65 @@ class _PythonCollector(ast.NodeVisitor):
     ) -> None:
         parent = self._owner
         qualified = f"{parent}.{node.name}" if parent else node.name
+        if (
+            len(qualified) > MAX_QUALIFIED_NAME
+            or len(node.name) > MAX_NAME
+            or len(self.symbols) >= MAX_SYMBOLS
+        ):
+            self.diagnostics.add("symbol_limit")
+            return
+        start_line = min((item.lineno for item in node.decorator_list), default=node.lineno)
+        start_column = node.col_offset
+        if node.decorator_list and self._decorators:
+            candidates = [
+                (row, col)
+                for row, col in self._decorators
+                if row <= start_line and col == node.col_offset
+            ]
+            if candidates:
+                start_line, start_column = candidates[-1]
+        end_line = node.end_lineno or node.lineno
         symbol = _OpenSymbol(
             kind=kind.value,
             name=node.name,
             qualified_name=qualified,
             parent_qualified_name=parent,
-            line_start=node.lineno,
-            line_end=node.end_lineno or node.lineno,
-            bases=bases,
+            line_start=start_line,
+            line_end=end_line,
+            byte_start=self._line_offsets[start_line - 1] + start_column
+            if self._line_offsets
+            else None,
+            byte_end=self._line_offsets[end_line - 1] + (node.end_col_offset or 0)
+            if self._line_offsets
+            else None,
+            bases=bases[:256],
         )
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            args = node.args
+            self._bind(
+                [arg.arg for arg in (*args.posonlyargs, *args.args, *args.kwonlyargs)],
+                symbol.bound_names,
+            )
+            if args.vararg:
+                self._bind([args.vararg.arg], symbol.bound_names)
+            if args.kwarg:
+                self._bind([args.kwarg.arg], symbol.bound_names)
         self.symbols.append(symbol)
         self._stack.append(symbol)
         self.generic_visit(node)
         self._stack.pop()
 
 
-def _expression_name(node: ast.expr) -> str | None:
-    if isinstance(node, ast.Name):
-        return node.id
-    if isinstance(node, ast.Attribute):
-        owner = _expression_name(node.value)
-        return f"{owner}.{node.attr}" if owner else node.attr
-    if isinstance(node, ast.Subscript):
-        return _expression_name(node.value)
-    return None
+def _expression_name(node: ast.expr) -> str:
+    parts: list[str] = []
+    current = node
+    while isinstance(current, ast.Attribute) and len(parts) < 32:
+        parts.append(current.attr[:300])
+        current = current.value
+    prefix = current.id if isinstance(current, ast.Name) and len(current.id) <= 300 else "<dynamic>"
+    # Structural placeholders retain call occurrence evidence without persisting
+    # dynamic receiver arguments/subscript literals or claiming their target binding.
+    return ".".join((prefix, *reversed(parts)))[:500]
 
 
 @dataclass(slots=True)
@@ -285,6 +397,14 @@ class _EdgeAccumulator:
     provenance: GraphProvenance
     confidence: float
     evidence: set[str] = field(default_factory=set)
+    resolution_basis: set[str] = field(default_factory=set)
+    source_expressions: set[str] = field(default_factory=set)
+
+
+@dataclass(frozen=True, slots=True)
+class _SymbolResolution:
+    target_id: str
+    basis: str
 
 
 class ProjectGraphEngine:
@@ -301,9 +421,27 @@ class ProjectGraphEngine:
         if max_file_bytes <= 0:
             raise ValueError("max_file_bytes must be positive")
         self.git = git or LocalGitService()
-        self.store_root = self.git.root(root)
-        self.root = self.git.root(source_root or self.store_root)
-        if self.git.common_directory(self.store_root) != self.git.common_directory(self.root):
+        if (
+            isinstance(self.git, LocalGitService)
+            and type(self.git) is LocalGitService
+            and not {"root", "common_directory", "_execute"}.intersection(self.git.__dict__)
+        ):
+            self.store_root, canonical_directory = self.git.root_and_common_directory(root)
+            if source_root is None or source_root == root:
+                self.root, source_directory = self.store_root, canonical_directory
+            else:
+                self.root, source_directory = self.git.root_and_common_directory(source_root)
+        else:
+            # Injected services and instance overrides retain their original dispatch.
+            self.store_root = self.git.root(root)
+            self.root = self.store_root if source_root is None else self.git.root(source_root)
+            canonical_directory = self.git.common_directory(self.store_root)
+            source_directory = (
+                canonical_directory
+                if self.root == self.store_root
+                else self.git.common_directory(self.root)
+            )
+        if self.root != self.store_root and canonical_directory != source_directory:
             raise PolicyDeniedError(
                 "Repository graph source does not belong to the canonical project repository"
             )
@@ -313,6 +451,7 @@ class ProjectGraphEngine:
         self.cache_dir = self._storage_target(self.layout.cache / "parser")
         self.graph_path = self._storage_target(self.graph_dir / "graph.json")
         self.manifest_path = self._storage_target(self.graph_dir / "manifest.json")
+        self._graph_digest_proof: tuple[str, str] | None = None
 
     def refresh(self) -> GraphRefreshResult:
         """Refresh only content-changed paths, reusing content-addressed parser output."""
@@ -330,12 +469,21 @@ class ProjectGraphEngine:
         _, graph = self._load_state()
         return graph
 
+    def refresh_with_status(self) -> tuple[GraphRefreshResult, GitStatus]:
+        """Return the graph and the Git status captured inside its refresh lock."""
+        return self._refresh_with_status(force=False)
+
     def _refresh(self, *, force: bool) -> GraphRefreshResult:
+        return self._refresh_with_status(force=force)[0]
+
+    def _refresh_with_status(self, *, force: bool) -> tuple[GraphRefreshResult, GitStatus]:
         started = time.perf_counter()
         with FileLock(self.layout.lock("graph")):
             return self._refresh_locked(force=force, started=started)
 
-    def _refresh_locked(self, *, force: bool, started: float) -> GraphRefreshResult:
+    def _refresh_locked(
+        self, *, force: bool, started: float
+    ) -> tuple[GraphRefreshResult, GitStatus]:
         previous_manifest, previous_graph = self._load_state()
         status = self.git.status(self.root)
         branch, head = status.branch, status.head
@@ -361,7 +509,7 @@ class ProjectGraphEngine:
                     total_files=len(previous_manifest.file_hashes),
                     duration_ms=self._duration_ms(started),
                 ),
-            )
+            ), status
         branch, head, file_hashes = self._discover(status)
         previous_hashes = previous_manifest.file_hashes if previous_manifest else {}
         incompatible = bool(
@@ -411,7 +559,7 @@ class ProjectGraphEngine:
                     total_files=len(file_hashes),
                     duration_ms=self._duration_ms(started),
                 ),
-            )
+            ), status
 
         requested = set(file_hashes) if full else changed
         parsed: dict[str, _ParsedSource] = {}
@@ -432,6 +580,7 @@ class ProjectGraphEngine:
             parsed[path] = result
 
         graph = self._assemble(parsed, file_hashes)
+        graph_payload = _graph_payload(graph)
         manifest = GraphManifest(
             schema_version=GRAPH_SCHEMA_VERSION,
             parser_version=PARSER_VERSION,
@@ -440,10 +589,10 @@ class ProjectGraphEngine:
             indexed_branch=branch,
             dirty_paths=dirty_paths,
             file_hashes=dict(sorted(file_hashes.items())),
-            graph_sha256=_graph_digest(graph),
+            graph_sha256=hashlib.sha256(graph_payload).hexdigest(),
         )
         self.graph_dir.mkdir(parents=True, exist_ok=True)
-        atomic_write_json(self.graph_path, graph.model_dump(mode="json"))
+        atomic_write_bytes(self.graph_path, graph_payload + b"\n")
         self._write_manifest(manifest)
         update_graph_cursor(self.layout, head, branch)
         processed = requested | additionally_parsed
@@ -459,24 +608,43 @@ class ProjectGraphEngine:
                 duration_ms=self._duration_ms(started),
                 changed_paths=tuple(sorted(processed | deleted)),
             ),
-        )
+        ), status
 
     def _load_state(self) -> tuple[GraphManifest | None, ProjectGraph | None]:
         if not self.manifest_path.is_file() or not self.graph_path.is_file():
+            self._graph_digest_proof = None
             return None, None
+        # Keep the pair coherent even when callers load concurrently. No models are cached:
+        # every read decodes strictly, validates fresh objects, and checks the current manifest.
+        proof = self._graph_digest_proof
         try:
             manifest = GraphManifest.model_validate(read_json_object(self.manifest_path))
-            graph = ProjectGraph.model_validate(read_json_object(self.graph_path))
+            document, raw_digest = read_json_object_with_sha256(self.graph_path)
+            eligible = "generated_at" in document
+            graph = ProjectGraph.model_validate(document)
+            del document  # Release the decoded tree before a cache-miss canonical dump.
+            graph_digest = (
+                proof[1]
+                if eligible and proof is not None and proof[0] == raw_digest
+                else _graph_digest(graph)
+            )
+        except PolicyDeniedError:
+            self._graph_digest_proof = None
+            raise
         except (OSError, FilesystemFormatError, ValidationError, ValueError):
+            self._graph_digest_proof = None
             return None, None
         if (
             manifest.schema_version != GRAPH_SCHEMA_VERSION
             or graph.schema_version != GRAPH_SCHEMA_VERSION
             or manifest.parser_version != PARSER_VERSION
             or graph.parser_version != PARSER_VERSION
-            or manifest.graph_sha256 != _graph_digest(graph)
+            or manifest.graph_sha256 != graph_digest
         ):
+            self._graph_digest_proof = None
             return None, None
+        # Missing timestamps use a volatile model default, so cannot establish a proof.
+        self._graph_digest_proof = (raw_digest, graph_digest) if eligible else None
         return manifest, graph
 
     def _write_manifest(self, manifest: GraphManifest) -> None:
@@ -545,13 +713,20 @@ class ProjectGraphEngine:
         return content
 
     def _parser_kind(self, path: str) -> str:
-        return "python" if PurePosixPath(path).suffix.casefold() in {".py", ".pyi"} else "generic"
+        suffix = PurePosixPath(path).suffix.casefold()
+        if suffix in {".py", ".pyi"}:
+            return "python"
+        if suffix in {".js", ".jsx", ".mjs", ".cjs"}:
+            return "javascript"
+        if suffix in {".ts", ".mts", ".cts"}:
+            return "typescript"
+        return "tsx" if suffix == ".tsx" else "generic"
 
-    def _cache_path(self, content_hash: str) -> Path:
-        return self._storage_target(self.cache_dir / f"{content_hash}.json")
+    def _cache_path(self, content_hash: str, parser_kind: str) -> Path:
+        return self._storage_target(self.cache_dir / f"{parser_kind}-{content_hash}.json")
 
     def _read_cache(self, content_hash: str, parser_kind: str) -> _ParsedSource | None:
-        path = self._cache_path(content_hash)
+        path = self._cache_path(content_hash, parser_kind)
         if not path.is_file():
             return None
         try:
@@ -569,7 +744,7 @@ class ProjectGraphEngine:
     def _write_cache(self, parsed: _ParsedSource) -> None:
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         atomic_write_json(
-            self._cache_path(parsed.content_hash),
+            self._cache_path(parsed.content_hash, parsed.parser_kind),
             parsed.model_dump(mode="json"),
         )
 
@@ -577,6 +752,8 @@ class ProjectGraphEngine:
         content = self._read_source(path)
         if content is None:
             raise OSError(f"Repository file became unavailable while parsing: {path}")
+        if hashlib.sha256(content).hexdigest() != content_hash:
+            raise ConflictError("Repository source changed during graph parsing; refresh again")
         try:
             text = content.decode("utf-8")
         except UnicodeDecodeError:
@@ -587,7 +764,9 @@ class ProjectGraphEngine:
                 line_count=1,
                 syntax_error=True,
             )
-        line_count = max(1, len(text.splitlines()))
+        line_count = len(re.split(r"\r\n|\r|\n", text))
+        if parser_kind in SCRIPT_PARSERS:
+            return extract_script(content, parser_kind, content_hash, PARSER_VERSION)
         if parser_kind != "python":
             return _ParsedSource(
                 parser_version=PARSER_VERSION,
@@ -597,7 +776,7 @@ class ProjectGraphEngine:
             )
         try:
             tree = ast.parse(text, filename=path)
-        except SyntaxError:
+        except (SyntaxError, RecursionError):
             return _ParsedSource(
                 parser_version=PARSER_VERSION,
                 parser_kind=parser_kind,
@@ -605,13 +784,24 @@ class ProjectGraphEngine:
                 line_count=line_count,
                 syntax_error=True,
             )
-        collector = _PythonCollector()
-        collector.visit(tree)
+        collector = _PythonCollector(text)
+        try:
+            collector.visit(tree)
+        except RecursionError:
+            return _ParsedSource(
+                parser_version=PARSER_VERSION,
+                parser_kind=parser_kind,
+                content_hash=content_hash,
+                line_count=line_count,
+                syntax_error=True,
+            )
         return _ParsedSource(
             parser_version=PARSER_VERSION,
             parser_kind=parser_kind,
             content_hash=content_hash,
             line_count=line_count,
+            extraction_truncated=bool(collector.diagnostics),
+            diagnostics=tuple(sorted(collector.diagnostics)),
             symbols=tuple(item.freeze() for item in collector.symbols),
             imports=tuple(collector.imports),
             module_calls=tuple(collector.module_calls),
@@ -628,7 +818,6 @@ class ProjectGraphEngine:
         path_modules: dict[str, tuple[str, str]] = {}
         path_symbols: dict[str, dict[str, str]] = {}
         qualified_symbols: dict[str, str] = {}
-        simple_symbols: defaultdict[str, list[str]] = defaultdict(list)
         test_suites: dict[str, str] = {}
 
         for path, result in sorted(parsed.items()):
@@ -639,6 +828,12 @@ class ProjectGraphEngine:
             file_id = _node_id("file", path)
             metadata: dict[str, str | int | float | bool | None | list[str]] = {
                 "role": role,
+                "parser": result.parser_kind,
+                "extraction_truncated": result.extraction_truncated,
+                "extraction_diagnostics": list(result.diagnostics),
+                "capabilities": ["definitions", "imports", "call_occurrences"]
+                if result.parser_kind == "python" or result.parser_kind in SCRIPT_PARSERS
+                else [],
             }
             if result.syntax_error:
                 metadata["parse_error"] = True
@@ -654,8 +849,8 @@ class ProjectGraphEngine:
                 source_hash=content_hash,
             )
 
-            if result.parser_kind == "python":
-                module_name = _module_name(path)
+            if result.parser_kind == "python" or result.parser_kind in SCRIPT_PARSERS:
+                module_name = _module_name(path) if result.parser_kind == "python" else f"js:{path}"
                 module_id = _node_id("module", path, module_name)
                 module_ids[module_name] = module_id
                 path_modules[path] = (module_name, module_id)
@@ -666,7 +861,7 @@ class ProjectGraphEngine:
                     file_path=path,
                     line_start=1,
                     line_end=result.line_count,
-                    language="Python",
+                    language=language,
                     metadata={"qualified_name": module_name},
                     source_hash=content_hash,
                 )
@@ -685,7 +880,6 @@ class ProjectGraphEngine:
                     symbol_id = _node_id("symbol", path, symbol.qualified_name, symbol.kind)
                     symbol_ids[symbol.qualified_name] = symbol_id
                     qualified_symbols[qualified] = symbol_id
-                    simple_symbols[symbol.name].append(symbol_id)
                     nodes[symbol_id] = GraphNode(
                         id=symbol_id,
                         kind=symbol.kind,
@@ -693,10 +887,12 @@ class ProjectGraphEngine:
                         file_path=path,
                         line_start=symbol.line_start,
                         line_end=symbol.line_end,
-                        language="Python",
+                        language=language,
                         metadata={
                             "qualified_name": qualified,
                             "symbol_kind": symbol.kind,
+                            "byte_start": symbol.byte_start,
+                            "byte_end": symbol.byte_end,
                         },
                         source_hash=content_hash,
                     )
@@ -794,12 +990,16 @@ class ProjectGraphEngine:
             symbol_ids = path_symbols[path]
             for item in result.imports:
                 source_id = symbol_ids.get(item.owner, module_id) if item.owner else module_id
-                imported_name = _resolve_import(
-                    module_name,
-                    item.module,
-                    item.names,
-                    item.level,
-                    is_package=PurePosixPath(path).name in {"__init__.py", "__init__.pyi"},
+                imported_name = (
+                    _resolve_script_import(path, item.module, path_modules)
+                    if result.parser_kind in SCRIPT_PARSERS
+                    else _resolve_import(
+                        module_name,
+                        item.module,
+                        item.names,
+                        item.level,
+                        is_package=PurePosixPath(path).name in {"__init__.py", "__init__.pyi"},
+                    )
                 )
                 if not imported_name:
                     continue
@@ -813,7 +1013,10 @@ class ProjectGraphEngine:
                             id=target_id,
                             kind=GraphNodeKind.MODULE,
                             name=imported_name,
-                            metadata={"external": True, "reference_type": "import"},
+                            metadata={
+                                "external": not imported_name.startswith("js:unresolved:"),
+                                "reference_type": "import",
+                            },
                         ),
                     )
                 self._add_edge(
@@ -821,9 +1024,15 @@ class ProjectGraphEngine:
                     source_id,
                     target_id,
                     GraphRelation.IMPORTS,
-                    GraphProvenance.EXTRACTED,
-                    1.0,
+                    GraphProvenance.INFERRED
+                    if result.parser_kind in SCRIPT_PARSERS and local_target
+                    else GraphProvenance.EXTRACTED,
+                    0.75 if result.parser_kind in SCRIPT_PARSERS and local_target else 1.0,
                     f"{path}:{item.line}",
+                    resolution_basis="relative_module_candidate"
+                    if result.parser_kind in SCRIPT_PARSERS and local_target
+                    else "import_syntax",
+                    source_expression=item.module,
                 )
                 test_suite_id = test_suites.get(path)
                 if test_suite_id and local_target and target_id != module_id:
@@ -847,7 +1056,7 @@ class ProjectGraphEngine:
                     module_name,
                     None,
                     qualified_symbols,
-                    simple_symbols,
+                    result,
                 )
             for symbol in result.symbols:
                 source_id = symbol_ids[symbol.qualified_name]
@@ -861,39 +1070,38 @@ class ProjectGraphEngine:
                         module_name,
                         symbol,
                         qualified_symbols,
-                        simple_symbols,
+                        result,
                     )
-                if symbol.kind == GraphNodeKind.CLASS:
+                if symbol.kind in {GraphNodeKind.CLASS, GraphNodeKind.INTERFACE}:
                     for base in symbol.bases:
-                        target_id = self._resolve_symbol(
+                        self._add_expression_edge(
+                            nodes,
+                            edges,
+                            source_id,
                             base,
+                            symbol.line_start,
+                            path,
                             module_name,
                             symbol,
                             qualified_symbols,
-                            simple_symbols,
+                            result,
+                            GraphRelation.EXTENDS,
+                            "inheritance",
                         )
-                        if target_id is None:
-                            target_id = _node_id("external-class", base)
-                            nodes.setdefault(
-                                target_id,
-                                GraphNode(
-                                    id=target_id,
-                                    kind=GraphNodeKind.CLASS,
-                                    name=base,
-                                    metadata={
-                                        "external": True,
-                                        "reference_type": "inheritance",
-                                    },
-                                ),
-                            )
-                        self._add_edge(
+                    for interface in symbol.implements:
+                        self._add_expression_edge(
+                            nodes,
                             edges,
                             source_id,
-                            target_id,
-                            GraphRelation.EXTENDS,
-                            GraphProvenance.EXTRACTED,
-                            1.0,
-                            f"{path}:{symbol.line_start}",
+                            interface,
+                            symbol.line_start,
+                            path,
+                            module_name,
+                            symbol,
+                            qualified_symbols,
+                            result,
+                            GraphRelation.IMPLEMENTS,
+                            "implementation",
                         )
 
         graph_edges = tuple(
@@ -910,6 +1118,8 @@ class ProjectGraphEngine:
                 provenance=item.provenance,
                 confidence=item.confidence,
                 evidence=tuple(sorted(item.evidence)),
+                resolution_basis=tuple(sorted(item.resolution_basis)),
+                source_expressions=tuple(sorted(item.source_expressions)),
             )
             for _, item in sorted(edges.items())
         )
@@ -930,34 +1140,85 @@ class ProjectGraphEngine:
         module_name: str,
         symbol: _SymbolSpec | None,
         qualified_symbols: dict[str, str],
-        simple_symbols: defaultdict[str, list[str]],
+        parsed: _ParsedSource,
     ) -> None:
-        target_id = self._resolve_symbol(
+        self._add_expression_edge(
+            nodes,
+            edges,
+            source_id,
             call.name,
+            call.line,
+            path,
             module_name,
             symbol,
             qualified_symbols,
-            simple_symbols,
+            parsed,
+            GraphRelation.CALLS,
+            "call",
         )
-        if target_id is None:
-            target_id = _node_id("call-reference", call.name)
-            nodes.setdefault(
-                target_id,
-                GraphNode(
-                    id=target_id,
-                    kind=GraphNodeKind.REFERENCE,
-                    name=call.name,
-                    metadata={"external": True, "reference_type": "call"},
-                ),
+
+    def _add_expression_edge(
+        self,
+        nodes: dict[str, GraphNode],
+        edges: dict[tuple[str, str, str, str], _EdgeAccumulator],
+        source_id: str,
+        expression: str,
+        line: int,
+        path: str,
+        module_name: str,
+        symbol: _SymbolSpec | None,
+        qualified_symbols: dict[str, str],
+        parsed: _ParsedSource,
+        relation: GraphRelation,
+        reference_type: str,
+    ) -> None:
+        # ECMAScript extraction intentionally does not emulate lexical environments,
+        # closures, block scopes, re-exports or type-directed dispatch. Calls and
+        # inheritance expressions remain occurrences, never guessed global bindings.
+        resolution = (
+            None
+            if parsed.extraction_truncated or parsed.parser_kind in SCRIPT_PARSERS
+            else self._resolve_symbol(
+                expression,
+                module_name,
+                symbol,
+                qualified_symbols,
+                parsed,
+                path,
             )
+        )
+        if resolution is None:
+            # The AST proves this expression occurs, not which object it binds to.
+            # Keep occurrences distinct across files/scopes rather than merging
+            # unrelated receiver expressions into a single "external" symbol.
+            target_id = _node_id("reference", path, source_id, str(line), expression)
+            nodes[target_id] = GraphNode(
+                id=target_id,
+                kind=GraphNodeKind.REFERENCE,
+                name=expression,
+                file_path=path,
+                line_start=line,
+                line_end=line,
+                language=_LANGUAGES.get(PurePosixPath(path).suffix.casefold()),
+                source_hash=parsed.content_hash,
+                metadata={"resolution": "unresolved", "reference_type": reference_type},
+            )
+            provenance, confidence, basis = GraphProvenance.EXTRACTED, 1.0, "syntax_occurrence"
+        else:
+            target_id = resolution.target_id
+            # Even an exact lexical/import candidate is not proof of Python
+            # runtime dispatch: bindings can be reassigned or monkey patched.
+            provenance, confidence, basis = GraphProvenance.INFERRED, 0.75, resolution.basis
         self._add_edge(
             edges,
             source_id,
             target_id,
-            GraphRelation.CALLS,
-            GraphProvenance.EXTRACTED,
-            1.0,
-            f"{path}:{call.line}",
+            relation,
+            provenance,
+            confidence,
+            f"{path}:{line}",
+            resolution_basis=basis,
+            source_expression=expression,
         )
 
     def _resolve_symbol(
@@ -966,22 +1227,63 @@ class ProjectGraphEngine:
         module_name: str,
         symbol: _SymbolSpec | None,
         qualified_symbols: dict[str, str],
-        simple_symbols: defaultdict[str, list[str]],
-    ) -> str | None:
-        if symbol and reference.startswith(("self.", "cls.")):
-            parent = symbol.parent_qualified_name
-            if parent:
-                member = reference.rsplit(".", maxsplit=1)[-1]
-                candidate = f"{module_name}.{parent}.{member}"
+        parsed: _ParsedSource,
+        path: str,
+    ) -> _SymbolResolution | None:
+        """Find a supported static candidate, never a global last-name guess."""
+        scopes = {item.qualified_name: item for item in parsed.symbols}
+        head, separator, tail = reference.partition(".")
+        member_prefixes = ("self.", "cls.") if parsed.parser_kind == "python" else ("this.",)
+        if symbol and reference.startswith(member_prefixes) and tail and "." not in tail:
+            parent = scopes.get(symbol.parent_qualified_name or "")
+            if parent and parent.kind == GraphNodeKind.CLASS:
+                candidate = f"{module_name}.{parent.qualified_name}.{tail}"
                 if candidate in qualified_symbols:
-                    return qualified_symbols[candidate]
-        module_candidate = f"{module_name}.{reference}"
-        if module_candidate in qualified_symbols:
-            return qualified_symbols[module_candidate]
-        if reference in qualified_symbols:
-            return qualified_symbols[reference]
-        matches = simple_symbols.get(reference.split(".")[-1], [])
-        return matches[0] if len(matches) == 1 else None
+                    return _SymbolResolution(qualified_symbols[candidate], "class_member_candidate")
+        owners: list[str | None] = []
+        current = symbol
+        while current is not None:
+            owners.append(current.qualified_name)
+            if head in current.bound_names:
+                return None
+            current = scopes.get(current.parent_qualified_name or "")
+        owners.append(None)
+        for owner in owners:
+            for item in parsed.imports:
+                if item.owner != owner:
+                    continue
+                for local_name, imported_name in item.aliases:
+                    if parsed.parser_kind in SCRIPT_PARSERS and local_name == head:
+                        # Module resolution does not prove named/default re-export bindings.
+                        return None
+                    if local_name != head or imported_name == "*":
+                        continue
+                    if item.names:
+                        imported_module = _resolve_import(
+                            module_name,
+                            item.module,
+                            (),
+                            item.level,
+                            is_package=PurePosixPath(path).name in {"__init__.py", "__init__.pyi"},
+                        )
+                        binding = ".".join(
+                            part for part in (imported_module, imported_name) if part
+                        )
+                    else:
+                        binding = imported_name
+                    candidate = binding + (f".{tail}" if separator else "")
+                    target = qualified_symbols.get(candidate)
+                    return _SymbolResolution(target, "import_candidate") if target else None
+            # A class namespace is not an enclosing lexical scope for methods.
+            scoped = scopes.get(owner or "")
+            if owner is not None and scoped and scoped.kind == GraphNodeKind.CLASS:
+                continue
+            prefix = f"{module_name}.{owner}" if owner else module_name
+            candidate = f"{prefix}.{reference}"
+            target = qualified_symbols.get(candidate)
+            if target:
+                return _SymbolResolution(target, "lexical_candidate")
+        return None
 
     def _add_edge(
         self,
@@ -992,6 +1294,9 @@ class ProjectGraphEngine:
         provenance: GraphProvenance,
         confidence: float,
         evidence: str,
+        *,
+        resolution_basis: str | None = None,
+        source_expression: str | None = None,
     ) -> None:
         key = (source_id, target_id, str(relation), provenance.value)
         current = edges.get(key)
@@ -1006,6 +1311,10 @@ class ProjectGraphEngine:
             edges[key] = current
         current.confidence = max(current.confidence, confidence)
         current.evidence.add(evidence)
+        if resolution_basis:
+            current.resolution_basis.add(resolution_basis)
+        if source_expression:
+            current.source_expressions.add(source_expression)
 
     def _storage_target(self, path: Path) -> Path:
         target = self.layout.contained(path)
@@ -1031,14 +1340,42 @@ def _module_name(path: str) -> str:
     return ".".join(parts) or "__init__"
 
 
+def _resolve_script_import(
+    path: str, specifier: str, path_modules: dict[str, tuple[str, str]]
+) -> str:
+    if not specifier.startswith("."):
+        return f"js:package:{specifier}"
+    normalized = posixpath.normpath(str(PurePosixPath(path).parent / specifier))
+    if normalized.startswith("../") or normalized == ".." or "\\" in normalized:
+        return f"js:unresolved:{path}:{specifier}"
+    candidates = {normalized}
+    if not PurePosixPath(normalized).suffix:
+        extensions = (".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs")
+        candidates.update(normalized + suffix for suffix in extensions)
+        candidates.update(normalized + "/index" + suffix for suffix in extensions)
+    matches = [
+        path_modules[candidate][0]
+        for candidate in sorted(candidates)
+        if candidate in path_modules and path_modules[candidate][0].startswith("js:")
+    ]
+    return matches[0] if len(matches) == 1 else f"js:unresolved:{path}:{specifier}"
+
+
+def _graph_payload(graph: ProjectGraph) -> bytes:
+    try:
+        return json.dumps(
+            graph.model_dump(mode="json"),
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
+        ).encode("utf-8")
+    except (TypeError, ValueError) as exc:
+        raise FilesystemFormatError("Value is not valid JSON") from exc
+
+
 def _graph_digest(graph: ProjectGraph) -> str:
-    payload = json.dumps(
-        graph.model_dump(mode="json"),
-        ensure_ascii=False,
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
-    return hashlib.sha256(payload).hexdigest()
+    return hashlib.sha256(_graph_payload(graph)).hexdigest()
 
 
 def _resolve_import(

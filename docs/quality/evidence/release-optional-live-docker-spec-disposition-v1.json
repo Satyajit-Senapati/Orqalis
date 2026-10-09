@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "status": "OPTIONAL_LIVE_DOCKER_SKIP_PERMITTED_MANDATORY_X01_PENDING",
+  "reviewed_at": "2026-10-03T15:17:32.165504+00:00",
+  "reviewer": "release_acceptance_review",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "scope": "Read-only specification disposition for parent-reported live Docker skip during still-running full13. No qualification, Docker startup/install/pull, test, benchmark or heavy scan executed.",
+  "reviewed_local_sources_sha256": {
+    "docs/quality/MASTER_ENHANCEMENT_PLAN.md": "8e6dc4ceecca327770e974959a12aa5d945377a3ed7b6e53be818c216326c260",
+    "docs/quality/ENHANCEMENT_BACKLOG.md": "2198fae15d6543160d6fd667f265bf98eeef9a694b58b2d1effc548f1602a9ac",
+    "docs/quality/capabilities.json": "d263b59d20e63f78ee9584c4c2ed40f3d693d0104c68dc41f8f9a65ded39c7fd",
+    "docs/DEVELOPMENT.md": "0f908e6b28860a86ff0115a04d0788279a4d6d0f00b5488ba5930a9b5c0a8073",
+    "docs/06-security-git-and-governance.md": "23c8f4ae5c5595815c66d8ed9b47676f5ca0b5c97886d072098dc2d31568a8ce",
+    "README.md": "c2c148e3769180883b6087b6938e1cbd9aa11a7bce1b6bdf376bd183768a0263",
+    "tests/integration/test_sandbox.py": "6b1d14335a8d6cb4ccbc7d58b6e24050b9af8867ee023aa2924d201cd3ead4bc",
+    "tests/unit/test_sandbox_lifecycle.py": "389651db2159b988fab2d7e3af0925b7b0ea00d863f7d0b25d4f8cc8b51f6f99",
+    "tests/integration/test_sandbox_recovery.py": "81f83ca3f71f77f6caa6765bf21a6d2b056982abe73251421922bc90a1124397"
+  },
+  "explicit_canonical_contract": [
+    {
+      "path": "docs/quality/MASTER_ENHANCEMENT_PLAN.md",
+      "line": 710,
+      "meaning": "Docker and cloud sandboxes must not be mandatory; optional advanced tiers remain optional at1285\u20131292."
+    },
+    {
+      "path": "docs/DEVELOPMENT.md",
+      "line": 72,
+      "meaning": "Default suite collects this live container test and explicitly skips when ORQALIS_TEST_SANDBOX_IMAGE is unset; use already-pulled image to qualify optional tier."
+    },
+    {
+      "path": "docs/06-security-git-and-governance.md",
+      "line": 60,
+      "meaning": "Live daemon qualification is explicit separate environment tier; durable receipts do not claim universal exactly-once Docker."
+    },
+    {
+      "path": "docs/quality/ENHANCEMENT_BACKLOG.md",
+      "line": 26,
+      "meaning": "X01 requires exact ownership/reconciliation/fail-closed behavior with fake create/start/inspect/remove, crash windows, mismatch/daemon denial and all command paths."
+    }
+  ],
+  "accepted_X01": {
+    "id": "X01",
+    "subsystem": "Execution",
+    "current": "Durable container receipts, exact daemon/label/ID ownership and fail-closed reconciliation",
+    "reference": "OpenHands SDK; SWE-agent; E2B",
+    "strength": "Explicit sandbox/session ownership and interruption",
+    "gap": "Orphan uncertainty and ignored cleanup failure",
+    "adaptation": "Persist exact ownership, inspect labels, reconcile before reuse/recovery; fail closed",
+    "value": "High",
+    "complexity": "Medium",
+    "license": "MIT/Apache concepts",
+    "decision": "ADAPT",
+    "evidence": "research/RUNTIME_RESEARCH.md",
+    "priority": "P1",
+    "status": "IMPLEMENTED_PENDING_EVAL",
+    "tests": "Create/start/inspect/remove fake transport; crash windows; mismatch/daemon denial; all application command paths",
+    "benchmark": "Zero unrelated deletion or unsafe concurrent writer; deterministic cleanup outcomes",
+    "dependencies": "O02",
+    "baseline_state": "Restricted Docker/local command tiers; cleanup identity ephemeral"
+  },
+  "optional_live_test": {
+    "id": "tests/integration/test_sandbox.py::test_docker_workspace_network_and_readonly_root",
+    "marker": "docker",
+    "skip_condition": "ORQALIS_TEST_SANDBOX_IMAGE absent/empty",
+    "skip_reason": "Set ORQALIS_TEST_SANDBOX_IMAGE to an already available sandbox image",
+    "tier": "Actual live daemon network/read-only-root/workspace mount/POSIX identity qualification",
+    "disposition": "SKIP remains explicitly SKIP, not PASS. No image/daemon availability or actual container security certification inferred."
+  },
+  "mandatory_deterministic_evidence_still_required": [
+    {
+      "file": "tests/unit/test_sandbox_lifecycle.py",
+      "cases": "Receipt-before-create; verified exact-ID deletion; labels/daemon/daemon-identity/receipt/removal uncertainty fail closed; mount separation; successful-command cleanup failure; prepared/created/started owned process-death windows; nonzero transport; successful removal verifies absence."
+    },
+    {
+      "file": "tests/integration/test_sandbox_recovery.py",
+      "case": "Application tool-failure recovery reconciles host-owned receipt before next attempt; uncertain cleanup prevents continuation."
+    }
+  ],
+  "contract86_limit": "Existing frozen86 contract file inventory does not include these X01 lifecycle/recovery suites. Source-bound full-suite actual XML/results must show mandatory fake-transport tests passing; 86PASS alone cannot close X01.",
+  "final_reporting_requirements": "Keep exact skipped test/reason and separate passed/failed/skipped counts in actual full-suite XML/JSON and final release review. Windows/local/fake-provider tier can qualify only after every mandatory gate and two full iterations; explicitly disclose live Docker tier unqualified. A deterministic lifecycle/recovery skip or failure is not covered by this disposition.",
+  "current_gate_state": {
+    "full13": "Still running according to parent; final actual XML not yet reviewed",
+    "qualified_iterations": 0,
+    "required_iterations": 2,
+    "X01_status": "IMPLEMENTED_PENDING_EVAL",
+    "all_accepted_P1_status": "IMPLEMENTED_PENDING_EVAL",
+    "release_ready": false
+  },
+  "no_waiver": true,
+  "no_mandatory_gate_changed": true,
+  "reviewer_workloads_executed": false,
+  "production_tests_public_docs_edits": false,
+  "commits_or_publication": false
+}

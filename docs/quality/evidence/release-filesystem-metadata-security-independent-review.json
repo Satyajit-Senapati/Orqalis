@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-02T16:55:53.544141+00:00",
+  "reviewer": "independent_release_security_review",
+  "status": "UNAPPLIED_METADATA_PROPOSAL_STATIC_REVIEW_PASS_NATIVE_FIXTURE_VALIDATION_PENDING",
+  "actual_source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "reviewed_file_sha256": {
+    "src/orqalis/persistence/filesystem/io.py": "f1450938b835e7276edb757671f275e0f07030bec3f1547887b32007db281334",
+    ".tools/research/release_filesystem_metadata_proposal.py": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+    ".tools/research/release_filesystem_metadata_proposal.patch": "f8b9f6bd7ff95459113b376a99ca887c36d8c661930795be9c4dedb4188ce280",
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "tests/unit/test_filesystem_foundation.py": "f204fddbe3bdaae051ec952309c71db719e9b121b71ee3e965de624436f58fc3"
+  },
+  "local_python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+  "proposal_applied": false,
+  "source_or_helper_edits": false,
+  "measured_workloads_or_tests_run": false,
+  "confirmed_new_P0_P1_findings": 0,
+  "scope": "Static comparison of an unapplied single-function metadata optimization; local CPython 3.12.14 source and official CPython 3.12/3.14 implementation/documentation.",
+  "guard_equivalence": [
+    "All module ASTs except ensure_no_filesystem_links are identical. Candidate expanduser().absolute(), iteration over (candidate,*candidate.parents), denial message/type, and final returned Path are unchanged.",
+    "One lstat result is checked using S_ISLNK(st_mode) for symbolic links and st_reparse_tag == IO_REPARSE_TAG_MOUNT_POINT for junctions. The fallback constant 0xA0000003 equals the installed Windows constant.",
+    "Installed CPython 3.12 Path.is_symlink uses S_ISLNK(self.lstat().st_mode); ntpath.isjunction uses os.lstat(path).st_reparse_tag with the same mount-point tag. The proposed predicates therefore combine the existing two default metadata snapshots without following the final entry.",
+    "CPython 3.14 ntpath dispatches Windows islink/isjunction to native predicates for symbolic-link and mount-point tags; its fileutils stat conversion sets S_IFLNK for a symbolic-link reparse tag and retains the mount-point tag in st_reparse_tag. Proposed successful-stat detection covers the same link classes.",
+    "On POSIX/Linux lstat provides symbolic-link mode including dangling symlinks; st_reparse_tag is absent, so its fallback zero cannot equal the nonzero junction tag. Ordinary Linux directories and non-link mount points remain allowed as before.",
+    "Missing/not-directory descendants do not stop traversal: the loop continues to all parents, allowing a dangling link or junction parent to be detected even when the candidate cannot be statted.",
+    "No resolved-path cache, cross-operation metadata reuse, root-guard removal, allowed-path broadening, approval change, service dispatch change, UOW change, transaction change or checkpoint change is introduced.",
+    "Each operation still rechecks components. This does not establish race-free open-by-handle traversal and does not claim to close the pre-existing check-to-use race; the proposal adds no cache or widened lifecycle window."
+  ],
+  "intentional_error_semantics_change": {
+    "skipped": [
+      "FileNotFoundError",
+      "NotADirectoryError"
+    ],
+    "propagated": "Other OSError subclasses, including access-denied/sharing/loop errors, and ValueError propagate before any storage read/write instead of some or all old predicate failures being suppressed.",
+    "compatibility": "Security-conservative, deliberately not bit-for-bit equivalent on invalid/inaccessible paths. Python 3.14 is_symlink predicates suppress all OSError; direct lstat is appropriate to preserve fail-closed storage validation. Unexpected OS failures may surface as their original exception type; do not describe this as no observable behavior change."
+  },
+  "existing_tests_read_not_run": [
+    "test_filesystem_foundation.py:292-326 rejects linked store root and linked tasks subtree; Windows uses owned mklink /J fixtures and POSIX uses symlink fixtures."
+  ],
+  "recommended_parent_fixture_checks": [
+    "Existing and missing children under an owned real junction must be denied.",
+    "Dangling owned junction must be denied if fixture creation is supported.",
+    "Ordinary existing/missing non-linked path must retain normal behavior.",
+    "Symbolic-link and junction synthetic metadata plus access-denied propagation should receive lightweight focused coverage."
+  ],
+  "authorization_assessment": "Low-risk, authorization-preserving, reversible optimization within the existing user-requested scope. It is distinct from both unapplied plan-preview proposals and does not execute or bypass the rejected approval/UOW consolidation. Normal automatic approval review remains authoritative for any concrete edit; this independent report cannot waive a rejection.",
+  "primary_sources": [
+    {
+      "url": "https://github.com/python/cpython/blob/3.12/Lib/ntpath.py",
+      "support": "Python 3.12 junction predicate uses lstat and mount-point reparse tag."
+    },
+    {
+      "url": "https://docs.python.org/3.12/library/os.html#os.lstat",
+      "support": "Windows lstat opens symbolic-link and directory-junction name-surrogate reparse points without following the final entry."
+    },
+    {
+      "url": "https://github.com/python/cpython/blob/3.14/Lib/ntpath.py",
+      "support": "Python 3.14 Windows native islink/isjunction dispatch."
+    },
+    {
+      "url": "https://github.com/python/cpython/blob/3.14/Modules/posixmodule.c",
+      "support": "Native islink/isjunction classify symbolic-link and mount-point reparse tags."
+    },
+    {
+      "url": "https://github.com/python/cpython/blob/3.14/Python/fileutils.c",
+      "support": "Stat conversion retains reparse tag and maps symbolic-link tag to S_IFLNK."
+    },
+    {
+      "url": "https://docs.python.org/3.14/library/pathlib.html#querying-file-type-and-status",
+      "support": "Python 3.14 predicate OSError suppression differs from unsuppressed lstat."
+    }
+  ],
+  "limitations": [
+    "No production edit or new candidate qualification asserted.",
+    "No real Windows fixture execution or Linux/Python 3.14 interpreter execution by this reviewer; primary-source compatibility review only.",
+    "Parent staged native fixture validation was pending at review time.",
+    "No 5-second UI improvement, native-browser pass, benchmark speedup, installed-artifact closure or release convergence claim.",
+    "Filesystem errors now deliberately fail closed; existing check-to-use race remains the accepted pre-existing boundary."
+  ]
+}

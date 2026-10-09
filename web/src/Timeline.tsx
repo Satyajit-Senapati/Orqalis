@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { duration } from "./api";
+import { TraceView } from "./TraceView";
 import { Empty, label } from "./ui";
 import type { Segment, Snapshot } from "./types";
 
@@ -13,6 +14,7 @@ function segmentKey(segment: Segment) {
 }
 
 export function Timeline({ snapshot }: { snapshot: Snapshot }) {
+  const criticalPath = new Set(snapshot.statistics.critical_path_task_ids);
   const [kind, setKind] = useState<"all" | Segment["kind"]>("all");
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const segments = snapshot.timeline.filter(
@@ -78,6 +80,7 @@ export function Timeline({ snapshot }: { snapshot: Snapshot }) {
   }
 
   return (
+    <>
     <section className="panel operational-panel">
       <div className="section-heading">
         <h2>Execution timeline</h2>
@@ -127,6 +130,13 @@ export function Timeline({ snapshot }: { snapshot: Snapshot }) {
         </span>
         <span>Measured working time, not a completion forecast</span>
       </div>
+      <div className="panel-body" aria-label="Measured critical path">
+        <h3>Measured critical path</h3>
+        <p>{duration(snapshot.statistics.critical_path_working_ms)} of task working time. This describes recorded work, not a completion forecast.</p>
+        {criticalPath.size ? <ol>{snapshot.statistics.critical_path_task_ids.map((id) => <li key={id}>
+          {snapshot.tasks.find((task) => task.id === id)?.description ?? id}
+        </li>)}</ol> : <p>No task path measured yet.</p>}
+      </div>
       {!rows.length ? (
         <Empty>No persisted execution intervals yet.</Empty>
       ) : (
@@ -158,7 +168,7 @@ export function Timeline({ snapshot }: { snapshot: Snapshot }) {
                       aria-pressed={segmentKey(part) === selectedKey}
                       aria-label={`${title(part)}: ${label(part.status)}, ${part.duration_ms} milliseconds, ${part.started_at} to ${part.ended_at}`}
                       title={`${label(part.status)} · ${duration(part.duration_ms)} (${part.duration_ms} ms)`}
-                      className={`timeline-bar status-${part.status.toLowerCase()}`}
+                      className={`timeline-bar status-${part.status.toLowerCase()}${part.task_id && criticalPath.has(part.task_id) ? " critical-path-bar" : ""}`}
                       style={{
                         left: `${
                           ((Date.parse(part.started_at) - start) / span) * 100
@@ -238,5 +248,7 @@ export function Timeline({ snapshot }: { snapshot: Snapshot }) {
         </span>
       </div>
     </section>
+    <TraceView snapshot={snapshot} />
+    </>
   );
 }

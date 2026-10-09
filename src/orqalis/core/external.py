@@ -299,7 +299,7 @@ class ExternalWorkService:
                 if run.state != RunState.EXECUTING or attempt.status != TaskStatus.RUNNING:
                     raise ConflictError("External task is not active")
                 goal = (
-                    uow.runs.get_goal(run.current_goal_version_id)
+                    uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                     if run.current_goal_version_id
                     else None
                 )

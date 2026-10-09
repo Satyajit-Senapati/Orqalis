@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T11:37:56.480073+00:00",
+  "reviewer": "independent release_security_review agent",
+  "source_review_at_start_sha256": "3de7453159f9246b55cfd60a1bd30eced005aab6be3083969e4c5b9e6d5ea07c",
+  "source_inputs": 196,
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "files": [
+    {
+      "production": "src/orqalis/git/service.py",
+      "original_sha256": "5ce396c1f78400a418212c13000691b9e60ac64c78cf111bf6c99241f27089e2",
+      "proposal": ".tools/research/release_git_location_service_proposal_v2.py",
+      "proposal_sha256": "d04ce5877438b7b245d2854a712cdcae06cef56db9b7ecbe4fb821fd6e35fbd4"
+    },
+    {
+      "production": "src/orqalis/graph/engine.py",
+      "original_sha256": "49912882265ac712d17ab153a083800b41484fb29bfd5c4b14423b6c535a2f9a",
+      "proposal": ".tools/research/release_git_location_engine_proposal_v1.py",
+      "proposal_sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0"
+    }
+  ],
+  "patch": {
+    "path": ".tools/research/release_git_location_proposal_v2.patch",
+    "sha256": "8e8dcf510f06c0c64df50572b645dc46816245527bfa99657204ae197da0de70"
+  },
+  "ast_proofs": {
+    "original_service_identical_after_removing_only_new_method": true,
+    "original_engine_identical_after_restoring_only_constructor": true,
+    "constructor_layout_storage_guards_and_later_assignments_unchanged": true
+  },
+  "conclusions": [
+    "New location method uses original strict path normalization/file-to-parent handling, then one fresh fixed rev-parse through unchanged _execute.",
+    "Decoded output requires exactly two nonempty absolute locations. Invalid shape falls back to original root/common_directory(root); command/decode/resolve errors propagate without bypass. Root resolve remains strict and common resolve unchanged.",
+    "Engine batching only exact built-in LocalGitService without instance root/common_directory/_execute overrides. Subclasses and these existing instance overrides retain original dispatch and common-directory denial.",
+    "Constructor-local fresh tuple reused for sourceNone or exact same input; distinct input obtains its own fresh tuple. Different normalized roots must share common-directory identity. No cross-call tuple/status/graph cache or externally supplied trusted snapshot.",
+    "All subsequent storage/link/graph/cache guards, UOW/approval/checkpoint/transaction/durability paths unchanged."
+  ],
+  "semantic_limits": [
+    "Valid two-line paths preserve whitespace rather than original .strip(); leading/trailing whitespace path acceptance can improve, not exact old normalization parity. UTF8 decode remains strict.",
+    "Malformed or separator-rich output shape uses legacy fallback; splitlines is not an unambiguous arbitrary pathname transport. No general newline-path support claimed.",
+    "Canonical common query now precedes distinct source-root validation; same-input explicit source observed once instead of twice. Exception ordering/call counts/transient filesystem observations can differ; no atomic snapshot or race-free guarantee.",
+    "Engine does not exclude instance overriding NEW root_and_common_directory; it is a trusted additive-method extension, not guaranteed built-in implementation. Including this name in the gate would be needed for that stronger claim. No preexisting override contract for new name found.",
+    "Dynamic class-level monkeypatches/stateful command counts outside instance/subclass parity guarantee.",
+    "Per-command timeout/Git env sanitization/hooks/fsmonitor/credential controls/error redaction unchanged; no new output-limit claim.",
+    "No tests, audits, probes, benchmarks or qualification workloads executed by reviewer. No speedup/5s browser cure, original14 or full86 closure, installed binding, two-round convergence or release readiness claim."
+  ],
+  "primary_sources": [
+    {
+      "url": "https://git-scm.com/docs/git-rev-parse",
+      "support": "Absolute path format governs following location options; toplevel is worktree root or fails, common-dir is shared Git directory."
+    }
+  ],
+  "required_validation": [
+    "Normal/nested/file roots, Unicode/spaces and explicit leading/trailing whitespace characterization",
+    "Linked worktree common identity and unrelated repository rejection",
+    "Missing/invalid/bare root; command failure no fallback",
+    "Wrong line count/empty/relative output legacy fallback and strict decode failures",
+    "Subclass/instance root/common/_execute denial original dispatch",
+    "sourceNone/exactequal/distinctsame-root/distinctworktree constructor branches",
+    "Fresh repeated constructions plus storage-link/junction/metadata permission denial"
+  ],
+  "source_guard_disposition": {
+    "initial_final_save_stopped_before_output": true,
+    "reason": "Actual aggregate changed from review-at-start3de to authorized applied/formatteda360 during review. Initial assert stopped before writing either report. No stale rebind; original bytes reconstructed and SHA matched, full inverse source restores3de.",
+    "original_reconstruction_line_endings": "Both original production files use CRLF. In-memory inverse restoration reconstituted CRLF and matched exact original file hashes; applied/proposal files are LF.",
+    "applied_scope_separate": true
+  },
+  "status": "BOUNDED_APPLIED_AST_DELTA_REVIEW_PASS_TESTS_PENDING",
+  "scope": "Scoped static followup of authorized applied/formatteda360 source; no workload claims.",
+  "source_sha256": "a360ed56a5afecf0490fee3e8661894cab982e15e51ee8fd5e6d0744e7bc64e1",
+  "preformat_proposed_source_sha256": "0aab3f067c2396f92e43a8eab11e71b55f048b58dc1e594a17b09547632f732e",
+  "only_two_production_deltas_proved_by_full_inverse_source": true,
+  "actual_files": [
+    {
+      "path": "src/orqalis/git/service.py",
+      "sha256": "52aa961b5ebb93717e56636713eb7a4fc875dd0ebf794bee046cba44902e2409",
+      "matches_proposal": "AST identical; formatter reflows chained call only"
+    },
+    {
+      "path": "src/orqalis/graph/engine.py",
+      "sha256": "c3f804c96baad20afae87784c61f5d2fb2610e3971ee4dd9a295a53d9a16b9d0",
+      "matches_proposal": "byte identical"
+    }
+  ],
+  "proposal_review": {
+    "path": "docs/quality/evidence/release-git-location-proposal-independent-review-v1.json",
+    "sha256": "fc71938df43954ba2b7a6fd3cff89267d363fbb70cd57e014d2426f249a5094c"
+  },
+  "test_scope": "Nine new planned cases appended; no workload has run at parent application notice. No PASS inferred from test presence."
+}

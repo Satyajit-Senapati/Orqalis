@@ -37,6 +37,7 @@ async function fixture(t) {
   const files = {
     "orqalis-1.0.0-py3-none-any.whl": "wheel fixture",
     "requirements.txt": "locked fixture",
+    "pip-26.2.1-py3-none-any.whl": "pip fixture",
   };
   for (const [name, content] of Object.entries(files))
     await writeFile(join(root, "vendor", name), content);
@@ -44,6 +45,7 @@ async function fixture(t) {
     join(root, "vendor/manifest.json"),
     JSON.stringify({
       schema: 1,
+      bootstrap: { version: "26.2.1", wheel: "pip-26.2.1-py3-none-any.whl" },
       version: "1.0.0",
       license: "MIT",
       files: Object.fromEntries(
@@ -146,6 +148,28 @@ test("bundle validates hashes, rejects tampering and extra packed files", async 
   await assert.rejects(verifyBundle(root), /Unexpected files/);
 });
 
+test("bootstrap wheel is mandatory and hash verified before any setup", async (t) => {
+  const root = await fixture(t);
+  const path = join(root, "vendor/pip-26.2.1-py3-none-any.whl");
+  let calls = 0;
+  const options = {
+    env: { ORQALIS_RUNTIME_HOME: join(root, "cache") },
+    runSetup: async () => {
+      calls++;
+    },
+  };
+  await writeFile(path, "tampered");
+  await assert.rejects(ensureRuntime(root, options), /integrity/);
+  assert.equal(calls, 0);
+  await rm(path);
+  await assert.rejects(verifyBundle(root), /Unexpected files/);
+  const manifestPath = join(root, "vendor/manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  delete manifest.bootstrap;
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  await assert.rejects(verifyBundle(root), /bootstrap pip wheel/);
+});
+
 test("bundle rejects mismatched versions and path traversal", async (t) => {
   const root = await fixture(t);
   const path = join(root, "vendor/manifest.json");
@@ -219,10 +243,30 @@ test("maintainer release audit is excluded while accidental prepared copies fail
   ]) {
     await writeFile(join(repository, name), "local audit evidence");
   }
+  await mkdir(join(repository, "docs/quality/evidence"), { recursive: true });
+  await writeFile(
+    join(repository, "docs/quality/evidence/raw.json"),
+    "local paths and audit samples",
+  );
+  await writeFile(
+    join(repository, "docs/quality/ENHANCEMENT_STATUS.md"),
+    "maintainer status",
+  );
+
   await verifyPreparedCheckout(packageRoot, repository);
   await writeFile(
     join(packageRoot, "docs/NPM_RELEASE_READINESS.md"),
     "accidental audit copy",
+  );
+  await assert.rejects(
+    verifyPreparedCheckout(packageRoot, repository),
+    /documentation inventory is stale/,
+  );
+  await rm(join(packageRoot, "docs/NPM_RELEASE_READINESS.md"));
+  await mkdir(join(packageRoot, "docs/quality"));
+  await writeFile(
+    join(packageRoot, "docs/quality/ENHANCEMENT_STATUS.md"),
+    "accidental maintainer copy",
   );
   await assert.rejects(
     verifyPreparedCheckout(packageRoot, repository),
@@ -341,10 +385,13 @@ test("runtime setup uses isolated hashed installs once across concurrent launche
   const root = await fixture(t);
   const calls = [];
   const options = {
-    env: { ORQALIS_RUNTIME_HOME: join(root, "cache") },
+    env: {
+      ORQALIS_RUNTIME_HOME: join(root, "cache"),
+      PIP_CONFIG_FILE: "unsafe.conf",
+    },
     findPython: () => ({ command: "fixture-python", prefix: [] }),
-    runSetup: async (command, args) => {
-      calls.push([command, args]);
+    runSetup: async (command, args, setupOptions) => {
+      calls.push([command, args, setupOptions]);
       if (args.includes("venv")) {
         const runtime = args.at(-1);
         const bin = join(runtime, platform() === "win32" ? "Scripts" : "bin");
@@ -361,13 +408,24 @@ test("runtime setup uses isolated hashed installs once across concurrent launche
     ensureRuntime(root, options),
   ]);
   assert.equal(first, second);
-  assert.equal(calls.length, 5);
-  assert.ok(calls[1][1].includes("--require-hashes"));
-  assert.ok(calls[1][1].includes("--only-binary=:all:"));
-  assert.ok(calls[2][1].includes("--no-deps"));
-  assert.ok(calls[2][1].includes("--no-index"));
+  assert.equal(calls.length, 6);
+  assert.ok(calls[1][1].includes("--no-index"));
+  assert.ok(calls[1][1].includes("--no-deps"));
+  assert.equal(
+    calls[1][1].at(-1),
+    join(root, "vendor/pip-26.2.1-py3-none-any.whl"),
+  );
+  assert.ok(calls[2][1].includes("--require-hashes"));
+  assert.ok(calls[2][1].includes("--only-binary=:all:"));
+  assert.ok(calls[3][1].includes("--no-deps"));
+  assert.ok(calls[3][1].includes("--no-index"));
+  for (const call of calls.slice(1, 5))
+    assert.equal(
+      call[2].env.PIP_CONFIG_FILE,
+      platform() === "win32" ? "nul" : "/dev/null",
+    );
   assert.equal(await ensureRuntime(root, options), first);
-  assert.equal(calls.length, 5);
+  assert.equal(calls.length, 6);
 });
 
 test("failed setup does not mark runtime ready and can retry", async (t) => {

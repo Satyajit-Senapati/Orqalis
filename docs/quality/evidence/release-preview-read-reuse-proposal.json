@@ -1,0 +1,9 @@
+{
+  "status": "UNAPPLIED_READ_ONLY_REUSE_PROPOSAL",
+  "source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "original_file_sha256": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+  "patch_sha256": "4f86932aa537b2d4cfd4749bb7e2eb9b265c7710d826f164dd355e17c1d43306",
+  "proposed_file_sha256": "62006a78f66cda55605f0dd8408d7229300cb900a81bb82f961d7b59cddb4bf1",
+  "preserves": "Every existing approvals.ensure/_request_plan/install_plan/advance call, transaction/commit boundary and version/approval check retained. Only current goal-contract reads are reused from the existing locked initial read. Concurrent revision still fails closed at ensure/install.",
+  "prior_rejection": "Transaction-boundary consolidation/removal of tail PLAN checkpoint rejected before execution; not applied. This is a distinct conservative read-only alternative awaiting independent safety review."
+}

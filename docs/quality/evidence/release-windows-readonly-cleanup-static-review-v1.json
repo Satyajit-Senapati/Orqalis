@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T18:48:08.209172+00:00",
+  "status": "STATIC_CLEANUP_DEFECT_PROOF_PROPOSED_UNINVOKED",
+  "source_context_parent_supplied": "75b1df2b7e5888cb895408476190d0aa72a4976b560d50dc6e2beadb7455deb7",
+  "actual_io_sha256": "3035593133a783cd0f4553e7b4ca7435d1799c171e6290faf8cb8ae8ee96e7cc",
+  "actual_test_file_sha256": "c6b9a5e89e24d8e2435e13441bcfec8c6fbde35893edaa9120eb3deefe00cce7",
+  "full_source_scan": false,
+  "finding": {
+    "title": "Windows readonly temporary can survive failed replacement and mask original error",
+    "scope": "Inherited atomic_write_bytes exceptional cleanup/mode path; not a new five-attempt policy regression.",
+    "evidence_lines": {
+      "inherit_target_mode": 127,
+      "chmod_temp_before_replace": 139,
+      "replace": 143,
+      "final_unlink": 158
+    },
+    "reasoning": "Existing target readonly mode or explicit mode=0444 sets Windows READONLY on the already written temporary. If replacement raises, finally attempts to unlink that same readonly temp while suppressing only FileNotFoundError. Windows DeleteFileW rejects readonly files, causing a second PermissionError and leaving temp bytes; Python finally exception becomes outward error while original survives context.",
+    "accepted_boundary": "Atomic writer publicly supports mode and deliberately inherits existing mode. Expected replacement denial is acceptable; orphan cleanup and exception masking are distinct defects. Existing tests assert no owned temp after denied writes but only exercise writable mode.",
+    "durability_limit": "Original target should remain intact on failed replacement; this edge is cleanup/error fidelity, not proof of target corruption. Existing journal persistence/recovery ordering unchanged.",
+    "confidence": "Strong static code plus primary platform semantics; no actual native readonly-target proof executed yet, no confirmed new P0/P1 severity claim.",
+    "original_execution_failure": "Not attributable: observed diagnostic target/source attrs32 archive, nonreadonly; original fatal fixture was removed and its attributes unknown. Do not infer AV/ACL/reader attribution."
+  },
+  "one_prospective_native_proof_only": {
+    "status": "UNSTAGED_UNINVOKED_PENDING_ROOT_DESIGN_AND_SCHEDULE_REVIEW",
+    "timing": "Only after full regression actual process exit and root confirms no competing owned workload. Not a benchmark/profile/qualification sample.",
+    "source_binding": "At invocation bind current expected IO/freeze/environment and planned runner/plan bytes before/after. If current bytes differ, stop before probe; no silent source rebind.",
+    "owned_fixture": ".tools/research/release-native-readonly-target-fixture-v1",
+    "exclusive_output": "docs/quality/evidence/release-native-readonly-target-proof-v1.json",
+    "steps": [
+      "Assert Windows and all exact output/fixture paths absent, resolved under workspace, parents link-free. Create one exclusive new owned fixture directory; no reused user files.",
+      "Write owned target bytes before, close handle, chmod0444, capture actual stat.S_IMODE and st_file_attributes READONLY. Fail setup explicitly if real readonly flag absent.",
+      "Invoke unchanged current atomic_write_bytes(target,b\"after\") exactly once, no mocks/monkeypatch/profiler/reader handles/no retries around function. In-function five attempts/delays/guards remain unchanged.",
+      "Capture returned error and complete chained __context__/__cause__ type/errno/winerror/filename/filename2 and traceback frames, before any fixture cleanup. Preserve evidence rather than assert only error class.",
+      "Read target bytes/mode/attrs after call, enumerate only exact .target.*.tmp matching owned fixture. Capture each residual temp bytes/hash/mode/attrs; determine whether outward traceback points to cleanup unlink while context points to replacement. Do not open handles during replace itself.",
+      "Save exclusive raw evidence including source stability and all outcome flags. Unexpected success or absent residual still recorded without another probe; no retry until desired result.",
+      "Only after evidence captured, explicitly cleanup the newly owned fixture files: fresh guard and verify each resolved target remains inside exact created fixture; clear read-only on owned residual temp/target only, unlink known captured names, remove now-empty owned directory. Never chmod canonical project files, change ACLs/global security or use recursive deletion. Retain raw JSON even if fixture cleanup itself fails."
+    ],
+    "expected_mechanism_not_result_claim": "Expected unchanged readonly target, readonly residual temp containing candidate bytes, outward unlink WinError5 with replace WinError5 context. Must observe actual native result before assigning closure/severity or staging a production cleanup repair.",
+    "limits": [
+      "Single controlled readonly-target mechanism only; no originalfatal attribution, paid assistant/cross-platform/convergence/performance/release claim.",
+      "No native ShareDelete reader change, transaction/approval rewrite, additional retry-policy increase, OS/security/policy modification or broad process/event scan.",
+      "No invocation authorized by this static review; root must approve exact separately staged runner/plan and quiet schedule."
+    ]
+  },
+  "primary_sources": [
+    {
+      "url": "https://docs.python.org/3.12/library/os.html#os.chmod",
+      "supports": "Windows chmod controls readonly flag, other permission bits ignored."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-deletefilew",
+      "supports": "Read-only deletion returns ACCESS_DENIED; clearing that flag required to delete."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefileexw",
+      "supports": "Replacement requires platform ACL requirements; failed native call reports GetLastError."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/python/cpython/v3.12.14/Modules/posixmodule.c",
+      "supports": "Primary versioned interpreter source reference for reviewing Windows replacement/delete implementation, not separately built/executed by reviewer."
+    }
+  ],
+  "production_edits": false,
+  "native_invocation": false,
+  "workloads_invoked": false,
+  "decision": "One bounded prospective native readonly-target proof is justified after full actual exit; no production change proposed or authorized here."
+}

@@ -1,0 +1,10 @@
+{
+  "status": "TEST_IMPORT_TYPING_ERRORS_CORRECTED_PENDING_CHECK",
+  "source_sha256": "c3439180020ec483f902b61b757e1f7bb50756f4e7d59f6de16adb87d0ae0111",
+  "observed_errors": [
+    "test_filesystem_task_store.py:459: Module task_store does not explicitly export ensure_no_filesystem_links [attr-defined]",
+    "test_interface_release.py:291: Module hosting does not explicitly export sys [attr-defined]"
+  ],
+  "checked_source_files": 287,
+  "scope": "Strict no-implicit-reexport rejects access via modules importing these names. Tests now import primitive/sys directly; monkeypatch targets and assertions unchanged. Production source unchanged; earlier focused123 report remains bound to pre-correction test bytes. Actual corrected-file rerun and strict check required."
+}

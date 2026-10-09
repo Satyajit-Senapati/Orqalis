@@ -2,17 +2,23 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import stat
 import tempfile
+import time
 from collections.abc import Mapping
 from contextlib import suppress
 from pathlib import Path
 from typing import BinaryIO
 
 from orqalis.domain.errors import PolicyDeniedError
+from orqalis.persistence.filesystem._windows_io import replace_file
+from orqalis.persistence.filesystem._windows_io import shared_read_opener as shared_read_opener
 from orqalis.persistence.filesystem.locking import FileLock
+
+_replace_file = replace_file
 
 
 class FilesystemFormatError(ValueError):
@@ -24,8 +30,13 @@ def ensure_no_filesystem_links(path: Path) -> Path:
 
     candidate = path.expanduser().absolute()
     for component in (candidate, *candidate.parents):
-        is_junction = getattr(component, "is_junction", lambda: False)
-        if component.is_symlink() or is_junction():
+        try:
+            metadata = component.lstat()
+        except (FileNotFoundError, NotADirectoryError):
+            continue
+        # One metadata snapshot checks both link forms without following this entry.
+        junction_tag = getattr(stat, "IO_REPARSE_TAG_MOUNT_POINT", 0xA0000003)
+        if stat.S_ISLNK(metadata.st_mode) or getattr(metadata, "st_reparse_tag", 0) == junction_tag:
             raise PolicyDeniedError(
                 f"Project storage path traverses a link or junction: {component}"
             )
@@ -108,6 +119,55 @@ def _write_all(stream: BinaryIO, content: bytes) -> None:
         view = view[written:]
 
 
+def _read_bytes(target: Path) -> bytes:
+    with (
+        target.open("rb")
+        if os.name != "nt"
+        else open(target, "rb", opener=shared_read_opener) as stream
+    ):
+        return stream.read()
+
+
+def read_bytes(path: Path) -> bytes:
+    """Read a guarded immutable snapshot without blocking Windows replacement."""
+
+    return _read_bytes(ensure_no_filesystem_links(path))
+
+
+def read_text(path: Path) -> str:
+    """Read guarded UTF-8 text with the usual universal-newline behavior."""
+
+    target = ensure_no_filesystem_links(path)
+    with open(
+        target, encoding="utf-8", opener=shared_read_opener if os.name == "nt" else None
+    ) as stream:
+        return stream.read()
+
+
+class _TemporaryIdentityError(OSError):
+    """The temporary pathname no longer identifies our owned regular file."""
+
+
+def _require_temporary_identity(temporary: Path, identity: os.stat_result, content: bytes) -> None:
+    ensure_no_filesystem_links(temporary.parent)
+    current = os.stat(temporary, follow_symlinks=False)
+    if not stat.S_ISREG(current.st_mode) or getattr(current, "st_file_attributes", 0) & 0x400:
+        raise _TemporaryIdentityError("Temporary file is not an owned regular file")
+    if identity.st_ino:
+        if not os.path.samestat(identity, current):
+            raise _TemporaryIdentityError("Temporary file identity changed")
+    elif _read_bytes(temporary) != content:
+        # Filesystems without stable inode identities retain pathname verification.
+        raise OSError("Temporary file validation failed")
+
+
+def _verify_temporary(temporary: Path, stream: BinaryIO, content: bytes) -> os.stat_result:
+    stream.seek(0)
+    if stream.read() != content:
+        raise OSError("Temporary file validation failed")
+    return os.fstat(stream.fileno())
+
+
 def atomic_write_bytes(path: Path, content: bytes, *, mode: int | None = None) -> None:
     """Replace ``path`` only after a complete, flushed, verified temporary write."""
 
@@ -122,19 +182,58 @@ def atomic_write_bytes(path: Path, content: bytes, *, mode: int | None = None) -
         prefix=f".{target.name}.", suffix=".tmp", dir=target.parent
     )
     temporary = Path(temporary_name)
+    identity_lost = False
     try:
-        with os.fdopen(descriptor, "wb") as stream:
+        with os.fdopen(descriptor, "w+b") as stream:
             _write_all(stream, content)
             stream.flush()
             os.fsync(stream.fileno())
-        if temporary.read_bytes() != content:
-            raise OSError("Temporary file validation failed")
+            identity = _verify_temporary(temporary, stream, content)
+            identity_lost = True
+            _require_temporary_identity(temporary, identity, content)
+            identity_lost = False
+        identity_lost = True
+        _require_temporary_identity(temporary, identity, content)
+        identity_lost = False
         os.chmod(temporary, mode if mode is not None else existing_mode or 0o644)
-        os.replace(temporary, target)
+        # Transient Windows sharing denials get at most 300 ms of backoff.
+        for attempt in range(5):
+            try:
+                identity_lost = True
+                _require_temporary_identity(temporary, identity, content)
+                identity_lost = False
+                _replace_file(temporary, target)
+                break
+            except PermissionError as exc:
+                if (
+                    os.name != "nt"
+                    or getattr(exc, "winerror", None) not in {5, 32, 33}
+                    or attempt == 4
+                ):
+                    raise
+                ensure_no_filesystem_links(target)
+                time.sleep(0.02 * (2**attempt))
+                ensure_no_filesystem_links(target)
         _fsync_directory(target.parent)
     finally:
-        with suppress(FileNotFoundError):
-            temporary.unlink()
+        if not identity_lost:
+            with suppress(FileNotFoundError):
+                try:
+                    temporary.unlink()
+                except PermissionError as exc:
+                    if os.name != "nt" or getattr(exc, "winerror", None) != 5:
+                        raise
+                    ensure_no_filesystem_links(temporary)
+                    metadata = temporary.lstat()
+                    readonly_flag = getattr(stat, "FILE_ATTRIBUTE_READONLY", 0x1)
+                    if not stat.S_ISREG(metadata.st_mode) or not (
+                        getattr(metadata, "st_file_attributes", 0) & readonly_flag
+                    ):
+                        raise
+                    # Only clear READONLY on this failed write's owned temporary.
+                    os.chmod(temporary, stat.S_IMODE(metadata.st_mode) | stat.S_IWRITE)
+                    ensure_no_filesystem_links(temporary)
+                    temporary.unlink()
 
 
 def atomic_write_json(path: Path, value: object) -> None:
@@ -149,7 +248,7 @@ def atomic_write_json(path: Path, value: object) -> None:
 
 def read_json(path: Path) -> object:
     target = ensure_no_filesystem_links(path)
-    return _decode_json(target.read_bytes(), target)
+    return _decode_json(_read_bytes(target), target)
 
 
 def read_json_object(path: Path) -> dict[str, object]:
@@ -157,6 +256,17 @@ def read_json_object(path: Path) -> dict[str, object]:
     if not isinstance(value, dict):
         raise FilesystemFormatError(f"Expected a JSON object: {path}")
     return value
+
+
+def read_json_object_with_sha256(path: Path) -> tuple[dict[str, object], str]:
+    """Strictly decode and hash the same single read of a JSON object."""
+
+    target = ensure_no_filesystem_links(path)
+    content = _read_bytes(target)
+    value = _decode_json(content, target)
+    if not isinstance(value, dict):
+        raise FilesystemFormatError(f"Expected JSON object: {target}")
+    return value, hashlib.sha256(content).hexdigest()
 
 
 def _jsonl_lock(path: Path) -> Path:
@@ -168,7 +278,7 @@ def read_jsonl(path: Path) -> tuple[dict[str, object], ...]:
     with FileLock(_jsonl_lock(target)):
         if not target.exists():
             return ()
-        content = target.read_bytes()
+        content = _read_bytes(target)
     if not content:
         return ()
     if not content.endswith(b"\n"):
@@ -197,7 +307,7 @@ def repair_jsonl_prefix(path: Path, record_count: int) -> tuple[dict[str, object
                     f"JSONL file has fewer than {record_count} committed records: {target}"
                 )
             return ()
-        lines = target.read_bytes().splitlines(keepends=True)
+        lines = _read_bytes(target).splitlines(keepends=True)
         prefix_lines = lines[:record_count]
         if len(prefix_lines) != record_count or any(
             not line.endswith(b"\n") for line in prefix_lines

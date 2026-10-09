@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T17:44:13.871826+00:00",
+  "status": "PROSPECTIVE_B_ONLY_JSON_SHAPE_CORRECTION_APPROVED_SUBJECT_TO_EXACT_ACK_AND_RUNTIME_GUARDS",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "reviewed_files_sha256": {
+    "docs/quality/evidence/release-history-resume-b-diagnostic-plan-v2.json": "4d06d0cbca9d5f3f6517e3c802caba36ca40e5ab6732e59511cbdad373f061a5",
+    ".tools/research/release_history_resume_b_work_v2.py": "9a27d718c19d24878e7c987d5aa7d43ae3af52f8ac1326b17eb380e58e2465de",
+    ".tools/research/release_history_resume_b_v2.py": "75dc1c70a3c6b5d6990cb96adf9f4e06a98a5b80b0ed381ed0d45178099baa72"
+  },
+  "retained_records_exact_before_and_after_setup": 18,
+  "actual_fixture_function_validation": {
+    "method": "Exact nested fixture AST extracted from staged coordinator; read-only canonical hashing/shape validation. No main/guards/profile/constructor/Git/page/reserve/copy invoked.",
+    "equals_retained_fixture": true,
+    "json_roundtrip_equal": true,
+    "each_field_equal": {
+      "canonical_sha256": true,
+      "rows": true,
+      "valid_capsule_directories": true,
+      "valid_capsule_directory_count": true,
+      "orphan_valid_capsule_directories": true,
+      "canonical_bytes": true,
+      "min_bytes": true,
+      "max_bytes": true,
+      "content_shapes": true,
+      "ordered_ids": true,
+      "seed_files": true
+    },
+    "canonical_sha256": "2f2688cf4aa2ceab4b74484df0ffd4df1c399a33f7491c94a471ca6fb264045f",
+    "rows": 1001,
+    "valid_directories": 1001,
+    "orphan_directories": 0,
+    "seed_files_sha256": {
+      ".orqalis/manifest.yaml": "207a678ac4fad56f0e967c3ad3d1009aed0c41c29aecf1033351893b84743be1",
+      ".orqalis/tasks/index.json": "849da0f36878dbbcfaf909313b67d25580623787fddd9aa69ffb3fd46c032973"
+    }
+  },
+  "actual_setup_resolution": {
+    "status": "PASS",
+    "targets": 21,
+    "identities": 11,
+    "roots": 3,
+    "profile_hooks_unchanged": true,
+    "resolved_labels": [
+      "Condition.wait",
+      "FileLock.acquire",
+      "FileLock.release",
+      "LocalGitService._execute",
+      "LocalGitService.common_directory",
+      "LocalGitService.root",
+      "LocalGitService.root_and_common_directory",
+      "LocalGitService.status",
+      "TaskCapsuleStore._capsule_directories",
+      "TaskCapsuleStore._index_entry",
+      "TaskCapsuleStore._task_document",
+      "TaskCapsuleStore.read_index",
+      "TaskCapsuleStore.reserve_capsule",
+      "TaskHistoryService.__init__",
+      "TaskHistoryService.page",
+      "_ReentrantGate.acquire",
+      "_ReentrantGate.release",
+      "io.atomic_write_json",
+      "io.ensure_no_filesystem_links",
+      "io.read_json_object",
+      "native_lock.try"
+    ],
+    "no_main_constructor_Git_profile_page_copy_called": true
+  },
+  "observer_callback_ast_unchanged": true,
+  "minimal_diff": "Worker plan path only. Coordinator plan/worker names plus content_shapes list(k) to [list(pair) for pair in k]. All measured workloads/deadlines/assertions/cleanup remain unchanged.",
+  "normalized_comparisons_review": "Entire actual fixture JSON-native and matches persisted retained object in every field. Environment equality already json.loads(json.dumps(environment)). Setup rows and other persisted comparisons use strings/lists/bools/dicts; no additional tuple-versus-JSON mismatch identified.",
+  "new_outputs_absent_at_review": {
+    "B_raw": true,
+    "B": true,
+    "pair": true,
+    "host_B": true,
+    "setup": true,
+    "log_B": true,
+    "copy_B": true
+  },
+  "new_ack_absent_at_review": true,
+  "retained_shape_failure_sha256": "ec3ce9bbccd695d055ca1f0bfa51389405aa91f3d4a635c239cd9f9a6849d46e",
+  "failure_disposition": "Resume v1 failed before try/setup/child/profile at live tuple-vs-persisted lists. Harness representation correction, not application defect. Old failure/plan/runners/ack/approval preserved. Reviewer missed normalization in prior design review; it was not workload success.",
+  "mandatory_launch_and_interpretation_limits": [
+    "Exact4d06d0... acknowledgment and actual prior owned-child exits required; source/390/18/environment/fixture runtime guards still mandatory.",
+    "ONE first valid B only, no A repeat; original A8ee89.../v3 provenance untouched.",
+    "Setup failures/time gap/fixed order/cache/host confounding retained; no uninterrupted pair or historical797 replay.",
+    "B median wall OR CPU>A20% invalidates quantitative B attribution; no subtraction or retry for cheaper profile.",
+    "Execution16 incomplete17unrun/history performance unresolved,23pending13DEFER0of2 remain; no signoff, product edits, commit or publication."
+  ],
+  "diagnostic_workload_invoked_by_reviewer": false,
+  "frozen_source_or_fixture_mutated_by_reviewer": false
+}

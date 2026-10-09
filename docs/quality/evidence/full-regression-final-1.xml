@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="13" time="127.603" timestamp="2026-09-27T12:08:34.247993+05:30" hostname="THOR-GALAXY"><testcase classname="tests.e2e.test_fixture_paths" name="test_fixture_root_uses_configured_external_directory" time="0.012" /><testcase classname="tests.e2e.test_fixture_paths" name="test_fixture_root_rejects_workspace_descendants" time="0.002" /><testcase classname="tests.e2e.test_local_control_center_filesystem" name="test_control_center_replays_broadcasts_and_restarts_from_task_capsule" time="7.657" /><testcase classname="tests.e2e.test_local_first_filesystem" name="test_restart_continuity_and_repository_isolation_without_database" time="13.543" /><testcase classname="tests.e2e.test_local_first_filesystem" name="test_dirty_graph_refresh_and_rebuildable_cache_and_index" time="8.040" /><testcase classname="tests.integration.test_api" name="test_api_contract_and_websocket_reconnect" time="9.084" /><testcase classname="tests.integration.test_api" name="test_api_memory_returns_only_approved_curated_records" time="3.221" /><testcase classname="tests.integration.test_api" name="test_api_denies_cross_origin_and_untrusted_host" time="0.245" /><testcase classname="tests.integration.test_api" name="test_remote_client_cannot_bypass_loopback_policy_with_host_header" time="0.225" /><testcase classname="tests.integration.test_approval_timing" name="test_operator_checkpoint_persists_orchestrator_status_and_resumes_on_transition" time="2.666" /><testcase classname="tests.integration.test_approvals" name="test_persisted_operator_decisions_bind_to_goal_version_and_digest" time="2.208" /><testcase classname="tests.integration.test_authoritative_approval_gates" name="test_direct_orchestrator_calls_cannot_skip_goal_or_plan_approval" time="36.940" /><testcase classname="tests.integration.test_cancellation" name="test_persisted_cancel_interrupts_provider_without_reclassifying_terminal_run" time="39.187"><failure message="TimeoutError">fut = &lt;Task cancelled name='Task-27' coro=&lt;RunExecutor.execute() done, defined at S:\Orqalis\src\orqalis\observability\instrumentation.py:80&gt;&gt;
+timeout = 5
+
+    async def wait_for(fut, timeout):
+        """Wait for the single Future or coroutine to complete, with timeout.
+    
+        Coroutine will be wrapped in Task.
+    
+        Returns result of the Future or coroutine.  When a timeout occurs,
+        it cancels the task and raises TimeoutError.  To avoid the task
+        cancellation, wrap it in shield().
+    
+        If the wait is cancelled, the task is also cancelled.
+    
+        If the task suppresses the cancellation and returns a value instead,
+        that value is returned.
+    
+        This function is a coroutine.
+        """
+        # The special case for timeout &lt;= 0 is for the following case:
+        #
+        # async def test_waitfor():
+        #     func_started = False
+        #
+        #     async def func():
+        #         nonlocal func_started
+        #         func_started = True
+        #
+        #     try:
+        #         await asyncio.wait_for(func(), 0)
+        #     except asyncio.TimeoutError:
+        #         assert not func_started
+        #     else:
+        #         assert False
+        #
+        # asyncio.run(test_waitfor())
+    
+    
+        if timeout is not None and timeout &lt;= 0:
+            fut = ensure_future(fut)
+    
+            if fut.done():
+                return fut.result()
+    
+            await _cancel_and_wait(fut)
+            try:
+                return fut.result()
+            except exceptions.CancelledError as exc:
+                raise TimeoutError from exc
+    
+        async with timeouts.timeout(timeout):
+&gt;           return await fut
+                   ^^^^^^^^^
+
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\tasks.py:520: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\orqalis\observability\instrumentation.py:83: in invoke
+    return await function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\orqalis\core\executor.py:81: in execute
+    result = await watch_cancellation(
+src\orqalis\execution\cancellation.py:99: in watch_cancellation
+    return await task
+           ^^^^^^^^^^
+src\orqalis\core\executor.py:264: in _execute_locked
+    output = await self.worker.execute(
+src\orqalis\execution\worker.py:57: in execute
+    result = await self.agents.invoke(
+src\orqalis\observability\instrumentation.py:83: in invoke
+    return await function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;orqalis.agents.service.AgentExecutionService object at 0x0000013E44EA1E80&gt;
+run_id = UUID('ba4ebe4e-c22d-4ea5-ae91-65bd7161f817')
+execution_id = UUID('868bd77f-2eea-521b-b10f-8f42bb7e61c6')
+provider_id = 'fixture'
+context = ContextPack(project_id=UUID('e97c4ae1-3e78-4c20-8369-ae93995bb291'), task='Wait for cancellation', items=(MemoryMatch(...ty_paths=(), active_items=10), confidence=0.5, targeted_inspection_paths=(), requires_inspection=True, size_chars=9509)
+output_schema = {'additionalProperties': False, 'properties': {'summary': {'title': 'Summary', 'type': 'string'}, 'completed': {'title...tifact Paths', 'type': 'array'}}, 'required': ['summary', 'completed', 'artifact_paths'], 'title': 'WorkerResult', ...}
+key = 'worker:868bd77f-2eea-521b-b10f-8f42bb7e61c6:0'
+tools = (ToolDefinition(name=&lt;ToolName.FILE_READ: 'filesystem.read'&gt;, description='Read bounded lines of a workspace file', pa...id': {'title': 'Command Id', 'type': 'string'}}, 'required': ['command_id'], 'title': 'RunCommand', 'type': 'object'}))
+budget = None, observations = ()
+
+    @observed_async("agent.invoke")
+    async def invoke(
+        self,
+        run_id: UUID,
+        execution_id: UUID,
+        provider_id: str,
+        context: ContextPack,
+        output_schema: dict[str, JsonValue],
+        key: str,
+        tools: tuple[ToolDefinition, ...] = (),
+        budget: ExecutionBudget | None = None,
+        observations: tuple[ToolObservation, ...] = (),
+    ) -&gt; ProviderExecutionResult:
+        require_key(key)
+        invocation_id = uuid5(run_id, f"provider:{key}")
+        with self.unit_of_work() as uow:
+            run = locked_run(uow, run_id)
+            project = uow.projects.get(run.project_id)
+            if project is None or context.project_id != run.project_id:
+                raise NotFoundError("Provider context belongs to another project")
+            if (
+                provider_id != "auto"
+                and project.settings.allowed_providers
+                and provider_id not in (project.settings.allowed_providers)
+            ):
+                raise PolicyDeniedError("Provider is not permitted for this project")
+            attempt = next(
+                (item for item in uow.runtime.executions(run_id) if item.id == execution_id), None
+            )
+            plan = uow.runtime.get_plan(run_id, run.plan_version)
+            if attempt is None:
+                raise NotFoundError("Task execution or plan not found")
+            task = next(
+                (item for item in uow.runtime.tasks(run_id) if item.id == attempt.task_id), None
+            )
+            actor = next(
+                (
+                    item
+                    for item in uow.runtime.actors(run_id)
+                    if item.id == attempt.assigned_actor_session_id
+                ),
+                None,
+            )
+            goal = (
+                uow.runs.get_goal(run.current_goal_version_id)
+                if run.current_goal_version_id
+                else None
+            )
+            if task is None or actor is None:
+                raise NotFoundError("Execution contract not found")
+            annotate_operation(
+                run_id=run.id,
+                task_id=task.id,
+                actor_session_id=actor.id,
+                task_execution_id=attempt.id,
+                provider_invocation_id=invocation_id,
+            )
+            # Deterministic service roles cannot be invoked as provider workers even
+            # through the low-level SDK entry point with a caller-supplied schema.
+            provider_output_schema(task.preferred_role)
+            preparing = task.preferred_role == AgentRole.REQUIREMENTS and task.plan_version == 0
+            if preparing:
+                if run.state != RunState.ANALYZING or tools:
+                    raise PolicyDeniedError("Requirements are read-only preparatory work")
+            elif goal is None or plan is None or run.state == RunState.ANALYZING:
+                raise NotFoundError("Accepted goal and implementation plan are required")
+            proofs = tuple(
+                e
+                for criterion in (goal.criteria if goal else ())
+                for ref in criterion.evidence_refs
+                if (e := uow.runs.get_evidence(ref)) is not None
+            )
+            workspace = uow.execution.workspace(run_id)
+            constraints = (
+                goal.goal.constraints
+                if goal
+                else ("Define testable acceptance for the user request; do not assert PASS.",)
+            )
+            if workspace:
+                constraints = (
+                    *constraints,
+                    "Approved workspace policy: " + workspace.policy.model_dump_json(),
+                )
+            findings = (
+                tuple(
+                    finding
+                    for finding in uow.delivery.findings(run_id)
+                    if finding.category == "external_worker" and finding.status == "open"
+                )
+                if actor.role == AgentRole.REVIEWER
+                else ()
+            )
+            if findings:
+                constraints = (
+                    *constraints,
+                    "Independently evaluate every open worker finding in finding_reviews. "
+                    "Resolution requires current passing evidence or verifiable source checks. "
+                    "Unresolved blocking findings require overall FAIL "
+                    "and actionable blocking_findings.",
+                )
+            provider, request = self.router.prepare(
+                task,
+                context,
+                invocation_id,
+                actor.id,
+                attempt.id,
+                provider_id,
+                project.settings.permissions,
+                output_schema,
+                tools,
+                project.settings.repository_profile.languages,
+                project.settings.skill_pins,
+                budget,
+                observations,
+                constraints,
+                project.settings.allowed_providers,
+                goal,
+                proofs,
+                findings,
+            )
+            resolved_provider_id = provider.descriptor.id
+            fingerprint = _fingerprint(request, resolved_provider_id, provider.descriptor.model)
+            existing = uow.providers.get(invocation_id)
+            if existing:
+                if existing.request_hash != fingerprint:
+                    raise ConflictError("Invocation key belongs to a different request")
+                if existing.status == InvocationStatus.SUCCEEDED and existing.result:
+                    return existing.result
+                if existing.status == InvocationStatus.RUNNING:
+                    if existing.deadline_at &gt;= self.clock():
+                        raise ConflictError("Invocation is already in progress")
+                    self._finish(uow, existing, None, ProviderErrorCode.INTERRUPTED)
+                    uow.commit()
+                    raise ProviderError(ProviderErrorCode.INTERRUPTED)
+                raise ProviderError(existing.error_code or ProviderErrorCode.INTERNAL)
+            if (
+                run.state not in _ACTIVE_STATES
+                or attempt.status != TaskStatus.RUNNING
+                or (
+                    not preparing
+                    and (plan is None or plan.goal_version_id != run.current_goal_version_id)
+                )
+            ):
+                raise ConflictError("Provider invocation requires active work on the current goal")
+            at = self.clock()
+            invocation = ProviderExecution(
+                id=invocation_id,
+                run_id=run_id,
+                task_execution_id=attempt.id,
+                actor_session_id=actor.id,
+                provider=resolved_provider_id,
+                model=provider.descriptor.model,
+                request_hash=fingerprint,
+                idempotency_key=key,
+                started_at=at,
+                created_at=at,
+                deadline_at=at + timedelta(seconds=request.budget.timeout_seconds),
+            )
+            uow.providers.save(invocation)
+            skill_refs = tuple(
+                f"{skill.metadata.id}@{skill.metadata.version}" for skill in request.selected_skills
+            )
+            uow.runtime.save_actor(
+                actor.model_copy(
+                    update={
+                        "provider": resolved_provider_id,
+                        "model": provider.descriptor.model,
+                        "loaded_skills": skill_refs,
+                        "allowed_tools": tuple(tool.name.value for tool in request.allowed_tools),
+                    }
+                )
+            )
+            if skill_refs:
+                emit(
+                    uow,
+                    run,
+                    EventType.SKILL_LOADED,
+                    f"provider:{key}:skills",
+                    at,
+                    EventPayload(skill_refs=skill_refs),
+                    actor.id,
+                    task.id,
+                    attempt.id,
+                )
+            emit(
+                uow,
+                run,
+                EventType.PROVIDER_INVOCATION_STARTED,
+                f"provider:{key}:start",
+                at,
+                EventPayload(
+                    provider_execution_id=invocation.id,
+                    status=invocation.status,
+                    skill_refs=skill_refs,
+                    memory_ids=tuple(match.item.id for match in context.items),
+                    summary=(
+                        f"Context: {len(context.items)} memory references; "
+                        f"indexed commit {context.freshness.indexed_commit or 'unindexed'}; "
+                        "targeted inspection "
+                        f"{'required' if context.requires_inspection else 'not required'}"
+                    ),
+                ),
+                actor.id,
+                task.id,
+                attempt.id,
+            )
+            uow.commit()
+        result = None
+        error = None
+        cancelled = False
+        try:
+            async with asyncio.timeout(request.budget.timeout_seconds):
+                result = validate_result(request, await provider.execute(request))
+        except asyncio.CancelledError:
+            error, cancelled = ProviderErrorCode.CANCELLED, True
+        except TimeoutError:
+            error = ProviderErrorCode.TIMEOUT
+        except ProviderError as failure:
+            error = failure.error_code
+        except Exception:
+            # Raw SDK exceptions may include credentials, prompts or reasoning.
+            error = ProviderErrorCode.INTERNAL
+        with self.unit_of_work() as uow:
+            run = locked_run(uow, run_id)
+            current = uow.providers.get(invocation_id)
+            assert current is not None
+            if current.status != InvocationStatus.RUNNING:
+                raise ProviderError(current.error_code or ProviderErrorCode.INTERRUPTED)
+            attempt = next(
+                item for item in uow.runtime.executions(run_id) if item.id == execution_id
+            )
+            if run.state not in _ACTIVE_STATES or attempt.status != TaskStatus.RUNNING:
+                result, error = None, ProviderErrorCode.CANCELLED
+            self._finish(uow, current, result, error)
+            uow.commit()
+        if cancelled:
+&gt;           raise asyncio.CancelledError
+E           asyncio.exceptions.CancelledError
+
+src\orqalis\agents\service.py:344: CancelledError
+
+The above exception was the direct cause of the following exception:
+
+git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-453/test_persisted_cancel_interrup0/source')
+tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-453/test_persisted_cancel_interrup0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000013E44E95D00&gt;
+
+    def test_persisted_cancel_interrupts_provider_without_reclassifying_terminal_run(
+        git_repo: Path,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -&gt; None:
+        sdk = Orqalis(unit_of_work=filesystem_uow_factory(git_repo))
+        project = sdk.initialize(git_repo)
+        state = sdk.prepare_run(
+            project.id,
+            "Wait for cancellation",
+            "feature/cancellation",
+            GoalDraft(
+                goal="Wait for cancellation",
+                scope=("main.py",),
+                definition_of_done=("Source checked",),
+                criteria=(
+                    CriterionDefinition(
+                        key="AC-1",
+                        description="Source exists",
+                        validation_spec=FileValidation(path="main.py"),
+                    ),
+                ),
+            ),
+        )
+        provider = FakeProvider(lambda _: ProviderExecutionResult(output={}))
+        entered = asyncio.Event()
+    
+        async def slow(_: ProviderExecutionRequest) -&gt; ProviderExecutionResult:
+            entered.set()
+            await asyncio.sleep(30)
+            raise AssertionError("Cancelled provider must not finish")
+    
+        monkeypatch.setattr(provider, "execute", slow)
+    
+        async def scenario() -&gt; None:
+            operation = asyncio.create_task(
+                sdk.executor(tmp_path / "workers", (provider,)).execute(
+                    state.run.id,
+                    "fixture",
+                    ExecutionPolicy(write_paths=("main.py",)),
+                )
+            )
+            async with asyncio.timeout(10):
+                await entered.wait()
+            sdk.cancel(state.run.id, "cancel-from-another-client")
+            with pytest.raises(asyncio.CancelledError):
+                await asyncio.wait_for(operation, timeout=5)
+    
+&gt;       asyncio.run(scenario())
+
+tests\integration\test_cancellation.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\integration\test_cancellation.py:60: in scenario
+    await asyncio.wait_for(operation, timeout=5)
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\tasks.py:519: in wait_for
+    async with timeouts.timeout(timeout):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;Timeout [expired]&gt;
+exc_type = &lt;class 'asyncio.exceptions.CancelledError'&gt;
+exc_val = CancelledError(), exc_tb = &lt;traceback object at 0x0000013E44EBE800&gt;
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -&gt; Optional[bool]:
+        assert self._state in (_State.ENTERED, _State.EXPIRING)
+    
+        if self._timeout_handler is not None:
+            self._timeout_handler.cancel()
+            self._timeout_handler = None
+    
+        if self._state is _State.EXPIRING:
+            self._state = _State.EXPIRED
+    
+            if self._task.uncancel() &lt;= self._cancelling and exc_type is exceptions.CancelledError:
+                # Since there are no new cancel requests, we're
+                # handling this.
+&gt;               raise TimeoutError from exc_val
+E               TimeoutError
+
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\timeouts.py:115: TimeoutError</failure></testcase></testsuite></testsuites>

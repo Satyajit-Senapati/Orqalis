@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T20:27:28.278041+00:00",
+  "reviewer": "release_security_review",
+  "decision": "V2_PRELAUNCH_REVIEW_PENDING_TWO_NARROW_FAILURE_COMPATIBILITY_DISPOSITIONS",
+  "scope": "Exact read-only private lifecycle/dependency guard delta review before ANYprepare,query,copy ormeasurement. Original v1 package/wheel/fixture static proofs remain source-bound; not replayed or rebased.",
+  "identities": {
+    "runner": {
+      "path": ".tools/research/release_history_matched_package_v2.py",
+      "sha256": "fd0ce1e9e788ef0df03cfa2f2db46f5a09a6a24dfcfb23bdd00f66c7ee0e439f"
+    },
+    "plan": {
+      "path": ".tools/research/release-history-matched-package-plan-v2.json",
+      "sha256": "afc8b5249d3b94e4926d9d20ac409038de11ed2f98de7b84ac524fe8a87d33f5"
+    },
+    "prior_runner_unrun": {
+      "path": ".tools/research/release_history_matched_package_v1.py",
+      "sha256": "590be44862523ec701e32d1468480d38f4b735e372f02ab5604bbaf5c8e85083"
+    },
+    "prior_plan_unrun": {
+      "path": ".tools/research/release-history-matched-package-plan-v1.json",
+      "sha256": "889b146bc9838d265682e7d9eb30a9e936e8a04d902a6daa2f95579a3d6b7f65"
+    },
+    "prior_blocked_review": {
+      "path": "docs/quality/evidence/release-history-matched-package-security-prelaunch-v1.json",
+      "sha256": "0057bbdf7c88bd78a8b9cb1dd93c1d39d0e969dd6cda6c1a7f3e320be95ceb6c"
+    }
+  },
+  "unchanged_AST_definitions": [
+    "file_sha",
+    "exclusive",
+    "IO_COUNTERS",
+    "PROCESS_MEMORY_COUNTERS",
+    "NativeCounters",
+    "capture_original",
+    "json_normal",
+    "inside",
+    "manifest",
+    "fixture_snapshot",
+    "package_guards",
+    "current_guards",
+    "initialize",
+    "prepare",
+    "measurement_setup",
+    "activate_runtime",
+    "worker",
+    "summaries",
+    "classify"
+  ],
+  "unchanged_proof": {
+    "includes_all14_claimed_workload_native_class_guard_decision_functions": true,
+    "role203_manifests_equal_v1": true,
+    "fixture_metadata_exact_v1": true,
+    "original_source24_input97_and_original19_bindings_unchanged": true,
+    "normalpage100_traversals3_rows1001_pages33_concurrencywait10_and_FileLock_future_semantics_unchanged": true,
+    "result_rules_and_native66queries_1percentscreen_unchanged": true,
+    "outputs_and_neutralroot_absent_at_review": true
+  },
+  "v1_lifecycle_gap_repair_static": {
+    "early_atomic_identity_before_Orqalis_native_queries": true,
+    "identity": "label/plan/runner/coordinatorPID/executablepathSHA and reported nativePID/PPID bound to owned Popen direct or redirector relationship. Not an OS image-name/parent query proof.",
+    "atomic_publish": "Windows only closed exclusive pending JSON + nonoverwriting os.rename; final+pending prechecked, no overwrite/retry.",
+    "handle_api_shapes": "OpenProcess DWORD,BOOL,DWORD -> HANDLE with SYNCHRONIZE0x100000/noninheritFalse; WaitForSingleObject HANDLE,DWORD -> DWORD0;0signals/258timeout/0xffffffffraises;CloseHandle HANDLE -> BOOL.",
+    "grant": "Parent holds live original native process object before grant; worker does no Orqalis/native observer work until grant.",
+    "deadline": "Prospective symmetric300s coordinator stop cap includes startup and wait, original page/lock/future deadlines remain unchanged. No product SLO.",
+    "cleanup": "Taskkill absolute SystemRoot/System32 /PID exact currently-live owned Popen /T/F toolwait10 plus reaping10; nativeWait0 fromheldhandle. Never marks combinedtreeproof without taskkill success/reap/native exit; unknown failure stops/no next capture.",
+    "normal_next_capture": "Launcher reaped and held native process object signaled exit required before next capture; closes owned handle even host metadata exception.",
+    "prior_missing_dependency_gap": "Truthy ordinary file origins now require actual file/prefix/hash; no silent builtin/no-file relabel. Explicit generatedtyping/Cython names link to ordinaryfilehashes."
+  },
+  "findings": [
+    {
+      "id": "STARTUP_CLEANUP_PRIMARY_ERROR",
+      "kind": "NARROW_DECLARED_FAILURE_PRESERVATION_GAP",
+      "file": ".tools/research/release_history_matched_package_v2.py",
+      "lines": [
+        469,
+        470,
+        471,
+        535,
+        536,
+        537
+      ],
+      "evidence": "During constructor wait failure or grant publication failure, close_owned is invoked directly inside except before bare raise. If CloseHandle fails, cleanup exception becomes outward primary; original remains only traceback context, and two startup branches do not record cleanup failure separately. close_owned clears handle before verifying API success.",
+      "recommended_disposition": "Preserve original exception primary and record/note CloseHandle failure; do not claim close confirmed on false. Outer normal-operation close already records and invalidates correctly."
+    },
+    {
+      "id": "NAMESPACE_LOADER_COMPATIBILITY",
+      "kind": "FAIL_CLOSED_COMPATIBILITY_LIMIT",
+      "file": ".tools/research/release_history_matched_package_v2.py",
+      "lines": [
+        349,
+        350,
+        351,
+        352,
+        353
+      ],
+      "evidence": "Namespace branch requires loaderNone; a genuine imported Python3.12 namespace normally carries NamespaceLoader. Such a module is rejected rather than classified. This is a strict false-negative compatibility issue, not a provenance bypass.",
+      "recommended_disposition": "If namespaces permitted, accept explicit NamespaceLoader (or None during construction) only with spec.originNone and allowed namespace path roots; preserve missing ordinary-file rejection. Otherwise document narrower supported no-namespace boundary."
+    }
+  ],
+  "author_parent_notifications": "Both narrow dispositions sent quality author/root before any invocation. No source or private helper edits by reviewer.",
+  "product_P0_P1_conclusion": "No application P0/P1 inferred from this bounded diagnostic review; no gate-outcome or performance credit.",
+  "limits": [
+    "No process/native APIs invoked and no actual cleanup/timeout/reap branch proven.",
+    "300s includes cooperative parent monitoring, not hard-kill global coordinator/job lifetime guarantee or universal process creation SLO.",
+    "Taskkill tree result and owned native object exit are separate explicit evidence; absent native identity never permits exit proof.",
+    "Original fatal/invalid/history195/663/334/current302 observations retained; no historical actor/cost cause/convergence claim."
+  ]
+}

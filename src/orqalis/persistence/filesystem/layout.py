@@ -16,6 +16,7 @@ from orqalis.persistence.filesystem.io import (
     atomic_write_bytes,
     atomic_write_json,
     ensure_no_filesystem_links,
+    read_bytes,
     read_json_object,
 )
 from orqalis.persistence.filesystem.locking import FileLock
@@ -69,9 +70,28 @@ class ProjectLayout:
         return ensure_no_filesystem_links(self.root / ".orqalis")
 
     def _storage_path(self, *parts: str) -> Path:
-        store = self.store
+        ordinary_descendant = False
+        if type(self) is ProjectLayout:
+            raw_store = self.root / ".orqalis"
+            raw_candidate = raw_store.joinpath(*parts)
+            ordinary_descendant = raw_candidate.is_relative_to(raw_store) and ".." not in (
+                raw_candidate.relative_to(raw_store).parts
+            )
+            # The fresh full descendant check also guards the store and ancestors.
+            store = raw_store if ordinary_descendant else self.store
+        else:
+            # Preserve subclass store dispatch and the original evaluation order.
+            store = self.store
         candidate = ensure_no_filesystem_links(store.joinpath(*parts))
-        resolved_store = store.resolve(strict=False)
+        # The canonical root and fixed store child need no second resolution after
+        # the fresh descendant guard; still resolve the candidate for containment.
+        canonical_store = (
+            ordinary_descendant
+            and type(store) is type(Path())
+            and store.is_absolute()
+            and ".." not in store.parts
+        )
+        resolved_store = store if canonical_store else store.resolve(strict=False)
         resolved_candidate = candidate.resolve(strict=False)
         if resolved_candidate != resolved_store and not resolved_candidate.is_relative_to(
             resolved_store
@@ -303,7 +323,7 @@ def render_store_gitignore(config: dict[str, object]) -> str:
 def _sync_store_gitignore(layout: ProjectLayout) -> None:
     config = load_project_config(layout)
     content = render_store_gitignore(config).encode("utf-8")
-    if not layout.gitignore.is_file() or layout.gitignore.read_bytes() != content:
+    if not layout.gitignore.is_file() or read_bytes(layout.gitignore) != content:
         atomic_write_bytes(layout.gitignore, content)
 
 
@@ -499,7 +519,7 @@ def migrate_manifest(layout: ProjectLayout) -> Path | None:
                 raise UnsupportedSchemaError(f"Unsupported project store schema: {version}")
             raise ManifestValidationError("Manifest schema_version must be an integer")
         _validate_v1(old)
-        raw = layout.manifest.read_bytes()
+        raw = read_bytes(layout.manifest)
         backup_dir = layout.store / "backups"
         stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
         backup = backup_dir / f"manifest.schema-1.{stamp}.yaml"

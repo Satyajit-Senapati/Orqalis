@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-04T13:49:32.043128+00:00",
+  "status": "BLOCKED_UNRUN_REPORTING_FAILURE_PRESERVATION",
+  "scope": "Exact static prelaunch review; no helper/product import, native query, setup/copy, workload or source mutation. No release/performance/Master53 credit.",
+  "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "input_sha256": "56c454c8630d017a71802cccda1ef0d8d8521964babfa6ee4df8c1284a2c8750",
+  "reviewed_files": {
+    ".tools/research/release_execution_native_cost_v3.py": "1cced47634e5af4ce0bf23f70de981b9031751a2f7b40fcc99f437f2c80e5e43",
+    ".tools/research/release-execution-native-cost-plan-v3.json": "375c308e9a6c2c903958a7877c180843b97a8af631fda9530adce0f9c5405664",
+    ".tools/research/release_execution_candidate_operations_v3.py": "da2057e9235bdba1a9283b843b95a3ebf8f4d04248d13b5b30609477dbbfe550",
+    "scripts/benchmark_execution.py": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+    "docs/quality/evidence/release-execution-native-cost-root-prospective-review-v3.json": "4f17369a5e96ab5abd831f17a07a0311d4d76e05dc2e81cc8bfae2684cb5d82b"
+  },
+  "findings": [
+    {
+      "id": "native-cost-v3-primary-masked-by-log-hash",
+      "file": ".tools/research/release_execution_native_cost_v3.py",
+      "line": 590,
+      "severity": "private_diagnostic_prelaunch_blocker",
+      "detail": "Per-child finally computes file_sha(log) without protection. If worker/timeout/guard error is active, secondary log read/hash error replaces its outward exception. Preserve original_error, record/note secondary failure; raise hash error only if no primary."
+    },
+    {
+      "id": "native-cost-v3-primary-masked-by-result-output",
+      "file": ".tools/research/release_execution_native_cost_v3.py",
+      "line": 613,
+      "severity": "private_diagnostic_prelaunch_blocker",
+      "detail": "Outer finally exclusive result guard/serialization/open/write is unprotected. A secondary reporting failure replaces active worker/timeout/guard exception. Preserve primary with secondary record/note; standalone reporting error must still propagate."
+    }
+  ],
+  "static_checks": {
+    "nine_native_lifetime_definitions_ast_exact": {
+      "IO_COUNTERS": true,
+      "PROCESS_MEMORY_COUNTERS": true,
+      "NativeCounters": true,
+      "OwnedNativeProcess": true,
+      "retain_startup_cleanup_error": true,
+      "publish_identity_record": true,
+      "identity_handshake": true,
+      "wait_handshake": true,
+      "stop_owned_tree": true
+    },
+    "original_worker_ast_sha256": "eb0ce0a87780a54ea117371e240bfbf4778ca88f9dd42ee64cecc8f6c23fe77d",
+    "independent_worker_forward_inverse_ast_exact": true,
+    "transformation_scope": "Exactly two native assignments, observer begin/end expressions, three diagnostic return fields; original semantic workload remains exact. Diagnostic hooks necessarily perturb timing.",
+    "original_checks": 26,
+    "original_stability_checks": 4,
+    "stop_cap_seconds": 300,
+    "cleanup_wait_seconds": 10,
+    "role_order": [
+      "C"
+    ],
+    "path_split": "Exact C: original-temp-root unique owned retained workload leaf; S: exact ROOT-owned controls/helpers/evidence; 10 nonoverlapping hardcoded paths, ancestor link/reparse rejection. No atomic TOCTOU claim.",
+    "observer_outcomes": "Exactly two module-local aliases delegate original read/replace once with unchanged arguments, return and primary error. Bookkeeping failures mark INVALID; restore checks still-owned aliases. No retry/deadline/lock/security bypass.",
+    "native_error_scope": "Original ctypes use_last_error operations capture native WinError inside original before observer finally. Observer preserves exception.winerror; no generic GetLastError/OS-query attribution is claimed.",
+    "cost_scope": "Inclusive wall/thread CPU and whole-self logical IO/cycles exclude children; direct partial overhead <1% is a screen only, not total perturbation or exclusive causation proof. No physical disk/hard-fault or historical cause claim."
+  },
+  "limitations": [
+    "No all393/hash-map/source-tree revalidation executed by reviewer; guards inspected statically and supplied bound identities retained. Root must run guarded invocation only after qualification/quiet explicit ACK.",
+    "No causal original Win5 holder attribution, no performance acceptance, no repeat-until-pass or baseline worker permission.",
+    "v3 must remain UNRUN; corrective successor needs exact review before launch."
+  ],
+  "writes_only": [
+    "docs/quality/evidence/release-execution-native-cost-security-prelaunch-v3.json"
+  ]
+}

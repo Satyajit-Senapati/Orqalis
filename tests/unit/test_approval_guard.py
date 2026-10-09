@@ -31,7 +31,12 @@ def test_authoritative_guard_persists_pending_then_requires_exact_approval() -> 
         gates=frozenset({ApprovalStage.PLAN}),
     )
     requests: dict[UUID, ApprovalRequest] = {}
-    uow.approvals.get.side_effect = requests.get
+
+    def get_request(request_id: UUID, *, run_id: UUID | None = None) -> ApprovalRequest | None:
+        assert run_id == run.id
+        return requests.get(request_id)
+
+    uow.approvals.get.side_effect = get_request
 
     def add_request(request: ApprovalRequest) -> None:
         requests[request.id] = request

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T06:54:16.326681+00:00",
+  "status": "STATIC_APPROVED_CONDITIONAL_EXACT_LIFECYCLE_SMOKE_AND_ROOT_ACK",
+  "scope": "Exact final Oct7 resume controller static review only; no controller/product import, native/OS process query, runtime smoke/test/workload, source edit or broad tree/dependency scan.",
+  "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "release_input_sha256": "56c454c8630d017a71802cccda1ef0d8d8521964babfa6ee4df8c1284a2c8750",
+  "reviewed_files": {
+    ".tools/research/release_resume_20261007_finish_v1.py": "1ae912b03ff418ce445b89966572ef5956347d75d3e8fec3955a5b5e0064e77b",
+    "docs/quality/evidence/release-resume-20261007-plan-v1.json": "7843fafa87cf8953f387733662c31f8ea0e73034afb1103c37076abf3c7d00e6",
+    "docs/quality/evidence/release-resume-20261007-security-prospective-review-v1.json": "4ddf42d9f6a5f36c40447f84d98e662bff9314b351ad59876e96754109a08dfd",
+    ".tools/research/release_qualification_resume_20261007_v1.py": "ce1b4f6e05df72f10ac4b54716edfc0d59b9b22a1aaa8f521a8ddffdb9e36836",
+    ".tools/research/run_full_regression_release_v15.py": "66c4de1035e09aaaf9431cfc9329347601c1a75e14701769358bff7657e21438"
+  },
+  "findings": [],
+  "corrections_reviewed": [
+    {
+      "initial_controller_sha256": "2bc35bb6f2a4ebf515a0ca433f1832b7ef5ebdd35dd65cf13b06aec582818833",
+      "issue": "Normal exit could silently terminate remaining descendants and accept exit0.",
+      "closure": "Final finish grants bounded10s normal exit grace, records unexpected remaining descendants, terminates/drains then raises RuntimeError; launch returns primary and main stops before next stage."
+    },
+    {
+      "issue": "Administrative25 required exit4294967295 and all old stages required zero, contradictory admission.",
+      "closure": "Zero-exit asserted only reused artifact/heldout/history stages; all retained stages separately require reaping and actual immutable log hashes. Administrative25 status/code remain explicit."
+    },
+    {
+      "issue": "Log metadata exists check outside cleanup try could mask primary.",
+      "closure": "Both exists and hash now in same guarded try; primary retained with cleanup metadata/note, or standalone failure becomes primary."
+    },
+    {
+      "issue": "Review ACK names not enforced.",
+      "closure": "Exact mandatory four Oct7 review records plus fresh owned-lifecycle-smoke-v3 required; each admitted hash independently checked and included in before/after bound map."
+    }
+  ],
+  "native_lifecycle_static_review": {
+    "typed_api": "WinDLL kernel32 use_last_error; HANDLE/pointer/DWORD/BOOL signatures, native-aligned basic/extended/job accounting/thread structures. Query accounting verifies48byte size. No user-mode native query was run by reviewer.",
+    "create_assign_resume": "Unnamed noninheritable job with only kill-on-job-close flag0x2000, no CPU/RAM/process-count/security limits. Own Popen CREATE_SUSPENDED|CREATE_NO_WINDOW child assigned before thread resumes; only ownerPID matching thread resumed.",
+    "normal_cleanup": "Actual launcher waited/reaped, job active count queried;10s exit grace, remaining processes trigger invalid lifecycle, only owned job terminated, active count must reach zero, CloseHandle successful then bounded child reap.",
+    "exception_cleanup": "Original timeout/launch/native/guard error preserved. Unassigned owned suspended launcher killed via Popen retained handle; assigned descendants terminated through owned job. Drain/close/reap/log failures recorded/secondary noted, any unknown cleanup prevents next stage.",
+    "caps": "New predeclared10800s whole-iteration outer safety envelope; bounded10s grace/drain/reap. Original inner worker/lock/native/API/performance deadlines unchanged.",
+    "job_scope_limit": "Supported ordinary CreateProcess descendants within current Windows qualification. No claim covers externally managed WMI-created/out-of-job services or external processes. Kill-on-close crash fallback does not certify drain if controller abruptly exits."
+  },
+  "admission_and_provenance": {
+    "root_ack": "Prospective approved status and no-other-owned-workload flag, exact controller/plan hashes and five exact reviewed/smoke names. Actual smoke PASS/status and quiet admission must be independently checked by root before creating ACK.",
+    "fixed_identity": "Sourceb897, aggregate56c and all393 actual hashes plus both protected helper inventories checked at admission and each whole-iteration boundary; source/env and all consumed byte hashes guarded.",
+    "fresh_helpers": "Exact plan pins qualifier/full successor; our prior independent inverse AST proof applies unchanged.",
+    "preflight_static_contract": "Actual Oct7 preflight/policy/interruption hashes,13PASS static logs, same-source86 contract report/JUnit/child audit/stability/environment bound; no new workload/gold substitution.",
+    "reused_scope": "Original unchanged-source artifact/heldout/history logs/times/report/archive bytes explicitly reused, not new samples. Old24/25 evidence untouched; stopped25 preserved.",
+    "fresh_stages": "Only26/27 original qualification; stop first error, no retries. Completion remains pending independent acceptance and accepted_convergence_iterations0; no timing acceptance or publication."
+  },
+  "line_evidence": {
+    "class OwnedJob:": 60,
+    "limits=_ExtendedLimits();limits.BasicLimitInformation.LimitFlags=0x2000": 82,
+    "process=self.api.OpenProcess(0x0101": 96,
+    "if before['active_processes'] and not force:": 125,
+    "if unexpected:raise RuntimeError": 139,
+    "creationflags=subprocess.CREATE_NO_WINDOW|4": 170,
+    "if log.exists():entry['log_sha256']": 206,
+    "assert all(s['exit_code']==0 for s in reused)": 240,
+    "required_reviews=": 251,
+    "entry,error=launch(": 270,
+    "primary=sys.exception()": 90
+  },
+  "approval_conditions": [
+    "Root must inspect exact fresh four-case lifecycle-smoke-v3 PASS bound to final1ae912 controller bytes before production launch. This static review does not attest unobserved smoke results.",
+    "Root ACK must bind this exact review/acceptance reviews/controller/plan and fresh smoke, admit only fresh exclusive26/27/controller paths, and independently confirm no other owned workload.",
+    "After actual exit, independently validate all consumed hashes/393/source/helper stability, native job drain/close/reap and raw stage checks before any acceptance. Point-boundary guards do not prove host-idleness or atomic TOCTOU protection.",
+    "Report reused_proofs.controller_sha256 currently contains old finish-report hash (not old Python controller); interpret it as report identity. This naming limit has no byte-binding/acceptance effect."
+  ],
+  "primary_sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects",
+      "used_for": "Ordinary CreateProcess child job association, job accounting/termination and kill-on-last-job-handle-close scope."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-assignprocesstojobobject",
+      "used_for": "PROCESS_SET_QUOTA|PROCESS_TERMINATE rights and nested-job constraints."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-resumethread",
+      "used_for": "ResumeThread native error return and suspend-count semantics."
+    }
+  ],
+  "writes_only": [
+    "docs/quality/evidence/release-resume-20261007-controller-security-review-v1.json"
+  ]
+}

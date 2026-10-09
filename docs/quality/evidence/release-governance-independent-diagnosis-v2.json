@@ -1,0 +1,200 @@
+{
+  "reviewed_at": "2026-10-02T12:28:45.979028+00:00",
+  "scope": "Independent read-only source and retained raw diagnostics review; no workloads, product/test/dependency edits, benchmark timing or commits.",
+  "source_sha256_at_review": "3d47f8967dbd331c3b38d085fe5fdb11f6d3b1e67abebefe6678b7b0d4f8ccc6",
+  "status": "REPRODUCED_BASELINE_AND_CANDIDATE_GOVERNANCE_LATENCY_FAILURE_PHASE_ATTRIBUTION_REQUIRED",
+  "raw_diagnostics": [
+    {
+      "label": "current-2",
+      "path": "docs/quality/evidence/release-governance-diagnostic-current-2.json",
+      "sha256": "dce3f98c83a7072e07ea5a886baf13dd0e7bffc5112e8f4444aebedbcf368ed3",
+      "source_sha256": "3d47f8967dbd331c3b38d085fe5fdb11f6d3b1e67abebefe6678b7b0d4f8ccc6",
+      "source_stable": true,
+      "status": "FAIL",
+      "test_sha256": "90f2bd95996fd41733ff21c426db27e48308e6d546c3d638a9e79558e8b90f21",
+      "environment_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+      "log": ".tools\\research\\release-governance-diagnostic-current-2.log",
+      "log_sha256": "a92bf10012c3f88e070b34a182674448c8dea3fb57925632968f497b21966213",
+      "stack": ".tools\\research\\release-governance-diagnostic-current-2.stacks.log",
+      "stack_sha256": "5544c3c33e65cb05c1bdbca02d9293420068c0f7afb5c43c75a9f0e500a0072c",
+      "log_and_stack_hashes_verified": true,
+      "preview_network_records": [
+        {
+          "event": "request",
+          "method": "POST",
+          "path": "/api/runs/12635645-725b-417a-a141-844ccf70f9f9/plan/preview"
+        },
+        {
+          "event": "response",
+          "method": "POST",
+          "path": "/api/runs/12635645-725b-417a-a141-844ccf70f9f9/plan/preview",
+          "status": 403,
+          "elapsed_ms": 882.1113999999998
+        },
+        {
+          "event": "request",
+          "method": "POST",
+          "path": "/api/runs/12635645-725b-417a-a141-844ccf70f9f9/plan/preview"
+        }
+      ],
+      "suites": [
+        {
+          "name": "observed.spec.mjs",
+          "timestamp": "2026-10-02T12:17:14.183Z",
+          "hostname": "",
+          "tests": "1",
+          "failures": "1",
+          "skipped": "0",
+          "time": "17.581",
+          "errors": "0"
+        }
+      ]
+    },
+    {
+      "label": "baseline-2",
+      "path": "docs/quality/evidence/release-governance-diagnostic-baseline-2.json",
+      "sha256": "095522cb8a2014a6c982b452fc9c487879f4b321c7aa894d2775c9d0c05f996d",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "source_stable": true,
+      "status": "FAIL",
+      "test_sha256": "90f2bd95996fd41733ff21c426db27e48308e6d546c3d638a9e79558e8b90f21",
+      "environment_sha256": "e83d1e85f5af8d028f556e5ba750056d95e197682659150a1096354b5088fe67",
+      "log": ".tools\\research\\release-governance-diagnostic-baseline-2.log",
+      "log_sha256": "d1075f5cdea8f1421fe7f0563bb937c64c8269cff5063fd4352024b0e7a144d3",
+      "stack": ".tools\\research\\release-governance-diagnostic-baseline-2.stacks.log",
+      "stack_sha256": "777c1813118e6d1b228a8a0948d1de26b505c0bae25d2e9104f36ca54ace1bd2",
+      "log_and_stack_hashes_verified": true,
+      "preview_network_records": [
+        {
+          "event": "request",
+          "method": "POST",
+          "path": "/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/plan/preview"
+        },
+        {
+          "event": "response",
+          "method": "POST",
+          "path": "/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/plan/preview",
+          "status": 403,
+          "elapsed_ms": 1873.9779999999992
+        },
+        {
+          "event": "request",
+          "method": "POST",
+          "path": "/api/runs/f040bc1a-eaad-4493-b632-3074f1a06188/plan/preview"
+        }
+      ],
+      "suites": [
+        {
+          "name": "observed.spec.mjs",
+          "timestamp": "2026-10-02T12:23:36.695Z",
+          "hostname": "",
+          "tests": "1",
+          "failures": "1",
+          "skipped": "0",
+          "time": "22.101",
+          "errors": "0"
+        }
+      ]
+    }
+  ],
+  "files_sha256": {
+    "src/orqalis/persistence/filesystem/task_store.py": "a8c2df70fe2c35a981ddee45cb7a938ccbeb0cdd5e15e9bb2c0c286fb5110561",
+    "src/orqalis/persistence/filesystem/io.py": "d7385088ac7d467241a44e99201185917a8831ef3538582095d2e66eb34e6dae",
+    "src/orqalis/persistence/filesystem/locking.py": "0b6a097ea313ab219e08d95528476eb179f87f70dddee057f53eb500fb98ef53",
+    "src/orqalis/core/plan_preview.py": "cf1b2a249aaffaade0a16e5f9903e06f6ba9762c41c1f185fab4a22c030966cd",
+    "src/orqalis/persistence/filesystem/unit_of_work.py": "671e0e48d4459086ceaed2c85fe395f59f8788721ed6cea2ddfb49149b459bbc",
+    "src/orqalis/persistence/filesystem/memory_store.py": "03366b624e972b2c467a6791ec201d228d08a50a737d14ebbbcd192a0e585b52",
+    "src/orqalis/observability/event_bus.py": "7de8e253335b2b07d134263f8b5b2008c1a79fb81441ff84eef221174e7993c5",
+    ".tools/research/release_governance_diagnostic_v2.py": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275",
+    ".tools/research/governance-browser-diagnostic/observed.spec.mjs": "c8d1641df30399ff0c4234a9f9c336bcd75b3d40f1bc3d8cc9902a8c68b6f7e6",
+    "web/e2e/run-governance.spec.ts": "90f2bd95996fd41733ff21c426db27e48308e6d546c3d638a9e79558e8b90f21"
+  },
+  "function_comparison": [
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py",
+      "function": "_documents",
+      "ast_identical_to_baseline": true
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py",
+      "function": "_stage_documents",
+      "ast_identical_to_baseline": false
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py",
+      "function": "_recover",
+      "ast_identical_to_baseline": true
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/task_store.py",
+      "function": "_commit_capsule",
+      "ast_identical_to_baseline": true
+    },
+    {
+      "path": "src/orqalis/core/plan_preview.py",
+      "function": "preview",
+      "ast_identical_to_baseline": true
+    },
+    {
+      "path": "src/orqalis/core/plan_preview.py",
+      "function": "_request_plan",
+      "ast_identical_to_baseline": true
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/memory_store.py",
+      "function": "__init__",
+      "ast_identical_to_baseline": true
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/memory_store.py",
+      "function": "_load",
+      "ast_identical_to_baseline": true
+    }
+  ],
+  "confirmed_observations": [
+    "Both unchanged tests fail PLAN version 1 visibility after approved GOAL under the original five-second assertion in the tiny persisted fixture.",
+    "Each passive page network log captures the second POST /plan/preview request but no response before failure; request observer measures headers, not end-to-end server phase spans.",
+    "Earlier first POST correctly returns 403 and GOAL approval decision returns 200; neither log reports a second POST completed with an application exception.",
+    "Current live snapshot shows preview writer in the install/commit/recovery call chain and another thread in event replay/state acquisition; moving frame lines/text are inconsistent, so append JSONL lock acquisition is not identified as the cause.",
+    "Baseline live snapshot shows preview and event replay inside repeated memory-adapter initialization; one is at source-projection lock acquisition while another is loading its projection, showing serialization but not an opposing cycle.",
+    "Plan preview runs install_plan, advance PLANNED and ensure PLAN as three separate durable commits on the normal new-plan path. Each commit generates all projections, writes a durable transaction marker, replaces every listed document and fsyncs appended events individually before deleting the marker.",
+    "Structured projections carry the new capsule generation, so semantically unchanged child entities still produce changed bytes. Plain unchanged request/Markdown files are also rewritten unconditionally.",
+    "Every full ProjectUnitOfWork constructs and eagerly reads the source memory adapter under source-projection lock, including task-only/approval/state/event operations that never need memory. This is common baseline work, as are the preview and core transaction functions."
+  ],
+  "locking_assessment": {
+    "preview_opposing_lock_inversion_confirmed": false,
+    "append_jsonl_lock_defect_confirmed": false,
+    "repaired_cached_lookup_p1_not_equated_with_browser_failure": true,
+    "reason": "Preview closes its initial run UoW before memory context; later install/advance/approval UoWs use one owning run, then run state -> per-capsule event lock. The observed replay reader follows the same state -> event order. Event bus publish queues notifications asynchronously and does not synchronously reenter persistence. No waiter holding the inverse event -> state lock or projection -> run lock is established for this preview path.",
+    "retained_limits": "Auxiliary global duplicate scans and arbitrary multi-run UoWs remain separate potential cross-run locking surfaces; this review does not prove all locking deadlock-free."
+  },
+  "concrete_optimization_candidates": [
+    {
+      "priority": 1,
+      "candidate": "Avoid eagerly loading source-memory projection for task-only UoWs.",
+      "evidence": "Identical memory constructor loads every UoW; baseline stack explicitly observes this work.",
+      "limit": "Requires preserving coherent read view, migration handling, write reload/generation semantics, close/rollback behavior and public protocol; measure actual time before broad redesign."
+    },
+    {
+      "priority": 2,
+      "candidate": "Reduce repeated whole-capsule projection rewrites and durable commit count for one preview operation.",
+      "evidence": "Three distinct commits and full projection replacement are directly confirmed in code, not inferred from stack line.",
+      "limit": "Generation markers, recovery event ordering, idempotency and authoritative approval boundaries must remain correct; skipping generation changes or removing fsync is not an acceptable shortcut."
+    },
+    {
+      "priority": 3,
+      "candidate": "Count repeated filesystem-link/junction traversal checks and event append fsync calls.",
+      "evidence": "Atomic writes, JSONL operations and layout access repeatedly traverse parents; each event append fsyncs separately.",
+      "limit": "Their contribution is not measured. Preserve path guards and durable crash recovery; do not claim antivirus/kernel/fs latency cause."
+    }
+  ],
+  "minimal_next_validation": [
+    "One planned sequential source-bound phase diagnostic with wall/process CPU and call counts for memory UoW initialization/_load, context, install_plan, advance, ensure PLAN and owning lock acquisition waits.",
+    "Attribute _documents, _recover, atomic writes (fsync/replace separately), event append/fsync and path guarding without changing assertions, timeout, source or input fixture.",
+    "Capture scalar frame tuples before text formatting if post-failure stacks are retained; do not derive wait cycles from changing formatted lines.",
+    "Preserve both diagnostic FAIL captures; neither is a complete release round or a successful convergence witness."
+  ],
+  "release_disposition": "The governance criterion remains unqualified and blocks declaring the release stable. Reproduction on the baseline disproves treating this pair alone as a new candidate-specific regression, but does not justify a timeout waiver or failure acceptance. No additional confirmed product correctness defect is pinpointed from these snapshots; phase attribution is still missing.",
+  "no_hardware_independent_latency_claim": true,
+  "no_release_convergence_claim": true
+}

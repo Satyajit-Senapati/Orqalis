@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "reviewer": "release_acceptance_review",
+  "reviewed_at": "2026-10-04T11:19:33.791151+00:00",
+  "status": "PROSPECTIVE_SHARED_IO_METHOD_ACCEPTABLE_AFTER_FRESH_PREFLIGHT_NO_ACCEPTANCE_CREDIT",
+  "source_sha256": "2489f711187119eaef71a8de7bffeafacb820526c78f5f2c50fb65e13659bc19",
+  "release_input_sha256": "5bb09e42165d893d431c167c73f1cd0fecae97441c6b175a20fe9ba5376e0240",
+  "scope": "Bounded named helper text/AST, inventory/freeze metadata and focused/security/calibration record reads only; no product imports, native queries, builds, tests, workload or full-tree hashing. This is prospective qualification review, not a substitute native implementation audit.",
+  "bindings": {
+    "docs/quality/evidence/release-private-helper-inventory-shared-io-v2.json": "e26cd208e7076dfe091437f25986e67878081cfeae101ebd877274280460f3d8",
+    "docs/quality/evidence/release-input-freeze-shared-io-v1.json": "6f72597fbbf60b2f61be559fd6fb9b3d36bd9a6fe411fffbb9b740615a1066bb",
+    "docs/quality/evidence/release-execution-reference-policy-shared-io-v1.json": "5798b2202695c0a3012f832e918050cdb015a8fd5e2ebd0ea1db87656e0205a2",
+    "docs/quality/evidence/release-shared-io-portable-focused-v1.xml": "6fc8d24c8bfa8161c4d4104f603bc2355d3c5d743056b565ee298320ec0eeb9d",
+    "docs/quality/evidence/release-shared-io-portability-memory-security-review-v1.json": "f42767c9c3c626c3b639ec0f1df0f37af5ec86bc655958967d40a910e0011f48",
+    "docs/quality/evidence/release-memory-shared-io-calibration-v1.json": "18e3a22971e7c7c11db2a0171d1447123de2206cedd3072907fff3ab2942ef47",
+    ".tools/research/release_qualification_shared_io_v1.py": "a2cc5dce97208fa166fa861f1e6e51aa571c5272be205b3f8ed11d2ede42483a",
+    ".tools/research/run_full_regression_release_v14.py": "c44463eaa1a479a4dffa7618c756ee6bf887319d90ef06b4f05e6c6916af7ddd",
+    ".tools/research/verify_execution_reference_shared_io_v1.py": "9623ab15477bd3f89aa61d2711b52cbcd0e0e22bcd72b12e8f9f9b1ee0d41479",
+    ".tools/research/release_preflight_shared_io_v1.py": "b8234c82e49225f467dda05d889a093eba85f64f214de93a28836c7d92df975e",
+    ".tools/research/release_memory_shared_io_v1.py": "43151a86e46152eb194e4ff462e907a61381513f09d5e18d811e4767624277ff"
+  },
+  "frozen_metadata_bridge": {
+    "count": 392,
+    "changed_or_added": {
+      "src/orqalis/persistence/filesystem/_windows_io.py": {
+        "old": null,
+        "current": "e4a7f68f08f3d1f0f1c19f264803feaa3505f7313846ebffcb430c5160563705"
+      },
+      "src/orqalis/persistence/filesystem/io.py": {
+        "old": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6",
+        "current": "5d363eb287c4cf2d4d8ea300ab2f7f9e2359b33357d0ca870ff919f603cd0600"
+      },
+      "src/orqalis/persistence/filesystem/layout.py": {
+        "old": "a101d52d24eb673192d8a308676bcad240e30a9ebd6ae2a866d8fde61a5b35ba",
+        "current": "8174b5c13223ae361012cae4ab568b67773fbe0bcb7c2c8c322ee7a102dfc0f8"
+      },
+      "src/orqalis/persistence/filesystem/memory_store.py": {
+        "old": "420b0fc8ce46592a176131c8af66648a9271f8283a833ea3b22245a4bba8004c",
+        "current": "dabfecd58bf01b89b8025e39f832cf08ae5bf8f9e7a269bf140152102c865539"
+      },
+      "src/orqalis/tasks/history.py": {
+        "old": "f4ff76739a3808d50f91333fbd177fb3f5dba2cf5bdd6fb29c30f1b2f1e4d170",
+        "current": "5378666302ab851cc47ffcde9a845cd5e9f0824681536e452a8081ac18d9c6e3"
+      },
+      "tests/unit/test_filesystem_foundation.py": {
+        "old": "fff9918ddf2e19579190b1e2987967fc3c8a2c9735f4c0681da1513cddab6992",
+        "current": "ab6986832f3a229d8e98e12fb239b88120a1991157b0c9f97a431d57406e7570"
+      },
+      "tests/unit/test_filesystem_shared_reads.py": {
+        "old": null,
+        "current": "f51e0944f9116f81c41c315cda1da5773bd37a3beb332731c54a41880a330405"
+      }
+    },
+    "removed": [],
+    "prior_helpers_preserved": 28,
+    "current_helper_count": 36,
+    "limits": "Metadata bridge compared only; full source/input actual-byte verification remains mandatory in root preflight/orchestration."
+  },
+  "method_findings": {
+    "qualifier": "Only candidate/input/inventory/current86/policy/helper/label bindings and reviewed memory helper change from pure-workv4; labels24current-first/25baseline-first. Quality3, execution3, memory5, UI3, constrained, unchanged14-test browser, full Python and fresh advisories retained. Same30 exact metric/path comparisons remain raw REVIEW with explicit bounded dispositions.25 requires24 complete-pending samefreeze.",
+    "full_suite": "v13\u2192v14 only allowed labels24/25 added. Full command, timeouts, assertions and raw failure/skips handling unchanged.",
+    "execution_reference": "Only new policy path/hash; original26 semantic+4 stability checks, source/helpers/script/environment/fixture/mode/completion identity remain. Policy carries all prior evidence hashes plus prior policy; all9 samples retained and performance rule unchanged. No selecting slower reference or range overlap to declare PASS.",
+    "memory_observer": "Independent AST check: CountedReader and every other non-observer top-level function/class unchanged; worker only measurement-policy string differs. Same fixture/workflow/witness/cap/history/graph checks and repeat5. ReadProbe extracts same classifier and patches only canonical filesystem io.open plus existing Path.open/refresh. Original builtins.open delegate once retains opener/nativehandle semantics; portable paths are not double wrapped. UTF8 returned-content accounting is not physical disk bytes. Added observer overhead remains included, and old narrower Path.open-only accounting must retain its dated method.",
+    "calibration": "Recorded exact source2489/helper43151 counts source2opens/2reads10chars12bytes; memory and metadata1open/1read5chars6bytes each; no graph refresh. Reviewer did not rerun.",
+    "focused": "Actual XML94 PASS/zero failures/errors/skips final portability source; prior143PASS belongs earlier891 source and is not rebound.",
+    "security": "Existing named native/portability/memory review has no confirmed P0/P1 and records Windows-only scope/unsupported fallback, unchanged retry/backoff/permissions/recovery and bounded observer coverage. It is incorporated as independent evidence, not re-certified here."
+  },
+  "prelaunch_requirements": [
+    "Actual fresh source2489/static11/current86 PASS with all identity/stability flags; root must assert and save before24 invocation. Existing qualifier does not itself parse completedpreflight, so orchestration is the gate.",
+    "Guard current392/per-file/source/protectedhelpers/environment and exclusive24/25 outputs before and after phases; one owned measured workload at a time.",
+    "Keep policy inherited runtime24ff/sourceb2aa/20-21/22-23 prose explicitly historical; authoritative current bindings are2489/5bb/24-25. Do not treat those old paragraphs as current scope or certify the original22 holder."
+  ],
+  "final_required": [
+    "Both24/25 whole full current suites and all benchmark gates complete with exact final identities; no accepted convergence credit beforehand.",
+    "Fresh installed wheel/npm/MCP and heldout/current history/package/frontend proof or separately reviewed exact bridge; old archives remain historical. Final consolidated docs/archive/link checks still required.",
+    "Independent all23 criteria/all30 losses/performance adjudication. Strict Master53 stays pending: native shared read/rename may address a real contract but does not establish original22 actor/holder or old timing cause. No benchmark retry lottery or changed thresholds."
+  ],
+  "validation_limits": [
+    "Current memory accounting changes coverage; retain method label, original script checksum and calibration. Prior returned-read totals are not directly comparable as if measurement coverage were identical.",
+    "Native Windows proof is bounded; configured POSIX static checks and portable branches are not live Linux/macOS certification.",
+    "Iteration interruption array is inherited and lists only early failures; final retained-failure ledger must also include later16/22 and other raw failures without overwriting/reclassifying them."
+  ],
+  "blocking_findings": [],
+  "acceptance_state": "All23 IMPLEMENTED_PENDING_EVAL/13DEFER; no new P1 closure, Master53 closure, final signoff, publication or maincommit."
+}

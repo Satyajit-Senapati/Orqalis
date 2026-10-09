@@ -1,0 +1,46 @@
+{
+  "source_sha256": "3ca4053f27346d3a03ef2a9dd069c3a8edd7009d1c943334c92b896aff757c71",
+  "source_stable": true,
+  "checks": [
+    {
+      "command": [
+        ".venv/Scripts/ruff.exe",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        ".venv/Scripts/ruff.exe",
+        "format",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "stdout": "309 files already formatted\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        ".venv/Scripts/mypy.exe"
+      ],
+      "exit_code": 0,
+      "stdout": "Success: no issues found in 287 source files\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        ".venv/Scripts/mypy.exe",
+        "--strict",
+        "scripts"
+      ],
+      "exit_code": 0,
+      "stdout": "Success: no issues found in 13 source files\n",
+      "stderr": ""
+    }
+  ],
+  "status": "PASS"
+}

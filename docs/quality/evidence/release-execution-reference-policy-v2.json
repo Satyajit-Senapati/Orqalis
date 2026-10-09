@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "status": "PROSPECTIVE_TEST_CONTRACT_SUCCESSOR_STAGED_UNRUN",
+  "created_at": "2026-10-03T14:35:23.706766+00:00",
+  "candidate_round_labels": [
+    "14",
+    "15"
+  ],
+  "candidate_source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "release_input_sha256": "4572abf9b7895e6029850f1d442892e415f8e9bc79851a291fb0bae34a0e78f3",
+  "baseline_execution_reference": "release-execution-baseline-8-fixed-diagnostic-v1.json",
+  "evidence_sha256": {
+    "release-execution-baseline-8-fixed-diagnostic-v1.json": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+    "release-baseline-execution-8-diagnostic-plan-v1.json": "3c71d50fe2296c89a917a2bbc6483bd720ee61a23d2484e8aab0842c29bc429f",
+    "release-baseline-execution-8-fixed-diagnostic-result-v1.json": "0d416a61da267fff5ae5d8b5e34722902acb013dd4ab4b8b05962a943bf82c06",
+    "release-fixed-baseline-execution-interpretation-independent-v1.json": "4fd763f1e13007e99566a63faf574bdcec2c9b2206f9d74a2e05ef1cc24f029b",
+    "release-execution-baseline-diagnostic.json": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+    "release-execution-current-8.json": "84b6ac7b6b1714366c9042743c7ed1ed0548994fac0f8ef8e8eb60960d644e5e",
+    "release-execution-current-10.json": "fef9805f8d49b954412f7eedf052f57dce71c188babec63c48da1b873623f9aa",
+    "release-round-8-interruption.json": "c8f37013fb3186274c3192cdb1a0eda7a720950664f677a5f76c2edd7a743710",
+    "release-round-10-interruption.json": "55262e842cedc10489023c5be8a623b6e9ffda2a0d937f3181596a2b5fc69ab5",
+    "release-execution-baseline-2.json": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+    "release-fixed-baseline-execution-performance-prospective-independent-v1.json": "5d0455f0f5de605d1fb64c45a3957e1ba7741ca1fe4a1ac1eaa94077cf5a36ce",
+    "release-input-freeze-crash-contract-v1.json": "5c1c482841d134a63e0b9d367cfdbafde1756ab0e0320765f53b62b29fdf7cd7",
+    "release-hard-crash-test-contract-proposal-v1.json": "16481bd6e2e87b0984c3629eb5bc12101b104d9b027a8feee51db88af15e84c4",
+    "release-hard-crash-test-contract-proposal-independent-review-v1.json": "7f8f232e91f574882400177edf5c18da786d190a06426013c84232b21ec53dac",
+    "release-hard-crash-corrected-target-v1.json": "423e3e01e4933acf0017c9666db80abdd543f88e4c4ca85546ce96ca535e2253",
+    "release-hard-crash-corrected-target-v1.xml": "0074a545d761ae093d072512e077bd2bbaa7cf2e7986a7514b72d06b8d5b6b09",
+    "release-static-crash-contract-v1.json": "b33933c068fc4a8466e9252ae5e0925c48780902098cf29ac4e5080e8ec60af5",
+    "full-regression-release-10.json": "398519ca48661fb36522a7150e35c4ae970cbf0262c66a665b9388f418bae963",
+    "full-regression-release-10.xml": "a49936539fff1f3daecbcc763f5962a8693a333a023b5b158622dec6e4e468ec"
+  },
+  "scope": "Only immutable execution baseline reused once from exact predeclared3-repeat diagnostic; quality/UI/constrained baseline still captured fresh both rounds; browser/advisories/current execution3/memory5/fullPython each candidate round fresh. Frozen86 contracts/frontend reused under original guards. Failed8/10 never completed or counted.",
+  "performance_rule": "All older/newer baseline and current observations retained. No automatic pass from slower reference, matchingmetadata or range overlap. Completed captures remain pending independent performance/quietness/degradation disposition. No budget/case/workload/threshold changes. Any current failure or identity drift stops; no retry-until-green.",
+  "quietness_scope": "Coordinator runs one owned workload at a time, with no concurrent owned builds/audits/dependency scans; unrelated OS/user activity is not measured or controlled. No independently proven quiet-host claim.",
+  "reference_not_new_samples": true,
+  "failure_retention": true,
+  "performance_comparisons": {
+    "all_matched_baseline_capture_paths": [
+      "release-execution-baseline-diagnostic.json",
+      "release-execution-baseline-2.json",
+      "release-execution-baseline-8-fixed-diagnostic-v1.json"
+    ],
+    "all9_samples_pooled_median_ms": 55870.139499995275,
+    "reporting": "Use actual raw9 sample median, fastest matched capture, candidate8/10 and preceding new iteration; no automatic performance acceptance. Exact authoritative calculations are in independent prospective review."
+  },
+  "expected_sample_check_keys": [
+    "actor_ids_unique",
+    "all_model_calls_succeeded",
+    "contiguous_events",
+    "current_plan_complete",
+    "deliberate_first_acceptance_failure",
+    "event_cursor_matches",
+    "exactly_one_repair",
+    "exactly_two_successful_writes",
+    "failed_first_review_then_pass",
+    "final_acceptance_pass",
+    "model_role_counts_match",
+    "no_blockers",
+    "original_source_unchanged",
+    "parallel_read_tasks_observed",
+    "persisted_reload_matches",
+    "provider_events_match",
+    "provider_ids_unique",
+    "provider_projection_matches",
+    "reviewed_execution_checkpoint",
+    "tool_events_match",
+    "tool_ids_unique",
+    "tool_projection_matches",
+    "tool_provider_links_match",
+    "tool_role_counts_match",
+    "unique_event_keys",
+    "worktree_answer_correct"
+  ],
+  "expected_sample_stability_keys": [
+    "environment",
+    "helpers",
+    "script",
+    "source"
+  ],
+  "assertion_semantics_change": "Only hard-crash test: live exclusion plus eventual reacquire within original shared30s kill/wait budget. Original fullsuite failure retained, causeunproven. Frozen86/gold and production797 unchanged; fresh fullsuites required. Prior12/13 design remains unrun/historical."
+}

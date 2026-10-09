@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="11" time="2.948" timestamp="2026-10-04T16:15:08.506398+05:30" hostname="THOR-GALAXY"><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_canonical_reader_retains_snapshot_while_writer_replaces" time="0.418"><failure message="PermissionError: [WinError 5] Access is denied: 'C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-565\\test_canonical_reader_retains_0\\.session.yaml.azl8a27g.tmp' -&gt; 'C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-565\\test_canonical_reader_retains_0\\session.yaml'">tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-565/test_canonical_reader_retains_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001CF3A911880&gt;
+
+    @pytest.mark.skipif(sys.platform != "win32", reason="Windows native delete sharing")
+    def test_canonical_reader_retains_snapshot_while_writer_replaces(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -&gt; None:
+        target = tmp_path / "session.yaml"
+        io.atomic_write_json(target, {"generation": 1})
+        opened = threading.Event()
+        release = threading.Event()
+        original = io.shared_read_opener
+    
+        def paused_opener(path: str, flags: int) -&gt; int:
+            descriptor = original(path, flags)
+            if Path(path) == target:
+                opened.set()
+                if not release.wait(5):
+                    os.close(descriptor)
+                    raise TimeoutError("Writer did not finish while snapshot reader was open")
+            return descriptor
+    
+        monkeypatch.setattr(io, "shared_read_opener", paused_opener)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            reader = pool.submit(io.read_json_object, target)
+            try:
+                assert opened.wait(5), "Reader did not open the canonical snapshot"
+&gt;               io.atomic_write_json(target, {"generation": 2})
+
+tests\unit\test_filesystem_shared_reads.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\orqalis\persistence\filesystem\io.py:209: in atomic_write_json
+    atomic_write_bytes(path, _encoded_json(value))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-565/test_canonical_reader_retains_0/session.yaml')
+content = b'{\n  "generation": 2\n}\n', mode = None
+
+    def atomic_write_bytes(path: Path, content: bytes, *, mode: int | None = None) -&gt; None:
+        """Replace ``path`` only after a complete, flushed, verified temporary write."""
+    
+        if not isinstance(content, bytes):
+            raise TypeError("Atomic writes require bytes")
+        target = ensure_no_filesystem_links(path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        existing_mode = None
+        with suppress(FileNotFoundError):
+            existing_mode = stat.S_IMODE(target.stat().st_mode)
+        descriptor, temporary_name = tempfile.mkstemp(
+            prefix=f".{target.name}.", suffix=".tmp", dir=target.parent
+        )
+        temporary = Path(temporary_name)
+        try:
+            with os.fdopen(descriptor, "wb") as stream:
+                _write_all(stream, content)
+                stream.flush()
+                os.fsync(stream.fileno())
+            if _read_bytes(temporary) != content:
+                raise OSError("Temporary file validation failed")
+            os.chmod(temporary, mode if mode is not None else existing_mode or 0o644)
+            # Transient Windows sharing denials get at most 300 ms of backoff.
+            for attempt in range(5):
+                try:
+&gt;                   os.replace(temporary, target)
+E                   PermissionError: [WinError 5] Access is denied: 'C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-565\\test_canonical_reader_retains_0\\.session.yaml.azl8a27g.tmp' -&gt; 'C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-565\\test_canonical_reader_retains_0\\session.yaml'
+
+src\orqalis\persistence\filesystem\io.py:169: PermissionError</failure></testcase><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_held_shared_reader_does_not_block_atomic_replacement" time="0.337"><failure message="PermissionError: [WinError 5] Access is denied: 'C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-565\\test_held_shared_reader_does_n0\\.state.yaml.sia8ilw3.tmp' -&gt; 'C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-565\\test_held_shared_reader_does_n0\\state.yaml'">tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-565/test_held_shared_reader_does_n0')
+
+    @pytest.mark.skipif(sys.platform != "win32", reason="Windows native delete sharing")
+    def test_held_shared_reader_does_not_block_atomic_replacement(tmp_path: Path) -&gt; None:
+        target = tmp_path / "state.yaml"
+        target.write_bytes(b"old")
+        with open(target, "rb", opener=shared_read_opener) as reader:
+&gt;           io.atomic_write_bytes(target, b"new")
+
+tests\unit\test_filesystem_shared_reads.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-565/test_held_shared_reader_does_n0/state.yaml')
+content = b'new', mode = None
+
+    def atomic_write_bytes(path: Path, content: bytes, *, mode: int | None = None) -&gt; None:
+        """Replace ``path`` only after a complete, flushed, verified temporary write."""
+    
+        if not isinstance(content, bytes):
+            raise TypeError("Atomic writes require bytes")
+        target = ensure_no_filesystem_links(path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        existing_mode = None
+        with suppress(FileNotFoundError):
+            existing_mode = stat.S_IMODE(target.stat().st_mode)
+        descriptor, temporary_name = tempfile.mkstemp(
+            prefix=f".{target.name}.", suffix=".tmp", dir=target.parent
+        )
+        temporary = Path(temporary_name)
+        try:
+            with os.fdopen(descriptor, "wb") as stream:
+                _write_all(stream, content)
+                stream.flush()
+                os.fsync(stream.fileno())
+            if _read_bytes(temporary) != content:
+                raise OSError("Temporary file validation failed")
+            os.chmod(temporary, mode if mode is not None else existing_mode or 0o644)
+            # Transient Windows sharing denials get at most 300 ms of backoff.
+            for attempt in range(5):
+                try:
+&gt;                   os.replace(temporary, target)
+E                   PermissionError: [WinError 5] Access is denied: 'C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-565\\test_held_shared_reader_does_n0\\.state.yaml.sia8ilw3.tmp' -&gt; 'C:\\Users\\senap\\AppData\\Local\\Temp\\pytest-of-senap\\pytest-565\\test_held_shared_reader_does_n0\\state.yaml'
+
+src\orqalis\persistence\filesystem\io.py:169: PermissionError</failure></testcase><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_uncooperative_external_reader_still_fails_without_mutating_target" time="0.346" /><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_shared_snapshot_preserves_utf8_and_universal_newlines" time="0.039" /><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_snapshot_missing_file_keeps_native_error_type_and_filename" time="0.011" /><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_failed_descriptor_conversion_closes_owned_native_handle" time="0.010" /><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_snapshot_opener_rejects_write_flags_without_touching_file[1]" time="0.011" /><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_snapshot_opener_rejects_write_flags_without_touching_file[2]" time="0.015" /><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_snapshot_opener_rejects_write_flags_without_touching_file[256]" time="0.012" /><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_snapshot_opener_rejects_write_flags_without_touching_file[512]" time="0.009" /><testcase classname="tests.unit.test_filesystem_shared_reads" name="test_snapshot_opener_rejects_write_flags_without_touching_file[8]" time="0.009" /></testsuite></testsuites>

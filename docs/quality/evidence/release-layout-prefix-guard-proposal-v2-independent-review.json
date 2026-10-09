@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T10:46:27.355421+00:00",
+  "reviewer": "independent release_security_review agent",
+  "status": "BOUNDED_EXACT_UNAPPLIED_PROPOSAL_REVIEW_PASS_TARGETED_TESTS_PENDING",
+  "source_sha256": "635e1fec1b39c5998e8294ba376ee2a641546f4c632b5973a775b7a26cff6957",
+  "source_inputs": 196,
+  "scope": "Read-only exact v2 proposal delta, static path/dispatch/security/error review; no source edits or workloads.",
+  "file": {
+    "production": "src/orqalis/persistence/filesystem/layout.py",
+    "production_sha256": "7fdc7abfa7ffbaa4d4d1181cc0f7578a01233acd03768bbcad2752bb82fcf660",
+    "proposal": ".tools/research/release_layout_prefix_guard_proposal_v2.py",
+    "proposal_sha256": "c93b8b8b532e7c21a35782b0f20915f92c9eddc09886d501fa14d7f65023e52b",
+    "delta_only_storage_path_prefix_selection": true
+  },
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "conclusions": [
+    {
+      "line": 71,
+      "detail": "Exact type branch precedes raw root/join evaluation. All subclasses execute original self.store lookup then original candidate join/guard/resolves; v1 eager-dispatch issue fixed."
+    },
+    {
+      "line": 73,
+      "detail": "Base root normalized and anchored by unchanged post-init. Raw store/candidate construction and lexical relative checks perform no filesystem resolution or access."
+    },
+    {
+      "line": 74,
+      "detail": "Only lexically contained/equal candidates without relative .. components use raw_store fast path. Absolute outside paths and traversal retain original self.store prefix check, closing linked-store/absolute-target counterexample. Absolute inside/equal paths remain covered by candidate ancestry."
+    },
+    {
+      "line": 82,
+      "detail": "Full fresh candidate guard checks candidate and every ancestor including ordinary store/root; both filesystem resolves and exact containment condition are unchanged. No state read, mutation or trust operation follows without that guard."
+    },
+    {
+      "detail": "Public store, contained, root normalization, all other methods, atomic write/recovery guards, commit and approval behavior byte unchanged. No path/root/metadata cache added."
+    }
+  ],
+  "error_and_race_semantics": [
+    "Unexpected metadata errors fail closed through unchanged final full ancestry guard. Missing descendants are still tolerated by guard and both resolves remain strict=False.",
+    "Base fast path changes error precedence when a candidate and prefix both fail, and can observe different transient filesystem mutations because the early prefix pass is omitted. This is not a claim of identical race/error chronology; fresh pre-resolution ancestry guard remains authoritative.",
+    "No race-free guarantee introduced; existing guard-then-resolve/IO TOCTOU limits remain. Dynamic monkeypatching of base-class descriptors is outside the subclass-dispatch guarantee."
+  ],
+  "required_targeted_cases": [
+    "one full guard for ordinary base descendants and fresh guard on repeated calls",
+    "real store/root-ancestor/candidate symlink or junction rejected",
+    "linked store plus absolute outside store-equal target rejected via fallback",
+    "relative parent traversal and unrelated absolute target retain fallback/denial",
+    "missing descendants and empty parts/store-equal candidate accepted when otherwise safe",
+    "custom subclass alternate store retained and subclass denial before raw root access/invalid joins",
+    "unexpected metadata permission/OSError propagate before downstream operation"
+  ],
+  "preserved_prior_review": {
+    "path": "docs/quality/evidence/release-layout-prefix-guard-concept-independent-review.json",
+    "sha256": "8af42eb53284e50852c16c837a5aadf28954d4aeaca892da376a4cc39fe79162"
+  },
+  "limitations": [
+    "Proposal unapplied at capture; no targeted tests verified yet.",
+    "No 5-second browser cure, performance improvement, full contract closure, installed artifact binding or release certification claimed.",
+    "Existing browser failures and raw diagnostic evidence remain unchanged historical captures."
+  ]
+}

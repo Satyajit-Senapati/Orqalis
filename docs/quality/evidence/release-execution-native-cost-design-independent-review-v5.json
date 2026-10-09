@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "status": "PASS_SCOPED_STATIC_DESIGN_REQUIRES_ROOT_SERIAL_ACK",
+  "created_at": "2026-10-07T08:02:17.626739+00:00",
+  "runner": {
+    "path": ".tools/research/release_execution_native_cost_v5.py",
+    "sha256": "008512cdf554c4932e6ad9d39d13ce113ae880a6c34d66ce36fa1e9b6040eeb9"
+  },
+  "plan": {
+    "path": ".tools/research/release-execution-native-cost-plan-v5.json",
+    "sha256": "8abfcf5ed092c83b7a118f6920e86fafb2bc19189bb4a8f162737f763bac921a"
+  },
+  "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "release_input_sha256": "e80768abc2cbf40e0234918808c2b39dcb26be4bb2363d3e60dd0ccfbc482348",
+  "input_freeze": {
+    "path": "docs/quality/evidence/release-input-freeze-advisory-20261007-v1.json",
+    "sha256": "a53051cc53ecf519c1c83adb8a7f880f338d288124d48e63797760df95eeb0bf",
+    "declared_files": 393,
+    "inventory_scope": "Aggregate/source fields and evidence digest checked; no new whole-source/input inventory rehash by reviewer. Runtime guards must independently verify actual files before/after."
+  },
+  "mechanical_proof": {
+    "v4_runner_sha256": "c32f6a0c19ebdbb7ab1e5efe05f78f117ffe71bfd9c8d37726abd72ac49d975c",
+    "v4_plan_sha256": "44d6317df7ae9452cbd4980dd2aa988e257fb25d5e0cf30f1ac0230d4ad910f0",
+    "inverse_suffix_text_identical": true,
+    "syntax_ast_parse": true,
+    "unchanged_plan_fields": [
+      "order",
+      "samples_per_role",
+      "source_sha256",
+      "environment",
+      "sources",
+      "fixture_helpers",
+      "fixture_sha256",
+      "original_script",
+      "original_script_sha256",
+      "original_worker_ast_sha256",
+      "expected_sample_check_keys",
+      "expected_sample_stability_keys",
+      "observer_targets",
+      "posttiming_fields",
+      "stage_proof",
+      "limits",
+      "external_worker_stop_cap_seconds",
+      "cleanup_wait_seconds",
+      "observer_query_fraction_limit",
+      "protected_bounds_sha256"
+    ],
+    "named_bindings_verified": 51,
+    "future_paths_unique_absent": 10,
+    "workspace_metadata_corrected": "Actual v5 C: leaf now agrees with fixed runner guard and capture path."
+  },
+  "protected_bounds": {
+    "samples": 1,
+    "roles": [
+      "C"
+    ],
+    "semantic_checks": 26,
+    "stability_checks": 4,
+    "external_stop_cap_seconds": 300,
+    "cleanup_seconds": 10,
+    "direct_query_fraction_limit": 0.01,
+    "protected_bounds_sha256": "3a8b7d45f8bf376cb77c1b93de82429f1b403bf07abbbf5ef1831c53b0f1527a"
+  },
+  "browser_diagnostics": {
+    "1": {
+      "path": "docs/quality/evidence/release-browser-preview-cost-20261007-v1.json",
+      "sha256": "90d9835c8f88b7d6f85987e25a7f4480ef96fcf9d911c0529e716a92b50810a4",
+      "recorded_call_count": 171,
+      "scope": "Historical browser cost diagnostic only; no original failure closure or qualification credit."
+    },
+    "2": {
+      "path": "docs/quality/evidence/release-browser-preview-cost-20261007-v2.json",
+      "sha256": "24fea2654790cc1c653432717d52c2cfd27c7d779b7e27a6556c5baba741cd62",
+      "recorded_call_count": 1955,
+      "scope": "Historical browser cost diagnostic only; no original failure closure or qualification credit."
+    }
+  },
+  "full_history_owned_lifetime": {
+    "path": "docs/quality/evidence/release-browser-preview-history-launch-20261007-v2.json",
+    "sha256": "45f6dfae0d6bee4ade507e24833ed167a691d7ead608291ea6d2845bf2774284",
+    "exit_code": 0,
+    "child_reaped": true,
+    "job_handle_closed": true,
+    "cleanup_errors": [],
+    "scope": "Named outer launch evidence checked; this does not assert universal external host quietness."
+  },
+  "admission": {
+    "scope": "One fixed observational native I/O attribution before new qualifications. Original24complete/25partial and28browserFAIL retained; no complete24/25 claim. Browser targeted andfullhistory tracedPASS are diagnostic only; no originalfailurecausalclosure. Current197sourceunchanged viaexactdependencybridge. No baseline, repeatedsample,deadline/assertion/gold change or qualificationcredit.",
+    "root_serial_ack_mandatory": true,
+    "all_owned_workloads_closed_mandatory": true,
+    "diagnostic_precedes_new_whole_qualification": true,
+    "no_v4_admission_waiver_or_timing_reuse": true
+  },
+  "limits": [
+    "Exactly one candidate observation; no baseline retry, repeats or aggregate performance pass.",
+    "Two io._read_bytes/io._replace_file pass-throughs preserve original outcomes; nine native lifetime definitions and original worker preserved through exact suffix inverse.",
+    "Original26+4/gold/C: placement/concurrency barrier/300s cap/10s cleanup unchanged.",
+    "Direct overhead screen is bounded credibility only; it does not prove total scheduling perturbation absent.",
+    "Nested interval/thread CPU/native logical IO observations do not establish exclusive cost or historical latency causation.",
+    "read_text, path guards outside read target, fsync, serialization, backoff and unrelated IO remain outside two-hook scope.",
+    "Original browser28FAIL and historical execution degradations/denials remain retained; no Master53, qualification, convergence or release credit.",
+    "No workload, product import, native query, fixture creation, source/test/helper-original mutation or dependency scan by reviewer."
+  ],
+  "workloads_invoked": 0
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T20:47:50.388980+00:00",
+  "decision": "APPROVE_EXACT_V4_PREPARE_AND_ONE_NEW_FIXED_FOUR_CAPTURE_DESIGN_WITH_SEPARATE_ACKS",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "reviewed_sha256": {
+    ".tools\\research\\release_history_matched_package_v4.py": "2d67a89ab7125f138fe09973bf5088549afd0e8372ea880b553ce836ce932ece",
+    ".tools\\research\\release-history-matched-package-plan-v4.json": "c141e426fc1f5ab8bb2f7399fd20294059b3fdd6b78d81dd6335337370e8c6f7",
+    "scripts/benchmark_quality.py": "ce22386aa3826bd34df13ba7adfdff44dd0653fe45c03c3bcc5074b89788e60c",
+    ".tools/research/release_history_quiet.py": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683",
+    ".tools/research/release_host_context_v1.py": "00d4cbd35b9ee325aa2fb90063fa624c79cb423317a0f214216509f86f01d050",
+    ".tools/research/release_history_native_counters_cleanup_v2_typed_v1.py": "81cea03c8abdeb350a44c8ec9cad7b4e5483d73703e748e8a72236e302204d08",
+    ".tools/research/release-history-matched-reference-method-v1.json": "d3b88e4d38ef9eee4e5e567e96694c821b96fe20bd5e104638612ab8df253309",
+    "docs/quality/evidence/release-history-retained-reference-availability-v1.json": "ea45238cdbc7fa303c656565ee905f817699ca5c22c8fc457678c81dc051053c",
+    "docs/quality/evidence/release-artifact-identity-readpath.json": "f9da9683f2e9c25c5a80e0a54bfc09d45648bd9c776041a60d619ad5efe93309",
+    "docs/quality/evidence/release-artifact-identity-windows-cleanup-typed.json": "2d2427bd1dd9116fe71883cc5a8723c1b6f664017e62ec3a48657be5e211ef63",
+    "docs/quality/evidence/release-history-windows-cleanup-typed-native-v1.json": "d0c8f33295aea9a2b2425fc3997e7a241c025f480efb20c83bb34e3d9ae78210",
+    "docs/quality/evidence/release-history-windows-cleanup-typed-native-counters-v1.json": "fe2ca80fc659287de2b8c7473ae79185d2865537dc6f9246fa713a1fe542ba69",
+    ".tools/research/release_history_import_provenance_v1.py": "f28518ee1890b1bcff90b7694efe78540ca345ac613d449d7804b76627290262",
+    ".tools/research/release-history-import-provenance-plan-v1.json": "74aa03d725759cf1720cee01e37290d36c68b3ba05c7d4f55ecf30b6c84977a3",
+    "docs/quality/evidence/release-history-import-provenance-v1.json": "76a0019f5b99379074ff00daa4cb80cff3f7d7a645ac91127b027bbdb2d17f4a",
+    "docs/quality/evidence/release-history-import-provenance-actual-v1.json": "fd473f955cacc1221c7ad5fef921ecfa9cb51788d252fdfc6ee3791c5e6f0ded",
+    "docs/quality/evidence/release-history-import-provenance-ack-v1.json": "52ac98e04e4a9c147943cfa0def508b09cf67bc0bb33b29795b4ed5a62430971",
+    "docs/quality/evidence/release-history-import-provenance-security-actual-v1.json": "6172690d7138377e5252afbc9c4ef6da91de0dbbb14888d933d55db37e3c9032",
+    ".tools/research/release_history_matched_package_v3.py": "41e46b5082e7cabf5fbf465702a79aad87175d6e7720231806357c8a6fc9d4d8",
+    ".tools/research/release-history-matched-package-plan-v3.json": "a931ea1c3e7e266fe2e62fdac6ccd89df918a863eb69a439e5e95b857dc18feb",
+    "docs/quality/evidence/release-history-matched-package-result-v3.json": "0440ffbda85a579a2f133677c9c65d5aa52656f74c462abbe9548810ddf493f8",
+    ".tools/python/cpython-3.12.14-windows-x86_64-none/DLLs/pyexpat.pyd": "6bb4d145099a62c3c4d6718a0fd7e0525d9736d7e584171506c2731fec674dc0"
+  },
+  "verified": {
+    "all29_function_class_AST_equal_v3": true,
+    "only_runner_text_change": "PLAN literal v3 to v4",
+    "exact_allowlist_additions": {
+      "pyexpat.errors": "pyexpat",
+      "pyexpat.model": "pyexpat"
+    },
+    "all20_helper_evidence_pins_match": true,
+    "unchanged_workload_criteria_deadlines_and_300_10_cleanup_bounds": true,
+    "package203_manifests_wheel_pins_and_fixture_provenance_unchanged": true,
+    "new_outputs_ACKs_setup_and_runtime_copies_absent": true
+  },
+  "conditions": [
+    "Root exact pre/post binding check and quiet workload boundary; preparation-only ACK first, independent actual setup review next, then distinct measurement ACK bound to setup SHA.",
+    "ONE fresh R1/C1/C2/R2 block only, stop on first failure. No reuse of invalid v3 R1 samples or continuation of its remaining three roles.",
+    "All unknown no-file/missing ordinary-file/namespace/package security guards remain fail-closed. Both exact aliases use observed absent spec/loader and the existing linked ordinary-file pyexpat proof with pinned extension hash."
+  ],
+  "limits": [
+    "This is static design approval, not performance or release acceptance. Actual four native-worker identities/exits/handle closure and all observer/provenance assertions must be reviewed after capture.",
+    "v4_successor.prior_unrun_runner is a stale key label inherited from staging metadata; actual v3 did run and fail. The same successor explicitly binds prior_actual_failed_block and limits preserve INVALID/unqualified R1, so the key does not authorize reuse or claim v3 never ran.",
+    "No source/product tests/helpers or historical evidence changed; no invocation/query/copies/measurements performed by reviewer."
+  ],
+  "confirmed_launch_blocking_findings": []
+}

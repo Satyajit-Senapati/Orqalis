@@ -1,0 +1,70 @@
+{
+  "reviewed_at_utc": "2026-10-04T07:58:15.563799+00:00",
+  "status": "BOUNDED_DIAGNOSTIC_EVIDENCE_VALID_ORIGINAL_FAILURE_UNCLOSED",
+  "scope": "Read-only named completed diagnostic records, exact helper/report/log digests, fixture directory existence. No runtime invocation, native query, source inventory or fixture scan.",
+  "source_sha256_reported": "4f4088875af3050f10f5be510f8b05159e2bedd37f88fd818a6365a2f0348d44",
+  "evidence_sha256": {
+    "docs/quality/evidence/release-execution-terminal-denial-v3.json": "4a93b7fedca8314de4a94962b9c3053eebb7dc74d199c15c81e88fe1b247aaa7",
+    "docs/quality/evidence/release-execution-terminal-denial-security-prelaunch-v3.json": "f3221179c1a149d026a35196484855ff312a4cb1ab0c5a8f9445b3e40131f4e8",
+    ".tools/research/release_execution_terminal_denial_v3.py": "b7e2b7bda74f33eccaec20e5d7cf1dfb93e7cb1098c5fbada7bd39d71986f23b",
+    ".tools/research/release_execution_candidate_operations_v3.py": "da2057e9235bdba1a9283b843b95a3ebf8f4d04248d13b5b30609477dbbfe550",
+    "docs/quality/evidence/release-execution-current-22.json": "ba1ac06dd02b1098949614c86d2d597beb914f60efa63291d4dade0b36e9c060",
+    "docs/quality/evidence/release-execution22-atomic-denial-security-disposition-v1.json": "d19096c575c42f60e6fd79f6135afcc6f1ecaad134e118ae08ff47ad061e0ed7",
+    ".tools/research/execution-terminal-denial-v3/plan.json": "313256287b0bdf6c5d1cf32a692d2150b4397d7841318c1e60e9fb3f9d6137c8",
+    ".tools/research/execution-terminal-denial-v3/started.json": "bf9472c16cd6abf28a6e319a52a4806136ca653466994a0164a9ebaa73fa2d91",
+    ".tools/research/execution-terminal-denial-v3/identity.json": "f3e4982aa40e61b4c9ac23f8001cfeeab4405cff28ea2bbe203f5544d6030a86",
+    ".tools/research/execution-terminal-denial-v3/grant.json": "d49e6a5df5482a73e0c07fc110da6b31e06f21ecc0d234ea4e3d35ba1266cf96",
+    ".tools/research/execution-terminal-denial-v3/sample.json": "489d26e84f32ceb8d5176a90e2149bc13f95ecc8215831a3bc182e3e0b61db1a",
+    ".tools/research/execution-terminal-denial-v3/observations.json": "bf1d122b70f9a2f64d95ba1b52d28c76437dbb128fe3be36b2719c1905231256",
+    ".tools/research/execution-terminal-denial-v3/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "verified": {
+    "embedded_sample_and_observations_equal_raw": true,
+    "sample_checks_passed": 26,
+    "sample_input_stability_passed": 4,
+    "diagnostic_stability_flags": {
+      "source_stable": true,
+      "helpers_stable": true,
+      "script_stable": true,
+      "environment_stable": true,
+      "release_inputs_stable": true,
+      "protected_helpers_stable": true
+    },
+    "diagnostic_valid": true,
+    "empty_worker_log": true,
+    "reviewed_helper_bytes_retained": true,
+    "identity_grant_plan_digest_links": true,
+    "cleanup_record": {
+      "errors": [],
+      "owned_launcher_reaped": true,
+      "owned_native_exit_confirmed": true,
+      "owned_native_handle_closed": true
+    },
+    "native_pid": 24964,
+    "native_parent_pid": 9580,
+    "coordinator_pid": 11376,
+    "fixture_directory_still_exists": true,
+    "original_execution22_failure_record_unchanged": true
+  },
+  "observations": {
+    "replace_calls": 2124,
+    "recognized_denials": 2,
+    "terminal_denials": [],
+    "observer_errors": 0,
+    "discarded_stream_records": 186,
+    "limits": "Weak references cover Python io.open streams only; closed/unobserved streams and external handles cannot identify a holder. Terminal metadata may race. Instrumented timings receive no acceptance credit."
+  },
+  "disposition": [
+    "Two recognized denials were recovered under the unchanged writer policy; no terminal denial occurred. This supplies no terminal target/temp attributes, holder attribution, causal fix or failure closure.",
+    "The original execution22 sample-index1 session.yaml WinError5 remains retained and release blocking; later22 stages and23 remain unqualified.",
+    "Instrumented execution elapsed approximately48.4497 seconds receives zero timing, performance, Master53 or convergence credit.",
+    "Weakref coverage is limited to Python io.open, with186 discarded records under the4096 cap; absence of observed handles cannot exclude owned or external holders.",
+    "Recorded normal worker exit, launcher reap and held-native-handle exit/close succeeded without errors. This run did not exercise timeout/tree termination."
+  ],
+  "limits": [
+    "No independent OS process query; lifecycle conclusion binds the exact previously reviewed helper and its actual identity/grant/cleanup records. Parent separately reported the outer invocation exit0; this review verifies the inner exit and cleanup record.",
+    "All six stability values are actual helper assertions; this bounded review does not independently rehash the entire390-input/source/helper inventory.",
+    "Fixture existence only, not full retained-content validation. No terminal failure-time metadata exists in this run.",
+    "No production fix, additional diagnostic or retry is proposed or invoked; release signoff and publication remain blocked."
+  ]
+}

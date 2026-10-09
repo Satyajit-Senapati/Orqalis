@@ -1,0 +1,58 @@
+{
+  "reviewed_at_utc": "2026-10-04T12:34:40.851622+00:00",
+  "status": "PROSPECTIVE_HELPER_GUARDS_REQUIRE_CORRECTION_BEFORE_PACK_INSTALL",
+  "scope": "Only three exact new UNRUN prose-helper source files read. No imports/execution/native query/workloads, artifact reads, broad hashes, source/test/doc edits.",
+  "helper_sha256": {
+    ".tools/research/release_repack_final_fixes_docs_v1.py": "85f9826eb99d5edebc497e78ad9ac218240f0e030ff108f17de417bab52b59df",
+    ".tools/research/release_final_fixes_archive_checks_v1.py": "d29d232606e24d3b38b4915b9426e3356978367fa3f7d3bcd10e63f002f149e8",
+    ".tools/research/audit_release_docs_final_fixes_v1.py": "74b4832f91163304fed8eedd803e8d43828d213633773d9c070c954abbdd56c9"
+  },
+  "declared_source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+  "declared_input_sha256": "56c454c8630d017a71802cccda1ef0d8d8521964babfa6ee4df8c1284a2c8750",
+  "positive_checks": [
+    "Original wheel/tar are only read or copied into distinct final-docs artifact paths; their captured identity hashes are checked before and after repack. No original artifact mutation instruction.",
+    "Runtime excludes only docs/README/SIGNOFF and compares every remaining file payload SHA,size,tar mode; copied wheel also sits in new artifact directory. Source/freeze actual file checks guard before and after major repack flow.",
+    "Final archive checker enforces canonical package-relative names, no backslash/colon/NUL/parent segments, casefold uniqueness, regular/dir types, no special permission bits; installed full bytes/sizes must equal complete final tar file map.",
+    "Installed payload scanner rejects ancestor/leaf symlink or reparse entries and special files, checks resolved containment. It explicitly avoids claiming Windows installed POSIX mode certification.",
+    "Repository and installed-package audits parse CommonMark/table links/images and HTML href/src/ids, check local containment/files/fragments and retain every audited Markdown hash; external references remain unfetched."
+  ],
+  "required_corrections": [
+    {
+      "id": "ARCHIVE_BEFORE_INSTALL",
+      "file": ".tools/research/release_repack_final_fixes_docs_v1.py",
+      "evidence": "inventory() only checks regular/dir and duplicate file names; npm install executes before release_final_fixes_archive_checks_v1.py strict name/casefold/mode checks.",
+      "impact": "Unsafe archive names or special modes would be discovered only after installing, and directory duplicate collisions are not guarded before install.",
+      "minimum_change": "Apply the existing strict canonical/casefold/type/mode inventory validation to old and newly packed tar before npm install. Keep full later installed payload equality."
+    },
+    {
+      "id": "OWNED_OUTPUT_PATHS",
+      "files": [
+        ".tools/research/release_repack_final_fixes_docs_v1.py",
+        ".tools/research/release_final_fixes_archive_checks_v1.py",
+        ".tools/research/audit_release_docs_final_fixes_v1.py"
+      ],
+      "evidence": "Fresh exists assertions do not validate ancestors or reject dangling links. Repacker PACK_LOG.write_text and auditor output.write_text are nonexclusive; artifact/prefix parent links are unchecked at writes/install.",
+      "impact": "A fresh spelling can redirect writes/install into linked ancestor targets or overwrite a report during the exists/write window.",
+      "minimum_change": "Validate exact owned lexical output/artifact/prefix/input/report paths and ancestor/leaf no symlink/reparse before use/writes; use x report/log writes. Preserve first-failure raw output through parent wrapper."
+    },
+    {
+      "id": "SOURCE_FREEZE_AND_SMOKE_BINDINGS",
+      "file": ".tools/research/release_repack_final_fixes_docs_v1.py",
+      "evidence": "freeze is dynamically loaded without expected56c/count393 assertions. finish report only status is checked; installed_smoke_evidence is a string, never loaded; helper inventories and consumed evidence are not all held stable.",
+      "impact": "A PASS report can claim17-check smoke reuse without verifying the actual source/artifact-bound smoke capture; helper/evidence provenance can differ from final qualified candidate.",
+      "minimum_change": "Assert exact prospective freeze/input/count, both helper inventory hashes and actual files; load and bind source/artifact PASS finish and17-check installed-smoke record, with original tar/wheel hashes and checks, and pin each consumed evidence/helper before and after. Extend archive/auditor source/evidence guards consistently or require an explicit separately bound outer guard."
+    },
+    {
+      "id": "EXACT_QUALITY_DIRECTORY",
+      "file": ".tools/research/release_final_fixes_archive_checks_v1.py",
+      "evidence": "canonical.startswith(package/docs/quality/) misses exact package/docs/quality directory or file.",
+      "minimum_change": "Reject equality to package/docs/quality as well as descendant prefix; preserve all special/collision rules."
+    }
+  ],
+  "coverage_limits": [
+    "Link audit is limited to its explicit README/SIGNOFF/CODEX_HANDOFF/docs/benchmarks Markdown selection; no claim that every repository file or external URL is audited.",
+    "GitHub-compatible heading slug behavior is an approximation; document/link contents have not been inspected or audited in this static helper review.",
+    "No actual artifact/document/package acceptance, final performance/convergence/readiness or publication approval.13 static/audits and running86 are parent-reported separate gates; no evidence scanned here."
+  ],
+  "recommendation": "Preserve these v1 helpers UNRUN; create a narrowly corrected successor with fresh outputs/bindings, then review exact bytes before final packing."
+}

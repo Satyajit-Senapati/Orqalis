@@ -60,10 +60,9 @@ capabilities:
   - material3
   - responsive-layout
 applicable_when:
-  any:
-    - android
-    - kotlin
-    - jetpack-compose
+  - android
+  - kotlin
+  - jetpack-compose
 required_tools:
   - filesystem.read
   - filesystem.write
@@ -80,37 +79,20 @@ Skills may include instructions, examples, validation recipes, tool declarations
 
 ## 4. Dynamic routing
 
-The Capability Router should operate in two stages:
+The router derives capabilities from task scope, selects skills whose requirements fit
+the role/project tool intersection, honors explicit version pins, and validates the output
+schema and request budget. Applicability tags include task capabilities. With `auto`,
+provider allowlist order is the preference order; otherwise configured adapter order is
+stable. Availability, structured output/tool support, and character limits are checked.
+Cost/latency/history-based scoring is not currently an automatic provider selector.
 
-1. Determine required capabilities from a task.
-2. Match capabilities to agent role + skill set + allowed provider.
+## 5. Typed coordination contracts
 
-Selection factors:
-- Capability fit.
-- Repository/project policy.
-- Provider availability.
-- Cost/latency limits.
-- Security restrictions.
-- Historical quality score (later phase).
-- Context-window requirements.
-
-## 5. Typed inter-agent messages
-
-Agents should coordinate through structured records rather than unrestricted free-form conversations.
-
-```json
-{
-  "run_id": "ORQ-2026-001",
-  "task_id": "T4",
-  "from_role": "architect",
-  "to_role": "developer",
-  "type": "decision",
-  "summary": "Keep sync orchestration centralized in SyncCoordinator.",
-  "artifact_refs": ["ADR-014"],
-  "requires_ack": true
-}
-```
-
+The deterministic Orchestrator owns dependencies and task transitions. Workers exchange
+typed `ProviderExecutionRequest`, `WorkerResult`, `ReviewResult`, tool observations,
+criterion-linked evidence, and findings through persisted run/task state. Run, task,
+actor-session and invocation identities are UUIDs. There is no general peer mailbox or
+`requires_ack` message protocol; parallel writer/mailbox expansion remains deferred.
 Shared findings belong in run state/artifacts, not private conversation histories.
 
 ## 6. Provider abstraction
@@ -121,7 +103,7 @@ class AgentProvider(Protocol):
         ...
 ```
 
-`ProviderExecutionRequest` should contain role, task contract, context pack, selected skills, allowed tools, constraints, output schema, timeout/budget, and trace identifiers.
+`ProviderExecutionRequest` contains role, task contract, context pack, selected skills, allowed tools, constraints, output schema, timeout/budget, and trace identifiers.
 
 Provider adapters must normalize:
 - Model/agent invocation.

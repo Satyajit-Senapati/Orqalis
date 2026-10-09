@@ -4,6 +4,7 @@ from uuid import UUID, uuid5
 
 from orqalis.core.approval_guard import require_approval, require_delivery_binding
 from orqalis.core.approval_subjects import goal_subject, plan_subject, repair_subject
+from orqalis.core.approvals import prepare_approval_request
 from orqalis.core.phases import update_phase
 from orqalis.core.plan_revision import PlanRevisionService
 from orqalis.core.planning import plan_identity
@@ -86,7 +87,7 @@ class Orchestrator:
                 raise ConflictError("Planner cannot assert execution outcomes")
             if safe_diagnostic(plan.model_dump_json()) != plan.model_dump_json():
                 raise PolicyDeniedError("Unsafe plan content")
-            contract = uow.runs.get_goal(plan.goal_version_id)
+            contract = uow.runs.get_goal(plan.goal_version_id, run_id=plan.run_id)
             if contract is None:
                 raise ConflictError("Goal not found")
             ids = {criterion.id for criterion in contract.criteria}
@@ -250,6 +251,17 @@ class Orchestrator:
                 else TaskStatus.RUNNING
             )
             update_phase(uow, run, key, event.occurred_at, phase_status, target in TERMINAL)
+            if target == RunState.PLANNED:
+                plan = uow.runtime.get_plan(run.id, run.plan_version)
+                assert plan is not None  # Validated by the transition guard.
+                prepare_approval_request(
+                    uow,
+                    run,
+                    ApprovalStage.PLAN,
+                    plan.version,
+                    plan_subject(plan),
+                    "Review the dependency plan before execution",
+                )
             uow.commit()
             return locked_run(uow, run_id)
 
@@ -303,7 +315,7 @@ class Orchestrator:
                 )
         if target == RunState.CHANGE_GUARD:
             contract = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )

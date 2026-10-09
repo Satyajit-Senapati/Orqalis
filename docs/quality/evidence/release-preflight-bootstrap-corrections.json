@@ -1,0 +1,12 @@
+{
+  "status": "FAIL_PRESERVED_HARNESS_SOURCE_CONTAMINATION",
+  "observed": "Frozen baseline parent imported 2.0.0; AnyIO/Windows async stdio child bypassed synchronous Popen guard and imported editable candidate 2.1.0. Exact version assertion caught it.",
+  "capture": "release-contracts-baseline.json",
+  "counts": {
+    "passed": 85,
+    "failed": 1
+  },
+  "repair": "Bind asyncio BaseEventLoop.subprocess_exec as well as sync known Orqalis CLI/module launches; exact frozen assertions and dataset unchanged. v2 policy requires fresh captures.",
+  "bootstrap_gap": "Main 63-package audit excluded venv ensurepip25.0.1. Six unique pip advisory IDs (12 duplicate-expanded records), including URL-derived file writes before hash validation. Hash-verified local26.2.1 pip wheel installed no-index/no-deps before any network install, with config disabled. Final installed inventories must include pip.",
+  "scope": "Neither failed baseline evidence nor old installed artifact smoke is a current qualified release pass."
+}

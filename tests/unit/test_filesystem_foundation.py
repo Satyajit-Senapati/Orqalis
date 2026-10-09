@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
+import stat
 import subprocess
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
+from types import SimpleNamespace
+from typing import cast
 from uuid import UUID
 
 import pytest
@@ -33,6 +38,11 @@ from orqalis.persistence.filesystem import (
     read_jsonl,
     resolve_project_root,
 )
+from orqalis.persistence.filesystem.io import (
+    ensure_no_filesystem_links,
+    read_json_object_with_sha256,
+)
+from orqalis.persistence.filesystem.locking import _ReentrantGate
 from tests.conftest import fixture_git
 
 
@@ -175,10 +185,118 @@ def test_atomic_json_write_preserves_original_and_cleans_temp_on_replace_failure
     def fail_replace(source: Path, destination: Path) -> None:
         raise OSError("simulated interruption")
 
-    monkeypatch.setattr("orqalis.persistence.filesystem.io.os.replace", fail_replace)
+    monkeypatch.setattr("orqalis.persistence.filesystem.io._replace_file", fail_replace)
     with pytest.raises(OSError, match="simulated interruption"):
         atomic_write_json(target, {"state": "after"})
     assert read_json_object(target) == {"state": "before"}
+    assert list(tmp_path.glob(".state.json.*.tmp")) == []
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows sharing-denial behavior")
+@pytest.mark.parametrize("denials", [1, 2, 3, 4])
+def test_atomic_write_recovers_from_bounded_windows_sharing_denials(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, denials: int
+) -> None:
+    target = tmp_path / "state.json"
+    target.write_bytes(b"before")
+    from orqalis.persistence.filesystem import io
+
+    replace = io._replace_file
+    calls = 0
+
+    def temporarily_denied(source: Path, destination: Path) -> None:
+        nonlocal calls
+        calls += 1
+        if calls <= denials:
+            raise PermissionError(13, "sharing denied", str(destination), 32)
+        replace(source, destination)
+
+    monkeypatch.setattr("orqalis.persistence.filesystem.io._replace_file", temporarily_denied)
+    atomic_write_bytes(target, b"after")
+    assert calls == denials + 1
+    assert target.read_bytes() == b"after"
+    assert list(tmp_path.glob(".state.json.*.tmp")) == []
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows sharing-denial behavior")
+def test_atomic_write_persistent_windows_denial_preserves_original(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    target = tmp_path / "state.json"
+    target.write_bytes(b"before")
+    calls = 0
+
+    def always_denied(source: Path, destination: Path) -> None:
+        nonlocal calls
+        calls += 1
+        raise PermissionError(13, "sharing denied", str(destination), 5)
+
+    monkeypatch.setattr("orqalis.persistence.filesystem.io._replace_file", always_denied)
+    with pytest.raises(PermissionError, match="sharing denied"):
+        atomic_write_bytes(target, b"after")
+    assert calls == 5
+    assert target.read_bytes() == b"before"
+    assert list(tmp_path.glob(".state.json.*.tmp")) == []
+
+
+@pytest.mark.parametrize("platform,winerror", [("posix", 5), ("nt", 123)])
+def test_atomic_write_unknown_or_nonwindows_denial_is_immediate(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, platform: str, winerror: int
+) -> None:
+    from orqalis.persistence.filesystem import io
+
+    target = tmp_path / "state.json"
+    target.write_bytes(b"before")
+    calls: list[int] = []
+    waits: list[float] = []
+
+    def denied(source: Path, destination: Path) -> None:
+        calls.append(1)
+        raise PermissionError(13, "sharing denied", str(destination), winerror)
+
+    monkeypatch.setattr(io, "os", SimpleNamespace(**{**vars(os), "name": platform}))
+    monkeypatch.setattr(io, "_replace_file", denied)
+    monkeypatch.setattr(io, "time", SimpleNamespace(sleep=waits.append))
+    with pytest.raises(PermissionError, match="sharing denied"):
+        atomic_write_bytes(target, b"after")
+    assert len(calls) == 1 and not waits
+    assert target.read_bytes() == b"before"
+    assert list(tmp_path.glob(".state.json.*.tmp")) == []
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows sharing-denial behavior")
+def test_atomic_write_revalidates_target_after_retry_backoff(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from orqalis.persistence.filesystem import io
+
+    target = tmp_path / "state.json"
+    target.write_bytes(b"before")
+    calls: list[int] = []
+    slept = False
+    guard = io.ensure_no_filesystem_links
+
+    def denied(source: Path, destination: Path) -> None:
+        calls.append(1)
+        raise PermissionError(13, "sharing denied", str(destination), 32)
+
+    def sleep(delay: float) -> None:
+        nonlocal slept
+        assert delay == 0.02
+        slept = True
+
+    def checked(path: Path) -> Path:
+        if slept:
+            raise PolicyDeniedError("Target changed during retry backoff")
+        return guard(path)
+
+    monkeypatch.setattr(io, "_replace_file", denied)
+    monkeypatch.setattr(io, "time", SimpleNamespace(sleep=sleep))
+    monkeypatch.setattr(io, "ensure_no_filesystem_links", checked)
+    with pytest.raises(PolicyDeniedError, match="during retry backoff"):
+        atomic_write_bytes(target, b"after")
+    assert calls == [1]
+    assert target.read_bytes() == b"before"
     assert list(tmp_path.glob(".state.json.*.tmp")) == []
 
 
@@ -440,3 +558,634 @@ def test_migration_keeps_old_manifest_authoritative_until_final_write(
     backups = tuple((layout.store / "backups").glob("manifest.schema-1.*.yaml"))
     assert len(backups) == 1
     assert backups[0].read_bytes() == original
+
+
+def test_json_object_digest_uses_exact_single_decoded_read(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from orqalis.persistence.filesystem import io
+
+    path = tmp_path / "proof.json"
+    content = b'{"value": "first"}\n'
+    reads: list[Path] = []
+
+    def changing_read(target: Path) -> bytes:
+        reads.append(target)
+        return content if len(reads) == 1 else b'{"value": "other"}\n'
+
+    monkeypatch.setattr(io, "_read_bytes", changing_read)
+    document, digest = read_json_object_with_sha256(path)
+    assert document == {"value": "first"}
+    assert digest == hashlib.sha256(content).hexdigest()
+    assert reads == [path.absolute()]
+
+
+@pytest.mark.parametrize(
+    "content",
+    [b'{"x":1,"x":2}', b'{"x":NaN}', b'{"x":Infinity}', b"[]", b"\xff", b"{"],
+)
+def test_json_object_digest_preserves_strict_decoding(tmp_path: Path, content: bytes) -> None:
+    path = tmp_path / "proof.json"
+    path.write_bytes(content)
+    with pytest.raises(FilesystemFormatError):
+        read_json_object_with_sha256(path)
+
+
+@pytest.mark.parametrize("link_form", ["symlink", "junction"])
+def test_storage_guard_rejects_missing_descendant_of_link(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, link_form: str
+) -> None:
+    linked_parent = tmp_path / "linked"
+    candidate = linked_parent / "missing" / "document.json"
+    native_lstat = Path.lstat
+
+    def metadata(path: Path) -> os.stat_result:
+        if path == linked_parent:
+            return cast(
+                os.stat_result,
+                SimpleNamespace(
+                    st_mode=stat.S_IFLNK if link_form == "symlink" else stat.S_IFDIR,
+                    st_reparse_tag=0 if link_form == "symlink" else 0xA0000003,
+                ),
+            )
+        return native_lstat(path)
+
+    monkeypatch.setattr(Path, "lstat", metadata)
+    with pytest.raises(PolicyDeniedError, match="link or junction"):
+        ensure_no_filesystem_links(candidate)
+
+
+@pytest.mark.parametrize("failure", [PermissionError("denied"), OSError("metadata unavailable")])
+def test_storage_guard_preserves_unexpected_metadata_errors_before_write(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, failure: OSError
+) -> None:
+    target = tmp_path / "document.json"
+    original = b'{"original": true}\n'
+    target.write_bytes(original)
+    native_lstat = Path.lstat
+
+    def metadata(path: Path) -> os.stat_result:
+        if path == target:
+            raise failure
+        return native_lstat(path)
+
+    monkeypatch.setattr(Path, "lstat", metadata)
+    with pytest.raises(OSError) as caught:
+        atomic_write_json(target, {"changed": True})
+    assert caught.value is failure
+    assert target.read_bytes() == original
+
+
+def test_storage_guard_allows_missing_regular_descendants(tmp_path: Path) -> None:
+    target = tmp_path / "missing" / "nested" / "document.json"
+    assert ensure_no_filesystem_links(target) == target.absolute()
+    assert not target.exists()
+
+
+def _wait_for_gate_queue(gate: _ReentrantGate, count: int) -> None:
+    deadline = time.monotonic() + 2
+    while time.monotonic() < deadline:
+        with gate._condition:
+            if len(gate._waiters) == count:
+                return
+        time.sleep(0.001)
+    raise AssertionError("Waiter did not reach the controlled queue barrier")
+
+
+def test_queued_waiter_prevents_owner_barging_and_preserves_reentry() -> None:
+    gate = _ReentrantGate()
+    assert gate.acquire(timeout=0)
+    entered, release = threading.Event(), threading.Event()
+    outcomes: list[bool] = []
+
+    def queued() -> None:
+        acquired = gate.acquire(timeout=2)
+        outcomes.append(acquired)
+        if acquired:
+            try:
+                entered.set()
+                assert release.wait(2)
+            finally:
+                gate.release()
+
+    worker = threading.Thread(target=queued)
+    worker.start()
+    try:
+        _wait_for_gate_queue(gate, 1)
+        assert gate.acquire(timeout=0)
+        gate.release()
+        assert not entered.is_set()
+        gate.release()
+        assert not gate.acquire(timeout=0)
+        assert entered.wait(2)
+    finally:
+        release.set()
+        worker.join(2)
+    assert not worker.is_alive()
+    assert outcomes == [True]
+    assert gate.acquire(timeout=0)
+    gate.release()
+
+
+def test_expired_head_waiter_does_not_block_its_successor() -> None:
+    gate = _ReentrantGate()
+    assert gate.acquire(timeout=0)
+    outcomes: list[tuple[str, bool]] = []
+
+    def contend(name: str, timeout: float) -> None:
+        acquired = gate.acquire(timeout=timeout)
+        outcomes.append((name, acquired))
+        if acquired:
+            gate.release()
+
+    first = threading.Thread(target=contend, args=("expired", 0.1))
+    second = threading.Thread(target=contend, args=("successor", 2))
+    first.start()
+    _wait_for_gate_queue(gate, 1)
+    second.start()
+    try:
+        _wait_for_gate_queue(gate, 2)
+        first.join(1)
+        assert not first.is_alive()
+        _wait_for_gate_queue(gate, 1)
+    finally:
+        gate.release()
+        first.join(2)
+        second.join(2)
+    assert not second.is_alive()
+    assert outcomes == [("expired", False), ("successor", True)]
+
+
+def test_bookkeeping_mutex_obeys_acquisition_timeout() -> None:
+    gate = _ReentrantGate()
+    outcomes: list[bool] = []
+    with gate._condition:
+        worker = threading.Thread(target=lambda: outcomes.append(gate.acquire(timeout=0.05)))
+        worker.start()
+        worker.join(1)
+        assert not worker.is_alive()
+        assert outcomes == [False]
+    assert gate.acquire(timeout=0)
+    gate.release()
+
+
+def test_interrupted_wait_removes_its_queue_entry(monkeypatch: pytest.MonkeyPatch) -> None:
+    gate = _ReentrantGate()
+    assert gate.acquire(timeout=0)
+    errors: list[BaseException] = []
+
+    def interrupted(timeout: float | None = None) -> bool:
+        raise OSError("controlled wait interruption")
+
+    monkeypatch.setattr(gate._condition, "wait", interrupted)
+
+    def contend() -> None:
+        try:
+            gate.acquire(timeout=1)
+        except BaseException as exc:
+            errors.append(exc)
+
+    worker = threading.Thread(target=contend)
+    worker.start()
+    worker.join(1)
+    assert not worker.is_alive()
+    assert len(errors) == 1 and isinstance(errors[0], OSError)
+    assert not gate._waiters
+    gate.release()
+    assert gate.acquire(timeout=0)
+    gate.release()
+
+
+@pytest.mark.parametrize(
+    ("timeout", "error"),
+    [
+        (float("nan"), ValueError),
+        (float("inf"), OverflowError),
+        (threading.TIMEOUT_MAX * 2, OverflowError),
+    ],
+)
+def test_invalid_timeout_retains_rlock_rejection(timeout: float, error: type[Exception]) -> None:
+    gate = _ReentrantGate()
+    with pytest.raises(error):
+        gate.acquire(timeout=timeout)
+    assert gate.acquire(timeout=0)
+    gate.release()
+
+
+def test_zero_timeout_owner_reentry_ignores_waiter_bookkeeping_mutex() -> None:
+    gate = _ReentrantGate()
+    assert gate.acquire(timeout=0)
+    entered, release = threading.Event(), threading.Event()
+
+    def hold_bookkeeping() -> None:
+        with gate._condition:
+            entered.set()
+            assert release.wait(2)
+
+    worker = threading.Thread(target=hold_bookkeeping)
+    worker.start()
+    try:
+        assert entered.wait(2)
+        assert gate.acquire(timeout=0)
+    finally:
+        release.set()
+        worker.join(2)
+    assert not worker.is_alive()
+    gate.release()
+    gate.release()
+    assert gate.acquire(timeout=0)
+    gate.release()
+
+
+@pytest.mark.parametrize("parts", [(), ("memory",), ("tasks", "safe", "state.json")])
+def test_layout_descendant_uses_one_fresh_full_guard(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, parts: tuple[str, ...]
+) -> None:
+    from orqalis.persistence.filesystem import layout as layout_module
+
+    layout = ProjectLayout(tmp_path)
+    store = tmp_path / ".orqalis"
+    calls: list[Path] = []
+    native = ensure_no_filesystem_links
+
+    def guarded(path: Path) -> Path:
+        calls.append(path)
+        return native(path)
+
+    monkeypatch.setattr(layout_module, "ensure_no_filesystem_links", guarded)
+    assert layout._storage_path(*parts) == store.joinpath(*parts)
+    assert calls == [store.joinpath(*parts)]
+    assert layout._storage_path(*parts) == store.joinpath(*parts)
+    assert calls == [store.joinpath(*parts)] * 2
+
+
+@pytest.mark.parametrize("component", ["store", "parent", "target"])
+@pytest.mark.parametrize("link_form", ["symlink", "junction"])
+def test_layout_descendant_full_guard_rejects_new_links(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, component: str, link_form: str
+) -> None:
+    layout = ProjectLayout(tmp_path)
+    store = tmp_path / ".orqalis"
+    target = store / "memory" / "state.json"
+    assert layout._storage_path("memory", "state.json") == target
+    linked = {"store": store, "parent": target.parent, "target": target}[component]
+    native_lstat = Path.lstat
+
+    def metadata(path: Path) -> os.stat_result:
+        if path == linked:
+            return cast(
+                os.stat_result,
+                SimpleNamespace(
+                    st_mode=stat.S_IFLNK if link_form == "symlink" else stat.S_IFDIR,
+                    st_reparse_tag=0 if link_form == "symlink" else 0xA0000003,
+                ),
+            )
+        return native_lstat(path)
+
+    monkeypatch.setattr(Path, "lstat", metadata)
+    with pytest.raises(PolicyDeniedError, match="link or junction"):
+        layout._storage_path("memory", "state.json")
+
+
+def test_layout_arbitrary_parts_keep_store_guard_before_candidate(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from orqalis.persistence.filesystem import layout as layout_module
+
+    layout = ProjectLayout(tmp_path)
+    store = tmp_path / ".orqalis"
+    cases = [(str(tmp_path / "outside"),), ("..", "outside"), ("memory", "..", "state.json")]
+    if os.name == "nt":
+        cases.extend([(r"\outside",), ("Z:relative",)])
+    native = ensure_no_filesystem_links
+    for parts in cases:
+        calls: list[Path] = []
+
+        def guarded(path: Path, calls: list[Path] = calls) -> Path:
+            calls.append(path)
+            return native(path)
+
+        monkeypatch.setattr(layout_module, "ensure_no_filesystem_links", guarded)
+        candidate = store.joinpath(*parts)
+        resolved = candidate.resolve(strict=False)
+        if resolved == store or resolved.is_relative_to(store):
+            assert layout._storage_path(*parts) == candidate.absolute()
+        else:
+            with pytest.raises(PolicyDeniedError, match="escapes"):
+                layout._storage_path(*parts)
+        assert calls == [store, candidate]
+
+
+def test_layout_absolute_escape_cannot_bypass_linked_store(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    layout = ProjectLayout(tmp_path)
+    store = tmp_path / ".orqalis"
+    outside = tmp_path / "outside"
+    native_lstat = Path.lstat
+
+    def metadata(path: Path) -> os.stat_result:
+        if path == store:
+            return cast(
+                os.stat_result, SimpleNamespace(st_mode=stat.S_IFDIR, st_reparse_tag=0xA0000003)
+            )
+        return native_lstat(path)
+
+    monkeypatch.setattr(Path, "lstat", metadata)
+    with pytest.raises(PolicyDeniedError, match="link or junction"):
+        layout._storage_path(str(outside))
+
+
+def test_layout_subclass_store_dispatch_precedes_root_and_parts(tmp_path: Path) -> None:
+    class DeniedLayout(ProjectLayout):
+        blocked = False
+
+        @property
+        def store(self) -> Path:
+            raise PolicyDeniedError("custom store denied")
+
+        def __getattribute__(self, name: str) -> object:
+            if name == "root" and object.__getattribute__(self, "blocked"):
+                raise AssertionError("root accessed before store")
+            return object.__getattribute__(self, name)
+
+    layout = DeniedLayout(tmp_path)
+    object.__setattr__(layout, "blocked", True)
+    with pytest.raises(PolicyDeniedError, match="custom store denied"):
+        layout._storage_path("memory")
+
+
+def test_layout_subclass_custom_store_is_retained(tmp_path: Path) -> None:
+    custom = tmp_path / "custom"
+
+    class CustomLayout(ProjectLayout):
+        @property
+        def store(self) -> Path:
+            return ensure_no_filesystem_links(custom)
+
+    assert CustomLayout(tmp_path)._storage_path("memory") == custom / "memory"
+
+
+@pytest.mark.parametrize("failure", [PermissionError("denied"), OSError("metadata unavailable")])
+def test_layout_descendant_propagates_metadata_faults(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, failure: OSError
+) -> None:
+    layout = ProjectLayout(tmp_path)
+    store = tmp_path / ".orqalis"
+    native_lstat = Path.lstat
+
+    def metadata(path: Path) -> os.stat_result:
+        if path == store:
+            raise failure
+        return native_lstat(path)
+
+    monkeypatch.setattr(Path, "lstat", metadata)
+    with pytest.raises(OSError) as caught:
+        layout._storage_path("memory", "state.json")
+    assert caught.value is failure
+
+
+@pytest.mark.parametrize("relative_root", [True, False])
+def test_layout_noncanonical_root_keeps_resolution_fallback(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, relative_root: bool
+) -> None:
+    layout = ProjectLayout(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    root = Path("relative-repo") if relative_root else tmp_path / "unused" / ".." / "repo"
+    object.__setattr__(layout, "root", root)
+    assert (
+        layout._storage_path("memory", "state.json")
+        == (root / ".orqalis" / "memory" / "state.json").absolute()
+    )
+
+
+def test_layout_rejects_candidate_resolved_outside_after_fresh_guard(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    layout = ProjectLayout(tmp_path)
+    target = tmp_path / ".orqalis" / "memory" / "state.json"
+    native = Path.resolve
+
+    def resolve(path: Path, strict: bool = False) -> Path:
+        if path == target:
+            return tmp_path / "outside" / "state.json"
+        return native(path, strict=strict)
+
+    monkeypatch.setattr(Path, "resolve", resolve)
+    with pytest.raises(PolicyDeniedError, match="escapes"):
+        layout._storage_path("memory", "state.json")
+
+
+def test_layout_custom_path_keeps_store_resolution_failure(tmp_path: Path) -> None:
+    layout = ProjectLayout(tmp_path)
+    native = Path.resolve
+
+    def resolve(path: Path, strict: bool = False) -> Path:
+        if path.name == ".orqalis":
+            raise PermissionError("custom store resolution denied")
+        return native(path, strict=strict)
+
+    custom_path = type("CustomStorePath", (type(tmp_path),), {"resolve": resolve})
+    object.__setattr__(layout, "root", custom_path(tmp_path))
+    with pytest.raises(PermissionError, match="custom store resolution denied"):
+        layout._storage_path("memory", "state.json")
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Native Windows readonly replacement/cleanup")
+def test_atomic_readonly_target_denial_keeps_original_error_and_cleans_temp(
+    tmp_path: Path,
+) -> None:
+    target = tmp_path / "readonly.json"
+    target.write_bytes(b"before")
+    target.chmod(0o444)
+    before = target.stat()
+    try:
+        with pytest.raises(PermissionError) as denied:
+            atomic_write_bytes(target, b"after")
+        assert getattr(denied.value, "winerror", None) == 5
+        assert denied.value.filename2 == str(target)
+        assert target.read_bytes() == b"before"
+        after = target.stat()
+        assert stat.S_IMODE(after.st_mode) == stat.S_IMODE(before.st_mode)
+        assert getattr(after, "st_file_attributes", 0) == getattr(before, "st_file_attributes", 0)
+        assert getattr(after, "st_file_attributes", 0) & stat.FILE_ATTRIBUTE_READONLY
+        assert list(tmp_path.glob(".readonly.json.*.tmp")) == []
+    finally:
+        target.chmod(stat.S_IREAD | stat.S_IWRITE)
+        for temporary in tmp_path.glob(".readonly.json.*.tmp"):
+            temporary.chmod(stat.S_IREAD | stat.S_IWRITE)
+            temporary.unlink()
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Native Windows readonly temporary cleanup")
+def test_atomic_explicit_readonly_temp_keeps_writable_target_and_replace_error(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "explicit.json"
+    target.write_bytes(b"before")
+    original_mode = stat.S_IMODE(target.stat().st_mode)
+    replacement_error = OSError("replacement refused")
+    chmod = os.chmod
+    changed: list[Path] = []
+
+    def denied(source: Path, destination: Path) -> None:
+        raise replacement_error
+
+    def tracked_chmod(path: Path, mode: int) -> None:
+        changed.append(path)
+        chmod(path, mode)
+
+    monkeypatch.setattr("orqalis.persistence.filesystem.io._replace_file", denied)
+    monkeypatch.setattr("orqalis.persistence.filesystem.io.os.chmod", tracked_chmod)
+    with pytest.raises(OSError) as caught:
+        atomic_write_bytes(target, b"after", mode=0o444)
+    assert caught.value is replacement_error
+    assert target.read_bytes() == b"before"
+    assert stat.S_IMODE(target.stat().st_mode) == original_mode
+    assert list(tmp_path.glob(".explicit.json.*.tmp")) == []
+    assert len(changed) == 2 and all(path != target for path in changed)
+
+
+@pytest.mark.parametrize(
+    "platform,winerror,readonly,regular",
+    [
+        ("posix", 5, True, True),
+        ("nt", 32, True, True),
+        ("nt", 123, True, True),
+        ("nt", 5, False, True),
+        ("nt", 5, True, False),
+    ],
+)
+def test_atomic_cleanup_unrelated_denials_do_not_chmod_or_retry(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    platform: str,
+    winerror: int,
+    readonly: bool,
+    regular: bool,
+) -> None:
+    from orqalis.persistence.filesystem import io
+
+    target = tmp_path / "classification.json"
+    target.write_bytes(b"before")
+    cleanup_error = PermissionError("cleanup denied")
+    monkeypatch.setattr(cleanup_error, "winerror", winerror, raising=False)
+    replacement_error = OSError("replacement refused")
+    chmod = os.chmod
+    lstat = Path.lstat
+    unlink = Path.unlink
+    unlink_calls: list[Path] = []
+    chmod_calls: list[Path] = []
+
+    def is_temporary(path: Path) -> bool:
+        return path.parent == tmp_path and path.name.startswith(".classification.json.")
+
+    def denied(source: Path, destination: Path) -> None:
+        raise replacement_error
+
+    def tracked_chmod(path: Path, mode: int) -> None:
+        chmod_calls.append(path)
+        chmod(path, mode)
+
+    def denied_unlink(path: Path, missing_ok: bool = False) -> None:
+        if is_temporary(path):
+            unlink_calls.append(path)
+            raise cleanup_error
+        unlink(path, missing_ok=missing_ok)
+
+    def metadata(path: Path, *args: object, **kwargs: object) -> os.stat_result:
+        if is_temporary(path):
+            return cast(
+                os.stat_result,
+                SimpleNamespace(
+                    st_mode=(stat.S_IFREG if regular else stat.S_IFDIR) | 0o644,
+                    st_file_attributes=0x1 if readonly else 0,
+                    st_reparse_tag=0,
+                ),
+            )
+        return lstat(path)
+
+    with monkeypatch.context() as scoped:
+        scoped.setattr(io, "os", SimpleNamespace(**{**vars(os), "name": platform}))
+        scoped.setattr("orqalis.persistence.filesystem.io._replace_file", denied)
+        scoped.setattr("orqalis.persistence.filesystem.io.os.chmod", tracked_chmod)
+        scoped.setattr(Path, "unlink", denied_unlink)
+        scoped.setattr(Path, "lstat", metadata)
+        with pytest.raises(PermissionError) as caught:
+            atomic_write_bytes(target, b"after")
+        assert caught.value is cleanup_error
+        assert len(unlink_calls) == 1 and len(chmod_calls) == 1
+    assert target.read_bytes() == b"before"
+    temporaries = list(tmp_path.glob(".classification.json.*.tmp"))
+    assert len(temporaries) == 1
+    for temporary in temporaries:
+        temporary.chmod(stat.S_IREAD | stat.S_IWRITE)
+        temporary.unlink()
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows cleanup policy guard path")
+def test_atomic_cleanup_guard_rejection_prevents_fallback_chmod(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from orqalis.persistence.filesystem import io
+
+    target = tmp_path / "guard.json"
+    target.write_bytes(b"before")
+    guard = io.ensure_no_filesystem_links
+    chmod = os.chmod
+    calls: list[Path] = []
+    replacement_error = OSError("replacement refused")
+
+    def denied(source: Path, destination: Path) -> None:
+        raise replacement_error
+
+    def rejected(path: Path) -> Path:
+        if path.name.startswith(".guard.json."):
+            raise PolicyDeniedError("temporary guard rejected")
+        return guard(path)
+
+    def tracked_chmod(path: Path, mode: int) -> None:
+        calls.append(path)
+        chmod(path, mode)
+
+    with monkeypatch.context() as scoped:
+        scoped.setattr("orqalis.persistence.filesystem.io._replace_file", denied)
+        scoped.setattr("orqalis.persistence.filesystem.io.os.chmod", tracked_chmod)
+        scoped.setattr(io, "ensure_no_filesystem_links", rejected)
+        with pytest.raises(PolicyDeniedError, match="temporary guard rejected"):
+            atomic_write_bytes(target, b"after", mode=0o444)
+        assert len(calls) == 1 and target not in calls
+    assert target.read_bytes() == b"before"
+    for temporary in tmp_path.glob(".guard.json.*.tmp"):
+        temporary.chmod(stat.S_IREAD | stat.S_IWRITE)
+        temporary.unlink()
+
+
+def test_atomic_success_keeps_one_unlink_and_no_temp_lstat(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "success.json"
+    unlink = Path.unlink
+    lstat = Path.lstat
+    unlink_calls: list[Path] = []
+    lstat_calls: list[Path] = []
+
+    def tracked_unlink(path: Path, missing_ok: bool = False) -> None:
+        if path.name.startswith(".success.json."):
+            unlink_calls.append(path)
+        unlink(path, missing_ok=missing_ok)
+
+    def tracked_lstat(path: Path, *args: object, **kwargs: object) -> os.stat_result:
+        if path.name.startswith(".success.json."):
+            lstat_calls.append(path)
+        return lstat(path)
+
+    monkeypatch.setattr(Path, "unlink", tracked_unlink)
+    monkeypatch.setattr(Path, "lstat", tracked_lstat)
+    atomic_write_bytes(target, b"after")
+    assert target.read_bytes() == b"after"
+    assert len(unlink_calls) == 1 and lstat_calls == []
+    assert list(tmp_path.glob(".success.json.*.tmp")) == []

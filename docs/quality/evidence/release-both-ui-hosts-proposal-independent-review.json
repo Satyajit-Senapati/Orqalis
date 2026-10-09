@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T09:26:08.870040+00:00",
+  "status": "BOUNDED_UNAPPLIED_PROPOSAL_REVIEW_PASS",
+  "reviewer": "independent release_security_review agent",
+  "source_sha256": "c3439180020ec483f902b61b757e1f7bb50756f4e7d59f6de16adb87d0ae0111",
+  "source_inputs": 196,
+  "scope": "Read-only exact diff and installed Uvicorn scope review. Proposals unapplied at inspection; no workloads run by reviewer.",
+  "files": [
+    {
+      "production": "src/orqalis/api/hosting.py",
+      "production_sha256": "475b2f51d7b62b26795191ba4e76261771ba9fb21e3d0e08d9eabba06c23571a",
+      "proposal": ".tools/research/release_both_ui_hosts_proposal_v1.py",
+      "proposal_sha256": "f15bdcc0512416d4f0b15caf91625523331ab795fe6ea872b77dae2613318a4c"
+    },
+    {
+      "production": "src/orqalis/cli/app.py",
+      "production_sha256": "d5efd2efb2c31cff9010948b8648aceeb4dbcd20f021f77ad16c214963b56fde",
+      "proposal": ".tools/research/release_serve_loop_proposal_v1.py",
+      "proposal_sha256": "27ac888668e7210a6927efebf3dafb41207997cd2b1d54db90aec5737dac86e9"
+    }
+  ],
+  "confirmed_new_findings": {
+    "P0": 0,
+    "P1": 0
+  },
+  "conclusions": [
+    {
+      "path": "src/orqalis/api/hosting.py",
+      "line": 28,
+      "detail": "Existing SelectorEventLoop instance factory unchanged. Proposal extracts identical platform-selection expression into local_loop returning the factory import string on win32 and auto elsewhere; ui_session passes identical selected loop."
+    },
+    {
+      "path": "src/orqalis/cli/app.py",
+      "line": 240,
+      "detail": "Proposal only imports shared local_loop inside serve and passes loop=local_loop to existing uvicorn.run. Settings/project root, local_url loopback check, host/port and all other default parameters unchanged. No reload/workers/daemon feature added."
+    },
+    {
+      "path": "src/orqalis/cli/app.py",
+      "line": 40,
+      "detail": "local_url already imports hosting before serving; new local helper import does not add hosting initialization to other CLI commands or meaningful new module initialization to serve."
+    },
+    {
+      "path": "src/orqalis/api/app.py",
+      "line": 137,
+      "detail": "App source unchanged, including TrustedHost middleware, loopback client/origin checks, operator token authorization and WebSocket handling. Session ownership/shutdown timers unchanged."
+    }
+  ],
+  "uvicorn_evidence": {
+    "installed_version": "0.52.4",
+    "main_path": ".venv/Lib/site-packages/uvicorn/main.py",
+    "main_sha256": "622b518c16ebf440985d4633579ff2d2d56e77ef117e4197ae4f5d9c926a9dd8",
+    "config_path": ".venv/Lib/site-packages/uvicorn/config.py",
+    "config_sha256": "296d63cd46a6c7f547eaf1aa7ef2f2f988accd0c82060e7ea132d4cf6b403811",
+    "scope": "uvicorn.run defaults reload=False, workers=None; WEB_CONCURRENCY may alter workers, but workers>1 with existing non-string app instance fails at main.py603-607 before serving. Existing pyproject minimum>=0.36 covers custom loop factory support."
+  },
+  "limitations": [
+    "Windows Selector socket count limit and lack of async subprocess/pipe support remain confined to the local socket-only ASGI host; independent SDK/harness worker asyncio runners and process-wide policy are unchanged. No new async subprocess work on this host loop found.",
+    "Prior owned-session controlled reset probe established factory behavior, not completion of CLI-specific or all browser acceptance cases. Planned Windows/non-Windows mocked serve seam checks remain required for new applied delta evidence.",
+    "No production application, qualification, artifact, performance, browser deadline or release readiness claim. This review is narrowly for the exact two unapplied proposals."
+  ]
+}

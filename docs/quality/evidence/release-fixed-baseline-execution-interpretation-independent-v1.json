@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T13:55:19.065223+00:00",
+  "status": "FIXED_BASELINE_REFERENCE_METHOD_PERMISSIBLE_PENDING_PROSPECTIVE_GUARDS_AND_PERFORMANCE_DISPOSITION",
+  "reviewer": "independent release_acceptance_review agent",
+  "scope": "Read-only master51/52/53 interpretation, raw failed8/10 baseline logs/reports, predeclared fixed3-repeat reference provenance and semantic/identity/timing checks. No workload, dependency scan, source/harness/case/budget/docs edits; only this fresh canonical interpretation written.",
+  "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "master_plan_sha256": "8e6dc4ceecca327770e974959a12aa5d945377a3ed7b6e53be818c216326c260",
+  "interpretation": {
+    "master51": "Requires comparing updated metrics to baseline and previous iteration, not explicitly a new execution of unchanged baseline in each iteration.",
+    "master52": "Requires completed acceptedP0/P1, working/regression-safe repeatable evaluation and no unacceptable startup/memory/execution/index/context regression.",
+    "master53": "Two consecutive complete benchmark/audit iterations must have no newly discoveredP0/P1, regression, broken accepted feature or unexplained degradation.",
+    "private_v13": "Fresh baseline3-repeat execution inside each loop is a stronger private capture design. Its failed gate must remain failed; changing future design requires new reviewed successors and predeclared source/reference/helper binding, not editing records or taking a continuation of8/10.",
+    "conclusion": "Two genuinely fresh complete CANDIDATE iterations may compare to an exact fixed actual baseline execution reference while all candidate workloads remain fresh. Reference reuse is one earlier capture, never a new baseline timing sample or new baseline success/reliability trial. This is a permitted prospective design, not acceptance of any round or performance result."
+  },
+  "verified_reference": {
+    "path": "release-execution-baseline-8-fixed-diagnostic-v1.json",
+    "sha256": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+    "plan": {
+      "path": "release-baseline-execution-8-diagnostic-plan-v1.json",
+      "sha256": "3c71d50fe2296c89a917a2bbc6483bd720ee61a23d2484e8aab0842c29bc429f",
+      "planned_at": "2026-10-03T13:02:44.507310+00:00",
+      "stop_rule": "Any nonzero exit/incomplete or unstable report stops this diagnostic; do not repeat. Original300s worker budget, cases, source, workload and environment unchanged. Full8 remains failed0/2; unused9 preserved."
+    },
+    "result": {
+      "path": "release-baseline-execution-8-fixed-diagnostic-result-v1.json",
+      "sha256": "0d416a61da267fff5ae5d8b5e34722902acb013dd4ab4b8b05962a943bf82c06",
+      "log": ".tools/research/release-execution-baseline-8-fixed-diagnostic-v1.log",
+      "log_sha256": "a16806dc2557634fa17977e82558ecf5b7238601b637cd076587a9b354041822"
+    },
+    "captured_at": "2026-10-03T13:02:51.368223+00:00",
+    "repetitions": 3,
+    "all_actual_semantic_checks_and_input_stability_flags_true": true,
+    "exact_identity_fields_matching_current10_and_older_reference": [
+      "case_id",
+      "mode",
+      "helpers",
+      "script_sha256",
+      "fixture_sha256",
+      "environment",
+      "repetitions",
+      "provider_mode",
+      "completion_boundary",
+      "measurement_scope"
+    ],
+    "environment_sha256": "f899d7229da0991bcea54229abac4d37b7c5c3633e44266e46e6de9b86886c52",
+    "script_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+    "helpers_sha256": "a3239579c4b83438bdd527ddfa85f6c760888093a686c7316e8c83ccc23bce2a",
+    "fixture_sha256": "3f78259b8e27900a2363572883e5d64028de19241067f4ddbf2df12537dbf6a0",
+    "original_purpose": "One fixed reproducibility diagnostic, explicitly not a round. Prospective reuse requires separately recorded method; original purpose/status/source/labels stay unchanged."
+  },
+  "negative_observations_retained": {
+    "failed_round_labels": [
+      "8",
+      "10"
+    ],
+    "unused_followup_labels": [
+      "9",
+      "11"
+    ],
+    "baseline_failed_repetition": 0,
+    "completed_baseline_samples_in_failed_captures": 0,
+    "observed_error": "PermissionError WinError5 at os.replace into goal/versions/0001.json under isolated original-baseline execution fixture",
+    "exact_denial_owner_or_OS_cause_proven": false,
+    "baseline_specific_product_defect_proven": false,
+    "candidate_immunity_to_same_platform_problem_proven": false,
+    "conclusions_forbidden": [
+      "Treat either failed/incomplete round as complete or count diagnostic as round.",
+      "Describe WinError5 as proven external/antivirus or a cured baseline flaw.",
+      "Drop failures from reliability observations, invent their completion times or mix them into passing timing samples.",
+      "Claim baseline repeatability/zero-flake from the selected3 passing samples."
+    ]
+  },
+  "performance_selection_bias_review": {
+    "execution_medians_ms": {
+      "release-execution-baseline-diagnostic.json": 55642.85999999265,
+      "release-execution-baseline-8-fixed-diagnostic-v1.json": 95099.94379998534,
+      "release-execution-current-8.json": 68994.34919998748,
+      "release-execution-current-10.json": 83206.67390001472
+    },
+    "same_reported_environment_and_workload_identities": true,
+    "current10_vs_current8_change_percent": 20.59925901878037,
+    "current10_vs_older_matching_baseline_change_percent": 49.53701858607862,
+    "scope": "Descriptive3-sample observations only, not significance, CPU-time equivalence, hardware SLO or failure-rate estimate.",
+    "finding": "Newest reference95.100s is materially slower than older matching baseline55.643s; candidate10 is83.207s versus candidate8 68.994s. Choosing only slower baseline could conceal deterioration. Metadata equality does not show equal ambient load, temperature/cache state, file scanning, or filesystem timing.",
+    "required_disposition": "Keep both matching-identity baseline summaries and all current observations visible. Predeclare the exact named reference without choosing fastest/slowest after new candidate results. Independently explain or bound current-versus-reference AND current-versus-previous-iteration cost. Unknown remains unknown; unexplained candidate degradation blocks master53 even when all semantic checks pass.",
+    "quiet_environment": "Externally coordinated no concurrent measured work and documented owned-process/load/storage conditions required before each capture. timing_qualified capture flag and equal metadata alone do not prove quietness."
+  },
+  "narrow_continuation_recommendation": [
+    "Finish unaffected current full Python regression as a separate candidate gate, without concurrent measured benchmark. Do not reinterpret it as a complete iteration.",
+    "If fixed-reference design is adopted, first preserve failed8/10 raw JSON/logs and declare two new unused labels, exact round-8 baseline reference/hash/provenance plus all negative observations and older matching timings; no retry-until-green or changingbaseline/source/case/repetitions/budget.",
+    "Create independently reviewed private successors only; verify old390/private15 and union inventory including newhelpers/reference/plan/result/log hashes. Retain accepted preflight source/input/frontend/environment binding and explicit baseline-reference validation before/after each loop.",
+    "Every candidate execution remains an actual fresh3-repeat semantic capture, along with all other mandatory full candidate audit/benchmark gates. Any failure, missing/stale input, quietness problem or accepted-feature regression stops; each second loop requires an actually complete preceding new loop.",
+    "Reports distinguish fresh candidate execution from reused baseline reference. Do not say pairedfresh baseline execution, alternating baseline execution order, or fresh baseline measurement. Other baseline channels may still be freshly captured under original order.",
+    "Keep two-round count at0/2 until all gates and independent accepted23 criteria/performance/security/specification/quality reviews close. Reference-method acceptance does not resolve observed timing variability."
+  ],
+  "user_external_resolution_boundary": {
+    "additional_user_permission_required_merely_to_review_or_prospectively_adapt_stronger_private_capture_rule": false,
+    "external_resolution_may_be_needed": "If controlled quietness, comparable timings or candidate atomic-write reliability cannot be established/dispositioned honestly, local qualification remains blocked and requires an external environment change or user decision about unresolved tradeoffs. No speculative machine security bypass or global setting change is authorized.",
+    "sufficiency": "Exact fixed-reference identity and semantics permit progress; they alone do not satisfy performance/convergence or eliminate baseline/platform uncertainty."
+  },
+  "evidence_sha256": {
+    "release-execution-current-8.json": "84b6ac7b6b1714366c9042743c7ed1ed0548994fac0f8ef8e8eb60960d644e5e",
+    "release-execution-current-10.json": "fef9805f8d49b954412f7eedf052f57dce71c188babec63c48da1b873623f9aa",
+    "release-execution-baseline-8.json": "f2d7885a9d1b22dc10bb863253f5bfe4a1a080f7c50ead9693aa4975363f46ac",
+    "release-execution-baseline-10.json": "700bcbf12c4f0a9c59abee511923494669e33e9aef50e0b548304c2a1f242215",
+    "release-execution-baseline-8-fixed-diagnostic-v1.json": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+    "release-execution-baseline-diagnostic.json": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+    "release-baseline-execution-8-diagnostic-plan-v1.json": "3c71d50fe2296c89a917a2bbc6483bd720ee61a23d2484e8aab0842c29bc429f",
+    "release-baseline-execution-8-fixed-diagnostic-result-v1.json": "0d416a61da267fff5ae5d8b5e34722902acb013dd4ab4b8b05962a943bf82c06"
+  },
+  "private_failure_sha256": "552d467f5306bb80f52518f2ddd227c4e080906dcd0b52b618c8c64e45d6c887",
+  "private_v13_sha256": "a07d82ffde464c278c65373bc876529e6314511088cb7bba20c178dfb38deca3",
+  "current_complete_iterations_verified": 0,
+  "all_23_P1_remain_pending": true,
+  "release_converged": false,
+  "release_ready": false
+}

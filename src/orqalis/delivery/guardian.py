@@ -7,6 +7,7 @@ from uuid import UUID, uuid5
 
 from orqalis.core.ports import ProjectUnitOfWork
 from orqalis.core.runtime_support import emit, locked_run
+from orqalis.delivery.test_integrity import test_weakening
 from orqalis.domain.agent import ActorStatus, AgentRole
 from orqalis.domain.artifact import Finding
 from orqalis.domain.base import utc_now
@@ -107,9 +108,14 @@ class ChangeGuardian:
                 )
             try:
                 target = files.target(path)
-                after = target.read_bytes() if target.is_file() else None
-                if after is not None and len(after) > 10_000_000:
-                    raise PolicyDeniedError("Oversized change")
+                after = None
+                if target.is_file():
+                    if target.stat().st_size > 10_000_000:
+                        raise PolicyDeniedError("Oversized change")
+                    with target.open("rb") as stream:
+                        after = stream.read(10_000_001)
+                    if len(after) > 10_000_000:
+                        raise PolicyDeniedError("Oversized change")
                 before = self.git.read_file_if_present(
                     workspace.path, workspace.base_commit, path, 10_000_000
                 )
@@ -143,11 +149,20 @@ class ChangeGuardian:
                 and deleted / max(len(old_text.splitlines()), 1) > policy.max_deleted_line_ratio
             ):
                 flag(path, "deletion_spike", "Change removes a large fraction of this file")
-            if ("test" in parts[-1] or "tests" in parts) and any(
+            is_test = "test" in parts[-1] or "tests" in parts
+            removed_declaration = any(
                 line.startswith("- ") and any(marker in line[2:] for marker in _TEST_MARKERS)
                 for line in diff
-            ):
-                flag(path, "test_reduction", "Existing tests were removed or rewritten")
+            )
+            weakened = is_test and (
+                removed_declaration or (path.endswith(".py") and test_weakening(old_text, new_text))
+            )
+            reviewed = any(
+                item.path == path and item.old_hash == old_hash and item.new_hash == new_hash
+                for item in policy.reviewed_test_changes
+            )
+            if weakened and not reviewed:
+                flag(path, "test_reduction", "Existing test checks were removed or disabled")
             changes.append(
                 ChangedFile(
                     path=safe_diagnostic(path),
@@ -202,7 +217,7 @@ class GuardianService:
             if workspace is None:
                 raise NotFoundError("Run workspace missing")
             goal = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )

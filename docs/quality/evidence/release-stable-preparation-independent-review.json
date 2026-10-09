@@ -1,0 +1,413 @@
+{
+  "schema_version": 1,
+  "status": "READ_ONLY_PREPARATION_DESIGN_AND_IN_MEMORY_TRANSFORM_REVIEW_PASS_NOT_EXECUTED",
+  "reviewed_at_utc": "2026-10-03T06:28:52.140014+00:00",
+  "source_sha256": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920",
+  "source_recomputed": true,
+  "preparation_helper": ".tools/research/prepare_release_stable_v2.py",
+  "preparation_helper_sha256": "0dcd54d40adda23a065b30def8b340239da251fe7c81307d1c212869f780349c",
+  "prior_bug": {
+    "description": "The v1 replacement lookahead omitted double quotes, leaving installed verifier bound to the old digest runtime path.",
+    "disposition": "FIXED_IN_V2_TRANSFORM",
+    "verified_runtime_literal": "package-runtime-release-2.1.0-stable"
+  },
+  "method": {
+    "preparation_module_executed": false,
+    "extracted_loop_only": true,
+    "copy_transformations": 9,
+    "ast_numeric_literals_identical": true,
+    "ast_constant_changes_strings_only": true,
+    "reviewed_string_change_allowlist": [
+      "Candidate source hash1e to631",
+      "Mapped copied helper paths",
+      "Evidence/runtime/artifact/pin/log labels digest to stable",
+      "Command log labels v9 to v11",
+      "Qualification browser helper v3 to v4",
+      "Held-out output labels v10 to v11"
+    ],
+    "all_transformed_scripts_parse": true,
+    "no_stale_digest_paths_or_prior_source_literals": true,
+    "copy_proofs": {
+      "release_artifacts_stable.py": {
+        "prior_helper": "release_artifacts_digest.py",
+        "prior_sha256": "c9454bf3d37f26a86a4e8fe705e1d06daa9bb39e303b3288d69a6b483abda545",
+        "new_sha256": "7d315413cbb2f003b06e3e0f509301f2a9cf61a8290c9a95a49f104fda8d929e"
+      },
+      "verify_installed_release_stable.py": {
+        "prior_helper": "verify_installed_release_digest.py",
+        "prior_sha256": "09df0e64b41632328551a82e114932a9cb00333275eb4eac52771b045d595be4",
+        "new_sha256": "154ae2bf8043bf87fd6e84838e57bf25d7b2ab43f03ab4431ed762f729a0c347"
+      },
+      "release_repack_docs_stable.py": {
+        "prior_helper": "release_repack_docs_digest.py",
+        "prior_sha256": "2d84211b7c487d75f02876011303579e23fee5d6f9d7f9f3d9cdd7cbe1d06e95",
+        "new_sha256": "4abe7f9950b95faa942574359026627fb28401360ce23e0352626d4c277aacc8"
+      },
+      "release_preflight_stable.py": {
+        "prior_helper": "release_preflight_digest.py",
+        "prior_sha256": "258e4e83660e974efd0568c122b535d78802a983fa30b53a45a69ff9d276596b",
+        "new_sha256": "02758c7ba94ca92eb9ede757a78d764f86e60edd94e9a9903a06893f6ba27e2a"
+      },
+      "verify_frontend_reuse_stable.py": {
+        "prior_helper": "verify_frontend_reuse_digest.py",
+        "prior_sha256": "8ed0460d522116749b52aeac6c8e4c78887f02d883f08302cfcd3306ce206ed9",
+        "new_sha256": "9167a20d359a5e6258fc9868b4c6e430fcc15ab33b71a326fbe147af71e43e47"
+      },
+      "accept_release_preflight_stable.py": {
+        "prior_helper": "accept_release_preflight_digest.py",
+        "prior_sha256": "5e5d5a4cae92e4136d9e01c42f4d150a760d72930854c10ef8eaaf2c48f74d21",
+        "new_sha256": "7bcde58e3d3dba9ca5153848140dca32ffa7c700c6f60f92423e7bf49b4be69c"
+      },
+      "release_qualification_v11.py": {
+        "prior_helper": "release_qualification_v9.py",
+        "prior_sha256": "e22d456b57a53e8d39f36885e2a234f02d8c226514ace4f9f919ec715319aacc",
+        "new_sha256": "b507e7c8971ebcc8b7890bb5fcc4d2c9e1df68ceada8908525720c11b7e36cd7"
+      },
+      "release_complete_rounds_v11.py": {
+        "prior_helper": "release_complete_rounds_v9.py",
+        "prior_sha256": "62b1c974ee449335d0517d435b7b4f5cedaa4be798759f129067825e529cdc52",
+        "new_sha256": "a640e3dfd8e89bd6dc2fea9ae3b0ff06e275918cdea8f16f8cdd6b10995a228e"
+      },
+      "release_heldout_probe_v11.py": {
+        "prior_helper": "release_heldout_probe_v10.py",
+        "prior_sha256": "9179de6a7f1ef352d2e6e3b580859cbd2c58a94ba0e3d7a6432274f3e545b890",
+        "new_sha256": "4341aff202ebab91768bcdde409e77894f5e29360bac8f5f37895a4990ea0205"
+      }
+    },
+    "changed_string_constants": {
+      "release_artifacts_stable.py": [
+        {
+          "before": ".tools/research/artifacts-release-2.1.0-digest",
+          "after": ".tools/research/artifacts-release-2.1.0-stable"
+        },
+        {
+          "before": ".tools/research/package-runtime-release-2.1.0-digest",
+          "after": ".tools/research/package-runtime-release-2.1.0-stable"
+        },
+        {
+          "before": ".tools/research/npm-prefix-release-2.1.0-digest",
+          "after": ".tools/research/npm-prefix-release-2.1.0-stable"
+        },
+        {
+          "before": ".tools/research/npm-runtime-release-2.1.0-digest",
+          "after": ".tools/research/npm-runtime-release-2.1.0-stable"
+        },
+        {
+          "before": ".tools/research/installed-npm-release-2.1.0-digest.json",
+          "after": ".tools/research/installed-npm-release-2.1.0-stable.json"
+        },
+        {
+          "before": "docs/quality/evidence/installed-npm-release-2.1.0-digest.json",
+          "after": "docs/quality/evidence/installed-npm-release-2.1.0-stable.json"
+        },
+        {
+          "before": ".tools/research/verify_installed_release_digest.py",
+          "after": ".tools/research/verify_installed_release_stable.py"
+        },
+        {
+          "before": ".tools/research/installed-npm-release-2.1.0-digest.json",
+          "after": ".tools/research/installed-npm-release-2.1.0-stable.json"
+        },
+        {
+          "before": "-pins-digest.txt",
+          "after": "-pins-stable.txt"
+        },
+        {
+          "before": "-advisories-digest.json",
+          "after": "-advisories-stable.json"
+        },
+        {
+          "before": "docs/quality/evidence/release-artifact-identity-digest.json",
+          "after": "docs/quality/evidence/release-artifact-identity-stable.json"
+        },
+        {
+          "before": "docs/quality/evidence/release-input-freeze-digest.json",
+          "after": "docs/quality/evidence/release-input-freeze-stable.json"
+        },
+        {
+          "before": "-inventory-digest.json",
+          "after": "-inventory-stable.json"
+        }
+      ],
+      "verify_installed_release_stable.py": [
+        {
+          "before": "package-runtime-release-2.1.0-digest",
+          "after": "package-runtime-release-2.1.0-stable"
+        },
+        {
+          "before": "artifacts-release-2.1.0-digest/orqalis-2.1.0-py3-none-any.whl",
+          "after": "artifacts-release-2.1.0-stable/orqalis-2.1.0-py3-none-any.whl"
+        },
+        {
+          "before": "docs/quality/evidence/installed-wheel-release-2.1.0-digest.json",
+          "after": "docs/quality/evidence/installed-wheel-release-2.1.0-stable.json"
+        }
+      ],
+      "release_repack_docs_stable.py": [
+        {
+          "before": ".tools/research/artifacts-release-2.1.0-digest",
+          "after": ".tools/research/artifacts-release-2.1.0-stable"
+        },
+        {
+          "before": ".tools/research/npm-prefix-release-2.1.0-digest",
+          "after": ".tools/research/npm-prefix-release-2.1.0-stable"
+        },
+        {
+          "before": "installed-npm-release-2.1.0-digest.json",
+          "after": "installed-npm-release-2.1.0-stable.json"
+        },
+        {
+          "before": "docs/quality/evidence/release-final-artifact-identity-digest.json",
+          "after": "docs/quality/evidence/release-final-artifact-identity-stable.json"
+        },
+        {
+          "before": ".tools/research/npm-pack-release-final-digest.json",
+          "after": ".tools/research/npm-pack-release-final-stable.json"
+        }
+      ],
+      "release_preflight_stable.py": [
+        {
+          "before": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+          "after": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920"
+        },
+        {
+          "before": "digest",
+          "after": "stable"
+        },
+        {
+          "before": "release-baseline-contract-reuse-digest.json",
+          "after": "release-baseline-contract-reuse-stable.json"
+        },
+        {
+          "before": "release-input-freeze-digest.json",
+          "after": "release-input-freeze-stable.json"
+        },
+        {
+          "before": "release-private-helper-inventory-digest.json",
+          "after": "release-private-helper-inventory-stable.json"
+        },
+        {
+          "before": "release-digest-preflight-",
+          "after": "release-stable-preflight-"
+        },
+        {
+          "before": "release-static-digest.json",
+          "after": "release-static-stable.json"
+        },
+        {
+          "before": "release-source-freeze-digest.json",
+          "after": "release-source-freeze-stable.json"
+        },
+        {
+          "before": "release-digest-",
+          "after": "release-stable-"
+        },
+        {
+          "before": "release-static-digest.json",
+          "after": "release-static-stable.json"
+        },
+        {
+          "before": "release-static-digest.json",
+          "after": "release-static-stable.json"
+        },
+        {
+          "before": "release-source-freeze-digest.json",
+          "after": "release-source-freeze-stable.json"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.json",
+          "after": "release-contracts-current-stable-v2.json"
+        },
+        {
+          "before": "release-contracts-baseline-digest-v2.json",
+          "after": "release-contracts-baseline-stable-v2.json"
+        },
+        {
+          "before": "-digest-v2.json",
+          "after": "-stable-v2.json"
+        }
+      ],
+      "verify_frontend_reuse_stable.py": [
+        {
+          "before": "release-baseline-frontend-reuse-digest.json",
+          "after": "release-baseline-frontend-reuse-stable.json"
+        },
+        {
+          "before": "release-input-freeze-digest.json",
+          "after": "release-input-freeze-stable.json"
+        }
+      ],
+      "accept_release_preflight_stable.py": [
+        {
+          "before": "release-input-freeze-digest.json",
+          "after": "release-input-freeze-stable.json"
+        },
+        {
+          "before": "release-private-helper-inventory-digest.json",
+          "after": "release-private-helper-inventory-stable.json"
+        },
+        {
+          "before": "release-source-freeze-digest.json",
+          "after": "release-source-freeze-stable.json"
+        },
+        {
+          "before": "release-baseline-frontend-reuse-digest.json",
+          "after": "release-baseline-frontend-reuse-stable.json"
+        },
+        {
+          "before": "release-static-digest.json",
+          "after": "release-static-stable.json"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.json",
+          "after": "release-contracts-current-stable-v2.json"
+        },
+        {
+          "before": "release-baseline-contract-reuse-digest.json",
+          "after": "release-baseline-contract-reuse-stable.json"
+        },
+        {
+          "before": "release-source-freeze-digest.json",
+          "after": "release-source-freeze-stable.json"
+        },
+        {
+          "before": "release-static-digest.json",
+          "after": "release-static-stable.json"
+        },
+        {
+          "before": "release-baseline-frontend-reuse-digest.json",
+          "after": "release-baseline-frontend-reuse-stable.json"
+        },
+        {
+          "before": "release-baseline-contract-reuse-digest.json",
+          "after": "release-baseline-contract-reuse-stable.json"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.json",
+          "after": "release-contracts-current-stable-v2.json"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.junit.xml",
+          "after": "release-contracts-current-stable-v2.junit.xml"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.children.jsonl",
+          "after": "release-contracts-current-stable-v2.children.jsonl"
+        },
+        {
+          "before": "release-source-freeze-digest-accepted.json",
+          "after": "release-source-freeze-stable-accepted.json"
+        },
+        {
+          "before": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+          "after": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.junit.xml",
+          "after": "release-contracts-current-stable-v2.junit.xml"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.json",
+          "after": "release-contracts-current-stable-v2.json"
+        },
+        {
+          "before": "release-private-helper-inventory-digest.json",
+          "after": "release-private-helper-inventory-stable.json"
+        },
+        {
+          "before": ".tools/research/verify_frontend_reuse_digest.py",
+          "after": ".tools/research/verify_frontend_reuse_stable.py"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.children.jsonl",
+          "after": "release-contracts-current-stable-v2.children.jsonl"
+        }
+      ],
+      "release_qualification_v11.py": [
+        {
+          "before": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+          "after": "6318563c7dd58b2afce88e353ec53b83027ae269855f913f4aafe4ef89277920"
+        },
+        {
+          "before": ".tools/research/release_browser_qualification_v3.py",
+          "after": ".tools/research/release_browser_qualification_v4.py"
+        },
+        {
+          "before": "release-input-freeze-digest.json",
+          "after": "release-input-freeze-stable.json"
+        },
+        {
+          "before": "release-private-helper-inventory-digest.json",
+          "after": "release-private-helper-inventory-stable.json"
+        },
+        {
+          "before": "release-v9-",
+          "after": "release-v11-"
+        },
+        {
+          "before": "release-contracts-current-digest-v2.json",
+          "after": "release-contracts-current-stable-v2.json"
+        }
+      ],
+      "release_complete_rounds_v11.py": [
+        {
+          "before": ".tools/research/accept_release_preflight_digest.py",
+          "after": ".tools/research/accept_release_preflight_stable.py"
+        },
+        {
+          "before": ".tools/research/release_qualification_v9.py",
+          "after": ".tools/research/release_qualification_v11.py"
+        },
+        {
+          "before": ".tools/research/accept_release_preflight_digest.py",
+          "after": ".tools/research/accept_release_preflight_stable.py"
+        },
+        {
+          "before": "release-input-freeze-digest.json",
+          "after": "release-input-freeze-stable.json"
+        }
+      ],
+      "release_heldout_probe_v11.py": [
+        {
+          "before": "-v10.json",
+          "after": "-v11.json"
+        },
+        {
+          "before": "docs/quality/evidence/release-heldout-review-v10.json",
+          "after": "docs/quality/evidence/release-heldout-review-v11.json"
+        },
+        {
+          "before": "-v10.json",
+          "after": "-v11.json"
+        }
+      ]
+    }
+  },
+  "reviewed_static_guards": {
+    "fixed_candidate_source": true,
+    "browser_status_source_stable_owned_host_closed_required": true,
+    "browser_json_xml_suite_attributes_equal_required": true,
+    "browser_exact_test_total": 14,
+    "browser_failures_errors_skips_required": 0,
+    "all_new_helpers_freeze_inventory_absent_prevalidated": true,
+    "new_outputs_exclusive_create": true,
+    "source_and390_input_hashes_rechecked": true,
+    "prior_raw_captures_preserved": true,
+    "preparation_browser_json_xml_and_copy_hash_provenance": true
+  },
+  "limits": {
+    "preparation_was_not_run": true,
+    "copied_helpers_were_not_written": true,
+    "fresh_release_freeze_not_created_by_reviewer": true,
+    "original14_context_screen": "Running at review request; no fullPASS claimed or inferred from BrainGET200.",
+    "full_release_rounds_completed": 0,
+    "full_release_rounds_required": 2,
+    "round8_and9_labels_must_remain_fresh": true,
+    "no_application_helper_test_mutation": true,
+    "no_tests_benchmarks_or_other_workloads_executed": true,
+    "no_main_commits_or_publication": true,
+    "release_certified": false,
+    "remaining_validation": "Execute preparation only after the final-source unchanged original14 screen passes; then actual preflight/artifacts and two complete fresh release rounds remain required."
+  },
+  "findings": "No additional concrete binding bug found within this scoped read-only review."
+}

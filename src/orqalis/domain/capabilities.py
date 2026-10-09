@@ -32,7 +32,7 @@ class RoleDefinition(Contract):
 
 
 class SkillMetadata(Contract):
-    id: str = Field(pattern=r"^[a-z][a-z0-9-]{0,63}$")
+    id: str = Field(pattern=r"^[a-z0-9][a-z0-9-]{0,63}$")
     version: str = Field(pattern=r"^\d+\.\d+\.\d+$")
     description: str = Field(min_length=1, max_length=2000)
     capabilities: tuple[str, ...] = Field(min_length=1)
@@ -45,6 +45,14 @@ class SkillMetadata(Contract):
 class LoadedSkill(Contract):
     metadata: SkillMetadata
     instructions: str = Field(max_length=100_000)
+    content_hash: str
+
+
+class SkillResource(Contract):
+    skill_id: str
+    version: str
+    path: str
+    content: str = Field(max_length=100_000)
     content_hash: str
 
 

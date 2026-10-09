@@ -1,0 +1,301 @@
+{
+  "schema_version": 1,
+  "status": "PROSPECTIVE_MEASUREMENT_PERMISSIBLE_PERFORMANCE_DISPOSITION_REMAINS_REQUIRED",
+  "reviewed_at_utc": "2026-10-03T13:59:43.566658+00:00",
+  "reviewer": "independent_release_quality_review",
+  "scope": "Read-only prospective rule assessment before new12/13 candidate captures. No benchmark/test/helper/source edits or workload/dependency scan. Only this fresh review written.",
+  "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+  "release_input_sha256": "a6aab317af7c9cb41f8eb2742c58752a732299ce814e3d88520f1d734a2aca4a",
+  "master_sha256": "8e6dc4ceecca327770e974959a12aa5d945377a3ed7b6e53be818c216326c260",
+  "interpretation_sha256": "4fd763f1e13007e99566a63faf574bdcec2c9b2206f9d74a2e05ef1cc24f029b",
+  "master_requirements": {
+    "51": "Compare updated metrics against baseline and previous iteration.",
+    "52": "No unacceptable task-execution regression.",
+    "53": "Two consecutive complete iterations with no regression or unexplained degradation.",
+    "numeric_execution_tolerance_specified": false,
+    "scope": "No engineering execution latency pass budget may be invented and described as already mandated by the master. Original300s worker timeout is a completion limit, not performance acceptance."
+  },
+  "all_retained_same_source_case_observations": [
+    {
+      "path": "baseline-execution-final-source-1.json",
+      "sha256": "b010ceadb742b8a232efbd864016a61ff41e2183f0e106902313cd8a35cdab29",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": true,
+      "identity_fields_match": false,
+      "differing_identity_fields": [
+        "environment"
+      ],
+      "samples_ms": [
+        70037.69840000314,
+        76095.51499999361,
+        68956.52710000286
+      ],
+      "median_ms": 70037.69840000314,
+      "failure": null
+    },
+    {
+      "path": "baseline-execution-smoke-v2.json",
+      "sha256": "b09fe6e3e9d34ec5b3a715c6e8402a53dfd35be52c6840234e58c791b7aa19c6",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": true,
+      "identity_fields_match": false,
+      "differing_identity_fields": [
+        "mode",
+        "environment",
+        "repetitions"
+      ],
+      "samples_ms": [
+        140722.75709999667
+      ],
+      "median_ms": 140722.75709999667,
+      "failure": null
+    },
+    {
+      "path": "baseline-execution-smoke.json",
+      "sha256": "5a2c2b4f80f11f1fb9eeb35fac6f8bf26025c87efe8f3bfacd0448c8ea3a2333",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": true,
+      "identity_fields_match": false,
+      "differing_identity_fields": [
+        "mode",
+        "script_sha256",
+        "environment",
+        "repetitions"
+      ],
+      "samples_ms": [
+        137455.9425999978
+      ],
+      "median_ms": 137455.9425999978,
+      "failure": null
+    },
+    {
+      "path": "release-execution-baseline-1.json",
+      "sha256": "0a6435166932c89a28e13bd73eebae5d6b65a664bd95055f4ab99d9c92914bc5",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": false,
+      "identity_fields_match": true,
+      "differing_identity_fields": [],
+      "samples_ms": [],
+      "median_ms": null,
+      "failure": {
+        "repetition": 0,
+        "worker_returncode": 1
+      }
+    },
+    {
+      "path": "release-execution-baseline-10.json",
+      "sha256": "700bcbf12c4f0a9c59abee511923494669e33e9aef50e0b548304c2a1f242215",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": false,
+      "identity_fields_match": true,
+      "differing_identity_fields": [],
+      "samples_ms": [],
+      "median_ms": null,
+      "failure": {
+        "repetition": 0,
+        "worker_returncode": 1
+      }
+    },
+    {
+      "path": "release-execution-baseline-2.json",
+      "sha256": "d8ee083219acfb3f479af98cc7cf4a5670741c286fa35fdf4ee34e9f4029aac1",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": true,
+      "identity_fields_match": true,
+      "differing_identity_fields": [],
+      "samples_ms": [
+        56502.89820000762,
+        55870.139499995275,
+        55730.52120000648
+      ],
+      "median_ms": 55870.139499995275,
+      "failure": null
+    },
+    {
+      "path": "release-execution-baseline-8-fixed-diagnostic-v1.json",
+      "sha256": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": true,
+      "identity_fields_match": true,
+      "differing_identity_fields": [],
+      "samples_ms": [
+        95421.07120002038,
+        95099.94379998534,
+        95016.15999999922
+      ],
+      "median_ms": 95099.94379998534,
+      "failure": null
+    },
+    {
+      "path": "release-execution-baseline-8.json",
+      "sha256": "f2d7885a9d1b22dc10bb863253f5bfe4a1a080f7c50ead9693aa4975363f46ac",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": false,
+      "identity_fields_match": true,
+      "differing_identity_fields": [],
+      "samples_ms": [],
+      "median_ms": null,
+      "failure": {
+        "repetition": 0,
+        "worker_returncode": 1
+      }
+    },
+    {
+      "path": "release-execution-baseline-diagnostic.json",
+      "sha256": "aa5e715262ebf598a0a52fa25fd9852eb5972593b70ecbdadd9eeb2651ebfaf3",
+      "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+      "side": "baseline",
+      "complete": true,
+      "identity_fields_match": true,
+      "differing_identity_fields": [],
+      "samples_ms": [
+        55642.85999999265,
+        55686.493799992604,
+        55371.642699989025
+      ],
+      "median_ms": 55642.85999999265,
+      "failure": null
+    },
+    {
+      "path": "release-execution-current-10.json",
+      "sha256": "fef9805f8d49b954412f7eedf052f57dce71c188babec63c48da1b873623f9aa",
+      "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+      "side": "current797",
+      "complete": true,
+      "identity_fields_match": true,
+      "differing_identity_fields": [],
+      "samples_ms": [
+        91216.72999998555,
+        83206.67390001472,
+        67360.90539998258
+      ],
+      "median_ms": 83206.67390001472,
+      "failure": null
+    },
+    {
+      "path": "release-execution-current-8.json",
+      "sha256": "84b6ac7b6b1714366c9042743c7ed1ed0548994fac0f8ef8e8eb60960d644e5e",
+      "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+      "side": "current797",
+      "complete": true,
+      "identity_fields_match": true,
+      "differing_identity_fields": [],
+      "samples_ms": [
+        68994.34919998748,
+        63133.04990000324,
+        75694.61010000668
+      ],
+      "median_ms": 68994.34919998748,
+      "failure": null
+    }
+  ],
+  "eligible_baseline_statistics": {
+    "complete_captures": 3,
+    "samples": 9,
+    "all_samples_ms": [
+      56502.89820000762,
+      55870.139499995275,
+      55730.52120000648,
+      95421.07120002038,
+      95099.94379998534,
+      95016.15999999922,
+      55642.85999999265,
+      55686.493799992604,
+      55371.642699989025
+    ],
+    "pooled_median_ms": 55870.139499995275,
+    "capture_median_min_ms": 55642.85999999265,
+    "capture_median_max_ms": 95099.94379998534,
+    "sample_min_ms": 55371.642699989025,
+    "sample_max_ms": 95421.07120002038,
+    "aggregation_limit": "Equal3-repetition captures pooled descriptively; temporally distinct observations, not independent identically distributed samples or a confidence interval.",
+    "selection_rule": "Freeze this complete identified set before new measurements. Never select only slower95.100s, silently exclude matching55.870s, or update the reference envelope after seeing12/13."
+  },
+  "current_observations": {
+    "current8_median_ms": 68994.34919998748,
+    "current10_median_ms": 83206.67390001472,
+    "current10_vs_current8_change_percent": 20.59925901878037,
+    "current8_vs_fastest_matching_baseline_change_percent": 23.994972939918235,
+    "current10_vs_fastest_matching_baseline_change_percent": 49.53701858607862,
+    "baseline_slowest_vs_fastest_change_percent": 70.91131512650122,
+    "disposition": "Same-code candidate medians and same-code baseline captures vary materially. Matching metadata does not prove comparable ambient load or explain costs; no specific OS/sharing/antivirus cause is established."
+  },
+  "prospective_recommended_rules": {
+    "semantic_reference": {
+      "path": "release-execution-baseline-8-fixed-diagnostic-v1.json",
+      "sha256": "effec44b36cc4109ffe57bc09d00c62baf1fb5540752d174daf05ee0f68e83e7",
+      "purpose": "Exact unchanged source-bound semantic reference and recorded timing; reused evidence, never fresh baseline execution or qualification count.",
+      "required_bindings": [
+        "case_id",
+        "mode",
+        "helpers",
+        "script_sha256",
+        "fixture_sha256",
+        "environment",
+        "repetitions",
+        "provider_mode",
+        "completion_boundary",
+        "measurement_scope",
+        "source"
+      ],
+      "required_semantics": "All3 samples passed, every semantic/reload identity check and input_stable flag true, unchanged300s worker limit and workload."
+    },
+    "timing_reporting": {
+      "required_comparisons": "Every new candidate median and all3 sample values against named95.100s reference, frozen all9 pooled55.870s baseline, faster55.643s capture, both retained current8/current10 observations and immediately preceding new iteration. Report percentages and absolute differences without cherry-picking.",
+      "candidate12_previous": "release-execution-current-10.json",
+      "candidate13_previous": "fresh release-execution-current-12.json",
+      "older_current8_anchor": "Keep68994.3492ms visible to avoid allowing cumulative deterioration by repeatedly moving the previous anchor.",
+      "failure_observations": "Preserve original incomplete baseline1/8/10 without fabricated timing; keep reliability outcomes separate from successful latency samples. Their small selected history is not a population failure-rate estimate."
+    },
+    "supplementary_numeric_screen": {
+      "proposed_not_existing_execution_pass_rule": true,
+      "formula": "Investigate new_candidate_median_ms > 2 * frozen_pooled_baseline_median_ms + 250ms; also report against the faster matched baseline and previous candidate.",
+      "frozen_pooled_baseline_median_ms": 55870.139499995275,
+      "threshold_ms": 111990.27899999055,
+      "fastest_capture_threshold_ms": 111535.7199999853,
+      "limit": "This inherited-style broad investigation screen may detect gross costs but is not sufficient for no-unexplained-degradation or release acceptance. Current8/current10 being below it does not close their visible24\u201350% cost against the faster reference."
+    },
+    "degradation_disposition": {
+      "automatic_block": "Any incomplete sample, worker error/timeout, false semantic check, stale binding, failed required gate, missing quietness evidence, or new accepted-feature regression stops candidate qualification; do not change budget or relabel until green.",
+      "timing_review": "Any upward median change against the frozen pooled/fast baseline or previous candidate stays explicitly visible for independent disposition; simple sample overlap or remaining within historical max does not prove equivalent performance.",
+      "acceptable_resolution": "Either fresh controlled evidence supports no material new degradation under a prospectively justified engineering tolerance, or independently review measured phase/CPU/work counts explaining and bounding necessary accepted feature cost plus its supported-use impact. Record uncertainty and actual observed limit. Do not accept unexplained deterioration solely because semantics passed,95.100s is slower, or300s timeout did not fire.",
+      "unresolved_action": "If explanation/comparability or an explicitly justified bounded tolerance is still absent, retain EXECUTION_PERFORMANCE_REVIEW and withhold master53/release closure. A raw functional complete round is not automatically an accepted convergence round."
+    },
+    "quietness": {
+      "required": "Document no concurrent measured benchmarks/tests/builds and owned-process/load/storage conditions immediately around each capture; keep original isolated controlled environment and ordered workloads.",
+      "limits": "timing_qualified=true and equal dependency/OS metadata are declarations, not independent proof of quietness. No security-tool disabling/global machine changes or unproven external-cause claim is justified."
+    },
+    "two_round_scope": "Labels12/13 only after independently reviewed prospective wrapper/reference binding; fresh candidate3-repeat execution and all other required candidate full gates each loop. Quality/UI/constrained baseline channels remain fresh as proposed. Preserve failed8/10 and unused9/11; never count reused reference or diagnostic as new round."
+  },
+  "current_sufficiency": {
+    "bounded_candidate_functionality_supported": true,
+    "fixed_reference_identity_and_semantics_supported": true,
+    "baseline_repeatability_without_failures_proven": false,
+    "candidate_latency_immunity_proven": false,
+    "observed_performance_degradation_explained": false,
+    "complete_full_rounds": 0,
+    "required_full_rounds": 2,
+    "release_ready_supported": false,
+    "p1_closure_claimed": false,
+    "limit": "Reference reuse permits a fair prospective measurement design; present evidence alone does not satisfy full acceptance/performance convergence."
+  },
+  "additional_binding_sha256": {
+    "scripts/benchmark_execution.py": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+    "release-execution-failure-diagnostic.json": "006dbc1312dbff0c28eed18e2b5155415f6a6aadc3d57b37cd525fb20ede7a40",
+    "release-baseline-execution-8-diagnostic-plan-v1.json": "3c71d50fe2296c89a917a2bbc6483bd720ee61a23d2484e8aab0842c29bc429f",
+    "release-baseline-execution-8-fixed-diagnostic-result-v1.json": "0d416a61da267fff5ae5d8b5e34722902acb013dd4ab4b8b05962a943bf82c06"
+  },
+  "limits": [
+    "Original errors, failures and historical tails remain preserved at their own sources; no captures rebound or overwritten.",
+    "No claim of statistical significance, hardware-independent SLO, CPU equivalence, native/RSS measurement or known denial cause.",
+    "Main-project commit/publication remains prohibited and not performed."
+  ]
+}

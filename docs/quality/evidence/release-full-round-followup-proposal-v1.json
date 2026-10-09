@@ -1,0 +1,88 @@
+{
+  "status": "STAGED_UNRUN_PENDING_FIXED_DIAGNOSTIC_AND_INDEPENDENT_REVIEW",
+  "copies": [
+    {
+      "old": ".tools/research/release_qualification_v12.py",
+      "new": ".tools/research/release_qualification_v13.py",
+      "old_sha256": "f21e179015910be57f1dafd774154dbf7b55e5dcbeb31dd2e3728fbf24a6746c",
+      "new_sha256": "a07d82ffde464c278c65373bc876529e6314511088cb7bba20c178dfb38deca3",
+      "replacements": [
+        [
+          "'8'",
+          "'10'"
+        ],
+        [
+          "'9'",
+          "'11'"
+        ],
+        [
+          "release-iteration-8.json",
+          "release-iteration-10.json"
+        ],
+        [
+          "release-v12-",
+          "release-v13-"
+        ],
+        [
+          "run_full_regression_release_v6.py",
+          "run_full_regression_release_v7.py"
+        ],
+        [
+          "release-private-helper-inventory-readpath.json",
+          "release-private-helper-inventory-readpath-followup-v1.json"
+        ]
+      ],
+      "inverse_text_and_ast_exact": true,
+      "numeric_constants_exact": true,
+      "old_crlf_count": 0,
+      "new_crlf_count": 0
+    },
+    {
+      "old": ".tools/research/release_complete_rounds_v12.py",
+      "new": ".tools/research/release_complete_rounds_v13.py",
+      "old_sha256": "ab7392571597dec3c57f3d624d67a81af968fe530ce7f4e38338ea0dbba24d3f",
+      "new_sha256": "f20cd780b2824d3a24b29e3a61827c1d520dcaa7bfa4bf88a60c941346cfbd4e",
+      "replacements": [
+        [
+          "'8'",
+          "'10'"
+        ],
+        [
+          "'9'",
+          "'11'"
+        ],
+        [
+          "release_qualification_v12.py",
+          "release_qualification_v13.py"
+        ]
+      ],
+      "inverse_text_and_ast_exact": true,
+      "numeric_constants_exact": true,
+      "old_crlf_count": 0,
+      "new_crlf_count": 0
+    },
+    {
+      "old": ".tools/research/run_full_regression_release_v6.py",
+      "new": ".tools/research/run_full_regression_release_v7.py",
+      "old_sha256": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+      "new_sha256": "63730dd6b1caf5307f3f894a6e1e187c39040252202b1f0d65ee5e0f077d93ca",
+      "replacements": [
+        [
+          "\"release-9\"}",
+          "\"release-9\", \"release-10\", \"release-11\"}"
+        ]
+      ],
+      "inverse_text_and_ast_exact": true,
+      "numeric_constants_exact": true,
+      "old_crlf_count": 0,
+      "new_crlf_count": 0
+    }
+  ],
+  "preserved_failed_round": "8",
+  "unused_prior_round": "9",
+  "new_full_rounds": [
+    "10",
+    "11"
+  ],
+  "scope": "Only capture identifiers/log prefix/helper names and two new accepted full-regression labels. Original workloads, all budgets, repeat counts, frozen evaluator/30 tradeoffs and fail-fast requirements unchanged. Old15 inventory/accepted preflight/source untouched. New inventory and original-capture linkage must be independently verified before running."
+}

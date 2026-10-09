@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "status": "FINAL_READPATH_PREPARATION_READ_ONLY_REVIEW_PASS_NOT_EXECUTED",
+  "reviewed_at_utc": "2026-10-03T09:30:13.563957+00:00",
+  "source_sha256": "f30ef25cfab6a64a83f1e9603a01f121d3c1130a9067738a9f2ff62096532705",
+  "source_recomputed": true,
+  "preparation_helper": ".tools/research/prepare_release_readpath_v1.py",
+  "preparation_helper_sha256": "791616914f7e34f5a8f1aec81b809cfdc59317c00e18eb29557adb55c01db21a",
+  "scope": "Unrun preparation source/guards/copy/front-end routing review only. Extracted transformation loop evaluated in memory; preparation module and application workloads not executed.",
+  "copy_review": {
+    "copies": 9,
+    "all_parse": true,
+    "numeric_literals_identical_to_stable_templates": true,
+    "workload_repeat_deadline_and86_30_guards_preserved": true,
+    "allowlist": [
+      "Candidate source631 to finalf30",
+      "Mapped helper/evidence/runtime/log stable labels to readpath/v12",
+      "Held-out outputs v11 to v12",
+      "Explicit fixed baseline/fresh-current frontend selection replacing dynamic frontend strings"
+    ],
+    "copy_proofs": {
+      "release_artifacts_readpath.py": {
+        "prior_helper": "release_artifacts_stable.py",
+        "prior_sha256": "7d315413cbb2f003b06e3e0f509301f2a9cf61a8290c9a95a49f104fda8d929e",
+        "new_sha256": "24ce4279371cbcec3a0a736ab7f2dda59d6e84a2a2356a4552c7132c7c35d7a6"
+      },
+      "verify_installed_release_readpath.py": {
+        "prior_helper": "verify_installed_release_stable.py",
+        "prior_sha256": "154ae2bf8043bf87fd6e84838e57bf25d7b2ab43f03ab4431ed762f729a0c347",
+        "new_sha256": "8617b1b9f842b1145d6bd1ad488920317817ff998f1795f793f9272dd1e505c7"
+      },
+      "release_repack_docs_readpath.py": {
+        "prior_helper": "release_repack_docs_stable.py",
+        "prior_sha256": "4abe7f9950b95faa942574359026627fb28401360ce23e0352626d4c277aacc8",
+        "new_sha256": "52cc13ec999af266d1a4289e31f99156a5f4dc3e048855a58fbb72c2d78b5c76"
+      },
+      "release_preflight_readpath.py": {
+        "prior_helper": "release_preflight_stable.py",
+        "prior_sha256": "02758c7ba94ca92eb9ede757a78d764f86e60edd94e9a9903a06893f6ba27e2a",
+        "new_sha256": "96c99116aa0b2fd0ba9d81b5a15fdf4ac5ba55a9629622e66a704de187a18392"
+      },
+      "verify_frontend_reuse_readpath.py": {
+        "prior_helper": "verify_frontend_reuse_stable.py",
+        "prior_sha256": "9167a20d359a5e6258fc9868b4c6e430fcc15ab33b71a326fbe147af71e43e47",
+        "new_sha256": "57b60866698afbd599ba938517d1ced17dac9ec209fe001d0cb2fdf3396d79bd"
+      },
+      "accept_release_preflight_readpath.py": {
+        "prior_helper": "accept_release_preflight_stable.py",
+        "prior_sha256": "7bcde58e3d3dba9ca5153848140dca32ffa7c700c6f60f92423e7bf49b4be69c",
+        "new_sha256": "2fb495e62a62ff0a3fb46b8755090997199465a9195c5623a9f1892a8f740494"
+      },
+      "release_qualification_v12.py": {
+        "prior_helper": "release_qualification_v11.py",
+        "prior_sha256": "b507e7c8971ebcc8b7890bb5fcc4d2c9e1df68ceada8908525720c11b7e36cd7",
+        "new_sha256": "99525e320c26dd13702413c0f59c71c935d2714d2940d360f2aed797039b9f78"
+      },
+      "release_complete_rounds_v12.py": {
+        "prior_helper": "release_complete_rounds_v11.py",
+        "prior_sha256": "a640e3dfd8e89bd6dc2fea9ae3b0ff06e275918cdea8f16f8cdd6b10995a228e",
+        "new_sha256": "ab7392571597dec3c57f3d624d67a81af968fe530ce7f4e38338ea0dbba24d3f"
+      },
+      "release_heldout_probe_v12.py": {
+        "prior_helper": "release_heldout_probe_v11.py",
+        "prior_sha256": "4341aff202ebab91768bcdde409e77894f5e29360bac8f5f37895a4990ea0205",
+        "new_sha256": "424db692bd5ff0bb230dc1817b253f9d3b8bbac15c5ef820a887f71417492197"
+      }
+    },
+    "frontends": {
+      "release_artifacts_readpath.py": [],
+      "verify_installed_release_readpath.py": [],
+      "release_repack_docs_readpath.py": [],
+      "release_preflight_readpath.py": [
+        "folder=ROOT/('.tools/research/release-frontend-baseline' if label=='baseline' else '.tools/research/release-frontend-current-readpath')"
+      ],
+      "verify_frontend_reuse_readpath.py": [
+        "base=ROOT/'.tools/research/baseline-b8506f7';folder=ROOT/'.tools/research/release-frontend-baseline'"
+      ],
+      "accept_release_preflight_readpath.py": [
+        "folder=ROOT/('.tools/research/release-frontend-baseline' if label=='baseline' else '.tools/research/release-frontend-current-readpath')"
+      ],
+      "release_qualification_v12.py": [
+        "python('Real-state browser '+label,['.tools/research/release_browser_qualification_v4.py',label,str(ROOT/'.tools/research/release-frontend-current-readpath/dist')])",
+        "python('UI '+name+' '+label,['scripts/benchmark_ui.py','--source-root',str(source),'--frontend',str(ROOT/('.tools/research/release-frontend-baseline/dist' if name=='baseline' else '.tools/research/release-frontend-current-readpath/dist')),'--repeat','3','--output',str(E/f'release-ui-{name}-{label}.json')])"
+      ],
+      "release_complete_rounds_v12.py": [],
+      "release_heldout_probe_v12.py": []
+    },
+    "no_stale_stable_paths_or631_source": true,
+    "prior_templates_match_stable_inventory": true
+  },
+  "frontend_review": {
+    "prerequisite_browser_frontend_path_equality_required": ".tools/research/release-frontend-current-readpath/dist",
+    "baseline_validation_and_ui_frontend": ".tools/research/release-frontend-baseline",
+    "current_preflight_acceptance_browser_ui_frontend": ".tools/research/release-frontend-current-readpath",
+    "full_validate_build_retained": true,
+    "build_dependency_or_artifact_tree_scan_run_by_reviewer": false,
+    "fresh_build_pass_scope": "Parent reports fresh isolated buildPASS; actual artifact/build hash enforcement remains the controlled browser wrapper and accepted preflight responsibility, not inferred from this static review."
+  },
+  "input_review": {
+    "existing_files": 390,
+    "all_exist": true,
+    "area_coverage": {
+      "src/orqalis": 194,
+      "tests": 110,
+      "scripts": 13,
+      "web/src": 35,
+      "web/e2e": 5,
+      "web/scripts": 3,
+      "packages/npm/lib": 3,
+      "packages/npm/bin": 1,
+      "packages/npm/test": 2
+    },
+    "prior_freeze_sha256": "1fc0a3e099dd4c5d2d18e7cb664d42deab726546756b11d29267d37528139604",
+    "prior_private_inventory_sha256": "ed5ce5ade4f177d1f7599f30dc535f59725f0fde569f80606f25d56b4c0844b0",
+    "prospective_current_input_sha256": "2120fc757f7b4cfb263a5533ae68b64fcb44f723b781ff719615f982273cf3d8",
+    "prospective_digest_is_not_an_accepted_freeze": true,
+    "helpers_after_preparation": 15,
+    "retained6_helpers_sha256": {
+      ".tools/research/run_full_regression_release_v6.py": "dd678729d78170b6dfe6bdfb140b03cb3806c9218810e21794dac5abc2254f1e",
+      ".tools/research/release_browser_qualification_v4.py": "983543bb06566de830f4cd805b6eb0dd01a01d57a00e37ebd12f42cbeaef3829",
+      ".tools/research/release_governance_diagnostic_v2.py": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275",
+      ".tools/research/release_governance_diagnostic_v4.py": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53",
+      ".tools/research/release-quality-review.json": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e",
+      ".tools/research/release_history_quiet.py": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683"
+    },
+    "retained_helpers_and_fixed30_dispositions_exactly_unchanged": true,
+    "benchmark_comparator_and_contract_runner_match_stable_freeze": true,
+    "separate_evaluator_freeze_sha256": "b210c0b37f1d413cbe85afeefa888c4a8d561c0baad1b1b9f88e743390ce9dda",
+    "separate_evaluator_inputs_sha256": {
+      "benchmarks/engineering_cases.json": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+      "benchmarks/memory_workflows.json": "eede4e76fb4a0b6b3949cef8de6e969dce41f9ed583669de2bc9bd41ddfd7d27",
+      "benchmarks/browser_events.mjs": "db10d7b163269a98f9e2ab1e40525c2aacf309cef2d7f0bf40950c26d60be33f"
+    },
+    "separate_evaluator_aggregate_unchanged": true
+  },
+  "required_guards": {
+    "browser": "release-browser-read-path-screen.json",
+    "source_guard": "f30ef25cfab6a64a83f1e9603a01f121d3c1130a9067738a9f2ff62096532705",
+    "matching_browser_json_xml_suite_attributes": true,
+    "browser_tests": 14,
+    "browser_failures_errors_skips": 0,
+    "browser_source_stable_and_owned_host_closed": true,
+    "all_copy_freeze_inventory_outputs_prevalidated_unused": true,
+    "exclusive_create_outputs": true,
+    "preparation_browser_json_xml_copy_hash_provenance": true,
+    "source_and_input_checks_before_and_after_generation": true,
+    "round_labels": [
+      "8",
+      "9"
+    ],
+    "round_labels_independently_verified_unused": true
+  },
+  "performance_gate_separation": {
+    "raw_heldout_status": "Functional only; helper describes costs and does not enforce performance acceptance.",
+    "investigation_rule": "current_ms > 2*baseline_ms +250ms for cold/warm/delta/context",
+    "rule_evaluation": "Separate final arithmetic review gate; numeric copy preservation does not establish absence of timing triggers.",
+    "allocations_are_not_RSS": true,
+    "prior_timing_tails_remain_historical": true
+  },
+  "limits": {
+    "preparation_executed": false,
+    "copied_helpers_or_freeze_written_by_reviewer": false,
+    "original14_screen": "Running at review request; noPASS inferred. Timeline readiness/directclose strengthening within shared original15s remains required.",
+    "focused_import_correction_scope": "Parent reports older123-case capture predates two import corrections and fresh two-file37PASS; not promoted to final full qualification here.",
+    "full_release_rounds_completed": 0,
+    "required_full_release_rounds": 2,
+    "p1_closure_claimed": false,
+    "release_certified": false,
+    "tests_builds_benchmarks_or_new_agents_run": false,
+    "application_helper_tests_docs_mutated": false,
+    "main_commits_or_publication": false
+  },
+  "findings": "No concrete preparation binding bug found in the final reviewed helper; execution remains gated by fresh14PASS and later accepted preflight."
+}

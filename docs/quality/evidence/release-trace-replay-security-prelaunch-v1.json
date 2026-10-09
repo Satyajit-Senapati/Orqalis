@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-04T06:06:47.856179+00:00",
+  "status": "UNRUN_PENDING_FAILURE_PRESERVATION_CORRECTION",
+  "runner_sha256": "526a5d971f715ddc1e09c4475365e4f601a4f785819d1e018535ea324680a8f9",
+  "plan_sha256": "bd3c1a8b380d8006b255acdb11086ee9ba36f475306800e9f6080ed7848a849b",
+  "reviewer": "release_security_review",
+  "scope": "Bounded static source/import and nine explicitly named file hash review; no domain/product import, native query, replay, store, recovery, source change or workload.",
+  "positive_checks": {
+    "nine_plan_bindings_match": true,
+    "trace_source_pure_domain_model_construction": true,
+    "package_initializers_no_store_import": true,
+    "one_call_fixed_retained_state_and174events_only": true,
+    "guards_reject_ancestor_link_and_reparse": true,
+    "exclusive_fixed_result_path": true,
+    "before_after390_file_guard_present": true,
+    "release_credit0": true
+  },
+  "blocking_helper_finding": {
+    "severity": "private_diagnostic_failure_preservation",
+    "location": ".tools/research/release_trace_replay_v1.py:66-76",
+    "detail": "Original model/trace failure is re-raised, but finally output open/json dump/print are unguarded and can replace it with secondary report error. Retain primary object, guard secondary output errors and attach secondary note while preserving primary; output failure after successful trace must still fail."
+  },
+  "small_guard_recommendation": "Capture original plan bytes/SHA once; recheck same plan SHA in final guard instead of only bound inputs/freeze. Root exact pre/post wrapper guard can additionally bind runner/review/output.",
+  "limits": [
+    "Source/input aggregates are declared and guard logic inspected, not independently rehashed across390 in this bounded review.",
+    "One final-fixture replay is not historical early-state trace overhead, dynamic call count, unperturbed execution diagnosis or Master53 closure.",
+    "Existing result source24 and immutable failed baseline remain separately retained; no new baseline or timing sample."
+  ]
+}

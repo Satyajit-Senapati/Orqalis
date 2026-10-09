@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="5.239" timestamp="2026-10-02T13:39:03.419807+05:30" hostname="THOR-GALAXY"><testcase classname="tests.unit.test_task_history_pages" name="test_slow_canonical_scan_does_not_block_task_allocation" time="4.625"><failure message="TimeoutError">tmp_path = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-491/test_slow_canonical_scan_does_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000002BFABEB9B50&gt;
+
+    def test_slow_canonical_scan_does_not_block_task_allocation(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -&gt; None:
+        service = fixture(tmp_path / "repo")
+        scanning = Event()
+        release = Event()
+        original = service.store._task_document
+    
+        def blocked_read(path: Path) -&gt; dict[str, object] | None:
+            if not scanning.is_set():
+                scanning.set()
+                assert release.wait(5), "History test barrier was not released"
+            return original(path)
+    
+        monkeypatch.setattr(service.store, "_task_document", blocked_read)
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            page_future = pool.submit(service.page, 2)
+            try:
+                assert scanning.wait(3)
+                first = pool.submit(service.store.reserve_capsule)
+                second = pool.submit(service.store.reserve_capsule)
+&gt;               first_id, first_path = first.result(timeout=3)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_task_history_pages.py:192: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = None, timeout = 3
+
+    def result(self, timeout=None):
+        """Return the result of the call that the future represents.
+    
+        Args:
+            timeout: The number of seconds to wait for the result if the future
+                isn't done. If None, then there is no limit on the wait time.
+    
+        Returns:
+            The result of the call that the future represents.
+    
+        Raises:
+            CancelledError: If the future was cancelled.
+            TimeoutError: If the future didn't finish executing before the given
+                timeout.
+            Exception: If the call raised then that exception will be raised.
+        """
+        try:
+            with self._condition:
+                if self._state in [CANCELLED, CANCELLED_AND_NOTIFIED]:
+                    raise CancelledError()
+                elif self._state == FINISHED:
+                    return self.__get_result()
+    
+                self._condition.wait(timeout)
+    
+                if self._state in [CANCELLED, CANCELLED_AND_NOTIFIED]:
+                    raise CancelledError()
+                elif self._state == FINISHED:
+                    return self.__get_result()
+                else:
+&gt;                   raise TimeoutError()
+E                   TimeoutError
+
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\concurrent\futures\_base.py:458: TimeoutError</failure></testcase></testsuite></testsuites>

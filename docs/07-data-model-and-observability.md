@@ -99,7 +99,12 @@ time from canonical phase/task/actor/event state rather than browser timers.
 
 OpenTelemetry is optional and records operation names, outcome, duration, and safe trace
 correlation. Console export is opt-in and uses stderr. It excludes request content,
-commands, tool output, exception text, credentials, and private reasoning.
+commands, tool output, exception text, credentials, and private reasoning. Existing agent
+and tool spans carry only allowlisted durable UUID attributes (`orqalis.run_id`, task,
+actor, attempt, provider invocation and tool invocation IDs). High-cardinality IDs stay
+off metric labels. These IDs correlate optional spans with the rebuildable local
+`RunSnapshot.trace` hierarchy; the local identities are not an exported OTel trace ID.
+No network exporter is configured or required by the local trace view.
 
 ## Schema migration
 

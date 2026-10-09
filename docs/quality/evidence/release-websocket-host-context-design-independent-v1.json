@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "status": "STATIC_DESIGN_REVIEW_PASS_UNRUN_NOT_RELEASE_ACCEPTANCE",
+  "reviewed_at": "2026-10-03T15:00:37.211638+00:00",
+  "reviewer": "release_acceptance_review",
+  "source_sha256": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "release_input_sha256": "64fb0b0c6ce9f4299dad5f9d1d5fc3d970e1c90a2ea9644ffe46aa660980eae4",
+  "supersedes_static_design_binding": {
+    "report": "release-websocket-successor-design-independent-v1.json",
+    "sha256": "e9ad4288b2d4608cc8cf9c862b6bec8c30a7932dcec4f38481855dd828c1e383",
+    "reason": "Prospective uninvoked qualification adds boundary host observation helper and launch PID collection. Earlier17-helper design record remains historical and immutable."
+  },
+  "reviewed_preparation_sha256": "dc01743ee8c1f1db3d125375bb7efa7fce4956935115e1cae0984fb9171a2bfb",
+  "reviewed_private_inventory_sha256": "8e4c4071cff393f4117edf58897e6756269f3f563ab4f00c7ba5b887b308e923",
+  "reviewed_policy_sha256": "45f3d228a9b22d2e8d9980901a3b573b5f56f13d7f1607b28a605ac2dfcc8551",
+  "host_context_helper_sha256": "00d4cbd35b9ee325aa2fb90063fa624c79cb423317a0f214216509f86f01d050",
+  "qualification_helper_sha256": "b5fbff7a08d709e7608b5d98b2bc694d52bed0ade097e0e84c1b5dbd84cb82ee",
+  "protected_helper_families": {
+    "release-private-helper-inventory-readpath.json": {
+      "sha256": "df8c70ca3f247e636cfb8d5419adb1a9c84795ee765c729731b3e6e79827b80f",
+      "count": 15,
+      "actual_bytes_match": true
+    },
+    "release-private-helper-inventory-readpath-followup-v1.json": {
+      "sha256": "398e4dd11613ee57dc4a1d1b39d866636063691bbded3f44488645edccd6f9a4",
+      "count": 15,
+      "actual_bytes_match": true
+    },
+    "release-private-helper-inventory-readpath-reference-v1.json": {
+      "sha256": "97c85a674924e4ef704bdc78b8d322de9f82e4e63f80635c29ed192c97f36061",
+      "count": 16,
+      "actual_bytes_match": true
+    },
+    "release-private-helper-inventory-crash-contract-v1.json": {
+      "sha256": "4b864e98cdf5e06e46fc5bcbe93943ecb45c13485968263b8fbec0dc3370eaa7",
+      "count": 18,
+      "actual_bytes_match": true
+    },
+    "release-private-helper-inventory-websocket-v1.json": {
+      "sha256": "8e4c4071cff393f4117edf58897e6756269f3f563ab4f00c7ba5b887b308e923",
+      "count": 18,
+      "actual_bytes_match": true
+    }
+  },
+  "distinct_helper_union": 42,
+  "numeric_ast_proof": "All12 successor copies retain exact original numeric AST constants; new host helper constants describe native structures and counter arithmetic, not benchmark cases or budgets. No workload/assertion/threshold changes.",
+  "changed_scope": "Boundary observations before/after each owned qualification command and private adjacent .host-context.json; capture branch uses Popen/communicate to obtain owned child PID. Existing source/input/helper/environment/advisory/raw30 guards and full current/paired workloads remain.",
+  "corrected_finding": {
+    "finding": "Initial bare Popen capture lacked subprocess.run exceptional child cleanup.",
+    "status": "CLOSED_BEFORE_INVOCATION",
+    "actual_proof": "with Popen plus communicate try/except BaseException kills child and rethrows; context exit reaps/closes pipes. Success CompletedProcess uses process.poll with original stdout/stderr capture. Matches installed Python3.12 run cleanup for unchanged no-timeout/no-input use. Streaming branch remains unchanged."
+  },
+  "host_api_review": {
+    "GetSystemTimes": "Correct FILETIME pointers, BOOL result, explicit WinError propagation and 100ns conversion; kernel includes idle, so busy arithmetic subtracts idle from kernel+user. Multi-group scope explicitly disclosed.",
+    "GlobalMemoryStatusEx": "Two DWORDs plus seven unsigned64 fields and dwLength=sizeof correct; BOOL/native errors propagate. Physical memory describes host, virtual/commit/pagefile availability coordinator; limits now explicit.",
+    "context_provenance": "UTC/monotonic, coordinator PID, owned child PID/exit, processor group count and workspace/temp disk free-space at boundaries. Record rejects counter regression/invalid groups and does not overwrite previous observation.",
+    "validation_rule": "Valid-counter checks only; no load threshold/performance acceptance. If observation collection fails, raw command log remains but round cannot qualify; errors are not waived.",
+    "measurement_limit": "Aggregate busy includes candidate workers and unrelated activity, boundary memory is neither peak nor candidate RSS, free space is not I/O isolation. CPU beyond64 processors is calling primary group. No host idleness or causal explanation of historical latency/permissions inferred."
+  },
+  "primary_sources": [
+    {
+      "title": "GetSystemTimes",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getsystemtimes"
+    },
+    {
+      "title": "GlobalMemoryStatusEx",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-globalmemorystatusex"
+    },
+    {
+      "title": "MEMORYSTATUSEX",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-memorystatusex"
+    },
+    {
+      "title": "GetActiveProcessorGroupCount",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getactiveprocessorgroupcount"
+    }
+  ],
+  "review_boundaries": "Read-only helper/evidence hash, source/AST inspection and official native API documentation. No host snapshot, subprocess workload, test, benchmark, build, audit, frontend/dependency/production tree scan executed. Only this scoped independent JSON written.",
+  "actual_gate_state": {
+    "qualification_helpers": "UNRUN; standalone full13 must finish first",
+    "parent_exploratory_host_snapshot": "Parent-reported observation only, no qualification or reviewer runtime verification",
+    "qualified_iterations": 0,
+    "required_iterations": 2,
+    "accepted_P1": 23,
+    "accepted_P1_status": "IMPLEMENTED_PENDING_EVAL",
+    "release_ready": false
+  },
+  "remaining_requirements": "Previous source-bound design requirements remain: actual full13/new preflight11/current86/both frontends and protected identities, fresh installed artifacts/17checks/MCP41/exact audits, heldout/history, two full16/17captures, independent retained-observations performance/spec/security/metric acceptance and final docs/artifact identity. Boundary telemetry cannot substitute for any gate or explain away degradation. Any source/helper/input drift requires successor binding review.",
+  "production_test_public_docs_edits_by_reviewer": false,
+  "workloads_executed_by_reviewer": false,
+  "commits_or_publication": false
+}

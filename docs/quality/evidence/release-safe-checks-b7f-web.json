@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "source_sha256": "b7f752e5fda8b2d9883ba13a75901a7b337112eb66d6901f9921068fd1bfecc2",
+  "project_head_unchanged": true,
+  "group": "web",
+  "helper_sha256": "66d6f247912f72017ecd20cdd34be0d5897ec350e352cb825f2f4da909c640ef",
+  "commands": [
+    {
+      "name": "Web lint",
+      "command": [
+        "npm.cmd",
+        "run",
+        "lint",
+        "--prefix",
+        "web"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 51.0,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-web-0.log",
+      "log_sha256": "ed8de085cd5feb9db06159337617caba3fde2684e75cf727f638995861d7f1ce"
+    },
+    {
+      "name": "Web units",
+      "command": [
+        "npm.cmd",
+        "run",
+        "test",
+        "--prefix",
+        "web"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 16.39100000000326,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-web-1.log",
+      "log_sha256": "79a44997717ef3fe0c2c10fbf273e6db6f97db7d8996eeb6e4a827123b509494"
+    },
+    {
+      "name": "Web production build",
+      "command": [
+        "npm.cmd",
+        "run",
+        "build",
+        "--prefix",
+        "web"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 17.062000000005355,
+      "source_stable": true,
+      "log": ".tools/research/release-safe-checks-b7f-web-2.log",
+      "log_sha256": "d89995d398412384b98a9cada00d9b36031fb0d5b6f8462e06e71c26bcfdab78"
+    }
+  ],
+  "scope": "Current actual-source no-commit checks only; not a frozen preflight, full regression, installed validation or complete qualification round.",
+  "commit_creating_foundation_cases_deselected": []
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "BASELINE_FAILURE_PRESERVED_BOUNDED_DIAGNOSTIC_JUSTIFIED_CURRENT_OUTCOME_PENDING",
+  "reviewer": "Independent release quality reviewer",
+  "candidate_source_sha256": "640c2988804e3117e8cb844a593b1b3afc4fdd1dc1023351afe073e3e0493769",
+  "baseline_source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7",
+  "inputs": [
+    {
+      "path": "docs/quality/evidence/release-execution-baseline-1.json",
+      "sha256": "0a6435166932c89a28e13bd73eebae5d6b65a664bd95055f4ab99d9c92914bc5"
+    },
+    {
+      "path": ".tools/research/baseline-b8506f7/src/orqalis/persistence/filesystem/io.py",
+      "sha256": "46dbb9ce8b3ea4248b7882b3daff1fd4d9a4423c1d90ae3daf45c42412eda785"
+    },
+    {
+      "path": "src/orqalis/persistence/filesystem/io.py",
+      "sha256": "d7385088ac7d467241a44e99201185917a8831ef3538582095d2e66eb34e6dae"
+    },
+    {
+      "path": "tests/unit/test_filesystem_foundation.py",
+      "sha256": "4726bb6b004cb9d82771da3d17b40326690ed98ae0b0dc5fd671c325d9c59b99"
+    }
+  ],
+  "failure_witness": {
+    "raw_complete": false,
+    "raw_samples": 0,
+    "worker_returncode": 1,
+    "selected_source_root": "S:\\Orqalis\\.tools\\research\\baseline-b8506f7",
+    "raw_label": "current",
+    "label_caveat": "Selectedsource/sourcefingerprint provebaseline despite defaultcurrentlabel.",
+    "trace_scope": "Root reports originalterminaltooltrace PermissionErrorWinError5 replacinggoal/versions/.0001.json.tmp with0001.json inbaselineexecutorcontextwave/agentmaterialization; rawJSONitself onlyembedsworkerexit, not exceptiontext."
+  },
+  "exact_difference": "Baselineatomic_write_bytes verified/flushedtemporary then singleos.replace. CandidateWindowsPermissionErrorcodes5/32/33 retryatmost3totalattempts;20/40ms sleeps; no-linkguardrecheck beforeeachretry; permanent/unknown/nonWindowsfailuresstillraise; originalandtemporarycleanup preserved.",
+  "focused_test_inspection": {
+    "transient": "Existingparametrized1/2denials withWinError32proveboundedrecoveryandcleanup.",
+    "permanent": "PersistentWinError5testasserts3attempts, originalbeforebytes and noleftovertemp.",
+    "other": "GenericreplaceOSErrortestpreservesoriginalandcleanup.",
+    "limit": "Thisreviewdidnotreruntests. TransientWinError5/33recovery notdirectlyparametrized; sourcecoverssamecondition, but no proofactualWinError5cause/transience fromrawexit."
+  },
+  "minimal_action": "Onefreshbaseline+current source-boundexecutiondiagnostic withpersistedstdout/stderrandlabels, no baselinepatch/timeoutraise. Investigateoutcomes ratherthanrerununtilgreen. Preserveeveryfailureandusefreshlabelsforlaterqualification.",
+  "no_candidate_failure_observed": true,
+  "root_cause_proven": false,
+  "baseline_denial_transient_proven": false,
+  "candidate_retry_would_clear_this_failure_proven": false,
+  "necessary_source_change_from_this_review": null,
+  "release_gate": "Stoppedround1cannotcountclean. Qualitycapture/dispositions remainboundedstandaloneevidence; diagnostic successalonecannotpromotefailedround or substitute2completefreshaudits. Candidateoutcome andremaininggates pending."
+}

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="4.578" timestamp="2026-10-03T20:15:31.740948+05:30" hostname="THOR-GALAXY"><testcase classname="tests.integration.test_api" name="test_websocket_transport_cancellation_preserves_cleanup" time="3.558"><failure message="asyncio.exceptions.CancelledError">git_repo = WindowsPath('C:/Users/senap/AppData/Local/Temp/pytest-of-senap/pytest-549/test_websocket_transport_cance0/source')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000014472A5F2C0&gt;
+
+    def test_websocket_transport_cancellation_preserves_cleanup(
+        git_repo: Path, monkeypatch: pytest.MonkeyPatch
+    ) -&gt; None:
+        import asyncio
+    
+        from anyio import CancelScope
+        from starlette.routing import WebSocketRoute
+        from starlette.types import Message
+        from starlette.websockets import WebSocket
+    
+        from orqalis.domain.approval import ControlMode
+        from orqalis.observability.event_bus import EventSubscription
+    
+        sdk = Orqalis(root=git_repo)
+        project = sdk.initialize(git_repo)
+        run = sdk.goals.create_pending(
+            project,
+            "Transport cancellation lifecycle",
+            "feature/transport-cancel",
+            sdk.git.status(git_repo).head,
+            ControlMode.AUTONOMOUS,
+            None,
+        )
+        original_receive = EventSubscription.receive
+    
+        async def exercise() -&gt; None:
+            messages: asyncio.Queue[Message] = asyncio.Queue()
+            messages.put_nowait({"type": "websocket.connect"})
+            waiting = asyncio.Event()
+            cleanup_started = asyncio.Event()
+            cleanup_finished = asyncio.Event()
+            scopes: list[CancelScope] = []
+    
+            async def subscription_receive(
+                subscription: EventSubscription, timeout: float | None = None
+            ):
+                waiting.set()
+                try:
+                    return await original_receive(subscription, timeout)
+                finally:
+                    # A real subscription wait may suspend while cancelling its queue wait.
+                    # Place transport cancellation precisely inside this finalization.
+                    cleanup_started.set()
+                    await asyncio.sleep(0)
+                    cleanup_finished.set()
+    
+            monkeypatch.setattr(EventSubscription, "receive", subscription_receive)
+    
+            async def receive() -&gt; Message:
+                return await messages.get()
+    
+            async def send(message: Message) -&gt; None:
+                pass
+    
+            socket = WebSocket(
+                {
+                    "type": "websocket",
+                    "scheme": "ws",
+                    "path": f"/ws/runs/{run.id}",
+                    "query_string": b"",
+                    "headers": [],
+                    "server": ("127.0.0.1", 9000),
+                    "client": ("127.0.0.1", 30000),
+                    "subprotocols": [],
+                },
+                receive,
+                send,
+            )
+            app = create_app(sdk)
+            endpoint = next(
+                route.endpoint
+                for route in app.routes
+                if isinstance(route, WebSocketRoute) and route.path == "/ws/runs/{run_id}"
+            )
+    
+            async def serve() -&gt; None:
+                with CancelScope() as scope:
+                    scopes.append(scope)
+                    await endpoint(socket, run.id, 0)
+                    await asyncio.sleep(0)
+    
+            stream = asyncio.create_task(serve())
+            try:
+                await asyncio.wait_for(waiting.wait(), 2)
+                messages.put_nowait({"type": "websocket.disconnect", "code": 1000})
+                await asyncio.wait_for(cleanup_started.wait(), 2)
+                scopes[0].cancel()
+                await asyncio.wait_for(asyncio.shield(stream), 0.5)
+                assert cleanup_finished.is_set()
+                assert scopes[0].cancelled_caught
+                assert sdk.event_bus.subscriber_count(run.id) == 0
+            finally:
+                if not stream.done():
+                    stream.cancel()
+                await asyncio.gather(stream, return_exceptions=True)
+    
+        try:
+&gt;           asyncio.run(exercise())
+
+tests\integration\test_api.py:409: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\integration\test_api.py:399: in exercise
+    await asyncio.wait_for(asyncio.shield(stream), 0.5)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+fut = &lt;Future cancelled&gt;, timeout = 0.5
+
+    async def wait_for(fut, timeout):
+        """Wait for the single Future or coroutine to complete, with timeout.
+    
+        Coroutine will be wrapped in Task.
+    
+        Returns result of the Future or coroutine.  When a timeout occurs,
+        it cancels the task and raises TimeoutError.  To avoid the task
+        cancellation, wrap it in shield().
+    
+        If the wait is cancelled, the task is also cancelled.
+    
+        If the task suppresses the cancellation and returns a value instead,
+        that value is returned.
+    
+        This function is a coroutine.
+        """
+        # The special case for timeout &lt;= 0 is for the following case:
+        #
+        # async def test_waitfor():
+        #     func_started = False
+        #
+        #     async def func():
+        #         nonlocal func_started
+        #         func_started = True
+        #
+        #     try:
+        #         await asyncio.wait_for(func(), 0)
+        #     except asyncio.TimeoutError:
+        #         assert not func_started
+        #     else:
+        #         assert False
+        #
+        # asyncio.run(test_waitfor())
+    
+    
+        if timeout is not None and timeout &lt;= 0:
+            fut = ensure_future(fut)
+    
+            if fut.done():
+                return fut.result()
+    
+            await _cancel_and_wait(fut)
+            try:
+                return fut.result()
+            except exceptions.CancelledError as exc:
+                raise TimeoutError from exc
+    
+        async with timeouts.timeout(timeout):
+&gt;           return await fut
+                   ^^^^^^^^^
+E           asyncio.exceptions.CancelledError
+
+.tools\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\tasks.py:520: CancelledError</failure></testcase></testsuite></testsuites>

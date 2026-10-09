@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-03T22:52:18.601770+00:00",
+  "decision": "STATIC_FINAL_ARCHIVE_V1_CHECKS_ACCEPTABLE_AFTER_REVIEWED_FINAL_PACK_AND_DOC_COMPLETION",
+  "reviewed_helper": {
+    "path": ".tools\\research\\release_final_archive_checks_v1.py",
+    "sha256": "faf03fc2fd3bac037224898d3b3cc754ad69220b0453f32181fbfbd5190fa4a7"
+  },
+  "verified": [
+    "Both exact fixed initial/final archive paths and isolated installed prefix are correctly selected; initial tar has explicit known SHA pin, final SHA binds emitted final artifact record before and after checks. Output is a distinct fixed quality/evidence path and opened exclusively, preserving prior captures.",
+    "Every archive member checked for canonical package-relative path/no backslash/drive colon/NUL/absolute/parent traversal, unique canonical and casefold names, only regular files/directories, no symlink/hardlink/special or setid/sticky permission bits. Every file byte length matches declared size; SHA/size/archive mode inventory retains runtime identity beyond prior regular-byte map.",
+    "All non-doc file paths/payload SHA/sizes/archive POSIX modes equal initial tested tar. Fresh installed full regular-file SHA/size map must equal all final archive files including documentation/launcher/vendor/runtime wheel, not merely a subset.",
+    "Installed root/all parents and every encountered leaf/directory are lstat-checked against symlink/reparse and special files; resolved paths remain inside installed package/root. No archive extraction, product import or tests in helper.",
+    "Report explicitly disclaims Windows installed POSIX-mode certification, timing and hosted-platform certification; success report emitted only after assertions. Root outer wrapper must preserve errors/log if any assertion fails."
+  ],
+  "conditions": [
+    "Run only after docs complete, reviewed finaldocs-v3 pack exits, current source/input/helper/accepted proof guards pass, and exact emitted artifact record is bound by root before/after.",
+    "Root retain actual full20/21 exit and final390/both19 source binding independently; this helper is archive payload verification and does not rerun complete qualification.",
+    "No release/performance acceptance follows automatically; final report/archive/doc audit must be independently reviewed."
+  ],
+  "limits": [
+    "Fixed output and archive paths are trusted repository-owned constants; this helper does not add a fresh ancestor guard on its report path or independently refreeze all390 inputs. Root outer binding/write ownership and preceding repack guards remain authoritative.",
+    "Regular runtime file bytes/sizes/archive modes are certified; directory modes are recorded and special bits rejected, but directory-mode equivalence is not asserted.",
+    "No atomic defense against malicious concurrent link swaps or archive replacement; before/after hashes and observed installed ancestors provide bounded local evidence.",
+    "No helper invocation, archive/prefix scans or source/dependency walks/native queries/workloads performed by reviewer."
+  ],
+  "confirmed_static_launch_blocking_findings": []
+}

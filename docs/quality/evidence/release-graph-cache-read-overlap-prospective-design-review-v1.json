@@ -1,0 +1,38 @@
+{
+  "status": "EVIDENCE_LED_BOUNDED_DESIGN_MERIT_NOT_IMPLEMENTATION_APPROVAL",
+  "reviewed_at": "2026-10-07T11:41:48.061270+00:00",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "named_source_sha256": {
+    "src/orqalis/graph/engine.py": "cad56ca4ac8b6efb578ce7c9417e7b7eb5b6b42833fdf4b297e5f2c1ae7ba25a"
+  },
+  "scope": "Read-only AST extraction of current_refresh_locked/read_cache/storage_target/cache_path/write_cache/parse methods; no imports, product mutation or workloads.",
+  "justification": [
+    "Current_refresh_locked performs sorted per-file_read_cache calls serially. Observed cache wall is much greater than caller CPU, and valid matched full SDK comparisons support the current cold regression. Overlapping blocking derived-cache reads is a concrete cost-reduction hypothesis distinct from unsupported reader/publisher fallback.",
+    "No speedup, source-cause explanation or Master53 closure is inferred before implementation and qualification."
+  ],
+  "recommended_minimal_design": [
+    "Keep original project FileLock owned by the main thread throughout discovery/read/parse/write/assembly/publication and join. Worker_read_cache must not acquire/release that lock or invoke source/Git/parser/writer code.",
+    "For repositories above the predeclared threshold only, use fixed<=4worker/<=4pending per-chunk reads with deterministic sorted main-thread consumption. No persistent model cache, freshness/stat shortcuts, entire-repository future list or unbounded executor backlog.",
+    "Within each chunk, submit only first occurrence of each(parser_kind,content_hash)key; resolve later duplicate keys serially after earlier results are parsed/written. This preserves one_read_cache call per path and canonical duplicate hit/miss behavior without prefetched stale-miss rereads.",
+    "All original_parse,_write_cache,metrics,additionally_parsed and graph assembly/publication remain serial and use unchanged returned model validation/version/hash/native snapshot/path guards.",
+    "Join/cancel-and-drain pending workers before graph publication, before an exception leaves the lock scope and before SDK close; preserve original primary failure and do not publish partial graph/manifest on error.",
+    "Small corpus below threshold retains original serial dispatch and injected service semantics. Worker read side effects/instrumentation must be accounted for explicitly."
+  ],
+  "rejected_shortcut": "A prefetched duplicate miss followed by reread can restore serial hit/miss counts but adds duplicate native reads for corrupted cache keys. Avoid that extra work/observer ambiguity with per-chunk duplicate scheduling rather than describing it as original reads once.",
+  "required_acceptance_tests": [
+    "Exact graph/manifest payload and hit/miss/processed/changed paths parity with serial reference across cold empty cache, all hits, mixed valid/corrupt/version/hash/kind-invalid caches, duplicate same-key sources and deletions. Ignore only preexisting clock/timestamp nondeterminism explicitly.",
+    "Deterministic completion inversions and blocked workers: sorted consumption/parse/write order identical, at most4submitted/live unfinished/results held; no all-file preload. Bound checks must observe actual submission, not just executor_max_workers.",
+    "Missing and corrupt duplicate keys observe earlier main-thread cache publication exactly once per source read; within-chunk and cross-chunk cases.",
+    "Unexpected worker/storage-policy error preserves primary, drains all workers and prevents graph/manifest/cursor publication before return; main project lock is not released while a worker is active.",
+    "Original missing source/source-content mutation conflict, link/junction/reparse containment and malformed cache guards still apply in threaded path; workers perform derived reads only.",
+    "Threshold boundary63/64(or final exactthreshold) and small injected/test repos preserve serial behavior; >=64path exercises real two-worker overlap without timing-speed assertions.",
+    "ReadProbe/logical I/O/resource measurements include worker-thread reads with safe accounting. Caller-thread CPU and previous owner-thread-only phase diagnostics cannot silently stand for aggregate worker cost.",
+    "Fresh focused/statics/contracts/artifacts/currentheldout and two unchanged full qualification iterations on new frozen source/tests/helpers; all original gold/budgets/baseline observations retained. Constrained resource gates must expose additional thread/queued-model overhead."
+  ],
+  "publication_boundary": "No unseen implementation approved. Any source change retires source01 captures as historical; no acceptance reuse that rebinds old timings to new source.",
+  "master53": "CURRENT_SOURCE01_BLOCKED_SUPPORTED_COLD_DEGRADATION; speculative concurrency is not closure",
+  "release_acceptance_credit": 0,
+  "registry_promotion": false,
+  "release_ready": false
+}

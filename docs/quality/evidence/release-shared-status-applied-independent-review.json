@@ -1,0 +1,120 @@
+{
+  "review_kind": "independent_read_only_applied_graph_context_git_status",
+  "created_at": "2026-10-03T10:15:25.815614+00:00",
+  "source_binding": {
+    "sha256": "635e1fec1b39c5998e8294ba376ee2a641546f4c632b5973a775b7a26cff6957",
+    "file_count": 196,
+    "applied_modules": [
+      {
+        "actual": "src/orqalis/graph/engine.py",
+        "actual_sha256": "49912882265ac712d17ab153a083800b41484fb29bfd5c4b14423b6c535a2f9a",
+        "proposal": ".tools/research/release_shared_graph_status_engine_proposal_v1.py",
+        "proposal_sha256": "49912882265ac712d17ab153a083800b41484fb29bfd5c4b14423b6c535a2f9a",
+        "complete_AST_equal": true,
+        "byte_equal": true
+      },
+      {
+        "actual": "src/orqalis/context/builder.py",
+        "actual_sha256": "0a28af97935402832a1362a61b1551388b3a0d7a1ff0e0ac3ae963f3b98f52c1",
+        "proposal": ".tools/research/release_shared_graph_status_builder_proposal_v1.py",
+        "proposal_sha256": "0a28af97935402832a1362a61b1551388b3a0d7a1ff0e0ac3ae963f3b98f52c1",
+        "complete_AST_equal": true,
+        "byte_equal": true
+      },
+      {
+        "actual": "src/orqalis/git/service.py",
+        "actual_sha256": "5ce396c1f78400a418212c13000691b9e60ac64c78cf111bf6c99241f27089e2",
+        "proposal": ".tools/research/release_porcelain_status_proposal_v2.py",
+        "proposal_sha256": "7d44f1ccb3599841d13781126a13fec2bcba12e19c63b7db6d38f4255f797c18",
+        "complete_AST_equal": true,
+        "byte_equal": false
+      }
+    ]
+  },
+  "prior_proposal_reviews": [
+    {
+      "path": "docs/quality/evidence/release-shared-graph-status-proposal-independent-review.json",
+      "sha256": "7f3ffc4e033e0b56e5c1aab0831f305c5da96798907366f01391f0ab12443885"
+    },
+    {
+      "path": "docs/quality/evidence/release-porcelain-status-proposal-v2-independent-review.json",
+      "sha256": "90c98548049bd3476de54d3a50f3e964c0ccd0e508a21ce176187188157d4b71"
+    }
+  ],
+  "disposition": "Applied production ASTs exactly match independently reviewed proposals; no new concrete static defect identified in the bounded change. Current-source parity, browser and full release qualification remain separate pending gates.",
+  "guard_review": [
+    "Graph status is captured after _load_state under the existing graph FileLock. All three refresh branches return their locally captured immutable status along with the original refresh result.",
+    "Existing public refresh/rebuild retain GraphRefreshResult through the wrapper; no status is stored as shared mutable engine state.",
+    "Builder obtains graph/HEAD/branch/full dirty paths from the same refresh observation, retaining non-graph dirty paths before the original .orqalis filtering. Ranking, freshness checks, budgets and fitting remain unchanged.",
+    "Root/common-directory/storage and graph cache/schema/parser/digest checks remain those of the reviewed implementation; shared status does not bypass them.",
+    "Git status retains root/_execute dispatch, inherited GIT override stripping, hooks/fsmonitor suppression, optional lock behavior and timeout. It uses no-ahead-behind, preserves raw NUL filenames and rejects incomplete framing/duplicate required known headers.",
+    "No mtime shortcuts or new result cache; external Git/filesystem changes remain best-effort observations, not a filesystem transaction."
+  ],
+  "compatibility_and_cost_limits": [
+    "LocalGitService.status no longer dispatches resolve_commit(root, HEAD); a third-party subclass relying only on that override changes behavior. No repository subclass relying on it was identified. Root and _execute overrides remain preserved.",
+    "Custom ProjectGraphEngine subclasses overriding only refresh no longer customize builder refresh_with_status; builder normally owns its engine and injected GitService is preserved.",
+    "Private _refresh_locked return shape changes; public existing refresh/rebuild result contracts remain unchanged.",
+    "Porcelain v2 includes more metadata per dirty record than v1; decoded stdout and split records therefore create larger temporary allocations, including an extra sliced list for excluding the trailing empty element. No allocation bound or peak-memory reduction is claimed; no persistent status cache is introduced.",
+    "Two Git subprocesses replace four within LocalGitService.status, and builder uses one refresh status instead of a separate status call. This is an algorithmic call-count reduction, not measured browser latency cure.",
+    "Validation claim is limited to framing, record field extraction, nonempty paths and required header values; complete unused Git metadata grammar is not validated."
+  ],
+  "completed_historical_focused_evidence": {
+    "path": "docs/quality/evidence/release-shared-graph-status-focused-v1.json",
+    "sha256": "5d3c277035b179e47e94d8b30012ee6662af5406fea3c66dad5e361120c7383f",
+    "source_sha256": "c483ff7c68a202d682a40b5da430f14ed1d967e8422a50caa336d4afbd0b81d9",
+    "source_stable_reported": true,
+    "junit": ".tools/research/release-shared-graph-status-focused-v1.junit.xml",
+    "junit_sha256": "22563ce9b6782bea2d9c8538f34e778d9ca528c4329aa12907ba1ade2fc49f74",
+    "log_sha256": "407ed02cfb13c3a59e9fc9f13fec4201a5318b10786463df99dbd7b6811de5da",
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "35",
+        "time": "140.950",
+        "timestamp": "2026-10-03T15:26:04.260857+05:30",
+        "hostname": "THOR-GALAXY"
+      }
+    ],
+    "cases": 35,
+    "current_test_hashes_match_capture": true,
+    "scope": "35 graph/context cases completed at c483. Graph/context production bytes and captured test bytes remain the same, but current635 Git service changed; this is historical evidence, not current full-source qualification."
+  },
+  "current_test_inventory_read_only": {
+    "git_test_file_sha256": "87a25c8e7a706cda0ff499b13afea222c721c405eaa434a9a682a3fed460c1a7",
+    "actual_execution_not_verified": true,
+    "real_parity_states": [
+      "mixed",
+      "renamed",
+      "detached",
+      "conflicted",
+      "upstream",
+      "submodule",
+      "copied"
+    ],
+    "raw_coverage": [
+      "unborn actual repository",
+      "ordinary raw whitespace/unusual and non-UTF8 filenames",
+      "synthetic C100 copy plus original path",
+      "unknown header",
+      "missing fields/empty path/unsupported entry",
+      "missing final NUL/interior empty record/duplicate branch.head"
+    ],
+    "copy_limit": "Actual copy-config fixture compares outputs but does not assert that Git emitted a C record. Synthetic C record covers parser branch; actual C emission remains unverified unless separately captured."
+  },
+  "pending_and_limits": {
+    "current_75_case_capture": "active/pending at parent request; no pass assertion here",
+    "current_test_bytes_executed_or_validated": false,
+    "test_only_lint_repairs": "parent reported pending after active capture; final test binding must be captured afterward",
+    "five_second_browser_cure_claim": false,
+    "frozen_86_closure": false,
+    "full_release_rounds_completed": 0,
+    "full_release_rounds_required": 2,
+    "P1_closure": false,
+    "release_certification": false,
+    "reviewer_workloads_or_production_changes": false,
+    "commits": false
+  }
+}

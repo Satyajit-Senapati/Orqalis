@@ -1,0 +1,108 @@
+{
+  "kind": "independent_actual_validation_addendum",
+  "created_at": "2026-10-03T11:15:17.618156+00:00",
+  "source_binding": {
+    "sha256": "3de7453159f9246b55cfd60a1bd30eced005aab6be3083969e4c5b9e6d5ea07c",
+    "file_count": 196,
+    "module_proposal_bindings": [
+      {
+        "file": "src/orqalis/context/builder.py",
+        "actual_sha256": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+        "proposal_sha256": "5c3279c8a51cab150c362e2be55d9a00537e094f73fe41d6e95c977b7c8cdc4f",
+        "AST_equal": true
+      },
+      {
+        "file": "src/orqalis/memory/service.py",
+        "actual_sha256": "b092886db1ab108ce6ce3fe7b34aa057886152d5a3bac81c67546ab9dd9bfcff",
+        "proposal_sha256": "b1d186020312157d2f923a07937ddb3bc5473f0e30fc3056dae01f962050142c",
+        "AST_equal": true
+      },
+      {
+        "file": "src/orqalis/memory/brain.py",
+        "actual_sha256": "94f3717c9a062e017fc529d4f2a100e2a3d0fde992b76da6b5fc7125f3b9f21a",
+        "proposal_sha256": "bc3f21d69a19422667c2fcf431fa33b352296acfd81f8e7e0a220e4237dad2ea",
+        "AST_equal": true
+      }
+    ]
+  },
+  "prior_applied_review": {
+    "path": "docs/quality/evidence/release-brain-shared-graph-applied-independent-review.json",
+    "sha256": "022da089cba81f50fa4fd8dca7c3aa62260c7b551496a7ecfe02236f96af1c0e",
+    "integrity_dispatch_and_span_limits_retained": true
+  },
+  "actual_focused_evidence": {
+    "path": "docs/quality/evidence/release-brain-shared-graph-focused-v1.json",
+    "sha256": "0daefccd0e33bbbe07d18843e06d3b3c3d0beb2f5051bbfbd5117c86862519c8",
+    "runner_sha256": "8823c549fe0599d4cb572772942ecc191f8ac1eb831c70d7b6a5ffb5a929e2c6",
+    "junit_sha256": "eea6dda5cb184531b78214bcdb2a07b57847046432619def138fdcc6c892b253",
+    "log_sha256": "cbee49a803aee423d99d155ddd7acac6c73c6510a70e8f0c1c4555328f26ddb5",
+    "tests_sha256": {
+      "tests/unit/test_project_brain.py": "bc33ea58a65d8e229311f3ec25a33246d0502c1cef420a1c15dbd4ac8021494f",
+      "tests/unit/test_project_context_builder.py": "7b8c3224fa396a4d1c4578f1223962ca2bda36458e28f1df302ea06143a1ea89",
+      "tests/unit/test_project_graph.py": "9a30b712ab1fab0715e45fd1c4e0c9f4179383c05c4cddbd85c4a66b12c877c4",
+      "tests/unit/test_memory_interfaces.py": "29c49e6e07c2ac987834381f056abad87c078da90ae2de94240d8e538aaf13a2",
+      "tests/unit/test_memory_lifecycle.py": "01bbbb0fd03fb883049f689d2b8288e39575888ff15395a409d70dd55406bcd0",
+      "tests/unit/test_task_context_service.py": "97b5f69d3d097082a1066808ec026d335bd1b1ae28f400131fa87478f0ccb63a",
+      "tests/unit/test_filesystem_memory_store.py": "2cef2f36209419e7f38f0a4f98b87376f2c1a3b51309d8462a639e2fa05a46a7"
+    },
+    "all_current_test_hashes_match": true,
+    "source_and_tests_stable_reported": true,
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "68",
+        "time": "273.513",
+        "timestamp": "2026-10-03T16:38:47.998984+05:30",
+        "hostname": "THOR-GALAXY"
+      }
+    ],
+    "case_count": 68,
+    "actual_isolated_src_runner_verified_read_only": true,
+    "raw_log_last_line": "68 passed in 275.82s (0:04:35)"
+  },
+  "actual_static_evidence": {
+    "path": "docs/quality/evidence/release-brain-shared-graph-static-v1.json",
+    "sha256": "f155c1caff5d17077ed80de1aee47f806aa33f1c7ebd789c528dc5665ba96318",
+    "source_stable_reported": true,
+    "checks": [
+      {
+        "name": "typing",
+        "exit_code": 0,
+        "log": ".tools\\research\\release-brain-shared-graph-typing-v1.log",
+        "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356",
+        "raw_result": "Success: no issues found in 287 source files"
+      },
+      {
+        "name": "lint",
+        "exit_code": 0,
+        "log": ".tools\\research\\release-brain-shared-graph-lint-v1.log",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+        "raw_result": "All checks passed!"
+      },
+      {
+        "name": "format",
+        "exit_code": 0,
+        "log": ".tools\\research\\release-brain-shared-graph-format-v1.log",
+        "sha256": "0b82d5f0ddee3cd7c567e296e3fa87dceeffd23a0571e1e8f662a061c2e29a12",
+        "raw_result": "308 files already formatted"
+      }
+    ]
+  },
+  "disposition": "Actual source3de completed68cases with0failures/errors/skips and bound fresh strict287 typing, lint and formatting passes. This adds actual-source validation to retained proposal/private reviews without overwriting or rebinding their historical captures.",
+  "limits": {
+    "browser14screen": "active at parent request; not reviewed or claimed passed here",
+    "five_second_deadline_cure": false,
+    "preparation_and_source_input_freeze": "unrun/pending",
+    "frozen86_preflight_closure": false,
+    "full_release_rounds_completed": 0,
+    "full_release_rounds_required": 2,
+    "P1_closure": false,
+    "release_certification": false,
+    "reviewer_new_workloads": false,
+    "source_tests_helpers_mutated": false,
+    "commits": false
+  }
+}

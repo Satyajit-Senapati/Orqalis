@@ -1,0 +1,100 @@
+<testsuites id="" name="" tests="14" failures="2" skipped="0" errors="0" time="84.230535">
+<testsuite name="control-center.spec.ts" timestamp="2026-10-03T08:49:35.468Z" hostname="" tests="2" failures="0" skipped="0" time="16.259" errors="0">
+<testcase name="Operational views reconstruct a delivered run with keyboard and dark-theme support" classname="control-center.spec.ts" time="14.713">
+</testcase>
+<testcase name="Provider performance matches persisted measurements on desktop and mobile" classname="control-center.spec.ts" time="1.546">
+</testcase>
+</testsuite>
+<testsuite name="enhancements.spec.ts" timestamp="2026-10-03T08:49:35.468Z" hostname="" tests="9" failures="1" skipped="0" time="37.566" errors="0">
+<testcase name="inspectors retain keyboard navigation and mobile task access" classname="enhancements.spec.ts" time="6.524">
+</testcase>
+<testcase name="skills, context, chronological filters and delivery are connected" classname="enhancements.spec.ts" time="4.672">
+</testcase>
+<testcase name="socket disconnect triggers bounded replay and reconnect without page reload" classname="enhancements.spec.ts" time="3.47">
+</testcase>
+<testcase name="empty history and unavailable runs have honest actionable states" classname="enhancements.spec.ts" time="0.671">
+</testcase>
+<testcase name="run history stays bounded while older runs remain reachable" classname="enhancements.spec.ts" time="0.804">
+</testcase>
+<testcase name="project navigation stays reachable across desktop and mobile" classname="enhancements.spec.ts" time="2.495">
+</testcase>
+<testcase name="home data failures degrade independently without false empty states" classname="enhancements.spec.ts" time="2.178">
+</testcase>
+<testcase name="event-history failure keeps Mission Control usable" classname="enhancements.spec.ts" time="0.949">
+</testcase>
+<testcase name="timeline detail follows live snapshots and tiny intervals stay operable" classname="enhancements.spec.ts" time="15.803">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\.tools\research\release-browser-ui-loop-screen-artifacts\enhancements-timeline-deta-95b6b-iny-intervals-stay-operable\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(received).toBeGreaterThan(expected)" type="expect.toBeGreaterThan">
+<![CDATA[  enhancements.spec.ts:427:1 › timeline detail follows live snapshots and tiny intervals stay operable 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 1
+    Received:   1
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      482 |   serveUpdated = true;
+      483 |   closeCurrent?.();
+    > 484 |   await expect.poll(() => connections, { timeout: 15_000 }).toBeGreaterThan(1);
+          |                                                             ^
+      485 |   await expect(panel.locator(".detail-card")).toContainText(
+      486 |     changed.duration_ms + " ms",
+      487 |   );
+        at S:\Orqalis\web\e2e\enhancements.spec.ts:484:61
+
+    Error Context: ..\..\.tools\research\release-browser-ui-loop-screen-artifacts\enhancements-timeline-deta-95b6b-iny-intervals-stay-operable\error-context.md
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="mission-control.spec.ts" timestamp="2026-10-03T08:49:35.468Z" hostname="" tests="1" failures="0" skipped="0" time="3" errors="0">
+<testcase name="Mission Control displays persisted state and survives refresh" classname="mission-control.spec.ts" time="3">
+</testcase>
+</testsuite>
+<testsuite name="run-governance.spec.ts" timestamp="2026-10-03T08:49:35.468Z" hostname="" tests="1" failures="1" skipped="0" time="17.061" errors="0">
+<testcase name="supervised run decisions and plan edits stay bound to persisted versions" classname="run-governance.spec.ts" time="17.061">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\.tools\research\release-browser-ui-loop-screen-artifacts\run-governance-supervised--91d3a-bound-to-persisted-versions\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(locator).toBeVisible() failed" type="expect.toBeVisible">
+<![CDATA[  run-governance.spec.ts:14:1 › supervised run decisions and plan edits stay bound to persisted versions 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('region', { name: 'Run governance' }).getByText('GOAL · version 1')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('region', { name: 'Run governance' }).getByText('GOAL · version 1') with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Run governance' }).getByText('GOAL · version 1')
+
+
+      59 |   await governance.getByLabel("Operator token").fill(operatorToken!);
+      60 |   await governance.getByRole("button", { name: "Preview plan" }).click();
+    > 61 |   await expect(governance.getByText("GOAL \u00b7 version 1")).toBeVisible();
+         |                                                               ^
+      62 |   await expect(governance.getByRole("alert")).toContainText("approval");
+      63 |   await governance.getByRole("button", { name: "Reject" }).click();
+      64 |   await expect(governance.getByRole("alert")).toContainText(
+        at S:\Orqalis\web\e2e\run-governance.spec.ts:61:63
+
+    Error Context: ..\..\.tools\research\release-browser-ui-loop-screen-artifacts\run-governance-supervised--91d3a-bound-to-persisted-versions\error-context.md
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="trace.spec.ts" timestamp="2026-10-03T08:49:35.468Z" hostname="" tests="1" failures="0" skipped="0" time="3.42" errors="0">
+<testcase name="saved actual parallel-repair snapshot supports keyboard trace ancestry and critical path" classname="trace.spec.ts" time="3.42">
+</testcase>
+</testsuite>
+</testsuites>

@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-02T15:50:49.164064+00:00",
+  "reviewer": "/root/release_quality_review",
+  "status": "FIXED_DIAGNOSTIC_REVIEWED_NARROW_RAW_BYTE_DIGEST_PROOF_CACHE_JUSTIFIED_DESIGN_ONLY",
+  "source_sha256": "47ec43dd0beec7dff56ad064f78a1f1a46c4cc83172e8f55a20ef00617edac4e",
+  "scope": "Read-only diagnostic attribution and proposed optimization integrity review; no workloads or product edits.",
+  "diagnostic_identity": {
+    "plan_path": "docs/quality/evidence/release-heldout-warm-diagnostic-plan-auxiliary.json",
+    "plan_sha256": "abb975574a28ea8cdff8f57d69d80e58bd806bbb11b38d96df5de13268da6729",
+    "summary_path": "docs/quality/evidence/release-heldout-warm-diagnostic-review-auxiliary.json",
+    "summary_sha256": "a468ae90ba6ba1fc74a6b3f7cab6797d729741cfc1a2c827ff88744f8777cda1",
+    "raw_v8_review_sha256": "50a0a698611895bcd0b63d985809d6673685526534593da5efb79934f302ac2b",
+    "rows": [
+      {
+        "path": "docs/quality/evidence/release-heldout-warm-diagnostic-baseline-0-auxiliary.json",
+        "sha256": "f04a7e5747ad58d517b2f2cb900430f28a100c2b2f0ac505ea62d222824a9f7b",
+        "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7"
+      },
+      {
+        "path": "docs/quality/evidence/release-heldout-warm-diagnostic-current-0-auxiliary.json",
+        "sha256": "dc95ed7802f735d5c4847a9997b824ce91f72318e928c3b5181f1c59aa9701fc",
+        "source_sha256": "47ec43dd0beec7dff56ad064f78a1f1a46c4cc83172e8f55a20ef00617edac4e"
+      },
+      {
+        "path": "docs/quality/evidence/release-heldout-warm-diagnostic-current-1-auxiliary.json",
+        "sha256": "1d16d233e6f43d7a879ebffe5dccaadc8de433ea379fb3231b0b007bf0a58e5d",
+        "source_sha256": "47ec43dd0beec7dff56ad064f78a1f1a46c4cc83172e8f55a20ef00617edac4e"
+      },
+      {
+        "path": "docs/quality/evidence/release-heldout-warm-diagnostic-baseline-1-auxiliary.json",
+        "sha256": "374991b6c663c584f3a0faeecc0e3dc6e9e03165c82702eeb820beb6954425cc",
+        "source_sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7"
+      }
+    ],
+    "predeclared_observations": 12,
+    "original_v8_unchanged": true
+  },
+  "computed_observations": {
+    "baseline": {
+      "observations": 6,
+      "wall_median_ms": 440.58154999947874,
+      "cpu_median_ms": 242.1875,
+      "tail_wall_ms": 640.3215999889653,
+      "phases": {
+        "_load_state": {
+          "cpu_median_ms": 210.9375,
+          "wall_median_ms": 226.05944999668282,
+          "calls_total": 6
+        },
+        "_graph_digest": {
+          "cpu_median_ms": 93.75,
+          "wall_median_ms": 92.7104500005953,
+          "calls_total": 6
+        },
+        "_graph_payload": {
+          "cpu_median_ms": 0.0,
+          "wall_median_ms": 0.0,
+          "calls_total": 0
+        },
+        "_discover": {
+          "cpu_median_ms": 0.0,
+          "wall_median_ms": 0.0,
+          "calls_total": 0
+        },
+        "read_json_object": {
+          "cpu_median_ms": 46.875,
+          "wall_median_ms": 46.8923000007635,
+          "calls_total": 12
+        },
+        "git_status": {
+          "cpu_median_ms": 23.4375,
+          "wall_median_ms": 215.65155000280356,
+          "calls_total": 6
+        }
+      }
+    },
+    "current": {
+      "observations": 6,
+      "wall_median_ms": 1861.4388999994844,
+      "cpu_median_ms": 1085.9375,
+      "tail_wall_ms": 4884.536900004605,
+      "phases": {
+        "_load_state": {
+          "cpu_median_ms": 1031.25,
+          "wall_median_ms": 1478.2438999973238,
+          "calls_total": 6
+        },
+        "_graph_digest": {
+          "cpu_median_ms": 515.625,
+          "wall_median_ms": 702.5646500042058,
+          "calls_total": 6
+        },
+        "_graph_payload": {
+          "cpu_median_ms": 500.0,
+          "wall_median_ms": 687.9926999972668,
+          "calls_total": 6
+        },
+        "_discover": {
+          "cpu_median_ms": 0.0,
+          "wall_median_ms": 0.0,
+          "calls_total": 0
+        },
+        "read_json_object": {
+          "cpu_median_ms": 273.4375,
+          "wall_median_ms": 296.4733500048169,
+          "calls_total": 12
+        },
+        "git_status": {
+          "cpu_median_ms": 23.4375,
+          "wall_median_ms": 270.07894999405835,
+          "calls_total": 6
+        }
+      }
+    }
+  },
+  "diagnosis": {
+    "accepted": "The fixed12-observationABBA diagnostic establishes repeat redundant canonical graph serialization/digest as a substantial CPU cost, not a parser/cache-miss/discovery defect. Current digest median515.625msCPU is nested in load1031.25msCPU, while baseline digest93.75/load210.9375ms. Both have0parser calls and0_discover calls. Current tail4884.5369ms persists.",
+    "why_narrow_optimization_is_worthwhile": "One prior-validated immutable raw-byte fingerprint/canonical digest pair can avoid repeating model_dump/json.dumps of the same8.25MB graph on subsequent loads, while retaining actual file read, strict decoding, full fresh graph model validation and current manifest compatibility. It targets measured work without an index/database, mutable graph object cache or file-stat shortcut.",
+    "limits": [
+      "Phase medians are nested and must not be summed; they are explanatory observations, not a new uninstrumented held-out benchmark.",
+      "Process CPU excludes Git child CPU; no specific scheduling/storage/OS cause established.",
+      "Rawv8 warm investigation trigger remains preserved; original functionalPASS is never performancePASS.",
+      "This is an optimization recommendation, not a confirmedP0/P1algorithmic defect or measured post-change speedup."
+    ]
+  },
+  "design_assessment": {
+    "recommendation": "APPROVE_NARROW_IMPLEMENTATION_SUBJECT_TO_EXACT_INTEGRITY_INVARIANTS_AND_FRESH_VALIDATION",
+    "cache_contents": "At most one per-engine immutable tuple (actual graph raw-byteSHA256, canonical model digest from a fully validated successful load). No graph object, parsed dictionary, retained raw file body, mtime/inode proof, global state or alternative persisted format.",
+    "required_invariants": [
+      "Single-read strict object helper must validate no-link path, read bytes once, strictly decode those same bytes with existing UTF8/duplicate-key/nonfinite syntax/object-root checks, and SHA exactly that same byte buffer. Do not call read_json_object then independently reread for SHA.",
+      "Always parse and ProjectGraph.model_validate a new fresh model on every load, including proof-cache hits. Do not reuse a returned graph or nested metadata dictionaries.",
+      "Capture the proof tuple once into a local immutable variable before testing its rawSHA and reading its canonical digest; separate self-cache reads can race a concurrent load and pair graph rawA with digestB.",
+      "Only use a cached canonical digest on exact rawSHA equality with that local proof. A modified file, even same size/mtime, forces a fresh canonical digest.",
+      "Always validate current manifest and graph schema/parser versions and compare current manifest.graph_sha256 with the selected canonical digest. A cached digest never authorizes a changed manifest.",
+      "Install a proof only after all model/schema/parser/hash checks succeed. Clear proof on missing files, malformed object/model/manifest, incompatible versions and digest mismatch; clear before propagating existing link-policy failures rather than swallowing them.",
+      "Cache only raw graph documents explicitly containing generated_at. That ProjectGraph field has a volatile utc_now default factory; absent timestamp can give different canonical model bytes despite identical rawJSON. Other graph/default fields reviewed are deterministic.",
+      "Keep canonical format, graph SHA meaning, schema/parser versions, secret/path guards and ordinary recovery/rebuild behavior unchanged."
+    ],
+    "real_integrity_hole_if_not_addressed": "Concurrent self-cache read race: test self.cache[0]==rawA, another load assigns proofB, then read self.cache[1] as digestB; current manifestB could match while loaded modelA differs. One local tuple snapshot eliminates this pair-mixing risk.",
+    "remaining_bound": "SHA256 identity uses the existing cryptographic collision assumption. Within one loaded code version, fresh deterministic validation of identical explicit-timestamp raw data yields the same canonical model digest. Future volatile-default fields would require extending the eligibility condition or versioning this proof policy."
+  },
+  "meaningful_validation_before_release": [
+    "Observe only first canonical digest for repeated valid byte-identical graph loads while each returned graph is freshly validated; returned nested metadata mutation must not affect subsequent loads.",
+    "Same-size/mtime graph tampering and changed manifest digest/parser/schema must still reject or recompute as before.",
+    "Strict single-read helper rejects duplicate keys, malformedUTF8/JSON, nonfinite syntax, non-objectroot and unsafe link paths exactly as existing reader; decodedvalue and fingerprint correspond to one read.",
+    "Missing generated_at must never reuse the proof; invalid or missing files clear it. Restoration of valid files must validate anew.",
+    "Source freeze, fresh applicable contracts/artifacts/held-out and both full qualification iterations must follow the actual implementation. Historical47 captures and all original raw triggers remain unchanged."
+  ],
+  "no_post_change_claim": "No implementation, post-change test, measured speedup, eliminated tail or release convergence is asserted by this design review."
+}

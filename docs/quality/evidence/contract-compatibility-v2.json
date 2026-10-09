@@ -1,0 +1,1337 @@
+{
+  "schema_version": 1,
+  "fixture_id": "contract-compatibility-v2",
+  "baseline_revision": "b8506f7d9c471516fe4b21c9caa735a7a7909af6",
+  "amended_node": "tests/unit/test_project_graph.py::test_python_ast_graph_and_persisted_manifest",
+  "reason": "G01 separates extracted syntax occurrences from inferred binding candidates; v2 also pins the source-ast-v5 byte-offset parser correction.",
+  "scope": "Legacy compatibility and strict current semantics; no skip/xfail/waiver.",
+  "raw_captures": "Original contract captures remain unmodified and retain all failures.",
+  "dataset_sha256": "03088229d1f1a335fc454baa2ac86a781ff212693e8c3520efae34ac032c2263",
+  "selected_test_paths": [
+    "tests/integration/test_executor.py",
+    "tests/integration/test_external_findings.py",
+    "tests/integration/test_external_skill_selection.py",
+    "tests/integration/test_mcp.py",
+    "tests/integration/test_memory_release.py",
+    "tests/integration/test_parallel.py",
+    "tests/integration/test_recovery.py",
+    "tests/integration/test_repair.py",
+    "tests/integration/test_runtime.py",
+    "tests/integration/test_stack_fixtures.py",
+    "tests/unit/test_git.py",
+    "tests/unit/test_project_graph.py",
+    "tests/unit/test_project_index.py",
+    "tests/unit/test_security.py"
+  ],
+  "selected_test_declarations_sha256": "d3083ba5b9829041cdb9360d76056c0c5ef2a4e040b5da63926f818c41809d48",
+  "selection_declarations_unchanged": true,
+  "original_test_tree": {
+    "sha256": "78210db40880297042839e538b84c82f999c43f4e09ac60e745eb4bcf1015eea",
+    "files": [
+      {
+        "path": "pyproject.toml",
+        "sha256": "249fa58cbdf856d171b8749577cb00fcc2ad8d58a101e20bf2d3391f0503c72c",
+        "bytes": 1450
+      },
+      {
+        "path": "tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/conftest.py",
+        "sha256": "3b246aadf88c8d7c485ea7128158b0a3af0afacd702ed61d0624fd49a616945f",
+        "bytes": 1533
+      },
+      {
+        "path": "tests/e2e/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/e2e/fixture_paths.py",
+        "sha256": "8f85b80eb915e42fff7d7a2be50b50b47ac441018bc73c4d9bff333421fbac27",
+        "bytes": 1202
+      },
+      {
+        "path": "tests/e2e/seed_execution.py",
+        "sha256": "dea7b6cd7ac6e3462947483f54f202af72a16b7516e259bf85267d49b2241311",
+        "bytes": 5514
+      },
+      {
+        "path": "tests/e2e/seed_runtime.py",
+        "sha256": "e18376ae8ce79d1dc10f2e3783efc9f0641fd101de99b2ab07ba8a741baaa850",
+        "bytes": 4554
+      },
+      {
+        "path": "tests/e2e/test_fixture_paths.py",
+        "sha256": "094321dacdcff76dd33865157895b00a526c4b34fdefa2ccb52439a8044d8965",
+        "bytes": 712
+      },
+      {
+        "path": "tests/e2e/test_local_control_center_filesystem.py",
+        "sha256": "52c8ba31f0ecaa8756fd727a6c118f293acba3a62d03e20e6e5014cee27fa992",
+        "bytes": 6134
+      },
+      {
+        "path": "tests/e2e/test_local_first_filesystem.py",
+        "sha256": "f51c8f032c6afd4f71c4a20995df38aeecb1825c3736d3ab345bfc41fc67dd42",
+        "bytes": 7554
+      },
+      {
+        "path": "tests/integration/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/integration/test_api.py",
+        "sha256": "8f70401f39588d842edd86111d1efec4860275af8ccbe99fc4febae0aa1cef43",
+        "bytes": 7932
+      },
+      {
+        "path": "tests/integration/test_approval_timing.py",
+        "sha256": "db63a2f572ae6f8f00201735fcf0eaae23230d53fc4a6cbc3f4466c81205b89b",
+        "bytes": 3289
+      },
+      {
+        "path": "tests/integration/test_approvals.py",
+        "sha256": "65d1bb48a94540649eb6cbe0bd2e85806485dcaea7844817836c531e89c88b98",
+        "bytes": 3818
+      },
+      {
+        "path": "tests/integration/test_authoritative_approval_gates.py",
+        "sha256": "73a2ebe7dd7cc9f242c7f87e6354cc442694758862501dc0f6ce18261fd3f3e7",
+        "bytes": 3390
+      },
+      {
+        "path": "tests/integration/test_cancellation.py",
+        "sha256": "4e9ccb4cdb5ae96b357f04431fee0be9224a2085b9706e097a14b8e74938df11",
+        "bytes": 2589
+      },
+      {
+        "path": "tests/integration/test_executor.py",
+        "sha256": "0b3eec199b3eb59c146d60d9b898e69b5f8e33205f304991846385e96509f71f",
+        "bytes": 14861
+      },
+      {
+        "path": "tests/integration/test_external_findings.py",
+        "sha256": "b6af94e64d78b3829a44075700bf81549b727d836c4e473e01cd1eeb8c07235d",
+        "bytes": 15524
+      },
+      {
+        "path": "tests/integration/test_external_skill_selection.py",
+        "sha256": "bc96f255cddcbe179cda70e05e4c463a53bbf25a77bc26046556ac38623f6a52",
+        "bytes": 1196
+      },
+      {
+        "path": "tests/integration/test_goals.py",
+        "sha256": "fbacc7c33e6453c98accfb1ef78a313f5fe632d0f3f0577c6a3ffd4ca12d70c3",
+        "bytes": 4288
+      },
+      {
+        "path": "tests/integration/test_mcp.py",
+        "sha256": "41e678716156b67cb3241e43e5dd13d8b36b521d3ec7c7323925b89767526d1c",
+        "bytes": 12957
+      },
+      {
+        "path": "tests/integration/test_memory.py",
+        "sha256": "1b8519af19d476564700772641e87338cb886747b5e24a255ca37df30b0009e1",
+        "bytes": 12713
+      },
+      {
+        "path": "tests/integration/test_memory_release.py",
+        "sha256": "799d84eb99fc3f7fd22cb77a595bf1c934662e7579068c620f99dd2f7e495b2c",
+        "bytes": 12772
+      },
+      {
+        "path": "tests/integration/test_parallel.py",
+        "sha256": "3915c0074147f3ca38120922829873e953c28f869d7a1a1908e1e01b107c0a30",
+        "bytes": 5875
+      },
+      {
+        "path": "tests/integration/test_plan_preview.py",
+        "sha256": "17f8547fa321d117695affd8c229302dd4111f8414319dd5e5990854eedd82fd",
+        "bytes": 6151
+      },
+      {
+        "path": "tests/integration/test_preparation.py",
+        "sha256": "c2a93a345cd7ff7e1755b1ba988ca538940cbc56869d8106a635b19d186a3898",
+        "bytes": 1596
+      },
+      {
+        "path": "tests/integration/test_providers.py",
+        "sha256": "9c36aa8b3bfc23a9340596cf15450075cd6e2980fb34f3b1b5da390851a76646",
+        "bytes": 8129
+      },
+      {
+        "path": "tests/integration/test_recovery.py",
+        "sha256": "36ab81f23c267619adf172f862fe355ed896caed91cb902a755e4fa18576ada6",
+        "bytes": 4664
+      },
+      {
+        "path": "tests/integration/test_repair.py",
+        "sha256": "9cbe6a0e9d9a9d0a2f25a599d1f9165411c140862fd39a9f736a535c6edf6fa3",
+        "bytes": 6097
+      },
+      {
+        "path": "tests/integration/test_replanning.py",
+        "sha256": "9709a3ef91967da1f351f917ef31d5def04522bf0db6cf218537ab15004a2c62",
+        "bytes": 4454
+      },
+      {
+        "path": "tests/integration/test_requirement_task_approval.py",
+        "sha256": "9e33b2aab7c6709714603f2f8d0d18a95d517a696af71441f50650214a980db2",
+        "bytes": 2005
+      },
+      {
+        "path": "tests/integration/test_requirements.py",
+        "sha256": "af4fb8695b7a9f1142cefc639f76cff267bbf80161964184d64b4fa958c1bc67",
+        "bytes": 4359
+      },
+      {
+        "path": "tests/integration/test_run_controls.py",
+        "sha256": "1ce29784f43adfb15e7e56220957532a128e0f3bf10c70502ce40fa3a1a803b8",
+        "bytes": 8914
+      },
+      {
+        "path": "tests/integration/test_runtime.py",
+        "sha256": "ca64d8d46f23a2c7b8b1e9a095eef4a81a9e2e0b948ce05c69f535496939bdca",
+        "bytes": 7489
+      },
+      {
+        "path": "tests/integration/test_sandbox.py",
+        "sha256": "61496c6e8c885857aa552d0b72ecc8f75c78723eb362c61da9d2873ca7088319",
+        "bytes": 1947
+      },
+      {
+        "path": "tests/integration/test_stack_fixtures.py",
+        "sha256": "3f57a6e89921e01bb83fac55ce6d0093f53ae387e02523f12a12cb107678775e",
+        "bytes": 5891
+      },
+      {
+        "path": "tests/integration/test_supervised_delivery_repair.py",
+        "sha256": "81ce5842cec55aed62f124734c3a9f416a96b2a4c767e61a8995bfc9df20ba73",
+        "bytes": 9664
+      },
+      {
+        "path": "tests/support/filesystem.py",
+        "sha256": "6d0234b723745f528dcd8e8f57e6a6b8e9e32b05cc5f8126f5436f234097ecad",
+        "bytes": 685
+      },
+      {
+        "path": "tests/unit/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/unit/test_acceptance.py",
+        "sha256": "a4ec4c4648de407b4f00f8b3333c4e7cdd7e4ad79d4c851d71742a4925c98085",
+        "bytes": 3768
+      },
+      {
+        "path": "tests/unit/test_activity.py",
+        "sha256": "c7bdc858fff040a7b5361d99699a78ffaf3d11ceddf5eb992556191b00eec89a",
+        "bytes": 1759
+      },
+      {
+        "path": "tests/unit/test_analytics.py",
+        "sha256": "23cabd9b5e5f7904ddf168dd09eec6cf2385887af82de5f57338c9386a1fe53f",
+        "bytes": 2738
+      },
+      {
+        "path": "tests/unit/test_anthropic.py",
+        "sha256": "ac24e8e45c7237a7de82e699bf9dcc9c8b3aa20e634d59b2add70f68920123cc",
+        "bytes": 6776
+      },
+      {
+        "path": "tests/unit/test_approval_contracts.py",
+        "sha256": "f3841a70c4b7fb483e6ebce61ffeedbdd9391dbdc426a35d9bd1c08283e97253",
+        "bytes": 986
+      },
+      {
+        "path": "tests/unit/test_approval_guard.py",
+        "sha256": "a92b8cea414d24445d43d01e8374bbd1dca9e003ea48665291461605717812c0",
+        "bytes": 1814
+      },
+      {
+        "path": "tests/unit/test_approval_timing.py",
+        "sha256": "8980780a26b80d3234483b4740ee71baf364adf6e03167ca422bbb884b2373d9",
+        "bytes": 5353
+      },
+      {
+        "path": "tests/unit/test_cancellation.py",
+        "sha256": "8ed2ea04595aba6e12fb56cc2439949cef0f2d2f419f921b4a26c2f8ebadbe44",
+        "bytes": 2662
+      },
+      {
+        "path": "tests/unit/test_cli_control_modes.py",
+        "sha256": "2038c0370dfb91cb80faaec7c0e67fe1506508cde74c52185d5837b8e788ec30",
+        "bytes": 414
+      },
+      {
+        "path": "tests/unit/test_cli_release.py",
+        "sha256": "a0af91d07ac1956df651a14d27a6ba54e53b4bd426dae3a6f97b016118022b3b",
+        "bytes": 7900
+      },
+      {
+        "path": "tests/unit/test_curated_memory.py",
+        "sha256": "f3755817211f2c23b3191c6be76d10df7ddda434eceb88a13089fb2584e6264f",
+        "bytes": 11852
+      },
+      {
+        "path": "tests/unit/test_diagnostics.py",
+        "sha256": "00df458f78054144dda2664024dc36662a3cb4376d19e37ee5e453137fb3c511",
+        "bytes": 5506
+      },
+      {
+        "path": "tests/unit/test_event_bus.py",
+        "sha256": "c2bfdaf2f20a8fe14c35a8bf59557c7589bd5f3f0e072187925b978a027ace41",
+        "bytes": 2172
+      },
+      {
+        "path": "tests/unit/test_execution_tools.py",
+        "sha256": "8ee95610d846f8cb370ac9fe6da6eb64df7377b4ba694ba62ccbfcbdd728801a",
+        "bytes": 2671
+      },
+      {
+        "path": "tests/unit/test_filesystem_auxiliary_stores.py",
+        "sha256": "5a602aefccd382b7ad9f1547b69969b27487783c65e8d500f8cadde539a32844",
+        "bytes": 9884
+      },
+      {
+        "path": "tests/unit/test_filesystem_event_bus.py",
+        "sha256": "d0690b3182f700904540c6953f456ae793dd13b1446f86c0601f5920d02f601e",
+        "bytes": 2695
+      },
+      {
+        "path": "tests/unit/test_filesystem_foundation.py",
+        "sha256": "89cbe4d8fa33b3633ad664857d4a220a89246d3772c70c15b11ae38a3931500c",
+        "bytes": 15950
+      },
+      {
+        "path": "tests/unit/test_filesystem_memory_store.py",
+        "sha256": "2cef2f36209419e7f38f0a4f98b87376f2c1a3b51309d8462a639e2fa05a46a7",
+        "bytes": 7993
+      },
+      {
+        "path": "tests/unit/test_filesystem_task_store.py",
+        "sha256": "5a60eb62be65feba126316b9e142edee171ff85705e1a64e82dee9177f55fb16",
+        "bytes": 12333
+      },
+      {
+        "path": "tests/unit/test_foundation.py",
+        "sha256": "bb83d2ee89be7a82ca6a0d2db8da8ccba795d84ccd452a9dd4e255e3817a65fd",
+        "bytes": 4312
+      },
+      {
+        "path": "tests/unit/test_git.py",
+        "sha256": "3324bab5db46c7bc93a3695b4a2e21535b3f26d1aacbed681852febdf72d7545",
+        "bytes": 4983
+      },
+      {
+        "path": "tests/unit/test_guardian.py",
+        "sha256": "4cce1b09d0e8b9c95b7c98d4d229ed2b30193a5310f1cd028058db99fc774a65",
+        "bytes": 4022
+      },
+      {
+        "path": "tests/unit/test_installed_smoke.py",
+        "sha256": "f01e716b77b7b649987c9a3812e51c45b543cd906208963e5feeaa0e1b859cad",
+        "bytes": 6448
+      },
+      {
+        "path": "tests/unit/test_instrumentation.py",
+        "sha256": "1b166a5ed49692d2fbca8a481b6d3a33aa633a396d8bed00f9fc9cf8afff01cf",
+        "bytes": 1917
+      },
+      {
+        "path": "tests/unit/test_interface_release.py",
+        "sha256": "714c414d01e582ee1ff89c52814ecf48604499377bd99ceb5d8989047b16cda8",
+        "bytes": 8994
+      },
+      {
+        "path": "tests/unit/test_local_store_interfaces.py",
+        "sha256": "e5e85df13d2a7842b50aba23f2e43dfe0083073c4b4309b20a7b32e4bde0beea",
+        "bytes": 4692
+      },
+      {
+        "path": "tests/unit/test_mcp_control_policy.py",
+        "sha256": "9264da0cf053b5c644eba769b6f81575b781d99e528f5112ad0fae22559cf2bb",
+        "bytes": 865
+      },
+      {
+        "path": "tests/unit/test_memory_cache_recovery.py",
+        "sha256": "1152544ef0210249f70806ef7cb55b4716f00a56b449e372be73734eee6e12f0",
+        "bytes": 1808
+      },
+      {
+        "path": "tests/unit/test_memory_indexer.py",
+        "sha256": "6b1909df664d750cf1ab8a6d9d723eaf9eeb1c981665671b920d7cdd336501a1",
+        "bytes": 2429
+      },
+      {
+        "path": "tests/unit/test_npm_release.py",
+        "sha256": "096f614f9ff5cfe17f603c2691dcd32bb79c1ab74ed3aa838063c776fc01f700",
+        "bytes": 7416
+      },
+      {
+        "path": "tests/unit/test_openai_schema.py",
+        "sha256": "b26d0dfc63b15cac336cbdb91d3e00130d2ed56d04421b2ad9efc7a0dc386231",
+        "bytes": 6178
+      },
+      {
+        "path": "tests/unit/test_planner_skills.py",
+        "sha256": "0651f0ea8fdf3a65abb19d1a5c83e1bf1d3bc0445893fce5df0ac14fa7ddb286",
+        "bytes": 9049
+      },
+      {
+        "path": "tests/unit/test_project_bootstrap.py",
+        "sha256": "de479b43cf36cadf8cd3dba51e57eb0d65aeeeafc9136d09d06619afaff7bef3",
+        "bytes": 3694
+      },
+      {
+        "path": "tests/unit/test_project_brain.py",
+        "sha256": "0616bf8d2cb5b924a4d287f9b989c35e3b3334af99bc70bbea5445083c026319",
+        "bytes": 1585
+      },
+      {
+        "path": "tests/unit/test_project_context_builder.py",
+        "sha256": "863c931ba76bda0807a85c33023f71904e09ff53619579c42493b285f5448a59",
+        "bytes": 9033
+      },
+      {
+        "path": "tests/unit/test_project_graph.py",
+        "sha256": "e82b9a9e1876595d9e271514e7a37d9db70387372043e4f1014c671e240fb15b",
+        "bytes": 13106
+      },
+      {
+        "path": "tests/unit/test_project_index.py",
+        "sha256": "d1f1d58e8f805c05479df1b91c870da0b9bb0c1f2bff5380a60c7b7e960a0f09",
+        "bytes": 5984
+      },
+      {
+        "path": "tests/unit/test_providers.py",
+        "sha256": "1b014fa63a57ac28248c59eea545719c29ccb588d5ac56a5e3a284eb5b1537c3",
+        "bytes": 12628
+      },
+      {
+        "path": "tests/unit/test_role_contracts.py",
+        "sha256": "36bf6042a55a1e563c0066558ed4ca158039dabaff1a0a204b452c6b50550b54",
+        "bytes": 2614
+      },
+      {
+        "path": "tests/unit/test_runtime_composition.py",
+        "sha256": "d550e2f827fbf47cd20c5590019211e7985a833043fe851bf01745962d96a5fd",
+        "bytes": 5939
+      },
+      {
+        "path": "tests/unit/test_security.py",
+        "sha256": "e15f37585ff310f316f76f8e4c48f1024b3d01f9eb642b0516dafa0f6bd24a36",
+        "bytes": 3721
+      },
+      {
+        "path": "tests/unit/test_task_capsule_projections.py",
+        "sha256": "1e63e53ba4c85661d90e0ff02c5d55599bc1c6f5eb20f0796a182d59f33399d8",
+        "bytes": 12919
+      },
+      {
+        "path": "tests/unit/test_task_context_service.py",
+        "sha256": "97b5f69d3d097082a1066808ec026d335bd1b1ae28f400131fa87478f0ccb63a",
+        "bytes": 2920
+      },
+      {
+        "path": "tests/unit/test_task_history.py",
+        "sha256": "af32aa4d8414ae9d0dba6db89a2b52f2e7e0faee83849146d46e0b1342a303a9",
+        "bytes": 4395
+      },
+      {
+        "path": "tests/unit/test_workflow.py",
+        "sha256": "824bfe26880d91db275a736fb5f47ba1fd00e593a736326b7189a50c71bb48be",
+        "bytes": 4278
+      }
+    ]
+  },
+  "patched_test_tree": {
+    "sha256": "1872f53dc960a4463c0b07cc7faf38a36fb5cd3043544477408cebd108809855",
+    "files": [
+      {
+        "path": "pyproject.toml",
+        "sha256": "249fa58cbdf856d171b8749577cb00fcc2ad8d58a101e20bf2d3391f0503c72c",
+        "bytes": 1450
+      },
+      {
+        "path": "tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/conftest.py",
+        "sha256": "3b246aadf88c8d7c485ea7128158b0a3af0afacd702ed61d0624fd49a616945f",
+        "bytes": 1533
+      },
+      {
+        "path": "tests/e2e/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/e2e/fixture_paths.py",
+        "sha256": "8f85b80eb915e42fff7d7a2be50b50b47ac441018bc73c4d9bff333421fbac27",
+        "bytes": 1202
+      },
+      {
+        "path": "tests/e2e/seed_execution.py",
+        "sha256": "dea7b6cd7ac6e3462947483f54f202af72a16b7516e259bf85267d49b2241311",
+        "bytes": 5514
+      },
+      {
+        "path": "tests/e2e/seed_runtime.py",
+        "sha256": "e18376ae8ce79d1dc10f2e3783efc9f0641fd101de99b2ab07ba8a741baaa850",
+        "bytes": 4554
+      },
+      {
+        "path": "tests/e2e/test_fixture_paths.py",
+        "sha256": "094321dacdcff76dd33865157895b00a526c4b34fdefa2ccb52439a8044d8965",
+        "bytes": 712
+      },
+      {
+        "path": "tests/e2e/test_local_control_center_filesystem.py",
+        "sha256": "52c8ba31f0ecaa8756fd727a6c118f293acba3a62d03e20e6e5014cee27fa992",
+        "bytes": 6134
+      },
+      {
+        "path": "tests/e2e/test_local_first_filesystem.py",
+        "sha256": "f51c8f032c6afd4f71c4a20995df38aeecb1825c3736d3ab345bfc41fc67dd42",
+        "bytes": 7554
+      },
+      {
+        "path": "tests/integration/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/integration/test_api.py",
+        "sha256": "8f70401f39588d842edd86111d1efec4860275af8ccbe99fc4febae0aa1cef43",
+        "bytes": 7932
+      },
+      {
+        "path": "tests/integration/test_approval_timing.py",
+        "sha256": "db63a2f572ae6f8f00201735fcf0eaae23230d53fc4a6cbc3f4466c81205b89b",
+        "bytes": 3289
+      },
+      {
+        "path": "tests/integration/test_approvals.py",
+        "sha256": "65d1bb48a94540649eb6cbe0bd2e85806485dcaea7844817836c531e89c88b98",
+        "bytes": 3818
+      },
+      {
+        "path": "tests/integration/test_authoritative_approval_gates.py",
+        "sha256": "73a2ebe7dd7cc9f242c7f87e6354cc442694758862501dc0f6ce18261fd3f3e7",
+        "bytes": 3390
+      },
+      {
+        "path": "tests/integration/test_cancellation.py",
+        "sha256": "4e9ccb4cdb5ae96b357f04431fee0be9224a2085b9706e097a14b8e74938df11",
+        "bytes": 2589
+      },
+      {
+        "path": "tests/integration/test_executor.py",
+        "sha256": "0b3eec199b3eb59c146d60d9b898e69b5f8e33205f304991846385e96509f71f",
+        "bytes": 14861
+      },
+      {
+        "path": "tests/integration/test_external_findings.py",
+        "sha256": "b6af94e64d78b3829a44075700bf81549b727d836c4e473e01cd1eeb8c07235d",
+        "bytes": 15524
+      },
+      {
+        "path": "tests/integration/test_external_skill_selection.py",
+        "sha256": "bc96f255cddcbe179cda70e05e4c463a53bbf25a77bc26046556ac38623f6a52",
+        "bytes": 1196
+      },
+      {
+        "path": "tests/integration/test_goals.py",
+        "sha256": "fbacc7c33e6453c98accfb1ef78a313f5fe632d0f3f0577c6a3ffd4ca12d70c3",
+        "bytes": 4288
+      },
+      {
+        "path": "tests/integration/test_mcp.py",
+        "sha256": "41e678716156b67cb3241e43e5dd13d8b36b521d3ec7c7323925b89767526d1c",
+        "bytes": 12957
+      },
+      {
+        "path": "tests/integration/test_memory.py",
+        "sha256": "1b8519af19d476564700772641e87338cb886747b5e24a255ca37df30b0009e1",
+        "bytes": 12713
+      },
+      {
+        "path": "tests/integration/test_memory_release.py",
+        "sha256": "799d84eb99fc3f7fd22cb77a595bf1c934662e7579068c620f99dd2f7e495b2c",
+        "bytes": 12772
+      },
+      {
+        "path": "tests/integration/test_parallel.py",
+        "sha256": "3915c0074147f3ca38120922829873e953c28f869d7a1a1908e1e01b107c0a30",
+        "bytes": 5875
+      },
+      {
+        "path": "tests/integration/test_plan_preview.py",
+        "sha256": "17f8547fa321d117695affd8c229302dd4111f8414319dd5e5990854eedd82fd",
+        "bytes": 6151
+      },
+      {
+        "path": "tests/integration/test_preparation.py",
+        "sha256": "c2a93a345cd7ff7e1755b1ba988ca538940cbc56869d8106a635b19d186a3898",
+        "bytes": 1596
+      },
+      {
+        "path": "tests/integration/test_providers.py",
+        "sha256": "9c36aa8b3bfc23a9340596cf15450075cd6e2980fb34f3b1b5da390851a76646",
+        "bytes": 8129
+      },
+      {
+        "path": "tests/integration/test_recovery.py",
+        "sha256": "36ab81f23c267619adf172f862fe355ed896caed91cb902a755e4fa18576ada6",
+        "bytes": 4664
+      },
+      {
+        "path": "tests/integration/test_repair.py",
+        "sha256": "9cbe6a0e9d9a9d0a2f25a599d1f9165411c140862fd39a9f736a535c6edf6fa3",
+        "bytes": 6097
+      },
+      {
+        "path": "tests/integration/test_replanning.py",
+        "sha256": "9709a3ef91967da1f351f917ef31d5def04522bf0db6cf218537ab15004a2c62",
+        "bytes": 4454
+      },
+      {
+        "path": "tests/integration/test_requirement_task_approval.py",
+        "sha256": "9e33b2aab7c6709714603f2f8d0d18a95d517a696af71441f50650214a980db2",
+        "bytes": 2005
+      },
+      {
+        "path": "tests/integration/test_requirements.py",
+        "sha256": "af4fb8695b7a9f1142cefc639f76cff267bbf80161964184d64b4fa958c1bc67",
+        "bytes": 4359
+      },
+      {
+        "path": "tests/integration/test_run_controls.py",
+        "sha256": "1ce29784f43adfb15e7e56220957532a128e0f3bf10c70502ce40fa3a1a803b8",
+        "bytes": 8914
+      },
+      {
+        "path": "tests/integration/test_runtime.py",
+        "sha256": "ca64d8d46f23a2c7b8b1e9a095eef4a81a9e2e0b948ce05c69f535496939bdca",
+        "bytes": 7489
+      },
+      {
+        "path": "tests/integration/test_sandbox.py",
+        "sha256": "61496c6e8c885857aa552d0b72ecc8f75c78723eb362c61da9d2873ca7088319",
+        "bytes": 1947
+      },
+      {
+        "path": "tests/integration/test_stack_fixtures.py",
+        "sha256": "3f57a6e89921e01bb83fac55ce6d0093f53ae387e02523f12a12cb107678775e",
+        "bytes": 5891
+      },
+      {
+        "path": "tests/integration/test_supervised_delivery_repair.py",
+        "sha256": "81ce5842cec55aed62f124734c3a9f416a96b2a4c767e61a8995bfc9df20ba73",
+        "bytes": 9664
+      },
+      {
+        "path": "tests/support/filesystem.py",
+        "sha256": "6d0234b723745f528dcd8e8f57e6a6b8e9e32b05cc5f8126f5436f234097ecad",
+        "bytes": 685
+      },
+      {
+        "path": "tests/unit/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "tests/unit/test_acceptance.py",
+        "sha256": "a4ec4c4648de407b4f00f8b3333c4e7cdd7e4ad79d4c851d71742a4925c98085",
+        "bytes": 3768
+      },
+      {
+        "path": "tests/unit/test_activity.py",
+        "sha256": "c7bdc858fff040a7b5361d99699a78ffaf3d11ceddf5eb992556191b00eec89a",
+        "bytes": 1759
+      },
+      {
+        "path": "tests/unit/test_analytics.py",
+        "sha256": "23cabd9b5e5f7904ddf168dd09eec6cf2385887af82de5f57338c9386a1fe53f",
+        "bytes": 2738
+      },
+      {
+        "path": "tests/unit/test_anthropic.py",
+        "sha256": "ac24e8e45c7237a7de82e699bf9dcc9c8b3aa20e634d59b2add70f68920123cc",
+        "bytes": 6776
+      },
+      {
+        "path": "tests/unit/test_approval_contracts.py",
+        "sha256": "f3841a70c4b7fb483e6ebce61ffeedbdd9391dbdc426a35d9bd1c08283e97253",
+        "bytes": 986
+      },
+      {
+        "path": "tests/unit/test_approval_guard.py",
+        "sha256": "a92b8cea414d24445d43d01e8374bbd1dca9e003ea48665291461605717812c0",
+        "bytes": 1814
+      },
+      {
+        "path": "tests/unit/test_approval_timing.py",
+        "sha256": "8980780a26b80d3234483b4740ee71baf364adf6e03167ca422bbb884b2373d9",
+        "bytes": 5353
+      },
+      {
+        "path": "tests/unit/test_cancellation.py",
+        "sha256": "8ed2ea04595aba6e12fb56cc2439949cef0f2d2f419f921b4a26c2f8ebadbe44",
+        "bytes": 2662
+      },
+      {
+        "path": "tests/unit/test_cli_control_modes.py",
+        "sha256": "2038c0370dfb91cb80faaec7c0e67fe1506508cde74c52185d5837b8e788ec30",
+        "bytes": 414
+      },
+      {
+        "path": "tests/unit/test_cli_release.py",
+        "sha256": "a0af91d07ac1956df651a14d27a6ba54e53b4bd426dae3a6f97b016118022b3b",
+        "bytes": 7900
+      },
+      {
+        "path": "tests/unit/test_curated_memory.py",
+        "sha256": "f3755817211f2c23b3191c6be76d10df7ddda434eceb88a13089fb2584e6264f",
+        "bytes": 11852
+      },
+      {
+        "path": "tests/unit/test_diagnostics.py",
+        "sha256": "00df458f78054144dda2664024dc36662a3cb4376d19e37ee5e453137fb3c511",
+        "bytes": 5506
+      },
+      {
+        "path": "tests/unit/test_event_bus.py",
+        "sha256": "c2bfdaf2f20a8fe14c35a8bf59557c7589bd5f3f0e072187925b978a027ace41",
+        "bytes": 2172
+      },
+      {
+        "path": "tests/unit/test_execution_tools.py",
+        "sha256": "8ee95610d846f8cb370ac9fe6da6eb64df7377b4ba694ba62ccbfcbdd728801a",
+        "bytes": 2671
+      },
+      {
+        "path": "tests/unit/test_filesystem_auxiliary_stores.py",
+        "sha256": "5a602aefccd382b7ad9f1547b69969b27487783c65e8d500f8cadde539a32844",
+        "bytes": 9884
+      },
+      {
+        "path": "tests/unit/test_filesystem_event_bus.py",
+        "sha256": "d0690b3182f700904540c6953f456ae793dd13b1446f86c0601f5920d02f601e",
+        "bytes": 2695
+      },
+      {
+        "path": "tests/unit/test_filesystem_foundation.py",
+        "sha256": "89cbe4d8fa33b3633ad664857d4a220a89246d3772c70c15b11ae38a3931500c",
+        "bytes": 15950
+      },
+      {
+        "path": "tests/unit/test_filesystem_memory_store.py",
+        "sha256": "2cef2f36209419e7f38f0a4f98b87376f2c1a3b51309d8462a639e2fa05a46a7",
+        "bytes": 7993
+      },
+      {
+        "path": "tests/unit/test_filesystem_task_store.py",
+        "sha256": "5a60eb62be65feba126316b9e142edee171ff85705e1a64e82dee9177f55fb16",
+        "bytes": 12333
+      },
+      {
+        "path": "tests/unit/test_foundation.py",
+        "sha256": "bb83d2ee89be7a82ca6a0d2db8da8ccba795d84ccd452a9dd4e255e3817a65fd",
+        "bytes": 4312
+      },
+      {
+        "path": "tests/unit/test_git.py",
+        "sha256": "3324bab5db46c7bc93a3695b4a2e21535b3f26d1aacbed681852febdf72d7545",
+        "bytes": 4983
+      },
+      {
+        "path": "tests/unit/test_guardian.py",
+        "sha256": "4cce1b09d0e8b9c95b7c98d4d229ed2b30193a5310f1cd028058db99fc774a65",
+        "bytes": 4022
+      },
+      {
+        "path": "tests/unit/test_installed_smoke.py",
+        "sha256": "f01e716b77b7b649987c9a3812e51c45b543cd906208963e5feeaa0e1b859cad",
+        "bytes": 6448
+      },
+      {
+        "path": "tests/unit/test_instrumentation.py",
+        "sha256": "1b166a5ed49692d2fbca8a481b6d3a33aa633a396d8bed00f9fc9cf8afff01cf",
+        "bytes": 1917
+      },
+      {
+        "path": "tests/unit/test_interface_release.py",
+        "sha256": "714c414d01e582ee1ff89c52814ecf48604499377bd99ceb5d8989047b16cda8",
+        "bytes": 8994
+      },
+      {
+        "path": "tests/unit/test_local_store_interfaces.py",
+        "sha256": "e5e85df13d2a7842b50aba23f2e43dfe0083073c4b4309b20a7b32e4bde0beea",
+        "bytes": 4692
+      },
+      {
+        "path": "tests/unit/test_mcp_control_policy.py",
+        "sha256": "9264da0cf053b5c644eba769b6f81575b781d99e528f5112ad0fae22559cf2bb",
+        "bytes": 865
+      },
+      {
+        "path": "tests/unit/test_memory_cache_recovery.py",
+        "sha256": "1152544ef0210249f70806ef7cb55b4716f00a56b449e372be73734eee6e12f0",
+        "bytes": 1808
+      },
+      {
+        "path": "tests/unit/test_memory_indexer.py",
+        "sha256": "6b1909df664d750cf1ab8a6d9d723eaf9eeb1c981665671b920d7cdd336501a1",
+        "bytes": 2429
+      },
+      {
+        "path": "tests/unit/test_npm_release.py",
+        "sha256": "096f614f9ff5cfe17f603c2691dcd32bb79c1ab74ed3aa838063c776fc01f700",
+        "bytes": 7416
+      },
+      {
+        "path": "tests/unit/test_openai_schema.py",
+        "sha256": "b26d0dfc63b15cac336cbdb91d3e00130d2ed56d04421b2ad9efc7a0dc386231",
+        "bytes": 6178
+      },
+      {
+        "path": "tests/unit/test_planner_skills.py",
+        "sha256": "0651f0ea8fdf3a65abb19d1a5c83e1bf1d3bc0445893fce5df0ac14fa7ddb286",
+        "bytes": 9049
+      },
+      {
+        "path": "tests/unit/test_project_bootstrap.py",
+        "sha256": "de479b43cf36cadf8cd3dba51e57eb0d65aeeeafc9136d09d06619afaff7bef3",
+        "bytes": 3694
+      },
+      {
+        "path": "tests/unit/test_project_brain.py",
+        "sha256": "0616bf8d2cb5b924a4d287f9b989c35e3b3334af99bc70bbea5445083c026319",
+        "bytes": 1585
+      },
+      {
+        "path": "tests/unit/test_project_context_builder.py",
+        "sha256": "863c931ba76bda0807a85c33023f71904e09ff53619579c42493b285f5448a59",
+        "bytes": 9033
+      },
+      {
+        "path": "tests/unit/test_project_graph.py",
+        "sha256": "05d99ea9113aacea6f744b496dcf0189eb932cb47363258084f3441a0aae9f9f",
+        "bytes": 15769
+      },
+      {
+        "path": "tests/unit/test_project_index.py",
+        "sha256": "d1f1d58e8f805c05479df1b91c870da0b9bb0c1f2bff5380a60c7b7e960a0f09",
+        "bytes": 5984
+      },
+      {
+        "path": "tests/unit/test_providers.py",
+        "sha256": "1b014fa63a57ac28248c59eea545719c29ccb588d5ac56a5e3a284eb5b1537c3",
+        "bytes": 12628
+      },
+      {
+        "path": "tests/unit/test_role_contracts.py",
+        "sha256": "36bf6042a55a1e563c0066558ed4ca158039dabaff1a0a204b452c6b50550b54",
+        "bytes": 2614
+      },
+      {
+        "path": "tests/unit/test_runtime_composition.py",
+        "sha256": "d550e2f827fbf47cd20c5590019211e7985a833043fe851bf01745962d96a5fd",
+        "bytes": 5939
+      },
+      {
+        "path": "tests/unit/test_security.py",
+        "sha256": "e15f37585ff310f316f76f8e4c48f1024b3d01f9eb642b0516dafa0f6bd24a36",
+        "bytes": 3721
+      },
+      {
+        "path": "tests/unit/test_task_capsule_projections.py",
+        "sha256": "1e63e53ba4c85661d90e0ff02c5d55599bc1c6f5eb20f0796a182d59f33399d8",
+        "bytes": 12919
+      },
+      {
+        "path": "tests/unit/test_task_context_service.py",
+        "sha256": "97b5f69d3d097082a1066808ec026d335bd1b1ae28f400131fa87478f0ccb63a",
+        "bytes": 2920
+      },
+      {
+        "path": "tests/unit/test_task_history.py",
+        "sha256": "af32aa4d8414ae9d0dba6db89a2b52f2e7e0faee83849146d46e0b1342a303a9",
+        "bytes": 4395
+      },
+      {
+        "path": "tests/unit/test_workflow.py",
+        "sha256": "824bfe26880d91db275a736fb5f47ba1fd00e593a736326b7189a50c71bb48be",
+        "bytes": 4278
+      }
+    ]
+  },
+  "original_runner_tests_sha256": "78210db40880297042839e538b84c82f999c43f4e09ac60e745eb4bcf1015eea",
+  "patched_runner_tests_sha256": "1872f53dc960a4463c0b07cc7faf38a36fb5cd3043544477408cebd108809855",
+  "original_graph_test_sha256": "e82b9a9e1876595d9e271514e7a37d9db70387372043e4f1014c671e240fb15b",
+  "patched_graph_test_sha256": "05d99ea9113aacea6f744b496dcf0189eb932cb47363258084f3441a0aae9f9f",
+  "patch": "contract-compatibility-v2.patch",
+  "patch_sha256": "baae2b6951287cd47a91c990a8633da8fecd5d000ac0a73c7277b0cd3ad372d1",
+  "generator_sha256": "e55c9a684cf1a09947c3eb700656f458cec0a2a2a2fdc97760a7e1286c793ca4",
+  "sources": {
+    "baseline": {
+      "expected_parser_profile": "python-ast-v1",
+      "inventory": {
+        "files": [
+          "pyproject.toml",
+          "src/orqalis/__init__.py",
+          "src/orqalis/__main__.py",
+          "src/orqalis/agents/__init__.py",
+          "src/orqalis/agents/roles.py",
+          "src/orqalis/agents/routing.py",
+          "src/orqalis/agents/service.py",
+          "src/orqalis/api/__init__.py",
+          "src/orqalis/api/app.py",
+          "src/orqalis/api/contracts.py",
+          "src/orqalis/api/hosting.py",
+          "src/orqalis/api/scope.py",
+          "src/orqalis/bootstrap.py",
+          "src/orqalis/cli/__init__.py",
+          "src/orqalis/cli/app.py",
+          "src/orqalis/cli/catalog.py",
+          "src/orqalis/cli/control.py",
+          "src/orqalis/cli/dependencies.py",
+          "src/orqalis/cli/goals.py",
+          "src/orqalis/cli/memory.py",
+          "src/orqalis/cli/runs.py",
+          "src/orqalis/cli/tasks.py",
+          "src/orqalis/config/__init__.py",
+          "src/orqalis/config/settings.py",
+          "src/orqalis/context/__init__.py",
+          "src/orqalis/context/agent.py",
+          "src/orqalis/context/builder.py",
+          "src/orqalis/context/models.py",
+          "src/orqalis/context/service.py",
+          "src/orqalis/core/__init__.py",
+          "src/orqalis/core/approval_guard.py",
+          "src/orqalis/core/approval_subjects.py",
+          "src/orqalis/core/approvals.py",
+          "src/orqalis/core/delivery.py",
+          "src/orqalis/core/delivery_plan.py",
+          "src/orqalis/core/executor.py",
+          "src/orqalis/core/external.py",
+          "src/orqalis/core/goals.py",
+          "src/orqalis/core/orchestrator.py",
+          "src/orqalis/core/phases.py",
+          "src/orqalis/core/plan_draft.py",
+          "src/orqalis/core/plan_preview.py",
+          "src/orqalis/core/plan_revision.py",
+          "src/orqalis/core/planning.py",
+          "src/orqalis/core/ports.py",
+          "src/orqalis/core/preview_revision.py",
+          "src/orqalis/core/projects.py",
+          "src/orqalis/core/recovery.py",
+          "src/orqalis/core/repair.py",
+          "src/orqalis/core/replanning.py",
+          "src/orqalis/core/requirements.py",
+          "src/orqalis/core/runtime_support.py",
+          "src/orqalis/core/scheduler.py",
+          "src/orqalis/core/state_machine.py",
+          "src/orqalis/core/task_runtime.py",
+          "src/orqalis/core/vertical_plan.py",
+          "src/orqalis/delivery/__init__.py",
+          "src/orqalis/delivery/commits.py",
+          "src/orqalis/delivery/documentation.py",
+          "src/orqalis/delivery/gates.py",
+          "src/orqalis/delivery/guardian.py",
+          "src/orqalis/delivery/inspection.py",
+          "src/orqalis/delivery/validation.py",
+          "src/orqalis/diagnostics.py",
+          "src/orqalis/domain/__init__.py",
+          "src/orqalis/domain/acceptance.py",
+          "src/orqalis/domain/agent.py",
+          "src/orqalis/domain/approval.py",
+          "src/orqalis/domain/artifact.py",
+          "src/orqalis/domain/base.py",
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/domain/delivery.py",
+          "src/orqalis/domain/errors.py",
+          "src/orqalis/domain/events.py",
+          "src/orqalis/domain/execution.py",
+          "src/orqalis/domain/external.py",
+          "src/orqalis/domain/memory.py",
+          "src/orqalis/domain/plan.py",
+          "src/orqalis/domain/project.py",
+          "src/orqalis/domain/projections.py",
+          "src/orqalis/domain/provider.py",
+          "src/orqalis/domain/run.py",
+          "src/orqalis/domain/task.py",
+          "src/orqalis/domain/telemetry.py",
+          "src/orqalis/domain/timing.py",
+          "src/orqalis/evaluation/__init__.py",
+          "src/orqalis/evaluation/ports.py",
+          "src/orqalis/evaluation/validators.py",
+          "src/orqalis/execution/__init__.py",
+          "src/orqalis/execution/artifacts.py",
+          "src/orqalis/execution/cancellation.py",
+          "src/orqalis/execution/commands.py",
+          "src/orqalis/execution/evaluator.py",
+          "src/orqalis/execution/filesystem.py",
+          "src/orqalis/execution/finding_review.py",
+          "src/orqalis/execution/review.py",
+          "src/orqalis/execution/tool_definitions.py",
+          "src/orqalis/execution/tools.py",
+          "src/orqalis/execution/windows_job.py",
+          "src/orqalis/execution/worker.py",
+          "src/orqalis/execution/workspaces.py",
+          "src/orqalis/git/__init__.py",
+          "src/orqalis/git/contracts.py",
+          "src/orqalis/git/delivery.py",
+          "src/orqalis/git/inspection.py",
+          "src/orqalis/git/service.py",
+          "src/orqalis/graph/__init__.py",
+          "src/orqalis/graph/engine.py",
+          "src/orqalis/graph/models.py",
+          "src/orqalis/indexing/__init__.py",
+          "src/orqalis/indexing/models.py",
+          "src/orqalis/indexing/service.py",
+          "src/orqalis/mcp/__init__.py",
+          "src/orqalis/mcp/policy.py",
+          "src/orqalis/mcp/server.py",
+          "src/orqalis/memory/__init__.py",
+          "src/orqalis/memory/brain.py",
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/memory/curation.py",
+          "src/orqalis/memory/indexing.py",
+          "src/orqalis/memory/ports.py",
+          "src/orqalis/memory/service.py",
+          "src/orqalis/observability/__init__.py",
+          "src/orqalis/observability/activity.py",
+          "src/orqalis/observability/analytics.py",
+          "src/orqalis/observability/event_bus.py",
+          "src/orqalis/observability/instrumentation.py",
+          "src/orqalis/observability/logging.py",
+          "src/orqalis/observability/projections.py",
+          "src/orqalis/observability/timing.py",
+          "src/orqalis/persistence/__init__.py",
+          "src/orqalis/persistence/approval_ports.py",
+          "src/orqalis/persistence/contracts.py",
+          "src/orqalis/persistence/delivery_ports.py",
+          "src/orqalis/persistence/event_ports.py",
+          "src/orqalis/persistence/execution_ports.py",
+          "src/orqalis/persistence/filesystem/__init__.py",
+          "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+          "src/orqalis/persistence/filesystem/io.py",
+          "src/orqalis/persistence/filesystem/layout.py",
+          "src/orqalis/persistence/filesystem/locking.py",
+          "src/orqalis/persistence/filesystem/memory_store.py",
+          "src/orqalis/persistence/filesystem/task_store.py",
+          "src/orqalis/persistence/filesystem/unit_of_work.py",
+          "src/orqalis/persistence/ports.py",
+          "src/orqalis/persistence/provider_ports.py",
+          "src/orqalis/persistence/run_ports.py",
+          "src/orqalis/persistence/runtime_ports.py",
+          "src/orqalis/providers/__init__.py",
+          "src/orqalis/providers/anthropic.py",
+          "src/orqalis/providers/anthropic_schema.py",
+          "src/orqalis/providers/configuration.py",
+          "src/orqalis/providers/errors.py",
+          "src/orqalis/providers/external_cli.py",
+          "src/orqalis/providers/fake.py",
+          "src/orqalis/providers/openai.py",
+          "src/orqalis/providers/openai_schema.py",
+          "src/orqalis/providers/ports.py",
+          "src/orqalis/providers/validation.py",
+          "src/orqalis/py.typed",
+          "src/orqalis/sdk.py",
+          "src/orqalis/security/__init__.py",
+          "src/orqalis/security/redaction.py",
+          "src/orqalis/skills/__init__.py",
+          "src/orqalis/skills/bundled/database-edit/instructions.md",
+          "src/orqalis/skills/bundled/database-edit/skill.toml",
+          "src/orqalis/skills/bundled/documentation-edit/instructions.md",
+          "src/orqalis/skills/bundled/documentation-edit/skill.toml",
+          "src/orqalis/skills/bundled/evidence-review/instructions.md",
+          "src/orqalis/skills/bundled/evidence-review/skill.toml",
+          "src/orqalis/skills/bundled/javascript-edit/instructions.md",
+          "src/orqalis/skills/bundled/javascript-edit/skill.toml",
+          "src/orqalis/skills/bundled/python-edit/instructions.md",
+          "src/orqalis/skills/bundled/python-edit/skill.toml",
+          "src/orqalis/skills/bundled/python-test/instructions.md",
+          "src/orqalis/skills/bundled/python-test/skill.toml",
+          "src/orqalis/skills/bundled/react-edit/instructions.md",
+          "src/orqalis/skills/bundled/react-edit/skill.toml",
+          "src/orqalis/skills/bundled/typescript-edit/instructions.md",
+          "src/orqalis/skills/bundled/typescript-edit/skill.toml",
+          "src/orqalis/skills/registry.py",
+          "src/orqalis/tasks/__init__.py",
+          "src/orqalis/tasks/history.py",
+          "src/orqalis/workspace/__init__.py",
+          "src/orqalis/workspace/manager.py",
+          "uv.lock"
+        ],
+        "sha256": "7dcede8468792d5c51805bb3fc865f09370892ba6ca101d40dcfd6b840fcbad7"
+      }
+    },
+    "current": {
+      "expected_parser_profile": "source-ast-v5;tree-sitter=0.26.0;tree-sitter-javascript=0.25.0;tree-sitter-typescript=0.23.2",
+      "inventory": {
+        "files": [
+          "pyproject.toml",
+          "src/orqalis/__init__.py",
+          "src/orqalis/__main__.py",
+          "src/orqalis/agents/__init__.py",
+          "src/orqalis/agents/roles.py",
+          "src/orqalis/agents/routing.py",
+          "src/orqalis/agents/service.py",
+          "src/orqalis/api/__init__.py",
+          "src/orqalis/api/app.py",
+          "src/orqalis/api/contracts.py",
+          "src/orqalis/api/hosting.py",
+          "src/orqalis/api/scope.py",
+          "src/orqalis/bootstrap.py",
+          "src/orqalis/cli/__init__.py",
+          "src/orqalis/cli/app.py",
+          "src/orqalis/cli/catalog.py",
+          "src/orqalis/cli/control.py",
+          "src/orqalis/cli/dependencies.py",
+          "src/orqalis/cli/goals.py",
+          "src/orqalis/cli/memory.py",
+          "src/orqalis/cli/runs.py",
+          "src/orqalis/cli/tasks.py",
+          "src/orqalis/config/__init__.py",
+          "src/orqalis/config/settings.py",
+          "src/orqalis/context/__init__.py",
+          "src/orqalis/context/agent.py",
+          "src/orqalis/context/builder.py",
+          "src/orqalis/context/models.py",
+          "src/orqalis/context/service.py",
+          "src/orqalis/core/__init__.py",
+          "src/orqalis/core/approval_guard.py",
+          "src/orqalis/core/approval_subjects.py",
+          "src/orqalis/core/approvals.py",
+          "src/orqalis/core/delivery.py",
+          "src/orqalis/core/delivery_plan.py",
+          "src/orqalis/core/executor.py",
+          "src/orqalis/core/external.py",
+          "src/orqalis/core/goals.py",
+          "src/orqalis/core/orchestrator.py",
+          "src/orqalis/core/phases.py",
+          "src/orqalis/core/plan_draft.py",
+          "src/orqalis/core/plan_preview.py",
+          "src/orqalis/core/plan_revision.py",
+          "src/orqalis/core/planning.py",
+          "src/orqalis/core/ports.py",
+          "src/orqalis/core/preview_revision.py",
+          "src/orqalis/core/projects.py",
+          "src/orqalis/core/recovery.py",
+          "src/orqalis/core/repair.py",
+          "src/orqalis/core/replanning.py",
+          "src/orqalis/core/requirements.py",
+          "src/orqalis/core/runtime_support.py",
+          "src/orqalis/core/scheduler.py",
+          "src/orqalis/core/state_machine.py",
+          "src/orqalis/core/task_runtime.py",
+          "src/orqalis/core/vertical_plan.py",
+          "src/orqalis/delivery/__init__.py",
+          "src/orqalis/delivery/commits.py",
+          "src/orqalis/delivery/documentation.py",
+          "src/orqalis/delivery/gates.py",
+          "src/orqalis/delivery/guardian.py",
+          "src/orqalis/delivery/inspection.py",
+          "src/orqalis/delivery/test_integrity.py",
+          "src/orqalis/delivery/validation.py",
+          "src/orqalis/diagnostics.py",
+          "src/orqalis/domain/__init__.py",
+          "src/orqalis/domain/acceptance.py",
+          "src/orqalis/domain/agent.py",
+          "src/orqalis/domain/approval.py",
+          "src/orqalis/domain/artifact.py",
+          "src/orqalis/domain/base.py",
+          "src/orqalis/domain/capabilities.py",
+          "src/orqalis/domain/delivery.py",
+          "src/orqalis/domain/errors.py",
+          "src/orqalis/domain/events.py",
+          "src/orqalis/domain/execution.py",
+          "src/orqalis/domain/external.py",
+          "src/orqalis/domain/memory.py",
+          "src/orqalis/domain/plan.py",
+          "src/orqalis/domain/project.py",
+          "src/orqalis/domain/projections.py",
+          "src/orqalis/domain/provider.py",
+          "src/orqalis/domain/run.py",
+          "src/orqalis/domain/task.py",
+          "src/orqalis/domain/telemetry.py",
+          "src/orqalis/domain/timing.py",
+          "src/orqalis/evaluation/__init__.py",
+          "src/orqalis/evaluation/ports.py",
+          "src/orqalis/evaluation/validators.py",
+          "src/orqalis/execution/__init__.py",
+          "src/orqalis/execution/artifacts.py",
+          "src/orqalis/execution/cancellation.py",
+          "src/orqalis/execution/commands.py",
+          "src/orqalis/execution/evaluator.py",
+          "src/orqalis/execution/filesystem.py",
+          "src/orqalis/execution/finding_review.py",
+          "src/orqalis/execution/review.py",
+          "src/orqalis/execution/sandbox.py",
+          "src/orqalis/execution/tool_definitions.py",
+          "src/orqalis/execution/tools.py",
+          "src/orqalis/execution/windows_job.py",
+          "src/orqalis/execution/worker.py",
+          "src/orqalis/execution/workspaces.py",
+          "src/orqalis/git/__init__.py",
+          "src/orqalis/git/contracts.py",
+          "src/orqalis/git/delivery.py",
+          "src/orqalis/git/inspection.py",
+          "src/orqalis/git/service.py",
+          "src/orqalis/graph/__init__.py",
+          "src/orqalis/graph/ecmascript.py",
+          "src/orqalis/graph/engine.py",
+          "src/orqalis/graph/models.py",
+          "src/orqalis/graph/parsing.py",
+          "src/orqalis/graph/queries.py",
+          "src/orqalis/graph/symbols.py",
+          "src/orqalis/indexing/__init__.py",
+          "src/orqalis/indexing/models.py",
+          "src/orqalis/indexing/service.py",
+          "src/orqalis/mcp/__init__.py",
+          "src/orqalis/mcp/policy.py",
+          "src/orqalis/mcp/server.py",
+          "src/orqalis/memory/__init__.py",
+          "src/orqalis/memory/brain.py",
+          "src/orqalis/memory/curated.py",
+          "src/orqalis/memory/curation.py",
+          "src/orqalis/memory/indexing.py",
+          "src/orqalis/memory/navigation.py",
+          "src/orqalis/memory/ports.py",
+          "src/orqalis/memory/service.py",
+          "src/orqalis/observability/__init__.py",
+          "src/orqalis/observability/activity.py",
+          "src/orqalis/observability/analytics.py",
+          "src/orqalis/observability/event_bus.py",
+          "src/orqalis/observability/instrumentation.py",
+          "src/orqalis/observability/logging.py",
+          "src/orqalis/observability/projections.py",
+          "src/orqalis/observability/timing.py",
+          "src/orqalis/observability/trace.py",
+          "src/orqalis/persistence/__init__.py",
+          "src/orqalis/persistence/approval_ports.py",
+          "src/orqalis/persistence/contracts.py",
+          "src/orqalis/persistence/delivery_ports.py",
+          "src/orqalis/persistence/event_ports.py",
+          "src/orqalis/persistence/execution_ports.py",
+          "src/orqalis/persistence/filesystem/__init__.py",
+          "src/orqalis/persistence/filesystem/auxiliary_stores.py",
+          "src/orqalis/persistence/filesystem/io.py",
+          "src/orqalis/persistence/filesystem/layout.py",
+          "src/orqalis/persistence/filesystem/locking.py",
+          "src/orqalis/persistence/filesystem/memory_store.py",
+          "src/orqalis/persistence/filesystem/task_store.py",
+          "src/orqalis/persistence/filesystem/unit_of_work.py",
+          "src/orqalis/persistence/ports.py",
+          "src/orqalis/persistence/provider_ports.py",
+          "src/orqalis/persistence/run_ports.py",
+          "src/orqalis/persistence/runtime_ports.py",
+          "src/orqalis/providers/__init__.py",
+          "src/orqalis/providers/anthropic.py",
+          "src/orqalis/providers/anthropic_schema.py",
+          "src/orqalis/providers/configuration.py",
+          "src/orqalis/providers/errors.py",
+          "src/orqalis/providers/external_cli.py",
+          "src/orqalis/providers/fake.py",
+          "src/orqalis/providers/openai.py",
+          "src/orqalis/providers/openai_schema.py",
+          "src/orqalis/providers/ports.py",
+          "src/orqalis/providers/validation.py",
+          "src/orqalis/py.typed",
+          "src/orqalis/retrieval.py",
+          "src/orqalis/sdk.py",
+          "src/orqalis/security/__init__.py",
+          "src/orqalis/security/redaction.py",
+          "src/orqalis/skills/__init__.py",
+          "src/orqalis/skills/bundled/database-edit/instructions.md",
+          "src/orqalis/skills/bundled/database-edit/skill.toml",
+          "src/orqalis/skills/bundled/documentation-edit/instructions.md",
+          "src/orqalis/skills/bundled/documentation-edit/skill.toml",
+          "src/orqalis/skills/bundled/evidence-review/instructions.md",
+          "src/orqalis/skills/bundled/evidence-review/skill.toml",
+          "src/orqalis/skills/bundled/javascript-edit/instructions.md",
+          "src/orqalis/skills/bundled/javascript-edit/skill.toml",
+          "src/orqalis/skills/bundled/python-edit/instructions.md",
+          "src/orqalis/skills/bundled/python-edit/skill.toml",
+          "src/orqalis/skills/bundled/python-test/instructions.md",
+          "src/orqalis/skills/bundled/python-test/skill.toml",
+          "src/orqalis/skills/bundled/react-edit/instructions.md",
+          "src/orqalis/skills/bundled/react-edit/skill.toml",
+          "src/orqalis/skills/bundled/typescript-edit/instructions.md",
+          "src/orqalis/skills/bundled/typescript-edit/skill.toml",
+          "src/orqalis/skills/markdown.py",
+          "src/orqalis/skills/registry.py",
+          "src/orqalis/tasks/__init__.py",
+          "src/orqalis/tasks/history.py",
+          "src/orqalis/workspace/__init__.py",
+          "src/orqalis/workspace/manager.py",
+          "uv.lock"
+        ],
+        "sha256": "e0d248ce0fa01853c51d6eb16de72c8513adf0b3a094b9cedf5ec31a9bc608e6"
+      }
+    }
+  },
+  "sources_stable": true,
+  "tests_root": "S:\\Orqalis\\.tools\\research\\contract-tests-v2",
+  "validation": {
+    "baseline": {
+      "exit_code": 0,
+      "junit": {
+        "kind": "deterministic-pytest-contracts",
+        "junit_sha256": "d3f5f60f3813400e82e1e504076d1e41eb941976adc702f5db0976e1383b1c00",
+        "files": {
+          "tests/unit/test_project_graph.py": {
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "errors": 0
+          }
+        },
+        "test_count": 1,
+        "unmatched_cases": [],
+        "suite_errors": 0,
+        "complete": true,
+        "passed": true,
+        "live_engineering_task_success": null
+      },
+      "log": "contract-compatibility-v2-baseline.log",
+      "junit_sha256": "d3f5f60f3813400e82e1e504076d1e41eb941976adc702f5db0976e1383b1c00",
+      "log_sha256": "05cf29ec866f3e9e5b7bec593e2c9adbb96a5d340219c19734b34592ae4a6d7a"
+    },
+    "current": {
+      "exit_code": 0,
+      "junit": {
+        "kind": "deterministic-pytest-contracts",
+        "junit_sha256": "7234fd38d86c3314a82bef2ef5d8c0aadbe5b38dd6d2c2e7e1b7919023b57bd2",
+        "files": {
+          "tests/unit/test_project_graph.py": {
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "errors": 0
+          }
+        },
+        "test_count": 1,
+        "unmatched_cases": [],
+        "suite_errors": 0,
+        "complete": true,
+        "passed": true,
+        "live_engineering_task_success": null
+      },
+      "log": "contract-compatibility-v2-current.log",
+      "junit_sha256": "7234fd38d86c3314a82bef2ef5d8c0aadbe5b38dd6d2c2e7e1b7919023b57bd2",
+      "log_sha256": "d62923e8c2d8084ee94ae993b2a85f88a81ffe59534d03fd0cee96dbc3bea2fa"
+    }
+  }
+}

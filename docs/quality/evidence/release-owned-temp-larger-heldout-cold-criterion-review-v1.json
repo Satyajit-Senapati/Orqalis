@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-07T10:05:36.614348+00:00",
+  "reviewer": "release_acceptance_review",
+  "status": "EXPLICIT_COLD_INVESTIGATION_PENDING_NOT_CORRECTNESS_P1",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "supplements": "release-owned-temp-current-measurements-preliminary-acceptance-v1.json",
+  "named_reports_sha256": {
+    "release-heldout-current-owned-temp-release-v1.json": "a4ba759d7a91dcf8679ae8641267cc30003a85342bdf02d24ac6d09779a5223b",
+    "release-current-benchmark-independent-review-v12.json": "b7520903d3e769eea4c0c19a5a17c8229e467d5c2ec592509886fdd60870df3c",
+    "release-heldout-baseline-v15.json": "526aa065ae32cc8bcb70671cc2742f25bd1f5c4dcd4ac035b90e98c4c6e90089",
+    "release-heldout-baseline-v12.json": "5fa25897749945f9ee53b82ab541c93b7f831eba8d7de92d8d24ea49ab0fb226",
+    "release-heldout-baseline-v5.json": "a7ca84db9ae6f9f4cb1247cc5c71da2845ddb64350c6f76a13ad5d41f04e94f8",
+    "release-heldout-current-final-fixes-v1.json": "19260030b5a48e0db889004e75c5360bfd95337dcb0bbda941018a31a4180b8f",
+    "release-heldout-current-v12.json": "de5dadb55232af310c707562d4253c6a0745c636a0f43ad821372ce78e8fd560",
+    "release-heldout-current-v15.json": "c8316b91794ee940d57f97c0979708bb3ea058eb1b9afa2bfa164aefc603e9d6"
+  },
+  "scope": "Read-only named historical/current larger-heldout JSON and original criterion; no new timing, imports, source/dependency scans or threshold changes.",
+  "criterion": "Existing2*baseline+250ms is an investigation trigger, separate from functional helper PASS and not an absolute product SLO. Master53 still requires explanation of benchmark degradation.",
+  "actual_current_functional_status": "PASS",
+  "all_original_reference_comparisons": {
+    "release-heldout-baseline-v15.json": [
+      {
+        "metric": "cold_graph_ms",
+        "baseline_ms": 3127.665700012585,
+        "current_ms": 8011.4348999923095,
+        "investigation_threshold_ms": 6505.33140002517,
+        "triggered": true,
+        "excess_ms": 1506.1034999671392
+      },
+      {
+        "metric": "warm_graph_median_ms",
+        "baseline_ms": 695.4633000132162,
+        "current_ms": 403.6428000545129,
+        "investigation_threshold_ms": 1640.9266000264324,
+        "triggered": false,
+        "excess_ms": 0
+      },
+      {
+        "metric": "one_file_graph_ms",
+        "baseline_ms": 2927.4301000114065,
+        "current_ms": 1999.0730999270454,
+        "investigation_threshold_ms": 6104.860200022813,
+        "triggered": false,
+        "excess_ms": 0
+      },
+      {
+        "metric": "context_median_ms",
+        "baseline_ms": 1343.7202000059187,
+        "current_ms": 781.1995999654755,
+        "investigation_threshold_ms": 2937.4404000118375,
+        "triggered": false,
+        "excess_ms": 0
+      }
+    ],
+    "release-heldout-baseline-v12.json": [
+      {
+        "metric": "cold_graph_ms",
+        "baseline_ms": 2271.238099987386,
+        "current_ms": 8011.4348999923095,
+        "investigation_threshold_ms": 4792.476199974772,
+        "triggered": true,
+        "excess_ms": 3218.958700017538
+      },
+      {
+        "metric": "warm_graph_median_ms",
+        "baseline_ms": 452.9529999999795,
+        "current_ms": 403.6428000545129,
+        "investigation_threshold_ms": 1155.905999999959,
+        "triggered": false,
+        "excess_ms": 0
+      },
+      {
+        "metric": "one_file_graph_ms",
+        "baseline_ms": 1920.2874999900814,
+        "current_ms": 1999.0730999270454,
+        "investigation_threshold_ms": 4090.574999980163,
+        "triggered": false,
+        "excess_ms": 0
+      },
+      {
+        "metric": "context_median_ms",
+        "baseline_ms": 975.133600004483,
+        "current_ms": 781.1995999654755,
+        "investigation_threshold_ms": 2200.267200008966,
+        "triggered": false,
+        "excess_ms": 0
+      }
+    ],
+    "release-heldout-baseline-v5.json": [
+      {
+        "metric": "cold_graph_ms",
+        "baseline_ms": 1823.0894999869633,
+        "current_ms": 8011.4348999923095,
+        "investigation_threshold_ms": 3896.1789999739267,
+        "triggered": true,
+        "excess_ms": 4115.255900018383
+      },
+      {
+        "metric": "warm_graph_median_ms",
+        "baseline_ms": 394.1178000095533,
+        "current_ms": 403.6428000545129,
+        "investigation_threshold_ms": 1038.2356000191066,
+        "triggered": false,
+        "excess_ms": 0
+      },
+      {
+        "metric": "one_file_graph_ms",
+        "baseline_ms": 1828.3687999937683,
+        "current_ms": 1999.0730999270454,
+        "investigation_threshold_ms": 3906.7375999875367,
+        "triggered": false,
+        "excess_ms": 0
+      },
+      {
+        "metric": "context_median_ms",
+        "baseline_ms": 681.7417999991449,
+        "current_ms": 781.1995999654755,
+        "investigation_threshold_ms": 1613.4835999982897,
+        "triggered": false,
+        "excess_ms": 0
+      }
+    ]
+  },
+  "same_rich_representation_history": {
+    "release-heldout-current-final-fixes-v1.json": {
+      "source_sha256": "b89701256391d82bd51a347e5fe02ff4293c32b2a59b167ac492559041f0cc30",
+      "cold_graph_ms": 6888.331599999219,
+      "warm_graph_median_ms": 1168.6762999743223,
+      "one_file_graph_ms": 5800.631999969482,
+      "context_median_ms": 1681.7084000213072,
+      "graph_nodes": 11505,
+      "graph_edges": 13575,
+      "graph_bytes": 8253391,
+      "store_bytes": 39782427,
+      "query_python_peak_allocated_bytes": 56666570
+    },
+    "release-heldout-current-v12.json": {
+      "source_sha256": "79708defe1e43dc90b33a9e79bbe05de5ee913af12ecaee3b161417732600a35",
+      "cold_graph_ms": 2736.676800006535,
+      "warm_graph_median_ms": 447.10309998481534,
+      "one_file_graph_ms": 2308.1860000093,
+      "context_median_ms": 893.304099998204,
+      "graph_nodes": 11505,
+      "graph_edges": 13575,
+      "graph_bytes": 8253391,
+      "store_bytes": 39782372,
+      "query_python_peak_allocated_bytes": 56666583
+    },
+    "release-heldout-current-v15.json": {
+      "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+      "cold_graph_ms": 3295.531800016761,
+      "warm_graph_median_ms": 554.1328999970574,
+      "one_file_graph_ms": 3323.4217999852262,
+      "context_median_ms": 1206.5867000201251,
+      "graph_nodes": 11505,
+      "graph_edges": 13575,
+      "graph_bytes": 8253391,
+      "store_bytes": 39782372,
+      "query_python_peak_allocated_bytes": 56666531
+    }
+  },
+  "representation_costs_vs_v15": {
+    "graph_nodes": {
+      "baseline": 3533,
+      "current": 11505,
+      "ratio": 3.2564392867251626
+    },
+    "graph_edges": {
+      "baseline": 10003,
+      "current": 13575,
+      "ratio": 1.3570928721383584
+    },
+    "graph_bytes": {
+      "baseline": 4849687,
+      "current": 8253391,
+      "ratio": 1.7018399331750689
+    },
+    "index_bytes": {
+      "baseline": 9501365,
+      "current": 28852909,
+      "ratio": 3.03671198822485
+    },
+    "store_bytes": {
+      "baseline": 16293933,
+      "current": 39782462,
+      "ratio": 2.4415506065969463
+    },
+    "query_python_peak_allocated_bytes": {
+      "baseline": 30500989,
+      "current": 56666577,
+      "ratio": 1.8578603139721142
+    }
+  },
+  "disposition": [
+    "Current cold8011.4349ms crosses all three named historical cold investigation lines, including v15 by1506.1035ms. Must be addressed explicitly before final performance/convergence acceptance.",
+    "Current warm/delta/context do not cross any of these named thresholds; retain all values rather than replace colder sample with prior faster current.",
+    "Output structure is identical11505nodes/13575edges/8253391graphbytes across retained rich-feature currents. This is structural evidence, not proof that parser, validation, ownership guards, writes, allocator or host costs are identical.",
+    "Richer declaration/symbol/provenance representation justifies material storage/allocation cost; it does not by itself identify this particular cold-duration excess.",
+    "Current-only versus historical baselines has no paired contemporaneous cold observation and raw helper retains one rebuild sample without per-phase counters. No host/security-agent or regression cause inferred.",
+    "No confirmed current P0/P1 correctness defect or broken accepted feature follows from the threshold crossing alone. The open issue is performance explanation/disposition."
+  ],
+  "next_bounded_evidence": "Use retained executed-path/phase evidence and current-vs-retained method identity to determine explainable added work. If evidence is insufficient, explicitly retain the performance blocker and choose one prospective finite diagnostic for a concrete phase hypothesis; no unchanged random rerun, faster-sample substitution or tolerance relaxation.",
+  "preliminary_execution_disposition_unchanged": "Current six execution samples lower than all nine retained samples; this does not automatically close unrelated larger-corpus cold concern.",
+  "full31_pending": true,
+  "accepted_convergence_iterations": 0,
+  "registry_promotion": false,
+  "release_ready": false
+}

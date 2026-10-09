@@ -2,20 +2,25 @@
 
 from __future__ import annotations
 
+import base64
+import binascii
+import hashlib
+import json
+import os
 import re
 from pathlib import Path
-from typing import cast
+from typing import Literal, cast
 from uuid import UUID
 
 from pydantic import Field, JsonValue, ValidationError
 
 from orqalis.context.models import ProjectContextPack
 from orqalis.domain.base import Contract
-from orqalis.domain.errors import ConflictError, InputError, NotFoundError
+from orqalis.domain.errors import ConflictError, InputError, NotFoundError, PolicyDeniedError
 from orqalis.persistence.filesystem.io import (
-    ensure_no_filesystem_links,
     read_json_object,
     read_jsonl,
+    read_text,
 )
 from orqalis.persistence.filesystem.layout import load_manifest, resolve_project_root
 from orqalis.persistence.filesystem.task_store import TaskCapsuleStore
@@ -37,6 +42,22 @@ class TaskHistoryEntry(Contract):
     acceptance_result: str | None = None
     agents: tuple[str, ...] = ()
     tags: tuple[str, ...] = ()
+
+
+class TaskHistoryPage(Contract):
+    """A bounded page from one root-bound compact task-index revision."""
+
+    items: tuple[TaskHistoryEntry, ...]
+    total: int = Field(ge=0)
+    revision: str
+    next_cursor: str | None = None
+
+
+class _HistoryCursor(Contract):
+    version: Literal[1] = 1
+    scope: str = Field(pattern=r"^[a-f0-9]{64}$")
+    revision: str = Field(pattern=r"^[a-f0-9]{64}$")
+    offset: int = Field(ge=1, strict=True)
 
 
 class TaskCapsuleView(Contract):
@@ -61,14 +82,74 @@ class TaskHistoryService:
     def list(self, limit: int = 100) -> tuple[TaskHistoryEntry, ...]:
         if not 1 <= limit <= 10_000:
             raise InputError("Task history limit must be between 1 and 10000")
-        self.store.rebuild_index()
-        document = read_json_object(self.layout.tasks / "index.json")
-        raw = document.get("tasks")
-        if not isinstance(raw, list):
-            raise ConflictError("Task history index is invalid")
+        raw = self.store.read_index()
         entries = [self._entry_from_index(value) for value in raw]
         entries.sort(key=lambda item: (item.created_at, item.id), reverse=True)
         return tuple(entries[:limit])
+
+    def page(self, limit: int = 50, cursor: str | None = None) -> TaskHistoryPage:
+        """Page compact index summaries; restart pagination when this index changes.
+
+        Cursors are opaque position tokens, not credentials. They cannot select a root
+        or path and never grant access beyond this service's bound project.
+        """
+        if not 1 <= limit <= 100:
+            raise InputError("Task page limit must be between 1 and 100")
+        position = None
+        if cursor is not None:
+            try:
+                if len(cursor) > 1024 or re.fullmatch(r"[A-Za-z0-9_-]+", cursor) is None:
+                    raise ValueError
+                data = base64.b64decode(
+                    cursor + "=" * (-len(cursor) % 4), altchars=b"-_", validate=True
+                )
+                position = _HistoryCursor.model_validate_json(data)
+            except (ValueError, binascii.Error):
+                raise InputError("Invalid task history cursor") from None
+        manifest = load_manifest(self.layout)
+        project = manifest.get("project")
+        if not isinstance(project, dict):
+            raise ConflictError("Task history project identity is invalid")
+        scope = hashlib.sha256(
+            json.dumps(
+                [os.path.normcase(str(self.root)), self._required(project.get("id"), "project ID")],
+                separators=(",", ":"),
+            ).encode()
+        ).hexdigest()
+        if position is not None and position.scope != scope:
+            raise PolicyDeniedError("Task history cursor belongs to another project root")
+        raw = self.store.read_index()
+        try:
+            entries = [TaskHistoryEntry.model_validate(value) for value in raw]
+        except ValidationError:
+            raise ConflictError("Task history index contains an invalid entry") from None
+        entries.sort(key=lambda item: (item.created_at, item.id), reverse=True)
+        revision = hashlib.sha256(
+            json.dumps(
+                [entry.model_dump(mode="json") for entry in entries],
+                sort_keys=True,
+                separators=(",", ":"),
+            ).encode()
+        ).hexdigest()
+        offset = position.offset if position is not None else 0
+        if position is not None and position.revision != revision:
+            raise ConflictError("Task history changed; restart pagination without a cursor")
+        if position is not None and offset >= len(entries):
+            raise InputError("Task history cursor position is invalid")
+        items = tuple(entries[offset : offset + limit])
+        following = offset + len(items)
+        next_cursor = None
+        if following < len(entries):
+            cursor_json = _HistoryCursor(
+                scope=scope, revision=revision, offset=following
+            ).model_dump_json()
+            next_cursor = base64.urlsafe_b64encode(cursor_json.encode()).decode().rstrip("=")
+        return TaskHistoryPage(
+            items=items,
+            total=len(entries),
+            revision=revision,
+            next_cursor=next_cursor,
+        )
 
     def get(self, task_id: str) -> TaskCapsuleView:
         capsule = self._capsule(task_id)
@@ -78,9 +159,7 @@ class TaskHistoryService:
         if not request_path.is_file():
             raise ConflictError("Task Capsule request is missing")
         try:
-            request = (
-                ensure_no_filesystem_links(request_path).read_text(encoding="utf-8").rstrip("\n")
-            )
+            request = read_text(request_path).rstrip("\n")
         except (OSError, UnicodeDecodeError) as exc:
             raise ConflictError("Task Capsule request is unreadable") from exc
         state = read_json_object(capsule / "execution" / "state.yaml")
@@ -107,11 +186,7 @@ class TaskHistoryService:
                 documents[relative] = cast(dict[str, JsonValue], value)
         summary_path = capsule / "final" / "summary.md"
         try:
-            summary = (
-                ensure_no_filesystem_links(summary_path).read_text(encoding="utf-8")
-                if summary_path.is_file()
-                else None
-            )
+            summary = read_text(summary_path) if summary_path.is_file() else None
         except (OSError, UnicodeDecodeError) as exc:
             raise ConflictError("Task Capsule final summary is unreadable") from exc
         events_path = capsule / "execution" / "events.jsonl"
@@ -151,9 +226,7 @@ class TaskHistoryService:
             summary = ""
             if summary_path.is_file():
                 try:
-                    summary = ensure_no_filesystem_links(summary_path).read_text(encoding="utf-8")[
-                        :16_000
-                    ]
+                    summary = read_text(summary_path)[:16_000]
                 except (OSError, UnicodeDecodeError):
                     summary = ""
             text = f"{entry.title} {' '.join(entry.tags)} {summary}".casefold()
@@ -283,4 +356,4 @@ class TaskHistoryService:
         return value if isinstance(value, str) and value else None
 
 
-__all__ = ["TaskCapsuleView", "TaskHistoryEntry", "TaskHistoryService"]
+__all__ = ["TaskCapsuleView", "TaskHistoryEntry", "TaskHistoryPage", "TaskHistoryService"]

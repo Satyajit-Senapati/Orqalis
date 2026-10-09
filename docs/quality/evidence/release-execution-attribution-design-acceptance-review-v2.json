@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03T22:42:38.933731+00:00",
+  "status": "APPROVED_PROSPECTIVE_ATTRIBUTION_DIAGNOSTIC_ONLY_AFTER_FULL21_CLOSED_AND_EXACT_QUIET_ACK",
+  "runner": ".tools\\research\\release_execution_attribution_v2.py",
+  "runner_sha256": "150b88af6c40a0e33d25b9d7df61adf2b83f44f48008faaf25d834e73be6751b",
+  "plan": ".tools\\research\\release-execution-attribution-plan-v2.json",
+  "plan_sha256": "60685078379a9c75050aee048dd904efa3f4af46b46f531cf2f566729288e140",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "97e7f0a386979e296c6ee8581c4edcadf7b48c8d9565540e5443f62531ebcb9f",
+  "checks": {
+    "worker_inverse_ast_equal": true,
+    "original_worker_ast_sha256": "eb0ce0a87780a54ea117371e240bfbf4778ca88f9dd42ee64cecc8f6c23fe77d",
+    "original_worker_source_sha256": "5b2a3415bffaa7dbdbe63aaa6d528455cbd85b86787d14d815a5b13185251fd9",
+    "exact_original26_semantic_and4_stability_keys": true,
+    "original5s_parallel_fixture_and300s_worker_budget_unchanged": true,
+    "same_fixture_helpers_setup_and_worker_code": true,
+    "two_native_bundles_outside_original_wall_clock": true,
+    "two_scalar_return_additions_after_original_capture": true,
+    "copied_nine_native_lifecycle_definitions_ast_exact_v4": true,
+    "future18paths_unique_absent": true,
+    "all_named_plan_bindings_exact": {
+      "scripts/benchmark_execution.py": true,
+      "tests/__init__.py": true,
+      "tests/support/filesystem.py": true,
+      "tests/support/trace_fixture.py": true,
+      "docs/quality/evidence/release-input-freeze-cleanup-portable-v3.json": true,
+      "docs/quality/evidence/release-private-helper-inventory-windows-cleanup-typed-v2.json": true,
+      "docs/quality/evidence/release-private-helper-inventory-portable-reuse-v2.json": true,
+      "docs/quality/evidence/release-source-freeze-portable-reuse-accepted-v2.json": true,
+      "docs/quality/evidence/release-execution-reference-policy-v7.json": true,
+      "docs/quality/evidence/release-execution-baseline-diagnostic.json": true,
+      "docs/quality/evidence/release-execution-baseline-2.json": true,
+      "docs/quality/evidence/release-execution-baseline-8-fixed-diagnostic-v1.json": true,
+      "docs/quality/evidence/release-execution-current-20.json": true,
+      "docs/quality/evidence/release-execution-current-21.json": true,
+      "docs/quality/evidence/release-master53-performance-blocker-addendum-v1.json": true,
+      ".tools/research/release_history_matched_package_v4.py": true,
+      ".tools/research/release-history-matched-package-plan-v4.json": true
+    },
+    "schema_fields_compatible_both_selected_sources": {
+      "B": {
+        ".tools\\research\\baseline-b8506f7\\src\\orqalis\\domain\\projections.py": "7abd9113b4fde8ad1a59476e71f299fbf0b9ae068ae705eee1cbcd94d4ae110c",
+        ".tools\\research\\baseline-b8506f7\\src\\orqalis\\domain\\telemetry.py": "d595454480e730d1141b5d65bf14274d3d820b88f99b335a5d74be132d0790e1",
+        ".tools\\research\\baseline-b8506f7\\src\\orqalis\\domain\\timing.py": "3f2acde63b9e9170107662df2ee6cd95594f8b2630abd19e632fe4092accaa54",
+        ".tools\\research\\baseline-b8506f7\\src\\orqalis\\domain\\agent.py": "9362b3fd46abcb868c830fc7f26076bf35e89f1a2ee95e6d57a69e3c7babab34",
+        ".tools\\research\\baseline-b8506f7\\src\\orqalis\\domain\\execution.py": "852eab8f1f22e61ff2ecef2fa714a2f40a831bec5a9f8d139fcc48ff739b6757",
+        ".tools\\research\\baseline-b8506f7\\src\\orqalis\\domain\\events.py": "9dddba28cc69ab0f998682a37b1057b4ff016357eee1b45ca551e9a8c75d898b"
+      },
+      "C": {
+        "src\\orqalis\\domain\\projections.py": "5d4b269b8ea87d9ed79e38978afc8b376eb20812aa38dc8539fbbbf5a8a01f47",
+        "src\\orqalis\\domain\\telemetry.py": "b70ba84930291a397e24cc6c63f17bdd5e0283ad94bd27aeec7a75d563039590",
+        "src\\orqalis\\domain\\timing.py": "3f2acde63b9e9170107662df2ee6cd95594f8b2630abd19e632fe4092accaa54",
+        "src\\orqalis\\domain\\agent.py": "459320ae35d1987e8c4ee710807b24ae0d3caa714aba199c6492a0e4f95a59f9",
+        "src\\orqalis\\domain\\execution.py": "ac31c9f95a83597765eea922c37f899590eb2a084a20c3ec106638f3bcea5de0",
+        "src\\orqalis\\domain\\events.py": "6e0ba26b50c96ade002f093aefba5d8fbbcf0a69528b2bf1e0fd87c229a0a78c"
+      }
+    },
+    "no_product_methods_hooks_or_profiler_mutated": true
+  },
+  "launch_conditions": [
+    "Actualfull21 and outer coordinator closed before any invocation, no other owned workload; root owns exact plan/runner ACK.",
+    "ExactlyoneB thenoneC; no retry/role reorder/old sample substitution.",
+    "Source390/originalnew19/environment/fixture/plan/ACK guards invoked by runner before/after; this static review did not execute full inventories or native queries.",
+    "Any guard/functional/ownership/timeout/observer failure blocks next role and diagnostic is INVALID."
+  ],
+  "attribution_limits": [
+    "Self-process native CPU/IO/fault/cycle deltas plus persisted phase/provider/tool/actor/event intervals can distinguish added aggregate work and localize wall intervals. They do not measure per-phase CPU or childGit/tool CPU/IO.",
+    "One fixedB/C pair is diagnostic; cannot replace sixcurrent or ninebaseline samples, establish statistical equivalence or erase earlier slowdowns.",
+    "Directquery<1% screen includesbothbundles/eachequalbound but is not totalobserver perturbation or hostquietproof; two native bundles may contribute boundaryCPU/IO.",
+    "Persisted wall intervals overlap; do not sum or call ACTIVE CPU. ID/time/status-only allowlist excludes payload contents and model outputs.",
+    "Master53performance blocker remains until independently supported explanation; no automatic acceptance if diagnostic returns0."
+  ],
+  "master53_blocker_retained": true,
+  "release_acceptance_credit": 0,
+  "workloads_invoked": 0,
+  "product_imports_or_native_queries_invoked": 0,
+  "original_evidence_modified": false,
+  "review_scope": "Exact staged source/plan/worker/native definitions and named model fields inspected throughAST only. All actual model fields checked in bothsources, includingProviderCallProjection rather than assumingProviderExecution. No source/tests/protectedhelpers/publicdocs edits.",
+  "no_commit_or_publication": true
+}

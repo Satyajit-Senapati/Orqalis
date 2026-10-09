@@ -1,0 +1,58 @@
+{
+  "status": "VALID_DIAGNOSTIC_SNAPSHOT_READ_LOCALIZED_MASTER53_PENDING",
+  "reviewed_at": "2026-10-07T10:46:41.036632+00:00",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "evidence_sha256": {
+    "release-heldout-cold-phase-observation-v3.json": "ac0e76de1283f2ddcbf95aecb1e2e07742c44f6c7ecab84e192929c682a4bc4e",
+    "release-heldout-cold-phase-outer-v4.json": "de97956ffc6e39c1c9a6d5de2b38a8028f6d1ed1c851867de398d331d887107e"
+  },
+  "validity": {
+    "observed_exit_zero_reaped_job_closed_empty": true,
+    "log_hash_matches": true,
+    "natural_delegation_and_restoration_proofs": true,
+    "cache_hits": 263,
+    "parse_calls": 0
+  },
+  "diagnostic_cold_ms": 4451.1887999251485,
+  "cache_phase": {
+    "calls": 263,
+    "inclusive_wall_ns": 3050864100,
+    "exclusive_wall_ns": 67348500,
+    "inclusive_thread_cpu_ns": 468750000,
+    "exclusive_thread_cpu_ns": 15625000
+  },
+  "cache_direct_children": {
+    "storage-target": {
+      "calls": 263,
+      "wall_ns": 323340000,
+      "thread_cpu_ns": 218750000
+    },
+    "io-path-guard": {
+      "calls": 263,
+      "wall_ns": 29270100,
+      "thread_cpu_ns": 15625000
+    },
+    "snapshot-read": {
+      "calls": 263,
+      "wall_ns": 2590651100,
+      "thread_cpu_ns": 203125000
+    },
+    "json-decode": {
+      "calls": 263,
+      "wall_ns": 40254400,
+      "thread_cpu_ns": 15625000
+    }
+  },
+  "original_qualified_cold_ms_retained": 8011.4348999923095,
+  "investigation_trigger_ms_retained": 6505.33140002517,
+  "interpretation": [
+    "Snapshot open/read/close dominates the measured cache-read wall time. Caller-thread CPU is much smaller; no specific native-open, filesystem, scheduler, security-agent or external-host cause is proven.",
+    "The prior same-current cache stage was 6458.119 ms and this diagnostic is 3050.8641 ms. This demonstrates observed variability without replacing original timing or proving why it varied.",
+    "Cache-exclusive residual includes unobserved work and observer overhead; it is not pure model-validation CPU. Snapshot-read transferred bytes were not observed in this phase diagnostic."
+  ],
+  "next_finite_mechanism_check": "Compare builtin and current native snapshot readers on the same immutable cache references in predefined opposed orders, retain every observation, verify exact bytes/hash after each read, and observe only the natural native opener subinterval. Builtin is a diagnostic control with different sharing/reparse semantics, never a production fallback.",
+  "master53": "PENDING_MECHANISM_EXPLANATION; no criterion waiver, convergence promotion or confirmed correctness P1 inferred",
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false
+}

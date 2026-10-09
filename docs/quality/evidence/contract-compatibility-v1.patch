@@ -1,0 +1,75 @@
+--- a/tests/unit/test_project_graph.py
++++ b/tests/unit/test_project_graph.py
+@@ -130,11 +130,70 @@
+         edge.relation == GraphRelation.TESTS and edge.provenance == GraphProvenance.INFERRED
+         for edge in result.graph.edges
+     )
++    # G01 compatibility-v1: exact declared semantics, never a provenance waiver.
++    profiles = {
++        "python-ast-v1": "legacy_extracted_bindings",
++        "source-ast-v4;tree-sitter=0.26.0;tree-sitter-javascript=0.25.0;"
++        "tree-sitter-typescript=0.23.2": "candidate_bindings",
++    }
++    assert result.graph.parser_version == result.manifest.parser_version
++    assert result.graph.parser_version in profiles, "Unreviewed parser semantics"
++    profile = profiles[result.graph.parser_version]
+     assert all(
+         edge.provenance == GraphProvenance.EXTRACTED
+         for edge in result.graph.edges
+-        if edge.relation in {GraphRelation.IMPORTS, GraphRelation.CALLS, GraphRelation.EXTENDS}
+-    )
++        if edge.relation == GraphRelation.IMPORTS
++    )
++    nodes = {node.id: node for node in result.graph.nodes}
++    bindings = tuple(
++        edge
++        for edge in result.graph.edges
++        if edge.relation in {GraphRelation.CALLS, GraphRelation.EXTENDS}
++    )
++    assert bindings
++    for edge in bindings:
++        assert edge.source_id in nodes and edge.target_id in nodes
++        assert edge.evidence
++        for location in edge.evidence:
++            path, line = location.rsplit(":", 1)
++            assert path == nodes[edge.source_id].file_path
++            assert line.isdigit() and 1 <= int(line) <= len(
++                (git_repo / path).read_text(encoding="utf-8").splitlines()
++            )
++        if profile == "legacy_extracted_bindings":
++            # Preserve the documented old contract without calling it sound binding proof.
++            assert edge.provenance == GraphProvenance.EXTRACTED
++            assert edge.confidence == 1
++        else:
++            assert edge.source_expressions and all(edge.source_expressions)
++            target = nodes[edge.target_id]
++            if target.kind == GraphNodeKind.REFERENCE:
++                assert edge.provenance == GraphProvenance.EXTRACTED
++                assert edge.confidence == 1
++                assert edge.resolution_basis == ("syntax_occurrence",)
++                assert target.metadata["resolution"] == "unresolved"
++            else:
++                assert edge.provenance == GraphProvenance.INFERRED
++                assert 0 < edge.confidence < 1
++                assert edge.resolution_basis
++                assert set(edge.resolution_basis) <= {
++                    "lexical_candidate", "import_candidate", "class_member_candidate"
++                }
++    witnessed = {
++        (
++            nodes[edge.source_id].file_path,
++            nodes[edge.source_id].name,
++            nodes[edge.target_id].file_path,
++            nodes[edge.target_id].name,
++            str(edge.relation),
++        )
++        for edge in bindings
++    }
++    assert {
++        ("pkg/service.py", "Service", "pkg/base.py", "Base", "EXTENDS"),
++        ("pkg/service.py", "run", "pkg/helpers.py", "helper", "CALLS"),
++        ("pkg/service.py", "make_service", "pkg/service.py", "Service", "CALLS"),
++    } <= witnessed
+     service = next(
+         node
+         for node in result.graph.nodes

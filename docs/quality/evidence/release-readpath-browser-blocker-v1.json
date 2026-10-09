@@ -1,0 +1,26 @@
+{
+  "status": "FAIL",
+  "source_sha256": "f30ef25cfab6a64a83f1e9603a01f121d3c1130a9067738a9f2ff62096532705",
+  "tests": 14,
+  "passed": 12,
+  "failed": 2,
+  "skipped": 0,
+  "owned_host_closed": true,
+  "failures": [
+    {
+      "name": "skills, context, chronological filters and delivery are connected",
+      "failure": "\n  enhancements.spec.ts:141:1 \u203a skills, context, chronological filters and delivery are connected \u2500\u2500\u2500\n\n    Error: expect(locator).toBeVisible() failed\n\n    Locator: locator('.memory-card').first()\n    Expected: visible\n    Timeout: 5000ms\n    Error: element(s) not found\n\n    Call log:\n      - Expect \"toBeVisible\" locator('.memory-card').first() with timeout 5000ms\n      - waiting for locator('.memory-card').first()\n\n\n      163 |   await page.getByLabel(\"Task\", { exact: true }).selectOption({ index: 1 });\n      164 |   await page.getByRole(\"tab\", { name: \"Project Brain\", exact: true }).click();\n    > 165 |   await expect(page.locator(\".memory-card\").first()).toBeVisible();\n          |                                                      ^\n      166 | });\n      167 |\n      168 | test(\"socket disconnect triggers bounded replay and reconnect without page reload\", async ({\n        at S:\\Orqalis\\web\\e2e\\enhancements.spec.ts:165:54\n\n    Error Context: ..\\..\\.tools\\research\\release-browser-read-path-screen-artifacts\\enhancements-skills-contex-336f3--and-delivery-are-connected\\error-context.md\n\n"
+    },
+    {
+      "name": "supervised run decisions and plan edits stay bound to persisted versions",
+      "failure": "\n  run-governance.spec.ts:14:1 \u203a supervised run decisions and plan edits stay bound to persisted versions \n\n    Error: expect(locator).toBeVisible() failed\n\n    Locator: getByRole('region', { name: 'Run governance' }).getByText('PLAN \u00b7 version 1')\n    Expected: visible\n    Timeout: 5000ms\n    Error: element(s) not found\n\n    Call log:\n      - Expect \"toBeVisible\" getByRole('region', { name: 'Run governance' }).getByText('PLAN \u00b7 version 1') with timeout 5000ms\n      - waiting for getByRole('region', { name: 'Run governance' }).getByText('PLAN \u00b7 version 1')\n\n\n      70 |\n      71 |   await governance.getByRole(\"button\", { name: \"Preview plan\" }).click();\n    > 72 |   await expect(governance.getByText(\"PLAN \\u00b7 version 1\")).toBeVisible();\n         |                                                               ^\n      73 |   await expect(governance.getByText(\"Plan v1\")).toBeVisible();\n      74 |   await governance.getByRole(\"button\", { name: \"Edit plan\" }).click();\n      75 |   const planEditor = governance.getByLabel(\"Plan draft JSON\");\n        at S:\\Orqalis\\web\\e2e\\run-governance.spec.ts:72:63\n\n    Error Context: ..\\..\\.tools\\research\\release-browser-read-path-screen-artifacts\\run-governance-supervised--91d3a-bound-to-persisted-versions\\error-context.md\n\n"
+    }
+  ],
+  "raw_sha256": {
+    "docs\\quality\\evidence\\release-browser-read-path-screen.xml": "08e86ca9f977e0ee447be71f983093a76e214a461e35d3cf55cebdd3b23b8d57",
+    "docs\\quality\\evidence\\release-browser-read-path-screen.json": "7d59a5f75135460e9ebebcc19e43c45b1dd174691da779aadcb747a43835de39",
+    "docs\\quality\\evidence\\release-browser-read-path-screen-input-binding.json": "fcdf0621011d467210d22e08dbe6aed944985a697706ad294bd1f146dde4d5a8",
+    ".tools\\research\\release-browser-read-path-screen.log": "d70111e1f42bc41e34a414d794f1973de7ddeed6fc5642e76ad4b31487aaf27d"
+  },
+  "disposition": "Releaseblocked; no deadlinewaiver, rerun, acceptedfreeze, preparation or completequalificationround. Timeline and nativeclose passed in this fullscreen; only bounded investigation follows."
+}

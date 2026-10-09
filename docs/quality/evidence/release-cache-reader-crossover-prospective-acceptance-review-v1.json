@@ -1,0 +1,49 @@
+{
+  "status": "APPROVED_DIAGNOSTIC_ONLY_CONDITIONAL_ROOT_ACK",
+  "reviewed_at": "2026-10-07T10:46:41.056788+00:00",
+  "review_scope": "Static inspection only; no product import, reader invocation, native query or workload performed. Named helper/evidence hashes verified; 249 fixture hashes are runtime guards, not recaptured by this review.",
+  "source_sha256": "01d45811de37528691a2d12fc16e1a677f1b1b57ecf407e9754955581420cc42",
+  "release_input_sha256": "a0fb5b8621152ba43673947503667e5969a3cb8ecc234075b3409be86553e038",
+  "reviewed_sha256": {
+    ".tools\\research\\release_cache_reader_crossover_v1.py": "a682064b8d67802f2ff124b360943e467d7772567ad652c7fb0f952df35213d6",
+    ".tools\\research\\release_cache_reader_crossover_outer_v1.py": "6cbcbe559a7ef7928efa6f4b2083beba850df32129716c6230336189ae3bd06a",
+    "docs\\quality\\evidence\\release-cache-reader-crossover-plan-v1.json": "fe3c589fbed50f7355f54580473296d8acb05b8f871186c94cd74f264b198fad"
+  },
+  "method_checks": {
+    "source_references": 263,
+    "unique_referenced_cache_files": 247,
+    "fixture_file_hash_guards": 249,
+    "calls_each_reader": 526,
+    "total_read_calls": 1052,
+    "bytes_each_reader": 4195820,
+    "opposed_order_preserved": true,
+    "duplicate_references_retained": true,
+    "fresh_same_path_guard_before_each_read": true,
+    "read_close_clock_excludes_guard_and_hash": true,
+    "returned_bytes_length_and_sha_checked_each_call": true,
+    "native_original_reader_identity_retained": true,
+    "opener_delegates_once_and_restoration_verified": true,
+    "bookkeeping_faults_invalidate_without_masking_reader_result_or_exception": true
+  },
+  "outer_checks": [
+    "Requires both current-source whole/full successes and owned-job cleanup; this is admission evidence, not final acceptance.",
+    "Pins current source/input/environment, plan/helpers, prior evidence, fixture bytes, root/whole/full records, both reviews and exact root ACK before and in all-outcome finally.",
+    "Exclusive new outputs/log; unchanged owned lifecycle uses declared 180-second diagnostic cap and rejects residual children/cleanup failure.",
+    "Primary errors survive secondary guard/report failures; failure stops without automatic retry."
+  ],
+  "launch_conditions": [
+    "Both exact prospective acceptance and quality review hashes must be supplied by the root ACK. This report does not invent the quality role disposition.",
+    "ACK must be APPROVED_DIAGNOSTIC_ONLY, pin exact controller/plan, assert owned QA idle and explicitly decline an external-host idle claim.",
+    "All pinned bytes must remain unchanged; root invokes at most the declared fixed comparison."
+  ],
+  "limits": [
+    "Native reader alone has the pass-through opener observer. Its clock/wrapper perturbation is asymmetric; bookkeeping is a lower bound, not total overhead to subtract.",
+    "Both order results and all per-reference observations must be retained; cache warming, repeated references and temporal order preclude claiming historical cold cause from a faster block.",
+    "Builtin path.read_bytes is a diagnostic primitive with different Windows sharing/reparse semantics, not a reconstructed release baseline or authorized product replacement.",
+    "Native opener subinterval combines native CreateFile and CRT descriptor conversion; the remainder includes Python buffering/read/close and observer effects.",
+    "No absolute threshold, release SLO, benchmark sample replacement, source correction, performance equivalence or Master53 closure is approved."
+  ],
+  "concrete_blocking_findings": [],
+  "release_acceptance_credit": 0,
+  "benchmark_replacement": false
+}

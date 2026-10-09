@@ -159,6 +159,14 @@ class ApprovalService:
                 raise NotFoundError("Run not found")
             return uow.approvals.policy(run_id) or ControlPolicy(run_id=run_id)
 
+    def control_state(self, run_id: UUID) -> tuple[ControlPolicy, tuple[ApprovalRequest, ...]]:
+        """Read the policy and approval requests from the same run snapshot."""
+        with self.unit_of_work() as uow:
+            if uow.runs.get(run_id) is None:
+                raise NotFoundError("Run not found")
+            policy = uow.approvals.policy(run_id) or ControlPolicy(run_id=run_id)
+            return policy, uow.approvals.list(run_id)
+
     def configure(
         self,
         run_id: UUID,
@@ -179,7 +187,7 @@ class ApprovalService:
 
     def get(self, run_id: UUID, request_id: UUID) -> ApprovalRequest:
         with self.unit_of_work() as uow:
-            request = uow.approvals.get(request_id)
+            request = uow.approvals.get(request_id, run_id=run_id)
             if request is None or request.run_id != run_id:
                 raise NotFoundError("Approval request not found")
             return request
@@ -190,7 +198,7 @@ class ApprovalService:
     ) -> None:
         if stage == ApprovalStage.GOAL:
             contract = (
-                uow.runs.get_goal(run.current_goal_version_id)
+                uow.runs.get_goal(run.current_goal_version_id, run_id=run.id)
                 if run.current_goal_version_id
                 else None
             )
@@ -225,39 +233,11 @@ class ApprovalService:
         self._safe_fields(subject_digest, reason)
         with self.unit_of_work() as uow:
             run = locked_run(uow, run_id)
-            policy = uow.approvals.policy(run_id) or ControlPolicy(run_id=run_id)
-            if not policy.requires(stage):
-                return None
-            self._validate_subject(run, uow, stage, subject_version)
-            request_id = uuid5(run_id, f"approval:{stage}:{subject_version}:{subject_digest}")
-            existing = uow.approvals.get(request_id)
-            if existing:
-                return existing
-            request = ApprovalRequest(
-                id=request_id,
-                run_id=run_id,
-                stage=stage,
-                subject_version=subject_version,
-                subject_digest=subject_digest,
-                reason=reason,
+            request, created = prepare_approval_request(
+                uow, run, stage, subject_version, subject_digest, reason
             )
-            uow.approvals.add_request(request)
-            emit(
-                uow,
-                run,
-                EventType.APPROVAL_REQUESTED,
-                f"operator-approval:{request.id}:requested",
-                request.created_at,
-                EventPayload(
-                    approval_request_id=request.id,
-                    approval_stage=stage,
-                    approval_subject_digest=subject_digest,
-                    status=ApprovalStatus.PENDING,
-                    reason=reason,
-                ),
-            )
-            set_approval_actor_status(uow, run, request, ApprovalStatus.PENDING, request.created_at)
-            uow.commit()
+            if created:
+                uow.commit()
             return request
 
     def decide(
@@ -277,7 +257,7 @@ class ApprovalService:
             raise InputError("Approval decision requires an operator identity")
         with self.unit_of_work() as uow:
             run = locked_run(uow, run_id)
-            request = uow.approvals.get(request_id)
+            request = uow.approvals.get(request_id, run_id=run_id)
             if request is None or request.run_id != run_id:
                 raise NotFoundError("Approval request not found")
             if request.subject_digest != expected_subject_digest:
@@ -317,3 +297,54 @@ class ApprovalService:
             set_approval_actor_status(uow, run, request, status, recorded.created_at)
             uow.commit()
             return request.model_copy(update={"status": status, "decision": recorded})
+
+
+def prepare_approval_request(
+    uow: ProjectUnitOfWork,
+    run: Run,
+    stage: ApprovalStage,
+    subject_version: int,
+    subject_digest: str,
+    reason: str = "",
+) -> tuple[ApprovalRequest | None, bool]:
+    """Stage a validated gate in the caller's locked run transaction.
+
+    The caller commits the request and its checkpoint together. Existing requests
+    and disabled gates do not mutate the transaction; all normal gate validation
+    and actor updates are shared with ApprovalService.ensure.
+    """
+    ApprovalService._safe_fields(subject_digest, reason)
+    run_id = run.id
+    policy = uow.approvals.policy(run_id) or ControlPolicy(run_id=run_id)
+    if not policy.requires(stage):
+        return None, False
+    ApprovalService._validate_subject(run, uow, stage, subject_version)
+    request_id = uuid5(run_id, f"approval:{stage}:{subject_version}:{subject_digest}")
+    existing = uow.approvals.get(request_id, run_id=run_id)
+    if existing:
+        return existing, False
+    request = ApprovalRequest(
+        id=request_id,
+        run_id=run_id,
+        stage=stage,
+        subject_version=subject_version,
+        subject_digest=subject_digest,
+        reason=reason,
+    )
+    uow.approvals.add_request(request)
+    emit(
+        uow,
+        run,
+        EventType.APPROVAL_REQUESTED,
+        f"operator-approval:{request.id}:requested",
+        request.created_at,
+        EventPayload(
+            approval_request_id=request.id,
+            approval_stage=stage,
+            approval_subject_digest=subject_digest,
+            status=ApprovalStatus.PENDING,
+            reason=reason,
+        ),
+    )
+    set_approval_actor_status(uow, run, request, ApprovalStatus.PENDING, request.created_at)
+    return request, True

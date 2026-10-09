@@ -52,7 +52,7 @@ async function requireSameTree(repository, packageRoot, relativeRoot, area) {
     "docs/verification/npm-release-readiness.json",
   ]);
   const sourceFiles = (await treeFiles(repository, relativeRoot, true)).filter(
-    (name) => !maintainerDocs.has(name),
+    (name) => !maintainerDocs.has(name) && !name.startsWith("docs/quality/"),
   );
   const preparedFiles = await treeFiles(packageRoot, relativeRoot);
   if (JSON.stringify(sourceFiles) !== JSON.stringify(preparedFiles)) {
@@ -171,7 +171,15 @@ export async function verifyBundle(root) {
       "Bundle metadata does not match the npm release. Run scripts/prepare_npm.py.",
     );
   }
+  const bootstrap = manifest.bootstrap;
+  if (
+    !/^\d+\.\d+\.\d+$/.test(bootstrap?.version ?? "") ||
+    bootstrap?.wheel !== `pip-${bootstrap.version}-py3-none-any.whl`
+  ) {
+    throw new Error("Bundle requires an exact bootstrap pip wheel.");
+  }
   const expected = [
+    bootstrap.wheel,
     `orqalis-${pkg.version}-py3-none-any.whl`,
     "requirements.txt",
   ];
@@ -181,7 +189,7 @@ export async function verifyBundle(root) {
       .join(",") !== expected.sort().join(",")
   ) {
     throw new Error(
-      "Bundle must contain exactly the release wheel and locked requirements.",
+      "Bundle must contain exactly the release wheel, bootstrap pip wheel and locked requirements.",
     );
   }
   if (
@@ -204,7 +212,8 @@ export async function verifyBundle(root) {
   return {
     version: pkg.version,
     fingerprint: sha256(raw),
-    wheel: expected.find((n) => n.endsWith(".whl")),
+    wheel: `orqalis-${pkg.version}-py3-none-any.whl`,
+    bootstrapWheel: bootstrap.wheel,
   };
 }
 

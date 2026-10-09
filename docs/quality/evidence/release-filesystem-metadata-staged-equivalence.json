@@ -1,0 +1,109 @@
+{
+  "status": "PASS_STAGED_REAL_JUNCTION_EQUIVALENCE",
+  "proposal_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+  "source_io_sha256": "f1450938b835e7276edb757671f275e0f07030bec3f1547887b32007db281334",
+  "cases": [
+    {
+      "case": "plain",
+      "before": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\plain"
+      },
+      "after": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\plain"
+      }
+    },
+    {
+      "case": "plain/unicode-file.json",
+      "before": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\plain\\unicode-file.json"
+      },
+      "after": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\plain\\unicode-file.json"
+      }
+    },
+    {
+      "case": "plain/missing.json",
+      "before": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\plain\\missing.json"
+      },
+      "after": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\plain\\missing.json"
+      }
+    },
+    {
+      "case": "missing/deeper.json",
+      "before": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\missing\\deeper.json"
+      },
+      "after": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\missing\\deeper.json"
+      }
+    },
+    {
+      "case": "target/data.json",
+      "before": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\target\\data.json"
+      },
+      "after": {
+        "status": "ALLOW",
+        "path": "S:\\Orqalis\\.tools\\research\\release-filesystem-metadata-proposal-fixture\\target\\data.json"
+      }
+    },
+    {
+      "case": "junction",
+      "before": {
+        "status": "REJECT",
+        "exception": "PolicyDeniedError"
+      },
+      "after": {
+        "status": "REJECT",
+        "exception": "PolicyDeniedError"
+      }
+    },
+    {
+      "case": "junction/data.json",
+      "before": {
+        "status": "REJECT",
+        "exception": "PolicyDeniedError"
+      },
+      "after": {
+        "status": "REJECT",
+        "exception": "PolicyDeniedError"
+      }
+    },
+    {
+      "case": "junction/missing.json",
+      "before": {
+        "status": "REJECT",
+        "exception": "PolicyDeniedError"
+      },
+      "after": {
+        "status": "REJECT",
+        "exception": "PolicyDeniedError"
+      }
+    },
+    {
+      "case": "junction/missing/deeper.json",
+      "before": {
+        "status": "REJECT",
+        "exception": "PolicyDeniedError"
+      },
+      "after": {
+        "status": "REJECT",
+        "exception": "PolicyDeniedError"
+      }
+    }
+  ],
+  "actual_junction_mode": 16895,
+  "actual_junction_reparse_tag": 2684354563,
+  "scope": "Nine actual Windows read-only metadata cases, native junction created within owned workspace fixture. Regular/missing paths match; direct/nested/missing-child junction paths reject identically. Production source unchanged; no latency or full regression claim."
+}

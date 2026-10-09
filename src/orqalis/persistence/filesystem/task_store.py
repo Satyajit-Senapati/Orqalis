@@ -18,6 +18,7 @@ import json
 import os
 import re
 import threading
+from collections.abc import Callable, Iterator
 from contextlib import suppress
 from copy import deepcopy
 from dataclasses import dataclass, field
@@ -79,6 +80,7 @@ _CAPSULE_ID = re.compile(r"ORQ-(?P<date>[0-9]{8})-(?P<sequence>[0-9]{4})\Z")
 _EXTENSION_NAME = re.compile(r"[a-z][a-z0-9_-]{0,63}\Z")
 _CONTROLLER_GUARD = threading.Lock()
 _CONTROLLER_OWNERS: dict[str, object] = {}
+_AUXILIARY_OWNERS: dict[str, tuple[int, object]] = {}
 _PROJECTION_SOURCE = "execution/state.yaml"
 _PROJECTION_NOTE = (
     "> Derived from `execution/state.yaml`; this file is a human-readable projection, "
@@ -106,10 +108,12 @@ def _json_bytes(value: object) -> bytes:
         raise ConflictError("Task capsule contains data that cannot be serialized") from exc
 
 
-def _ensure_secret_safe(value: object) -> None:
-    encoded = _json_bytes(value).decode("utf-8")
+def _ensure_secret_safe(value: object) -> bytes:
+    content = _json_bytes(value)
+    encoded = content.decode("utf-8")
     if safe_diagnostic(encoded) != encoded:
         raise PolicyDeniedError("Task Capsule state cannot contain credentials or private data")
+    return content
 
 
 def _safe_projection_value(value: object) -> object:
@@ -219,8 +223,11 @@ def _relative_target(capsule: Path, relative: str) -> Path:
     path = PurePosixPath(relative)
     if path.is_absolute() or not path.parts:
         raise ConflictError("Task transaction contains an unsafe target")
-    capsule_root = ensure_no_filesystem_links(capsule).resolve(strict=True)
-    target = ensure_no_filesystem_links(capsule_root.joinpath(*path.parts))
+    # The target guard also checks every capsule/ancestor component before resolving.
+    capsule_path = capsule.expanduser().absolute()
+    ensure_no_filesystem_links(capsule_path.joinpath(*path.parts))
+    capsule_root = capsule_path.resolve(strict=True)
+    target = capsule_root.joinpath(*path.parts)
     resolved = target.resolve(strict=False)
     if not resolved.is_relative_to(capsule_root):
         raise ConflictError("Task transaction target escapes its capsule")
@@ -446,20 +453,35 @@ class TaskCapsuleStore:
                 raise ConflictError("Task Capsule identity was allocated concurrently") from exc
             return capsule_id, path
 
-    def rebuild_index(self) -> int:
+    def read_index(self) -> tuple[dict[str, object], ...]:
+        """Read canonical summaries and repair the derived index only when changed.
+
+        Canonical metadata is checked on every call, including external hand edits.
+        Unchanged reads do not replace/fsync the index or read it back after writing.
+        """
         self.layout.tasks.mkdir(parents=True, exist_ok=True)
+        # Canonical commits use capsule state locks, so this scan is already a
+        # best-effort snapshot. Keep it outside the shared allocation lock: slow
+        # filesystem reads must not prevent another task from reserving an ID.
+        entries: list[dict[str, object]] = []
+        for capsule in self._capsule_directories():
+            document = self._task_document(capsule)
+            if document is not None:
+                entries.append(self._index_entry(document))
+        entries.sort(key=lambda value: str(value.get("id")))
+        expected = {"schema_version": TASK_SCHEMA_VERSION, "tasks": entries}
         with FileLock(self.layout.lock("tasks-index")):
-            entries: list[dict[str, object]] = []
-            for capsule in self._capsule_directories():
-                document = self._task_document(capsule)
-                if document is not None:
-                    entries.append(self._index_entry(document))
-            entries.sort(key=lambda value: str(value.get("id")))
-            atomic_write_json(
-                self.layout.tasks / "index.json",
-                {"schema_version": TASK_SCHEMA_VERSION, "tasks": entries},
-            )
-            return len(entries)
+            path = self.layout.tasks / "index.json"
+            try:
+                current = read_json_object(path)
+            except (OSError, FilesystemFormatError):
+                current = None
+            if current != expected:
+                atomic_write_json(path, expected)
+            return tuple(entries)
+
+    def rebuild_index(self) -> int:
+        return len(self.read_index())
 
 
 class TaskCapsuleSession:
@@ -479,6 +501,9 @@ class TaskCapsuleSession:
         self._project_generation = 0
         self._project_extensions_dirty = False
         self._closed = False
+        self._invalid = False
+        self._auxiliary_lock: FileLock | None = None
+        self.before_auxiliary_lock: Callable[[], None] = lambda: None
 
     def _state_lock(self, run_id: UUID, capsule_id: str) -> None:
         if run_id in self._state_locks:
@@ -486,6 +511,68 @@ class TaskCapsuleSession:
         lock = FileLock(self.layout.lock(f"{capsule_id}.state"))
         lock.acquire()
         self._state_locks[run_id] = lock
+
+    def lock_auxiliary_identities(self) -> None:
+        """Serialize global identity checks through commit without opposing run locks.
+
+        Release run locks before waiting, then revalidate their generations. This
+        preserves full capsule validation and rejects any stale staged authorization.
+        Run-owned reads do not need this lease.
+        """
+        self._ensure_open()
+        if self._auxiliary_lock is not None:
+            return
+        self.before_auxiliary_lock()
+        lock = FileLock(self.layout.lock("auxiliary-identities"))
+        key = os.path.normcase(str(lock.path.absolute()))
+        with _CONTROLLER_GUARD:
+            owner = _AUXILIARY_OWNERS.get(key)
+            if owner is not None and owner[0] == threading.get_ident():
+                raise ConflictError("Nested transactions cannot share the auxiliary identity lease")
+        held = tuple(self._state_locks)
+        for run_id in held:
+            self._release_state_lock(run_id)
+        try:
+            lock.acquire()
+            self._auxiliary_lock = lock
+            with _CONTROLLER_GUARD:
+                _AUXILIARY_OWNERS[key] = (threading.get_ident(), self._lease_token)
+            for run_id in sorted(held, key=str):
+                aggregate = self._capsules[run_id]
+                self._state_lock(run_id, aggregate.capsule_id)
+                if not aggregate.is_new:
+                    current = self._disk_generation(self.layout.task(aggregate.capsule_id))
+                    if current != aggregate.generation:
+                        raise ConflictError(
+                            "Task Capsule changed during identity lock handoff; retry"
+                        )
+            # Foreign read snapshots may predate a writer that just released the lease.
+            # Keep staged/locked owners; global discovery must reload everyone else.
+            for run_id, aggregate in tuple(self._capsules.items()):
+                if run_id not in held:
+                    if aggregate.dirty:
+                        raise ConflictError("Task Capsule mutation lacks its run lock")
+                    del self._capsules[run_id]
+        except BaseException:
+            self._invalid = True
+            for run_id in tuple(self._state_locks):
+                self._release_state_lock(run_id)
+            self._release_auxiliary_lock()
+            raise
+
+    def _release_auxiliary_lock(self) -> None:
+        lock = self._auxiliary_lock
+        if lock is None:
+            return
+        key = os.path.normcase(str(lock.path.absolute()))
+        try:
+            lock.release()
+        finally:
+            self._auxiliary_lock = None
+            with _CONTROLLER_GUARD:
+                owner = _AUXILIARY_OWNERS.get(key)
+                if owner is not None and owner[1] is self._lease_token:
+                    _AUXILIARY_OWNERS.pop(key, None)
 
     def try_run_lock(self, run_id: UUID) -> bool:
         """Acquire the long controller lease until this UoW exits."""
@@ -670,6 +757,7 @@ class TaskCapsuleSession:
         )
 
     def load_capsule(self, run_id: UUID, *, for_update: bool = False) -> TaskCapsuleAggregate:
+        self._ensure_open()
         cached = self._capsules.get(run_id)
         if cached is not None:
             if for_update and not cached.is_new:
@@ -693,6 +781,7 @@ class TaskCapsuleSession:
         return aggregate
 
     def create_capsule(self, run: Run) -> TaskCapsuleAggregate:
+        self._ensure_open()
         if run.id in self._capsules or self.store.capsule_id(run.id) is not None:
             raise ConflictError("Run identity already exists")
         if safe_diagnostic(run.request) != run.request:
@@ -710,10 +799,12 @@ class TaskCapsuleSession:
         self._state_lock(run.id, capsule_id)
         return aggregate
 
-    def iter_capsules(self) -> tuple[TaskCapsuleAggregate, ...]:
-        values: list[TaskCapsuleAggregate] = []
+    def iter_capsules(self) -> Iterator[TaskCapsuleAggregate]:
+        self._ensure_open()
+        # Resolve already-loaded entities before touching unrelated capsule locks.
+        # Full-list consumers still exhaust and validate every canonical capsule.
         seen = set(self._capsules)
-        values.extend(self._capsules.values())
+        yield from tuple(self._capsules.values())
         for entry in self.store._index_entries():
             raw = entry.get("run_id")
             try:
@@ -722,11 +813,11 @@ class TaskCapsuleSession:
                 continue
             if run_id is not None and run_id not in seen:
                 try:
-                    values.append(self.load_capsule(run_id))
+                    aggregate = self.load_capsule(run_id)
                 except NotFoundError:
                     continue
                 seen.add(run_id)
-        return tuple(values)
+                yield aggregate
 
     def extension(self, run_id: UUID, namespace: str) -> object | None:
         aggregate = self.load_capsule(run_id)
@@ -872,6 +963,12 @@ class TaskCapsuleSession:
                     f"- {item.record.title} ({item.freshness.value}, score {item.score:g})"
                     for item in context.memory
                 )
+            if context.memory_discovery:
+                context_lines.extend(("", "## Memory previews (bodies not loaded)", ""))
+                context_lines.extend(
+                    f"- `{item.id}`: {item.title}; fetch the full record explicitly."
+                    for item in context.memory_discovery
+                )
             if context.graph:
                 context_lines.extend(("", "## Graph results", ""))
                 context_lines.extend(
@@ -898,7 +995,11 @@ class TaskCapsuleSession:
                             "last_verified_at": item.record.last_verified_at.isoformat(),
                         }
                         for item in context.memory
-                    ]
+                    ],
+                    "memory_discovery": [
+                        {**item.model_dump(mode="json"), "body_loaded": False}
+                        for item in context.memory_discovery
+                    ],
                 },
             )
             documents["context/files-used.json"] = _projection_bytes(
@@ -1178,11 +1279,11 @@ class TaskCapsuleSession:
 
     def _documents(self, aggregate: TaskCapsuleAggregate, generation: int) -> dict[str, bytes]:
         state = self._state_document(aggregate, generation)
-        _ensure_secret_safe(state)
+        state_content = _ensure_secret_safe(state)
         documents: dict[str, bytes] = {
             "task.yaml": _json_bytes(self._task_document(aggregate)),
             "request.md": (aggregate.run.request.rstrip() + "\n").encode("utf-8"),
-            "execution/state.yaml": _json_bytes(state),
+            "execution/state.yaml": state_content,
         }
         current_goal_id = aggregate.run.current_goal_version_id
         current = aggregate.goals.get(current_goal_id) if current_goal_id is not None else None
@@ -1345,6 +1446,7 @@ class TaskCapsuleSession:
         self._pending_project = None
         self._project_extensions = None
         self._project_extensions_dirty = False
+        self._invalid = False
         self._release_locks()
 
     def close(self) -> None:
@@ -1374,9 +1476,15 @@ class TaskCapsuleSession:
                         _CONTROLLER_OWNERS.pop(key, None)
                 self._controller_locks.pop(run_id, None)
 
+        self._release_auxiliary_lock()
+
     def _ensure_open(self) -> None:
         if self._closed:
             raise RuntimeError("Task Capsule session is closed")
+        if self._invalid:
+            raise ConflictError(
+                "Task Capsule transaction requires rollback after lock handoff failure"
+            )
 
 
 class FilesystemProjectRepository:
@@ -1468,13 +1576,23 @@ class FilesystemRunRepository:
         aggregate.run = aggregate.run.model_copy(update={"current_goal_version_id": goal_id})
         aggregate.mark_dirty()
 
-    def get_goal(self, goal_id: UUID) -> GoalContract | None:
+    def get_goal(self, goal_id: UUID, *, run_id: UUID | None = None) -> GoalContract | None:
+        if run_id is not None:
+            try:
+                return self.session.load_capsule(run_id).goals.get(goal_id)
+            except NotFoundError:
+                return None
         for aggregate in self.session.iter_capsules():
             if value := aggregate.goals.get(goal_id):
                 return value
         return None
 
-    def get_evidence(self, evidence_id: UUID) -> Evidence | None:
+    def get_evidence(self, evidence_id: UUID, *, run_id: UUID | None = None) -> Evidence | None:
+        if run_id is not None:
+            try:
+                return self.session.load_capsule(run_id).evidence.get(evidence_id)
+            except NotFoundError:
+                return None
         for aggregate in self.session.iter_capsules():
             if value := aggregate.evidence.get(evidence_id):
                 return value
@@ -1661,7 +1779,18 @@ class FilesystemApprovalRepository:
         aggregate.control_policy = policy
         aggregate.mark_dirty()
 
-    def get(self, request_id: UUID) -> ApprovalRequest | None:
+    def get(self, request_id: UUID, *, run_id: UUID | None = None) -> ApprovalRequest | None:
+        if run_id is not None:
+            try:
+                aggregate = self.session.load_capsule(run_id)
+            except NotFoundError:
+                return None
+            request = aggregate.approval_requests.get(request_id)
+            return (
+                _approval_view(request, aggregate.approval_decisions)
+                if request is not None
+                else None
+            )
         for aggregate in self.session.iter_capsules():
             request = aggregate.approval_requests.get(request_id)
             if request is not None:

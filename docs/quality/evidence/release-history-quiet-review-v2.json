@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "scope": "Sequential quiet ABBA probes, no cProfile or concurrent benchmark; instruments canonical read and lock acquisition. Descriptive local observations, no universal latency claim.",
+  "runs": [
+    {
+      "source_sha256": "fece9d668365b0e853d84d6de4ebbe41417179dcf68dc00a293dc95e2a09e8c4",
+      "median_wall_ms": 1008.6459000012837,
+      "p95_wall_ms": 3412.3871000047075,
+      "max_wall_ms": 11112.475100002484,
+      "max_lock_acquire_ms": 4.004800008260645,
+      "concurrent_reservation": {
+        "failed": true,
+        "error_type": "LockTimeoutError",
+        "error": "Timed out acquiring lock: S:\\Orqalis\\.tools\\research\\release-history-concurrency-release-history-quiet-v2-1\\.orqalis\\runtime\\locks\\tasks-index.lock"
+      }
+    },
+    {
+      "source_sha256": "75539c7b992b59b7c418427cfd0fb89472224ec4099e8519e72197de949de9fe",
+      "median_wall_ms": 881.017099993187,
+      "p95_wall_ms": 5117.26249998901,
+      "max_wall_ms": 17464.872399999877,
+      "max_lock_acquire_ms": 0.344899992342107,
+      "concurrent_reservation": {
+        "elapsed_ms": 104.5455999992555,
+        "reserved_unique_id": true,
+        "directory_created": true
+      }
+    },
+    {
+      "source_sha256": "75539c7b992b59b7c418427cfd0fb89472224ec4099e8519e72197de949de9fe",
+      "median_wall_ms": 302.84150000079535,
+      "p95_wall_ms": 442.02379998750985,
+      "max_wall_ms": 571.9195999990916,
+      "max_lock_acquire_ms": 4.133099995669909,
+      "concurrent_reservation": {
+        "elapsed_ms": 44.106499990448356,
+        "reserved_unique_id": true,
+        "directory_created": true
+      }
+    },
+    {
+      "source_sha256": "fece9d668365b0e853d84d6de4ebbe41417179dcf68dc00a293dc95e2a09e8c4",
+      "median_wall_ms": 292.01419999299105,
+      "p95_wall_ms": 399.6258000115631,
+      "max_wall_ms": 466.2412000034237,
+      "max_lock_acquire_ms": 0.23759999021422118,
+      "concurrent_reservation": {
+        "elapsed_ms": 5131.500000003143,
+        "reserved_unique_id": true,
+        "directory_created": true
+      }
+    }
+  ],
+  "prior_23_second_capture_preserved": true,
+  "baseline_reservation_failures": 1
+}

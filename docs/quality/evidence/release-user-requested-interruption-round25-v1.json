@@ -1,0 +1,104 @@
+{
+  "status": "OWNED_QUALIFICATION_FAMILY_STOPPED",
+  "reason": "User explicitly requested stopping qualification for a quieter time",
+  "requested_at": "2026-10-04T15:03:09.3449948Z",
+  "owned_launcher_pid": 11640,
+  "controller_pid": 7404,
+  "captured_family": [
+    {
+      "pid": 11640,
+      "parent_pid": 7404,
+      "creation_utc": "2026-10-04T14:15:30.1626310Z",
+      "executable": "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+      "command": "S:\\Orqalis\\.venv\\Scripts\\python.exe -I -B .tools/research/release_qualification_final_fixes_v1.py 25",
+      "native_handle_bound": true
+    },
+    {
+      "pid": 28440,
+      "parent_pid": 11640,
+      "creation_utc": "2026-10-04T14:15:30.2251100Z",
+      "executable": "S:\\Orqalis\\.tools\\python\\cpython-3.12-windows-x86_64-none\\python.exe",
+      "command": "\"S:\\Orqalis\\.tools\\python\\cpython-3.12-windows-x86_64-none\\python.exe\"  -I -B .tools/research/release_qualification_final_fixes_v1.py 25",
+      "native_handle_bound": true
+    },
+    {
+      "pid": 15496,
+      "parent_pid": 28440,
+      "creation_utc": "2026-10-04T14:47:48.4933470Z",
+      "executable": "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+      "command": "S:\\Orqalis\\.venv\\Scripts\\python.exe -I scripts/benchmark_ui.py --source-root S:\\Orqalis\\.tools\\research\\baseline-b8506f7 --frontend S:\\Orqalis\\.tools\\research\\release-frontend-baseline\\dist --repeat 3 --output S:\\Orqalis\\docs\\quality\\evidence\\release-ui-baseline-25.json",
+      "native_handle_bound": true
+    },
+    {
+      "pid": 31896,
+      "parent_pid": 15496,
+      "creation_utc": "2026-10-04T14:47:48.5561580Z",
+      "executable": "S:\\Orqalis\\.tools\\python\\cpython-3.12-windows-x86_64-none\\python.exe",
+      "command": "\"S:\\Orqalis\\.tools\\python\\cpython-3.12-windows-x86_64-none\\python.exe\"  -I scripts/benchmark_ui.py --source-root S:\\Orqalis\\.tools\\research\\baseline-b8506f7 --frontend S:\\Orqalis\\.tools\\research\\release-frontend-baseline\\dist --repeat 3 --output S:\\Orqalis\\docs\\quality\\evidence\\release-ui-baseline-25.json",
+      "native_handle_bound": true
+    },
+    {
+      "pid": 14252,
+      "parent_pid": 31896,
+      "creation_utc": "2026-10-04T14:47:49.2662520Z",
+      "executable": "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+      "command": "S:\\Orqalis\\.venv\\Scripts\\python.exe -I S:\\Orqalis\\scripts\\benchmark_ui.py --worker --source-root S:\\Orqalis\\.tools\\research\\baseline-b8506f7 --frontend S:\\Orqalis\\.tools\\research\\release-frontend-baseline\\dist --output S:\\Orqalis\\docs\\quality\\evidence\\release-ui-baseline-25.json --build-evidence S:\\Orqalis\\.tools\\research\\release-frontend-baseline\\build.json --repeat 3",
+      "native_handle_bound": true
+    },
+    {
+      "pid": 24852,
+      "parent_pid": 14252,
+      "creation_utc": "2026-10-04T14:47:49.3648310Z",
+      "executable": "S:\\Orqalis\\.tools\\python\\cpython-3.12-windows-x86_64-none\\python.exe",
+      "command": "\"S:\\Orqalis\\.tools\\python\\cpython-3.12-windows-x86_64-none\\python.exe\"  -I S:\\Orqalis\\scripts\\benchmark_ui.py --worker --source-root S:\\Orqalis\\.tools\\research\\baseline-b8506f7 --frontend S:\\Orqalis\\.tools\\research\\release-frontend-baseline\\dist --output S:\\Orqalis\\docs\\quality\\evidence\\release-ui-baseline-25.json --build-evidence S:\\Orqalis\\.tools\\research\\release-frontend-baseline\\build.json --repeat 3",
+      "native_handle_bound": true
+    }
+  ],
+  "outcomes": [
+    {
+      "pid": 28440,
+      "already_exited": false,
+      "termination_requested": true,
+      "exit_confirmed": true,
+      "exit_code": -1
+    },
+    {
+      "pid": 24852,
+      "already_exited": false,
+      "termination_requested": true,
+      "exit_confirmed": true,
+      "exit_code": -1
+    },
+    {
+      "pid": 14252,
+      "already_exited": true,
+      "termination_requested": false,
+      "exit_confirmed": true,
+      "exit_code": -1
+    },
+    {
+      "pid": 31896,
+      "already_exited": false,
+      "termination_requested": true,
+      "exit_confirmed": true,
+      "exit_code": -1
+    },
+    {
+      "pid": 15496,
+      "already_exited": false,
+      "termination_requested": false,
+      "exit_confirmed": true,
+      "exit_code": -1
+    },
+    {
+      "pid": 11640,
+      "already_exited": true,
+      "termination_requested": false,
+      "exit_confirmed": true,
+      "exit_code": -1
+    }
+  ],
+  "not_an_application_failure": true,
+  "convergence_credit": 0,
+  "finished_at": "2026-10-04T15:03:12.6324179Z"
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-03T10:05:49.657339+00:00",
+  "status": "UNRUN_READPATH_V2_PREPARATION_DESIGN_ACCEPTED_WITH_BROWSER_BINDING_GATE_NOTE",
+  "scope": "Read-only exact helper delta and in-memory copy/numeric/coverage/output review. Neither preparation nor browser wrapper executed; no tests/builds/benchmarks/edits. Only this fresh JSON review written.",
+  "source_sha256": "635e1fec1b39c5998e8294ba376ee2a641546f4c632b5973a775b7a26cff6957",
+  "preparation_helper": ".tools\\research\\prepare_release_readpath_v2.py",
+  "preparation_sha256": "32423f93c4ef2ddf3cc8e271d86202c6254705697af347305758ce1c399d65c0",
+  "browser_wrapper": ".tools\\research\\release_git_status_browser_screen_v1.py",
+  "browser_wrapper_sha256": "cf3c8a8036458a18bf0fa5cfcda76ba3cfcfcc1cc5895a383acf13b2fa98a81d",
+  "only_v1_to_v2_changes": [
+    "fixed candidate source f30 to635",
+    "passing-browser label read-path-screen to git-status-screen"
+  ],
+  "in_memory_copy_proofs": [
+    {
+      "prior": "release_artifacts_stable.py",
+      "planned_fresh": "release_artifacts_readpath.py",
+      "prior_sha256": "7d315413cbb2f003b06e3e0f509301f2a9cf61a8290c9a95a49f104fda8d929e",
+      "planned_sha256": "24ce4279371cbcec3a0a736ab7f2dda59d6e84a2a2356a4552c7132c7c35d7a6",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    },
+    {
+      "prior": "verify_installed_release_stable.py",
+      "planned_fresh": "verify_installed_release_readpath.py",
+      "prior_sha256": "154ae2bf8043bf87fd6e84838e57bf25d7b2ab43f03ab4431ed762f729a0c347",
+      "planned_sha256": "8617b1b9f842b1145d6bd1ad488920317817ff998f1795f793f9272dd1e505c7",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    },
+    {
+      "prior": "release_repack_docs_stable.py",
+      "planned_fresh": "release_repack_docs_readpath.py",
+      "prior_sha256": "4abe7f9950b95faa942574359026627fb28401360ce23e0352626d4c277aacc8",
+      "planned_sha256": "52cc13ec999af266d1a4289e31f99156a5f4dc3e048855a58fbb72c2d78b5c76",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    },
+    {
+      "prior": "release_preflight_stable.py",
+      "planned_fresh": "release_preflight_readpath.py",
+      "prior_sha256": "02758c7ba94ca92eb9ede757a78d764f86e60edd94e9a9903a06893f6ba27e2a",
+      "planned_sha256": "d0f96768cb399f0244b291efb36c09d3d12d21f2ac49a84b3c3e0ddfcba11609",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    },
+    {
+      "prior": "verify_frontend_reuse_stable.py",
+      "planned_fresh": "verify_frontend_reuse_readpath.py",
+      "prior_sha256": "9167a20d359a5e6258fc9868b4c6e430fcc15ab33b71a326fbe147af71e43e47",
+      "planned_sha256": "57b60866698afbd599ba938517d1ced17dac9ec209fe001d0cb2fdf3396d79bd",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    },
+    {
+      "prior": "accept_release_preflight_stable.py",
+      "planned_fresh": "accept_release_preflight_readpath.py",
+      "prior_sha256": "7bcde58e3d3dba9ca5153848140dca32ffa7c700c6f60f92423e7bf49b4be69c",
+      "planned_sha256": "4120d20d7ad3e7f48593a39e67ef227f96257495acf1e6b877408f958ddfa346",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    },
+    {
+      "prior": "release_qualification_v11.py",
+      "planned_fresh": "release_qualification_v12.py",
+      "prior_sha256": "b507e7c8971ebcc8b7890bb5fcc4d2c9e1df68ceada8908525720c11b7e36cd7",
+      "planned_sha256": "acbc4924c1ecd5ee434f087fb3f6b894aef7ce8f82405d48dd7dd36f99676749",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    },
+    {
+      "prior": "release_complete_rounds_v11.py",
+      "planned_fresh": "release_complete_rounds_v12.py",
+      "prior_sha256": "a640e3dfd8e89bd6dc2fea9ae3b0ff06e275918cdea8f16f8cdd6b10995a228e",
+      "planned_sha256": "ab7392571597dec3c57f3d624d67a81af968fe530ce7f4e38338ea0dbba24d3f",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    },
+    {
+      "prior": "release_heldout_probe_v11.py",
+      "planned_fresh": "release_heldout_probe_v12.py",
+      "prior_sha256": "4341aff202ebab91768bcdde409e77894f5e29360bac8f5f37895a4990ea0205",
+      "planned_sha256": "424db692bd5ff0bb230dc1817b253f9d3b8bbac15c5ef820a887f71417492197",
+      "parsed_in_memory": true,
+      "numeric_workload_guard_constants_identical": true
+    }
+  ],
+  "frozen_inventory_design": {
+    "input_paths": 390,
+    "private_paths": 15,
+    "existing_source_test_package_areas_covered": true,
+    "all_copy_and_freeze_outputs_absent": true,
+    "exclusive_create_guards": true,
+    "source_and_actual_individual_inputs_rechecked_before_after": true,
+    "prior_capture_preservation": true,
+    "planned_round_labels": [
+      "8",
+      "9"
+    ],
+    "guarded_disposition_file": "release-quality-review.json"
+  },
+  "browser_gate_design": {
+    "fixed_current_source": true,
+    "fresh_current_readpath_frontend_required": true,
+    "JSON_XML_suite_attributes_equality": true,
+    "exact_suite_test_total": 14,
+    "failures_errors_skips_allowed": 0,
+    "browser_PASS_source_stable_owned_host_closed_required": true,
+    "wrapper_checks_initial_web_artifact_builder_fingerprint": true,
+    "frontend_dependencies_full_preflight_required": true,
+    "private_fresh_label": "git-status-screen"
+  },
+  "findings": [
+    {
+      "id": "WRAPPER_POST_BINDING_FLAGS_ARE_CAPTURE_ONLY",
+      "severity": "Bounded evidence gating note, no product defect",
+      "detail": "Wrapper writes source_stable, inputs_stable, source_web_stable and frontend_stable but status/exit_code only depend on browser helper exit. Preparation gates raw browser JSON/XML and does not consume wrapper binding JSON. Browser helper separately asserts source_stable, but test/frontend stability flags do not automatically deny preparation.",
+      "required_for_final_binding": "Explicitly verify all wrapper binding flags and report/XML/build hashes before preparation, or tighten that gate in an authorized helper revision. Do not claim wrapper PASS itself proves every post-run input/artifact binding."
+    }
+  ],
+  "prepared_freeze_created": false,
+  "browser_pass_observed": false,
+  "accepted_preflight": false,
+  "complete_rounds_verified": 0,
+  "release_converged": false,
+  "limits": [
+    "Exact v1/v2 narrow source/label update and nine in-memory transformations are valid. No final source input inventory exists yet and no current browser result is inferred.",
+    "Existing f30 and passive raw browser failures/native close records remain failures, not qualified rounds.",
+    "Two test-only lint nits are parent-reported pending after current source capture finishes; source/test mutation during that capture is not authorized by this review.",
+    "No commits/publishing, timeout/assertion/auth/gold change or production edit performed."
+  ]
+}

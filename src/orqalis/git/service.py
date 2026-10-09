@@ -91,6 +91,29 @@ class LocalGitService:
         root = self._execute(resolved, ("rev-parse", "--show-toplevel")).decode().strip()
         return Path(root).resolve(strict=True)
 
+    def root_and_common_directory(self, path: Path) -> tuple[Path, Path]:
+        """Read both repository locations through one fresh, fixed Git command."""
+        resolved = path.expanduser().resolve(strict=True)
+        if resolved.is_file():
+            resolved = resolved.parent
+        locations = (
+            self._execute(
+                resolved,
+                ("rev-parse", "--path-format=absolute", "--show-toplevel", "--git-common-dir"),
+            )
+            .decode()
+            .splitlines()
+        )
+        if (
+            len(locations) != 2
+            or not all(locations)
+            or not all(Path(location).is_absolute() for location in locations)
+        ):
+            # Retain existing handling for path names containing line separators.
+            root = self.root(path)
+            return root, self.common_directory(root)
+        return Path(locations[0]).resolve(strict=True), Path(locations[1]).resolve()
+
     def resolve_commit(self, path: Path, revision: str) -> str:
         if not revision or revision.startswith("-") or "\x00" in revision:
             raise PolicyDeniedError("Invalid Git revision")
@@ -121,20 +144,63 @@ class LocalGitService:
 
     def status(self, path: Path) -> GitStatus:
         root = self.root(path)
-        head = self.resolve_commit(root, "HEAD")
-        branch = self._execute(root, ("rev-parse", "--abbrev-ref", "HEAD")).decode().strip()
-        raw = self._execute(root, ("status", "--porcelain=v1", "-z", "--untracked-files=all"))
-        records = iter(raw.decode("utf-8", errors="surrogateescape").split("\x00"))
+        raw = self._execute(
+            root,
+            (
+                "status",
+                "--porcelain=v2",
+                "--branch",
+                "--no-ahead-behind",
+                "-z",
+                "--untracked-files=all",
+            ),
+        )
+        if not raw.endswith(b"\x00"):
+            raise GitError("Git returned an unterminated status document")
+        records = iter(raw.decode("utf-8", errors="surrogateescape").split("\x00")[:-1])
+        head: str | None = None
+        branch: str | None = None
         paths: set[str] = set()
-        for record in records:
-            if not record:
-                continue
-            paths.add(record[3:])
-            if "R" in record[:2] or "C" in record[:2]:
-                paths.add(next(records))
+        try:
+            for record in records:
+                if not record:
+                    raise ValueError("Empty status entry")
+                if record.startswith("# branch.oid "):
+                    if head is not None:
+                        raise ValueError("Duplicate commit metadata")
+                    head = record.removeprefix("# branch.oid ")
+                elif record.startswith("# branch.head "):
+                    if branch is not None:
+                        raise ValueError("Duplicate branch metadata")
+                    branch = record.removeprefix("# branch.head ")
+                elif record.startswith("# "):
+                    continue
+                elif record.startswith("1 "):
+                    paths.add(record.split(" ", 8)[8])
+                elif record.startswith("2 "):
+                    paths.add(record.split(" ", 9)[9])
+                    original = next(records)
+                    if not original:
+                        raise ValueError("Missing original rename path")
+                    paths.add(original)
+                elif record.startswith("u "):
+                    paths.add(record.split(" ", 10)[10])
+                elif record.startswith("? "):
+                    paths.add(record[2:])
+                else:
+                    raise ValueError("Unsupported status entry")
+        except (IndexError, StopIteration, ValueError) as exc:
+            raise GitError("Git returned an invalid status document") from exc
+        if (
+            head is None
+            or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", head)
+            or not branch
+            or "" in paths
+        ):
+            raise GitError("Git status requires a committed HEAD and branch metadata")
         return GitStatus(
             repo_root=root,
-            branch=None if branch == "HEAD" else branch,
+            branch=None if branch == "(detached)" else branch,
             head=head,
             changed_paths=tuple(sorted(paths)),
         )

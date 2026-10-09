@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "status": "STATIC_PROSPECTIVE_BOUNDED_POLICY_ELIGIBLE_FOR_EXACT_REVIEW_NOT_APPLIED",
+  "created_at": "2026-10-03T17:53:01.407520+00:00",
+  "current_source_parent_supplied": "b2aa8e79b5ec3e4419d131925cc6d96bce90edfc0fd237ce1d929c403dbcdf44",
+  "current_io_sha256": "3b6e00ec2f38209319553983443bccb3faf3077216b3da8541c069933d62c27b",
+  "full_source_scan_performed": false,
+  "concept": {
+    "old_attempts": 3,
+    "old_delays_ms": [
+      20,
+      40
+    ],
+    "new_attempts": 5,
+    "new_delays_ms": [
+      20,
+      40,
+      80,
+      160
+    ],
+    "recognized_windows_errors": [
+      5,
+      32,
+      33
+    ],
+    "scheduled_max_backoff_ms": 300,
+    "added_max_scheduled_backoff_ms_per_write": 240,
+    "not_a_wallclock_bound": "OS replacement/metadata calls, sleeps scheduling and filesystem flush can exceed scheduled delay; unchanged worker/lock deadlines must remain authoritative."
+  },
+  "independent_security_judgment": "A small bounded retry policy is reasonable for the already recognized intermittent Windows replacement-denial class. It does not confer permissions or bypass ACLs. Actual natural denials recovered under the existing policy support transience, but original fatal actor and recoverability remain unknown. Eligible only for exact prospective implementation/test review, not application approval or blocker closure.",
+  "required_unchanged_boundaries": [
+    "Non-Windows and unrecognized errors raise immediately; no broad catch of other exception classes.",
+    "No retry after final fifth denial; exception remains visible and durable old target and transaction marker remain recoverable; owned temp removed.",
+    "Fresh existing link/junction guard before every retry; a changed link or metadata fault fails closed rather than continuing.",
+    "Complete verified same-directory temporary write, file/directory fsync, mode policy, JSON validation, permissions, recovery/event ordering remain unchanged.",
+    "No retry wrappers around transactions, increased10s lock/300s worker/5s UI deadlines, cache, root guard weakening, protected benchmark assertion change or silent baseline update.",
+    "All source/input/helper freezes and affected source/full release gates must be freshly qualified if applied."
+  ],
+  "latency_risks": [
+    "Persistent ACL/read-only denials gain240ms scheduled backoff per affected atomic write before same failure.",
+    "Recovery may perform many writes while holding state lock: additional waits can accumulate by document and worsen lock contention. This is not a zero-drawback or universal timing cure.",
+    "No guarantee original fatal third-attempt denial would resolve by fifth attempt; no host/AV blame or recovered-run credit."
+  ],
+  "prospective_test_requirements": [
+    "Every recognized winerror5/32/33 transient first through fourth denial then success; exact five maximum attempts and20/40/80/160 schedules.",
+    "Persistent denial after five attempts retains original target/mode, cleans temporary file, raises exact error; recovery marker/data remains valid for one later authorized recovery.",
+    "Non-Windows/unrecognized errors one attempt/no sleeps; fresh guard invoked on every scheduled retry and link swap denies before another replace.",
+    "Controlled actual native reader/replace overlap with deterministic third-denial barrier release; do not use unreliable100ms timing as the only baseline red assertion. Original writer with still-held reader deterministically fails by third attempt; new policy after same third denial can release reader and succeed at subsequent attempt. Clearly label policy compatibility, not actual culprit reproduction or timing qualification.",
+    "Re-run affected persistence/transaction/runtime tests and fresh full source-bound gates without protected deadline or workload changes."
+  ],
+  "choice": "Prefer one reviewed bounded policy over combining native reader compatibility solely to force green. Native reader remains private, unapplied, not a fix for unmatched session/artifact denials.",
+  "prior_evidence": {
+    "natural_diagnostic_result": "Two actual WinError5 replacement denials recovered by original retries, zero matching observed owned io.open handles; originalfatal branch not reproduced.",
+    "controlled_reader": "Real ordinary Windows read held through old writer failsWin5, close then explicit recovery succeeds; only mechanism proof."
+  },
+  "private_reader_test_successor": {
+    "path": ".tools/research/test_release_task_metadata_reader_private_v2.py",
+    "sha256": "dee1f375049fbaaa73515dc75b3fec5941166c6b8baab33df7d0bb2a339e2e39",
+    "predecessor_path": ".tools/research/test_release_task_metadata_reader_private_v1.py",
+    "predecessor_sha256": "88c9a66c3b8d46c5dc9f5e555c80a0e2a78259a3b7c314923c3d5ca32f45a533",
+    "change": "Independent quality review identified warm-state confounding in original same-fixture before/after test. Successor copies one freshly installed pre-workflow fixture into2 isolated byte-identical roots for every case, then exact counter comparison with no-call spies. Adds explicit positive memory-read assertion. All native/ownership tests unchanged.",
+    "scope": "Counter exclusion parity only, not actual proposed-store integration; originals preserved.",
+    "tests_staged_uninvoked": true,
+    "native_reader_source_applied": false
+  },
+  "limitations": "Concept review only: no exact retry proposal supplied, no production edits, no tests/workloads/native/OS inspection invoked, no current full source/fixture scan, no release/convergence claim."
+}

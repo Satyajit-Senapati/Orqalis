@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-02T16:06:20.920172+00:00",
+  "reviewer": "/root/release_quality_review",
+  "status": "NARROW_GRAPH_DIGEST_PROOF_IMPLEMENTATION_ACCEPTED_PENDING_FOCUSED_EXECUTION_AND_FRESH_FULL_QUALIFICATION",
+  "scope": "Independent read-only exact production delta, integrity/determinism/concurrency design and targeted test assertions. Reviewer ran no measured workloads/tests and changed no production/tests/dependencies.",
+  "source_sha256": "1e3fc528c148eb456cb8e6bb1be65ce08340d40e92ac9b875d11f0190c3856ca",
+  "previous_source_sha256": "47ec43dd0beec7dff56ad064f78a1f1a46c4cc83172e8f55a20ef00617edac4e",
+  "exact_delta_proof": {
+    "method": "Recompute full canonical inventory digest using current bytes for every input except replacing graph/engine.py and filesystem/io.py in memory with the previously source640/source47-byte-proven retained subset bytes. Reconstructs exact source47 fingerprint.",
+    "only_production_inputs_changed": [
+      "src/orqalis/graph/engine.py",
+      "src/orqalis/persistence/filesystem/io.py"
+    ],
+    "all_other_production_and_dependency_inputs_unchanged": true
+  },
+  "read_file_sha256": {
+    "src/orqalis/graph/engine.py": "cc1bcba102cd7fe81a8a53c252e918dce6ac062994cfeb900f90d04a1653f690",
+    "src/orqalis/persistence/filesystem/io.py": "f1450938b835e7276edb757671f275e0f07030bec3f1547887b32007db281334",
+    "src/orqalis/graph/models.py": "3dafad4df8ed3383f11ceb9a7446275d67538032501dff98661a10de37d04f03",
+    "src/orqalis/domain/base.py": "f2819f419b54de34f1c5312eae9e7aa085be32350c4ee8ce3c89082956946bcd",
+    "src/orqalis/sdk.py": "9ef7f9badc09e5076ace4aa5ecee29900f0935e7a94729ca41a60e03486096e9",
+    "src/orqalis/mcp/server.py": "33a3d6e2740dc79d9770c89f649b958ce10264c3b248ea578fa4b24f4fd982a4",
+    "src/orqalis/context/builder.py": "184902173540241b26e999781d4e97fdfc99aed4c3e3de2fbb95477c51c74466",
+    "src/orqalis/indexing/service.py": "60631d58de2e8e872e9d2bdf2713013200d7ae9e7fe39c38f37f3c0b44f5f274",
+    "src/orqalis/memory/service.py": "6dd804b608689a48c30b23390a2dff2accd9464882244cc274d4359bac871ac7",
+    "tests/unit/test_project_graph.py": "761609677f15f1f2ce1363decb2ea5842a9b930d3e8c2b254b804386af8f837b",
+    "tests/unit/test_filesystem_foundation.py": "f204fddbe3bdaae051ec952309c71db719e9b121b71ee3e965de624436f58fc3"
+  },
+  "narrow_review_counts": {
+    "confirmed_p0": 0,
+    "confirmed_p1": 0,
+    "confirmed_integrity_defects": 0
+  },
+  "integrity_dispositions": [
+    {
+      "topic": "Same-byte strict read and SHA",
+      "status": "ACCEPTED",
+      "evidence": "io.py read_json_object_with_sha256 calls ensure_no_filesystem_links, reads bytes once, strictly _decode_json on that same buffer, verifies object root, and hashes that same buffer. Existing read_json/read_json_object code remains unchanged. No second-read or mtime/inode shortcut."
+    },
+    {
+      "topic": "Fresh domain validation",
+      "status": "ACCEPTED",
+      "evidence": "engine._load_state always reads current manifest and strictly reads/parses graph, then ProjectGraph.model_validate(document) before proof selection. No graph model, raw buffer or parsed dictionary is stored in the proof. Repeated returned nested metadata remains detached from subsequent loads."
+    },
+    {
+      "topic": "Concurrent coherent immutable pair",
+      "status": "ACCEPTED",
+      "evidence": "proof = self._graph_digest_proof captures the tuple once before reading current documents; hit comparison and canonical digest use that same local proof. Other concurrent load may replace or clear the engine proof but cannot mix rawA with digestB within this load."
+    },
+    {
+      "topic": "Current manifest/schema/parser validation",
+      "status": "ACCEPTED",
+      "evidence": "Current manifest and graph schema/parser versions and manifest.graph_sha256 comparison still run on every load after selecting a canonical digest. Only successful complete validation populates the proof; mismatch clears it."
+    },
+    {
+      "topic": "Volatile default eligibility",
+      "status": "ACCEPTED",
+      "evidence": "Raw document must explicitly contain generated_at to hit or install a proof. ProjectGraph.generated_at uses utc_now default; omitted field forces fresh canonical serialization/digest and leaves no proof. ProjectGraph/GraphNode/GraphEdge other current defaults and validators reviewed are deterministic for a byte-identical explicit-timestamp document."
+    },
+    {
+      "topic": "Failure/policy behavior",
+      "status": "ACCEPTED_WITH_EXISTING_PREFLIGHT_BOUND",
+      "evidence": "Missing files clear proof and returnNone; caught invalid IO/JSON/model/hash/version failures clear proof and returnNone; PolicyDeniedError clears proof and propagates. Existing outer is_file preflight remains outside the try as before; unusual preflight exceptions are not a new proof authorization path. Restored valid content must validate again after cleared proof."
+    },
+    {
+      "topic": "Memory/formats/authority",
+      "status": "ACCEPTED",
+      "evidence": "One tuple of two SHA strings perengine adds negligible retained proof data, with no graph/data/global cache, persisted format/schema/parser change, altered graph SHA semantics, relaxed path/approval/control authority or lock deadline change."
+    }
+  ],
+  "targeted_tests_reviewed_not_executed_by_reviewer": [
+    "test_digest_proof_reuses_validation_but_never_returned_models verifies one initial canonical digest, fresh detached models, same-size restored-mtime tampering rejection, failure invalidation and valid restoration recomputation.",
+    "test_digest_proof_checks_fresh_manifest_and_invalidates_failures covers changed manifest digest, deleted graph, duplicate key and nonfinite literal.",
+    "test_digest_proof_is_coherent_when_another_load_updates_it injects exact interleaving replacement between captured proof and completed graph read; local tuple remains coherent. This is a deterministic interleaving test, not an OS thread workload.",
+    "test_digest_proof_cannot_reuse_volatile_timestamp_default seeds a tempting rawSHA proof after removing generated_at and verifies canonical digest still runs, invalid state is rejected and proof remains cleared.",
+    "test_digest_proof_clears_and_preserves_link_policy_error verifies propagated policy exception and invalidation.",
+    "test_json_object_digest_uses_exact_single_decoded_read makes a second read return different valid bytes, asserting only one read and corresponding decodedvalue/SHA.",
+    "test_json_object_digest_preserves_strict_decoding covers duplicate keys,NaN,Infinity,non-objectroot,invalidUTF8 and malformedJSON."
+  ],
+  "benefit_scope": {
+    "supported": "Repeated ProjectGraphEngine.load/refresh and ProjectContextBuilder.build using the same retained instance after the first eligible successful load can avoid repeated canonical graph serialization/hash. The held-out helper reuses these instances, so its warm/context measurements can reflect this bounded benefit.",
+    "sdk_mcp_no_cross_request_benefit": [
+      "sdk.py:223 constructs new ProjectContextBuilder per context request",
+      "sdk.py:233 constructs new ProjectGraphEngine per graph request",
+      "mcp/server.py:126 constructs new context builder",
+      "mcp/server.py:193,205,226 construct fresh graph engines",
+      "memory/service.py:292 reconciliation constructs fresh engine"
+    ],
+    "index_limit": "ProjectIndex keeps one graph engine at construction (service.py:64), but search does not invoke it. rebuild calls graph.rebuild(force=True) and writes a new graph/generated_at, so ordinary repeated search or rebuild is not a comparable unchanged warm-proof use case. Do not advertise generic ProjectIndex search/rebuild speedup from this change.",
+    "not_claimed": "No SDK/MCP engine lifetime changes, cross-request caching, measured improvement yet, universal primary product latency fix or tail cure."
+  },
+  "remaining_validation": [
+    "Focused graph/filesystem tests, strict types/lint and relevant integrity/format checks on this actual source. Test assertions were inspected; no execution result was supplied in this review turn.",
+    "Freeze new source/inputs and obtain fresh applicable contracts, artifacts/held-out and complete sequential qualification rounds. Source47 captures, fixed12-observation diagnostic and v8 warm trigger remain historical and unchanged.",
+    "Document any measured warm/context benefit with retained-instance scope and real store/allocation costs; retain generic fresh SDK/MCP limits."
+  ],
+  "existing_history_mapping_limit": "The history/index TaskCapsuleStore and tasks/history.py bodies are unchanged by this two-file delta. The prior source47 history mapping must not be silently rebound as a full-source row benchmark; IO file gained an additional helper while existing reader functions remain unchanged.",
+  "release_converged": false
+}

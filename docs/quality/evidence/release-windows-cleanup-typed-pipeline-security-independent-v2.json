@@ -1,0 +1,390 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-03T19:26:49.988623+00:00",
+  "reviewer": "release_security_review",
+  "decision": "APPROVE_EXACT_TYPED_V2_INITIAL_PIPELINE_DESIGN_PENDING_ROOT_EXCLUSIVE_LAUNCH_ACK",
+  "scope": "Independent bounded read-only actual helper/evidence review. No gate, benchmark, setup query, source scan or artifact audit invoked by reviewer. Initial six gates only; not completed release qualification.",
+  "source_sha256": "24ffafca60dc7d153d92006445096d0c92ad057f04692349355387638bfda708",
+  "input_sha256": "9959a8de6a58b58d910ce1c9ebc55332ea38549c3985077d3038fb8a56e9bf9d",
+  "identities": {
+    "pipeline": {
+      "path": ".tools/research/run_release_windows_cleanup_typed_pipeline_v2.py",
+      "sha256": "f719363601833f317a5a801b8922405b0dd9e68dd90b027686542ea3e9b9684f"
+    },
+    "prior_failed_pipeline": {
+      "path": ".tools/research/run_release_windows_cleanup_pipeline_v2.py",
+      "sha256": "5d6a9187a033120c7345d24bb668781400290880962c6b2077434b925627ac0c"
+    },
+    "current19": {
+      "path": "docs/quality/evidence/release-private-helper-inventory-windows-cleanup-typed-v2.json",
+      "sha256": "06423ac37d140ff08bb9d45d2e84d1559e2fd8d446a7f3d99c758ca390bb3c9b"
+    },
+    "retained_unrun_typed_v1_19": {
+      "path": "docs/quality/evidence/release-private-helper-inventory-windows-cleanup-typed-v1.json",
+      "sha256": "14b4ab74358552c225654cfc0982e7226b2bcffdfbe8758cc12bc419b37b6692"
+    },
+    "retained_prior19": {
+      "path": "docs/quality/evidence/release-private-helper-inventory-windows-cleanup-v2.json",
+      "sha256": "3ecb35c91cc6734db288e4dbf25d4640b01b74132f9b4a4fd8574de56f4f245f"
+    },
+    "typed_freeze": {
+      "path": "docs/quality/evidence/release-input-freeze-windows-cleanup-typed-v1.json",
+      "sha256": "a6d05db76705971740d28783da6b822d4da79cc4f0bd6d277168197e784aa272"
+    },
+    "native_plan": {
+      "path": "docs/quality/evidence/release-history-native-counters-cleanup-typed-plan-v1.json",
+      "sha256": "887df0a743ef9203f136d261d1a451f7ca9161604d8e35d9f91a81c6e5cd117a"
+    },
+    "actual_fresh_setup": {
+      "path": "docs/quality/evidence/release-history-native-counters-cleanup-typed-setup-v2.json",
+      "sha256": "0993e7b603c95c0a7d8afe4b181a3e805b66a00767ef26f48199ab44f09bfa87"
+    },
+    "actual_focused": {
+      "path": "docs/quality/evidence/release-windows-cleanup-typed-focused-v1.json",
+      "sha256": "cca90d2573e6a445d777ec7254780e80afdc45e3d658a970120015dc470c0aa0"
+    },
+    "actual_focused_XML": {
+      "path": "docs/quality/evidence/release-windows-cleanup-typed-focused-v1.xml",
+      "sha256": "e3b78e8c657a99980c7e18ce6c995413fb9e5bb3d163a19230af07b7b363c235"
+    },
+    "actual_focused_log": {
+      "path": ".tools/research/release-windows-cleanup-typed-focused-v1.log",
+      "sha256": "fdd341a96e43a5b367aeaac68033a8b53e6dc178e8d5a7b754ca0ed15b0e51f4"
+    },
+    "actual_strict_mypy_log": {
+      "path": ".tools/research/release-cleanup-typed-strict-mypy-v1.log",
+      "sha256": "b30b4f1a74cd982526cc60f628ef9bddba7f6ce1f302e08c33564a9801cb7356"
+    },
+    "historical_failed_strict_log": {
+      "path": ".tools/research/release-windows-cleanup-preflight-strict-app-test-types.log",
+      "sha256": "1b46a1cb302ce681a75df02e2f8bff84237def20b374f51336820255caac5409"
+    },
+    "actual_test": {
+      "path": "tests/unit/test_filesystem_foundation.py",
+      "sha256": "333d7bc6cd10c9d47b60522bedbff28039f1a72a79bce8aef78d2e599c751258"
+    },
+    "actual_io": {
+      "path": "src/orqalis/persistence/filesystem/io.py",
+      "sha256": "b806c24e3d6f6d1e78103019aa3bfe21ffa4cfea8c6603aca3d87211d95589f6"
+    }
+  },
+  "actual_helper_hash_proof": {
+    "prior19_all_actual_match": true,
+    "unrun_typed_v1_19_all_actual_match": true,
+    "typed_v2_19_all_actual_match": true,
+    "roles": [
+      {
+        "current": {
+          "path": ".tools/research/release_preflight_windows_cleanup_v2_typed_v2.py",
+          "sha256": "1b270827fff34fac4542d7650a70e11b862a7abe0c95eaa91b89a2477496eb4f"
+        },
+        "prior": {
+          "path": ".tools/research/release_preflight_windows_cleanup_v2.py",
+          "sha256": "7dc69df9f505f051015ade21c6ba857d9c7c2c9223e389706f322b43d2eacc00"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": true
+      },
+      {
+        "current": {
+          "path": ".tools/research/verify_frontend_reuse_windows_cleanup_v1_typed_v1.py",
+          "sha256": "837271cfa8be1bed13191f13249c56269443a60d6dc2243d613aded7123d64c6"
+        },
+        "prior": {
+          "path": ".tools/research/verify_frontend_reuse_windows_cleanup_v1.py",
+          "sha256": "5cd3910fff2869bc81d1b06d8dac06148d79b95ca21a313694922ffd619bdad3"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/accept_release_preflight_windows_cleanup_v2_typed_v2.py",
+          "sha256": "ea9c90db3982cd47f26c91edf48d7d276f982a9a37466eb870337ce58d8f97a5"
+        },
+        "prior": {
+          "path": ".tools/research/accept_release_preflight_windows_cleanup_v2.py",
+          "sha256": "0dbdaa082e45fe1bb148411b0b1f14b224e379d729a7455f0be8aba2af23a6d7"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": true
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_artifacts_windows_cleanup_v1_typed_v1.py",
+          "sha256": "8fb4c7d02d60f1b0d20f868aa72bd8a5666f8713051342beaeb5c8b974ef733a"
+        },
+        "prior": {
+          "path": ".tools/research/release_artifacts_windows_cleanup_v1.py",
+          "sha256": "b0076739fe72b20e91c22ca4b277e7ad07b97cf738c725c563575c8411623412"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/verify_installed_release_windows_cleanup_v1_typed_v1.py",
+          "sha256": "2deabbf356e25f500442b23034ff9657b08a85b35ccc345e570a6ca8fa13d9d9"
+        },
+        "prior": {
+          "path": ".tools/research/verify_installed_release_windows_cleanup_v1.py",
+          "sha256": "85a0a3eb1381f3fbe9648fe70b1f052aaf455f8f8a8b327d40bb76f0baccc6fb"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_repack_docs_windows_cleanup_v1_typed_v1.py",
+          "sha256": "307d0f5bddb47eed46e88665541e616c8b07e6c751ee15cbeebf61801a26dff8"
+        },
+        "prior": {
+          "path": ".tools/research/release_repack_docs_windows_cleanup_v1.py",
+          "sha256": "6a741e7e8c119fc8df7305550f9d11e3d7af222b20eff1ba52bf8d961762b73a"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_heldout_probe_v15_cleanup_v1_typed_v1.py",
+          "sha256": "fd24c526ef237bb933a68a84fab9a73db19826ebcbffa3d1f877efb968d964ec"
+        },
+        "prior": {
+          "path": ".tools/research/release_heldout_probe_v15_cleanup_v1.py",
+          "sha256": "fd24c526ef237bb933a68a84fab9a73db19826ebcbffa3d1f877efb968d964ec"
+        },
+        "bytes_identical": true,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/audit_release_docs_final_windows_cleanup_v1_typed_v1.py",
+          "sha256": "5ccf6efdce1ea1f4371e28eebbb4a26586d9edcec18ce273bcd750134219c42a"
+        },
+        "prior": {
+          "path": ".tools/research/audit_release_docs_final_windows_cleanup_v1.py",
+          "sha256": "4016b8322ef0e171969a515607b59ad98c9c9cb360ffe4a63dfd315a615155f4"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_qualification_v20_cleanup_v2_typed_v2.py",
+          "sha256": "fc7a0d0963689f3d965a1259aa78cd6d92229673685ed9d6a59f37992ca7d55b"
+        },
+        "prior": {
+          "path": ".tools/research/release_qualification_v20_cleanup_v2.py",
+          "sha256": "ee2bbc76166f0e5ec486064d61742cfe3d1c241d8acfb640fa3697384824e975"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": true
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_complete_rounds_v20_cleanup_v2_typed_v2.py",
+          "sha256": "b9b909455335e1593360b92ef02e83e2a086c5e601606b8140dece1e782c7a24"
+        },
+        "prior": {
+          "path": ".tools/research/release_complete_rounds_v20_cleanup_v2.py",
+          "sha256": "3f0504f25015c94320663ab42017594980a9254bf4ceeb91c2bcb6ea0884eeac"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/run_full_regression_release_v12.py",
+          "sha256": "b1549fbd98310530eab14b7fa402bfdb47d453776acc31cb983e3bc795845a39"
+        },
+        "prior": {
+          "path": ".tools/research/run_full_regression_release_v12.py",
+          "sha256": "b1549fbd98310530eab14b7fa402bfdb47d453776acc31cb983e3bc795845a39"
+        },
+        "bytes_identical": true,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/verify_execution_reference_v5_cleanup_v1_typed_v1.py",
+          "sha256": "542224efa21b45a99ed2b40d77d670394d96cbd2a8a0747f4c42d5c3c88e22ec"
+        },
+        "prior": {
+          "path": ".tools/research/verify_execution_reference_v5_cleanup_v1.py",
+          "sha256": "e344f2e3dc1b64231288aa0c51439d1bc59e9a907a2fac1ff208e8a09b4f303b"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_browser_qualification_v4.py",
+          "sha256": "983543bb06566de830f4cd805b6eb0dd01a01d57a00e37ebd12f42cbeaef3829"
+        },
+        "prior": {
+          "path": ".tools/research/release_browser_qualification_v4.py",
+          "sha256": "983543bb06566de830f4cd805b6eb0dd01a01d57a00e37ebd12f42cbeaef3829"
+        },
+        "bytes_identical": true,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_governance_diagnostic_v2.py",
+          "sha256": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275"
+        },
+        "prior": {
+          "path": ".tools/research/release_governance_diagnostic_v2.py",
+          "sha256": "82a3632d728f9cd712d67fe743cd82e8cc1d1efab87e444678223bc6aa8b3275"
+        },
+        "bytes_identical": true,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_governance_diagnostic_v4.py",
+          "sha256": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53"
+        },
+        "prior": {
+          "path": ".tools/research/release_governance_diagnostic_v4.py",
+          "sha256": "fb49ebd5958040a31d01221afd4e20d41f3e4b65ad7498321c5ef1acd05f2a53"
+        },
+        "bytes_identical": true,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release-quality-review.json",
+          "sha256": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e"
+        },
+        "prior": {
+          "path": ".tools/research/release-quality-review.json",
+          "sha256": "48cb8a622c0dc07bf68b01059ff42b83e8007b1d3f77ab77d248f5ab30e61e8e"
+        },
+        "bytes_identical": true,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_history_quiet.py",
+          "sha256": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683"
+        },
+        "prior": {
+          "path": ".tools/research/release_history_quiet.py",
+          "sha256": "ec9bb93645beaa25bac4cf88fc8a05ec5dad8d5583d44624d8b88cd131ca7683"
+        },
+        "bytes_identical": true,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_host_context_v1.py",
+          "sha256": "00d4cbd35b9ee325aa2fb90063fa624c79cb423317a0f214216509f86f01d050"
+        },
+        "prior": {
+          "path": ".tools/research/release_host_context_v1.py",
+          "sha256": "00d4cbd35b9ee325aa2fb90063fa624c79cb423317a0f214216509f86f01d050"
+        },
+        "bytes_identical": true,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      },
+      {
+        "current": {
+          "path": ".tools/research/release_history_native_counters_cleanup_v2_typed_v1.py",
+          "sha256": "81cea03c8abdeb350a44c8ec9cad7b4e5483d73703e748e8a72236e302204d08"
+        },
+        "prior": {
+          "path": ".tools/research/release_history_native_counters_cleanup_v2.py",
+          "sha256": "b57a80983a891801baedfa392728446f1cce29e60003ed21346ff43ea5f35c6b"
+        },
+        "bytes_identical": false,
+        "nonstring_AST_after_only_failure_sanitizer_reverse_equal": true,
+        "failure_json_slash_sanitizer": false
+      }
+    ]
+  },
+  "metadata_delta": {
+    "390_roles_same_set": true,
+    "389_unchanged_metadata_roles": 389,
+    "one_changed_role": [
+      "tests/unit/test_filesystem_foundation.py"
+    ],
+    "source196_metadata_exact_unchanged": true,
+    "current_changed_test_matches_reviewed_v5": true,
+    "remaining389_bytes_not_independently_rehashed": true
+  },
+  "semantic_review": {
+    "pipeline_nonstring_AST_equal": true,
+    "stages": [
+      "fresh11static/current86/audits",
+      "actual baseline frontend proof",
+      "both actual frontend/current86 accepted binding",
+      "installedwheel/npm/exact inventories and advisories",
+      "fixed263-file paired heldout",
+      "history1001 canonical and concurrent reservation witness"
+    ],
+    "preserved": [
+      "commands/workloads/assertions/numeric deadlines/auth/native APIs",
+      "per-file390 and helper19/source196 guards before and after stages",
+      "same isolated subprocess controlled environment, parent observes exits",
+      "stop first failure with no automatic retry",
+      "both frontend full validate_build plus dependency/artifact/tool bindings",
+      "current86 and exact immutable baseline contract runner/helper/dataset/environment/childaudit/JUnit stability checks",
+      "exclusive status/known capture output guards",
+      "history rawPASS/1001/33samples/concurrent unique reservation requirements",
+      "two mandatory future full whole20/21 suites"
+    ],
+    "intentional_change": "Only preflight and qualification failure-JSON path construction adds slash-to-hyphen replacement, matching existing log-path normalization. Reversing these two expressions leaves all nonstring AST equal; exit/error payload and assertions unchanged. This repairs secondary FileNotFoundError masking command failure, does not relax failing gates.",
+    "typed_v1_prefix_correction": "Four final helpers now bind exact existing typed-v2 manifest filename; staged doubled-prefix v1 preserved UNRUN. No fallback or weakened manifest check."
+  },
+  "actual_prerequisites": {
+    "focused": {
+      "tests": 81,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "source_inputs_gold_stable": true,
+      "environment_stable": true
+    },
+    "strict287": "Actual log Success: no issues found in 287 source files; independently read and hashed.",
+    "native_setup": "Exact newly bound two-snapshot own-process API/types check PASS; pointer8/IO48/memory72. No Orqalis/workload flag true; old setup records unmodified."
+  },
+  "findings": [],
+  "confirmed_P0_P1_in_reviewed_delta": 0,
+  "conditions": [
+    "Root quiet/no other owned workload confirmation and exact-plan one-capture ACK required before measured history stage.",
+    "Initial six-gate outcomes require fresh evidence and later independent review; no outcome asserted here.",
+    "Whole20/21 qualification, execution failure assessment, history performance review, final docs-only repack/runtime byte proof and release acceptance remain mandatory."
+  ],
+  "limitations": [
+    "Source aggregate and remaining389 frozen file bytes not independently rescanned; coordinator and acceptance retain actual complete guards.",
+    "Coordinator uses in-memory loaded freeze/inventory and inherited command-failure metadata filenames; root exact launch binding supplies self/manifest/proposal provenance. No new self-hash interval guard claimed.",
+    "Native setup timings are descriptive API validation, not future1% observer-overhead evidence. Native counters are logical process IO, faults are not hard faults, cycles are not elapsed time.",
+    "Original fatal Execution16 actor remains unknown. No new outcome, performance, convergence, global host, Linux/macOS/Docker/paid provider certification or publication claim.",
+    "Original failed pipeline/raw seven-error log and both unrun staging versions remain historical; fresh type correction does not rebind them."
+  ]
+}
