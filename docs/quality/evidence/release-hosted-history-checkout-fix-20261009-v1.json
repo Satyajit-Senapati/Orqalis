@@ -1,0 +1,58 @@
+{
+  "checked_at": "2026-10-09T07:14:20.624808+00:00",
+  "status": "PASS",
+  "original_failure_url": "https://github.com/Satyajit-Senapati/Orqalis/actions/runs/37896923333",
+  "original_failure_commit": "a9f1ad03c462d3f83114637e22a09b01c8bfaa05",
+  "original_totals": {
+    "failed": 2,
+    "passed": 911,
+    "skipped": 22,
+    "coverage_percent": 86
+  },
+  "cause": "actions/checkout default depth omitted pinned b8506f7 baseline object required by git archive in two contract fixture tests",
+  "fix": "quality checkout fetch-depth: 0; no assertions, baselines or other workflow steps changed",
+  "workflow_semantic_diff_verified": "Only checkout.with.fetch-depth=0",
+  "owned_focused_check": {
+    "command": [
+      "S:\\Orqalis\\.venv\\Scripts\\python.exe",
+      "-I",
+      "-B",
+      "-m",
+      "pytest",
+      "-q",
+      "-p",
+      "no:cacheprovider",
+      "tests/unit/test_contract_compatibility.py",
+      "-k",
+      "amendment_changes_only_declared_block or profile_versions_and_lf",
+      "--basetemp",
+      "S:\\Orqalis\\.tools\\release-contract-history-fixture-20261009-v1",
+      "--junitxml",
+      "S:\\Orqalis\\docs\\quality\\evidence\\release-hosted-history-fixtures-20261009-v1.junit.xml"
+    ],
+    "cleanup_errors": [],
+    "owned_launcher_pid": 29196,
+    "assigned_before_resume": true,
+    "exit_code": 0,
+    "child_reaped": true,
+    "job_before_cleanup": {
+      "total_processes": 8,
+      "active_processes": 1,
+      "terminated_processes": 0
+    },
+    "job_after_normal_exit_grace": {
+      "total_processes": 8,
+      "active_processes": 0,
+      "terminated_processes": 0
+    },
+    "unexpected_live_descendants_after_normal_exit": false,
+    "job_after_cleanup": {
+      "total_processes": 8,
+      "active_processes": 0,
+      "terminated_processes": 0
+    },
+    "job_handle_closed": true,
+    "log_sha256": "ad01e45093d9137cd8ece662094b231288839eb90bcfa96d8d029380e3553312"
+  },
+  "scope": "Focused fixture verification on local full-history checkout, not hosted CI completion or new full regression round."
+}

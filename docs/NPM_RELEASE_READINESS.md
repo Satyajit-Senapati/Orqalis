@@ -14,7 +14,12 @@ only; application/tests/workflows/dependencies are unchanged. The
 [successor input map](quality/evidence/release-input-freeze-portable-scripts-20261009-v1.json)
 and [Linux/macOS/Windows static checks](quality/evidence/release-hosted-portable-script-checks-20261009-v2.json)
 record the fix without rebinding earlier benchmark or full-suite evidence. Fresh hosted
-CI on the follow-up commit remains required.
+CI on the follow-up commit remains required. The initial quality run also lacked the
+pinned immutable-contract baseline in its shallow checkout. Quality now fetches full
+history, with both affected fixture tests passing locally and all assertions preserved.
+[Latest input binding](quality/evidence/release-input-freeze-hosted-history-20261009-v1.json)
+records this workflow-only correction plus the three helper fixes; original full-suite
+and timing evidence keeps its original bindings.
 Atomic writes verify bytes through the owned temporary descriptor and check identity
 before replacement. Original durability, retry and recovery contracts remain.
 The frontend advisory is resolved by the dev-only source-map-js1.2.2 update.

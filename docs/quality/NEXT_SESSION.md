@@ -109,3 +109,13 @@ hashes match and three helper hashes changed. The [successor input map](evidence
 does not rebind the old full rounds or timings. Fresh hosted CI must pass on the
 follow-up commit before tagging/publication; static platform checks do not certify
 native runtime behavior.
+
+The first quality run also failed two immutable-baseline fixture tests because the
+shallow Actions checkout did not contain their pinned baseline commit. Its remaining
+results were 911 passes/22 explicit optional or Windows-only skips. The quality
+workflow now fetches full history; [the two focused tests pass](evidence/release-hosted-history-checkout-fix-20261009-v1.json).
+Only that checkout setting changed; assertions and baseline remain fixed. The
+[latest input map](evidence/release-input-freeze-hosted-history-20261009-v1.json)
+records four changed support inputs/390 original matches with unchanged application,
+tests and dependencies. Fresh hosted quality/package success for the final revision
+remains a prerequisite to tagging/publication.
